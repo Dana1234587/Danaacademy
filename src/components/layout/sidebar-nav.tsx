@@ -118,6 +118,8 @@ export function SidebarNav() {
         <Link href="/" className="flex items-center gap-2">
           <svg
             xmlns="http://www.w3.org/2000/svg"
+            width="256"
+            height="256"
             viewBox="0 0 256 256"
             className="h-8 w-8 text-primary"
             fill="currentColor"
