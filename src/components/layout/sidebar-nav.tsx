@@ -67,7 +67,7 @@ export function SidebarNav() {
   const renderMenuItems = (items: any[], level = 0) => {
     return items.map((item, index) => (
       <Collapsible key={index} asChild>
-        <div>
+        <div className="w-full">
           <SidebarMenuItem>
             <CollapsibleTrigger asChild>
               <SidebarMenuButton
@@ -116,8 +116,18 @@ export function SidebarNav() {
     <>
       <SidebarHeader>
         <Link href="/" className="flex items-center gap-2">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" className="h-6 w-6 text-primary"><rect width="256" height="256" fill="none"/><path d="M128,24a95.8,95.8,0,0,0-62.8,168.4,95.8,95.8,0,0,0,125.6,0A95.8,95.8,0,0,0,128,24Zm0,176a79.8,79.8,0,0,1-52.4-140.4,79.8,79.8,0,0,1,104.8,0A79.8,79.8,0,0,1,128,200Z" fill="currentColor"/><circle cx="128" cy="128" r="16" fill="currentColor"/></svg>
-            <span className="font-semibold text-lg">أكاديمية دانة</span>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 256 256"
+            className="h-8 w-8 text-primary"
+            fill="currentColor"
+          >
+            <path d="M232.5,95.2a104,104,0,0,0-209,0,16.2,16.2,0,0,0,4,11.2S40.1,123.5,48,131.9c13.2,13.9,40.1,26.1,80,26.1s66.8-12.2,80-26.1c7.9-8.4,12.5-15.5,12.5-15.5s4.5-6.5,4-11.2ZM40,104a88.1,88.1,0,0,1,176,0c-1,2.8-5.3,8.9-9.6,13.7-11.5,12.2-36,23.3-78.4,23.3S41.1,129.9,29.6,117.7C25.3,112.9,21,106.8,20,104,27.9,78,54.6,56.4,88,44.2a15.8,15.8,0,0,0,7.9-14.7,16,16,0,0,0-16.2-16A15.9,15.9,0,0,0,64.2,28.8a16,16,0,1,0-28.4-11.6A103.5,103.5,0,0,1,128,24a104.2,104.2,0,0,1,87.7,46.1,16,16,0,1,0-28.4,11.6,15.9,15.9,0,0,0-15.5-15.3,16,16,0,0,0-16.2,16,15.8,15.8,0,0,0,7.9,14.7c33.4,12.2,60.1,33.8,68.1,59.8Z" />
+          </svg>
+          <div className="flex flex-col">
+            <span className="font-semibold text-lg text-primary">Dana Academy</span>
+            <span className="text-xs text-muted-foreground">FOR ONLINE COURSES</span>
+          </div>
         </Link>
       </SidebarHeader>
       <SidebarContent>
