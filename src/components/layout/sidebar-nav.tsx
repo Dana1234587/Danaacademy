@@ -61,7 +61,7 @@ const contentTypes = [
     { label: 'محاكاة', icon: Atom, folder: 'simulations' },
 ];
 
-export function SidebarNav() {
+function SidebarNavMenu() {
   const pathname = usePathname();
 
   const renderMenuItems = (items: any[], level = 0) => {
@@ -111,7 +111,11 @@ export function SidebarNav() {
     ));
   };
 
+  return <SidebarMenu>{renderMenuItems(menuItems)}</SidebarMenu>;
+}
 
+
+export function SidebarNav() {
   return (
     <>
       <SidebarHeader>
@@ -131,9 +135,7 @@ export function SidebarNav() {
         </Link>
       </SidebarHeader>
       <SidebarContent>
-        <SidebarMenu>
-          {renderMenuItems(menuItems)}
-        </SidebarMenu>
+        <SidebarNavMenu />
       </SidebarContent>
       <SidebarSeparator />
       <SidebarFooter>
