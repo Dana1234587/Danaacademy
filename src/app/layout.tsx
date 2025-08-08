@@ -3,8 +3,8 @@ import './globals.css';
 import { Toaster } from "@/components/ui/toaster";
 
 export const metadata: Metadata = {
-  title: 'أكاديمية دانة للفيزياء',
-  description: 'منصة متكاملة لتعلم الفيزياء',
+  title: 'Dana Academy for Physics',
+  description: 'An integrated platform for learning physics',
 };
 
 export default function RootLayout({
