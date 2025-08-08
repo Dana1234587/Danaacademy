@@ -1,3 +1,4 @@
+
 "use client";
 
 import Link from 'next/link';
@@ -66,7 +67,7 @@ export function SidebarNav() {
   const renderMenuItems = (items: any[], level = 0) => {
     return items.map((item, index) => (
       <Collapsible key={index} asChild>
-        <>
+        <div>
           <SidebarMenuItem>
             <CollapsibleTrigger asChild>
               <SidebarMenuButton
@@ -105,7 +106,7 @@ export function SidebarNav() {
                 </div>
              </CollapsibleContent>
           )}
-        </>
+        </div>
       </Collapsible>
     ));
   };
