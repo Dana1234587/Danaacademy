@@ -21,6 +21,7 @@ import {
   Lightbulb,
   Settings,
   Languages,
+  Book,
 } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
@@ -31,8 +32,8 @@ import { Logo } from '@/components/logo';
 const menuItems = [
   {
     label: 'التوجيهي',
-    icon: BookOpen,
-    path: '/tawjihi',
+    icon: Book,
+    path: '/physics', // Updated path
     subItems: [
       {
         label: 'الفصل الأول',
@@ -66,50 +67,69 @@ function SidebarNavMenu() {
   const pathname = usePathname();
 
   const renderMenuItems = (items: any[], level = 0) => {
-    return items.map((item, index) => (
-      <Collapsible key={index} asChild>
-        <div className="w-full">
-          <SidebarMenuItem>
-            <CollapsibleTrigger asChild>
+    return items.map((item, index) => {
+      // For top-level items, make them a direct link instead of a collapsible trigger
+      if (level === 0) {
+        return (
+          <SidebarMenuItem key={index}>
+            <Link href={item.path}>
               <SidebarMenuButton
-                className="justify-between"
                 isActive={pathname.startsWith(item.path)}
-                variant={level > 0 ? 'ghost' : 'default'}
-                >
-                <div className="flex items-center gap-2">
-                  <item.icon className="h-4 w-4" />
-                  <span>{item.label}</span>
-                </div>
-                {item.subItems && <ChevronsRight className="h-4 w-4 text-muted-foreground transition-transform duration-200 group-data-[state=open]:rotate-90" />}
+                variant="default"
+              >
+                <item.icon className="h-4 w-4" />
+                <span>{item.label}</span>
               </SidebarMenuButton>
-            </CollapsibleTrigger>
+            </Link>
           </SidebarMenuItem>
-          {item.subItems && (
-            <CollapsibleContent>
-              <div className={cn("ms-7 border-s border-border")}>
-                {renderMenuItems(item.subItems, level + 1)}
-              </div>
-            </CollapsibleContent>
-          )}
-          {item.content && (
-             <CollapsibleContent>
+        )
+      }
+
+      return (
+        <Collapsible key={index} asChild>
+          <div className="w-full">
+            <SidebarMenuItem>
+              <CollapsibleTrigger asChild>
+                <SidebarMenuButton
+                  className="justify-between"
+                  isActive={pathname.startsWith(item.path)}
+                  variant={level > 0 ? 'ghost' : 'default'}
+                >
+                  <div className="flex items-center gap-2">
+                    <item.icon className="h-4 w-4" />
+                    <span>{item.label}</span>
+                  </div>
+                  {item.subItems && <ChevronsRight className="h-4 w-4 text-muted-foreground transition-transform duration-200 group-data-[state=open]:rotate-90" />}
+                </SidebarMenuButton>
+              </CollapsibleTrigger>
+            </SidebarMenuItem>
+            {item.subItems && (
+              <CollapsibleContent>
                 <div className={cn("ms-7 border-s border-border")}>
-                {contentTypes.map((contentType) => (
-                    <SidebarMenuItem key={contentType.folder} className="ms-4">
-                        <Link href={`${item.path}/${contentType.folder}`}>
-                            <SidebarMenuButton variant="ghost" isActive={pathname === `${item.path}/${contentType.folder}`}>
-                                <contentType.icon className="h-4 w-4"/>
-                                <span>{contentType.label}</span>
-                            </SidebarMenuButton>
-                        </Link>
-                    </SidebarMenuItem>
-                ))}
+                  {renderMenuItems(item.subItems, level + 1)}
                 </div>
-             </CollapsibleContent>
-          )}
-        </div>
-      </Collapsible>
-    ));
+              </CollapsibleContent>
+            )}
+            {item.content && (
+              <CollapsibleContent>
+                  <div className={cn("ms-7 border-s border-border")}>
+                  {contentTypes.map((contentType) => (
+                      <SidebarMenuItem key={contentType.folder} className="ms-4">
+                          <Link href={`${item.path}/${contentType.folder}`}>
+                              <SidebarMenuButton variant="ghost" isActive={pathname === `${item.path}/${contentType.folder}`}>
+                                  <contentType.icon className="h-4 w-4"/>
+                                  <span>{contentType.label}</span>
+                              </SidebarMenuButton>
+                          </Link>
+                      </SidebarMenuItem>
+                  ))}
+                  </div>
+              </CollapsibleContent>
+            )}
+          </div>
+        </Collapsible>
+      )
+    });
   };
 
   return <SidebarMenu>{renderMenuItems(menuItems)}</SidebarMenu>;

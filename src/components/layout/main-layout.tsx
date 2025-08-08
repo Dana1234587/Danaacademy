@@ -10,13 +10,15 @@ type MainLayoutProps = {
 export function MainLayout({ children }: MainLayoutProps) {
   return (
     <SidebarProvider>
-      <Sidebar>
-        <SidebarNav />
-      </Sidebar>
-      <SidebarInset>
-        <DashboardHeader />
-        {children}
-      </SidebarInset>
+      <div className="flex min-h-screen">
+        <Sidebar>
+          <SidebarNav />
+        </Sidebar>
+        <div className="flex-1">
+          <DashboardHeader />
+          <main>{children}</main>
+        </div>
+      </div>
     </SidebarProvider>
   );
 }

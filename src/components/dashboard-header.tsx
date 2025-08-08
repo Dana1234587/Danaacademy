@@ -1,7 +1,7 @@
+
 'use client';
 
-import { SidebarTrigger } from '@/components/ui/sidebar';
-import { useSidebar } from '@/components/ui/sidebar';
+import { SidebarTrigger, useSidebar } from '@/components/ui/sidebar';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { Lightbulb, Languages } from 'lucide-react';
