@@ -11,7 +11,7 @@ export function MarketingHeader() {
     <header className="sticky top-0 z-50 w-full bg-primary text-primary-foreground shadow-md">
       <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-6">
         <Link href="/" className="flex items-center gap-2">
-          <Logo className="h-8 w-8" />
+          <Logo className="h-8 w-8 rounded-md" />
           <span className="text-xl font-bold">Dana Academy</span>
         </Link>
         <nav className="hidden md:flex gap-6 items-center">

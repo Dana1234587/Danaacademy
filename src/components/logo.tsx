@@ -1,37 +1,20 @@
-
+import Image from 'next/image';
 import type { SVGProps } from 'react';
 
-export function Logo(props: SVGProps<SVGSVGElement>) {
+export function Logo(props: SVGProps<SVGSVGElement> & { width?: number; height?: number }) {
+  // Even though we're using an Image, we can accept SVGProps for compatibility with existing code.
+  // We'll extract className and pass it to the Image component.
+  const { className, width = 32, height = 32, ...rest } = props;
+
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 200 200"
-      {...props}
-    >
-      <path
-        d="M100 18a82 82 0 100 164 82 82 0 000-164zm0 152a70 70 0 110-140 70 70 0 010 140z"
-        fill="white"
-      />
-      <path
-        d="M100 75a25 25 0 100 50 25 25 0 000-50zm0 40a15 15 0 110-30 15 15 0 010 30z"
-        fill="white"
-      />
-      <path
-        d="M50 155c0-8.2 6.8-15 15-15h70c8.2 0 15 6.8 15 15s-6.8 15-15 15H65c-8.2 0-15-6.8-15-15z"
-        fill="#6E3F7D"
-      />
-      <path
-        d="M20 150h160v10H20z"
-        fill="#6E3F7D"
-      />
-      <path
-        d="M100 5l50 25-50 25-50-25L100 5z"
-        fill="#6E3F7D"
-      />
-      <path
-        d="M95 100a5 5 0 1110 0v15a5 5 0 11-10 0v-15z"
-        fill="white"
-      />
-    </svg>
+    <Image
+      src="https://placehold.co/100x100.png"
+      alt="Dana Academy Logo"
+      width={width}
+      height={height}
+      className={className}
+      data-ai-hint="logo"
+      {...rest}
+    />
   );
 }
