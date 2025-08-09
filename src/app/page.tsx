@@ -68,7 +68,7 @@ export default function Home() {
                             alt="About Dana Academy"
                             width={726}
                             height={528}
-                            className="scale-120"
+                            className="scale-110"
                             data-ai-hint="teacher classroom"
                           />
                     </div>
