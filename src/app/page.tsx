@@ -146,7 +146,7 @@ export default function Home() {
                         cardId="everyday"
                         frontContent={{
                             title: "شرح مبسط مرتبط بالحياة اليومية",
-                            imageUrl: "https://placehold.co/100x100.png",
+                            imageUrl: "https://i.ibb.co/FLscDsbC/ICON1.png",
                             imageHint: "atom"
                         }}
                         backContent={{
