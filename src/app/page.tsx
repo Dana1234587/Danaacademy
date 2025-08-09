@@ -51,9 +51,6 @@ export default function Home() {
                            <p className="font-normal">سواء كنت طالباً تطمح للتفوق أو محباً للعلم يبحث عن الإلهام، ستجد في أكاديميتنا ما يفتح آفاقك نحو فهم أعمق وإبداع أكبر.</p>
                            <p className="font-bold">🚀 استعد… فالفيزياء هنا ليست مادة تُدرس، بل فن نعيشه!</p>
                         </div>
-                        <div className="flex gap-4 items-center justify-center md:justify-start">
-                            <Logo className="h-[3.92rem] w-[8.96rem] rounded-md object-contain" />
-                        </div>
                     </div>
                     <div className="flex justify-center">
                          <Image
