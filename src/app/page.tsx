@@ -21,7 +21,7 @@ export default function Home() {
                     fill
                     objectFit="cover"
                     className="opacity-10"
-                    data-ai-hint="physics rocket"
+                    data-ai-hint="physics icons atom rocket"
                 />
             </div>
 
