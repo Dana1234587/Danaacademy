@@ -49,7 +49,7 @@ export default function Home() {
             </svg>
         </div>
 
-        <Section className="bg-muted z-10 relative">
+        <Section className="bg-background z-10 relative">
             <div className="container px-4 md:px-6">
                 <div className="grid md:grid-cols-2 gap-12 items-center">
                     <div className="space-y-6 text-center md:text-start">
