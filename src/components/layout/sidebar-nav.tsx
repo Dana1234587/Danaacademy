@@ -141,11 +141,7 @@ export function SidebarNav() {
     <>
       <SidebarHeader>
         <Link href="/" className="flex items-center gap-2">
-          <Logo className="h-8 w-8 rounded-md" />
-          <div className="flex flex-col">
-            <span className="font-semibold text-lg text-primary">Dana Academy</span>
-            <span className="text-xs text-muted-foreground">FOR ONLINE COURSES</span>
-          </div>
+          <Logo className="h-12 w-12 rounded-md" />
         </Link>
       </SidebarHeader>
       <SidebarContent>
