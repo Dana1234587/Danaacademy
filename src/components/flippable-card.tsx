@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState } from "react";
@@ -33,12 +32,12 @@ export function FlippableCard({ cardId, frontContent, backContent, className }: 
     >
       <div
         className={cn(
-          "relative w-full h-full transform-style-preserve-3d transition-transform duration-700 group-hover:-translate-y-2",
+          "relative w-full h-full transform-style-preserve-3d transition-transform duration-700",
           isFlipped ? "rotate-y-180" : ""
         )}
       >
         {/* Front of the card */}
-        <Card className="absolute w-full h-full backface-visibility-hidden flex flex-col items-center justify-center text-center p-6 bg-white shadow-md hover:shadow-xl transition-shadow duration-300 border-2 border-primary">
+        <Card className="absolute w-full h-full backface-visibility-hidden flex flex-col items-center justify-center text-center p-6 bg-white shadow-lg border-2 border-primary">
           <div className="mb-4 relative w-24 h-24 rounded-full overflow-hidden">
             <Image
                 src={frontContent.imageUrl}
@@ -53,8 +52,8 @@ export function FlippableCard({ cardId, frontContent, backContent, className }: 
         </Card>
 
         {/* Back of the card */}
-        <Card className="absolute w-full h-full backface-visibility-hidden rotate-y-180 flex items-center justify-center text-center p-6 bg-white shadow-xl border-2 border-primary">
-          <p className="text-primary transition-opacity duration-500 delay-200 opacity-0 group-hover:opacity-100">
+        <Card className="absolute w-full h-full backface-visibility-hidden rotate-y-180 flex items-center justify-center text-center p-6 bg-primary shadow-xl">
+          <p className="text-primary-foreground">
             {backContent.description}
           </p>
         </Card>
