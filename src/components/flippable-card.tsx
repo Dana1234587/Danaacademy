@@ -48,7 +48,7 @@ export function FlippableCard({ frontContent, backContent, className }: Flippabl
 
         {/* Back of the card */}
         <Card className="absolute w-full h-full backface-visibility-hidden rotate-y-180 flex items-center justify-center text-center p-6">
-          <p className="text-muted-foreground">
+          <p className="text-muted-foreground transition-opacity duration-300 delay-200 opacity-0 group-data-[flipped=true]:opacity-100">
             {backContent.description}
           </p>
         </Card>

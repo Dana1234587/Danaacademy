@@ -123,4 +123,7 @@ body {
     transform: scaleX(1);
     transform-origin: bottom left;
   }
+  .animation-delay-300 {
+    animation-delay: 300ms;
+  }
 }

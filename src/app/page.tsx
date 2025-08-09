@@ -1,9 +1,8 @@
 
 import { MarketingLayout } from '@/components/layout/marketing-layout';
 import { Button } from '@/components/ui/button';
-import { PlayCircle, Rocket, BrainCircuit, Lightbulb, Beaker, Orbit, ArrowLeft, Users, Laptop, Bot, Atom } from 'lucide-react';
+import { PlayCircle, ArrowLeft, Users, Laptop, Bot } from 'lucide-react';
 import Image from 'next/image';
-import { cn } from '@/lib/utils';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import Link from 'next/link';
 import { FlippableCard } from '@/components/flippable-card';
@@ -18,7 +17,7 @@ export default function Home() {
     <MarketingLayout>
       <div className="flex flex-col">
         {/* Hero Section */}
-        <div className="relative h-[600px] flex items-center justify-center text-center bg-white overflow-hidden">
+        <div className="relative h-[600px] flex items-center justify-center text-center bg-gradient-to-br from-background via-purple-50 to-indigo-100 animate-gradient-xy overflow-hidden">
             <FloatingIcons />
 
             <div className="z-10 flex flex-col items-center space-y-6 animate-fade-in-up">
@@ -36,7 +35,7 @@ export default function Home() {
         </div>
 
         {/* Wavy Separator */}
-        <div className="bg-white">
+        <div className="bg-transparent -mt-1">
             <svg viewBox="0 0 1440 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full block">
                 <path d="M0 50C144 100 288 100 432 75C576 50 720 0 864 0C1008 0 1152 50 1296 75C1440 100 1440 100 1440 100V100H0V50Z" fill="hsl(var(--muted))"></path>
             </svg>
@@ -85,7 +84,7 @@ export default function Home() {
 
 
         {/* Courses Section */}
-        <Section className="bg-white">
+        <Section className="bg-background">
             <div className="container px-4 md:px-6">
                 <div className="flex flex-col items-center text-center space-y-6">
                     <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl text-primary">
@@ -108,11 +107,11 @@ export default function Home() {
                             data-ai-hint="physics textbook"
                           />
                       </div>
-                      <div className="flex flex-col justify-between">
-                        <CardHeader>
+                      <div className="flex flex-col justify-between p-6">
+                        <CardHeader className="p-0">
                             <CardTitle className="text-2xl font-bold text-primary">فيزياء التوجيهي الاردني</CardTitle>
                         </CardHeader>
-                        <CardContent className="space-y-4">
+                        <CardContent className="p-0 mt-4 space-y-4">
                             <p className="text-muted-foreground">
                                 دورة شاملة لمنهج الفيزياء للتوجيهي الأردني، تغطي جميع الوحدات والمفاهيم الأساسية مع شرح مبسط وتمارين مكثفة.
                             </p>
@@ -131,9 +130,9 @@ export default function Home() {
         </Section>
 
         {/* Why Dana Academy Section */}
-        <Section className="bg-white">
+        <Section className="bg-background">
             <div className="container px-4 md:px-6">
-                <div className="flex flex-col items-center text-center space-y-6">
+                <div className="flex flex-col items-center text-center space-y-6 animate-fade-in-up animation-delay-300">
                     <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl text-primary">
                         لماذا دانا أكاديمي؟
                     </h2>
