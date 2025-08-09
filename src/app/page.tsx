@@ -90,7 +90,7 @@ export default function Home() {
                     <div className="grid md:grid-cols-2">
                       <div className="relative h-64 md:h-full overflow-hidden">
                         <Image
-                            src="https://placehold.co/600x400.png"
+                            src="https://i.ibb.co/tynPpNn/Screenshot-2025-08-10-002837.png"
                             alt="فيزياء التوجيهي الاردني"
                             layout="fill"
                             objectFit="cover"
@@ -165,6 +165,79 @@ export default function Home() {
                             description: "اختبارات تغطي المنهج كاملًا، تعطيك ملاحظات فورية وخطط تعلم شخصية لتحسين مستواك خطوة بخطوة."
                         }}
                     />
+                </div>
+            </div>
+        </Section>
+        
+        {/* Photo Album Section */}
+        <Section className="bg-muted z-10 relative">
+            <div className="container px-4 md:px-6">
+                <div className="flex flex-col items-center text-center space-y-6 animate-fade-in-up">
+                    <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl text-primary">
+                        لحظات لاتنسى من رحلة المعلمه دانا سالم مع طلابها
+                    </h2>
+                </div>
+                <div className="mt-12 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+                    <div className="group relative overflow-hidden rounded-lg shadow-lg transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-2xl">
+                        <Image
+                            src="https://placehold.co/400x300.png"
+                            alt="ذكرى مع الطلاب 1"
+                            width={400}
+                            height={300}
+                            className="w-full h-full object-cover"
+                            data-ai-hint="teacher students"
+                        />
+                    </div>
+                    <div className="group relative overflow-hidden rounded-lg shadow-lg transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-2xl">
+                        <Image
+                            src="https://placehold.co/400x300.png"
+                            alt="ذكرى مع الطلاب 2"
+                            width={400}
+                            height={300}
+                            className="w-full h-full object-cover"
+                            data-ai-hint="classroom event"
+                        />
+                    </div>
+                    <div className="group relative overflow-hidden rounded-lg shadow-lg transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-2xl">
+                        <Image
+                            src="https://placehold.co/400x300.png"
+                            alt="ذكرى مع الطلاب 3"
+                            width={400}
+                            height={300}
+                            className="w-full h-full object-cover"
+                            data-ai-hint="award ceremony"
+                        />
+                    </div>
+                    <div className="group relative overflow-hidden rounded-lg shadow-lg transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-2xl">
+                        <Image
+                            src="https://placehold.co/400x300.png"
+                            alt="ذكرى مع الطلاب 4"
+                            width={400}
+                            height={300}
+                            className="w-full h-full object-cover"
+                            data-ai-hint="group study"
+                        />
+                    </div>
+                    <div className="group relative overflow-hidden rounded-lg shadow-lg transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-2xl">
+                        <Image
+                            src="https://placehold.co/400x300.png"
+                            alt="ذكرى مع الطلاب 5"
+                            width={400}
+                            height={300}
+                            className="w-full h-full object-cover"
+                            data-ai-hint="science fair"
+                        />
+                    </div>
+                    <div className="group relative overflow-hidden rounded-lg shadow-lg transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-2xl">
+                        <Image
+                            src="https://placehold.co/400x300.png"
+                            alt="ذكرى مع الطلاب 6"
+                            width={400}
+                            height={300}
+                            className="w-full h-full object-cover"
+                            data-ai-hint="graduation celebration"
+                        />
+                    </div>
                 </div>
             </div>
         </Section>
