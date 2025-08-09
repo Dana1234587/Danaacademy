@@ -66,8 +66,8 @@ export default function Home() {
                          <Image
                             src="https://i.ibb.co/SXn1vhJP/NEW-NEW.png"
                             alt="About Dana Academy"
-                            width={581}
-                            height={422}
+                            width={550}
+                            height={322}
                             className=""
                             data-ai-hint="teacher classroom"
                           />
