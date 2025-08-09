@@ -37,8 +37,12 @@ export function MarketingHeader() {
           </Link>
         </nav>
         <Link href="/" className="flex items-center gap-2">
-          <span className="text-2xl font-bold text-primary">Dana Academy</span>
-          <Logo className="h-10 w-10 rounded-md" />
+          <div className="flex flex-col text-right">
+            <span className="text-xl font-bold text-primary leading-tight">Dana</span>
+            <span className="text-xl font-bold text-primary leading-tight">ACADEMY</span>
+            <span className="text-xs text-muted-foreground">FOR ONLINE COURSES</span>
+          </div>
+          <Logo className="h-12 w-12 rounded-md" />
         </Link>
       </div>
     </header>
