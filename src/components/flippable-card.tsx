@@ -38,7 +38,7 @@ export function FlippableCard({ cardId, frontContent, backContent, className }: 
         )}
       >
         {/* Front of the card */}
-        <Card className="absolute w-full h-full backface-visibility-hidden flex flex-col items-center justify-center text-center p-6 bg-white shadow-md hover:shadow-xl transition-shadow duration-300">
+        <Card className="absolute w-full h-full backface-visibility-hidden flex flex-col items-center justify-center text-center p-6 bg-white shadow-md hover:shadow-xl transition-shadow duration-300 border-2 border-primary">
           <div className="mb-4 relative w-24 h-24 rounded-full overflow-hidden">
             <Image
                 src={frontContent.imageUrl}
@@ -53,7 +53,7 @@ export function FlippableCard({ cardId, frontContent, backContent, className }: 
         </Card>
 
         {/* Back of the card */}
-        <Card className="absolute w-full h-full backface-visibility-hidden rotate-y-180 flex items-center justify-center text-center p-6 bg-white shadow-xl">
+        <Card className="absolute w-full h-full backface-visibility-hidden rotate-y-180 flex items-center justify-center text-center p-6 bg-white shadow-xl border-2 border-primary">
           <p className="text-primary transition-opacity duration-500 delay-200 opacity-0 group-hover:opacity-100">
             {backContent.description}
           </p>

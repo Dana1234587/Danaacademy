@@ -145,7 +145,7 @@ export default function Home() {
                     <FlippableCard
                         cardId="everyday"
                         frontContent={{
-                            title: "🌀 شرح مبسط مرتبط بالحياة اليومية",
+                            title: "شرح مبسط مرتبط بالحياة اليومية",
                             imageUrl: "https://placehold.co/100x100.png",
                             imageHint: "atom"
                         }}
@@ -156,7 +156,7 @@ export default function Home() {
                     <FlippableCard
                         cardId="simulation"
                         frontContent={{
-                            title: "🖥️ تعليم تفاعلي باستخدام برامج المحاكاة",
+                            title: "تعليم تفاعلي باستخدام برامج المحاكاة",
                              imageUrl: "https://placehold.co/100x100.png",
                             imageHint: "simulation"
                         }}
@@ -167,7 +167,7 @@ export default function Home() {
                     <FlippableCard
                         cardId="ai"
                         frontContent={{
-                            title: "🤖 اختبارات ذكية مدعومة بالذكاء الاصطناعي",
+                            title: "اختبارات ذكية مدعومة بالذكاء الاصطناعي",
                              imageUrl: "https://placehold.co/100x100.png",
                             imageHint: "robot brain"
                         }}
