@@ -181,7 +181,7 @@ export default function Home() {
                 <Carousel
                     opts={{
                         align: "start",
-                        loop: false,
+                        loop: true,
                     }}
                     className="w-full max-w-6xl mx-auto mt-12"
                 >
@@ -327,18 +327,6 @@ export default function Home() {
                                     height={300}
                                     className="w-full h-full object-cover"
                                     data-ai-hint="guest lecture"
-                                />
-                            </div>
-                        </CarouselItem>
-                        <CarouselItem className="pl-4 basis-full md:basis-1/2 lg:basis-1/3">
-                            <div className="group relative overflow-hidden rounded-lg shadow-lg transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-2xl">
-                                <Image
-                                    src="https://placehold.co/400x300.png"
-                                    alt="ذكرى مع الطلاب 13"
-                                    width={400}
-                                    height={300}
-                                    className="w-full h-full object-cover"
-                                    data-ai-hint="science workshop"
                                 />
                             </div>
                         </CarouselItem>
