@@ -168,7 +168,7 @@ export default function Home() {
                         cardId="ai"
                         frontContent={{
                             title: "اختبارات ذكية مدعومة بالذكاء الاصطناعي",
-                             imageUrl: "https://placehold.co/100x100.png",
+                             imageUrl: "https://i.ibb.co/39xKXsSR/ICON2.png",
                             imageHint: "robot brain"
                         }}
                         backContent={{
