@@ -22,9 +22,6 @@ export default function Home() {
             <div className="container px-4 md:px-6">
                 <div className="grid md:grid-cols-2 gap-12 items-center">
                     <div className="z-10 flex flex-col items-center md:items-start text-center md:text-start space-y-6 animate-fade-in-up">
-                        <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-primary">
-                            أهلاً وسهلاً بكم في موقع دانا أكاديمي
-                        </h1>
                         <p className="text-xl md:text-2xl text-primary/80">
                             تدريس الفيزياء فنّ وإبداع
                         </p>
