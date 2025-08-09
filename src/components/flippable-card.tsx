@@ -4,49 +4,14 @@
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
-
-// SVG Icon Components with improved styling capabilities
-const EverydayIcon = ({ className }: { className?: string }) => (
-    <svg width="48" height="48" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" className={className}>
-        <path d="M32 58C46.3594 58 58 46.3594 58 32C58 17.6406 46.3594 6 32 6C17.6406 6 6 17.6406 6 32C6 46.3594 17.6406 58 32 58Z" stroke="currentColor" strokeWidth="4" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
-        <path d="M22 32C22 26.4772 26.4772 22 32 22C37.5228 22 42 26.4772 42 32C42 37.5228 37.5228 42 32 42" stroke="currentColor" strokeWidth="4" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
-        <path d="M51.999 26.668C48.349 20.738 43.149 16.038 37.339 12.668" stroke="currentColor" strokeWidth="4" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
-        <path d="M12.001 37.332C15.651 43.262 20.851 47.962 26.661 51.332" stroke="currentColor" strokeWidth="4" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
-        <path d="M26.661 12.668C20.851 16.038 15.651 20.738 12.001 26.668" stroke="currentColor" strokeWidth="4" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
-        <path d="M37.339 51.332C43.149 47.962 48.349 43.262 51.999 37.332" stroke="currentColor" strokeWidth="4" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
-    </svg>
-);
-
-const SimulationIcon = ({ className }: { className?: string }) => (
-    <svg width="48" height="48" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" className={className}>
-        <path d="M50 14H14V50H50V14Z" stroke="currentColor" strokeWidth="4" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
-        <path d="M38 6H26" stroke="currentColor" strokeWidth="4" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
-        <path d="M58 26V38" stroke="currentColor" strokeWidth="4" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
-        <path d="M38 58H26" stroke="currentColor" strokeWidth="4" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
-        <path d="M6 26V38" stroke="currentColor" strokeWidth="4" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
-        <path d="M42 22L22 42" stroke="currentColor" strokeWidth="4" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
-        <path d="M22 22L42 42" stroke="currentColor" strokeWidth="4" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
-    </svg>
-);
-
-const AIIcon = ({ className }: { className?: string }) => (
-    <svg width="48" height="48" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" className={className}>
-        <path d="M42 22L22 42" stroke="currentColor" strokeWidth="4" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
-        <path d="M22 22L42 42" stroke="currentColor" strokeWidth="4" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
-        <path d="M46 6H18C11.3726 6 6 11.3726 6 18V46C6 52.6274 11.3726 58 18 58H46C52.6274 58 58 52.6274 58 46V18C58 11.3726 52.6274 6 46 6Z" stroke="currentColor" strokeWidth="4" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
-    </svg>
-);
-
-const icons: { [key: string]: React.ReactNode } = {
-  everyday: <EverydayIcon />,
-  simulation: <SimulationIcon />,
-  ai: <AIIcon />,
-};
+import Image from "next/image";
 
 interface FlippableCardProps {
   cardId: string;
   frontContent: {
     title: string;
+    imageUrl: string;
+    imageHint: string;
   };
   backContent: {
     description: string;
@@ -59,8 +24,6 @@ export function FlippableCard({ cardId, frontContent, backContent, className }: 
 
   const handleMouseEnter = () => setIsFlipped(true);
   const handleMouseLeave = () => setIsFlipped(false);
-  
-  const icon = icons[cardId];
 
   return (
     <div
@@ -75,18 +38,23 @@ export function FlippableCard({ cardId, frontContent, backContent, className }: 
         )}
       >
         {/* Front of the card */}
-        <Card className="absolute w-full h-full backface-visibility-hidden flex flex-col items-center justify-center text-center p-6 bg-[hsl(275,25%,97%)] shadow-md hover:shadow-xl transition-shadow duration-300">
-          <div className="mb-4 p-4 bg-[hsl(275,25%,97%)] border-2 border-primary/20 rounded-full transition-colors duration-300 group-hover:bg-primary">
-            <div className="text-primary transition-colors duration-300 group-hover:text-white">
-              {icon}
-            </div>
+        <Card className="absolute w-full h-full backface-visibility-hidden flex flex-col items-center justify-center text-center p-6 bg-white shadow-md hover:shadow-xl transition-shadow duration-300">
+          <div className="mb-4 relative w-24 h-24 rounded-full overflow-hidden">
+            <Image
+                src={frontContent.imageUrl}
+                alt={frontContent.title}
+                width={100}
+                height={100}
+                className="object-cover"
+                data-ai-hint={frontContent.imageHint}
+            />
           </div>
-          <h3 className="text-xl font-bold text-slate-800">{frontContent.title}</h3>
+          <h3 className="text-xl font-bold text-primary">{frontContent.title}</h3>
         </Card>
 
         {/* Back of the card */}
-        <Card className="absolute w-full h-full backface-visibility-hidden rotate-y-180 flex items-center justify-center text-center p-6 bg-card/60 backdrop-blur-sm shadow-xl">
-          <p className="text-muted-foreground transition-opacity duration-500 delay-200 opacity-0 group-hover:opacity-100">
+        <Card className="absolute w-full h-full backface-visibility-hidden rotate-y-180 flex items-center justify-center text-center p-6 bg-white shadow-xl">
+          <p className="text-primary transition-opacity duration-500 delay-200 opacity-0 group-hover:opacity-100">
             {backContent.description}
           </p>
         </Card>
@@ -94,5 +62,3 @@ export function FlippableCard({ cardId, frontContent, backContent, className }: 
     </div>
   );
 }
-
-    

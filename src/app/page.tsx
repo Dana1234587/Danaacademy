@@ -146,6 +146,8 @@ export default function Home() {
                         cardId="everyday"
                         frontContent={{
                             title: "🌀 شرح مبسط مرتبط بالحياة اليومية",
+                            imageUrl: "https://placehold.co/100x100.png",
+                            imageHint: "atom"
                         }}
                         backContent={{
                             description: "نفكك المفاهيم الصعبة ونربطها بمواقف وأمثلة من واقعك، لتشعر أن الفيزياء جزء من حياتك وليست مجرد مادة دراسية."
@@ -155,6 +157,8 @@ export default function Home() {
                         cardId="simulation"
                         frontContent={{
                             title: "🖥️ تعليم تفاعلي باستخدام برامج المحاكاة",
+                             imageUrl: "https://placehold.co/100x100.png",
+                            imageHint: "simulation"
                         }}
                         backContent={{
                             description: "نحوّل القوانين والتجارب إلى نماذج حيّة عبر برامج محاكاة متطورة، لترى الفيزياء أمامك كما لو كنت في مختبر حقيقي."
@@ -164,6 +168,8 @@ export default function Home() {
                         cardId="ai"
                         frontContent={{
                             title: "🤖 اختبارات ذكية مدعومة بالذكاء الاصطناعي",
+                             imageUrl: "https://placehold.co/100x100.png",
+                            imageHint: "robot brain"
                         }}
                         backContent={{
                             description: "اختبارات تغطي المنهج كاملًا، تعطيك ملاحظات فورية وخطط تعلم شخصية لتحسين مستواك خطوة بخطوة."
@@ -176,5 +182,3 @@ export default function Home() {
     </MarketingLayout>
   );
 }
-
-    
