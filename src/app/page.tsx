@@ -5,16 +5,6 @@ import { PlayCircle, Users } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 
-function WavySeparator() {
-  return (
-    <div className="w-full">
-      <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full block">
-        <path d="M1440 29.8947C1336.87 10.0449 1111.2 -32.3084 899.021 34.4695C728.986 89.1033 511.281 98.2429 299.999 54.4695C142.025 21.6593 0 29.8947 0 29.8947V120H1440V29.8947Z" fill="hsl(var(--background))"/>
-      </svg>
-    </div>
-  )
-}
-
 function Section({ children, className }: { children: React.ReactNode, className?: string }) {
   return <section className={`py-12 md:py-20 ${className}`}>{children}</section>;
 }
@@ -25,25 +15,24 @@ export default function Home() {
     <MarketingLayout>
       <div className="flex flex-col">
         {/* Hero Section */}
-        <div className="relative h-[600px] flex items-center justify-center text-center text-white overflow-hidden">
+        <div className="relative h-[600px] flex items-center justify-center text-center bg-white overflow-hidden">
             <div className="absolute inset-0 z-0">
                 <Image 
                     src="https://placehold.co/1920x1080.png"
-                    alt="Physics background"
-                    layout="fill"
+                    alt="Physics background doodles"
+                    fill
                     objectFit="cover"
-                    className="opacity-20"
+                    className="opacity-10"
                     data-ai-hint="physics doodles background"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-primary/80 to-primary/40"></div>
             </div>
 
             <div className="relative z-10 p-4 space-y-6">
-                <h1 className="text-4xl md:text-6xl font-bold tracking-tight">
-                أهلاً وسهلاً بكم في موقع دانا أكاديمي
+                <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-primary">
+                  أهلاً وسهلاً بكم في موقع دانا أكاديمي
                 </h1>
-                <p className="text-xl md:text-2xl font-light">
-                التدريس فن وإبداع
+                <p className="text-xl md:text-2xl font-light text-primary">
+                  تدريس الفيزياء فنّ وإبداع
                 </p>
                 <div className="flex justify-center">
                   <Button variant="secondary" size="lg" className="gap-2 rounded-full shadow-lg">
@@ -53,8 +42,6 @@ export default function Home() {
                 </div>
             </div>
         </div>
-
-        <WavySeparator />
 
         <Section>
             <div className="container px-4 md:px-6">
@@ -89,7 +76,7 @@ export default function Home() {
                     </div>
                 </div>
             </div>
-        </Section>
+        </section>
 
       </div>
     </MarketingLayout>
