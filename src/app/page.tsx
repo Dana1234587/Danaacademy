@@ -71,7 +71,7 @@ export default function Home() {
                     </div>
                     <div className="flex justify-center">
                          <Image
-                            src="https://placehold.co/600x400.png"
+                            src="https://i.ibb.co/pr31MwHN/Untitled-design.png"
                             alt="About Dana Academy"
                             width={550}
                             height={400}
@@ -84,15 +84,15 @@ export default function Home() {
         </Section>
 
         {/* Wavy Separator to White */}
-        <div className="bg-muted z-10 relative">
+        <div className="bg-background z-10 relative">
             <svg viewBox="0 0 1440 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full block">
-                <path d="M0 0C144 0 288 0 432 25C576 50 720 100 864 100C1008 100 1152 50 1296 25C1440 0 1440 0 1440 0V100H0V0Z" fill="hsl(var(--background))"></path>
+                <path d="M0 0C144 0 288 0 432 25C576 50 720 100 864 100C1008 100 1152 50 1296 25C1440 0 1440 0 1440 0V100H0V0Z" fill="hsl(var(--muted))"></path>
             </svg>
         </div>
 
 
         {/* Courses Section */}
-        <Section className="bg-background z-10 relative">
+        <Section className="bg-muted z-10 relative">
             <div className="container px-4 md:px-6">
                 <div className="flex flex-col items-center text-center space-y-6">
                     <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl text-primary">
