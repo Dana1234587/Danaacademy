@@ -1,9 +1,11 @@
 
 import { MarketingLayout } from '@/components/layout/marketing-layout';
 import { Button } from '@/components/ui/button';
-import { PlayCircle, Atom, Rocket, BrainCircuit, Lightbulb, Beaker, Orbit } from 'lucide-react';
+import { PlayCircle, Atom, Rocket, BrainCircuit, Lightbulb, Beaker, Orbit, ArrowLeft } from 'lucide-react';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import Link from 'next/link';
 
 function Section({ children, className }: { children: React.ReactNode, className?: string }) {
   return <section className={`py-12 md:py-20 ${className}`}>{children}</section>;
@@ -83,6 +85,51 @@ export default function Home() {
                             data-ai-hint="teacher classroom"
                           />
                     </div>
+                </div>
+            </div>
+        </Section>
+
+        {/* Courses Section */}
+        <Section className="bg-white">
+            <div className="container px-4 md:px-6">
+                <div className="flex flex-col items-center text-center space-y-6">
+                    <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl text-primary">
+                        الدورات المتاحة
+                    </h2>
+                    <p className="max-w-[700px] text-muted-foreground md:text-xl">
+                        انضم إلى دوراتنا المصممة بعناية لمساعدتك على إتقان مفاهيم الفيزياء وتحقيق أفضل النتائج.
+                    </p>
+                </div>
+                <div className="mt-12 grid gap-8 justify-center sm:grid-cols-1 lg:grid-cols-1">
+                  <Card className="max-w-3xl mx-auto w-full overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
+                    <div className="grid md:grid-cols-2">
+                      <div className="relative h-64 md:h-full">
+                        <Image
+                            src="https://placehold.co/600x400.png"
+                            alt="فيزياء التوجيهي الاردني"
+                            layout="fill"
+                            objectFit="cover"
+                            data-ai-hint="physics textbook"
+                          />
+                      </div>
+                      <div className="flex flex-col justify-between">
+                        <CardHeader>
+                            <CardTitle className="text-2xl font-bold text-primary">فيزياء التوجيهي الاردني</CardTitle>
+                        </CardHeader>
+                        <CardContent className="space-y-4">
+                            <p className="text-muted-foreground">
+                                دورة شاملة لمنهج الفيزياء للتوجيهي الأردني، تغطي جميع الوحدات والمفاهيم الأساسية مع شرح مبسط وتمارين مكثفة.
+                            </p>
+                            <Button asChild className="w-full mt-4" size="lg">
+                                <Link href="/physics" className="flex items-center gap-2">
+                                    <span>عرض الدورة</span>
+                                    <ArrowLeft className="h-5 w-5" />
+                                </Link>
+                            </Button>
+                        </CardContent>
+                      </div>
+                    </div>
+                  </Card>
                 </div>
             </div>
         </Section>
