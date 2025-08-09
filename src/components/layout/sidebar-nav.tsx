@@ -141,7 +141,7 @@ export function SidebarNav() {
     <>
       <SidebarHeader>
         <Link href="/" className="flex items-center gap-2">
-          <Logo className="h-28 w-64 rounded-md object-contain" />
+          <Logo className="h-[5.6rem] w-[12.8rem] rounded-md object-contain" />
         </Link>
       </SidebarHeader>
       <SidebarContent>

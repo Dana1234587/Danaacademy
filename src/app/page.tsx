@@ -59,15 +59,15 @@ export default function Home() {
                            <p className="font-bold">🚀 استعد… فالفيزياء هنا ليست مادة تُدرس، بل فن نعيشه!</p>
                         </div>
                         <div className="flex gap-4 items-center justify-center md:justify-start">
-                            <Logo className="h-28 w-64 rounded-md object-contain" />
+                            <Logo className="h-[5.6rem] w-[12.8rem] rounded-md object-contain" />
                         </div>
                     </div>
                     <div className="flex justify-center">
                          <Image
                             src="https://i.ibb.co/SXn1vhJP/NEW-NEW.png"
                             alt="About Dana Academy"
-                            width={726}
-                            height={528}
+                            width={581}
+                            height={422}
                             className="scale-110"
                             data-ai-hint="teacher classroom"
                           />
