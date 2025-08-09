@@ -4,7 +4,7 @@ import type { SVGProps } from 'react';
 export function Logo(props: SVGProps<SVGSVGElement> & { width?: number; height?: number }) {
   // Even though we're using an Image, we can accept SVGProps for compatibility with existing code.
   // We'll extract className and pass it to the Image component.
-  const { className, width = 128, height = 48 } = props;
+  const { className, width = 102.4, height = 38.4 } = props;
 
   return (
     <Image
