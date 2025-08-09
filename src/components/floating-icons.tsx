@@ -27,9 +27,11 @@ const Icon = ({ component: Component, className, style, "data-depth": dataDepth 
 );
 
 export function FloatingIcons() {
+  const [isMounted, setIsMounted] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
+    setIsMounted(true);
     const handleMouseMove = (event: MouseEvent) => {
       setMousePosition({ x: event.clientX, y: event.clientY });
     };
@@ -42,11 +44,30 @@ export function FloatingIcons() {
   }, []);
 
   const calculateTransform = (depth: number) => {
-    if (typeof window === 'undefined') return {};
+    if (!isMounted) return {};
     const moveX = (mousePosition.x - window.innerWidth / 2) * depth / 20;
     const moveY = (mousePosition.y - window.innerHeight / 2) * depth / 20;
     return { transform: `translate(${moveX}px, ${moveY}px)` };
   };
+
+  if (!isMounted) {
+    // Render a static version on the server and initial client render
+    return (
+        <div className="absolute inset-0 z-0">
+        {icons.map((icon, index) => (
+            <Icon
+            key={index}
+            component={icon.component}
+            className={cn(icon.className, 'animate-float')}
+            style={{ 
+                animationDuration: icon.duration,
+            }}
+            data-depth={icon['data-depth']}
+            />
+        ))}
+        </div>
+    );
+  }
 
   return (
     <div className="absolute inset-0 z-0">
