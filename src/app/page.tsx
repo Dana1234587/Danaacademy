@@ -8,6 +8,7 @@ import Link from 'next/link';
 import { FlippableCard } from '@/components/flippable-card';
 import { FloatingIcons } from '@/components/floating-icons';
 import { Logo } from '@/components/logo';
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 
 function Section({ children, className }: { children: React.ReactNode, className?: string }) {
   return <section className={`py-12 md:py-20 ${className}`}>{children}</section>;
@@ -199,29 +200,43 @@ export default function Home() {
         
         {/* Photo Album Section */}
         <Section className="bg-muted z-10 relative">
-            <div className="container px-4 md:px-6">
-                <div className="flex flex-col items-center text-center space-y-6 animate-fade-in-up">
-                    <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl text-primary">
-                        لحظات لاتنسى من رحلة المعلمه دانا سالم مع طلابها
-                    </h2>
-                </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-12">
-                    {memorableMomentsImages.map((src, index) => (
-                        <div key={index} className="p-1">
-                          <div className="group relative overflow-hidden rounded-lg shadow-lg transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-2xl">
-                              <Image
-                                  src={src}
-                                  alt={`ذكرى مع الطلاب ${index + 1}`}
-                                  width={400}
-                                  height={300}
-                                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                                  data-ai-hint={memorableMomentsHints[index]}
-                              />
-                          </div>
-                        </div>
-                    ))}
-                </div>
+          <div className="container px-4 md:px-6">
+            <div className="flex flex-col items-center text-center space-y-6 animate-fade-in-up">
+              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl text-primary">
+                لحظات لاتنسى من رحلة المعلمه دانا سالم مع طلابها
+              </h2>
             </div>
+            <div className="relative mt-12">
+              <Carousel
+                opts={{
+                  align: "start",
+                  loop: true,
+                }}
+                className="w-full max-w-5xl mx-auto"
+              >
+                <CarouselContent>
+                  {memorableMomentsImages.map((src, index) => (
+                    <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
+                      <div className="p-1">
+                        <div className="group relative overflow-hidden rounded-lg shadow-lg transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-2xl">
+                          <Image
+                            src={src}
+                            alt={`ذكرى مع الطلاب ${index + 1}`}
+                            width={400}
+                            height={300}
+                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                            data-ai-hint={memorableMomentsHints[index]}
+                          />
+                        </div>
+                      </div>
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+                <CarouselPrevious className="absolute left-0 top-1/2 -translate-y-1/2 z-10" />
+                <CarouselNext className="absolute right-0 top-1/2 -translate-y-1/2 z-10" />
+              </Carousel>
+            </div>
+          </div>
         </Section>
       </div>
     </MarketingLayout>
