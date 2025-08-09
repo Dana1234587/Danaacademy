@@ -1,0 +1,67 @@
+"use client";
+
+import { useState, useEffect } from 'react';
+import { Atom, Rocket, BrainCircuit, Lightbulb, Beaker, Orbit } from 'lucide-react';
+import { cn } from '@/lib/utils';
+
+const icons = [
+  { component: Atom, className: "top-[10%] left-[5%] w-16 h-16", duration: '8s', "data-depth": 0.2 },
+  { component: Rocket, className: "top-[20%] right-[10%] w-20 h-20", duration: '10s', "data-depth": 0.4 },
+  { component: BrainCircuit, className: "bottom-[15%] left-[15%] w-24 h-24", duration: '12s', "data-depth": 0.6 },
+  { component: Lightbulb, className: "top-[60%] left-[30%] w-12 h-12", duration: '7s', "data-depth": 0.3 },
+  { component: Beaker, className: "bottom-[10%] right-[25%] w-16 h-16", duration: '9s', "data-depth": 0.5 },
+  { component: Orbit, className: "top-[40%] right-[40%] w-14 h-14", duration: '11s', "data-depth": 0.25 },
+  { component: Atom, className: "bottom-[5%] right-[5%] w-16 h-16", duration: '8s', "data-depth": 0.35 },
+  { component: Rocket, className: "bottom-[20%] left-[10%] w-20 h-20", duration: '10s', "data-depth": 0.15 },
+  { component: BrainCircuit, className: "top-[15%] right-[15%] w-24 h-24", duration: '12s', "data-depth": 0.55 },
+];
+
+const Icon = ({ component: Component, className, style, "data-depth": dataDepth }: { component: React.ElementType, className?: string, style?: React.CSSProperties, "data-depth": number }) => (
+  <div
+    className={cn("absolute text-primary/10 transition-transform duration-300 ease-out", className)}
+    style={style}
+    data-depth={dataDepth}
+  >
+    <Component className="w-full h-full" />
+  </div>
+);
+
+export function FloatingIcons() {
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+
+  useEffect(() => {
+    const handleMouseMove = (event: MouseEvent) => {
+      setMousePosition({ x: event.clientX, y: event.clientY });
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+    };
+  }, []);
+
+  const calculateTransform = (depth: number) => {
+    if (typeof window === 'undefined') return {};
+    const moveX = (mousePosition.x - window.innerWidth / 2) * depth / 20;
+    const moveY = (mousePosition.y - window.innerHeight / 2) * depth / 20;
+    return { transform: `translate(${moveX}px, ${moveY}px)` };
+  };
+
+  return (
+    <div className="absolute inset-0 z-0">
+      {icons.map((icon, index) => (
+        <Icon
+          key={index}
+          component={icon.component}
+          className={cn(icon.className, 'animate-float')}
+          style={{ 
+            animationDuration: icon.duration, 
+            ...calculateTransform(icon['data-depth'])
+          }}
+          data-depth={icon['data-depth']}
+        />
+      ))}
+    </div>
+  );
+}

@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { Logo } from '@/components/logo';
 import { Button } from '@/components/ui/button';
 import { BookCopy, Home, Info, Phone } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 export function MarketingHeader() {
   return (
@@ -14,28 +15,28 @@ export function MarketingHeader() {
           <Logo className="h-12 w-32 rounded-md" />
         </Link>
         <nav className="hidden md:flex gap-8 items-center">
-          <Link href="#" className="flex items-center gap-2 text-base font-medium text-foreground hover:text-primary transition-colors">
+          <Link href="#" className="animated-underline flex items-center gap-2 text-base font-medium text-foreground hover:text-primary transition-colors">
             <Home className="h-4 w-4" />
             الرئيسية
           </Link>
-          <Link href="/physics" className="flex items-center gap-2 text-base font-medium text-foreground hover:text-primary transition-colors">
+          <Link href="/physics" className="animated-underline flex items-center gap-2 text-base font-medium text-foreground hover:text-primary transition-colors">
             <BookCopy className="h-4 w-4" />
             الدورات
           </Link>
-          <Link href="#" className="flex items-center gap-2 text-base font-medium text-foreground hover:text-primary transition-colors">
+          <Link href="#" className="animated-underline flex items-center gap-2 text-base font-medium text-foreground hover:text-primary transition-colors">
             <Info className="h-4 w-4" />
             عن الاكاديمية
           </Link>
-          <Link href="#" className="flex items-center gap-2 text-base font-medium text-foreground hover:text-primary transition-colors">
+          <Link href="#" className="animated-underline flex items-center gap-2 text-base font-medium text-foreground hover:text-primary transition-colors">
             <Phone className="h-4 w-4" />
             تواصل معنا
           </Link>
         </nav>
         <div className="flex items-center gap-4">
-             <Button asChild variant="outline">
+             <Button asChild variant="outline" className="hover:-translate-y-0.5 transition-transform">
                 <Link href="#">تسجيل حساب جديد</Link>
             </Button>
-            <Button asChild>
+            <Button asChild className="hover:-translate-y-0.5 transition-transform">
                 <Link href="#">الدخول الى الاكاديمية</Link>
             </Button>
         </div>
