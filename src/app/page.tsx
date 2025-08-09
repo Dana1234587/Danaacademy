@@ -183,7 +183,7 @@ export default function Home() {
                         align: "start",
                         loop: true,
                     }}
-                    className="w-full max-w-6xl mx-auto mt-12"
+                    className="w-full max-w-6xl mx-auto mt-12 px-10"
                 >
                     <CarouselContent>
                         {Array.from({ length: 12 }).map((_, index) => {
@@ -240,5 +240,3 @@ export default function Home() {
     </MarketingLayout>
   );
 }
-
-    
