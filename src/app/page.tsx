@@ -18,34 +18,15 @@ export default function Home() {
     <MarketingLayout>
       <div className="flex flex-col">
         {/* Hero Section */}
-        <div className="relative bg-background flex items-center justify-center text-center overflow-hidden py-20">
-            <div className="container px-4 md:px-6">
-                <div className="grid md:grid-cols-2 gap-12 items-center">
-                    <div className="z-10 flex flex-col items-center md:items-start text-center md:text-start space-y-6 animate-fade-in-up">
-                        <p className="text-xl md:text-2xl text-primary/80">
-                            تدريس الفيزياء فنّ وإبداع
-                        </p>
-                    </div>
-                     <div className="grid grid-cols-2 gap-4 items-center">
-                        <Image 
-                            src="https://placehold.co/400x400.png" 
-                            alt="صورة مربعة" 
-                            width={400} 
-                            height={400} 
-                            className="rounded-lg shadow-lg"
-                            data-ai-hint="education physics"
-                        />
-                        <Image 
-                            src="https://placehold.co/300x450.png" 
-                            alt="صورة مستطيلة" 
-                            width={300} 
-                            height={450} 
-                            className="rounded-lg shadow-lg"
-                            data-ai-hint="science teacher"
-                        />
-                    </div>
-                </div>
-            </div>
+        <div className="relative bg-background w-full">
+            <Image
+                src="https://placehold.co/1920x600.png"
+                alt="Dana Academy Hero Image"
+                width={1920}
+                height={600}
+                className="w-full object-cover"
+                data-ai-hint="physics classroom"
+            />
         </div>
 
         {/* Wavy Separator */}
