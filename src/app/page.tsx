@@ -20,7 +20,7 @@ export default function Home() {
         {/* Hero Section */}
         <div className="relative bg-background w-full">
             <Image
-                src="https://placehold.co/1920x600.png"
+                src="https://i.ibb.co/zV6Ckk1t/Untitled-design.jpg"
                 alt="Dana Academy Hero Image"
                 width={1920}
                 height={600}
