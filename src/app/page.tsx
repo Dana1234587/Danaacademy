@@ -44,7 +44,7 @@ export default function Home() {
                         <stop offset="100%" style={{stopColor: 'hsl(var(--background))'}} />
                     </linearGradient>
                 </defs>
-                <path d="M0 50C144 100 288 100 432 75C576 50 720 0 864 0C1008 0 1152 50 1296 75C1440 100 1440 100 1440 100V100H0V50Z" fill="hsl(var(--muted))"></path>
+                <path d="M0 50C144 100 288 100 432 75C576 50 720 0 864 0C1008 0 1152 50 1296 75C1440 100 1440 100 1440 100V100H0V50Z" fill="hsl(var(--background))"></path>
                 <path className="animate-wave" d="M0 50C144 100 288 100 432 75C576 50 720 0 864 0C1008 0 1152 50 1296 75C1440 100 1440 100 1440 100V100H0V50Z" fill="url(#wave-gradient)" opacity="0.3"></path>
             </svg>
         </div>
@@ -75,7 +75,7 @@ export default function Home() {
                             alt="About Dana Academy"
                             width={550}
                             height={400}
-                            className="rounded-xl shadow-lg"
+                            className=""
                             data-ai-hint="teacher classroom"
                           />
                     </div>
