@@ -1,145 +1,96 @@
 
 import { MarketingLayout } from '@/components/layout/marketing-layout';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Atom, BookOpen, BrainCircuit, Rocket } from 'lucide-react';
+import { PlayCircle, Users } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+
+function WavySeparator() {
+  return (
+    <div className="w-full">
+      <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full block">
+        <path d="M1440 29.8947C1336.87 10.0449 1111.2 -32.3084 899.021 34.4695C728.986 89.1033 511.281 98.2429 299.999 54.4695C142.025 21.6593 0 29.8947 0 29.8947V120H1440V29.8947Z" fill="hsl(var(--background))"/>
+      </svg>
+    </div>
+  )
+}
+
+function Section({ children, className }: { children: React.ReactNode, className?: string }) {
+  return <section className={`py-12 md:py-20 ${className}`}>{children}</section>;
+}
+
 
 export default function Home() {
   return (
     <MarketingLayout>
       <div className="flex flex-col">
         {/* Hero Section */}
-        <section className="bg-background py-20 sm:py-28 lg:py-32">
-          <div className="container px-4 md:px-6 grid gap-10 md:grid-cols-2 md:items-center">
-            <div className="space-y-6 text-center md:text-start">
-              <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl text-primary">
-                أكاديمية دانة: مستقبلك يبدأ من هنا
-              </h1>
-              <p className="max-w-[600px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed mx-auto md:mx-0">
-                منصتك الأولى لتعلم الفيزياء وكل المواد العلمية. شروحات مبسطة وتجارب تفاعلية تفتح لك آفاق المعرفة.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-                <Button asChild size="lg">
-                  <Link href="#courses">استكشف الدورات المتاحة</Link>
-                </Button>
-                <Button asChild size="lg" variant="outline">
-                  <Link href="#">إنشاء حساب مجاني</Link>
-                </Button>
-              </div>
-            </div>
-            <div className="flex justify-center">
-              <Image
-                src="https://placehold.co/600x400.png"
-                alt="Science and Learning Illustration"
-                width={600}
-                height={400}
-                className="rounded-xl shadow-2xl"
-                data-ai-hint="science abstract"
-              />
-            </div>
-          </div>
-        </section>
-
-        {/* Features Section */}
-        <section id="features" className="py-16 sm:py-24 lg:py-32 bg-muted/40">
-          <div className="container px-4 md:px-6">
-            <div className="space-y-4 text-center mb-12">
-              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl text-primary">لماذا تختار أكاديمية دانة؟</h2>
-              <p className="max-w-[700px] mx-auto text-muted-foreground md:text-xl/relaxed">
-                نحن نوفر لك كل ما تحتاجه للنجاح في رحلتك التعليمية.
-              </p>
-            </div>
-            <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-              <Card>
-                <CardContent className="p-6 space-y-4 text-center">
-                  <div className="p-4 rounded-full bg-primary/10 w-fit mx-auto">
-                    <BookOpen className="w-8 h-8 text-primary" />
-                  </div>
-                  <h3 className="text-xl font-bold">محتوى شامل ومنظم</h3>
-                  <p className="text-muted-foreground">
-                    دروس مفصلة تغطي كامل المناهج الدراسية، مرتبة بشكل يسهل عليك المتابعة والمراجعة.
-                  </p>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardContent className="p-6 space-y-4 text-center">
-                  <div className="p-4 rounded-full bg-primary/10 w-fit mx-auto">
-                    <Atom className="w-8 h-8 text-primary" />
-                  </div>
-                  <h3 className="text-xl font-bold">محاكاة تفاعلية</h3>
-                  <p className="text-muted-foreground">
-                    فهم أعمق للمفاهيم المعقدة من خلال تجارب ومحاكاة تفاعلية ممتعة.
-                  </p>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardContent className="p-6 space-y-4 text-center">
-                  <div className="p-4 rounded-full bg-primary/10 w-fit mx-auto">
-                    <BrainCircuit className="w-8 h-8 text-primary" />
-                  </div>
-                  <h3 className="text-xl font-bold">اختبارات بالذكاء الاصطناعي</h3>
-                  <p className="text-muted-foreground">
-                    أنشئ اختبارات مخصصة لتقييم فهمك وتعزيز معرفتك في أي موضوع.
-                  </p>
-                </CardContent>
-              </Card>
-            </div>
-          </div>
-        </section>
-
-        {/* Courses Section */}
-        <section id="courses" className="py-16 sm:py-24 lg:py-32 bg-background">
-          <div className="container px-4 md:px-6">
-            <div className="space-y-4 text-center mb-12">
-              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl text-primary">استكشف دوراتنا</h2>
-              <p className="max-w-[700px] mx-auto text-muted-foreground md:text-xl/relaxed">
-                ابدأ رحلتك في عالم المعرفة مع دوراتنا المصممة بعناية.
-              </p>
-            </div>
-            <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 justify-center">
-              <Card className="overflow-hidden hover:shadow-lg transition-shadow">
+        <div className="relative h-[600px] flex items-center justify-center text-center text-white overflow-hidden">
+            <div className="absolute inset-0 z-0">
                 <Image 
-                  src="https://placehold.co/600x400.png"
-                  alt="Physics Course"
-                  width={600}
-                  height={400}
-                  className="w-full h-48 object-cover"
-                  data-ai-hint="physics textbook"
+                    src="https://placehold.co/1920x1080.png"
+                    alt="Physics background"
+                    layout="fill"
+                    objectFit="cover"
+                    className="opacity-20"
+                    data-ai-hint="physics doodles background"
                 />
-                <CardHeader>
-                  <CardTitle>فيزياء التوجيهي الأردني</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-muted-foreground mb-4">
-                    دورة شاملة تغطي الفصلين الدراسيين مع شروحات وتمارين مكثفة.
-                  </p>
-                  <Button asChild className="w-full">
-                    <Link href="/physics">عرض تفاصيل الدورة</Link>
-                  </Button>
-                </CardContent>
-              </Card>
-              {/* Add more course cards here in the future */}
+                <div className="absolute inset-0 bg-gradient-to-t from-primary/80 to-primary/40"></div>
             </div>
-          </div>
-        </section>
 
-        {/* Call to Action Section */}
-        <section className="bg-primary text-primary-foreground">
-          <div className="container text-center px-4 py-16 md:px-6">
-            <Rocket className="w-12 h-12 mx-auto mb-4" />
-            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">
-              هل أنت مستعد لتبدأ رحلتك؟
-            </h2>
-            <p className="max-w-[600px] mx-auto mt-4 mb-8 text-primary-foreground/80 md:text-xl/relaxed">
-              انضم إلى آلاف الطلاب الذين اختاروا أكاديمية دانة لتحقيق التميز.
-            </p>
-            <Button asChild size="lg" variant="secondary">
-              <Link href="#">سجل الآن مجاناً</Link>
-            </Button>
-          </div>
-        </section>
+            <div className="relative z-10 p-4 space-y-6">
+                <h1 className="text-4xl md:text-6xl font-bold tracking-tight">
+                أهلاً وسهلاً بكم في موقع دانا أكاديمي
+                </h1>
+                <p className="text-xl md:text-2xl font-light">
+                التدريس فن وإبداع
+                </p>
+                <div className="flex justify-center">
+                  <Button variant="secondary" size="lg" className="gap-2 rounded-full shadow-lg">
+                      <PlayCircle className="w-6 h-6"/>
+                      شاهد الفيديو التعريفي
+                  </Button>
+                </div>
+            </div>
+        </div>
+
+        <WavySeparator />
+
+        <Section>
+            <div className="container px-4 md:px-6">
+                <div className="grid md:grid-cols-2 gap-12 items-center">
+                    <div className="space-y-6 text-center md:text-start">
+                        <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl text-primary">
+                            عن دانا أكاديمي؟
+                        </h2>
+                        <p className="text-lg text-muted-foreground">
+                            هنا نص تعريفي عن الأكاديمية، رؤيتها، ورسالتها. يمكن شرح النهج التعليمي المبتكر وكيف تساهم المنصة في تبسيط العلوم وجعلها ممتعة للطلاب من جميع المستويات.
+                        </p>
+                        <div className="flex gap-4 items-center justify-center md:justify-start">
+                            <Button variant="ghost" className="gap-2 text-primary">
+                                <PlayCircle className="w-5 h-5"/>
+                                شاهد الفيديو
+                            </Button>
+                            <div className="flex items-center gap-2 text-muted-foreground">
+                                <Users className="w-5 h-5"/>
+                                <span>+10,000 طالب سعيد</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="flex justify-center">
+                         <Image
+                            src="https://placehold.co/600x400.png"
+                            alt="About Dana Academy"
+                            width={550}
+                            height={400}
+                            className="rounded-xl shadow-lg"
+                            data-ai-hint="teacher classroom"
+                          />
+                    </div>
+                </div>
+            </div>
+        </Section>
+
       </div>
     </MarketingLayout>
   );

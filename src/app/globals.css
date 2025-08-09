@@ -8,13 +8,13 @@ body {
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 275 25% 10%;
+    --background: 270 20% 98%; /* #f8f7f9 */
+    --foreground: 275 25% 15%; /* Darker Purple for text */
     --card: 0 0% 100%;
     --card-foreground: 275 25% 10%;
     --popover: 0 0% 100%;
     --popover-foreground: 275 25% 10%;
-    --primary: 275 25% 36%;
+    --primary: 274 25% 36%; /* #5e4574 */
     --primary-foreground: 0 0% 98%;
     --secondary: 0 0% 96.1%;
     --secondary-foreground: 275 25% 9%;
@@ -24,9 +24,9 @@ body {
     --accent-foreground: 275 25% 9%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 89.8%;
-    --input: 0 0% 89.8%;
-    --ring: 275 25% 36%;
+    --border: 275 10% 85%;
+    --input: 275 10% 85%;
+    --ring: 274 25% 36%;
     --chart-1: 12 76% 61%;
     --chart-2: 173 58% 39%;
     --chart-3: 197 37% 24%;
