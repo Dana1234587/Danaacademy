@@ -237,7 +237,7 @@ export default function Home() {
                         <CarouselItem className="basis-full md:basis-1/3 p-4">
                             <div className="group relative overflow-hidden rounded-lg shadow-lg transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-2xl">
                                 <Image
-                                    src="https://placehold.co/400x300.png"
+                                    src="https://i.ibb.co/ycJdhpcX/Untitled-design-11.png"
                                     alt="ذكرى مع الطلاب 5"
                                     width={400}
                                     height={300}
@@ -308,3 +308,4 @@ export default function Home() {
     
 
     
+
