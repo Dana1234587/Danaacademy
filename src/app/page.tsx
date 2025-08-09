@@ -54,7 +54,7 @@ export default function Home() {
                 <div className="grid md:grid-cols-2 gap-12 items-center">
                     <div className="space-y-6 text-center md:text-start">
                         <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl text-primary">
-                            دانا اكاديمي ..  حيث تتحول دراسة الفيزياء الى رحلة من الفنّ والإبداع
+                            دانا أكاديمي ..  حين تتحول دراسة الفيزياء الى رحلة من الفنّ والإبداع
                         </h2>
                         <div className="text-lg text-muted-foreground space-y-4">
                            <p>✨ أهلاً بك في دانا أكاديمي – حيث تتحول الفيزياء إلى رحلة من الفن والإبداع ✨</p>
