@@ -18,14 +18,19 @@ interface FlippableCardProps {
 export function FlippableCard({ frontContent, backContent, className }: FlippableCardProps) {
   const [isFlipped, setIsFlipped] = useState(false);
 
-  const handleCardClick = () => {
-    setIsFlipped(!isFlipped);
+  const handleMouseEnter = () => {
+    setIsFlipped(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsFlipped(false);
   };
 
   return (
     <div
-      className={cn("w-full h-52 perspective-1000 cursor-pointer", className)}
-      onClick={handleCardClick}
+      className={cn("w-full h-52 perspective-1000", className)}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     >
       <div
         className={cn(
