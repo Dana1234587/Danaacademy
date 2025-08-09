@@ -10,24 +10,24 @@ import { cn } from '@/lib/utils';
 export function MarketingHeader() {
   return (
     <header className="sticky top-0 z-50 w-full bg-background shadow-sm border-b border-primary/20">
-      <div className="container mx-auto flex h-24 items-center justify-between px-4 md:px-6">
+      <div className="container mx-auto flex h-28 items-center justify-between px-4 md:px-6">
         <Link href="/" className="flex items-center gap-2">
           <Logo className="h-28 w-64 rounded-md object-contain" />
         </Link>
         <nav className="hidden md:flex gap-8 items-center">
-          <Link href="#" className="animated-underline flex items-center gap-2 text-base font-medium text-foreground hover:text-primary transition-colors">
+          <Link href="#" className="animated-underline flex items-center gap-2 text-lg font-medium text-foreground hover:text-primary transition-colors">
             <Home className="h-4 w-4" />
             الرئيسية
           </Link>
-          <Link href="/physics" className="animated-underline flex items-center gap-2 text-base font-medium text-foreground hover:text-primary transition-colors">
+          <Link href="/physics" className="animated-underline flex items-center gap-2 text-lg font-medium text-foreground hover:text-primary transition-colors">
             <BookCopy className="h-4 w-4" />
             الدورات
           </Link>
-          <Link href="#" className="animated-underline flex items-center gap-2 text-base font-medium text-foreground hover:text-primary transition-colors">
+          <Link href="#" className="animated-underline flex items-center gap-2 text-lg font-medium text-foreground hover:text-primary transition-colors">
             <Info className="h-4 w-4" />
             عن الاكاديمية
           </Link>
-          <Link href="#" className="animated-underline flex items-center gap-2 text-base font-medium text-foreground hover:text-primary transition-colors">
+          <Link href="#" className="animated-underline flex items-center gap-2 text-lg font-medium text-foreground hover:text-primary transition-colors">
             <Phone className="h-4 w-4" />
             تواصل معنا
           </Link>
