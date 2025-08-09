@@ -19,14 +19,7 @@ export default function Home() {
       <div className="flex flex-col">
         {/* Hero Section */}
         <div className="relative bg-background w-full">
-            <Image
-                src="https://i.ibb.co/zV6Ckk1t/Untitled-design.jpg"
-                alt="Dana Academy Hero Image"
-                width={1728}
-                height={972}
-                className="w-full object-cover"
-                data-ai-hint="physics classroom"
-            />
+            {/* The user requested to remove the image here. */}
         </div>
 
         {/* Wavy Separator */}
