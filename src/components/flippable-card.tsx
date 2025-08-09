@@ -37,7 +37,7 @@ export function FlippableCard({ cardId, frontContent, backContent, className }: 
         )}
       >
         {/* Front of the card */}
-        <Card className="absolute w-full h-full backface-visibility-hidden flex flex-col items-center justify-center text-center p-6 bg-white shadow-lg border-2 border-primary">
+        <Card className="absolute w-full h-full backface-visibility-hidden flex flex-col items-center justify-center text-center p-6 bg-white shadow-xl border-2 border-dashed border-primary">
           <div className="mb-4 relative w-24 h-24 rounded-full overflow-hidden">
             <Image
                 src={frontContent.imageUrl}
