@@ -59,7 +59,7 @@ export default function Home() {
                            <p className="font-bold">🚀 استعد… فالفيزياء هنا ليست مادة تُدرس، بل فن نعيشه!</p>
                         </div>
                         <div className="flex gap-4 items-center justify-center md:justify-start">
-                            <Logo className="h-[5.6rem] w-[12.8rem] rounded-md object-contain" />
+                            <Logo className="h-[3.92rem] w-[8.96rem] rounded-md object-contain" />
                         </div>
                     </div>
                     <div className="flex justify-center">
