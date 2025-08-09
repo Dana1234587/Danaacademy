@@ -8,7 +8,7 @@ export function Logo(props: SVGProps<SVGSVGElement> & { width?: number; height?:
 
   return (
     <Image
-      src="https://i.ibb.co/NggBPLsT/photo-2025-07-30-01-13-15.jpg"
+      src="https://i.ibb.co/wF7VPFTS/DANA-LOGO.png"
       alt="Dana Academy Logo"
       width={width}
       height={height}
