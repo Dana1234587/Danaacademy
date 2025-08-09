@@ -181,9 +181,8 @@ export default function Home() {
                 <Carousel
                     opts={{
                         align: "start",
-                        loop: true,
                     }}
-                    className="w-full max-w-6xl mx-auto mt-12 px-10"
+                    className="w-full max-w-6xl mx-auto mt-12"
                 >
                     <CarouselContent>
                         {Array.from({ length: 12 }).map((_, index) => {
@@ -217,22 +216,24 @@ export default function Home() {
                             ];
                             return (
                                 <CarouselItem key={index} className="pl-4 basis-full md:basis-1/2 lg:basis-1/3">
-                                    <div className="group relative overflow-hidden rounded-lg shadow-lg transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-2xl">
-                                        <Image
-                                            src={images[index]}
-                                            alt={`ذكرى مع الطلاب ${index + 1}`}
-                                            width={400}
-                                            height={300}
-                                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                                            data-ai-hint={hints[index]}
-                                        />
+                                    <div className="p-1">
+                                      <div className="group relative overflow-hidden rounded-lg shadow-lg transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-2xl">
+                                          <Image
+                                              src={images[index]}
+                                              alt={`ذكرى مع الطلاب ${index + 1}`}
+                                              width={400}
+                                              height={300}
+                                              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                                              data-ai-hint={hints[index]}
+                                          />
+                                      </div>
                                     </div>
                                 </CarouselItem>
                             )
                         })}
                     </CarouselContent>
-                    <CarouselPrevious />
-                    <CarouselNext />
+                    <CarouselPrevious className="ms-8" />
+                    <CarouselNext className="me-8" />
                 </Carousel>
             </div>
         </Section>
