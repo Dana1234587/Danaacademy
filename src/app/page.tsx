@@ -185,7 +185,7 @@ export default function Home() {
                     }}
                     className="w-full max-w-6xl mx-auto mt-12"
                 >
-                    <CarouselContent>
+                    <CarouselContent className="-ml-4">
                         <CarouselItem className="md:basis-1/3 p-4">
                             <div className="group relative overflow-hidden rounded-lg shadow-lg transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-2xl">
                                 <Image
@@ -310,3 +310,6 @@ export default function Home() {
     
 
 
+
+
+    
