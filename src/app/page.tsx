@@ -1,7 +1,7 @@
 
 import { MarketingLayout } from '@/components/layout/marketing-layout';
 import { Button } from '@/components/ui/button';
-import { PlayCircle, Atom, Rocket, BrainCircuit, Lightbulb, Beaker, Orbit, ArrowLeft } from 'lucide-react';
+import { PlayCircle, Atom, Rocket, BrainCircuit, Lightbulb, Beaker, Orbit, ArrowLeft, Users, Laptop, Bot } from 'lucide-react';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -138,6 +138,49 @@ export default function Home() {
                       </div>
                     </div>
                   </Card>
+                </div>
+            </div>
+        </Section>
+
+        {/* Why Dana Academy Section */}
+        <Section className="bg-white">
+            <div className="container px-4 md:px-6">
+                <div className="flex flex-col items-center text-center space-y-6">
+                    <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl text-primary">
+                        لماذا دانا أكاديمي؟
+                    </h2>
+                    <p className="max-w-[700px] text-muted-foreground md:text-xl">
+                        لأننا نؤمن أن الفيزياء تصبح ممتعة ومفهومة عندما نقدمها بأسلوب مبتكر يجمع بين البساطة والتكنولوجيا والإبداع.
+                    </p>
+                </div>
+                <div className="mt-12 grid gap-8 md:grid-cols-3">
+                    <Card className="flex flex-col items-center text-center p-6">
+                        <div className="mb-4 p-4 bg-accent rounded-full">
+                            <Users className="h-8 w-8 text-primary" />
+                        </div>
+                        <h3 className="text-xl font-bold mb-2">🌀 شرح مبسط مرتبط بالحياة اليومية</h3>
+                        <p className="text-muted-foreground">
+                            نفكك المفاهيم الصعبة ونربطها بمواقف وأمثلة من واقعك، لتشعر أن الفيزياء جزء من حياتك وليست مجرد مادة دراسية.
+                        </p>
+                    </Card>
+                    <Card className="flex flex-col items-center text-center p-6">
+                        <div className="mb-4 p-4 bg-accent rounded-full">
+                            <Laptop className="h-8 w-8 text-primary" />
+                        </div>
+                        <h3 className="text-xl font-bold mb-2">🖥️ تعليم تفاعلي باستخدام برامج المحاكاة</h3>
+                        <p className="text-muted-foreground">
+                            نحوّل القوانين والتجارب إلى نماذج حيّة عبر برامج محاكاة متطورة، لترى الفيزياء أمامك كما لو كنت في مختبر حقيقي.
+                        </p>
+                    </Card>
+                    <Card className="flex flex-col items-center text-center p-6">
+                        <div className="mb-4 p-4 bg-accent rounded-full">
+                            <Bot className="h-8 w-8 text-primary" />
+                        </div>
+                        <h3 className="text-xl font-bold mb-2">🤖 اختبارات ذكية مدعومة بالذكاء الاصطناعي</h3>
+                        <p className="text-muted-foreground">
+                            اختبارات تغطي المنهج كاملًا، تعطيك ملاحظات فورية وخطط تعلم شخصية لتحسين مستواك خطوة بخطوة.
+                        </p>
+                    </Card>
                 </div>
             </div>
         </Section>
