@@ -8,42 +8,45 @@ function Section({ children, className }: { children: React.ReactNode, className
   return <section className={`py-12 md:py-20 ${className}`}>{children}</section>;
 }
 
-const BackgroundIcon = ({ icon: Icon, className }: { icon: React.ElementType, className?: string }) => {
-    return (
-        <Icon className={`absolute text-slate-300/80 -z-10 ${className}`} />
-    )
-}
-
 export default function Home() {
   return (
     <MarketingLayout>
       <div className="flex flex-col">
         {/* Hero Section */}
-        <div className="relative h-[600px] flex items-center justify-center text-center bg-white overflow-hidden">
-            <div aria-hidden="true" className="absolute inset-0 z-0">
-                <BackgroundIcon icon={Atom} className="w-32 h-32 top-1/4 left-1/4 animate-float" />
-                <BackgroundIcon icon={Rocket} className="w-24 h-24 top-1/2 right-1/4 -rotate-45 animate-float animation-delay-500" />
-                <BackgroundIcon icon={BrainCircuit} className="w-48 h-48 bottom-10 left-20 opacity-50 animate-float animation-delay-1000" />
-                <BackgroundIcon icon={Lightbulb} className="w-20 h-20 top-20 right-48 animate-float animation-delay-1500" />
-                <BackgroundIcon icon={Beaker} className="w-28 h-28 bottom-24 right-32 rotate-12 animate-float animation-delay-2000" />
-                <BackgroundIcon icon={Orbit} className="w-36 h-36 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-30 animate-float animation-delay-2500" />
-            </div>
-
-            <div className="relative z-10 p-4 space-y-6">
-                <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-primary">
-                  أهلاً وسهلاً بكم في موقع دانا أكاديمي
-                </h1>
-                <p className="text-xl md:text-2xl font-light text-primary">
-                  تدريس الفيزياء فنّ وإبداع
-                </p>
-                <div className="flex justify-center">
-                  <Button variant="secondary" size="lg" className="gap-2 rounded-full shadow-lg">
-                      <PlayCircle className="w-6 h-6"/>
-                      شاهد الفيديو التعريفي
-                  </Button>
+        <Section className="bg-white">
+            <div className="container px-4 md:px-6">
+                <div className="grid md:grid-cols-2 gap-12 items-center">
+                    <div className="space-y-4 text-start">
+                        <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-primary">
+                          ✨ أهلاً بك في دانا أكاديمي – حيث تتحول الفيزياء إلى رحلة من الفن والإبداع ✨
+                        </h1>
+                        <p className="text-lg text-muted-foreground">
+                          في دانا أكاديمي نؤمن أن الفيزياء ليست مجرد معادلات جامدة، بل هي لغة الكون التي تروي لنا أروع القصص.
+                        </p>
+                        <p className="text-lg text-muted-foreground">
+                          هنا ستجد الشرح المبسط، الأمثلة الملهمة، والتجارب الممتعة التي تجعل التعلم مغامرة شيقة.
+                        </p>
+                        <p className="text-lg text-muted-foreground">
+                          سواء كنت طالباً تطمح للتفوق أو محباً للعلم يبحث عن الإلهام، ستجد في أكاديميتنا ما يفتح آفاقك نحو فهم أعمق وإبداع أكبر.
+                        </p>
+                        <p className="text-xl font-semibold text-primary">
+                          🚀 استعد… فالفيزياء هنا ليست مادة تُدرس، بل فن نعيشه!
+                        </p>
+                    </div>
+                    <div className="flex justify-center">
+                         <Image
+                            src="https://placehold.co/600x400.png"
+                            alt="Dana Academy Hero Image"
+                            width={550}
+                            height={400}
+                            className="rounded-xl shadow-lg"
+                            data-ai-hint="physics learning fun"
+                          />
+                    </div>
                 </div>
             </div>
-        </div>
+        </Section>
+
 
         {/* Wavy Separator */}
         <div className="bg-white">
