@@ -258,6 +258,42 @@ export default function Home() {
                                 />
                             </div>
                         </CarouselItem>
+                        <CarouselItem className="basis-full md:basis-1/3 p-4">
+                            <div className="group relative overflow-hidden rounded-lg shadow-lg transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-2xl">
+                                <Image
+                                    src="https://placehold.co/400x300.png"
+                                    alt="ذكرى مع الطلاب 7"
+                                    width={400}
+                                    height={300}
+                                    className="w-full h-full object-cover"
+                                    data-ai-hint="field trip"
+                                />
+                            </div>
+                        </CarouselItem>
+                        <CarouselItem className="basis-full md:basis-1/3 p-4">
+                            <div className="group relative overflow-hidden rounded-lg shadow-lg transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-2xl">
+                                <Image
+                                    src="https://placehold.co/400x300.png"
+                                    alt="ذكرى مع الطلاب 8"
+                                    width={400}
+                                    height={300}
+                                    className="w-full h-full object-cover"
+                                    data-ai-hint="team project"
+                                />
+                            </div>
+                        </CarouselItem>
+                        <CarouselItem className="basis-full md:basis-1/3 p-4">
+                            <div className="group relative overflow-hidden rounded-lg shadow-lg transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-2xl">
+                                <Image
+                                    src="https://placehold.co/400x300.png"
+                                    alt="ذكرى مع الطلاب 9"
+                                    width={400}
+                                    height={300}
+                                    className="w-full h-full object-cover"
+                                    data-ai-hint="student presentation"
+                                />
+                            </div>
+                        </CarouselItem>
                     </CarouselContent>
                     <CarouselPrevious />
                     <CarouselNext />
