@@ -1,7 +1,7 @@
 
 import { MarketingLayout } from '@/components/layout/marketing-layout';
 import { Button } from '@/components/ui/button';
-import { PlayCircle, ArrowLeft, Users, Laptop, Bot } from 'lucide-react';
+import { PlayCircle, ArrowLeft } from 'lucide-react';
 import Image from 'next/image';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import Link from 'next/link';
@@ -35,7 +35,7 @@ export default function Home() {
         </div>
 
         {/* Wavy Separator */}
-        <div className="bg-transparent -mt-1">
+        <div className="bg-gradient-to-br from-background via-purple-50 to-indigo-100 animate-gradient-xy -mt-1">
             <svg viewBox="0 0 1440 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full block">
                 <path d="M0 50C144 100 288 100 432 75C576 50 720 0 864 0C1008 0 1152 50 1296 75C1440 100 1440 100 1440 100V100H0V50Z" fill="hsl(var(--muted))"></path>
             </svg>
@@ -142,8 +142,8 @@ export default function Home() {
                 </div>
                 <div className="mt-12 grid gap-8 md:grid-cols-3">
                     <FlippableCard
+                        cardId="everyday"
                         frontContent={{
-                            icon: <Users className="h-8 w-8 text-primary" />,
                             title: "🌀 شرح مبسط مرتبط بالحياة اليومية",
                         }}
                         backContent={{
@@ -151,8 +151,8 @@ export default function Home() {
                         }}
                     />
                     <FlippableCard
+                        cardId="simulation"
                         frontContent={{
-                            icon: <Laptop className="h-8 w-8 text-primary" />,
                             title: "🖥️ تعليم تفاعلي باستخدام برامج المحاكاة",
                         }}
                         backContent={{
@@ -160,8 +160,8 @@ export default function Home() {
                         }}
                     />
                     <FlippableCard
+                        cardId="ai"
                         frontContent={{
-                            icon: <Bot className="h-8 w-8 text-primary" />,
                             title: "🤖 اختبارات ذكية مدعومة بالذكاء الاصطناعي",
                         }}
                         backContent={{
