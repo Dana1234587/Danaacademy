@@ -26,9 +26,10 @@ const icons = [
   { component: AiOutlineExperiment, className: "top-[15%] right-[15%] w-24 h-24", "data-depth": 0.55 },
 ];
 
-const Icon = ({ component: Component, className, "data-depth": dataDepth }: { component: React.ElementType, className?: string, "data-depth": number }) => (
+const Icon = ({ component: Component, className, style, "data-depth": dataDepth }: { component: React.ElementType, className?: string, style?: React.CSSProperties, "data-depth": number }) => (
   <div
-    className={cn("absolute text-primary/10", className)}
+    className={cn("absolute text-primary/10 transition-transform duration-300 ease-out", className)}
+    style={style}
     data-depth={dataDepth}
   >
     <Component className="w-full h-full" />
@@ -36,13 +37,41 @@ const Icon = ({ component: Component, className, "data-depth": dataDepth }: { co
 );
 
 export function FloatingIcons() {
+  const [isMounted, setIsMounted] = useState(false);
+  const [transforms, setTransforms] = useState(icons.map(() => ''));
+
+  useEffect(() => {
+    setIsMounted(true);
+
+    const handleMouseMove = (e: MouseEvent) => {
+      const { clientX, clientY } = e;
+      const newTransforms = icons.map(icon => {
+        const depth = icon['data-depth'];
+        const moveX = (clientX - window.innerWidth / 2) * depth / 25;
+        const moveY = (clientY - window.innerHeight / 2) * depth / 25;
+        return `translate(${moveX}px, ${moveY}px)`;
+      });
+      setTransforms(newTransforms);
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+    };
+  }, []);
+
+  if (!isMounted) {
+    return null;
+  }
+
   return (
-    <div className="absolute inset-0 z-0 hero-bg-fixed">
+    <div className="absolute inset-0 z-0">
       {icons.map((icon, index) => (
         <Icon
           key={index}
           component={icon.component}
           className={cn(icon.className)}
+          style={{ transform: transforms[index] }}
           data-depth={icon['data-depth']}
         />
       ))}

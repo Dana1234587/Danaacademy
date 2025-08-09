@@ -18,7 +18,7 @@ export default function Home() {
       <div className="flex flex-col">
         {/* Hero Section */}
         <div className="relative h-[600px] flex items-center justify-center text-center overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-br from-background via-purple-50 to-indigo-100 animate-gradient-xy hero-bg-fixed"></div>
+            <div className="absolute inset-0 bg-gradient-to-br from-background via-purple-50 to-indigo-100 animate-gradient-xy"></div>
             <FloatingIcons />
 
             <div className="z-10 flex flex-col items-center space-y-6 animate-fade-in-up">
@@ -28,7 +28,7 @@ export default function Home() {
                 <p className="text-xl md:text-2xl text-primary/80">
                     تدريس الفيزياء فنّ وإبداع
                 </p>
-                <Button size="lg" className="gap-2 text-lg group hover:scale-105 transition-transform">
+                <Button size="lg" className="gap-2 text-lg group hover:scale-105 transition-transform animate-pulse-slow">
                     <PlayCircle className="group-hover:animate-pulse" />
                     شاهد الفيديو التعريفي
                 </Button>
@@ -37,9 +37,15 @@ export default function Home() {
 
         {/* Wavy Separator */}
         <div className="relative bg-transparent -mt-1 z-10">
-            <div className="absolute inset-x-0 top-0 h-20 bg-gradient-to-br from-background via-purple-50 to-indigo-100 animate-gradient-xy hero-bg-fixed"></div>
             <svg viewBox="0 0 1440 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full block relative z-10">
+                <defs>
+                    <linearGradient id="wave-gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" style={{stopColor: 'hsl(var(--muted))'}} />
+                        <stop offset="100%" style={{stopColor: 'hsl(var(--background))'}} />
+                    </linearGradient>
+                </defs>
                 <path d="M0 50C144 100 288 100 432 75C576 50 720 0 864 0C1008 0 1152 50 1296 75C1440 100 1440 100 1440 100V100H0V50Z" fill="hsl(var(--muted))"></path>
+                <path className="animate-wave" d="M0 50C144 100 288 100 432 75C576 50 720 0 864 0C1008 0 1152 50 1296 75C1440 100 1440 100 1440 100V100H0V50Z" fill="url(#wave-gradient)" opacity="0.3"></path>
             </svg>
         </div>
 

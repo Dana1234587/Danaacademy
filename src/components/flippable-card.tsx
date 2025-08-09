@@ -73,7 +73,6 @@ export function FlippableCard({ cardId, frontContent, backContent, className }: 
       className={cn("w-full h-52 perspective-1000 group", className)}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      data-flipped={isFlipped}
     >
       <div
         className={cn(
@@ -90,8 +89,8 @@ export function FlippableCard({ cardId, frontContent, backContent, className }: 
         </Card>
 
         {/* Back of the card */}
-        <Card className="absolute w-full h-full backface-visibility-hidden rotate-y-180 flex items-center justify-center text-center p-6">
-          <p className="text-muted-foreground transition-opacity duration-500 delay-200 opacity-0 group-data-[flipped=true]:opacity-100">
+        <Card className="absolute w-full h-full backface-visibility-hidden rotate-y-180 flex items-center justify-center text-center p-6 bg-card/60 backdrop-blur-sm">
+          <p className="text-muted-foreground transition-opacity duration-500 delay-200 opacity-0 group-hover:opacity-100">
             {backContent.description}
           </p>
         </Card>
