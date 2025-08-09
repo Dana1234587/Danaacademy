@@ -181,154 +181,55 @@ export default function Home() {
                 <Carousel
                     opts={{
                         align: "start",
+                        loop: true,
                     }}
                     className="w-full max-w-6xl mx-auto mt-12"
                 >
                     <CarouselContent>
-                        <CarouselItem className="pl-4 basis-full md:basis-1/2 lg:basis-1/3">
-                            <div className="group relative overflow-hidden rounded-lg shadow-lg transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-2xl">
-                                <Image
-                                    src="https://i.ibb.co/CpxRSHXC/Untitled-design-6.png"
-                                    alt="ذكرى مع الطلاب 1"
-                                    width={400}
-                                    height={300}
-                                    className="w-full h-full object-cover"
-                                    data-ai-hint="teacher students"
-                                />
-                            </div>
-                        </CarouselItem>
-                        <CarouselItem className="pl-4 basis-full md:basis-1/2 lg:basis-1/3">
-                            <div className="group relative overflow-hidden rounded-lg shadow-lg transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-2xl">
-                                <Image
-                                    src="https://i.ibb.co/pvCjpbbV/Untitled-design-7.png"
-                                    alt="ذكرى مع الطلاب 2"
-                                    width={400}
-                                    height={300}
-                                    className="w-full h-full object-cover"
-                                    data-ai-hint="classroom event"
-                                />
-                            </div>
-                        </CarouselItem>
-                        <CarouselItem className="pl-4 basis-full md:basis-1/2 lg:basis-1/3">
-                            <div className="group relative overflow-hidden rounded-lg shadow-lg transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-2xl">
-                                <Image
-                                    src="https://i.ibb.co/4g9Ws86y/Untitled-design-9.png"
-                                    alt="ذكرى مع الطلاب 3"
-                                    width={400}
-                                    height={300}
-                                    className="w-full h-full object-cover"
-                                    data-ai-hint="award ceremony"
-                                />
-                            </div>
-                        </CarouselItem>
-                        <CarouselItem className="pl-4 basis-full md:basis-1/2 lg:basis-1/3">
-                            <div className="group relative overflow-hidden rounded-lg shadow-lg transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-2xl">
-                                <Image
-                                    src="https://i.ibb.co/ycJdhpcX/Untitled-design-11.png"
-                                    alt="ذكرى مع الطلاب 4"
-                                    width={400}
-                                    height={300}
-                                    className="w-full h-full object-cover"
-                                    data-ai-hint="science fair"
-                                />
-                            </div>
-                        </CarouselItem>
-                        <CarouselItem className="pl-4 basis-full md:basis-1/2 lg:basis-1/3">
-                            <div className="group relative overflow-hidden rounded-lg shadow-lg transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-2xl">
-                                <Image
-                                    src="https://i.ibb.co/PGBMrzDc/Untitled-design-10.png"
-                                    alt="ذكرى مع الطلاب 5"
-                                    width={400}
-                                    height={300}
-                                    className="w-full h-full object-cover"
-                                    data-ai-hint="group study"
-                                />
-                            </div>
-                        </CarouselItem>
-                        <CarouselItem className="pl-4 basis-full md:basis-1/2 lg:basis-1/3">
-                            <div className="group relative overflow-hidden rounded-lg shadow-lg transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-2xl">
-                                <Image
-                                    src="https://placehold.co/400x300.png"
-                                    alt="ذكرى مع الطلاب 6"
-                                    width={400}
-                                    height={300}
-                                    className="w-full h-full object-cover"
-                                    data-ai-hint="graduation celebration"
-                                />
-                            </div>
-                        </CarouselItem>
-                        <CarouselItem className="pl-4 basis-full md:basis-1/2 lg:basis-1/3">
-                            <div className="group relative overflow-hidden rounded-lg shadow-lg transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-2xl">
-                                <Image
-                                    src="https://placehold.co/400x300.png"
-                                    alt="ذكرى مع الطلاب 7"
-                                    width={400}
-                                    height={300}
-                                    className="w-full h-full object-cover"
-                                    data-ai-hint="field trip"
-                                />
-                            </div>
-                        </CarouselItem>
-                        <CarouselItem className="pl-4 basis-full md:basis-1/2 lg:basis-1/3">
-                            <div className="group relative overflow-hidden rounded-lg shadow-lg transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-2xl">
-                                <Image
-                                    src="https://placehold.co/400x300.png"
-                                    alt="ذكرى مع الطلاب 8"
-                                    width={400}
-                                    height={300}
-                                    className="w-full h-full object-cover"
-                                    data-ai-hint="team project"
-                                />
-                            </div>
-                        </CarouselItem>
-                        <CarouselItem className="pl-4 basis-full md:basis-1/2 lg:basis-1/3">
-                            <div className="group relative overflow-hidden rounded-lg shadow-lg transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-2xl">
-                                <Image
-                                    src="https://placehold.co/400x300.png"
-                                    alt="ذكرى مع الطلاب 9"
-                                    width={400}
-                                    height={300}
-                                    className="w-full h-full object-cover"
-                                    data-ai-hint="student presentation"
-                                />
-                            </div>
-                        </CarouselItem>
-                         <CarouselItem className="pl-4 basis-full md:basis-1/2 lg:basis-1/3">
-                            <div className="group relative overflow-hidden rounded-lg shadow-lg transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-2xl">
-                                <Image
-                                    src="https://placehold.co/400x300.png"
-                                    alt="ذكرى مع الطلاب 10"
-                                    width={400}
-                                    height={300}
-                                    className="w-full h-full object-cover"
-                                    data-ai-hint="lab experiment"
-                                />
-                            </div>
-                        </CarouselItem>
-                         <CarouselItem className="pl-4 basis-full md:basis-1/2 lg:basis-1/3">
-                            <div className="group relative overflow-hidden rounded-lg shadow-lg transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-2xl">
-                                <Image
-                                    src="https://placehold.co/400x300.png"
-                                    alt="ذكرى مع الطلاب 11"
-                                    width={400}
-                                    height={300}
-                                    className="w-full h-full object-cover"
-                                    data-ai-hint="school competition"
-                                />
-                            </div>
-                        </CarouselItem>
-                         <CarouselItem className="pl-4 basis-full md:basis-1/2 lg:basis-1/3">
-                            <div className="group relative overflow-hidden rounded-lg shadow-lg transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-2xl">
-                                <Image
-                                    src="https://placehold.co/400x300.png"
-                                    alt="ذكرى مع الطلاب 12"
-                                    width={400}
-                                    height={300}
-                                    className="w-full h-full object-cover"
-                                    data-ai-hint="guest lecture"
-                                />
-                            </div>
-                        </CarouselItem>
+                        {Array.from({ length: 12 }).map((_, index) => {
+                            const images = [
+                                "https://i.ibb.co/CpxRSHXC/Untitled-design-6.png",
+                                "https://i.ibb.co/pvCjpbbV/Untitled-design-7.png",
+                                "https://i.ibb.co/4g9Ws86y/Untitled-design-9.png",
+                                "https://i.ibb.co/ycJdhpcX/Untitled-design-11.png",
+                                "https://i.ibb.co/PGBMrzDc/Untitled-design-10.png",
+                                "https://placehold.co/400x300.png",
+                                "https://placehold.co/400x300.png",
+                                "https://placehold.co/400x300.png",
+                                "https://placehold.co/400x300.png",
+                                "https://placehold.co/400x300.png",
+                                "https://placehold.co/400x300.png",
+                                "https://placehold.co/400x300.png",
+                            ];
+                            const hints = [
+                                "teacher students",
+                                "classroom event",
+                                "award ceremony",
+                                "science fair",
+                                "group study",
+                                "graduation celebration",
+                                "field trip",
+                                "team project",
+                                "student presentation",
+                                "lab experiment",
+                                "school competition",
+                                "guest lecture",
+                            ];
+                            return (
+                                <CarouselItem key={index} className="pl-4 basis-full md:basis-1/2 lg:basis-1/3">
+                                    <div className="group relative overflow-hidden rounded-lg shadow-lg transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-2xl">
+                                        <Image
+                                            src={images[index]}
+                                            alt={`ذكرى مع الطلاب ${index + 1}`}
+                                            width={400}
+                                            height={300}
+                                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                                            data-ai-hint={hints[index]}
+                                        />
+                                    </div>
+                                </CarouselItem>
+                            )
+                        })}
                     </CarouselContent>
                     <CarouselPrevious />
                     <CarouselNext />
@@ -339,3 +240,5 @@ export default function Home() {
     </MarketingLayout>
   );
 }
+
+    
