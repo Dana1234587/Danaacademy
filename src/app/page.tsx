@@ -1,14 +1,12 @@
 
 import { MarketingLayout } from '@/components/layout/marketing-layout';
 import { Button } from '@/components/ui/button';
-import { PlayCircle, Users } from 'lucide-react';
+import { PlayCircle } from 'lucide-react';
 import Image from 'next/image';
-import Link from 'next/link';
 
 function Section({ children, className }: { children: React.ReactNode, className?: string }) {
   return <section className={`py-12 md:py-20 ${className}`}>{children}</section>;
 }
-
 
 export default function Home() {
   return (
@@ -23,7 +21,7 @@ export default function Home() {
                     fill
                     objectFit="cover"
                     className="opacity-10"
-                    data-ai-hint="physics doodles background"
+                    data-ai-hint="physics rocket"
                 />
             </div>
 
@@ -43,7 +41,14 @@ export default function Home() {
             </div>
         </div>
 
-        <Section>
+        {/* Wavy Separator */}
+        <div className="bg-white">
+            <svg viewBox="0 0 1440 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full block">
+                <path d="M0 50C144 100 288 100 432 75C576 50 720 0 864 0C1008 0 1152 50 1296 75C1440 100 1440 100 1440 100V100H0V50Z" fill="#efede9"></path>
+            </svg>
+        </div>
+
+        <Section className="bg-[#efede9]">
             <div className="container px-4 md:px-6">
                 <div className="grid md:grid-cols-2 gap-12 items-center">
                     <div className="space-y-6 text-center md:text-start">
@@ -58,10 +63,6 @@ export default function Home() {
                                 <PlayCircle className="w-5 h-5"/>
                                 شاهد الفيديو
                             </Button>
-                            <div className="flex items-center gap-2 text-muted-foreground">
-                                <Users className="w-5 h-5"/>
-                                <span>+10,000 طالب سعيد</span>
-                            </div>
                         </div>
                     </div>
                     <div className="flex justify-center">
@@ -77,7 +78,6 @@ export default function Home() {
                 </div>
             </div>
         </Section>
-
       </div>
     </MarketingLayout>
   );
