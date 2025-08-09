@@ -7,6 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import Link from 'next/link';
 import { FlippableCard } from '@/components/flippable-card';
 import { FloatingIcons } from '@/components/floating-icons';
+import { Logo } from '@/components/logo';
 
 function Section({ children, className }: { children: React.ReactNode, className?: string }) {
   return <section className={`py-12 md:py-20 ${className}`}>{children}</section>;
@@ -63,10 +64,7 @@ export default function Home() {
                            <p>🚀 استعد… فالفيزياء هنا ليست مادة تُدرس، بل فن نعيشه!</p>
                         </div>
                         <div className="flex gap-4 items-center justify-center md:justify-start">
-                            <Button variant="ghost" className="gap-2 text-primary hover:bg-primary/10 transition-colors">
-                                <PlayCircle className="w-5 h-5"/>
-                                شاهد الفيديو
-                            </Button>
+                            <Logo className="h-28 w-64 rounded-md object-contain" />
                         </div>
                     </div>
                     <div className="flex justify-center">
