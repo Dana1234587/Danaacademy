@@ -52,7 +52,7 @@ export default function Home() {
         {/* Wavy Separator */}
         <div className="bg-white">
             <svg viewBox="0 0 1440 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full block">
-                <path d="M0 50C144 100 288 100 432 75C576 50 720 0 864 0C1008 0 1152 50 1296 75C1440 100 1440 100 1440 100V100H0V50Z" fill="#F5F5F5"></path>
+                <path d="M0 50C144 100 288 100 432 75C576 50 720 0 864 0C1008 0 1152 50 1296 75C1440 100 1440 100 1440 100V100H0V50Z" fill="hsl(var(--muted))"></path>
             </svg>
         </div>
 
@@ -93,7 +93,7 @@ export default function Home() {
         {/* Wavy Separator to White */}
         <div className="bg-muted">
             <svg viewBox="0 0 1440 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full block">
-                <path d="M0 0C144 0 288 0 432 25C576 50 720 100 864 100C1008 100 1152 50 1296 25C1440 0 1440 0 1440 0V100H0V0Z" fill="#FFFFFF"></path>
+                <path d="M0 0C144 0 288 0 432 25C576 50 720 100 864 100C1008 100 1152 50 1296 25C1440 0 1440 0 1440 0V100H0V0Z" fill="hsl(var(--background))"></path>
             </svg>
         </div>
 
@@ -189,3 +189,5 @@ export default function Home() {
     </MarketingLayout>
   );
 }
+
+    
