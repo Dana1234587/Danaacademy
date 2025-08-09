@@ -17,7 +17,8 @@ export default function Home() {
     <MarketingLayout>
       <div className="flex flex-col">
         {/* Hero Section */}
-        <div className="relative h-[600px] flex items-center justify-center text-center bg-gradient-to-br from-background via-purple-50 to-indigo-100 animate-gradient-xy overflow-hidden">
+        <div className="relative h-[600px] flex items-center justify-center text-center overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-br from-background via-purple-50 to-indigo-100 animate-gradient-xy hero-bg-fixed"></div>
             <FloatingIcons />
 
             <div className="z-10 flex flex-col items-center space-y-6 animate-fade-in-up">
@@ -35,13 +36,14 @@ export default function Home() {
         </div>
 
         {/* Wavy Separator */}
-        <div className="bg-gradient-to-br from-background via-purple-50 to-indigo-100 animate-gradient-xy -mt-1">
-            <svg viewBox="0 0 1440 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full block">
+        <div className="relative bg-transparent -mt-1 z-10">
+            <div className="absolute inset-x-0 top-0 h-20 bg-gradient-to-br from-background via-purple-50 to-indigo-100 animate-gradient-xy hero-bg-fixed"></div>
+            <svg viewBox="0 0 1440 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full block relative z-10">
                 <path d="M0 50C144 100 288 100 432 75C576 50 720 0 864 0C1008 0 1152 50 1296 75C1440 100 1440 100 1440 100V100H0V50Z" fill="hsl(var(--muted))"></path>
             </svg>
         </div>
 
-        <Section className="bg-muted">
+        <Section className="bg-muted z-10 relative">
             <div className="container px-4 md:px-6">
                 <div className="grid md:grid-cols-2 gap-12 items-center">
                     <div className="space-y-6 text-center md:text-start">
@@ -76,7 +78,7 @@ export default function Home() {
         </Section>
 
         {/* Wavy Separator to White */}
-        <div className="bg-muted">
+        <div className="bg-muted z-10 relative">
             <svg viewBox="0 0 1440 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full block">
                 <path d="M0 0C144 0 288 0 432 25C576 50 720 100 864 100C1008 100 1152 50 1296 25C1440 0 1440 0 1440 0V100H0V0Z" fill="hsl(var(--background))"></path>
             </svg>
@@ -84,7 +86,7 @@ export default function Home() {
 
 
         {/* Courses Section */}
-        <Section className="bg-background">
+        <Section className="bg-background z-10 relative">
             <div className="container px-4 md:px-6">
                 <div className="flex flex-col items-center text-center space-y-6">
                     <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl text-primary">
@@ -130,7 +132,7 @@ export default function Home() {
         </Section>
 
         {/* Why Dana Academy Section */}
-        <Section className="bg-background">
+        <Section className="bg-background z-10 relative">
             <div className="container px-4 md:px-6">
                 <div className="flex flex-col items-center text-center space-y-6 animate-fade-in-up animation-delay-300">
                     <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl text-primary">
