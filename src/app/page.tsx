@@ -8,7 +8,6 @@ import Link from 'next/link';
 import { FlippableCard } from '@/components/flippable-card';
 import { FloatingIcons } from '@/components/floating-icons';
 import { Logo } from '@/components/logo';
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 
 function Section({ children, className }: { children: React.ReactNode, className?: string }) {
   return <section className={`py-12 md:py-20 ${className}`}>{children}</section>;
@@ -19,8 +18,8 @@ export default function Home() {
     "https://i.ibb.co/CpxRSHXC/Untitled-design-6.png",
     "https://i.ibb.co/pvCjpbbV/Untitled-design-7.png",
     "https://i.ibb.co/4g9Ws86y/Untitled-design-9.png",
-    "https://i.ibb.co/ycJdhpcX/Untitled-design-11.png",
     "https://i.ibb.co/PGBMrzDc/Untitled-design-10.png",
+    "https://i.ibb.co/ycJdhpcX/Untitled-design-11.png",
     "https://placehold.co/400x300.png",
     "https://placehold.co/400x300.png",
     "https://placehold.co/400x300.png",
