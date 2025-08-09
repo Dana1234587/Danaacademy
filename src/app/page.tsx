@@ -39,7 +39,7 @@ export default function Home() {
         <Section className="bg-background z-10 relative">
             <div className="container px-4 md:px-6">
                 <div className="grid md:grid-cols-2 gap-12 items-center">
-                    <div className="space-y-6 text-center md:text-start">
+                    <div className="space-y-6 text-center md:text-start p-2">
                         <h2 className="text-3xl sm:text-4xl font-bold" style={{color: '#776391'}}>
                            مرحباً بك في دانا أكاديمي!
                         </h2>
