@@ -29,10 +29,9 @@ export default function Home() {
                 <p className="text-xl md:text-2xl text-primary/80">
                     تدريس الفيزياء فنّ وإبداع
                 </p>
-                <Button size="lg" className="gap-2 text-lg group hover:scale-105 transition-transform animate-pulse-slow">
-                    <PlayCircle className="group-hover:animate-pulse" />
-                    شاهد الفيديو التعريفي
-                </Button>
+                <div className="flex gap-4 items-center justify-center md:justify-start">
+                    <Image src="https://i.ibb.co/m5P703p/Chat-GPT-Image-Aug-9-2025-09-51-11-PM-Copy.png" alt="Dana Academy شعار" width={256} height={112} className="h-28 w-64 rounded-md object-contain" />
+                </div>
             </div>
         </div>
 
