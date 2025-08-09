@@ -15,6 +15,34 @@ function Section({ children, className }: { children: React.ReactNode, className
 }
 
 export default function Home() {
+  const memorableMomentsImages = [
+    "https://i.ibb.co/CpxRSHXC/Untitled-design-6.png",
+    "https://i.ibb.co/pvCjpbbV/Untitled-design-7.png",
+    "https://i.ibb.co/4g9Ws86y/Untitled-design-9.png",
+    "https://i.ibb.co/ycJdhpcX/Untitled-design-11.png",
+    "https://i.ibb.co/PGBMrzDc/Untitled-design-10.png",
+    "https://placehold.co/400x300.png",
+    "https://placehold.co/400x300.png",
+    "https://placehold.co/400x300.png",
+    "https://placehold.co/400x300.png",
+    "https://placehold.co/400x300.png",
+    "https://placehold.co/400x300.png",
+    "https://placehold.co/400x300.png",
+  ];
+  const memorableMomentsHints = [
+    "teacher students",
+    "classroom event",
+    "award ceremony",
+    "science fair",
+    "group study",
+    "graduation celebration",
+    "field trip",
+    "team project",
+    "student presentation",
+    "lab experiment",
+    "school competition",
+    "guest lecture",
+  ];
   return (
     <MarketingLayout>
       <div className="flex flex-col">
@@ -178,63 +206,22 @@ export default function Home() {
                         لحظات لاتنسى من رحلة المعلمه دانا سالم مع طلابها
                     </h2>
                 </div>
-                <Carousel
-                    opts={{
-                        align: "start",
-                    }}
-                    className="w-full max-w-6xl mx-auto mt-12"
-                >
-                    <CarouselContent>
-                        {Array.from({ length: 12 }).map((_, index) => {
-                            const images = [
-                                "https://i.ibb.co/CpxRSHXC/Untitled-design-6.png",
-                                "https://i.ibb.co/pvCjpbbV/Untitled-design-7.png",
-                                "https://i.ibb.co/4g9Ws86y/Untitled-design-9.png",
-                                "https://i.ibb.co/ycJdhpcX/Untitled-design-11.png",
-                                "https://i.ibb.co/PGBMrzDc/Untitled-design-10.png",
-                                "https://placehold.co/400x300.png",
-                                "https://placehold.co/400x300.png",
-                                "https://placehold.co/400x300.png",
-                                "https://placehold.co/400x300.png",
-                                "https://placehold.co/400x300.png",
-                                "https://placehold.co/400x300.png",
-                                "https://placehold.co/400x300.png",
-                            ];
-                            const hints = [
-                                "teacher students",
-                                "classroom event",
-                                "award ceremony",
-                                "science fair",
-                                "group study",
-                                "graduation celebration",
-                                "field trip",
-                                "team project",
-                                "student presentation",
-                                "lab experiment",
-                                "school competition",
-                                "guest lecture",
-                            ];
-                            return (
-                                <CarouselItem key={index} className="pl-4 basis-full md:basis-1/2 lg:basis-1/3">
-                                    <div className="p-1">
-                                      <div className="group relative overflow-hidden rounded-lg shadow-lg transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-2xl">
-                                          <Image
-                                              src={images[index]}
-                                              alt={`ذكرى مع الطلاب ${index + 1}`}
-                                              width={400}
-                                              height={300}
-                                              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                                              data-ai-hint={hints[index]}
-                                          />
-                                      </div>
-                                    </div>
-                                </CarouselItem>
-                            )
-                        })}
-                    </CarouselContent>
-                    <CarouselPrevious className="ms-8" />
-                    <CarouselNext className="me-8" />
-                </Carousel>
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-12">
+                    {memorableMomentsImages.map((src, index) => (
+                        <div key={index} className="p-1">
+                          <div className="group relative overflow-hidden rounded-lg shadow-lg transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-2xl">
+                              <Image
+                                  src={src}
+                                  alt={`ذكرى مع الطلاب ${index + 1}`}
+                                  width={400}
+                                  height={300}
+                                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                                  data-ai-hint={memorableMomentsHints[index]}
+                              />
+                          </div>
+                        </div>
+                    ))}
+                </div>
             </div>
         </Section>
       </div>
