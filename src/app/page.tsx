@@ -23,7 +23,7 @@ export default function Home() {
                 src="https://i.ibb.co/zV6Ckk1t/Untitled-design.jpg"
                 alt="Dana Academy Hero Image"
                 width={1920}
-                height={600}
+                height={1080}
                 className="w-full object-cover"
                 data-ai-hint="physics classroom"
             />
