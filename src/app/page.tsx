@@ -185,8 +185,8 @@ export default function Home() {
                     }}
                     className="w-full max-w-6xl mx-auto mt-12"
                 >
-                    <CarouselContent className="-ml-4">
-                        <CarouselItem className="md:basis-1/3 p-4">
+                    <CarouselContent>
+                        <CarouselItem className="pl-4 basis-full md:basis-1/2 lg:basis-1/3">
                             <div className="group relative overflow-hidden rounded-lg shadow-lg transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-2xl">
                                 <Image
                                     src="https://i.ibb.co/CpxRSHXC/Untitled-design-6.png"
@@ -198,7 +198,7 @@ export default function Home() {
                                 />
                             </div>
                         </CarouselItem>
-                        <CarouselItem className="md:basis-1/3 p-4">
+                        <CarouselItem className="pl-4 basis-full md:basis-1/2 lg:basis-1/3">
                             <div className="group relative overflow-hidden rounded-lg shadow-lg transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-2xl">
                                 <Image
                                     src="https://i.ibb.co/pvCjpbbV/Untitled-design-7.png"
@@ -210,7 +210,7 @@ export default function Home() {
                                 />
                             </div>
                         </CarouselItem>
-                        <CarouselItem className="md:basis-1/3 p-4">
+                        <CarouselItem className="pl-4 basis-full md:basis-1/2 lg:basis-1/3">
                             <div className="group relative overflow-hidden rounded-lg shadow-lg transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-2xl">
                                 <Image
                                     src="https://i.ibb.co/4g9Ws86y/Untitled-design-9.png"
@@ -222,7 +222,7 @@ export default function Home() {
                                 />
                             </div>
                         </CarouselItem>
-                        <CarouselItem className="md:basis-1/3 p-4">
+                        <CarouselItem className="pl-4 basis-full md:basis-1/2 lg:basis-1/3">
                             <div className="group relative overflow-hidden rounded-lg shadow-lg transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-2xl">
                                 <Image
                                     src="https://i.ibb.co/PGBMrzDc/Untitled-design-10.png"
@@ -234,7 +234,7 @@ export default function Home() {
                                 />
                             </div>
                         </CarouselItem>
-                        <CarouselItem className="md:basis-1/3 p-4">
+                        <CarouselItem className="pl-4 basis-full md:basis-1/2 lg:basis-1/3">
                             <div className="group relative overflow-hidden rounded-lg shadow-lg transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-2xl">
                                 <Image
                                     src="https://i.ibb.co/ycJdhpcX/Untitled-design-11.png"
@@ -246,7 +246,7 @@ export default function Home() {
                                 />
                             </div>
                         </CarouselItem>
-                        <CarouselItem className="md:basis-1/3 p-4">
+                        <CarouselItem className="pl-4 basis-full md:basis-1/2 lg:basis-1/3">
                             <div className="group relative overflow-hidden rounded-lg shadow-lg transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-2xl">
                                 <Image
                                     src="https://placehold.co/400x300.png"
@@ -258,7 +258,7 @@ export default function Home() {
                                 />
                             </div>
                         </CarouselItem>
-                        <CarouselItem className="md:basis-1/3 p-4">
+                        <CarouselItem className="pl-4 basis-full md:basis-1/2 lg:basis-1/3">
                             <div className="group relative overflow-hidden rounded-lg shadow-lg transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-2xl">
                                 <Image
                                     src="https://placehold.co/400x300.png"
@@ -270,7 +270,7 @@ export default function Home() {
                                 />
                             </div>
                         </CarouselItem>
-                        <CarouselItem className="md:basis-1/3 p-4">
+                        <CarouselItem className="pl-4 basis-full md:basis-1/2 lg:basis-1/3">
                             <div className="group relative overflow-hidden rounded-lg shadow-lg transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-2xl">
                                 <Image
                                     src="https://placehold.co/400x300.png"
@@ -282,7 +282,7 @@ export default function Home() {
                                 />
                             </div>
                         </CarouselItem>
-                        <CarouselItem className="md:basis-1/3 p-4">
+                        <CarouselItem className="pl-4 basis-full md:basis-1/2 lg:basis-1/3">
                             <div className="group relative overflow-hidden rounded-lg shadow-lg transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-2xl">
                                 <Image
                                     src="https://placehold.co/400x300.png"
@@ -294,7 +294,7 @@ export default function Home() {
                                 />
                             </div>
                         </CarouselItem>
-                         <CarouselItem className="md:basis-1/3 p-4">
+                         <CarouselItem className="pl-4 basis-full md:basis-1/2 lg:basis-1/3">
                             <div className="group relative overflow-hidden rounded-lg shadow-lg transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-2xl">
                                 <Image
                                     src="https://placehold.co/400x300.png"
@@ -306,7 +306,7 @@ export default function Home() {
                                 />
                             </div>
                         </CarouselItem>
-                         <CarouselItem className="md:basis-1/3 p-4">
+                         <CarouselItem className="pl-4 basis-full md:basis-1/2 lg:basis-1/3">
                             <div className="group relative overflow-hidden rounded-lg shadow-lg transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-2xl">
                                 <Image
                                     src="https://placehold.co/400x300.png"
@@ -318,7 +318,7 @@ export default function Home() {
                                 />
                             </div>
                         </CarouselItem>
-                         <CarouselItem className="md:basis-1/3 p-4">
+                         <CarouselItem className="pl-4 basis-full md:basis-1/2 lg:basis-1/3">
                             <div className="group relative overflow-hidden rounded-lg shadow-lg transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-2xl">
                                 <Image
                                     src="https://placehold.co/400x300.png"
@@ -340,13 +340,3 @@ export default function Home() {
     </MarketingLayout>
   );
 }
-
-    
-
-    
-
-
-
-
-    
-
