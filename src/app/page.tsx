@@ -18,19 +18,35 @@ export default function Home() {
     <MarketingLayout>
       <div className="flex flex-col">
         {/* Hero Section */}
-        <div className="relative h-[600px] flex items-center justify-center text-center overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-br from-background via-purple-50 to-indigo-100 animate-gradient-xy"></div>
-            <FloatingIcons />
-
-            <div className="z-10 flex flex-col items-center space-y-6 animate-fade-in-up">
-                <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-primary">
-                    أهلاً وسهلاً بكم في موقع دانا أكاديمي
-                </h1>
-                <p className="text-xl md:text-2xl text-primary/80">
-                    تدريس الفيزياء فنّ وإبداع
-                </p>
-                <div className="flex gap-4 items-center justify-center md:justify-start">
-                    <Image src="https://i.ibb.co/m5P703p/Chat-GPT-Image-Aug-9-2025-09-51-11-PM-Copy.png" alt="Dana Academy شعار" width={256} height={112} className="h-28 w-64 rounded-md object-contain" />
+        <div className="relative bg-background flex items-center justify-center text-center overflow-hidden py-20">
+            <div className="container px-4 md:px-6">
+                <div className="grid md:grid-cols-2 gap-12 items-center">
+                    <div className="z-10 flex flex-col items-center md:items-start text-center md:text-start space-y-6 animate-fade-in-up">
+                        <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-primary">
+                            أهلاً وسهلاً بكم في موقع دانا أكاديمي
+                        </h1>
+                        <p className="text-xl md:text-2xl text-primary/80">
+                            تدريس الفيزياء فنّ وإبداع
+                        </p>
+                    </div>
+                     <div className="grid grid-cols-2 gap-4 items-center">
+                        <Image 
+                            src="https://placehold.co/400x400.png" 
+                            alt="صورة مربعة" 
+                            width={400} 
+                            height={400} 
+                            className="rounded-lg shadow-lg"
+                            data-ai-hint="education physics"
+                        />
+                        <Image 
+                            src="https://placehold.co/300x450.png" 
+                            alt="صورة مستطيلة" 
+                            width={300} 
+                            height={450} 
+                            className="rounded-lg shadow-lg"
+                            data-ai-hint="science teacher"
+                        />
+                    </div>
                 </div>
             </div>
         </div>
@@ -68,11 +84,11 @@ export default function Home() {
                     </div>
                     <div className="flex justify-center">
                          <Image
-                            src="https://i.ibb.co/pr31MwHN/Untitled-design.png"
+                            src="https://i.ibb.co/SXn1vhJP/NEW-NEW.png"
                             alt="About Dana Academy"
-                            width={605}
-                            height={440}
-                            className=""
+                            width={726}
+                            height={528}
+                            className="scale-120"
                             data-ai-hint="teacher classroom"
                           />
                     </div>
