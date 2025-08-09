@@ -98,6 +98,9 @@ export default {
         'accordion-up': 'accordion-up 0.2s ease-out',
         'float': 'float 6s ease-in-out infinite',
       },
+      perspective: {
+        '1000': '1000px',
+      }
     },
   },
   plugins: [require('tailwindcss-animate')],

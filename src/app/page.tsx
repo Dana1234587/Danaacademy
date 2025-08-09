@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { cn } from '@/lib/utils';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import Link from 'next/link';
+import { FlippableCard } from '@/components/flippable-card';
 
 function Section({ children, className }: { children: React.ReactNode, className?: string }) {
   return <section className={`py-12 md:py-20 ${className}`}>{children}</section>;
@@ -154,33 +155,33 @@ export default function Home() {
                     </p>
                 </div>
                 <div className="mt-12 grid gap-8 md:grid-cols-3">
-                    <Card className="flex flex-col items-center text-center p-6">
-                        <div className="mb-4 p-4 bg-accent rounded-full">
-                            <Users className="h-8 w-8 text-primary" />
-                        </div>
-                        <h3 className="text-xl font-bold mb-2">🌀 شرح مبسط مرتبط بالحياة اليومية</h3>
-                        <p className="text-muted-foreground">
-                            نفكك المفاهيم الصعبة ونربطها بمواقف وأمثلة من واقعك، لتشعر أن الفيزياء جزء من حياتك وليست مجرد مادة دراسية.
-                        </p>
-                    </Card>
-                    <Card className="flex flex-col items-center text-center p-6">
-                        <div className="mb-4 p-4 bg-accent rounded-full">
-                            <Laptop className="h-8 w-8 text-primary" />
-                        </div>
-                        <h3 className="text-xl font-bold mb-2">🖥️ تعليم تفاعلي باستخدام برامج المحاكاة</h3>
-                        <p className="text-muted-foreground">
-                            نحوّل القوانين والتجارب إلى نماذج حيّة عبر برامج محاكاة متطورة، لترى الفيزياء أمامك كما لو كنت في مختبر حقيقي.
-                        </p>
-                    </Card>
-                    <Card className="flex flex-col items-center text-center p-6">
-                        <div className="mb-4 p-4 bg-accent rounded-full">
-                            <Bot className="h-8 w-8 text-primary" />
-                        </div>
-                        <h3 className="text-xl font-bold mb-2">🤖 اختبارات ذكية مدعومة بالذكاء الاصطناعي</h3>
-                        <p className="text-muted-foreground">
-                            اختبارات تغطي المنهج كاملًا، تعطيك ملاحظات فورية وخطط تعلم شخصية لتحسين مستواك خطوة بخطوة.
-                        </p>
-                    </Card>
+                    <FlippableCard
+                        frontContent={{
+                            icon: <Users className="h-8 w-8 text-primary" />,
+                            title: "🌀 شرح مبسط مرتبط بالحياة اليومية",
+                        }}
+                        backContent={{
+                            description: "نفكك المفاهيم الصعبة ونربطها بمواقف وأمثلة من واقعك، لتشعر أن الفيزياء جزء من حياتك وليست مجرد مادة دراسية."
+                        }}
+                    />
+                    <FlippableCard
+                        frontContent={{
+                            icon: <Laptop className="h-8 w-8 text-primary" />,
+                            title: "🖥️ تعليم تفاعلي باستخدام برامج المحاكاة",
+                        }}
+                        backContent={{
+                            description: "نحوّل القوانين والتجارب إلى نماذج حيّة عبر برامج محاكاة متطورة، لترى الفيزياء أمامك كما لو كنت في مختبر حقيقي."
+                        }}
+                    />
+                    <FlippableCard
+                        frontContent={{
+                            icon: <Bot className="h-8 w-8 text-primary" />,
+                            title: "🤖 اختبارات ذكية مدعومة بالذكاء الاصطناعي",
+                        }}
+                        backContent={{
+                            description: "اختبارات تغطي المنهج كاملًا، تعطيك ملاحظات فورية وخطط تعلم شخصية لتحسين مستواك خطوة بخطوة."
+                        }}
+                    />
                 </div>
             </div>
         </Section>
