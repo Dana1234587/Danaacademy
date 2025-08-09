@@ -157,7 +157,7 @@ export default function Home() {
                         cardId="simulation"
                         frontContent={{
                             title: "تعليم تفاعلي باستخدام برامج المحاكاة",
-                             imageUrl: "https://placehold.co/100x100.png",
+                             imageUrl: "https://i.ibb.co/FLscDsbC/ICON1.png",
                             imageHint: "simulation"
                         }}
                         backContent={{
