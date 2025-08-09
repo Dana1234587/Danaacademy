@@ -131,7 +131,7 @@ export default function Home() {
         </Section>
 
         {/* Why Dana Academy Section */}
-        <Section className="bg-primary z-10 relative">
+        <Section className="bg-background z-10 relative">
             <div className="container px-4 md:px-6">
                 <div className="flex flex-col items-center text-center space-y-6 animate-fade-in-up animation-delay-300">
                     <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl text-primary">
