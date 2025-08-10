@@ -22,8 +22,8 @@ export function AchievementCard({ student, className }: AchievementCardProps) {
     <div className={cn("relative group w-[300px] h-[200px]", className)}>
         {/* Text Card */}
         <Card className={cn(
-            "w-full h-full rounded-xl shadow-lg border-2 border-primary/20 transition-all duration-300 transform",
-            "border-dashed bg-background text-foreground p-6 flex flex-col justify-between"
+            "w-full h-full rounded-xl transition-all duration-300 transform",
+            "border border-primary bg-white/30 backdrop-blur-sm shadow-lg text-foreground p-6 flex flex-col justify-between"
         )}>
             <div>
                 <h3 className="text-2xl font-bold text-primary">{student.name}</h3>
