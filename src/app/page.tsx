@@ -198,14 +198,12 @@ export default function Home() {
                 opts={{
                   align: "start",
                   loop: true,
-                  slidesPerView: 3,
-                  slidesToScroll: 3,
                 }}
                 className="w-full max-w-5xl mx-auto"
               >
                 <CarouselContent>
                   {memorableMoments.map((moment, index) => (
-                    <CarouselItem key={index}>
+                    <CarouselItem key={`image-${index}-${moment.src}`} className="md:basis-1/3">
                       <div className="p-1">
                         <div className="group relative overflow-hidden rounded-lg shadow-lg transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-2xl">
                           <Image
