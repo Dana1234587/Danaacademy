@@ -20,7 +20,7 @@ const memorableMoments = [
     src: 'https://i.ibb.co/PGBMrzDc/Untitled-design-10.png',
   },
   {
-    src: 'https://i.ibb.co/HHYpC3f/Untitled-design-11.png',
+    src: 'https://i.ibb.co/ycJdhpcX/Untitled-design-11.png',
   },
   {
     src: 'https://i.ibb.co/0yKRLnSZ/Untitled-design-12.png',
