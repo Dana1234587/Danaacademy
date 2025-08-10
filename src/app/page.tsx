@@ -15,36 +15,42 @@ function Section({ children, className }: { children: React.ReactNode, className
 }
 
 const memorableMoments = [
-    {
-      src: 'https://i.ibb.co/pvCjpbbV/Untitled-design-7.png',
-      alt: 'ورشة عمل لطلاب توجيهي 2006',
-      hint: 'workshop students'
-    },
-    {
-      src: 'https://i.ibb.co/PGBMrzDc/Untitled-design-10.png',
-      alt: 'ورشة عمل استقبل التوجيهي بابتسامه',
-      hint: 'workshop smile'
-    },
-    {
-      src: 'https://i.ibb.co/ycJdhpcX/Untitled-design-11.png',
-      alt: 'ايفنت لطلاب التوجيهي',
-      hint: 'event tawjihi'
-    },
-    {
-      src: 'https://i.ibb.co/0yKRLnSZ/Untitled-design-12.png',
-      alt: 'ايفنت لطلاب جامعة اليرموك',
-      hint: 'event yarmouk'
-    },
-    {
-      src: 'https://i.ibb.co/pj5LgGpY/Untitled-design-13.png',
-      alt: 'ايفنت لطلاب التوجيهي',
-      hint: 'students event'
-    },
-    {
-      src: 'https://i.ibb.co/9hbdB5d/Untitled-design-14.png',
-      alt: 'صورة من ورشة عمل',
-      hint: 'workshop photo'
-    }
+  {
+    src: 'https://i.ibb.co/pvCjpbbV/Untitled-design-7.png',
+    alt: 'ورشة عمل لطلاب توجيهي 2006',
+    width: 400,
+    height: 400,
+  },
+  {
+    src: 'https://i.ibb.co/PGBMrzDc/Untitled-design-10.png',
+    alt: 'ورشة عمل استقبل التوجيهي بابتسامه',
+    width: 400,
+    height: 400,
+  },
+  {
+    src: 'https://i.ibb.co/ycJdhpcX/Untitled-design-11.png',
+    alt: 'ايفنت لطلاب التوجيهي',
+    width: 400,
+    height: 400,
+  },
+  {
+    src: 'https://i.ibb.co/0yKRLnSZ/Untitled-design-12.png',
+    alt: 'ايفنت لطلاب جامعة اليرموك',
+    width: 400,
+    height: 400,
+  },
+  {
+    src: 'https://i.ibb.co/pj5LgGpY/Untitled-design-13.png',
+    alt: 'ايفنت لطلاب التوجيهي',
+    width: 400,
+    height: 400,
+  },
+  {
+    src: 'https://i.ibb.co/9hbdB5d/Untitled-design-14.png',
+    alt: 'صورة من ورشة عمل',
+    width: 400,
+    height: 400,
+  },
 ];
 
 export default function Home() {
@@ -224,17 +230,16 @@ export default function Home() {
                     >
                         <CarouselContent>
                             {memorableMoments.map((moment, index) => (
-                                <CarouselItem key={`moment-${index}-${moment.src}`} className="basis-full md:basis-1/2 lg:basis-1/3">
+                                <CarouselItem key={index} className="basis-full md:basis-1/3">
                                     <div className="p-1">
                                         <Card className="overflow-hidden">
                                             <CardContent className="p-0 flex aspect-square items-center justify-center">
                                                 <Image
                                                     src={moment.src}
                                                     alt={moment.alt}
-                                                    width={400}
-                                                    height={400}
+                                                    width={moment.width}
+                                                    height={moment.height}
                                                     className="object-cover w-full h-full"
-                                                    data-ai-hint={moment.hint}
                                                 />
                                             </CardContent>
                                         </Card>
@@ -253,3 +258,5 @@ export default function Home() {
     </MarketingLayout>
   );
 }
+
+    
