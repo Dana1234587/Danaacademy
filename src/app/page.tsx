@@ -15,7 +15,13 @@ function Section({ children, className }: { children: React.ReactNode, className
 }
 
 export default function Home() {
-  const memorableMoments: { src: string, hint: string }[] = [];
+  const memorableMoments: { src: string, hint: string }[] = [
+    { src: 'https://i.ibb.co/pvCjpbbV/Untitled-design-7.png', hint: 'workshop students' },
+    { src: 'https://i.ibb.co/PGBMrzDc/Untitled-design-10.png', hint: 'workshop students' },
+    { src: 'https://i.ibb.co/ycJdhpcX/Untitled-design-11.png', hint: 'event students' },
+    { src: 'https://i.ibb.co/0yKRLnSZ/Untitled-design-12.png', hint: 'event students' },
+    { src: 'https://i.ibb.co/pj5LgGpY/Untitled-design-13.png', hint: 'event students' },
+  ];
 
   return (
     <MarketingLayout>
