@@ -225,6 +225,25 @@ export default function Home() {
             </div>
         </Section>
         
+        {/* Student Achievements Section */}
+        <Section className="bg-background">
+            <div className="container px-4 md:px-6">
+                <div className="flex flex-col items-center text-center space-y-6">
+                    <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl text-primary">
+                        إنجازات طلابنا
+                    </h2>
+                    <p className="max-w-[700px] text-muted-foreground md:text-xl">
+                        نفخر بطلابنا ونتائجهم المتميزة التي هي شهادة على نجاح أساليبنا التعليمية.
+                    </p>
+                </div>
+                <div className="mt-12 grid gap-8 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-center">
+                    {studentAchievements.map((student, index) => (
+                        <AchievementCard key={index} student={student} className="w-[400px]" />
+                    ))}
+                </div>
+            </div>
+        </Section>
+
         {/* Testimonials Section */}
         <Section className="bg-muted">
           <div className="container px-4 md:px-6">
@@ -264,26 +283,6 @@ export default function Home() {
               ))}
             </div>
           </div>
-        </Section>
-
-
-        {/* Student Achievements Section */}
-        <Section className="bg-background">
-            <div className="container px-4 md:px-6">
-                <div className="flex flex-col items-center text-center space-y-6">
-                    <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl text-primary">
-                        إنجازات طلابنا
-                    </h2>
-                    <p className="max-w-[700px] text-muted-foreground md:text-xl">
-                        نفخر بطلابنا ونتائجهم المتميزة التي هي شهادة على نجاح أساليبنا التعليمية.
-                    </p>
-                </div>
-                <div className="mt-12 grid gap-8 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-                    {studentAchievements.map((student, index) => (
-                        <AchievementCard key={index} student={student} />
-                    ))}
-                </div>
-            </div>
         </Section>
 
         {/* Memorable Moments Section */}
