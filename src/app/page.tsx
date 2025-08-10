@@ -15,13 +15,15 @@ function Section({ children, className }: { children: React.ReactNode, className
 }
 
 export default function Home() {
-  const memorableMoments: { src: string, hint: string }[] = [
+  const memorableMoments = [
     { src: 'https://i.ibb.co/pvCjpbbV/Untitled-design-7.png', hint: 'workshop students' },
     { src: 'https://i.ibb.co/PGBMrzDc/Untitled-design-10.png', hint: 'workshop event' },
     { src: 'https://i.ibb.co/ycJdhpcX/Untitled-design-11.png', hint: 'students event 1' },
     { src: 'https://i.ibb.co/0yKRLnSZ/Untitled-design-12.png', hint: 'university event' },
     { src: 'https://i.ibb.co/pj5LgGpY/Untitled-design-13.png', hint: 'students event 2' },
     { src: 'https://i.ibb.co/9hbdB5d/Untitled-design-14.png', hint: 'students conference' },
+    // Duplicate the first item to solve the loop bug
+    { src: 'https://i.ibb.co/pvCjpbbV/Untitled-design-7.png', hint: 'workshop students duplicate' },
   ];
 
   return (
