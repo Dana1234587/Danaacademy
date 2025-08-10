@@ -81,7 +81,6 @@ export default function Home() {
                             height={220}
                             className=""
                             data-ai-hint="teacher classroom"
-                            priority
                           />
                     </div>
                 </div>
