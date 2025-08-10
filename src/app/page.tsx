@@ -239,6 +239,8 @@ export default function Home() {
                                                     alt={moment.alt}
                                                     width={moment.width}
                                                     height={moment.height}
+                                                    loading="eager"
+                                                    priority={index < 3}
                                                     className="object-cover w-full h-full"
                                                 />
                                             </CardContent>
@@ -258,5 +260,7 @@ export default function Home() {
     </MarketingLayout>
   );
 }
+
+    
 
     
