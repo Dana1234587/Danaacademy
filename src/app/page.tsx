@@ -1,13 +1,11 @@
 
 import { MarketingLayout } from '@/components/layout/marketing-layout';
 import { Button } from '@/components/ui/button';
-import { PlayCircle, ArrowLeft } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 import Image from 'next/image';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import Link from 'next/link';
 import { FlippableCard } from '@/components/flippable-card';
-import { FloatingIcons } from '@/components/floating-icons';
-import { Logo } from '@/components/logo';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 
 function Section({ children, className }: { children: React.ReactNode, className?: string }) {
@@ -16,7 +14,7 @@ function Section({ children, className }: { children: React.ReactNode, className
 
 const memorableMoments = [
   {
-    src: 'https://i.ibb.co/pvCjpbbV/Untitled-design-7.png',
+    src: 'https://i.ibb.co/pvCjpbb/Untitled-design-7.png',
   },
   {
     src: 'https://i.ibb.co/PGBMrzDc/Untitled-design-10.png',
@@ -28,7 +26,7 @@ const memorableMoments = [
     src: 'https://i.ibb.co/0yKRLnSZ/Untitled-design-12.png',
   },
   {
-    src: 'https://i.ibb.co/pj5LgGpY/Untitled-design-13.png',
+    src: 'https://i.ibb.co/pj5LgGp/Untitled-design-13.png',
   },
   {
     src: 'https://i.ibb.co/9hbdB5d/Untitled-design-14.png',
@@ -219,7 +217,7 @@ export default function Home() {
                                             <CardContent className="p-0 flex aspect-square items-center justify-center">
                                                 <Image
                                                     src={moment.src}
-                                                    alt=""
+                                                    alt={`ذكرى ${index + 1}`}
                                                     width={400}
                                                     height={400}
                                                     className="object-cover w-full h-full"
@@ -241,6 +239,8 @@ export default function Home() {
     </MarketingLayout>
   );
 }
+    
+
     
 
     
