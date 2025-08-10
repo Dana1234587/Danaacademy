@@ -14,6 +14,39 @@ function Section({ children, className }: { children: React.ReactNode, className
   return <section className={`py-12 md:py-20 ${className}`}>{children}</section>;
 }
 
+const memorableMoments = [
+    {
+      src: 'https://i.ibb.co/pvCjpbbV/Untitled-design-7.png',
+      alt: 'ورشة عمل لطلاب توجيهي 2006',
+      hint: 'workshop students'
+    },
+    {
+      src: 'https://i.ibb.co/PGBMrzDc/Untitled-design-10.png',
+      alt: 'ورشة عمل استقبل التوجيهي بابتسامه',
+      hint: 'workshop smile'
+    },
+    {
+      src: 'https://i.ibb.co/ycJdhpcX/Untitled-design-11.png',
+      alt: 'ايفنت لطلاب التوجيهي',
+      hint: 'event tawjihi'
+    },
+    {
+      src: 'https://i.ibb.co/0yKRLnSZ/Untitled-design-12.png',
+      alt: 'ايفنت لطلاب جامعة اليرموك',
+      hint: 'event yarmouk'
+    },
+    {
+      src: 'https://i.ibb.co/pj5LgGpY/Untitled-design-13.png',
+      alt: 'ايفنت لطلاب التوجيهي',
+      hint: 'students event'
+    },
+    {
+      src: 'https://i.ibb.co/9hbdB5d/Untitled-design-14.png',
+      alt: 'صورة من ورشة عمل',
+      hint: 'workshop photo'
+    }
+];
+
 export default function Home() {
   return (
     <MarketingLayout>
@@ -166,6 +199,52 @@ export default function Home() {
                             description: "اختبارات تغطي المنهج كاملًا، تعطيك ملاحظات فورية وخطط تعلم شخصية لتحسين مستواك خطوة بخطوة."
                         }}
                     />
+                </div>
+            </div>
+        </Section>
+
+        {/* Memorable Moments Section */}
+        <Section className="bg-muted">
+            <div className="container px-4 md:px-6">
+                <div className="flex flex-col items-center text-center space-y-6">
+                    <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl text-primary">
+                        ألبوم الصور
+                    </h2>
+                    <p className="max-w-[700px] text-muted-foreground md:text-xl">
+                        لقطات من ورشات العمل والفعاليات التي جمعتنا بطلابنا.
+                    </p>
+                </div>
+                <div className="mt-12">
+                    <Carousel
+                        opts={{
+                            align: "start",
+                            loop: true,
+                        }}
+                        className="w-full max-w-5xl mx-auto"
+                    >
+                        <CarouselContent>
+                            {memorableMoments.map((moment, index) => (
+                                <CarouselItem key={`moment-${index}-${moment.src}`} className="basis-full md:basis-1/2 lg:basis-1/3">
+                                    <div className="p-1">
+                                        <Card className="overflow-hidden">
+                                            <CardContent className="p-0 flex aspect-square items-center justify-center">
+                                                <Image
+                                                    src={moment.src}
+                                                    alt={moment.alt}
+                                                    width={400}
+                                                    height={400}
+                                                    className="object-cover w-full h-full"
+                                                    data-ai-hint={moment.hint}
+                                                />
+                                            </CardContent>
+                                        </Card>
+                                    </div>
+                                </CarouselItem>
+                            ))}
+                        </CarouselContent>
+                        <CarouselPrevious />
+                        <CarouselNext />
+                    </Carousel>
                 </div>
             </div>
         </Section>
