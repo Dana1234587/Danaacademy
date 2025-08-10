@@ -28,7 +28,7 @@ const memorableMoments = [
     height: 400,
   },
   {
-    src: 'https://i.ibb.co/ycJdhpcX/Untitled-design-11.png',
+    src: 'https://i.ibb.co/HHYpC3f/Untitled-design-11.png',
     alt: 'ايفنت لطلاب التوجيهي',
     width: 400,
     height: 400,
@@ -52,6 +52,7 @@ const memorableMoments = [
     height: 400,
   },
 ];
+
 
 export default function Home() {
   return (
@@ -230,7 +231,7 @@ export default function Home() {
                     >
                         <CarouselContent>
                             {memorableMoments.map((moment, index) => (
-                                <CarouselItem key={index} className="basis-full md:basis-1/3">
+                                <CarouselItem key={`moment-${index}`} className="basis-full md:basis-1/3">
                                     <div className="p-1">
                                         <Card className="overflow-hidden">
                                             <CardContent className="p-0 flex aspect-square items-center justify-center">
@@ -239,8 +240,6 @@ export default function Home() {
                                                     alt={moment.alt}
                                                     width={moment.width}
                                                     height={moment.height}
-                                                    loading="eager"
-                                                    priority={index < 3}
                                                     className="object-cover w-full h-full"
                                                 />
                                             </CardContent>
@@ -260,6 +259,8 @@ export default function Home() {
     </MarketingLayout>
   );
 }
+
+    
 
     
 
