@@ -22,29 +22,31 @@ export function AchievementCard({ student, className }: AchievementCardProps) {
     <div className={cn("relative group w-[300px] h-[200px]", className)}>
         {/* Text Card */}
         <Card className={cn(
-            "w-full h-full rounded-xl transition-all duration-300 transform",
-            "border-2 border-dashed border-primary bg-white/30 backdrop-blur-sm shadow-lg text-foreground p-6 flex flex-col justify-between"
+            "w-full h-full rounded-xl transition-all duration-300 transform overflow-hidden", // Added overflow-hidden
+            "border-2 border-dashed border-primary bg-white/30 backdrop-blur-sm shadow-lg text-foreground p-0 flex flex-col justify-between" // Changed padding
         )}>
-            <div>
+            <div className="p-6">
                 <h3 className="text-2xl font-bold text-primary">{student.name}</h3>
                 <p className="text-sm text-muted-foreground">توجيهي {student.year}</p>
             </div>
             
-            <div className="flex justify-around text-center mt-4">
-                <div>
-                    <p className="text-sm font-semibold text-primary/80">الفيزياء</p>
-                    <p className="flex items-center justify-center gap-1 text-2xl font-bold text-foreground">
-                    <Award className="w-5 h-5 text-yellow-400" />
-                    {student.physicsScore}
-                    </p>
-                </div>
-                <div>
-                    <p className="text-sm font-semibold text-primary/80">المعدل</p>
-                    <p className="flex items-center justify-center gap-1 text-2xl font-bold text-foreground">
-                    <Percent className="w-5 h-5" />
-                    {student.average}
-                    </p>
-                </div>
+            <div className="bg-primary text-primary-foreground p-4">
+              <div className="flex justify-around text-center">
+                  <div>
+                      <p className="text-sm font-semibold text-primary-foreground/80">الفيزياء</p>
+                      <p className="flex items-center justify-center gap-1 text-2xl font-bold text-primary-foreground">
+                      <Award className="w-5 h-5 text-yellow-400" />
+                      {student.physicsScore}
+                      </p>
+                  </div>
+                  <div>
+                      <p className="text-sm font-semibold text-primary-foreground/80">المعدل</p>
+                      <p className="flex items-center justify-center gap-1 text-2xl font-bold text-primary-foreground">
+                      <Percent className="w-5 h-5" />
+                      {student.average}
+                      </p>
+                  </div>
+              </div>
             </div>
         </Card>
 
