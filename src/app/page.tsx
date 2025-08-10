@@ -15,20 +15,7 @@ function Section({ children, className }: { children: React.ReactNode, className
 }
 
 export default function Home() {
-  const memorableMoments = [
-    { src: "https://i.ibb.co/CpxRSHXC/Untitled-design-6.png", hint: "teacher students" },
-    { src: "https://i.ibb.co/pvCjpbbV/Untitled-design-7.png", hint: "classroom event" },
-    { src: "https://i.ibb.co/4g9Ws86y/Untitled-design-9.png", hint: "award ceremony" },
-    { src: "https://i.ibb.co/PGBMrzDc/Untitled-design-10.png", hint: "science fair" },
-    { src: "https://i.ibb.co/ycJdhpcX/Untitled-design-11.png", hint: "group study" },
-    { src: "https://i.ibb.co/Fk1GPbx4/1.jpg", hint: "graduation celebration" },
-    { src: "https://i.ibb.co/4g9Ws86y/Untitled-design-9.png", hint: "field trip" },
-    { src: "https://i.ibb.co/CpxRSHXC/Untitled-design-6.png", hint: "team project" },
-    { src: "https://i.ibb.co/pvCjpbbV/Untitled-design-7.png", hint: "student presentation" },
-    { src: "https://i.ibb.co/4g9Ws86y/Untitled-design-9.png", hint: "lab experiment" },
-    { src: "https://i.ibb.co/PGBMrzDc/Untitled-design-10.png", hint: "school competition" },
-    { src: "https://i.ibb.co/ycJdhpcX/Untitled-design-11.png", hint: "guest lecture" },
-  ];
+  const memorableMoments: { src: string, hint: string }[] = [];
 
   return (
     <MarketingLayout>
