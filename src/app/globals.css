@@ -130,4 +130,10 @@ body {
   .animation-delay-300 {
     animation-delay: 300ms;
   }
+  .swiper-pagination-bullet {
+    @apply bg-primary/50;
+  }
+  .swiper-pagination-bullet-active {
+    @apply bg-primary;
+  }
 }

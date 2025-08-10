@@ -6,19 +6,31 @@ import Image from 'next/image';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import Link from 'next/link';
 import { FlippableCard } from '@/components/flippable-card';
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
+import { ImageSwiper } from '@/components/image-swiper';
 
 function Section({ children, className }: { children: React.ReactNode, className?: string }) {
   return <section className={`py-12 md:py-20 ${className}`}>{children}</section>;
 }
 
 const memorableMoments = [
-  { src: 'https://i.ibb.co/pvCjpbbV/Untitled-design-7.png' },
-  { src: 'https://i.ibb.co/PGBMrzDc/Untitled-design-10.png' },
-  { src: 'https://i.ibb.co/ycJdhpcX/Untitled-design-11.png' },
-  { src: 'https://i.ibb.co/0yKRLnSZ/Untitled-design-12.png' },
-  { src: 'https://i.ibb.co/pj5LgGpY/Untitled-design-13.png' },
-  { src: 'https://i.ibb.co/9hbdB5d/Untitled-design-14.png' },
+  {
+    src: 'https://i.ibb.co/pvCjpbbV/Untitled-design-7.png',
+  },
+  {
+    src: 'https://i.ibb.co/PGBMrzDc/Untitled-design-10.png',
+  },
+  {
+    src: 'https://i.ibb.co/ycJdhpcX/Untitled-design-11.png',
+  },
+  {
+    src: 'https://i.ibb.co/0yKRLnSZ/Untitled-design-12.png',
+  },
+  {
+    src: 'https://i.ibb.co/pj5LgGpY/Untitled-design-13.png',
+  },
+  {
+    src: 'https://i.ibb.co/9hbdB5d/Untitled-design-14.png',
+  }
 ];
 
 
@@ -190,34 +202,7 @@ export default function Home() {
                     </p>
                 </div>
                 <div className="mt-12">
-                    <Carousel
-                        opts={{
-                            align: "start",
-                            loop: true,
-                        }}
-                        className="w-full max-w-5xl mx-auto"
-                    >
-                        <CarouselContent>
-                            {memorableMoments.map((moment, index) => (
-                                <CarouselItem key={index} className="basis-full md:basis-1/3">
-                                    <div className="p-1">
-                                        <Card className="overflow-hidden">
-                                            <CardContent className="p-0 flex aspect-square items-center justify-center relative">
-                                                <Image
-                                                    src={moment.src}
-                                                    alt={`ذكرى ${index + 1}`}
-                                                    fill={true}
-                                                    className="object-cover w-full h-full"
-                                                />
-                                            </CardContent>
-                                        </Card>
-                                    </div>
-                                </CarouselItem>
-                            ))}
-                        </CarouselContent>
-                        <CarouselPrevious />
-                        <CarouselNext />
-                    </Carousel>
+                   <ImageSwiper images={memorableMoments} />
                 </div>
             </div>
         </Section>
@@ -226,14 +211,3 @@ export default function Home() {
     </MarketingLayout>
   );
 }
-    
-
-    
-
-    
-
-    
-
-    
-
-    
