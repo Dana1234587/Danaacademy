@@ -22,8 +22,6 @@ export default function Home() {
     { src: 'https://i.ibb.co/0yKRLnSZ/Untitled-design-12.png', hint: 'university event' },
     { src: 'https://i.ibb.co/pj5LgGpY/Untitled-design-13.png', hint: 'students event 2' },
     { src: 'https://i.ibb.co/9hbdB5d/Untitled-design-14.png', hint: 'students conference' },
-    // Duplicate the first item to solve the loop bug
-    { src: 'https://i.ibb.co/pvCjpbbV/Untitled-design-7.png', hint: 'workshop students duplicate' },
   ];
 
   return (
