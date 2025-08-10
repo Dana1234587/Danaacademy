@@ -15,34 +15,21 @@ function Section({ children, className }: { children: React.ReactNode, className
 }
 
 export default function Home() {
-  const memorableMomentsImages = [
-    "https://i.ibb.co/CpxRSHXC/Untitled-design-6.png",
-    "https://i.ibb.co/pvCjpbbV/Untitled-design-7.png",
-    "https://i.ibb.co/4g9Ws86y/Untitled-design-9.png",
-    "https://i.ibb.co/PGBMrzDc/Untitled-design-10.png",
-    "https://i.ibb.co/ycJdhpcX/Untitled-design-11.png",
-    "https://i.ibb.co/Fk1GPbx4/1.jpg",
-    "https://i.ibb.co/4g9Ws86y/Untitled-design-9.png",
-    "https://i.ibb.co/CpxRSHXC/Untitled-design-6.png",
-    "https://i.ibb.co/pvCjpbbV/Untitled-design-7.png",
-    "https://i.ibb.co/4g9Ws86y/Untitled-design-9.png",
-    "https://i.ibb.co/PGBMrzDc/Untitled-design-10.png",
-    "https://i.ibb.co/ycJdhpcX/Untitled-design-11.png",
+  const memorableMoments = [
+    { src: "https://i.ibb.co/CpxRSHXC/Untitled-design-6.png", hint: "teacher students" },
+    { src: "https://i.ibb.co/pvCjpbbV/Untitled-design-7.png", hint: "classroom event" },
+    { src: "https://i.ibb.co/4g9Ws86y/Untitled-design-9.png", hint: "award ceremony" },
+    { src: "https://i.ibb.co/PGBMrzDc/Untitled-design-10.png", hint: "science fair" },
+    { src: "https://i.ibb.co/ycJdhpcX/Untitled-design-11.png", hint: "group study" },
+    { src: "https://i.ibb.co/Fk1GPbx4/1.jpg", hint: "graduation celebration" },
+    { src: "https://i.ibb.co/4g9Ws86y/Untitled-design-9.png", hint: "field trip" },
+    { src: "https://i.ibb.co/CpxRSHXC/Untitled-design-6.png", hint: "team project" },
+    { src: "https://i.ibb.co/pvCjpbbV/Untitled-design-7.png", hint: "student presentation" },
+    { src: "https://i.ibb.co/4g9Ws86y/Untitled-design-9.png", hint: "lab experiment" },
+    { src: "https://i.ibb.co/PGBMrzDc/Untitled-design-10.png", hint: "school competition" },
+    { src: "https://i.ibb.co/ycJdhpcX/Untitled-design-11.png", hint: "guest lecture" },
   ];
-  const memorableMomentsHints = [
-    "teacher students",
-    "classroom event",
-    "award ceremony",
-    "science fair",
-    "group study",
-    "graduation celebration",
-    "field trip",
-    "team project",
-    "student presentation",
-    "lab experiment",
-    "school competition",
-    "guest lecture",
-  ];
+
   return (
     <MarketingLayout>
       <div className="flex flex-col">
@@ -215,17 +202,17 @@ export default function Home() {
                 className="w-full max-w-5xl mx-auto"
               >
                 <CarouselContent>
-                  {memorableMomentsImages.map((src, index) => (
+                  {memorableMoments.map((moment, index) => (
                     <CarouselItem key={index} className="md:basis-1/3">
                       <div className="p-1">
                         <div className="group relative overflow-hidden rounded-lg shadow-lg transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-2xl">
                           <Image
-                            src={src}
+                            src={moment.src}
                             alt={`ذكرى مع الطلاب ${index + 1}`}
                             width={400}
                             height={300}
                             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                            data-ai-hint={memorableMomentsHints[index]}
+                            data-ai-hint={moment.hint}
                           />
                         </div>
                       </div>
