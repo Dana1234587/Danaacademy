@@ -20,7 +20,7 @@ const memorableMoments = [
     src: 'https://i.ibb.co/PGBMrzDc/Untitled-design-10.png',
   },
   {
-    src: 'https://i.ibb.co/ycJdhpcX/Untitled-design-11.png',
+    src: 'https://i.ibb.co/HHYpC3f/Untitled-design-11.png',
   },
   {
     src: 'https://i.ibb.co/0yKRLnSZ/Untitled-design-12.png',
@@ -113,9 +113,8 @@ export default function Home() {
                         <Image
                             src="https://i.ibb.co/tynPpNn/Screenshot-2025-08-10-002837.png"
                             alt="فيزياء التوجيهي الاردني"
-                            layout="fill"
-                            objectFit="cover"
-                            className="group-hover:scale-110 transition-transform duration-500"
+                            fill
+                            className="object-cover group-hover:scale-110 transition-transform duration-500"
                             data-ai-hint="physics textbook"
                           />
                       </div>
