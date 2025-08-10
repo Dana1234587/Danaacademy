@@ -29,7 +29,7 @@ export function AchievementCard({ student, className }: AchievementCardProps) {
           src={student.imageUrl}
           alt={student.name}
           fill
-          className="object-cover transition-transform duration-500 group-hover:scale-110"
+          className="object-contain transition-transform duration-500 group-hover:scale-110"
           data-ai-hint={student.imageHint}
         />
       </div>
