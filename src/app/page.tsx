@@ -238,7 +238,7 @@ export default function Home() {
                 </div>
                 <div className="mt-12 grid gap-8 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-center">
                     {studentAchievements.map((student, index) => (
-                        <AchievementCard key={index} student={student} className="w-[400px]" />
+                        <AchievementCard key={index} student={student} className="w-[300px]" />
                     ))}
                 </div>
             </div>

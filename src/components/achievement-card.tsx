@@ -35,7 +35,7 @@ export function AchievementCard({ student, className }: AchievementCardProps) {
       </div>
       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
       
-      <div className="relative flex flex-col justify-end p-6 text-white h-[600px]">
+      <div className="relative flex flex-col justify-end p-6 text-white h-[450px]">
         <div className="transition-transform duration-500 ease-in-out group-hover:-translate-y-20">
             <h3 className="text-2xl font-bold">{student.name}</h3>
             <p className="text-sm text-white/80">توجيهي {student.year}</p>
