@@ -216,7 +216,7 @@ export default function Home() {
               >
                 <CarouselContent>
                   {memorableMomentsImages.map((src, index) => (
-                    <CarouselItem key={index} className="basis-1/3">
+                    <CarouselItem key={index} className="md:basis-1/3">
                       <div className="p-1">
                         <div className="group relative overflow-hidden rounded-lg shadow-lg transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-2xl">
                           <Image
