@@ -15,15 +15,6 @@ function Section({ children, className }: { children: React.ReactNode, className
 }
 
 export default function Home() {
-  const memorableMoments = [
-    { src: 'https://i.ibb.co/pvCjpbbV/Untitled-design-7.png', hint: 'workshop students' },
-    { src: 'https://i.ibb.co/PGBMrzDc/Untitled-design-10.png', hint: 'workshop event' },
-    { src: 'https://i.ibb.co/ycJdhpcX/Untitled-design-11.png', hint: 'students event 1' },
-    { src: 'https://i.ibb.co/0yKRLnSZ/Untitled-design-12.png', hint: 'university event' },
-    { src: 'https://i.ibb.co/pj5LgGpY/Untitled-design-13.png', hint: 'students event 2' },
-    { src: 'https://i.ibb.co/9hbdB5d/Untitled-design-14.png', hint: 'students conference' },
-  ];
-
   return (
     <MarketingLayout>
       <div className="flex flex-col">
@@ -179,46 +170,6 @@ export default function Home() {
             </div>
         </Section>
         
-        {/* Photo Album Section */}
-        <Section className="bg-muted z-10 relative">
-          <div className="container px-4 md:px-6">
-            <div className="flex flex-col items-center text-center space-y-6 animate-fade-in-up">
-              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl text-primary">
-                لحظات لاتنسى من رحلة المعلمه دانا سالم مع طلابها
-              </h2>
-            </div>
-            <div className="relative mt-12">
-              <Carousel
-                opts={{
-                  align: "start",
-                  loop: true,
-                }}
-                className="w-full max-w-5xl mx-auto"
-              >
-                <CarouselContent>
-                  {memorableMoments.map((moment, index) => (
-                    <CarouselItem key={`image-${index}-${moment.src}`} className="md:basis-1/3">
-                      <div className="p-1">
-                        <div className="group relative overflow-hidden rounded-lg shadow-lg transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-2xl">
-                          <Image
-                            src={moment.src}
-                            alt={`ذكرى مع الطلاب ${index + 1}`}
-                            width={400}
-                            height={300}
-                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                            data-ai-hint={moment.hint}
-                          />
-                        </div>
-                      </div>
-                    </CarouselItem>
-                  ))}
-                </CarouselContent>
-                <CarouselPrevious className="absolute left-0 top-1/2 -translate-y-1/2 z-10" />
-                <CarouselNext className="absolute right-0 top-1/2 -translate-y-1/2 z-10" />
-              </Carousel>
-            </div>
-          </div>
-        </Section>
       </div>
     </MarketingLayout>
   );
