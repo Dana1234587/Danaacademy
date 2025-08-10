@@ -3,11 +3,13 @@ import { MarketingLayout } from '@/components/layout/marketing-layout';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
 import Image from 'next/image';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import Link from 'next/link';
 import { FlippableCard } from '@/components/flippable-card';
 import { ImageSwiper } from '@/components/image-swiper';
 import { AchievementCard } from '@/components/achievement-card';
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+
 
 function Section({ children, className }: { children: React.ReactNode, className?: string }) {
   return <section className={`py-12 md:py-20 ${className}`}>{children}</section>;
@@ -35,7 +37,7 @@ const memorableMoments = [
 ];
 
 const studentAchievements = [
-  { name: 'أحمد الموسى', year: '2023', physicsScore: '99.8', average: '98.5', imageUrl: 'https://placehold.co/400x600.png', imageHint: 'student portrait' },
+  { name: 'أحمد الموسى', year: '2023', physicsScore: '99.8', average: '98.5', imageUrl: 'https://i.ibb.co/DDw977GL/Untitled-design-2.jpg', imageHint: 'student portrait' },
   { name: 'فاطمة الزهراء', year: '2023', physicsScore: '100', average: '99.2', imageUrl: 'https://placehold.co/400x600.png', imageHint: 'student smiling' },
   { name: 'يوسف شريف', year: '2022', physicsScore: '98.5', average: '97.1', imageUrl: 'https://placehold.co/400x600.png', imageHint: 'graduate student' },
   { name: 'مريم عبدالله', year: '2023', physicsScore: '99.0', average: '98.0', imageUrl: 'https://placehold.co/400x600.png', imageHint: 'female student' },
@@ -45,6 +47,27 @@ const studentAchievements = [
   { name: 'جنى مراد', year: '2022', physicsScore: '99.5', average: '98.9', imageUrl: 'https://placehold.co/400x600.png', imageHint: 'student writing' },
   { name: 'سليمان حداد', year: '2023', physicsScore: '98.8', average: '98.2', imageUrl: 'https://placehold.co/400x600.png', imageHint: 'student reading' },
 ];
+
+const testimonials = [
+    {
+      name: "سارة العتيبي",
+      title: "طالبة توجيهي 2024",
+      image: "https://i.ibb.co/hFvWxR4/1212.png",
+      review: "الشرح كان أكثر من رائع! أستاذة دانا حولت المفاهيم المعقدة إلى أفكار بسيطة وممتعة. بفضلها، أصبحت الفيزياء المادة المفضلة عندي."
+    },
+    {
+      name: "محمد الهاشمي",
+      title: "طالب توجيهي 2024",
+      image: "",
+      review: "لم أتوقع أبدًا أن أتمكن من حل مسائل الفيزياء بهذه السهولة. الاختبارات الدورية والمتابعة المستمرة ساعدتني على تطوير مستواي بشكل كبير."
+    },
+    {
+      name: "نور الحسن",
+      title: "طالبة توجيهي 2024",
+      image: "",
+      review: "أكثر ما يميز الأكاديمية هو استخدام المحاكاة. رؤية التجارب عمليًا أمامي جعلتني أفهم القوانين الفيزيائية بشكل أعمق وأكثر واقعية. شكرًا أستاذة دانا."
+    }
+  ];
 
 
 export default function Home() {
@@ -201,9 +224,51 @@ export default function Home() {
                 </div>
             </div>
         </Section>
+        
+        {/* Testimonials Section */}
+        <Section className="bg-muted">
+          <div className="container px-4 md:px-6">
+            <div className="flex flex-col items-center text-center space-y-6">
+              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl text-primary">
+                آراء طلابنا
+              </h2>
+              <p className="max-w-[700px] text-muted-foreground md:text-xl">
+                شهادات طلابنا هي مصدر فخرنا وأكبر دليل على نجاحنا.
+              </p>
+            </div>
+            <div className="mt-12 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+              {testimonials.map((testimonial, index) => (
+                <Card key={index} className="bg-background border-primary/20 border-dashed border-2 flex flex-col">
+                  <CardHeader className="flex flex-row items-center gap-4 pb-4">
+                    <Avatar>
+                      <AvatarImage src={testimonial.image || `https://placehold.co/100x100.png`} alt={testimonial.name} data-ai-hint="student avatar" />
+                      <AvatarFallback>{testimonial.name.charAt(0)}</AvatarFallback>
+                    </Avatar>
+                    <div>
+                      <CardTitle className="text-lg font-bold">{testimonial.name}</CardTitle>
+                      <p className="text-sm text-muted-foreground">{testimonial.title}</p>
+                    </div>
+                  </CardHeader>
+                  <CardContent className="p-6 flex-grow flex flex-col">
+                    <div className="relative w-full aspect-[16/9] rounded-md overflow-hidden mb-4">
+                      <Image
+                        src="https://i.ibb.co/hFvWxR4r/1212.png"
+                        alt={`Review from ${testimonial.name}`}
+                        layout="fill"
+                        objectFit="contain"
+                        data-ai-hint="student review screenshot"
+                      />
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+        </Section>
+
 
         {/* Student Achievements Section */}
-        <Section className="bg-muted">
+        <Section className="bg-background">
             <div className="container px-4 md:px-6">
                 <div className="flex flex-col items-center text-center space-y-6">
                     <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl text-primary">
@@ -222,7 +287,7 @@ export default function Home() {
         </Section>
 
         {/* Memorable Moments Section */}
-        <Section className="bg-background">
+        <Section className="bg-muted">
             <div className="container px-4 md:px-6">
                 <div className="flex flex-col items-center text-center space-y-6">
                     <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl text-primary">
