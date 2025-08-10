@@ -7,6 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import Link from 'next/link';
 import { FlippableCard } from '@/components/flippable-card';
 import { ImageSwiper } from '@/components/image-swiper';
+import { AchievementCard } from '@/components/achievement-card';
 
 function Section({ children, className }: { children: React.ReactNode, className?: string }) {
   return <section className={`py-12 md:py-20 ${className}`}>{children}</section>;
@@ -31,6 +32,18 @@ const memorableMoments = [
   {
     src: 'https://i.ibb.co/9hbdB5d/Untitled-design-14.png',
   }
+];
+
+const studentAchievements = [
+  { name: 'أحمد الموسى', year: '2023', physicsScore: '99.8', average: '98.5', imageUrl: 'https://placehold.co/400x600.png', imageHint: 'student portrait' },
+  { name: 'فاطمة الزهراء', year: '2023', physicsScore: '100', average: '99.2', imageUrl: 'https://placehold.co/400x600.png', imageHint: 'student smiling' },
+  { name: 'يوسف شريف', year: '2022', physicsScore: '98.5', average: '97.1', imageUrl: 'https://placehold.co/400x600.png', imageHint: 'graduate student' },
+  { name: 'مريم عبدالله', year: '2023', physicsScore: '99.0', average: '98.0', imageUrl: 'https://placehold.co/400x600.png', imageHint: 'female student' },
+  { name: 'خالد وليد', year: '2022', physicsScore: '97.9', average: '96.5', imageUrl: 'https://placehold.co/400x600.png', imageHint: 'male student' },
+  { name: 'لجين المصري', year: '2023', physicsScore: '100', average: '99.5', imageUrl: 'https://placehold.co/400x600.png', imageHint: 'happy student' },
+  { name: 'عمر الخطيب', year: '2021', physicsScore: '98.0', average: '97.8', imageUrl: 'https://placehold.co/400x600.png', imageHint: 'student thinking' },
+  { name: 'جنى مراد', year: '2022', physicsScore: '99.5', average: '98.9', imageUrl: 'https://placehold.co/400x600.png', imageHint: 'student writing' },
+  { name: 'سليمان حداد', year: '2023', physicsScore: '98.8', average: '98.2', imageUrl: 'https://placehold.co/400x600.png', imageHint: 'student reading' },
 ];
 
 
@@ -189,8 +202,27 @@ export default function Home() {
             </div>
         </Section>
 
-        {/* Memorable Moments Section */}
+        {/* Student Achievements Section */}
         <Section className="bg-muted">
+            <div className="container px-4 md:px-6">
+                <div className="flex flex-col items-center text-center space-y-6">
+                    <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl text-primary">
+                        إنجازات طلابنا
+                    </h2>
+                    <p className="max-w-[700px] text-muted-foreground md:text-xl">
+                        نفخر بطلابنا ونتائجهم المتميزة التي هي شهادة على نجاح أساليبنا التعليمية.
+                    </p>
+                </div>
+                <div className="mt-12 grid gap-8 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+                    {studentAchievements.map((student, index) => (
+                        <AchievementCard key={index} student={student} />
+                    ))}
+                </div>
+            </div>
+        </Section>
+
+        {/* Memorable Moments Section */}
+        <Section className="bg-background">
             <div className="container px-4 md:px-6">
                 <div className="flex flex-col items-center text-center space-y-6">
                     <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl text-primary">
