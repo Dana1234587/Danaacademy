@@ -23,7 +23,7 @@ export function AchievementCard({ student, className }: AchievementCardProps) {
         {/* Text Card */}
         <Card className={cn(
             "w-full h-full rounded-xl transition-all duration-300 transform",
-            "border border-primary bg-white/30 backdrop-blur-sm shadow-lg text-foreground p-6 flex flex-col justify-between"
+            "border-2 border-dashed border-primary bg-white/30 backdrop-blur-sm shadow-lg text-foreground p-6 flex flex-col justify-between"
         )}>
             <div>
                 <h3 className="text-2xl font-bold text-primary">{student.name}</h3>
@@ -58,7 +58,7 @@ export function AchievementCard({ student, className }: AchievementCardProps) {
             src={student.imageUrl}
             alt={student.name}
             fill
-            className="object-cover rounded-xl"
+            className="object-contain rounded-xl"
             data-ai-hint={student.imageHint}
             />
         </div>
