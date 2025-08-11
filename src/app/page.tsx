@@ -46,7 +46,7 @@ const studentAchievements = [
   { name: 'جود الصفدي', year: '2007', physicsScore: '200/200', average: '99.75', imageUrl: 'https://i.ibb.co/pr6pvCpy/Untitled-design-20.png', imageHint: 'happy student' },
   { name: 'عبدالعزيز تهتموني', year: '2007', physicsScore: '188/200', average: '97.1', imageUrl: 'https://i.ibb.co/fYcvVP3G/Untitled-design-19.png', imageHint: 'student thinking' },
   { name: 'سجى السويطي', year: '2007', physicsScore: '180/200', average: '89.95', imageUrl: 'https://i.ibb.co/mVnC4pyR/Untitled-design-21.png', imageHint: 'student writing' },
-  { name: 'حمزة اكريم', year: '2007', physicsScore: '196/200', average: '98.15', imageUrl: 'https://placehold.co/400x600.png', imageHint: 'student reading' },
+  { name: 'حمزة اكريم', year: '2007', physicsScore: '196/200', average: '98.15', imageUrl: 'https://i.ibb.co/sJRp9tMR/Untitled-design-22.png', imageHint: 'student reading' },
 ];
 
 const testimonials = [
