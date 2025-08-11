@@ -53,7 +53,7 @@ const testimonials = [
   { id: 1, image: "https://i.ibb.co/7J6F87zM/image.png", reviewScreenshot: "https://i.ibb.co/2QqmbJP/image.png", position: { top: '20%', left: '15%' } },
   { id: 2, image: "https://i.ibb.co/Fq6knkjQ/image.png", reviewScreenshot: "https://i.ibb.co/B26nXwxS/1.png", position: { top: '50%', left: '25%' } },
   { id: 3, image: "https://i.ibb.co/fGXQFykf/2.png", reviewScreenshot: "https://i.ibb.co/bjkbrnLb/image.png", position: { top: '35%', left: '50%' } },
-  { id: 4, image: "https://i.ibb.co/9kvYH9xP/Untitled-design-17.png", reviewScreenshot: "https://i.ibb.co/pj5LgGpY/Untitled-design-13.png", position: { top: '65%', left: '60%' } },
+  { id: 4, image: "https://i.ibb.co/PZWjb1QC/image.png", reviewScreenshot: "https://i.ibb.co/JL4vfhp/3.png", position: { top: '65%', left: '60%' } },
   { id: 5, image: "https://i.ibb.co/fYnrTLVs/Untitled-design-18.png", reviewScreenshot: "https://i.ibb.co/9hbdB5d/Untitled-design-14.png", position: { top: '25%', left: '80%' } },
   { id: 6, image: "https://i.ibb.co/pr6pvCpy/Untitled-design-20.png", reviewScreenshot: "https://placehold.co/400x250.png", position: { top: '70%', left: '5%' } },
   { id: 7, image: "https://i.ibb.co/fYcvVP3G/Untitled-design-19.png", reviewScreenshot: "https://placehold.co/400x250.png", position: { top: '80%', left: '30%' } },
