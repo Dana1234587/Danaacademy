@@ -50,13 +50,7 @@ const studentAchievements = [
 ];
 
 const testimonials = [
-  { name: "طالب 1", image: "https://i.ibb.co/Swd5wnpT/Untitled-design-24.png", reviewScreenshot: "https://placehold.co/300x200.png", position: { top: '5%', left: '10%' } },
-  { name: "طالب 2", image: "https://placehold.co/100x100.png", reviewScreenshot: "https://placehold.co/300x200.png", position: { top: '25%', left: '50%' } },
-  { name: "طالب 3", image: "https://placehold.co/100x100.png", reviewScreenshot: "https://placehold.co/300x200.png", position: { top: '10%', right: '15%' } },
-  { name: "طالب 4", image: "https://placehold.co/100x100.png", reviewScreenshot: "https://placehold.co/300x200.png", position: { top: '60%', left: '5%' } },
-  { name: "طالب 5", image: "https://placehold.co/100x100.png", reviewScreenshot: "https://placehold.co/300x200.png", position: { top: '55%', right: '25%' } },
-  { name: "طالب 6", image: "https://placehold.co/100x100.png", reviewScreenshot: "https://placehold.co/300x200.png", position: { bottom: '5%', left: '20%' } },
-  { name: "طالب 7", image: "https://placehold.co/100x100.png", reviewScreenshot: "https://placehold.co/300x200.png", position: { bottom: '5%', right: '10%' } },
+  { name: "ليان ابو طربوش", image: "https://i.ibb.co/Swd5wnpT/Untitled-design-24.png", reviewScreenshot: "https://placehold.co/300x200.png", position: { top: '5%', left: '10%' } },
 ];
 
 
