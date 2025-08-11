@@ -23,7 +23,7 @@ interface TestimonialsMapProps {
 
 export function TestimonialsMap({ testimonials }: TestimonialsMapProps) {
   return (
-    <div className="relative w-full min-h-[1200px] p-4 bg-white overflow-hidden">
+    <div className="relative w-full min-h-[3000px] p-4 bg-white overflow-hidden">
       {testimonials.map((testimonial, index) => (
         <div 
           key={index} 

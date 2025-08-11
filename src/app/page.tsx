@@ -59,7 +59,7 @@ const testimonials = [
   { image: "https://placehold.co/500x500.png", reviewScreenshot: "https://placehold.co/400x250.png", position: { top: '450px', left: '50px' } },
   { image: "https://placehold.co/500x500.png", reviewScreenshot: "https://placehold.co/400x250.png", position: { top: '550px', left: '350px' } },
   { image: "https://placehold.co/500x500.png", reviewScreenshot: "https://placehold.co/400x250.png", position: { top: '800px', left: '1100px' } },
-  { image: "https://placehold.co/500x500.png", reviewScreenshot: "https://placehold.co/400x250.png", position: { top: '1000px', left: '50px' } },
+  { image: "https://placehold.co/500x500.png", reviewScreenshot: "https://placehold.co/400x250.png", position: { top: '1200px', left: '50px' } },
 ];
 
 
