@@ -44,7 +44,7 @@ const studentAchievements = [
   { name: 'روان عكور', year: '2007', physicsScore: '192/200', average: '98.15', imageUrl: 'https://i.ibb.co/9kvYH9xP/Untitled-design-17.png', imageHint: 'female student' },
   { name: 'ندى عريقات', year: '2007', physicsScore: '192/200', average: '97.6', imageUrl: 'https://i.ibb.co/fYnrTLVs/Untitled-design-18.png', imageHint: 'male student' },
   { name: 'لجين المصري', year: '2023', physicsScore: '100', average: '99.5', imageUrl: 'https://placehold.co/400x600.png', imageHint: 'happy student' },
-  { name: 'عمر الخطيب', year: '2021', physicsScore: '98.0', average: '97.8', imageUrl: 'https://placehold.co/400x600.png', imageHint: 'student thinking' },
+  { name: 'عبدالعزيز تهتموني', year: '2007', physicsScore: '188/200', average: '97.1', imageUrl: 'https://placehold.co/400x600.png', imageHint: 'student thinking' },
   { name: 'جنى مراد', year: '2022', physicsScore: '99.5', average: '98.9', imageUrl: 'https://placehold.co/400x600.png', imageHint: 'student writing' },
   { name: 'سليمان حداد', year: '2023', physicsScore: '98.8', average: '98.2', imageUrl: 'https://placehold.co/400x600.png', imageHint: 'student reading' },
 ];
