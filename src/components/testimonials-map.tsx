@@ -48,7 +48,7 @@ export function TestimonialsMap({ testimonials }: TestimonialsMapProps) {
                 initial={{ opacity: 0, scale: 0.8 }}
                 whileHover={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.3 }}
-                className="absolute inset-0 w-[200%] h-[200%] -translate-x-1/4 -translate-y-1/4 z-10"
+                className="absolute inset-0 w-[240%] h-[240%] -translate-x-1/4 -translate-y-1/4 z-10"
               >
                 <Image
                   src={testimonial.reviewScreenshot}
