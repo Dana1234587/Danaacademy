@@ -28,11 +28,11 @@ export function TestimonialsMap({ testimonials }: TestimonialsMapProps) {
       {testimonials.map((testimonial, index) => (
         <div 
           key={index} 
-          className="absolute group flex flex-col items-center"
+          className="absolute group"
           style={{ ...testimonial.position }}
         >
           {/* Student Image */}
-          <div className="relative w-[120px] h-[120px] cursor-pointer">
+          <div className="relative w-[150px] h-[150px] cursor-pointer">
             <Image
               src={testimonial.image}
               alt={testimonial.name}
@@ -48,7 +48,7 @@ export function TestimonialsMap({ testimonials }: TestimonialsMapProps) {
                 initial={{ opacity: 0, scale: 0.8 }}
                 whileHover={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.3 }}
-                className="absolute inset-0 w-[300%] h-[200%] -translate-x-1/4 -translate-y-1/4 z-10"
+                className="absolute inset-0 w-[400%] h-[250%] -translate-x-1/4 -translate-y-1/4 z-10 pointer-events-none"
               >
                 <Image
                   src={testimonial.reviewScreenshot}
@@ -61,11 +61,6 @@ export function TestimonialsMap({ testimonials }: TestimonialsMapProps) {
               </motion.div>
             </AnimatePresence>
           </div>
-          
-          {/* Student Name */}
-          <p className="mt-4 font-bold text-primary text-center">
-            {testimonial.name}
-          </p>
         </div>
       ))}
     </div>
