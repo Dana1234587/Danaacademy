@@ -59,13 +59,13 @@ const testimonials = [
     {
       name: "محمد الهاشمي",
       title: "طالبة توجيهي 2024",
-      image: "",
+      image: "https://i.ibb.co/whsX4QCQ/students-photo.png",
       review: "لم أتوقع أبدًا أن أتمكن من حل مسائل الفيزياء بهذه السهولة. الاختبارات الدورية والمتابعة المستمرة ساعدتني على تطوير مستواي بشكل كبير."
     },
     {
       name: "نور الحسن",
       title: "طالبة توجيهي 2024",
-      image: "",
+      image: "https://i.ibb.co/whsX4QCQ/students-photo.png",
       review: "أكثر ما يميز الأكاديمية هو استخدام المحاكاة. رؤية التجارب عمليًا أمامي جعلتني أفهم القوانين الفيزيائية بشكل أعمق وأكثر واقعية. شكرًا أستاذة دانا."
     }
   ];
@@ -272,7 +272,7 @@ export default function Home() {
                   <CardContent className="p-6 flex-grow flex flex-col">
                     <div className="relative w-full aspect-[16/9] rounded-md overflow-hidden mb-4">
                       <Image
-                        src="https://i.ibb.co/whsX4QC/students-photo.png"
+                        src="https://i.ibb.co/whsX4QCQ/students-photo.png"
                         alt={`Review from ${testimonial.name}`}
                         layout="fill"
                         objectFit="contain"
