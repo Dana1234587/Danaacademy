@@ -38,7 +38,7 @@ const memorableMoments = [
 ];
 
 const studentAchievements = [
-  { name: 'أحمد الموسى', year: '2023', physicsScore: '99.8', average: '98.5', imageUrl: 'https://i.ibb.co/DDw977GL/Untitled-design-2.jpg', imageHint: 'student portrait' },
+  { name: 'أحمد الحوراني', year: '2007', physicsScore: '192/200', average: '95.90', imageUrl: 'https://i.ibb.co/DDw977GL/Untitled-design-2.jpg', imageHint: 'student portrait' },
   { name: 'فاطمة الزهراء', year: '2023', physicsScore: '100', average: '99.2', imageUrl: 'https://placehold.co/400x600.png', imageHint: 'student smiling' },
   { name: 'يوسف شريف', year: '2022', physicsScore: '98.5', average: '97.1', imageUrl: 'https://placehold.co/400x600.png', imageHint: 'graduate student' },
   { name: 'مريم عبدالله', year: '2023', physicsScore: '99.0', average: '98.0', imageUrl: 'https://placehold.co/400x600.png', imageHint: 'female student' },
