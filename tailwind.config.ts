@@ -108,6 +108,10 @@ export default {
           '0%': { transform: 'translateX(0)' },
           '100%': { transform: 'translateX(-1440px)' },
         },
+         'ping-slow': {
+          '0%': { transform: 'scale(1)', opacity: '1' },
+          '75%, 100%': { transform: 'scale(2)', opacity: '0' },
+        }
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
@@ -117,6 +121,7 @@ export default {
         'pulse-slow': 'pulse-slow 2.5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
         'gradient-xy': 'gradient-xy 15s ease infinite',
         'wave': 'wave 10s linear infinite',
+        'ping-slow': 'ping-slow 2s cubic-bezier(0, 0, 0.2, 1) infinite',
       },
       perspective: {
         '1000': '1000px',

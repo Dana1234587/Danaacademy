@@ -3,6 +3,8 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import { AnimatePresence, motion } from 'framer-motion';
+import { cn } from '@/lib/utils';
+import { X } from 'lucide-react';
 
 type Position = {
   top?: string;
@@ -12,6 +14,7 @@ type Position = {
 };
 
 type Testimonial = {
+  id: number;
   image: string;
   reviewScreenshot: string;
   position: Position;
@@ -22,46 +25,74 @@ interface TestimonialsMapProps {
 }
 
 export function TestimonialsMap({ testimonials }: TestimonialsMapProps) {
+  const [activeTestimonial, setActiveTestimonial] = useState<Testimonial | null>(null);
+
+  const handleDotClick = (testimonial: Testimonial) => {
+    setActiveTestimonial(testimonial);
+  };
+
+  const handleClose = () => {
+    setActiveTestimonial(null);
+  };
+
   return (
-    <div className="relative w-full min-h-[3000px] p-4 bg-white overflow-hidden">
-      {testimonials.map((testimonial, index) => (
-        <div 
-          key={index} 
-          className="absolute group"
+    <div 
+      className="relative w-full h-[600px] bg-muted rounded-lg overflow-hidden"
+      style={{
+        backgroundImage: 'url("https://i.ibb.co/Vvz1DNp/map.png")',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+      }}
+    >
+      {testimonials.map((testimonial) => (
+        <button
+          key={testimonial.id}
+          className="absolute transform -translate-x-1/2 -translate-y-1/2 focus:outline-none"
           style={{ ...testimonial.position }}
+          onClick={() => handleDotClick(testimonial)}
         >
-          {/* Student Image */}
-          <div className="relative w-[500px] h-[500px] cursor-pointer">
+          <div className="relative w-20 h-20 group">
+            <span className="absolute inset-0 bg-primary/30 rounded-full animate-ping-slow group-hover:animate-ping"></span>
             <Image
               src={testimonial.image}
-              alt={`Testimonial ${index + 1}`}
+              alt={`Testimonial ${testimonial.id}`}
               layout="fill"
               objectFit="cover"
-              className=""
+              className="rounded-full border-4 border-white shadow-lg"
               data-ai-hint="student photo"
             />
-            
-            {/* Review Screenshot on Hover */}
-            <AnimatePresence>
-              <motion.div
-                initial={{ opacity: 0, scale: 0.8 }}
-                whileHover={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.3 }}
-                className="absolute inset-0 w-[480px] h-[300px] -translate-x-1/4 -translate-y-1/4 z-10 pointer-events-none"
-              >
-                <Image
-                  src={testimonial.reviewScreenshot}
-                  alt={`Review screenshot ${index + 1}`}
-                  layout="fill"
-                  objectFit="contain"
-                  className="rounded-lg shadow-2xl"
-                  data-ai-hint="review screenshot"
-                />
-              </motion.div>
-            </AnimatePresence>
           </div>
-        </div>
+        </button>
       ))}
+
+      <AnimatePresence>
+        {activeTestimonial && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.9 }}
+            transition={{ duration: 0.3, ease: 'easeInOut' }}
+            className="absolute inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-20 p-4"
+            onClick={handleClose}
+          >
+            <div className="relative bg-background rounded-xl shadow-2xl overflow-hidden" onClick={(e) => e.stopPropagation()}>
+               <button onClick={handleClose} className="absolute top-2 right-2 z-10 p-1 bg-background/50 rounded-full hover:bg-background/80 transition-colors">
+                    <X className="w-5 h-5 text-foreground" />
+                    <span className="sr-only">إغلاق</span>
+                </button>
+              <Image
+                src={activeTestimonial.reviewScreenshot}
+                alt={`Review screenshot for testimonial ${activeTestimonial.id}`}
+                width={500}
+                height={300}
+                objectFit="contain"
+                className="max-w-full h-auto"
+                data-ai-hint="review screenshot"
+              />
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
