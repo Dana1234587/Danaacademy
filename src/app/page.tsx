@@ -50,16 +50,16 @@ const studentAchievements = [
 ];
 
 const testimonials = [
-  { name: "ليان ابو طربوش", image: "https://i.ibb.co/Swd5wnpT/Untitled-design-24.png", reviewScreenshot: "https://placehold.co/300x200.png", position: { top: '5%', left: '10%' } },
-  { name: "طالب جديد 1", image: "https://placehold.co/150x150.png", reviewScreenshot: "https://placehold.co/300x200.png", position: { top: '20%', left: '30%' } },
-  { name: "طالب جديد 2", image: "https://placehold.co/150x150.png", reviewScreenshot: "https://placehold.co/300x200.png", position: { top: '10%', right: '15%' } },
-  { name: "طالب جديد 3", image: "https://placehold.co/150x150.png", reviewScreenshot: "https://placehold.co/300x200.png", position: { top: '45%', right: '5%' } },
-  { name: "طالب جديد 4", image: "https://placehold.co/150x150.png", reviewScreenshot: "https://placehold.co/300x200.png", position: { top: '60%', left: '20%' } },
-  { name: "طالب جديد 5", image: "https://placehold.co/150x150.png", reviewScreenshot: "https://placehold.co/300x200.png", position: { bottom: '5%', left: '5%' } },
-  { name: "طالب جديد 6", image: "https://placehold.co/150x150.png", reviewScreenshot: "https://placehold.co/300x200.png", position: { bottom: '15%', right: '25%' } },
-  { name: "طالب جديد 7", image: "https://placehold.co/150x150.png", reviewScreenshot: "https://placehold.co/300x200.png", position: { top: '35%', left: '50%' } },
-  { name: "طالب جديد 8", image: "https://placehold.co/150x150.png", reviewScreenshot: "https://placehold.co/300x200.png", position: { top: '70%', right: '40%' } },
-  { name: "طالب جديد 9", image: "https://placehold.co/150x150.png", reviewScreenshot: "https://placehold.co/300x200.png", position: { bottom: '10%', right: '5%' } },
+  { name: "ليان ابو طربوش", image: "https://i.ibb.co/Swd5wnpT/Untitled-design-24.png", reviewScreenshot: "https://placehold.co/400x250.png", position: { top: '5%', left: '5%' } },
+  { name: "طالب جديد 1", image: "https://placehold.co/150x150.png", reviewScreenshot: "https://placehold.co/400x250.png", position: { top: '25%', left: '20%' } },
+  { name: "طالب جديد 2", image: "https://placehold.co/150x150.png", reviewScreenshot: "https://placehold.co/400x250.png", position: { top: '10%', left: '40%' } },
+  { name: "طالب جديد 3", image: "https://placehold.co/150x150.png", reviewScreenshot: "https://placehold.co/400x250.png", position: { top: '45%', left: '35%' } },
+  { name: "طالب جديد 4", image: "https://placehold.co/150x150.png", reviewScreenshot: "https://placehold.co/400x250.png", position: { top: '60%', left: '10%' } },
+  { name: "طالب جديد 5", image: "https://placehold.co/150x150.png", reviewScreenshot: "https://placehold.co/400x250.png", position: { bottom: '5%', left: '5%' } },
+  { name: "طالب جديد 6", image: "https://placehold.co/150x150.png", reviewScreenshot: "https://placehold.co/400x250.png", position: { bottom: '15%', left: '30%' } },
+  { name: "طالب جديد 7", image: "https://placehold.co/150x150.png", reviewScreenshot: "https://placehold.co/400x250.png", position: { top: '70%', left: '45%' } },
+  { name: "طالب جديد 8", image: "https://placehold.co/150x150.png", reviewScreenshot: "https://placehold.co/400x250.png", position: { top: '80%', left: '25%' } },
+  { name: "طالب جديد 9", image: "https://placehold.co/150x150.png", reviewScreenshot: "https://placehold.co/400x250.png", position: { bottom: '2%', left: '50%' } },
 ];
 
 
