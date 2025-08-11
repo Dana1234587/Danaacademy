@@ -53,7 +53,7 @@ const testimonials = [
     {
       name: "ليان ابو طربوش",
       title: "طالبة توجيهي 2024",
-      image: "https://i.ibb.co/hFvWxR4/1212.png",
+      image: "https://i.ibb.co/whsX4QC/students-photo.png",
       review: "الشرح كان أكثر من رائع! أستاذة دانا حولت المفاهيم المعقدة إلى أفكار بسيطة وممتعة. بفضلها، أصبحت الفيزياء المادة المفضلة عندي."
     },
     {
@@ -272,7 +272,7 @@ export default function Home() {
                   <CardContent className="p-6 flex-grow flex flex-col">
                     <div className="relative w-full aspect-[16/9] rounded-md overflow-hidden mb-4">
                       <Image
-                        src="https://i.ibb.co/hFvWxR4r/1212.png"
+                        src="https://i.ibb.co/whsX4QC/students-photo.png"
                         alt={`Review from ${testimonial.name}`}
                         layout="fill"
                         objectFit="contain"
