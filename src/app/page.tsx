@@ -269,16 +269,8 @@ export default function Home() {
                       <p className="text-sm text-muted-foreground">{testimonial.title}</p>
                     </div>
                   </CardHeader>
-                  <CardContent className="p-6 flex-grow flex flex-col">
-                    <div className="relative w-full aspect-[16/9] rounded-md overflow-hidden mb-4">
-                      <Image
-                        src="https://i.ibb.co/whsX4QCQ/students-photo.png"
-                        alt={`Review from ${testimonial.name}`}
-                        layout="fill"
-                        objectFit="contain"
-                        data-ai-hint="student review screenshot"
-                      />
-                    </div>
+                  <CardContent className="p-6 pt-2">
+                    <p className="text-muted-foreground italic">"{testimonial.review}"</p>
                   </CardContent>
                 </Card>
               ))}
