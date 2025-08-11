@@ -51,7 +51,7 @@ const studentAchievements = [
 
 const testimonials = [
     {
-      name: "سارة العتيبي",
+      name: "ليان ابو طربوش",
       title: "طالبة توجيهي 2024",
       image: "https://i.ibb.co/hFvWxR4/1212.png",
       review: "الشرح كان أكثر من رائع! أستاذة دانا حولت المفاهيم المعقدة إلى أفكار بسيطة وممتعة. بفضلها، أصبحت الفيزياء المادة المفضلة عندي."
