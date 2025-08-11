@@ -32,13 +32,13 @@ export function TestimonialsMap({ testimonials }: TestimonialsMapProps) {
           style={{ ...testimonial.position }}
         >
           {/* Student Image */}
-          <div className="relative w-32 h-32 md:w-40 md:h-40 cursor-pointer">
+          <div className="relative w-[150px] h-[150px] cursor-pointer">
             <Image
               src={testimonial.image}
               alt={testimonial.name}
               layout="fill"
               objectFit="cover"
-              className="rounded-lg"
+              className=""
               data-ai-hint="student photo"
             />
             
