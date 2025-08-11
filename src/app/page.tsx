@@ -44,7 +44,7 @@ const studentAchievements = [
   { name: 'روان عكور', year: '2007', physicsScore: '192/200', average: '98.15', imageUrl: 'https://i.ibb.co/9kvYH9xP/Untitled-design-17.png', imageHint: 'female student' },
   { name: 'ندى عريقات', year: '2007', physicsScore: '192/200', average: '97.6', imageUrl: 'https://i.ibb.co/fYnrTLVs/Untitled-design-18.png', imageHint: 'male student' },
   { name: 'جود الصفدي', year: '2007', physicsScore: '200/200', average: '99.75', imageUrl: 'https://i.ibb.co/pr6pvCpy/Untitled-design-20.png', imageHint: 'happy student' },
-  { name: 'عبدالعزيز تهتموني', year: '2007', physicsScore: '188/200', average: '97.1', imageUrl: 'https://i.ibb.co/mVnC4pyR/Untitled-design-21.png', imageHint: 'student thinking' },
+  { name: 'عبدالعزيز تهتموني', year: '2007', physicsScore: '188/200', average: '97.1', imageUrl: 'https://i.ibb.co/fYcvVP3G/Untitled-design-19.png', imageHint: 'student thinking' },
   { name: 'سجى السويطي', year: '2007', physicsScore: '180/200', average: '89.95', imageUrl: 'https://i.ibb.co/mVnC4pyR/Untitled-design-21.png', imageHint: 'student writing' },
   { name: 'سليمان حداد', year: '2023', physicsScore: '98.8', average: '98.2', imageUrl: 'https://placehold.co/400x600.png', imageHint: 'student reading' },
 ];
