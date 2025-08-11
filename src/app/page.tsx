@@ -51,8 +51,8 @@ const studentAchievements = [
 
 const testimonials = [
   { id: 1, image: "https://i.ibb.co/7J6F87zM/image.png", reviewScreenshot: "https://i.ibb.co/2QqmbJP/image.png", position: { top: '20%', left: '15%' } },
-  { id: 2, image: "https://i.ibb.co/DDw977GL/Untitled-design-2.jpg", reviewScreenshot: "https://i.ibb.co/ycJdhpcX/Untitled-design-11.png", position: { top: '50%', left: '25%' } },
-  { id: 3, image: "https://i.ibb.co/svSrQPXD/Untitled-design-16.png", reviewScreenshot: "https://i.ibb.co/0yKRLnSZ/Untitled-design-12.png", position: { top: '35%', left: '50%' } },
+  { id: 2, image: "https://i.ibb.co/Fq6knkjQ/image.png", reviewScreenshot: "https://i.ibb.co/B26nXwxS/1.png", position: { top: '50%', left: '25%' } },
+  { id: 3, image: "https://i.ibb.co/fGXQFykf/2.png", reviewScreenshot: "https://i.ibb.co/bjkbrnLb/image.png", position: { top: '35%', left: '50%' } },
   { id: 4, image: "https://i.ibb.co/9kvYH9xP/Untitled-design-17.png", reviewScreenshot: "https://i.ibb.co/pj5LgGpY/Untitled-design-13.png", position: { top: '65%', left: '60%' } },
   { id: 5, image: "https://i.ibb.co/fYnrTLVs/Untitled-design-18.png", reviewScreenshot: "https://i.ibb.co/9hbdB5d/Untitled-design-14.png", position: { top: '25%', left: '80%' } },
   { id: 6, image: "https://i.ibb.co/pr6pvCpy/Untitled-design-20.png", reviewScreenshot: "https://placehold.co/400x250.png", position: { top: '70%', left: '5%' } },
