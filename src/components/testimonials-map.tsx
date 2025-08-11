@@ -46,7 +46,7 @@ export function TestimonialsMap({ testimonials }: TestimonialsMapProps) {
           style={{ ...testimonial.position }}
           onClick={() => handleDotClick(testimonial)}
         >
-          <div className="relative w-24 h-24 group">
+          <div className="relative w-28 h-28 group">
             <span className="absolute inset-0 bg-primary/30 rounded-full animate-ping-slow group-hover:animate-ping"></span>
             <Image
               src={testimonial.image}
