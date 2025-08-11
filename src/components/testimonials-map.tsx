@@ -37,12 +37,7 @@ export function TestimonialsMap({ testimonials }: TestimonialsMapProps) {
 
   return (
     <div 
-      className="relative w-full h-[600px] bg-muted rounded-lg overflow-hidden"
-      style={{
-        backgroundImage: 'url("https://i.ibb.co/Vvz1DNp/map.png")',
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-      }}
+      className="relative w-full h-[600px] bg-background rounded-lg overflow-hidden"
     >
       {testimonials.map((testimonial) => (
         <button
