@@ -23,7 +23,7 @@ interface TestimonialsMapProps {
 
 export function TestimonialsMap({ testimonials }: TestimonialsMapProps) {
   return (
-    <div className="relative w-full min-h-[800px] p-4 bg-white overflow-hidden">
+    <div className="relative w-full min-h-[1200px] p-4 bg-white overflow-hidden">
       {testimonials.map((testimonial, index) => (
         <div 
           key={index} 
@@ -31,7 +31,7 @@ export function TestimonialsMap({ testimonials }: TestimonialsMapProps) {
           style={{ ...testimonial.position }}
         >
           {/* Student Image */}
-          <div className="relative w-[125px] h-[125px] cursor-pointer">
+          <div className="relative w-[500px] h-[500px] cursor-pointer">
             <Image
               src={testimonial.image}
               alt={`Testimonial ${index + 1}`}

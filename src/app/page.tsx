@@ -50,16 +50,16 @@ const studentAchievements = [
 ];
 
 const testimonials = [
-  { image: "https://i.ibb.co/Swd5wnpT/Untitled-design-24.png", reviewScreenshot: "https://placehold.co/400x250.png", position: { top: '5%', left: '5%' } },
-  { image: "https://placehold.co/150x150.png", reviewScreenshot: "https://placehold.co/400x250.png", position: { top: '25%', left: '50%' } },
-  { image: "https://placehold.co/150x150.png", reviewScreenshot: "https://placehold.co/400x250.png", position: { top: '5%', left: '80%' } },
-  { image: "https://placehold.co/150x150.png", reviewScreenshot: "https://placehold.co/400x250.png", position: { top: '65%', left: '75%' } },
-  { image: "https://placehold.co/150x150.png", reviewScreenshot: "https://placehold.co/400x250.png", position: { top: '70%', left: '15%' } },
-  { image: "https://placehold.co/150x150.png", reviewScreenshot: "https://placehold.co/400x250.png", position: { bottom: '5%', left: '30%' } },
-  { image: "https://placehold.co/150x150.png", reviewScreenshot: "https://placehold.co/400x250.png", position: { bottom: '45%', left: '5%' } },
-  { image: "https://placehold.co/150x150.png", reviewScreenshot: "https://placehold.co/400x250.png", position: { top: '55%', left: '35%' } },
-  { image: "https://placehold.co/150x150.png", reviewScreenshot: "https://placehold.co/400x250.png", position: { top: '85%', left: '50%' } },
-  { image: "https://placehold.co/150x150.png", reviewScreenshot: "https://placehold.co/400x250.png", position: { bottom: '10%', left: '90%' } },
+  { image: "https://i.ibb.co/Swd5wnpT/Untitled-design-24.png", reviewScreenshot: "https://placehold.co/400x250.png", position: { top: '50px', left: '50px' } },
+  { image: "https://placehold.co/500x500.png", reviewScreenshot: "https://placehold.co/400x250.png", position: { top: '250px', left: '600px' } },
+  { image: "https://placehold.co/500x500.png", reviewScreenshot: "https://placehold.co/400x250.png", position: { top: '50px', left: '1150px' } },
+  { image: "https://placehold.co/500x500.png", reviewScreenshot: "https://placehold.co/400x250.png", position: { top: '600px', left: '850px' } },
+  { image: "https://placehold.co/500x500.png", reviewScreenshot: "https://placehold.co/400x250.png", position: { top: '700px', left: '200px' } },
+  { image: "https://placehold.co/500x500.png", reviewScreenshot: "https://placehold.co/400x250.png", position: { top: '850px', left: '500px' } },
+  { image: "https://placehold.co/500x500.png", reviewScreenshot: "https://placehold.co/400x250.png", position: { top: '450px', left: '50px' } },
+  { image: "https://placehold.co/500x500.png", reviewScreenshot: "https://placehold.co/400x250.png", position: { top: '550px', left: '350px' } },
+  { image: "https://placehold.co/500x500.png", reviewScreenshot: "https://placehold.co/400x250.png", position: { top: '800px', left: '1100px' } },
+  { image: "https://placehold.co/500x500.png", reviewScreenshot: "https://placehold.co/400x250.png", position: { top: '1000px', left: '50px' } },
 ];
 
 
