@@ -9,7 +9,7 @@ import Link from 'next/link';
 import { FlippableCard } from '@/components/flippable-card';
 import { ImageSwiper } from '@/components/image-swiper';
 import { AchievementCard } from '@/components/achievement-card';
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { TestimonialsMap } from '@/components/testimonials-map';
 
 
 function Section({ children, className }: { children: React.ReactNode, className?: string }) {
@@ -54,19 +54,22 @@ const testimonials = [
       name: "ليان ابو طربوش",
       title: "طالبة توجيهي 2024",
       image: "https://i.ibb.co/whsX4QC/students-photo.png",
-      review: "الشرح كان أكثر من رائع! أستاذة دانا حولت المفاهيم المعقدة إلى أفكار بسيطة وممتعة. بفضلها، أصبحت الفيزياء المادة المفضلة عندي."
+      review: "الشرح كان أكثر من رائع! أستاذة دانا حولت المفاهيم المعقدة إلى أفكار بسيطة وممتعة. بفضلها، أصبحت الفيزياء المادة المفضلة عندي.",
+      position: { top: '20%', left: '15%' }
     },
     {
       name: "محمد الهاشمي",
-      title: "طالبة توجيهي 2024",
-      image: "https://i.ibb.co/whsX4QCQ/students-photo.png",
-      review: "لم أتوقع أبدًا أن أتمكن من حل مسائل الفيزياء بهذه السهولة. الاختبارات الدورية والمتابعة المستمرة ساعدتني على تطوير مستواي بشكل كبير."
+      title: "طالب توجيهي 2024",
+      image: "https://i.ibb.co/whsX4QC/students-photo.png",
+      review: "لم أتوقع أبدًا أن أتمكن من حل مسائل الفيزياء بهذه السهولة. الاختبارات الدورية والمتابعة المستمرة ساعدتني على تطوير مستواي بشكل كبير.",
+      position: { top: '50%', left: '30%' }
     },
     {
       name: "نور الحسن",
       title: "طالبة توجيهي 2024",
-      image: "https://i.ibb.co/whsX4QCQ/students-photo.png",
-      review: "أكثر ما يميز الأكاديمية هو استخدام المحاكاة. رؤية التجارب عمليًا أمامي جعلتني أفهم القوانين الفيزيائية بشكل أعمق وأكثر واقعية. شكرًا أستاذة دانا."
+      image: "https://i.ibb.co/whsX4QC/students-photo.png",
+      review: "أكثر ما يميز الأكاديمية هو استخدام المحاكاة. رؤية التجارب عمليًا أمامي جعلتني أفهم القوانين الفيزيائية بشكل أعمق وأكثر واقعية. شكرًا أستاذة دانا.",
+      position: { top: '35%', left: '65%' }
     }
   ];
 
@@ -256,24 +259,8 @@ export default function Home() {
                 شهادات طلابنا هي مصدر فخرنا وأكبر دليل على نجاحنا.
               </p>
             </div>
-            <div className="mt-12 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-              {testimonials.map((testimonial, index) => (
-                <Card key={index} className="bg-background border-primary/20 border-dashed border-2 flex flex-col">
-                  <CardHeader className="flex flex-row items-center gap-4 pb-4">
-                    <Avatar>
-                      <AvatarImage src={testimonial.image || `https://placehold.co/100x100.png`} alt={testimonial.name} data-ai-hint="student avatar" />
-                      <AvatarFallback>{testimonial.name.charAt(0)}</AvatarFallback>
-                    </Avatar>
-                    <div>
-                      <CardTitle className="text-lg font-bold">{testimonial.name}</CardTitle>
-                      <p className="text-sm text-muted-foreground">{testimonial.title}</p>
-                    </div>
-                  </CardHeader>
-                  <CardContent className="p-6 pt-2">
-                    <p className="text-muted-foreground italic">"{testimonial.review}"</p>
-                  </CardContent>
-                </Card>
-              ))}
+            <div className="mt-12">
+              <TestimonialsMap testimonials={testimonials} />
             </div>
           </div>
         </Section>
