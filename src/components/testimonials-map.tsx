@@ -76,7 +76,7 @@ export function TestimonialsMap({ testimonials }: TestimonialsMapProps) {
               transition={{ delay: index * 0.1 }}
               whileHover={{ scale: 1.1, zIndex: 20 }}
             >
-              <div className="relative w-24 h-24 md:w-32 md:h-32 rounded-lg shadow-lg cursor-pointer overflow-hidden border-2 border-primary/50 hover:border-primary transition-all duration-300">
+              <div className="relative w-28 h-28 md:w-36 md:h-36 rounded-lg shadow-lg cursor-pointer overflow-hidden transition-all duration-300">
                 <Image
                   src={testimonial.image}
                   alt={testimonial.name}
