@@ -50,14 +50,17 @@ const studentAchievements = [
 ];
 
 const testimonials = [
-    {
-      name: "ليان ابو طربوش",
-      title: "طالبة توجيهي 2024",
-      image: "https://i.ibb.co/whsX4QC/students-photo.png",
-      review: "الشرح كان أكثر من رائع! أستاذة دانا حولت المفاهيم المعقدة إلى أفكار بسيطة وممتعة. بفضلها، أصبحت الفيزياء المادة المفضلة عندي.",
-      position: { top: '40%', left: '50%' }
-    }
-  ];
+  { name: "طالب 1", image: "https://placehold.co/100x100.png", reviewScreenshot: "https://placehold.co/300x200.png", position: { top: '5%', left: '10%' } },
+  { name: "طالب 2", image: "https://placehold.co/100x100.png", reviewScreenshot: "https://placehold.co/300x200.png", position: { top: '25%', left: '30%' } },
+  { name: "طالب 3", image: "https://placehold.co/100x100.png", reviewScreenshot: "https://placehold.co/300x200.png", position: { top: '10%', right: '15%' } },
+  { name: "طالب 4", image: "https://placehold.co/100x100.png", reviewScreenshot: "https://placehold.co/300x200.png", position: { top: '50%', left: '5%' } },
+  { name: "طالب 5", image: "https://placehold.co/100x100.png", reviewScreenshot: "https://placehold.co/300x200.png", position: { top: '45%', right: '25%' } },
+  { name: "طالب 6", image: "https://placehold.co/100x100.png", reviewScreenshot: "https://placehold.co/300x200.png", position: { top: '70%', left: '20%' } },
+  { name: "طالب 7", image: "https://placehold.co/100x100.png", reviewScreenshot: "https://placehold.co/300x200.png", position: { bottom: '5%', right: '10%' } },
+  { name: "طالب 8", image: "https://placehold.co/100x100.png", reviewScreenshot: "https://placehold.co/300x200.png", position: { top: '30%', right: '5%' } },
+  { name: "طالب 9", image: "https://placehold.co/100x100.png", reviewScreenshot: "https://placehold.co/300x200.png", position: { bottom: '15%', left: '40%' } },
+  { name: "طالب 10", image: "https://placehold.co/100x100.png", reviewScreenshot: "https://placehold.co/300x200.png", position: { top: '65%', right: '5%' } },
+];
 
 
 export default function Home() {
