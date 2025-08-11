@@ -51,7 +51,7 @@ const studentAchievements = [
 
 const testimonials = [
   { id: 1, image: "https://i.ibb.co/7J6F87zM/image.png", reviewScreenshot: "https://i.ibb.co/PGBMrzDc/Untitled-design-10.png", position: { top: '20%', left: '15%' } },
-  { id: 2, image: "https://i.ibb.co/MxRFns1r/photo-2025-08-11-16-50-40.jpg", reviewScreenshot: "https://i.ibb.co/ycJdhpcX/Untitled-design-11.png", position: { top: '50%', left: '25%' } },
+  { id: 2, image: "https://i.ibb.co/2QqmbJP/image.png", reviewScreenshot: "https://i.ibb.co/ycJdhpcX/Untitled-design-11.png", position: { top: '50%', left: '25%' } },
   { id: 3, image: "https://i.ibb.co/svSrQPXD/Untitled-design-16.png", reviewScreenshot: "https://i.ibb.co/0yKRLnSZ/Untitled-design-12.png", position: { top: '35%', left: '50%' } },
   { id: 4, image: "https://i.ibb.co/9kvYH9xP/Untitled-design-17.png", reviewScreenshot: "https://i.ibb.co/pj5LgGpY/Untitled-design-13.png", position: { top: '65%', left: '60%' } },
   { id: 5, image: "https://i.ibb.co/fYnrTLVs/Untitled-design-18.png", reviewScreenshot: "https://i.ibb.co/9hbdB5d/Untitled-design-14.png", position: { top: '25%', left: '80%' } },
