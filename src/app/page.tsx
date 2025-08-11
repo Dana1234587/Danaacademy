@@ -38,7 +38,7 @@ const memorableMoments = [
 ];
 
 const studentAchievements = [
-  { name: 'أحمد الحوراني', year: '2007', physicsScore: '192/200', average: '95.90', imageUrl: 'https://i.ibb.co/DDw977GL/Untitled-design-2.jpg', imageHint: 'student portrait' },
+  { name: 'أحمد الحوراني', year: '2007', physicsScore: '192/200', average: '95.90', imageUrl: 'https://i.ibb.co/8DF6CxqC/Untitled-design-3.jpg', imageHint: 'student portrait' },
   { name: 'هاشم لافي', year: '2007', physicsScore: '196/200', average: '98.05', imageUrl: 'https://i.ibb.co/MxRFns1r/photo-2025-08-11-16-50-40.jpg', imageHint: 'student smiling' },
   { name: 'منى ابو نوير', year: '2007', physicsScore: '196/200', average: '97.25', imageUrl: 'https://i.ibb.co/svSrQPXD/Untitled-design-16.png', imageHint: 'graduate student' },
   { name: 'روان عكور', year: '2007', physicsScore: '192/200', average: '98.15', imageUrl: 'https://i.ibb.co/9kvYH9xP/Untitled-design-17.png', imageHint: 'female student' },
@@ -55,10 +55,10 @@ const testimonials = [
   { id: 3, image: "https://i.ibb.co/fGXQFykf/2.png", reviewScreenshot: "https://i.ibb.co/bjkbrnLb/image.png", position: { top: '50%', left: '10%' } },
   { id: 4, image: "https://i.ibb.co/PZWjb1QC/image.png", reviewScreenshot: "https://i.ibb.co/JL4vfhp/3.png", position: { top: '70%', left: '25%' } },
   { id: 5, image: "https://i.ibb.co/7t0BhthL/5.png", reviewScreenshot: "https://i.ibb.co/6c5NbCF8/image.png", position: { top: '15%', left: '80%' } },
-  { id: 6, image: "https://i.ibb.co/WN2nc6LQ/cropped-circle-image-11.png", reviewScreenshot: "https://i.ibb.co/5gfBYpy6/Untitled-design-30.png", position: { top: '45%', left: '90%' } },
+  { id: 6, image: "https://i.ibb.co/WN2nc6LQ/cropped-circle-image-11.png", reviewScreenshot: "https://i.ibb.co/BHksJKzn/Untitled-design-29.png", position: { top: '45%', left: '90%' } },
   { id: 7, image: "https://i.ibb.co/ZztB0w2m/cropped-circle-image-12.png", reviewScreenshot: "https://i.ibb.co/3YPMPKBY/Untitled-design-4.jpg", position: { top: '85%', left: '85%' } },
   { id: 8, image: "https://i.ibb.co/0pV97dn1/cropped-circle-image-14.png", reviewScreenshot: "https://i.ibb.co/QFTWKnPw/Untitled-design-32.png", position: { top: '65%', left: '70%' } },
-  { id: 9, image: "https://i.ibb.co/sJRp9tMR/Untitled-design-22.png", reviewScreenshot: "https://placehold.co/400x250.png", position: { top: '35%', left: '55%' } },
+  { id: 9, image: "https://i.ibb.co/cp2tYFd/cropped-circle-image-15.png", reviewScreenshot: "https://i.ibb.co/Hpg6r4sj/Untitled-design-31.png", position: { top: '35%', left: '55%' } },
   { id: 10, image: "https://i.ibb.co/Swd5wnpT/Untitled-design-24.png", reviewScreenshot: "https://placehold.co/400x250.png", position: { top: '90%', left: '50%' } },
 ];
 
