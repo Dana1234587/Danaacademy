@@ -50,7 +50,7 @@ const studentAchievements = [
 ];
 
 const testimonials = [
-  { name: "طالب 1", image: "https://i.ibb.co/6Z6hL3b/Untitled-design-15.png", reviewScreenshot: "https://placehold.co/300x200.png", position: { top: '5%', left: '10%' } },
+  { name: "طالب 1", image: "https://i.ibb.co/Swd5wnpT/Untitled-design-24.png", reviewScreenshot: "https://placehold.co/300x200.png", position: { top: '5%', left: '10%' } },
   { name: "طالب 2", image: "https://placehold.co/100x100.png", reviewScreenshot: "https://placehold.co/300x200.png", position: { top: '25%', left: '30%' } },
   { name: "طالب 3", image: "https://placehold.co/100x100.png", reviewScreenshot: "https://placehold.co/300x200.png", position: { top: '10%', right: '15%' } },
   { name: "طالب 4", image: "https://placehold.co/100x100.png", reviewScreenshot: "https://placehold.co/300x200.png", position: { top: '50%', left: '5%' } },
