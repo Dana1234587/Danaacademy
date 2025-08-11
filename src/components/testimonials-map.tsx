@@ -24,48 +24,50 @@ interface TestimonialsMapProps {
 
 export function TestimonialsMap({ testimonials }: TestimonialsMapProps) {
   return (
-    <div className="relative w-full p-4">
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-8">
-        {testimonials.map((testimonial, index) => (
-          <div key={index} className="relative group flex flex-col items-center">
-            {/* Student Image */}
-            <div className="relative w-32 h-32 md:w-40 md:h-40 cursor-pointer">
-              <Image
-                src={testimonial.image}
-                alt={testimonial.name}
-                layout="fill"
-                objectFit="cover"
-                className="rounded-lg"
-                data-ai-hint="student photo"
-              />
-              
-              {/* Review Screenshot on Hover */}
-              <AnimatePresence>
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  whileHover={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.3 }}
-                  className="absolute inset-0 w-full h-full"
-                >
-                  <Image
-                    src={testimonial.reviewScreenshot}
-                    alt={`${testimonial.name}'s review`}
-                    layout="fill"
-                    objectFit="contain"
-                    className="rounded-lg shadow-2xl"
-                    data-ai-hint="review screenshot"
-                  />
-                </motion.div>
-              </AnimatePresence>
-            </div>
+    <div className="relative w-full min-h-[600px] p-4">
+      {testimonials.map((testimonial, index) => (
+        <div 
+          key={index} 
+          className="absolute group flex flex-col items-center"
+          style={{ ...testimonial.position }}
+        >
+          {/* Student Image */}
+          <div className="relative w-32 h-32 md:w-40 md:h-40 cursor-pointer">
+            <Image
+              src={testimonial.image}
+              alt={testimonial.name}
+              layout="fill"
+              objectFit="cover"
+              className="rounded-lg scale-110"
+              data-ai-hint="student photo"
+            />
             
-            {/* Student Name */}
-            <p className="mt-4 font-bold text-primary text-center">
-              {testimonial.name}
-            </p>
+            {/* Review Screenshot on Hover */}
+            <AnimatePresence>
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                whileHover={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.3 }}
+                className="absolute inset-0 w-full h-full"
+              >
+                <Image
+                  src={testimonial.reviewScreenshot}
+                  alt={`${testimonial.name}'s review`}
+                  layout="fill"
+                  objectFit="contain"
+                  className="rounded-lg shadow-2xl"
+                  data-ai-hint="review screenshot"
+                />
+              </motion.div>
+            </AnimatePresence>
           </div>
-        ))}
-      </div>
+          
+          {/* Student Name */}
+          <p className="mt-4 font-bold text-primary text-center">
+            {testimonial.name}
+          </p>
+        </div>
+      ))}
     </div>
   );
 }
