@@ -4,6 +4,7 @@
 
 
 
+
 import { MarketingLayout } from '@/components/layout/marketing-layout';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, Rocket } from 'lucide-react';
@@ -75,7 +76,7 @@ const courses = [
     imageUrl: 'https://i.ibb.co/v6JXwghs/image.png',
     imageHint: 'physics textbook',
     curriculum: 'الأردن',
-    link: '/physics/tawjihi/first-semester/momentum/linear-momentum-and-impulse/concepts'
+    link: '/courses/physics-supplementary-2007'
   },
   {
     title: 'فيزياء التوجيهي - جيل 2008',
@@ -85,7 +86,7 @@ const courses = [
     imageHint: 'physics textbook 2008',
     curriculum: 'الأردن'
   },
-  {
+    {
     title: 'دورة التأسيس توجيهي الأردن لجيل 2008',
     description: 'دورة تأسيسية شاملة لجيل 2008 لمساعدتهم على الاستعداد الأمثل لمادة الفيزياء في التوجيهي.',
     price: '50.00 د.أ',
@@ -329,3 +330,6 @@ export default function Home() {
 
 
 
+
+
+    
