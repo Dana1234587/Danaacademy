@@ -136,7 +136,7 @@ function SidebarNavMenu() {
 
       return (
         <Collapsible key={itemKey} asChild>
-          <>
+          <div>
             <SidebarMenuItem>
               {isCollapsible || item.content ? (
                 <CollapsibleTrigger asChild>{button}</CollapsibleTrigger>
@@ -169,7 +169,7 @@ function SidebarNavMenu() {
                   </div>
               </CollapsibleContent>
             )}
-          </>
+          </div>
         </Collapsible>
       );
     });
