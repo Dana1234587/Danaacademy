@@ -3,6 +3,7 @@
 
 
 
+
 import { MarketingLayout } from '@/components/layout/marketing-layout';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, Rocket } from 'lucide-react';
@@ -73,7 +74,8 @@ const courses = [
     price: '50.00 د.أ',
     imageUrl: 'https://i.ibb.co/v6JXwghs/image.png',
     imageHint: 'physics textbook',
-    curriculum: 'الأردن'
+    curriculum: 'الأردن',
+    link: '/physics/tawjihi/first-semester/momentum/linear-momentum-and-impulse/concepts'
   },
   {
     title: 'فيزياء التوجيهي - جيل 2008',
@@ -315,4 +317,5 @@ export default function Home() {
     
 
     
+
 
