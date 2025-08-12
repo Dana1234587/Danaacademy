@@ -65,7 +65,7 @@ const testimonials = [
 
 const courses = [
   {
-    title: 'فيزياء التوجيهي الأردني',
+    title: 'فيزياء التكميلي - جيل 2007',
     description: 'دورة شاملة لمنهج الفيزياء للتوجيهي الأردني، تغطي جميع الوحدات والمفاهيم الأساسية.',
     price: '50.00 د.أ',
     imageUrl: 'https://i.ibb.co/tynPpNn/Screenshot-2025-08-10-002837.png',
