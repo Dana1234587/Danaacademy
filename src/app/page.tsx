@@ -172,7 +172,7 @@ export default function Home() {
                         <div className="relative group w-[376px] h-[376px]">
                             <span className="absolute inset-0 bg-primary/20 rounded-full animate-ping-slow group-hover:animate-ping"></span>
                             <Image
-                                src="https://i.ibb.co/xqtKkgC6/cropped-circle-image-17.png"
+                                src="https://i.ibb.co/SXn1vhJP/NEW-NEW.png"
                                 alt="About Dana Academy"
                                 width={376}
                                 height={376}
