@@ -86,6 +86,14 @@ const courses = [
     curriculum: 'الأردن'
   },
   {
+    title: 'دورة التأسيس توجيهي الأردن لجيل 2008',
+    description: 'دورة تأسيسية شاملة لجيل 2008 لمساعدتهم على الاستعداد الأمثل لمادة الفيزياء في التوجيهي.',
+    price: '50.00 د.أ',
+    imageUrl: 'https://placehold.co/600x400.png',
+    imageHint: 'physics foundation',
+    curriculum: 'الأردن',
+  },
+  {
     title: 'فيزياء التوجيهي - جيل 2008',
     description: 'فصل أول',
     price: '60.00 د.أ',
@@ -317,5 +325,6 @@ export default function Home() {
     
 
     
+
 
 
