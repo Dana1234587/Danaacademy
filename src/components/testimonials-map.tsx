@@ -51,9 +51,8 @@ export function TestimonialsMap({ testimonials }: TestimonialsMapProps) {
             <Image
               src={testimonial.image}
               alt={`Testimonial ${testimonial.id}`}
-              layout="fill"
-              objectFit="cover"
-              className="rounded-full border-4 border-white shadow-lg"
+              fill
+              className="object-cover rounded-full border-4 border-white shadow-lg"
               data-ai-hint="student photo"
             />
           </div>
@@ -80,8 +79,7 @@ export function TestimonialsMap({ testimonials }: TestimonialsMapProps) {
                 alt={`Review screenshot for testimonial ${activeTestimonial.id}`}
                 width={500}
                 height={300}
-                objectFit="contain"
-                className="max-w-full h-auto"
+                className="object-contain max-w-full h-auto"
                 data-ai-hint="review screenshot"
               />
             </div>
