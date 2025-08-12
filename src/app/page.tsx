@@ -218,6 +218,23 @@ export default function Home() {
             </div>
         </Section>
         
+        {/* Testimonials Section */}
+        <Section className="bg-white">
+          <div className="container px-4 md:px-6">
+            <div className="flex flex-col items-center text-center space-y-6">
+              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl text-primary">
+                آراء طلابنا
+              </h2>
+              <p className="max-w-[700px] text-muted-foreground md:text-xl">
+                شهادات طلابنا هي مصدر فخرنا وأكبر دليل على نجاحنا.
+              </p>
+            </div>
+            <div className="mt-12">
+              <TestimonialsMap testimonials={testimonials} />
+            </div>
+          </div>
+        </Section>
+
         {/* Student Achievements Section */}
         <Section className="bg-background">
             <div className="container px-4 md:px-6">
@@ -235,23 +252,6 @@ export default function Home() {
                     ))}
                 </div>
             </div>
-        </Section>
-
-        {/* Testimonials Section */}
-        <Section className="bg-white">
-          <div className="container px-4 md:px-6">
-            <div className="flex flex-col items-center text-center space-y-6">
-              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl text-primary">
-                آراء طلابنا
-              </h2>
-              <p className="max-w-[700px] text-muted-foreground md:text-xl">
-                شهادات طلابنا هي مصدر فخرنا وأكبر دليل على نجاحنا.
-              </p>
-            </div>
-            <div className="mt-12">
-              <TestimonialsMap testimonials={testimonials} />
-            </div>
-          </div>
         </Section>
 
         {/* Memorable Moments Section */}
