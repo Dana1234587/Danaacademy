@@ -1,6 +1,7 @@
 
 
 
+
 import { MarketingLayout } from '@/components/layout/marketing-layout';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, Rocket } from 'lucide-react';
@@ -74,12 +75,12 @@ const courses = [
     curriculum: 'الأردن'
   },
   {
-    title: 'ميكانيكا الكم للمبتدئين',
-    description: 'اكتشف عالم الكم الغامض والمثير مع شرح مبسط للمفاهيم الأساسية والنظريات.',
-    price: '75.00 د.أ',
-    imageUrl: 'https://placehold.co/600x400.png',
-    imageHint: 'quantum physics',
-    curriculum: 'فلسطين'
+    title: 'فيزياء التوجيهي - جيل 2008',
+    description: 'فصل أول',
+    price: '50.00 د.أ',
+    imageUrl: 'https://i.ibb.co/HTYrz1mb/image.png',
+    imageHint: 'physics textbook 2008',
+    curriculum: 'الأردن'
   },
   {
     title: 'الكهرباء والمغناطيسية',
