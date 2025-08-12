@@ -2,7 +2,7 @@
 
 import { MarketingLayout } from '@/components/layout/marketing-layout';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, Rocket } from 'lucide-react';
 import Image from 'next/image';
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import Link from 'next/link';
@@ -12,8 +12,8 @@ import { AchievementCard } from '@/components/achievement-card';
 import { TestimonialsMap } from '@/components/testimonials-map';
 
 
-function Section({ children, className }: { children: React.ReactNode, className?: string }) {
-  return <section className={`py-12 md:py-20 ${className}`}>{children}</section>;
+function Section({ children, className, id }: { children: React.ReactNode, className?: string, id?: string }) {
+  return <section id={id} className={`py-12 md:py-20 ${className}`}>{children}</section>;
 }
 
 const memorableMoments = [
@@ -101,6 +101,14 @@ export default function Home() {
                            <p className="font-normal">سواء كنت طالباً تطمح للتفوق أو محباً للعلم يبحث عن الإلهام، ستجد في أكاديميتنا ما يفتح آفاقك نحو فهم أعمق وإبداع أكبر.</p>
                            <p className="font-bold">🚀 استعد… فالفيزياء هنا ليست مادة تُدرس، بل فن نعيشه!</p>
                         </div>
+                        <div className="mt-8 flex justify-center md:justify-start">
+                           <Button asChild className="animate-pulse-slow hover:animate-none hover:-translate-y-1 transition-transform" size="lg">
+                                <Link href="#courses-section" className="flex items-center gap-2">
+                                    <Rocket className="h-5 w-5" />
+                                    <span>ابدأ رحلتك الآن</span>
+                                </Link>
+                            </Button>
+                        </div>
                     </div>
                     <div className="flex justify-center">
                          <Image
@@ -125,7 +133,7 @@ export default function Home() {
 
 
         {/* Courses Section */}
-        <Section className="bg-muted z-10 relative">
+        <Section id="courses-section" className="bg-muted z-10 relative">
             <div className="container px-4 md:px-6">
                 <div className="flex flex-col items-center text-center space-y-6">
                     <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl text-primary">
@@ -275,3 +283,5 @@ export default function Home() {
     </MarketingLayout>
   );
 }
+
+    
