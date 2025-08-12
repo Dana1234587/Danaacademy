@@ -15,6 +15,7 @@ interface CourseCardProps {
     price: string;
     imageUrl: string;
     imageHint: string;
+    curriculum?: string;
   };
   className?: string;
 }
@@ -24,6 +25,14 @@ export function CourseCard({ course, className }: CourseCardProps) {
 
   const handleMouseEnter = () => setIsFlipped(true);
   const handleMouseLeave = () => setIsFlipped(false);
+
+  const curriculumColorMap: { [key: string]: string } = {
+    'الأردن': 'bg-red-600',
+    'فلسطين': 'bg-green-600',
+    'قطر': 'bg-yellow-600',
+  };
+
+  const curriculumColor = course.curriculum ? curriculumColorMap[course.curriculum] || 'bg-gray-500' : 'bg-gray-500';
 
   return (
     <div
@@ -39,6 +48,14 @@ export function CourseCard({ course, className }: CourseCardProps) {
       >
         {/* Front of the card */}
         <Card className="absolute w-full h-full backface-visibility-hidden flex flex-col overflow-hidden rounded-lg shadow-lg border-2 border-primary bg-white/30 backdrop-blur-sm">
+            {course.curriculum && (
+              <div className={cn(
+                "absolute top-2 -right-11 transform rotate-45 text-white text-xs font-bold text-center z-10 w-40 py-1",
+                curriculumColor
+              )}>
+                {course.curriculum}
+              </div>
+            )}
             <div className="relative aspect-video overflow-hidden">
                 <Image
                 src={course.imageUrl}
@@ -85,3 +102,5 @@ export function CourseCard({ course, className }: CourseCardProps) {
     </div>
   );
 }
+
+    

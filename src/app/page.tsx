@@ -69,35 +69,40 @@ const courses = [
     description: 'دورة شاملة لمنهج الفيزياء للتوجيهي الأردني، تغطي جميع الوحدات والمفاهيم الأساسية.',
     price: '50.00 د.أ',
     imageUrl: 'https://i.ibb.co/tynPpNn/Screenshot-2025-08-10-002837.png',
-    imageHint: 'physics textbook'
+    imageHint: 'physics textbook',
+    curriculum: 'الأردن'
   },
   {
     title: 'ميكانيكا الكم للمبتدئين',
     description: 'اكتشف عالم الكم الغامض والمثير مع شرح مبسط للمفاهيم الأساسية والنظريات.',
     price: '75.00 د.أ',
     imageUrl: 'https://placehold.co/600x400.png',
-    imageHint: 'quantum physics'
+    imageHint: 'quantum physics',
+    curriculum: 'فلسطين'
   },
   {
     title: 'الكهرباء والمغناطيسية',
     description: 'دورة تفاعلية تشرح قوانين الكهرباء والمغناطيسية وتطبيقاتها العملية في حياتنا اليومية.',
     price: '60.00 د.أ',
     imageUrl: 'https://placehold.co/600x400.png',
-    imageHint: 'electricity magnet'
+    imageHint: 'electricity magnet',
+    curriculum: 'قطر'
   },
   {
     title: 'الفيزياء الفلكية والكون',
     description: 'انطلق في رحلة عبر النجوم والمجرات لاستكشاف أسرار الكون ونشأته وتطوره.',
     price: '80.00 د.أ',
     imageUrl: 'https://placehold.co/600x400.png',
-    imageHint: 'astronomy space'
+    imageHint: 'astronomy space',
+    curriculum: 'الأردن'
   },
   {
     title: 'الفيزياء النووية والإشعاع',
     description: 'تعمق في بنية الذرة والظواهر النووية، وتعرف على تطبيقاتها في الطاقة والطب.',
     price: '70.00 د.أ',
     imageUrl: 'https://placehold.co/600x400.png',
-    imageHint: 'nuclear physics'
+    imageHint: 'nuclear physics',
+    curriculum: 'فلسطين'
   },
 ];
 
@@ -299,6 +304,8 @@ export default function Home() {
     </MarketingLayout>
   );
 }
+
+    
 
     
 
