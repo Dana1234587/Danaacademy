@@ -55,7 +55,7 @@ const testimonials = [
   { id: 3, image: "https://i.ibb.co/fGXQFykf/2.png", reviewScreenshot: "https://i.ibb.co/bjkbrnLb/image.png", position: { top: '50%', left: '10%' } },
   { id: 4, image: "https://i.ibb.co/PZWjb1QC/image.png", reviewScreenshot: "https://i.ibb.co/JL4vfhp/3.png", position: { top: '70%', left: '25%' } },
   { id: 5, image: "https://i.ibb.co/7t0BhthL/5.png", reviewScreenshot: "https://i.ibb.co/6c5NbCF8/image.png", position: { top: '15%', left: '80%' } },
-  { id: 6, image: "https://i.ibb.co/WN2nc6LQ/cropped-circle-image-11.png", reviewScreenshot: "https://i.ibb.co/BHksJKzn/Untitled-design-29.png", position: { top: '45%', left: '90%' } },
+  { id: 6, image: "https://i.ibb.co/WN2nc6LQ/cropped-circle-image-11.png", reviewScreenshot: "https://i.ibb.co/5gfBYpy6/Untitled-design-30.png", position: { top: '45%', left: '90%' } },
   { id: 7, image: "https://i.ibb.co/ZztB0w2m/cropped-circle-image-12.png", reviewScreenshot: "https://i.ibb.co/3YPMPKBY/Untitled-design-4.jpg", position: { top: '85%', left: '85%' } },
   { id: 8, image: "https://i.ibb.co/0pV97dn1/cropped-circle-image-14.png", reviewScreenshot: "https://i.ibb.co/QFTWKnPw/Untitled-design-32.png", position: { top: '65%', left: '70%' } },
   { id: 9, image: "https://i.ibb.co/cp2tYFd/cropped-circle-image-15.png", reviewScreenshot: "https://i.ibb.co/Hpg6r4sj/Untitled-design-31.png", position: { top: '35%', left: '55%' } },
@@ -112,7 +112,7 @@ export default function Home() {
                     </div>
                     <div className="flex justify-center">
                          <Image
-                            src="https://i.ibb.co/SXn1vhJP/NEW-NEW.png"
+                            src="https://i.ibb.co/xqtKkgC6/cropped-circle-image-17.png"
                             alt="About Dana Academy"
                             width={376}
                             height={220}
@@ -283,5 +283,7 @@ export default function Home() {
     </MarketingLayout>
   );
 }
+
+    
 
     
