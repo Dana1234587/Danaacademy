@@ -4,7 +4,6 @@
 
 
 
-
 import { MarketingLayout } from '@/components/layout/marketing-layout';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, Rocket } from 'lucide-react';
@@ -170,13 +169,12 @@ export default function Home() {
                     </div>
                     <div className="flex justify-center items-center">
                         <div className="relative group w-[376px] h-[376px]">
-                            <span className="absolute inset-0 bg-primary/20 rounded-full animate-ping-slow group-hover:animate-ping"></span>
                             <Image
                                 src="https://i.ibb.co/SXn1vhJP/NEW-NEW.png"
                                 alt="About Dana Academy"
                                 width={376}
                                 height={376}
-                                className="rounded-full object-cover relative z-10"
+                                className="rounded-xl object-cover"
                                 data-ai-hint="teacher classroom"
                             />
                         </div>
