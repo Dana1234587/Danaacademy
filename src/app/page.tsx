@@ -10,6 +10,7 @@ import { FlippableCard } from '@/components/flippable-card';
 import { ImageSwiper } from '@/components/image-swiper';
 import { AchievementCard } from '@/components/achievement-card';
 import { TestimonialsMap } from '@/components/testimonials-map';
+import { CourseCard } from '@/components/course-card';
 
 
 function Section({ children, className, id }: { children: React.ReactNode, className?: string, id?: string }) {
@@ -60,6 +61,44 @@ const testimonials = [
   { id: 8, image: "https://i.ibb.co/0pV97dn1/cropped-circle-image-14.png", reviewScreenshot: "https://i.ibb.co/QFTWKnPw/Untitled-design-32.png", position: { top: '65%', left: '70%' } },
   { id: 9, image: "https://i.ibb.co/cp2tYFd/cropped-circle-image-15.png", reviewScreenshot: "https://i.ibb.co/Hpg6r4sj/Untitled-design-31.png", position: { top: '35%', left: '55%' } },
   { id: 10, image: "https://i.ibb.co/Swd5wnpT/Untitled-design-24.png", reviewScreenshot: "https://placehold.co/400x250.png", position: { top: '90%', left: '50%' } },
+];
+
+const courses = [
+  {
+    title: 'فيزياء التوجيهي الأردني',
+    description: 'دورة شاملة لمنهج الفيزياء للتوجيهي الأردني، تغطي جميع الوحدات والمفاهيم الأساسية.',
+    price: '50.00 د.أ',
+    imageUrl: 'https://i.ibb.co/tynPpNn/Screenshot-2025-08-10-002837.png',
+    imageHint: 'physics textbook'
+  },
+  {
+    title: 'ميكانيكا الكم للمبتدئين',
+    description: 'اكتشف عالم الكم الغامض والمثير مع شرح مبسط للمفاهيم الأساسية والنظريات.',
+    price: '75.00 د.أ',
+    imageUrl: 'https://placehold.co/600x400.png',
+    imageHint: 'quantum physics'
+  },
+  {
+    title: 'الكهرباء والمغناطيسية',
+    description: 'دورة تفاعلية تشرح قوانين الكهرباء والمغناطيسية وتطبيقاتها العملية في حياتنا اليومية.',
+    price: '60.00 د.أ',
+    imageUrl: 'https://placehold.co/600x400.png',
+    imageHint: 'electricity magnet'
+  },
+  {
+    title: 'الفيزياء الفلكية والكون',
+    description: 'انطلق في رحلة عبر النجوم والمجرات لاستكشاف أسرار الكون ونشأته وتطوره.',
+    price: '80.00 د.أ',
+    imageUrl: 'https://placehold.co/600x400.png',
+    imageHint: 'astronomy space'
+  },
+  {
+    title: 'الفيزياء النووية والإشعاع',
+    description: 'تعمق في بنية الذرة والظواهر النووية، وتعرف على تطبيقاتها في الطاقة والطب.',
+    price: '70.00 د.أ',
+    imageUrl: 'https://placehold.co/600x400.png',
+    imageHint: 'nuclear physics'
+  },
 ];
 
 
@@ -146,36 +185,10 @@ export default function Home() {
                         انضم إلى دوراتنا المصممة بعناية لمساعدتك على إتقان مفاهيم الفيزياء وتحقيق أفضل النتائج.
                     </p>
                 </div>
-                <div className="mt-12 grid gap-8 justify-center sm:grid-cols-1 lg:grid-cols-1">
-                  <Card className="group max-w-3xl mx-auto w-full overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
-                    <div className="grid md:grid-cols-2">
-                      <div className="relative h-64 md:h-full overflow-hidden">
-                        <Image
-                            src="https://i.ibb.co/tynPpNn/Screenshot-2025-08-10-002837.png"
-                            alt="فيزياء التوجيهي الاردني"
-                            fill
-                            className="object-cover group-hover:scale-110 transition-transform duration-500"
-                            data-ai-hint="physics textbook"
-                          />
-                      </div>
-                      <div className="flex flex-col justify-between p-6">
-                        <CardHeader className="p-0">
-                            <CardTitle className="text-2xl font-bold text-primary">فيزياء التوجيهي الاردني</CardTitle>
-                        </CardHeader>
-                        <CardContent className="p-0 mt-4 space-y-4">
-                            <p className="text-muted-foreground">
-                                دورة شاملة لمنهج الفيزياء للتوجيهي الأردني، تغطي جميع الوحدات والمفاهيم الأساسية مع شرح مبسط وتمارين مكثفة.
-                            </p>
-                            <Button asChild className="w-full mt-4 animate-pulse-slow" size="lg">
-                                <Link href="/physics" className="flex items-center gap-2">
-                                    <span>عرض الدورة</span>
-                                    <ArrowLeft className="h-5 w-5" />
-                                </Link>
-                            </Button>
-                        </CardContent>
-                      </div>
-                    </div>
-                  </Card>
+                <div className="mt-12 grid gap-8 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 justify-center">
+                  {courses.map((course, index) => (
+                    <CourseCard key={index} course={course} />
+                  ))}
                 </div>
             </div>
         </Section>
