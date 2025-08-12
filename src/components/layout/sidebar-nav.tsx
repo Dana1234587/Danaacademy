@@ -38,44 +38,44 @@ const menuItems = [
       {
         label: 'الفصل الأول',
         icon: Folder,
-        path: '/tawjihi/first-semester',
+        path: '/physics/tawjihi/first-semester',
         subItems: [
           { 
             label: 'الزخم الخطي والتصادمات', 
             icon: Folder, 
-            path: '/tawjihi/first-semester/momentum', 
+            path: '/physics/tawjihi/first-semester/momentum', 
             subItems: [
-              { label: 'الزخم الخطي والدفع', icon: FileText, path: '/tawjihi/first-semester/momentum/linear-momentum-and-impulse', content: true },
-              { label: 'التصادمات', icon: FileText, path: '/tawjihi/first-semester/momentum/collisions', content: true },
+              { label: 'الزخم الخطي والدفع', icon: FileText, path: '/physics/tawjihi/first-semester/momentum/linear-momentum-and-impulse', content: true },
+              { label: 'التصادمات', icon: FileText, path: '/physics/tawjihi/first-semester/momentum/collisions', content: true },
             ]
           },
           { 
             label: 'الحركة الدورانية', 
             icon: Folder, 
-            path: '/tawjihi/first-semester/rotational-motion',
+            path: '/physics/tawjihi/first-semester/rotational-motion',
             subItems: [
-              { label: 'العزم والاتزان السكوني', icon: FileText, path: '/tawjihi/first-semester/rotational-motion/torque-and-static-equilibrium', content: true },
-              { label: 'ديناميكا الحركة الدورانية', icon: FileText, path: '/tawjihi/first-semester/rotational-motion/rotational-dynamics', content: true },
-              { label: 'الزخم الزاوي', icon: FileText, path: '/tawjihi/first-semester/rotational-motion/angular-momentum', content: true },
+              { label: 'العزم والاتزان السكوني', icon: FileText, path: '/physics/tawjihi/first-semester/rotational-motion/torque-and-static-equilibrium', content: true },
+              { label: 'ديناميكا الحركة الدورانية', icon: FileText, path: '/physics/tawjihi/first-semester/rotational-motion/rotational-dynamics', content: true },
+              { label: 'الزخم الزاوي', icon: FileText, path: '/physics/tawjihi/first-semester/rotational-motion/angular-momentum', content: true },
             ]
           },
           { 
             label: 'التيار والدارات الكهربائية', 
             icon: Folder, 
-            path: '/tawjihi/first-semester/circuits',
+            path: '/physics/tawjihi/first-semester/circuits',
             subItems: [
-                { label: 'المقاومة والقوة الدافعة', icon: FileText, path: '/tawjihi/first-semester/circuits/resistance', content: true },
-                { label: 'القدرة والدارة البسيطة', icon: FileText, path: '/tawjihi/first-semester/circuits/power', content: true },
-                { label: 'قاعدتا كيرشوف', icon: FileText, path: '/tawjihi/first-semester/circuits/kirchhoff', content: true },
+                { label: 'المقاومة والقوة الدافعة', icon: FileText, path: '/physics/tawjihi/first-semester/circuits/resistance', content: true },
+                { label: 'القدرة والدارة البسيطة', icon: FileText, path: '/physics/tawjihi/first-semester/circuits/power', content: true },
+                { label: 'قاعدتا كيرشوف', icon: FileText, path: '/physics/tawjihi/first-semester/circuits/kirchhoff', content: true },
             ]
           },
           { 
             label: 'المجال المغناطيسي', 
             icon: Folder, 
-            path: '/tawjihi/first-semester/magnetic-field',
+            path: '/physics/tawjihi/first-semester/magnetic-field',
             subItems: [
-                { label: 'القوة المغناطيسية', icon: FileText, path: '/tawjihi/first-semester/magnetic-field/force', content: true },
-                { label: 'المجال المغناطيسي من تيار', icon: FileText, path: '/tawjihi/first-semester/magnetic-field/from-current', content: true },
+                { label: 'القوة المغناطيسية', icon: FileText, path: '/physics/tawjihi/first-semester/magnetic-field/force', content: true },
+                { label: 'المجال المغناطيسي من تيار', icon: FileText, path: '/physics/tawjihi/first-semester/magnetic-field/from-current', content: true },
             ]
           },
         ],
@@ -83,11 +83,11 @@ const menuItems = [
       {
         label: 'الفصل الثاني',
         icon: Folder,
-        path: '/tawjihi/second-semester',
+        path: '/physics/tawjihi/second-semester',
         subItems: [
-          { label: 'الحث الكهرومغناطيسي', icon: Folder, path: '/tawjihi/second-semester/electromagnetic-induction', content: true },
-          { label: 'فيزياء الكم', icon: Folder, path: '/tawjihi/second-semester/quantum-physics', content: true },
-          { label: 'الفيزياء النووية', icon: Folder, path: '/tawjihi/second-semester/nuclear-physics', content: true },
+          { label: 'الحث الكهرومغناطيسي', icon: Folder, path: '/physics/tawjihi/second-semester/electromagnetic-induction', content: true },
+          { label: 'فيزياء الكم', icon: Folder, path: '/physics/tawjihi/second-semester/quantum-physics', content: true },
+          { label: 'الفيزياء النووية', icon: Folder, path: '/physics/tawjihi/second-semester/nuclear-physics', content: true },
         ],
       },
     ],
@@ -103,13 +103,14 @@ const contentTypes = [
 function SidebarNavMenu() {
   const pathname = usePathname();
 
-  const renderMenuItems = (items: any[], level = 0) => {
+  const renderMenuItems = (items: any[], level = 0, parentPath = '') => {
     return items.map((item, index) => {
+      const currentPath = item.path;
       const isCollapsible = item.subItems && item.subItems.length > 0;
       
       const isActive = isCollapsible 
-        ? pathname.startsWith(item.path)
-        : pathname === item.path;
+        ? pathname.startsWith(currentPath)
+        : pathname === currentPath;
 
       const buttonContent = (
         <>
@@ -117,14 +118,16 @@ function SidebarNavMenu() {
             <item.icon className="h-4 w-4" />
             <span>{item.label}</span>
           </div>
-          {isCollapsible && <ChevronsRight className="h-4 w-4 text-muted-foreground transition-transform duration-200 group-data-[state=open]:rotate-90" />}
+          {(isCollapsible || item.content) && <ChevronsRight className="h-4 w-4 text-muted-foreground transition-transform duration-200 group-data-[state=open]:rotate-90" />}
         </>
       );
-
+      
+      const itemKey = `${parentPath}-${item.label}-${index}`;
+      
       const button = (
         <SidebarMenuButton
-          className={cn(isCollapsible && "justify-between")}
-          isActive={isActive}
+          className={cn(isCollapsible && "justify-between", item.content && "justify-between")}
+          isActive={isActive && !isCollapsible && !item.content}
           variant={level > 0 ? 'ghost' : 'default'}
         >
           {buttonContent}
@@ -132,20 +135,20 @@ function SidebarNavMenu() {
       );
 
       return (
-        <Collapsible key={index} asChild>
+        <Collapsible key={itemKey} asChild>
           <>
             <SidebarMenuItem>
-              {isCollapsible ? (
+              {isCollapsible || item.content ? (
                 <CollapsibleTrigger asChild>{button}</CollapsibleTrigger>
               ) : (
-                <Link href={item.path}>{button}</Link>
+                <Link href={currentPath}>{button}</Link>
               )}
             </SidebarMenuItem>
 
-            {isCollapsible && (
+            {(isCollapsible) && (
               <CollapsibleContent>
                 <div className={cn("ms-7 border-s border-border")}>
-                  {renderMenuItems(item.subItems, level + 1)}
+                  {renderMenuItems(item.subItems, level + 1, currentPath)}
                 </div>
               </CollapsibleContent>
             )}
@@ -155,8 +158,8 @@ function SidebarNavMenu() {
                   <div className={cn("ms-7 border-s border-border")}>
                   {contentTypes.map((contentType) => (
                       <SidebarMenuItem key={contentType.folder} className="ms-4">
-                          <Link href={`${item.path}/${contentType.folder}`}>
-                              <SidebarMenuButton variant="ghost" isActive={pathname === `${item.path}/${contentType.folder}`}>
+                          <Link href={`${currentPath}/${contentType.folder}`}>
+                              <SidebarMenuButton variant="ghost" isActive={pathname === `${currentPath}/${contentType.folder}`}>
                                   <contentType.icon className="h-4 w-4"/>
                                   <span>{contentType.label}</span>
                               </SidebarMenuButton>
