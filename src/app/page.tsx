@@ -83,7 +83,8 @@ const courses = [
     price: '50.00 د.أ',
     imageUrl: 'https://i.ibb.co/HTYrz1mb/image.png',
     imageHint: 'physics textbook 2008',
-    curriculum: 'الأردن'
+    curriculum: 'الأردن',
+    link: '/courses/physics-2008'
   },
     {
     title: 'دورة التأسيس توجيهي الأردن لجيل 2008',
