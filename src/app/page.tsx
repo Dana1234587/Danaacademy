@@ -2,6 +2,7 @@
 
 
 
+
 import { MarketingLayout } from '@/components/layout/marketing-layout';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, Rocket } from 'lucide-react';
@@ -83,12 +84,12 @@ const courses = [
     curriculum: 'الأردن'
   },
   {
-    title: 'الكهرباء والمغناطيسية',
-    description: 'دورة تفاعلية تشرح قوانين الكهرباء والمغناطيسية وتطبيقاتها العملية في حياتنا اليومية.',
+    title: 'فيزياء التوجيهي - جيل 2008',
+    description: 'فصل أول',
     price: '60.00 د.أ',
-    imageUrl: 'https://placehold.co/600x400.png',
-    imageHint: 'electricity magnet',
-    curriculum: 'قطر'
+    imageUrl: 'https://i.ibb.co/TDd0GqQB/image.jpg',
+    imageHint: 'physics textbook palestine',
+    curriculum: 'فلسطين'
   },
   {
     title: 'الفيزياء الفلكية والكون',
@@ -314,3 +315,4 @@ export default function Home() {
     
 
     
+
