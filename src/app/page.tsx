@@ -1,5 +1,6 @@
 
 
+
 import { MarketingLayout } from '@/components/layout/marketing-layout';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, Rocket } from 'lucide-react';
@@ -68,7 +69,7 @@ const courses = [
     title: 'فيزياء التكميلي - جيل 2007',
     description: 'دورة شاملة لمنهج الفيزياء للتوجيهي الأردني، تغطي جميع الوحدات والمفاهيم الأساسية.',
     price: '50.00 د.أ',
-    imageUrl: 'https://i.ibb.co/tynPpNn/Screenshot-2025-08-10-002837.png',
+    imageUrl: 'https://i.ibb.co/v6JXwghs/image.png',
     imageHint: 'physics textbook',
     curriculum: 'الأردن'
   },
