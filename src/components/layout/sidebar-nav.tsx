@@ -33,15 +33,51 @@ const menuItems = [
   {
     label: 'التوجيهي',
     icon: Book,
-    path: '/physics', // Updated path
+    path: '/physics',
     subItems: [
       {
         label: 'الفصل الأول',
         icon: Folder,
         path: '/tawjihi/first-semester',
         subItems: [
-          { label: 'الزخم الخطي والتصادمات', icon: Folder, path: '/tawjihi/first-semester/momentum', content: true },
-          { label: 'الحركة الدورانية', icon: Folder, path: '/tawjihi/first-semester/torque', content: true },
+          { 
+            label: 'الزخم الخطي والتصادمات', 
+            icon: Folder, 
+            path: '/tawjihi/first-semester/momentum', 
+            subItems: [
+              { label: 'الزخم الخطي والدفع', icon: FileText, path: '/tawjihi/first-semester/momentum/linear-momentum-and-impulse', content: true },
+              { label: 'التصادمات', icon: FileText, path: '/tawjihi/first-semester/momentum/collisions', content: true },
+            ]
+          },
+          { 
+            label: 'الحركة الدورانية', 
+            icon: Folder, 
+            path: '/tawjihi/first-semester/rotational-motion',
+            subItems: [
+              { label: 'العزم والاتزان السكوني', icon: FileText, path: '/tawjihi/first-semester/rotational-motion/torque-and-static-equilibrium', content: true },
+              { label: 'ديناميكا الحركة الدورانية', icon: FileText, path: '/tawjihi/first-semester/rotational-motion/rotational-dynamics', content: true },
+              { label: 'الزخم الزاوي', icon: FileText, path: '/tawjihi/first-semester/rotational-motion/angular-momentum', content: true },
+            ]
+          },
+          { 
+            label: 'التيار والدارات الكهربائية', 
+            icon: Folder, 
+            path: '/tawjihi/first-semester/circuits',
+            subItems: [
+                { label: 'المقاومة والقوة الدافعة', icon: FileText, path: '/tawjihi/first-semester/circuits/resistance', content: true },
+                { label: 'القدرة والدارة البسيطة', icon: FileText, path: '/tawjihi/first-semester/circuits/power', content: true },
+                { label: 'قاعدتا كيرشوف', icon: FileText, path: '/tawjihi/first-semester/circuits/kirchhoff', content: true },
+            ]
+          },
+          { 
+            label: 'المجال المغناطيسي', 
+            icon: Folder, 
+            path: '/tawjihi/first-semester/magnetic-field',
+            subItems: [
+                { label: 'القوة المغناطيسية', icon: FileText, path: '/tawjihi/first-semester/magnetic-field/force', content: true },
+                { label: 'المجال المغناطيسي من تيار', icon: FileText, path: '/tawjihi/first-semester/magnetic-field/from-current', content: true },
+            ]
+          },
         ],
       },
       {
@@ -49,8 +85,9 @@ const menuItems = [
         icon: Folder,
         path: '/tawjihi/second-semester',
         subItems: [
-          { label: 'المواسعة الكهربائية', icon: Folder, path: '/tawjihi/second-semester/capacitors', content: true },
-          { label: 'التيار الكهربائي', icon: Folder, path: '/tawjihi/second-semester/currents', content: true },
+          { label: 'الحث الكهرومغناطيسي', icon: Folder, path: '/tawjihi/second-semester/electromagnetic-induction', content: true },
+          { label: 'فيزياء الكم', icon: Folder, path: '/tawjihi/second-semester/quantum-physics', content: true },
+          { label: 'الفيزياء النووية', icon: Folder, path: '/tawjihi/second-semester/nuclear-physics', content: true },
         ],
       },
     ],
@@ -68,48 +105,51 @@ function SidebarNavMenu() {
 
   const renderMenuItems = (items: any[], level = 0) => {
     return items.map((item, index) => {
-      // For top-level items, make them a direct link instead of a collapsible trigger
-      if (level === 0) {
-        return (
-          <SidebarMenuItem key={index}>
-            <Link href={item.path}>
-              <SidebarMenuButton
-                isActive={pathname.startsWith(item.path)}
-                variant="default"
-              >
-                <item.icon className="h-4 w-4" />
-                <span>{item.label}</span>
-              </SidebarMenuButton>
-            </Link>
-          </SidebarMenuItem>
-        )
-      }
+      const isCollapsible = item.subItems && item.subItems.length > 0;
+      
+      const isActive = isCollapsible 
+        ? pathname.startsWith(item.path)
+        : pathname === item.path;
+
+      const buttonContent = (
+        <>
+          <div className="flex items-center gap-2">
+            <item.icon className="h-4 w-4" />
+            <span>{item.label}</span>
+          </div>
+          {isCollapsible && <ChevronsRight className="h-4 w-4 text-muted-foreground transition-transform duration-200 group-data-[state=open]:rotate-90" />}
+        </>
+      );
+
+      const button = (
+        <SidebarMenuButton
+          className={cn(isCollapsible && "justify-between")}
+          isActive={isActive}
+          variant={level > 0 ? 'ghost' : 'default'}
+        >
+          {buttonContent}
+        </SidebarMenuButton>
+      );
 
       return (
         <Collapsible key={index} asChild>
-          <div className="w-full">
+          <>
             <SidebarMenuItem>
-              <CollapsibleTrigger asChild>
-                <SidebarMenuButton
-                  className="justify-between"
-                  isActive={pathname.startsWith(item.path)}
-                  variant={level > 0 ? 'ghost' : 'default'}
-                >
-                  <div className="flex items-center gap-2">
-                    <item.icon className="h-4 w-4" />
-                    <span>{item.label}</span>
-                  </div>
-                  {item.subItems && <ChevronsRight className="h-4 w-4 text-muted-foreground transition-transform duration-200 group-data-[state=open]:rotate-90" />}
-                </SidebarMenuButton>
-              </CollapsibleTrigger>
+              {isCollapsible ? (
+                <CollapsibleTrigger asChild>{button}</CollapsibleTrigger>
+              ) : (
+                <Link href={item.path}>{button}</Link>
+              )}
             </SidebarMenuItem>
-            {item.subItems && (
+
+            {isCollapsible && (
               <CollapsibleContent>
                 <div className={cn("ms-7 border-s border-border")}>
                   {renderMenuItems(item.subItems, level + 1)}
                 </div>
               </CollapsibleContent>
             )}
+            
             {item.content && (
               <CollapsibleContent>
                   <div className={cn("ms-7 border-s border-border")}>
@@ -126,9 +166,9 @@ function SidebarNavMenu() {
                   </div>
               </CollapsibleContent>
             )}
-          </div>
+          </>
         </Collapsible>
-      )
+      );
     });
   };
 
