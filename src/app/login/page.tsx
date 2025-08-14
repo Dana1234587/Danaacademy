@@ -73,14 +73,14 @@ export default function LoginPage() {
     setIsLoading(true);
 
     try {
-        // Firebase auth requires an email format. We'll append a dummy domain.
         const email = username.includes('@') ? username : `${username}@dana-academy.com`;
 
         // --- Admin & Student Login via Firebase Auth ---
-        const userCredential = await signInWithEmailAndPassword(auth, email, password);
-        const user = userCredential.user;
+        await signInWithEmailAndPassword(auth, email, password);
+        const user = auth.currentUser; // Get the currently signed-in user
 
         if (user && user.email) {
+             // --- Admin Login Logic ---
              if (user.email.startsWith('admin')) {
                 toast({
                   title: 'أهلاً بعودتك دكتورة دانا',
@@ -88,68 +88,73 @@ export default function LoginPage() {
                 });
                 setCurrentUser({ username: 'admin', role: 'admin', enrolledCourseIds: ['tawjihi-2007-supplementary', 'tawjihi-2008'] });
                 router.push('/admin');
-                return;
+                return; // Important: Exit after admin login
             }
             
             // --- Student Login Logic ---
-            const student = await findStudentByUsername(username);
+            const studentUsername = user.email.split('@')[0];
+            const student = await findStudentByUsername(studentUsername);
 
-            if (student) { // student data exists in our 'students' collection
-                const deviceId = getDeviceId();
-                const os = getOS();
-                const registeredDevice = await findRegisteredDeviceByStudentId(student.id);
-
-                if (!registeredDevice) {
-                    // First time login for this student, approve device automatically
-                    await registerDevice({
-                        studentId: student.id,
-                        studentName: student.studentName,
-                        deviceId: deviceId,
-                        ipAddress: '192.168.1.1', // Mock IP
-                        deviceType: os === 'Android' || os === 'iOS' ? 'Mobile' : 'Desktop',
-                        os: os,
-                        course: student.course,
-                    });
-                    
-                    toast({
-                      title: `أهلاً بك ${student.studentName}`,
-                      description: 'تم تسجيل دخولك وتسجيل هذا الجهاز بنجاح.',
-                    });
-                    setCurrentUser({ username: student.username, role: 'student', enrolledCourseIds: [student.courseId] });
-                    router.push('/physics');
-
-                } else if (registeredDevice.deviceId === deviceId) {
-                     // A more robust check might be needed in a real app
-                     toast({
-                      title: `أهلاً بك مجددًا ${student.studentName}`,
-                      description: 'تم تسجيل دخولك بنجاح.',
-                    });
-                    setCurrentUser({ username: student.username, role: 'student', enrolledCourseIds: [student.courseId] });
-                    router.push('/physics');
-                } else {
-                    // New device detected, add to pending and show message
-                    await addPendingDevice({
-                         studentId: student.id,
-                         studentName: student.studentName,
-                         deviceId: deviceId,
-                         ipAddress: '82.114.120.50', // Mock IP
-                         deviceType: os === 'Android' || os === 'iOS' ? 'Mobile' : 'Desktop',
-                         os: os,
-                         course: student.course,
-                    });
-                    toast({
-                      variant: 'destructive',
-                      title: 'جهاز جديد مكتشف',
-                      description: 'تم ربط هذا الحساب بجهاز آخر. تم إرسال طلب للموافقة على هذا الجهاز.',
-                      duration: 5000,
-                    });
-                }
-            } else {
-                 toast({
-                  variant: 'destructive',
-                  title: 'فشل تسجيل الدخول',
-                  description: 'بيانات الطالب غير موجودة في قاعدة البيانات.',
+            if (!student) {
+                toast({
+                    variant: 'destructive',
+                    title: 'فشل تسجيل الدخول',
+                    description: 'بيانات الطالب غير موجودة في قاعدة البيانات.',
                 });
+                await auth.signOut(); // Sign out the user if their data isn't in firestore
+                setIsLoading(false);
+                return;
+            }
+
+            const deviceId = getDeviceId();
+            const os = getOS();
+            const registeredDevice = await findRegisteredDeviceByStudentId(student.id);
+
+            if (!registeredDevice) {
+                // First time login for this student on any device, approve automatically
+                await registerDevice({
+                    studentId: student.id,
+                    studentName: student.studentName,
+                    deviceId: deviceId,
+                    ipAddress: '192.168.1.1', // Mock IP, consider a service for this
+                    deviceType: os === 'Android' || os === 'iOS' ? 'Mobile' : 'Desktop',
+                    os: os,
+                    course: student.course,
+                });
+                
+                toast({
+                  title: `أهلاً بك ${student.studentName}`,
+                  description: 'تم تسجيل دخولك وتسجيل هذا الجهاز بنجاح.',
+                });
+                setCurrentUser({ username: student.username, role: 'student', enrolledCourseIds: [student.courseId] });
+                router.push('/physics');
+
+            } else if (registeredDevice.deviceId === deviceId) {
+                 // Device is already registered for this student
+                 toast({
+                  title: `أهلاً بك مجددًا ${student.studentName}`,
+                  description: 'تم تسجيل دخولك بنجاح.',
+                });
+                setCurrentUser({ username: student.username, role: 'student', enrolledCourseIds: [student.courseId] });
+                router.push('/physics');
+            } else {
+                // New device detected for a student who already has a registered device
+                await addPendingDevice({
+                     studentId: student.id,
+                     studentName: student.studentName,
+                     deviceId: deviceId,
+                     ipAddress: '82.114.120.50', // Mock IP
+                     deviceType: os === 'Android' || os === 'iOS' ? 'Mobile' : 'Desktop',
+                     os: os,
+                     course: student.course,
+                });
+                toast({
+                  variant: 'destructive',
+                  title: 'جهاز جديد مكتشف',
+                  description: 'تم ربط هذا الحساب بجهاز آخر. تم إرسال طلب للموافقة على هذا الجهاز.',
+                  duration: 5000,
+                });
+                await auth.signOut(); // Sign out until the new device is approved
             }
         }
     } catch (error) {
@@ -180,11 +185,11 @@ export default function LoginPage() {
             <CardContent>
               <form className="space-y-6" onSubmit={handleLogin}>
                 <div className="space-y-2">
-                  <Label htmlFor="username">اسم المستخدم</Label>
+                  <Label htmlFor="username">اسم المستخدم أو البريد الإلكتروني</Label>
                   <Input 
                     id="username" 
                     type="text" 
-                    placeholder="اسم المستخدم الخاص بك" 
+                    placeholder="admin@dana-academy.com" 
                     required 
                     className="bg-background/80" 
                     value={username}
@@ -225,5 +230,3 @@ export default function LoginPage() {
     </MarketingLayout>
   );
 }
-
-    
