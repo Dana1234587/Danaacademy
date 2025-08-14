@@ -27,9 +27,9 @@ const registeredDevices = [
 ];
 
 const students = [
-    { id: 's1', studentName: 'أحمد علي', username: 'ahmad.ali', course: 'فيزياء تكميلي 2007' },
-    { id: 's2', studentName: 'فاطمة محمد', username: 'fatima.mohd', course: 'فيزياء توجيهي 2008' },
-    { id: 's3', studentName: 'خالد يوسف', username: 'khaled.yousef', course: 'فيزياء توجيهي 2008' },
+    { id: 's1', studentName: 'أحمد علي', username: 'ahmad.ali', password: 'password123', course: 'فيزياء تكميلي 2007' },
+    { id: 's2', studentName: 'فاطمة محمد', username: 'fatima.mohd', password: 'password123', course: 'فيزياء توجيهي 2008' },
+    { id: 's3', studentName: 'خالد يوسف', username: 'khaled.yousef', password: 'password123', course: 'فيزياء توجيهي 2008' },
 ];
 
 const availableCourses = [
@@ -52,9 +52,18 @@ export default function AdminPage() {
         e.preventDefault();
         setIsLoading({ ...isLoading, create: true });
         setTimeout(() => {
+            const newStudent = {
+                id: `s${students.length + 1}`,
+                studentName: newStudentName,
+                username: newStudentUsername,
+                password: newStudentPassword,
+                course: availableCourses.find(c => c.id === selectedCourse)?.name || ''
+            };
+            students.push(newStudent);
+            
             toast({
                 title: 'تم إنشاء الحساب بنجاح',
-                description: `تم إنشاء حساب للطالب ${newStudentName} في دورة ${availableCourses.find(c => c.id === selectedCourse)?.name}.`,
+                description: `تم إنشاء حساب للطالب ${newStudentName} في دورة ${newStudent.course}.`,
             });
             // Here you would add the new student to the students list
             setNewStudentName('');
@@ -172,6 +181,7 @@ export default function AdminPage() {
                                         <TableRow>
                                             <TableHead>اسم الطالب</TableHead>
                                             <TableHead>اسم المستخدم</TableHead>
+                                            <TableHead>كلمة المرور</TableHead>
                                             <TableHead>الدورة المسجل بها</TableHead>
                                         </TableRow>
                                     </TableHeader>
@@ -180,6 +190,7 @@ export default function AdminPage() {
                                             <TableRow key={student.id}>
                                                 <TableCell className="font-medium">{student.studentName}</TableCell>
                                                 <TableCell>{student.username}</TableCell>
+                                                <TableCell>{student.password}</TableCell>
                                                 <TableCell>{student.course}</TableCell>
                                             </TableRow>
                                         ))}
