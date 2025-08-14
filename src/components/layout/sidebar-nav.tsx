@@ -30,6 +30,9 @@ import { Button } from '@/components/ui/button';
 import { Logo } from '@/components/logo';
 import { useStore } from '@/store/app-store';
 import { useEffect } from 'react';
+import { auth } from '@/lib/firebase';
+import { signOut } from 'firebase/auth';
+
 
 const allCourses = [
   {
@@ -190,9 +193,17 @@ export function SidebarNav() {
   const { currentUser, logout } = useStore((state) => ({ currentUser: state.currentUser, logout: state.logout }));
   const router = useRouter();
 
-  const handleLogout = () => {
-    logout();
-    router.push('/login');
+  const handleLogout = async () => {
+    try {
+      await signOut(auth); // Sign out from Firebase
+      logout(); // Clear user state in Zustand
+      router.push('/login');
+    } catch (error) {
+      console.error("Error signing out: ", error);
+      // Still attempt to log out locally even if firebase fails
+      logout();
+      router.push('/login');
+    }
   }
 
   return (
@@ -240,3 +251,5 @@ export function SidebarNav() {
     </>
   );
 }
+
+    

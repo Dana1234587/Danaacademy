@@ -7,15 +7,25 @@ import Link from 'next/link';
 import { Lightbulb, Languages, LogOut } from 'lucide-react';
 import { useStore } from '@/store/app-store';
 import { useRouter } from 'next/navigation';
+import { auth } from '@/lib/firebase';
+import { signOut } from 'firebase/auth';
 
 export function DashboardHeader() {
   const { isMobile } = useSidebar();
   const { logout, currentUser } = useStore(state => ({ logout: state.logout, currentUser: state.currentUser }));
   const router = useRouter();
 
-  const handleLogout = () => {
-    logout();
-    router.push('/login');
+  const handleLogout = async () => {
+    try {
+      await signOut(auth); // Sign out from Firebase
+      logout(); // Clear user state in Zustand
+      router.push('/login');
+    } catch (error) {
+      console.error("Error signing out: ", error);
+      // Still attempt to log out locally even if firebase fails
+      logout();
+      router.push('/login');
+    }
   }
 
   return (
@@ -44,3 +54,5 @@ export function DashboardHeader() {
     </header>
   );
 }
+
+    
