@@ -8,9 +8,10 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
-import { UserPlus, KeyRound, MonitorCheck, Loader2, Search, Smartphone, Monitor, Fingerprint, Globe, List, Home } from 'lucide-react';
+import { UserPlus, KeyRound, MonitorCheck, Loader2, Search, Smartphone, Monitor, Fingerprint, Globe, List, Home, Book } from 'lucide-react';
 import { useState } from 'react';
 import Link from 'next/link';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 // Mock Data
 const pendingDevices = [
@@ -29,12 +30,19 @@ const students = [
     { id: 's3', studentName: 'خالد يوسف', username: 'student3', course: 'فيزياء توجيهي 2008' },
 ];
 
+const availableCourses = [
+    { id: 'physics-supplementary-2007', name: 'فيزياء تكميلي 2007' },
+    { id: 'physics-2008', name: 'فيزياء توجيهي 2008' },
+];
+
+
 export default function AdminPage() {
     const { toast } = useToast();
     const [isLoading, setIsLoading] = useState<Record<string, boolean>>({});
     const [newStudentName, setNewStudentName] = useState('');
     const [newStudentUsername, setNewStudentUsername] = useState('');
     const [newStudentPassword, setNewStudentPassword] = useState('');
+    const [selectedCourse, setSelectedCourse] = useState('');
     const [searchQuery, setSearchQuery] = useState('');
     const [searchedStudent, setSearchedStudent] = useState<{id: string, studentName: string, username: string} | null>(null);
 
@@ -44,11 +52,12 @@ export default function AdminPage() {
         setTimeout(() => {
             toast({
                 title: 'تم إنشاء الحساب بنجاح',
-                description: `تم إنشاء حساب للطالب ${newStudentName}.`,
+                description: `تم إنشاء حساب للطالب ${newStudentName} في دورة ${availableCourses.find(c => c.id === selectedCourse)?.name}.`,
             });
             setNewStudentName('');
             setNewStudentUsername('');
             setNewStudentPassword('');
+            setSelectedCourse('');
             setIsLoading({ ...isLoading, create: false });
         }, 1000);
     };
@@ -109,7 +118,7 @@ export default function AdminPage() {
                         <Card>
                             <CardHeader>
                                 <CardTitle>إنشاء حساب طالب جديد</CardTitle>
-                                <CardDescription>أدخلي بيانات الطالب لإنشاء حسابه.</CardDescription>
+                                <CardDescription>أدخلي بيانات الطالب والدورة لإنشاء حسابه.</CardDescription>
                             </CardHeader>
                             <CardContent>
                                 <form onSubmit={handleCreateAccount} className="space-y-4">
@@ -124,6 +133,19 @@ export default function AdminPage() {
                                     <div className="space-y-2">
                                         <Label htmlFor="student-password">كلمة المرور</Label>
                                         <Input id="student-password" type="password" value={newStudentPassword} onChange={(e) => setNewStudentPassword(e.target.value)} placeholder="••••••••" required />
+                                    </div>
+                                    <div className="space-y-2">
+                                        <Label htmlFor="course-select">الدورة المسجل بها</Label>
+                                        <Select onValueChange={setSelectedCourse} value={selectedCourse} required>
+                                            <SelectTrigger id="course-select">
+                                                <SelectValue placeholder="اختاري الدورة" />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                {availableCourses.map(course => (
+                                                    <SelectItem key={course.id} value={course.id}>{course.name}</SelectItem>
+                                                ))}
+                                            </SelectContent>
+                                        </Select>
                                     </div>
                                     <Button type="submit" className="w-full" disabled={isLoading['create']}>
                                         {isLoading['create'] ? <Loader2 className="me-2 h-4 w-4 animate-spin" /> : <UserPlus className="me-2" />}
@@ -251,3 +273,4 @@ export default function AdminPage() {
         </MainLayout>
     );
 }
+
