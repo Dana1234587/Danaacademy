@@ -9,6 +9,7 @@ import Link from 'next/link';
 import { Logo } from '@/components/logo';
 import { TestimonialsMap } from '@/components/testimonials-map';
 import { AchievementCard } from '@/components/achievement-card';
+import { CourseNavBar } from '@/components/course-nav-bar';
 
 const course = {
   title: 'فيزياء التكميلي - جيل 2007',
@@ -79,7 +80,7 @@ const testimonials = [
 
 
 function Section({ children, className, id }: { children: React.ReactNode, className?: string, id?: string }) {
-  return <section id={id} className={`py-12 md:py-20 ${className}`}>{children}</section>;
+  return <section id={id} className={`py-12 md:py-20 scroll-mt-20 ${className}`}>{children}</section>;
 }
 
 
@@ -87,7 +88,7 @@ export default function PhysicsSupplementary2007Page() {
   return (
     <MarketingLayout>
       {/* Hero Section */}
-      <div className="relative bg-gradient-to-b from-primary/10 via-background to-background pt-12">
+      <div className="relative bg-gradient-to-b from-primary/10 via-background to-background pt-12" id="hero">
         <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 items-center">
 
@@ -148,6 +149,8 @@ export default function PhysicsSupplementary2007Page() {
         </div>
       </div>
       
+      <CourseNavBar />
+
       <div className="container mx-auto max-w-5xl p-4 sm:p-6 lg:p-8 mt-12">
         {/* Course Curriculum Section */}
         <Section id="curriculum">
