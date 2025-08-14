@@ -13,7 +13,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { students } from '@/lib/students';
+import { students as initialStudents } from '@/lib/students';
 
 
 // Mock Data
@@ -36,6 +36,7 @@ const availableCourses = [
 export default function AdminPage() {
     const { toast } = useToast();
     const [isLoading, setIsLoading] = useState<Record<string, boolean>>({});
+    const [students, setStudents] = useState(initialStudents);
     const [newStudentName, setNewStudentName] = useState('');
     const [newStudentUsername, setNewStudentUsername] = useState('');
     const [newStudentPassword, setNewStudentPassword] = useState('');
@@ -54,13 +55,14 @@ export default function AdminPage() {
                 password: newStudentPassword,
                 course: availableCourses.find(c => c.id === selectedCourse)?.name || ''
             };
-            students.push(newStudent);
+            // This now correctly updates the state
+            setStudents(prevStudents => [...prevStudents, newStudent]);
             
             toast({
                 title: 'تم إنشاء الحساب بنجاح',
                 description: `تم إنشاء حساب للطالب ${newStudentName} في دورة ${newStudent.course}.`,
             });
-            // Here you would add the new student to the students list
+
             setNewStudentName('');
             setNewStudentUsername('');
             setNewStudentPassword('');
