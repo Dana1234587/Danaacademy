@@ -84,6 +84,8 @@ export async function deleteRegisteredDeviceByStudentId(studentId: string): Prom
     const q = query(registeredDevicesCol, where("studentId", "==", studentId));
     const snapshot = await getDocs(q);
     
+    if (snapshot.empty) return; // No devices to delete
+
     const batch = writeBatch(db);
     snapshot.docs.forEach(doc => {
         batch.delete(doc.ref);
@@ -91,3 +93,4 @@ export async function deleteRegisteredDeviceByStudentId(studentId: string): Prom
     
     await batch.commit();
 }
+

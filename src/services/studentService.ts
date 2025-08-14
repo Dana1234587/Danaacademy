@@ -1,3 +1,4 @@
+
 // This service will handle all Firestore operations related to students
 import { collection, getDocs, addDoc, query, where, doc, setDoc, deleteDoc, updateDoc } from 'firebase/firestore';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
@@ -93,3 +94,4 @@ export async function resetStudentPassword(studentId: string, newPassword: strin
     });
     console.log(`Password for student ${studentId} updated in Firestore. This does NOT change their actual login password.`);
 }
+
