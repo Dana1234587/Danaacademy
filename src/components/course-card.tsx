@@ -52,7 +52,7 @@ export function CourseCard({ course, className }: CourseCardProps) {
     const button = (
       <Button variant="secondary" size="sm">
           <ShoppingCart className="h-4 w-4 me-2" />
-          أضف للسلة
+          تفاصيل الدورة
       </Button>
     );
      if (course.link) {
