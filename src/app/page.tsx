@@ -6,6 +6,7 @@
 
 
 
+
 import { MarketingLayout } from '@/components/layout/marketing-layout';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, Rocket } from 'lucide-react';
@@ -272,6 +273,9 @@ export default function Home() {
               <p className="max-w-[700px] text-muted-foreground md:text-xl">
                 شهادات طلابنا هي مصدر فخرنا وأكبر دليل على نجاحنا.
               </p>
+              <p className="max-w-[700px] text-muted-foreground md:text-lg italic">
+                انقر على صورة أي طالب لعرض رأيه كاملا
+              </p>
             </div>
             <div className="mt-12">
               <TestimonialsMap testimonials={testimonials} />
@@ -334,6 +338,7 @@ export default function Home() {
 
 
     
+
 
 
 
