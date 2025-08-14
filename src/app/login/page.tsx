@@ -121,7 +121,7 @@ export default function LoginPage() {
             
             const redirectToCoursePage = () => {
                 setCurrentUser({ username: student.username, role: 'student', enrolledCourseIds: [student.courseId] });
-                let coursePath = '/physics'; // Default fallback
+                let coursePath = '/'; // Default fallback
                 if (student.courseId === 'tawjihi-2007-supplementary') {
                     coursePath = '/courses/physics-supplementary-2007';
                 } else if (student.courseId === 'tawjihi-2008') {

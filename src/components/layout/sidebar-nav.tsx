@@ -167,7 +167,7 @@ function SidebarNavMenu() {
               <CollapsibleContent>
                   <div className={cn("ms-7 border-s border-border")}>
                   {contentTypes.map((contentType) => {
-                    const contentPath = item.path.replace(/^\/physics/, '');
+                    const contentPath = item.path; // Use the full path from the item
                     return (
                       <SidebarMenuItem key={contentType.folder} className="ms-4">
                           <Link href={`${contentPath}/${contentType.folder}`}>
