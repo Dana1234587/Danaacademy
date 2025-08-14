@@ -55,7 +55,7 @@ export default function AdminPage() {
     }, []);
 
     const fetchData = async () => {
-        setIsLoading({ ...isLoading, page: true });
+        setIsLoading({ page: true });
         try {
             const [studentsData, pendingDevicesData, registeredDevicesData] = await Promise.all([
                 getStudents(),
@@ -68,7 +68,7 @@ export default function AdminPage() {
         } catch (error) {
             toast({ variant: 'destructive', title: 'فشل تحميل البيانات', description: 'لم نتمكن من جلب البيانات من الخادم.' });
         } finally {
-            setIsLoading({ ...isLoading, page: false });
+            setIsLoading({ page: false });
         }
     };
 
@@ -95,7 +95,7 @@ export default function AdminPage() {
             
             toast({
                 title: 'تم إنشاء الحساب بنجاح',
-                description: `تم إنشاء حساب للطالب ${newStudentName} في دورة ${newStudentData.course}.`,
+                description: `تم إنشاء حساب للطالب ${newStudentName}.`,
             });
             
             // Reset form and refetch data
@@ -105,10 +105,12 @@ export default function AdminPage() {
             setSelectedCourse('');
             fetchData();
 
-        } catch (error) {
+        } catch (error: any) {
             let description = 'حدث خطأ غير متوقع.';
-            if (error instanceof Error && error.message.includes('auth/email-already-in-use')) {
+            if (error.code === 'auth/email-already-in-use' || (error.message && error.message.includes('auth/email-already-in-use'))) {
                 description = 'اسم المستخدم هذا موجود بالفعل. الرجاء اختيار اسم آخر.';
+            } else if (error.code === 'auth/weak-password' || (error.message && error.message.includes('auth/weak-password'))) {
+                description = 'كلمة المرور ضعيفة جدًا. يجب أن تتكون من 6 أحرف على الأقل.';
             }
             toast({ variant: 'destructive', title: 'فشل إنشاء الحساب', description });
         } finally {
@@ -137,8 +139,8 @@ export default function AdminPage() {
         try {
             await deleteStudentService(studentId);
             toast({
-                title: 'تم الحذف',
-                description: `تم حذف حساب الطالب من قاعدة البيانات. يجب حذفه من نظام المصادقة يدويًا.`,
+                title: 'تم الحذف من قاعدة البيانات',
+                description: `تم حذف بيانات الطالب. يجب حذف المستخدم من نظام المصادقة يدويًا من لوحة تحكم Firebase.`,
             });
             fetchData();
         } catch (error) {
@@ -165,6 +167,10 @@ export default function AdminPage() {
     };
 
     const handleSearchStudent = () => {
+        if (!searchQuery.trim()) {
+            setSearchedStudent(null);
+            return;
+        }
         const found = students.find(s => s.studentName.includes(searchQuery) || s.username.includes(searchQuery));
         setSearchedStudent(found || null);
     };
@@ -176,8 +182,8 @@ export default function AdminPage() {
             await resetStudentPasswordService(studentId, newPassword);
             toast({
                 title: 'تم تحديث كلمة المرور في قاعدة البيانات',
-                description: `كلمة المرور الجديدة للطالب ${studentName} هي "${newPassword}". يرجى ملاحظة أن هذا لا يغير كلمة مرور تسجيل الدخول الفعلية في نظام المصادقة.`,
-                duration: 8000
+                description: `كلمة المرور الجديدة (للعرض) للطالب ${studentName} هي "${newPassword}". ملاحظة: هذا الإجراء لا يغير كلمة مرور تسجيل الدخول الفعلية للطالب.`,
+                duration: 9000
             });
             fetchData(); // Refetch students to show new password
         } catch(error) {
@@ -187,7 +193,7 @@ export default function AdminPage() {
         }
     };
 
-    if (isLoading['page']) {
+    if (isLoading['page'] && !Object.keys(isLoading).some(k => k !== 'page')) {
         return <MainLayout><div className="flex justify-center items-center h-screen"><Loader2 className="h-16 w-16 animate-spin"/></div></MainLayout>
     }
 
@@ -219,7 +225,7 @@ export default function AdminPage() {
                         <Card>
                             <CardHeader>
                                 <CardTitle>إنشاء حساب طالب جديد</CardTitle>
-                                <CardDescription>أدخلي بيانات الطالب والدورة لإنشاء حسابه.</CardDescription>
+                                <CardDescription>أدخلي بيانات الطالب والدورة لإنشاء حسابه في نظام المصادقة وقاعدة البيانات.</CardDescription>
                             </CardHeader>
                             <CardContent>
                                 <form onSubmit={handleCreateAccount} className="space-y-4">
@@ -233,7 +239,7 @@ export default function AdminPage() {
                                     </div>
                                     <div className="space-y-2">
                                         <Label htmlFor="student-password">كلمة المرور</Label>
-                                        <Input id="student-password" type="password" value={newStudentPassword} onChange={(e) => setNewStudentPassword(e.target.value)} placeholder="••••••••" required />
+                                        <Input id="student-password" type="password" value={newStudentPassword} onChange={(e) => setNewStudentPassword(e.target.value)} placeholder="6 أحرف على الأقل" required />
                                     </div>
                                     <div className="space-y-2">
                                         <Label htmlFor="course-select">الدورة المسجل بها</Label>
@@ -261,7 +267,7 @@ export default function AdminPage() {
                         <Card>
                             <CardHeader>
                                 <CardTitle>قائمة حسابات الطلاب</CardTitle>
-                                <CardDescription>جميع حسابات الطلاب المسجلة في النظام.</CardDescription>
+                                <CardDescription>جميع حسابات الطلاب المسجلة في قاعدة البيانات.</CardDescription>
                             </CardHeader>
                             <CardContent>
                                 <Table>
@@ -293,7 +299,7 @@ export default function AdminPage() {
                                                       <AlertDialogHeader>
                                                         <AlertDialogTitle>هل أنت متأكد؟</AlertDialogTitle>
                                                         <AlertDialogDescription>
-                                                          هذا الإجراء سيحذف حساب الطالب بشكل نهائي من قاعدة البيانات. سيبقى الحساب موجودًا في نظام المصادقة ويتطلب الحذف اليدوي من هناك.
+                                                          هذا الإجراء سيحذف بيانات الطالب من قاعدة البيانات وجهازه المسجل. سيبقى حساب المصادقة الخاص به ويتطلب الحذف اليدوي من Firebase.
                                                         </AlertDialogDescription>
                                                       </AlertDialogHeader>
                                                       <AlertDialogFooter>
@@ -400,8 +406,8 @@ export default function AdminPage() {
                     <TabsContent value="reset-password">
                         <Card>
                             <CardHeader>
-                                <CardTitle>استعادة كلمة المرور</CardTitle>
-                                <CardDescription>ابحثي عن الطالب لإعادة تعيين كلمة المرور الخاصة به.</CardDescription>
+                                <CardTitle>إعادة تعيين كلمة المرور (للعرض فقط)</CardTitle>
+                                <CardDescription>ابحثي عن الطالب لإنشاء كلمة مرور جديدة وتخزينها في قاعدة البيانات للمساعدة عند الحاجة.</CardDescription>
                             </CardHeader>
                             <CardContent className="space-y-4">
                                 <div className="flex gap-2">
@@ -409,6 +415,7 @@ export default function AdminPage() {
                                         placeholder="ابحثي بالاسم أو اسم المستخدم..." 
                                         value={searchQuery}
                                         onChange={(e) => setSearchQuery(e.target.value)}
+                                        onKeyDown={(e) => e.key === 'Enter' && handleSearchStudent()}
                                     />
                                     <Button onClick={handleSearchStudent}><Search className="me-2"/>بحث</Button>
                                 </div>

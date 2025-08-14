@@ -1,6 +1,6 @@
 // This service will handle all Firestore operations related to students
 import { collection, getDocs, addDoc, query, where, doc, setDoc, deleteDoc, updateDoc } from 'firebase/firestore';
-import { createUserWithEmailAndPassword, updatePassword, reauthenticateWithCredential, EmailAuthProvider } from 'firebase/auth';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { db, auth } from '@/lib/firebase';
 import { deleteRegisteredDeviceByStudentId } from './deviceService';
 
@@ -9,7 +9,7 @@ export type Student = {
   id: string; // This will be the Firebase Auth UID
   studentName: string;
   username: string;
-  password?: string; // Password is for creation, not for storage in Firestore
+  password?: string; // Password will be stored in Firestore but is optional on the type
   course: string;
   courseId: string;
 };
@@ -36,13 +36,20 @@ export async function addStudent(studentData: Omit<Student, 'id'>): Promise<Stud
     // 2. Create student document in Firestore with the UID from Auth as the document ID
     const studentDocRef = doc(db, 'students', user.uid);
     
-    // We now store the password in Firestore as requested by the user
-    const dataToSave = { ...studentData, id: user.uid };
-    await setDoc(studentDocRef, dataToSave);
+    // Create a new object for Firestore that includes the password and other details
+    const firestoreData = {
+        studentName: studentData.studentName,
+        username: studentData.username,
+        password: studentData.password, // Storing password in plaintext as requested
+        course: studentData.course,
+        courseId: studentData.courseId
+    };
+    
+    await setDoc(studentDocRef, firestoreData);
 
     const newStudent: Student = {
         id: user.uid,
-        ...studentData
+        ...firestoreData
     };
     
     return newStudent;
@@ -62,15 +69,10 @@ export async function findStudentByUsername(username: string): Promise<Student |
 }
 
 export async function deleteStudent(studentId: string): Promise<void> {
-    // This is a complex operation. Deleting a user from Auth is a privileged
-    // action and should ideally be handled by a backend function (e.g., Firebase Cloud Function)
-    // for security reasons. For this internal admin panel, we will assume the admin is authenticated
-    // and proceed, but this is not recommended for production apps without a secure backend.
-    
-    // For now, we will only delete from Firestore and the associated devices.
-    // To properly delete from auth, we would need to implement a cloud function.
-    // The front-end does not have the privileges to delete other users.
-    console.warn(`Attempting to delete student ${studentId}. This will only remove the student from Firestore and their devices. The Auth user must be deleted manually from the Firebase Console.`);
+    // This action only deletes from Firestore and the associated devices.
+    // The Auth user must be deleted manually from the Firebase Console.
+    // This is a security measure as frontend clients typically don't have privileges to delete users.
+    console.warn(`Deleting student ${studentId} from Firestore. Associated Auth user must be deleted manually.`);
     
     await deleteDoc(doc(db, "students", studentId));
     await deleteRegisteredDeviceByStudentId(studentId);
@@ -82,15 +84,12 @@ export async function updateStudent(studentId: string, data: Partial<Omit<Studen
 }
 
 export async function resetStudentPassword(studentId: string, newPassword: string):Promise<void> {
-    // This operation should be done via a Cloud Function for security.
-    // As a temporary workaround for the admin panel, we are updating the password
-    // stored in Firestore, but this DOES NOT change the actual Firebase Auth password.
-    // The user will not be able to log in with this new password.
-    // The correct way is to use the Admin SDK on a server.
-    // For this app, we will just update the firestore record.
+    // This function only updates the password in the Firestore database for display purposes.
+    // It does NOT change the user's actual login password in Firebase Authentication.
+    // Changing Auth passwords requires the user to be signed in or a privileged backend environment.
     const studentRef = doc(db, "students", studentId);
     await updateDoc(studentRef, {
         password: newPassword
     });
-    console.log(`Password for student ${studentId} updated in Firestore. Please remind the user that their actual login password in Firebase Auth might not be changed unless handled by a backend function.`);
+    console.log(`Password for student ${studentId} updated in Firestore. This does NOT change their actual login password.`);
 }
