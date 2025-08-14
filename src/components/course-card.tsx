@@ -43,9 +43,9 @@ export function CourseCard({ course, className }: CourseCardProps) {
        </Button>
     );
     if (course.link) {
-      return <Link href={course.link} className="pointer-events-auto">{button}</Link>;
+      return <Link href={course.link}>{button}</Link>;
     }
-    return <div className="pointer-events-none">{button}</div>;
+    return button;
   };
 
   const AddToCartButton = () => {
@@ -56,7 +56,7 @@ export function CourseCard({ course, className }: CourseCardProps) {
       </Button>
     );
      if (course.link) {
-      return <Link href={course.link} className="pointer-events-auto">{button}</Link>;
+      return <Link href={course.link}>{button}</Link>;
     }
     return button;
   }
