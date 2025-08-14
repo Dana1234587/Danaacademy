@@ -27,7 +27,7 @@ const CustomLegend = (props: any) => {
     return (
         <ul className="flex flex-wrap justify-center gap-x-6 gap-y-2 mt-6">
             {payload.map((entry: any, index: number) => (
-                <li key={`item-${index}`} className="flex items-center gap-2 text-sm text-muted-foreground">
+                <li key={`item-${index}`} className="flex items-center gap-2 text-sm text-primary-foreground/80">
                     <span className="w-3 h-3 rounded-full" style={{ backgroundColor: entry.color }} />
                     <span>{entry.value}</span>
                 </li>
@@ -52,8 +52,8 @@ export function MarksDistributionChart({ data }: MarksDistributionChartProps) {
           innerRadius={'70%'}
           outerRadius={'90%'}
           paddingAngle={2}
-          stroke="hsl(var(--background))"
-          strokeWidth={2}
+          stroke="hsl(var(--primary))"
+          strokeWidth={4}
         >
           {data.map((entry, index) => (
             <Cell key={`cell-${index}`} fill={entry.fill} />
@@ -62,7 +62,7 @@ export function MarksDistributionChart({ data }: MarksDistributionChartProps) {
             value={`المجموع: ${totalMarks}`} 
             position="center" 
             className="text-2xl font-bold"
-            style={{ fill: 'hsl(var(--primary))' }}
+            style={{ fill: 'hsl(var(--primary-foreground))' }}
           />
         </Pie>
         <Legend content={<CustomLegend />} />

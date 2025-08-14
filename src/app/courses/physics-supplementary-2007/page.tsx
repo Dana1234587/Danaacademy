@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import Image from 'next/image';
-import { CheckCircle, BookOpen, ChevronLeft, Clock, Video, ClipboardCheck, PieChart } from 'lucide-react';
+import { CheckCircle, BookOpen, ChevronLeft, Clock, Video, ClipboardCheck, PieChart, Film } from 'lucide-react';
 import Link from 'next/link';
 import { Logo } from '@/components/logo';
 import { TestimonialsMap } from '@/components/testimonials-map';
@@ -99,13 +99,13 @@ const testimonials = [
 ];
 
 const marksDistributionData = [
-  { name: 'الزخم الخطي', 'عدد الدوائر': 6, 'العلامات': 24, fill: "hsl(var(--chart-1))" },
-  { name: 'الحركة الدورانية', 'عدد الدوائر': 7, 'العلامات': 28, fill: "hsl(var(--chart-2))" },
-  { name: 'التيارات', 'عدد الدوائر': 6, 'العلامات': 24, fill: "hsl(var(--chart-3))" },
-  { name: 'المجال المغناطيسي', 'عدد الدوائر': 6, 'العلامات': 24, fill: "hsl(var(--chart-4))" },
-  { name: 'الحث الكهرومغناطيسي', 'عدد الدوائر': 10, 'العلامات': 40, fill: "hsl(var(--chart-5))" },
-  { name: 'فيزياء الكم', 'عدد الدوائر': 6, 'العلامات': 24, fill: "hsl(var(--chart-1))" },
-  { name: 'الفيزياء النووية', 'عدد الدوائر': 9, 'العلامات': 36, fill: "hsl(var(--chart-2))" },
+  { name: 'الزخم الخطي', 'عدد الدوائر': 6, 'العلامات': 24, fill: "hsl(206, 88%, 60%)" },
+  { name: 'الحركة الدورانية', 'عدد الدوائر': 7, 'العلامات': 28, fill: "hsl(145, 68%, 45%)" },
+  { name: 'التيارات', 'عدد الدوائر': 6, 'العلامات': 24, fill: "hsl(45, 93%, 54%)" },
+  { name: 'المجال المغناطيسي', 'عدد الدوائر': 6, 'العلامات': 24, fill: "hsl(25, 95%, 53%)" },
+  { name: 'الحث الكهرومغناطيسي', 'عدد الدوائر': 10, 'العلامات': 40, fill: "hsl(187, 85%, 43%)" },
+  { name: 'فيزياء الكم', 'عدد الدوائر': 6, 'العلامات': 24, fill: "hsl(320, 84%, 60%)" },
+  { name: 'الفيزياء النووية', 'عدد الدوائر': 9, 'العلامات': 36, fill: "hsl(75, 78%, 44%)" },
 ];
 
 function Section({ children, className, id }: { children: React.ReactNode, className?: string, id?: string }) {
@@ -206,7 +206,7 @@ export default function PhysicsSupplementary2007Page() {
                         {unit.videos && (
                           <div className="flex items-center justify-start gap-6 pt-3 text-sm font-medium text-muted-foreground border-t border-dashed mt-3">
                             <div className="flex items-center gap-2">
-                              <Video className="w-5 h-5 text-primary" />
+                              <Film className="w-5 h-5 text-primary" />
                               <span>{unit.videos} حصة</span>
                             </div>
                             <div className="flex items-center gap-2">
@@ -260,17 +260,19 @@ export default function PhysicsSupplementary2007Page() {
         
         {/* Marks Distribution Section */}
         <Section id="marks-distribution">
-          <div className="flex flex-col items-center text-center space-y-6 mb-12">
-            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl text-primary">
-              توزيع العلامات بالامتحان الوزاري
-            </h2>
-            <p className="max-w-[700px] text-muted-foreground md:text-xl">
-              نظرة على الأهمية النسبية لكل وحدة في الامتحان النهائي لمساعدتك على تنظيم دراستك بفعالية.
-            </p>
-          </div>
-          <div className="h-[400px] w-full">
-            <MarksDistributionChart data={marksDistributionData} />
-          </div>
+           <Card className="bg-primary text-primary-foreground p-6 rounded-2xl">
+              <div className="flex flex-col items-center text-center space-y-6 mb-8">
+                <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">
+                  توزيع العلامات بالامتحان الوزاري
+                </h2>
+                <p className="max-w-[700px] text-primary-foreground/80 md:text-xl">
+                  نظرة على الأهمية النسبية لكل وحدة في الامتحان النهائي لمساعدتك على تنظيم دراستك بفعالية.
+                </p>
+              </div>
+              <div className="h-[450px] w-full">
+                <MarksDistributionChart data={marksDistributionData} />
+              </div>
+            </Card>
         </Section>
 
         {/* Testimonials Section */}
