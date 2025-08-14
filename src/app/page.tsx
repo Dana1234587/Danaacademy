@@ -5,6 +5,7 @@
 
 
 
+
 import { MarketingLayout } from '@/components/layout/marketing-layout';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, Rocket } from 'lucide-react';
@@ -65,7 +66,7 @@ const testimonials = [
   { id: 7, image: "https://i.ibb.co/ZztB0w2m/cropped-circle-image-12.png", reviewScreenshot: "https://i.ibb.co/3YPMPKBY/Untitled-design-4.jpg", position: { top: '85%', left: '85%' } },
   { id: 8, image: "https://i.ibb.co/0pV97dn1/cropped-circle-image-14.png", reviewScreenshot: "https://i.ibb.co/QFTWKnPw/Untitled-design-32.png", position: { top: '65%', left: '70%' } },
   { id: 9, image: "https://i.ibb.co/cp2tYFd/cropped-circle-image-15.png", reviewScreenshot: "https://i.ibb.co/Hpg6r4sj/Untitled-design-31.png", position: { top: '35%', left: '55%' } },
-  { id: 10, image: "https://i.ibb.co/N2wZz2N/Untitled-design-24.png", reviewScreenshot: "https://i.ibb.co/ns1rrF1c/Untitled-design-33.png", position: { top: '90%', left: '50%' } },
+  { id: 10, image: "https://i.ibb.co/FC2WbTC/cropped-circle-image-18.png", reviewScreenshot: "https://i.ibb.co/ns1rrF1c/Untitled-design-33.png", position: { top: '90%', left: '50%' } },
 ];
 
 const courses = [
@@ -333,6 +334,7 @@ export default function Home() {
 
 
     
+
 
 
 
