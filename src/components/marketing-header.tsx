@@ -11,8 +11,8 @@ import { usePathname } from 'next/navigation';
 const navLinks = [
   { href: '/', text: 'الرئيسية', icon: Home },
   { href: '/#courses-section', text: 'الدورات', icon: BookCopy },
-  { href: '#', text: 'عن الاكاديمية', icon: Info },
-  { href: '#', text: 'تواصل معنا', icon: Phone },
+  { href: '/#about-us', text: 'عن الاكاديمية', icon: Info },
+  { href: '/#contact-us', text: 'تواصل معنا', icon: Phone },
 ];
 
 export function MarketingHeader() {
