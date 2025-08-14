@@ -257,39 +257,41 @@ export default function AdminPage() {
                             </CardHeader>
                             <CardContent>
                                 <form onSubmit={handleCreateAccount} className="space-y-4">
-                                    <div className="space-y-2">
-                                        <Label htmlFor="student-name">اسم الطالب الكامل</Label>
-                                        <Input id="student-name" value={newStudentName} onChange={(e) => setNewStudentName(e.target.value)} placeholder="مثال: محمد عبدالله" required />
-                                    </div>
-                                    <div className="space-y-2">
-                                        <Label htmlFor="student-username">اسم المستخدم (باللغة الإنجليزية)</Label>
-                                        <Input id="student-username" value={newStudentUsername} onChange={(e) => setNewStudentUsername(e.target.value)} placeholder="مثال: mohammed123" required />
-                                        <p className="text-xs text-muted-foreground">استخدم حروف إنجليزية وأرقام فقط، بدون مسافات أو رموز.</p>
-                                    </div>
-                                    <div className="space-y-2">
-                                        <Label htmlFor="student-password">كلمة المرور</Label>
-                                        <Input id="student-password" type="password" value={newStudentPassword} onChange={(e) => setNewStudentPassword(e.target.value)} placeholder="6 أحرف على الأقل" required />
-                                    </div>
-                                    <div className="space-y-2">
-                                        <Label htmlFor="student-phone1">رقم الهاتف 1 (اختياري)</Label>
-                                        <Input id="student-phone1" type="tel" value={newStudentPhone1} onChange={(e) => setNewStudentPhone1(e.target.value)} placeholder="رقم هاتف الطالب أو ولي الأمر" />
-                                    </div>
-                                    <div className="space-y-2">
-                                        <Label htmlFor="student-phone2">رقم الهاتف 2 (اختياري)</Label>
-                                        <Input id="student-phone2" type="tel" value={newStudentPhone2} onChange={(e) => setNewStudentPhone2(e.target.value)} placeholder="رقم هاتف إضافي" />
-                                    </div>
-                                    <div className="space-y-2">
-                                        <Label htmlFor="course-select">الدورة المسجل بها</Label>
-                                        <Select onValueChange={setSelectedCourse} value={selectedCourse} required>
-                                            <SelectTrigger id="course-select">
-                                                <SelectValue placeholder="اختاري الدورة" />
-                                            </SelectTrigger>
-                                            <SelectContent>
-                                                {availableCourses.map(course => (
-                                                    <SelectItem key={course.id} value={course.id}>{course.name}</SelectItem>
-                                                ))}
-                                            </SelectContent>
-                                        </Select>
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div className="space-y-2">
+                                            <Label htmlFor="student-name">اسم الطالب الكامل</Label>
+                                            <Input id="student-name" value={newStudentName} onChange={(e) => setNewStudentName(e.target.value)} placeholder="مثال: محمد عبدالله" required />
+                                        </div>
+                                        <div className="space-y-2">
+                                            <Label htmlFor="student-username">اسم المستخدم (باللغة الإنجليزية)</Label>
+                                            <Input id="student-username" value={newStudentUsername} onChange={(e) => setNewStudentUsername(e.target.value)} placeholder="مثال: mohammed123" required />
+                                            <p className="text-xs text-muted-foreground">استخدم حروف إنجليزية وأرقام فقط، بدون مسافات أو رموز.</p>
+                                        </div>
+                                        <div className="space-y-2">
+                                            <Label htmlFor="student-password">كلمة المرور</Label>
+                                            <Input id="student-password" type="password" value={newStudentPassword} onChange={(e) => setNewStudentPassword(e.target.value)} placeholder="6 أحرف على الأقل" required />
+                                        </div>
+                                         <div className="space-y-2">
+                                            <Label htmlFor="course-select">الدورة المسجل بها</Label>
+                                            <Select onValueChange={setSelectedCourse} value={selectedCourse} required>
+                                                <SelectTrigger id="course-select">
+                                                    <SelectValue placeholder="اختاري الدورة" />
+                                                </SelectTrigger>
+                                                <SelectContent>
+                                                    {availableCourses.map(course => (
+                                                        <SelectItem key={course.id} value={course.id}>{course.name}</SelectItem>
+                                                    ))}
+                                                </SelectContent>
+                                            </Select>
+                                        </div>
+                                        <div className="space-y-2 md:col-span-2">
+                                            <Label htmlFor="student-phone1">رقم الهاتف 1 (اختياري)</Label>
+                                            <Input id="student-phone1" type="tel" value={newStudentPhone1} onChange={(e) => setNewStudentPhone1(e.target.value)} placeholder="رقم هاتف الطالب أو ولي الأمر" />
+                                        </div>
+                                        <div className="space-y-2 md:col-span-2">
+                                            <Label htmlFor="student-phone2">رقم الهاتف 2 (اختياري)</Label>
+                                            <Input id="student-phone2" type="tel" value={newStudentPhone2} onChange={(e) => setNewStudentPhone2(e.target.value)} placeholder="رقم هاتف إضافي" />
+                                        </div>
                                     </div>
                                     <Button type="submit" className="w-full" disabled={isLoading['create']}>
                                         {isLoading['create'] ? <Loader2 className="me-2 h-4 w-4 animate-spin" /> : <UserPlus className="me-2" />}
@@ -368,7 +370,7 @@ export default function AdminPage() {
                                 {pendingDevices.length > 0 ? (
                                     pendingDevices.map(device => (
                                         <div key={device.id} className="p-4 bg-muted rounded-lg border">
-                                            <div className="flex items-start justify-between">
+                                            <div className="flex items-center justify-between">
                                                 <div>
                                                     <p className="font-bold text-lg">{device.studentName}</p>
                                                     <p className="text-sm text-primary">{device.course}</p>
@@ -378,7 +380,7 @@ export default function AdminPage() {
                                                     الموافقة على الجهاز
                                                 </Button>
                                             </div>
-                                            <div className="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm text-muted-foreground border-t pt-4">
+                                            <div className="mt-4 space-y-2 text-sm text-muted-foreground border-t pt-4">
                                                 <div className="flex items-center gap-2">
                                                     {device.deviceType === 'Desktop' ? <Monitor className="w-4 h-4" /> : <Smartphone className="w-4 h-4" />}
                                                     <span>{device.os}</span>
@@ -387,9 +389,9 @@ export default function AdminPage() {
                                                     <Globe className="w-4 h-4" />
                                                     <span dir="ltr">{device.ipAddress}</span>
                                                 </div>
-                                                <div className="flex items-center gap-2">
-                                                    <Fingerprint className="w-4 h-4" />
-                                                    <span className="truncate" dir="ltr">{device.deviceId}</span>
+                                                <div className="flex items-start gap-2">
+                                                    <Fingerprint className="w-4 h-4 mt-1 flex-shrink-0" />
+                                                    <span className="break-all" dir="ltr">{device.deviceId}</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -419,8 +421,8 @@ export default function AdminPage() {
                                                 </div>
                                                 <div className="space-y-4 pt-4">
                                                     {devices.map(device => (
-                                                        <div key={device.id} className="flex items-start justify-between">
-                                                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm text-muted-foreground w-full">
+                                                        <div key={device.id} className="flex items-start justify-between gap-4">
+                                                            <div className="flex-1 space-y-2 text-sm text-muted-foreground">
                                                                 <div className="flex items-center gap-2">
                                                                     {device.deviceType === 'Desktop' ? <Monitor className="w-4 h-4" /> : <Smartphone className="w-4 h-4" />}
                                                                     <span>{device.os}</span>
@@ -429,9 +431,9 @@ export default function AdminPage() {
                                                                     <Globe className="w-4 h-4" />
                                                                     <span dir="ltr">{device.ipAddress}</span>
                                                                 </div>
-                                                                <div className="flex items-center gap-2">
-                                                                    <Fingerprint className="w-4 h-4" />
-                                                                    <span className="truncate" dir="ltr">{device.deviceId}</span>
+                                                                <div className="flex items-start gap-2">
+                                                                    <Fingerprint className="w-4 h-4 mt-1 flex-shrink-0" />
+                                                                    <span className="break-all" dir="ltr">{device.deviceId}</span>
                                                                 </div>
                                                             </div>
                                                             <Button onClick={() => handleDeleteDevice(device.id)} variant="destructive" size="icon" disabled={isLoading[`delete-device-${device.id}`]}>
@@ -486,3 +488,5 @@ export default function AdminPage() {
         </MainLayout>
     );
 }
+
+    
