@@ -229,7 +229,7 @@ export default function AdminPage() {
     return (
         <MainLayout>
             <div className="p-4 sm:p-6 lg:p-8">
-                <div className="flex justify-between items-center mb-8">
+                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
                     <div>
                         <h1 className="text-3xl font-bold">لوحة تحكم المسؤول</h1>
                         <p className="text-muted-foreground">مرحباً دكتورة دانا، هنا يمكنك إدارة الأكاديمية.</p>
@@ -242,12 +242,12 @@ export default function AdminPage() {
                 </div>
 
                 <Tabs defaultValue="create-student">
-                    <TabsList className="grid w-full grid-cols-5">
-                        <TabsTrigger value="create-student"><UserPlus className="me-2" /> إنشاء حساب طالب</TabsTrigger>
-                        <TabsTrigger value="student-accounts"><Users className="me-2" /> حسابات الطلاب</TabsTrigger>
-                        <TabsTrigger value="approve-devices"><MonitorCheck className="me-2" /> الموافقة على الأجهزة</TabsTrigger>
-                        <TabsTrigger value="registered-devices"><List className="me-2" /> الأجهزة المسجلة</TabsTrigger>
-                        <TabsTrigger value="reset-password"><KeyRound className="me-2" /> إعادة تعيين كلمة المرور</TabsTrigger>
+                    <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 md:grid-cols-5">
+                        <TabsTrigger value="create-student"><UserPlus className="me-2" /> إنشاء حساب</TabsTrigger>
+                        <TabsTrigger value="student-accounts"><Users className="me-2" /> الطلاب</TabsTrigger>
+                        <TabsTrigger value="approve-devices"><MonitorCheck className="me-2" /> الموافقة</TabsTrigger>
+                        <TabsTrigger value="registered-devices"><List className="me-2" /> الأجهزة</TabsTrigger>
+                        <TabsTrigger value="reset-password"><KeyRound className="me-2" /> إعادة تعيين</TabsTrigger>
                     </TabsList>
 
                     <TabsContent value="create-student">
@@ -274,7 +274,7 @@ export default function AdminPage() {
                                         </div>
                                          <div className="space-y-2">
                                             <Label htmlFor="course-select">الدورة المسجل بها</Label>
-                                            <Select onValueChange={setSelectedCourse} value={selectedCourse} required>
+                                            <Select onValuechange={setSelectedCourse} value={selectedCourse} required>
                                                 <SelectTrigger id="course-select">
                                                     <SelectValue placeholder="اختاري الدورة" />
                                                 </SelectTrigger>
@@ -309,26 +309,26 @@ export default function AdminPage() {
                                 <CardTitle>قائمة حسابات الطلاب</CardTitle>
                                 <CardDescription>هنا يتم عرض جميع حسابات الطلاب المسجلة في قاعدة البيانات.</CardDescription>
                             </CardHeader>
-                            <CardContent>
+                            <CardContent className="overflow-x-auto">
                                 <Table>
                                     <TableHeader>
                                         <TableRow>
                                             <TableHead>اسم الطالب</TableHead>
                                             <TableHead>اسم المستخدم</TableHead>
                                             <TableHead>كلمة المرور</TableHead>
-                                            <TableHead>الدورة المسجل بها</TableHead>
-                                            <TableHead>رقم الهاتف 1</TableHead>
-                                            <TableHead>رقم الهاتف 2</TableHead>
+                                            <TableHead>الدورة</TableHead>
+                                            <TableHead>هاتف 1</TableHead>
+                                            <TableHead>هاتف 2</TableHead>
                                             <TableHead>الإجراءات</TableHead>
                                         </TableRow>
                                     </TableHeader>
                                     <TableBody>
                                         {students.map((student) => (
                                             <TableRow key={student.id}>
-                                                <TableCell className="font-medium">{student.studentName}</TableCell>
-                                                <TableCell>{student.username}</TableCell>
+                                                <TableCell className="font-medium whitespace-nowrap">{student.studentName}</TableCell>
+                                                <TableCell className="whitespace-nowrap">{student.username}</TableCell>
                                                 <TableCell>{student.password}</TableCell>
-                                                <TableCell>{student.course}</TableCell>
+                                                <TableCell className="whitespace-nowrap">{student.course}</TableCell>
                                                 <TableCell>{student.phone1}</TableCell>
                                                 <TableCell>{student.phone2}</TableCell>
                                                 <TableCell className="flex gap-2">
@@ -371,12 +371,12 @@ export default function AdminPage() {
                                 {pendingDevices.length > 0 ? (
                                     pendingDevices.map(device => (
                                         <div key={device.id} className="p-4 bg-muted rounded-lg border">
-                                            <div className="flex items-center justify-between flex-wrap gap-4">
+                                            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between flex-wrap gap-4">
                                                 <div>
                                                     <p className="font-bold text-lg">{device.studentName}</p>
                                                     <p className="text-sm text-primary">{device.course}</p>
                                                 </div>
-                                                <div className="flex gap-2">
+                                                <div className="flex gap-2 flex-wrap">
                                                     <Button onClick={() => handleApproveDevice(device.id, device.studentName, 'replace')} disabled={isLoading[`replace-${device.id}`]} variant="secondary">
                                                         {isLoading[`replace-${device.id}`] ? <Loader2 className="me-2 h-4 w-4 animate-spin" /> : <Check className="me-2" />}
                                                         موافقة واستبدال
@@ -466,7 +466,7 @@ export default function AdminPage() {
                                 <CardDescription>ابحثي عن الطالب لإنشاء كلمة مرور جديدة وتخزينها في قاعدة البيانات للمساعدة عند الحاجة.</CardDescription>
                             </CardHeader>
                             <CardContent className="space-y-4">
-                                <div className="flex gap-2">
+                                <div className="flex flex-col sm:flex-row gap-2">
                                     <Input 
                                         placeholder="ابحثي بالاسم أو اسم المستخدم..." 
                                         value={searchQuery}
@@ -476,14 +476,14 @@ export default function AdminPage() {
                                     <Button onClick={handleSearchStudent}><Search className="me-2"/>بحث</Button>
                                 </div>
                                 {searchedStudent && (
-                                    <div className="flex items-center justify-between p-4 bg-muted rounded-lg mt-4">
+                                    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 bg-muted rounded-lg mt-4 gap-4">
                                        <div>
                                            <p className="font-bold">{searchedStudent.studentName}</p>
                                            <p className="text-sm text-muted-foreground">{searchedStudent.username}</p>
                                        </div>
                                        <Button onClick={() => handleResetPassword(searchedStudent.id, searchedStudent.studentName)} disabled={isLoading[`reset-${searchedStudent.id}`]} variant="destructive">
                                           {isLoading[`reset-${searchedStudent.id}`] ? <Loader2 className="me-2 h-4 w-4 animate-spin" /> : <KeyRound className="me-2" />}
-                                          إعادة تعيين كلمة المرور
+                                          إعادة تعيين
                                        </Button>
                                     </div>
                                 )}

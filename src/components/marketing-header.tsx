@@ -4,12 +4,14 @@
 import Link from 'next/link';
 import { Logo } from '@/components/logo';
 import { Button } from '@/components/ui/button';
-import { BookCopy, Home, Info, Phone, User, LogOut, Shield, Book } from 'lucide-react';
+import { BookCopy, Home, Info, Phone, User, LogOut, Shield, Book, Menu } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { usePathname, useRouter } from 'next/navigation';
 import { useStore } from '@/store/app-store';
 import { auth } from '@/lib/firebase';
 import { signOut } from 'firebase/auth';
+import { useState } from 'react';
+import { Sheet, SheetContent, SheetTrigger, SheetClose } from '@/components/ui/sheet';
 
 const navLinks = [
   { href: '/', text: 'الرئيسية', icon: Home },
@@ -49,31 +51,40 @@ export function MarketingHeader() {
     }
     return '/';
   }
+
+  const NavLinksContent = ({ isMobile = false }: { isMobile?: boolean }) => (
+    <nav className={cn(
+      isMobile ? 'flex flex-col gap-6 text-lg' : 'hidden md:flex gap-8 items-center'
+    )}>
+      {navLinks.map(link => (
+        <Link 
+          key={link.href} 
+          href={link.href} 
+          className={cn(
+            "animated-underline flex items-center gap-2 font-medium text-foreground hover:text-primary transition-colors",
+            isMobile ? 'text-2xl' : 'text-lg',
+            pathname === link.href && 'text-primary'
+          )}
+        >
+          <link.icon className="h-5 w-5" />
+          {link.text}
+        </Link>
+      ))}
+    </nav>
+  );
   
   return (
-    <header className="sticky top-0 z-50 w-full bg-background shadow-sm border-b border-primary/20">
-      <div className="container mx-auto flex h-28 items-center justify-between px-4 md:px-6">
+    <header className="sticky top-0 z-50 w-full bg-background/95 backdrop-blur-sm shadow-sm border-b border-primary/20">
+      <div className="container mx-auto flex h-24 items-center justify-between px-4 md:px-6">
         <Link href="/" className="flex items-center gap-2">
-          <Logo className="h-[3.92rem] w-[8.96rem] rounded-md object-contain" />
+          <Logo className="h-14 w-auto object-contain" />
         </Link>
-        <nav className="hidden md:flex gap-8 items-center">
-           {navLinks.map(link => (
-             <Link 
-              key={link.href} 
-              href={link.href} 
-              className={cn(
-                "animated-underline flex items-center gap-2 text-lg font-medium text-foreground hover:text-primary transition-colors",
-                 pathname === link.href && 'text-primary'
-              )}
-            >
-              <link.icon className="h-4 w-4" />
-              {link.text}
-            </Link>
-           ))}
-        </nav>
+        
+        <NavLinksContent />
+
         <div className="flex items-center gap-2">
             {!currentUser ? (
-              <Button asChild className="hover:-translate-y-0.5 transition-transform">
+              <Button asChild className="hidden sm:flex hover:-translate-y-0.5 transition-transform">
                   <Link href="/login" className="flex items-center gap-2">
                     <User className="h-4 w-4" />
                     الدخول 
@@ -82,26 +93,84 @@ export function MarketingHeader() {
             ) : (
                <>
                 {currentUser.role === 'admin' ? (
-                   <Button asChild variant="outline" className="hover:-translate-y-0.5 transition-transform">
+                   <Button asChild variant="outline" className="hidden sm:flex hover:-translate-y-0.5 transition-transform">
                         <Link href="/admin" className="flex items-center gap-2">
                           <Shield className="h-4 w-4" />
                           لوحة التحكم
                         </Link>
                     </Button>
                 ) : (
-                    <Button asChild variant="outline" className="hover:-translate-y-0.5 transition-transform">
+                    <Button asChild variant="outline" className="hidden sm:flex hover:-translate-y-0.5 transition-transform">
                         <Link href={getCoursePageLink()} className="flex items-center gap-2">
                           <Book className="h-4 w-4" />
                           الدورة الخاصة بي
                         </Link>
                     </Button>
                 )}
-                <Button onClick={handleLogout} variant="ghost" size="icon" className="hover:bg-destructive/10">
+                <Button onClick={handleLogout} variant="ghost" size="icon" className="hidden sm:flex hover:bg-destructive/10">
                     <LogOut className="h-5 w-5 text-destructive" />
                     <span className="sr-only">تسجيل الخروج</span>
                 </Button>
                </>
             )}
+
+            {/* Mobile Menu */}
+            <div className="md:hidden">
+                <Sheet>
+                    <SheetTrigger asChild>
+                        <Button variant="outline" size="icon">
+                            <Menu className="h-6 w-6" />
+                            <span className="sr-only">Open menu</span>
+                        </Button>
+                    </SheetTrigger>
+                    <SheetContent side="right" className="w-full sm:w-3/4 bg-background p-8">
+                        <div className="flex flex-col h-full">
+                           <Link href="/" className="mb-8">
+                            <Logo className="h-16 w-auto object-contain" />
+                           </Link>
+                           <NavLinksContent isMobile={true} />
+                           <div className="mt-auto space-y-4">
+                            {!currentUser ? (
+                                <SheetClose asChild>
+                                  <Button asChild size="lg" className="w-full">
+                                      <Link href="/login" className="flex items-center gap-2">
+                                        <User className="h-4 w-4" />
+                                        الدخول 
+                                      </Link>
+                                  </Button>
+                                </SheetClose>
+                              ) : (
+                                <>
+                                  {currentUser.role === 'admin' ? (
+                                    <SheetClose asChild>
+                                      <Button asChild variant="outline" size="lg" className="w-full">
+                                          <Link href="/admin" className="flex items-center gap-2">
+                                            <Shield className="h-4 w-4" />
+                                            لوحة التحكم
+                                          </Link>
+                                      </Button>
+                                    </SheetClose>
+                                  ) : (
+                                    <SheetClose asChild>
+                                      <Button asChild variant="outline" size="lg" className="w-full">
+                                          <Link href={getCoursePageLink()} className="flex items-center gap-2">
+                                            <Book className="h-4 w-4" />
+                                            الدورة الخاصة بي
+                                          </Link>
+                                      </Button>
+                                    </SheetClose>
+                                  )}
+                                  <Button onClick={handleLogout} variant="destructive" size="lg" className="w-full">
+                                      <LogOut className="h-5 w-5" />
+                                      تسجيل الخروج
+                                  </Button>
+                                </>
+                              )}
+                           </div>
+                        </div>
+                    </SheetContent>
+                </Sheet>
+            </div>
         </div>
       </div>
     </header>

@@ -9,6 +9,7 @@
 
 
 
+
 import { MarketingLayout } from '@/components/layout/marketing-layout';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, Rocket } from 'lucide-react';
@@ -180,13 +181,13 @@ export default function Home() {
                         </div>
                     </div>
                     <div className="flex justify-center items-center">
-                        <div className="relative group w-[376px] h-[376px]">
+                        <div className="relative group w-full max-w-[376px] h-auto aspect-square">
                             <Image
                                 src="https://i.ibb.co/SXn1vhJP/NEW-NEW.png"
                                 alt="About Dana Academy"
                                 width={376}
                                 height={376}
-                                className="rounded-xl object-cover"
+                                className="rounded-xl object-cover w-full h-full"
                                 data-ai-hint="teacher classroom"
                             />
                         </div>
@@ -214,9 +215,11 @@ export default function Home() {
                         انضم إلى دوراتنا المصممة بعناية لمساعدتك على إتقان مفاهيم الفيزياء وتحقيق أفضل النتائج.
                     </p>
                 </div>
-                <div className="mt-12 grid gap-8 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 justify-center">
+                <div className="mt-12 grid gap-8 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 justify-center">
                   {courses.map((course, index) => (
-                    <CourseCard key={index} course={course} />
+                    <div key={index} className="flex justify-center">
+                      <CourseCard course={course} />
+                    </div>
                   ))}
                 </div>
             </div>
@@ -285,8 +288,11 @@ export default function Home() {
                 انقر على صورة أي طالب لعرض رأيه كاملا
               </p>
             </div>
-            <div className="mt-12">
+            <div className="mt-12 hidden md:block">
               <TestimonialsMap testimonials={testimonials} />
+            </div>
+             <div className="mt-12 md:hidden">
+              <p className="text-center text-muted-foreground">عرض الخريطة التفاعلية متاح على شاشات سطح المكتب.</p>
             </div>
           </div>
         </Section>
@@ -302,7 +308,7 @@ export default function Home() {
                         نفخر بطلابنا ونتائجهم المتميزة التي هي شهادة على نجاح أساليبنا التعليمية.
                     </p>
                 </div>
-                <div className="mt-12 grid gap-x-8 gap-y-24 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-center">
+                <div className="mt-12 grid gap-x-8 gap-y-24 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-items-center">
                     {studentAchievements.map((student, index) => (
                         <AchievementCard key={index} student={student} />
                     ))}

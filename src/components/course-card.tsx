@@ -28,6 +28,13 @@ export function CourseCard({ course, className }: CourseCardProps) {
 
   const handleMouseEnter = () => setIsFlipped(true);
   const handleMouseLeave = () => setIsFlipped(false);
+  const isTouchDevice = typeof window !== 'undefined' && ('ontouchstart' in window || navigator.maxTouchPoints > 0);
+  const handleCardClick = () => {
+    if (isTouchDevice) {
+        setIsFlipped(!isFlipped);
+    }
+  }
+
 
   const curriculumColorMap: { [key: string]: string } = {
     'الأردن': 'bg-red-600',
@@ -66,8 +73,9 @@ export function CourseCard({ course, className }: CourseCardProps) {
   return (
       <div
         className={cn("w-full max-w-sm h-96 perspective-1000 group", className)}
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
+        onMouseEnter={!isTouchDevice ? handleMouseEnter : undefined}
+        onMouseLeave={!isTouchDevice ? handleMouseLeave : undefined}
+        onClick={handleCardClick}
       >
         <div
           className={cn(
