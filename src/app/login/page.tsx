@@ -41,22 +41,6 @@ export default function LoginPage() {
                   تسجيل الدخول
                 </Button>
               </form>
-               <div className="mt-6 relative">
-                  <div className="absolute inset-0 flex items-center">
-                      <span className="w-full border-t"></span>
-                  </div>
-                  <div className="relative flex justify-center text-xs uppercase">
-                      <span className="bg-card px-2 text-muted-foreground">
-                          أو
-                      </span>
-                  </div>
-              </div>
-               <div className="mt-6 text-center text-sm text-muted-foreground">
-                ليس لديك حساب؟{' '}
-                <Link href="#" className="font-semibold text-primary hover:underline">
-                  أنشئ حسابًا جديدًا
-                </Link>
-              </div>
             </CardContent>
           </Card>
         </div>

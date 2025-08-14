@@ -40,9 +40,6 @@ export function MarketingHeader() {
            ))}
         </nav>
         <div className="flex items-center gap-4">
-             <Button asChild variant="outline" className="hover:-translate-y-0.5 transition-transform">
-                <Link href="#">حساب جديد</Link>
-            </Button>
             <Button asChild className="hover:-translate-y-0.5 transition-transform">
                 <Link href="/login" className="flex items-center gap-2">
                   <User className="h-4 w-4" />
