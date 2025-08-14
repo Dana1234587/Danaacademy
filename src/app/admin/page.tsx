@@ -66,7 +66,7 @@ export default function AdminPage() {
             setPendingDevices(pendingDevicesData);
             setRegisteredDevices(registeredDevicesData);
         } catch (error) {
-            toast({ variant: 'destructive', title: 'فشل تحميل البيانات', description: 'لم نتمكن من جلب البيانات من الخادم. قد تكون المشكلة في صلاحيات الوصول إلى قاعدة البيانات.' });
+            toast({ variant: 'destructive', title: 'فشل تحميل البيانات', description: 'لم نتمكن من جلب البيانات من الخادم. تأكدي من صلاحيات الوصول إلى قاعدة البيانات.' });
         } finally {
             setIsLoading({ page: false });
         }
@@ -106,15 +106,21 @@ export default function AdminPage() {
             fetchData();
 
         } catch (error: any) {
-            let description = 'حدث خطأ غير متوقع.';
-            if (error.code === 'auth/email-already-in-use') {
-                description = 'اسم المستخدم هذا موجود بالفعل. الرجاء اختيار اسم آخر.';
-            } else if (error.code === 'auth/weak-password') {
-                description = 'كلمة المرور ضعيفة جدًا. يجب أن تتكون من 6 أحرف على الأقل.';
-            } else if (error.code === 'auth/invalid-email') {
-                 description = 'صيغة اسم المستخدم غير صالحة. يجب أن تكون باللغة الإنجليزية وبدون مسافات.';
-            } else if (error.code === 'permission-denied' || (error.message && error.message.toLowerCase().includes('permission-denied'))) {
-                description = 'فشل الوصول إلى قاعدة البيانات. يرجى التأكد من أن قواعد الأمان في Firebase تسمح بالكتابة للمستخدمين المسجلين.';
+            let description = 'حدث خطأ غير متوقع. الرجاء المحاولة مرة أخرى.';
+            switch (error.code) {
+                case 'auth/email-already-in-use':
+                    description = 'اسم المستخدم هذا موجود بالفعل. الرجاء اختيار اسم آخر.';
+                    break;
+                case 'auth/weak-password':
+                    description = 'كلمة المرور ضعيفة جدًا. يجب أن تتكون من 6 أحرف على الأقل.';
+                    break;
+                case 'auth/invalid-email':
+                    description = 'صيغة اسم المستخدم غير صالحة. الرجاء استخدام حروف إنجليزية وأرقام فقط بدون مسافات أو رموز.';
+                    break;
+                case 'permission-denied':
+                case 'PERMISSION_DENIED':
+                    description = 'فشل الوصول إلى قاعدة البيانات. يرجى التأكد من أن قواعد الأمان في Firebase تسمح بالكتابة للمستخدمين المسجلين.';
+                    break;
             }
             toast({ variant: 'destructive', title: 'فشل إنشاء الحساب', description });
         } finally {
@@ -240,6 +246,7 @@ export default function AdminPage() {
                                     <div className="space-y-2">
                                         <Label htmlFor="student-username">اسم المستخدم (باللغة الإنجليزية)</Label>
                                         <Input id="student-username" value={newStudentUsername} onChange={(e) => setNewStudentUsername(e.target.value)} placeholder="مثال: mohammed123" required />
+                                        <p className="text-xs text-muted-foreground">استخدم حروف إنجليزية وأرقام فقط، بدون مسافات أو رموز.</p>
                                     </div>
                                     <div className="space-y-2">
                                         <Label htmlFor="student-password">كلمة المرور</Label>
