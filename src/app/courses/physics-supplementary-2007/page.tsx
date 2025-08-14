@@ -163,7 +163,9 @@ export default function PhysicsSupplementary2007Page() {
                 <CardContent className="p-6">
                   <div className="flex justify-between items-center mb-4">
                     <p className="text-3xl font-bold text-primary">{course.price}</p>
-                    <Button size="lg">انضم للدورة الآن</Button>
+                    <Button size="lg" asChild>
+                      <Link href="/login">انضم للدورة الآن</Link>
+                    </Button>
                   </div>
                    <Button variant="outline" className="w-full" asChild>
                       <Link href="/">
