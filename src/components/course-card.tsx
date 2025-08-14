@@ -36,8 +36,30 @@ export function CourseCard({ course, className }: CourseCardProps) {
 
   const curriculumColor = course.curriculum ? curriculumColorMap[course.curriculum] || 'bg-gray-500' : 'bg-gray-500';
 
-  const CardWrapper = ({ children }: { children: React.ReactNode }) =>
-    course.link ? <Link href={course.link}>{children}</Link> : <>{children}</>;
+  const DetailsButton = () => {
+    const button = (
+       <Button variant="ghost" size="sm">
+          تفاصيل
+       </Button>
+    );
+    if (course.link) {
+      return <Link href={course.link} className="pointer-events-auto">{button}</Link>;
+    }
+    return <div className="pointer-events-none">{button}</div>;
+  };
+
+  const AddToCartButton = () => {
+    const button = (
+      <Button variant="secondary" size="sm">
+          <ShoppingCart className="h-4 w-4 me-2" />
+          أضف للسلة
+      </Button>
+    );
+     if (course.link) {
+      return <Link href={course.link} className="pointer-events-auto">{button}</Link>;
+    }
+    return button;
+  }
 
   return (
       <div
@@ -52,7 +74,6 @@ export function CourseCard({ course, className }: CourseCardProps) {
           )}
         >
           {/* Front of the card */}
-          <CardWrapper>
             <Card className="absolute w-full h-full backface-visibility-hidden flex flex-col overflow-hidden rounded-lg shadow-lg border-2 border-primary bg-white/30 backdrop-blur-sm">
                 {course.curriculum && (
                   <div className={cn(
@@ -79,16 +100,12 @@ export function CourseCard({ course, className }: CourseCardProps) {
                     </CardHeader>
                     <CardFooter className="p-0 flex justify-between items-center">
                        <p className="text-xl font-bold text-foreground">{course.price}</p>
-                       <Button variant="ghost" size="sm" className="pointer-events-none">
-                          تفاصيل
-                       </Button>
+                       <DetailsButton />
                     </CardFooter>
                 </div>
             </Card>
-          </CardWrapper>
 
           {/* Back of the card */}
-           <CardWrapper>
             <Card className="absolute w-full h-full backface-visibility-hidden rotate-y-180 flex flex-col p-6 bg-primary text-primary-foreground shadow-xl rounded-lg justify-between">
                 <CardHeader className="p-0">
                     <CardTitle>{course.title}</CardTitle>
@@ -100,13 +117,9 @@ export function CourseCard({ course, className }: CourseCardProps) {
                 </CardContent>
                 <CardFooter className="p-0 mt-4 flex justify-between items-center">
                     <p className="text-xl font-bold">{course.price}</p>
-                    <Button variant="secondary" size="sm">
-                        <ShoppingCart className="h-4 w-4 me-2" />
-                        أضف للسلة
-                    </Button>
+                    <AddToCartButton />
               </CardFooter>
             </Card>
-          </CardWrapper>
         </div>
       </div>
   );
