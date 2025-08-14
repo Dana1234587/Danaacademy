@@ -22,6 +22,7 @@ import {
   Book,
   LogOut,
   User,
+  Shield,
 } from 'lucide-react';
 import { usePathname, useRouter } from 'next/navigation';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
@@ -29,7 +30,6 @@ import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Logo } from '@/components/logo';
 import { useStore } from '@/store/app-store';
-import { useEffect } from 'react';
 import { auth } from '@/lib/firebase';
 import { signOut } from 'firebase/auth';
 
@@ -97,21 +97,10 @@ const contentTypes = [
 function SidebarNavMenu() {
   const pathname = usePathname();
   const currentUser = useStore((state) => state.currentUser);
-  const router = useRouter();
-
-  useEffect(() => {
-    if (!currentUser) {
-      router.push('/login');
-    }
-  }, [currentUser, router]);
-
-  if (!currentUser) {
-     return null; // Render nothing while redirecting
-  }
   
-  const accessibleCourses = currentUser.role === 'admin' 
+  const accessibleCourses = currentUser?.role === 'admin' 
     ? allCourses 
-    : allCourses.filter(course => currentUser.enrolledCourseIds.includes(course.id));
+    : allCourses.filter(course => currentUser?.enrolledCourseIds.includes(course.id));
 
   const renderMenuItems = (items: any[], level = 0, parentPath = '') => {
     return items.map((item, index) => {
@@ -167,11 +156,11 @@ function SidebarNavMenu() {
               <CollapsibleContent>
                   <div className={cn("ms-7 border-s border-border")}>
                   {contentTypes.map((contentType) => {
-                    const contentPath = item.path; // Use the full path from the item
+                    const contentPath = `${item.path}/${contentType.folder}`;
                     return (
                       <SidebarMenuItem key={contentType.folder} className="ms-4">
-                          <Link href={`${contentPath}/${contentType.folder}`}>
-                              <SidebarMenuButton variant="ghost" isActive={pathname.endsWith(contentType.folder)}>
+                          <Link href={contentPath}>
+                              <SidebarMenuButton variant="ghost" isActive={pathname === contentPath}>
                                   <contentType.icon className="h-4 w-4"/>
                                   <span>{contentType.label}</span>
                               </SidebarMenuButton>
@@ -222,8 +211,8 @@ export function SidebarNav() {
                 <SidebarMenuItem>
                     <Link href="/admin">
                         <SidebarMenuButton isActive={usePathname() === '/admin'}>
-                            <User />
-                            لوحة التحكم
+                            <Shield />
+                            لوحة تحكم المسؤول
                         </SidebarMenuButton>
                     </Link>
                 </SidebarMenuItem>

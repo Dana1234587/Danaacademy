@@ -98,4 +98,3 @@ export async function resetStudentPassword(studentId: string, newPassword: strin
     });
     console.log(`Password for student ${studentId} updated in Firestore. This does NOT change their actual login password.`);
 }
-

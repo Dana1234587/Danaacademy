@@ -8,15 +8,14 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Logo } from '@/components/logo';
 import Link from 'next/link';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
 import { Loader2 } from 'lucide-react';
-import { useStore } from '@/store/app-store';
 import { findStudentByUsername } from '@/services/studentService';
 import { findRegisteredDevicesByStudentId, addPendingDevice } from '@/services/deviceService';
 import { auth } from '@/lib/firebase';
-import { signInWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
+import { signInWithEmailAndPassword } from 'firebase/auth';
 
 // This function now generates a stable device ID and stores it in localStorage.
 const getDeviceId = (): string => {
@@ -51,29 +50,6 @@ export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const { toast } = useToast();
-  const setCurrentUser = useStore((state) => state.setCurrentUser);
-  
-  // Keep user logged in on page refresh
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user && user.email) {
-         if (user.email.startsWith('admin')) {
-             setCurrentUser({ username: 'admin', role: 'admin', enrolledCourseIds: ['tawjihi-2007-supplementary', 'tawjihi-2008'] });
-         } else {
-            // Fetch student details if it's a student
-            findStudentByUsername(user.email.split('@')[0]).then(student => {
-                if(student) {
-                    setCurrentUser({ username: student.username, role: 'student', enrolledCourseIds: [student.courseId] });
-                }
-            });
-         }
-      } else {
-        setCurrentUser(null);
-      }
-    });
-    return () => unsubscribe();
-  }, [setCurrentUser]);
-
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -95,7 +71,6 @@ export default function LoginPage() {
                   title: 'أهلاً بعودتك دكتورة دانا',
                   description: 'يتم توجيهك إلى لوحة التحكم.',
                 });
-                setCurrentUser({ username: 'admin', role: 'admin', enrolledCourseIds: ['tawjihi-2007-supplementary', 'tawjihi-2008'] });
                 router.push('/admin');
                 return; // Important: Exit after admin login
             }
@@ -120,7 +95,6 @@ export default function LoginPage() {
             const registeredDevices = await findRegisteredDevicesByStudentId(student.id);
             
             const redirectToCoursePage = () => {
-                setCurrentUser({ username: student.username, role: 'student', enrolledCourseIds: [student.courseId] });
                 let coursePath = '/'; // Default fallback
                 if (student.courseId === 'tawjihi-2007-supplementary') {
                     coursePath = '/courses/physics-supplementary-2007';

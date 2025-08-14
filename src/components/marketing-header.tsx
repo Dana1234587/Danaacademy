@@ -4,9 +4,12 @@
 import Link from 'next/link';
 import { Logo } from '@/components/logo';
 import { Button } from '@/components/ui/button';
-import { BookCopy, Home, Info, Phone, User } from 'lucide-react';
+import { BookCopy, Home, Info, Phone, User, LogOut, Shield } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
+import { useStore } from '@/store/app-store';
+import { auth } from '@/lib/firebase';
+import { signOut } from 'firebase/auth';
 
 const navLinks = [
   { href: '/', text: 'الرئيسية', icon: Home },
@@ -17,6 +20,35 @@ const navLinks = [
 
 export function MarketingHeader() {
   const pathname = usePathname();
+  const router = useRouter();
+  const { currentUser, logout } = useStore((state) => ({ currentUser: state.currentUser, logout: state.logout }));
+
+  const handleLogout = async () => {
+    try {
+      await signOut(auth); // Sign out from Firebase
+      logout(); // Clear user state in Zustand
+      router.push('/login');
+    } catch (error) {
+      console.error("Error signing out: ", error);
+      // Still attempt to log out locally even if firebase fails
+      logout();
+      router.push('/login');
+    }
+  }
+
+  const getCoursePageLink = () => {
+    if (!currentUser || currentUser.role !== 'student' || !currentUser.enrolledCourseIds.length) {
+      return '/';
+    }
+    const courseId = currentUser.enrolledCourseIds[0];
+    if (courseId === 'tawjihi-2007-supplementary') {
+      return '/courses/physics-supplementary-2007';
+    }
+    if (courseId === 'tawjihi-2008') {
+      return '/courses/physics-2008';
+    }
+    return '/';
+  }
   
   return (
     <header className="sticky top-0 z-50 w-full bg-background shadow-sm border-b border-primary/20">
@@ -39,13 +71,37 @@ export function MarketingHeader() {
             </Link>
            ))}
         </nav>
-        <div className="flex items-center gap-4">
-            <Button asChild className="hover:-translate-y-0.5 transition-transform">
-                <Link href="/login" className="flex items-center gap-2">
-                  <User className="h-4 w-4" />
-                  الدخول 
-                </Link>
-            </Button>
+        <div className="flex items-center gap-2">
+            {!currentUser ? (
+              <Button asChild className="hover:-translate-y-0.5 transition-transform">
+                  <Link href="/login" className="flex items-center gap-2">
+                    <User className="h-4 w-4" />
+                    الدخول 
+                  </Link>
+              </Button>
+            ) : (
+               <>
+                {currentUser.role === 'admin' ? (
+                   <Button asChild variant="outline" className="hover:-translate-y-0.5 transition-transform">
+                        <Link href="/admin" className="flex items-center gap-2">
+                          <Shield className="h-4 w-4" />
+                          لوحة التحكم
+                        </Link>
+                    </Button>
+                ) : (
+                    <Button asChild variant="outline" className="hover:-translate-y-0.5 transition-transform">
+                        <Link href={getCoursePageLink()} className="flex items-center gap-2">
+                          <Book className="h-4 w-4" />
+                          الدورة الخاصة بي
+                        </Link>
+                    </Button>
+                )}
+                <Button onClick={handleLogout} variant="ghost" size="icon" className="hover:bg-destructive/10">
+                    <LogOut className="h-5 w-5 text-destructive" />
+                    <span className="sr-only">تسجيل الخروج</span>
+                </Button>
+               </>
+            )}
         </div>
       </div>
     </header>
