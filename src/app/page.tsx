@@ -8,6 +8,7 @@
 
 
 
+
 import { MarketingLayout } from '@/components/layout/marketing-layout';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, Rocket } from 'lucide-react';
@@ -79,7 +80,8 @@ const courses = [
     imageUrl: 'https://i.ibb.co/v6JXwghs/image.png',
     imageHint: 'physics textbook',
     curriculum: 'الأردن',
-    link: '/courses/physics-supplementary-2007'
+    link: '/courses/physics-supplementary-2007',
+    detailsLink: '/courses/physics-supplementary-2007/details',
   },
   {
     title: 'فيزياء التوجيهي - جيل 2008',
@@ -88,7 +90,8 @@ const courses = [
     imageUrl: 'https://i.ibb.co/HTYrz1mb/image.png',
     imageHint: 'physics textbook 2008',
     curriculum: 'الأردن',
-    link: '/courses/physics-2008'
+    link: '/courses/physics-2008',
+    detailsLink: '/courses/physics-2008/details',
   },
     {
     title: 'دورة التأسيس توجيهي الأردن لجيل 2008',
@@ -97,6 +100,7 @@ const courses = [
     imageUrl: 'https://placehold.co/600x400.png',
     imageHint: 'physics foundation',
     curriculum: 'الأردن',
+    detailsLink: '/courses/physics-2008-foundation/details',
   },
   {
     title: 'فيزياء التوجيهي - جيل 2008',
@@ -104,7 +108,8 @@ const courses = [
     price: '60.00 د.أ',
     imageUrl: 'https://i.ibb.co/TDd0GqQB/image.jpg',
     imageHint: 'physics textbook palestine',
-    curriculum: 'فلسطين'
+    curriculum: 'فلسطين',
+    detailsLink: '/courses/physics-2008-palestine/details',
   },
   {
     title: 'الفيزياء الفلكية والكون',
@@ -112,7 +117,8 @@ const courses = [
     price: '80.00 د.أ',
     imageUrl: 'https://placehold.co/600x400.png',
     imageHint: 'astronomy space',
-    curriculum: 'الأردن'
+    curriculum: 'الأردن',
+    detailsLink: '/courses/astrophysics/details',
   },
   {
     title: 'الفيزياء النووية والإشعاع',
@@ -120,7 +126,8 @@ const courses = [
     price: '70.00 د.أ',
     imageUrl: 'https://placehold.co/600x400.png',
     imageHint: 'nuclear physics',
-    curriculum: 'فلسطين'
+    curriculum: 'فلسطين',
+    detailsLink: '/courses/nuclear-physics/details',
   },
 ];
 
@@ -339,10 +346,3 @@ export default function Home() {
 
 
     
-
-
-
-
-
-
-

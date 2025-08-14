@@ -18,6 +18,7 @@ interface CourseCardProps {
     imageHint: string;
     curriculum?: string;
     link?: string;
+    detailsLink?: string;
   };
   className?: string;
 }
@@ -37,15 +38,16 @@ export function CourseCard({ course, className }: CourseCardProps) {
   const curriculumColor = course.curriculum ? curriculumColorMap[course.curriculum] || 'bg-gray-500' : 'bg-gray-500';
 
   const DetailsButton = () => {
-    const button = (
+    const buttonContent = (
        <Button variant="ghost" size="sm">
           تفاصيل
        </Button>
     );
     if (course.link) {
-      return <Link href={course.link}>{button}</Link>;
+      return <Link href={course.link}>{buttonContent}</Link>;
     }
-    return button;
+    // Fallback or render nothing if no link
+    return null;
   };
 
   const AddToCartButton = () => {
@@ -55,8 +57,8 @@ export function CourseCard({ course, className }: CourseCardProps) {
           تفاصيل الدورة
       </Button>
     );
-     if (course.link) {
-      return <Link href={course.link}>{button}</Link>;
+     if (course.detailsLink) {
+      return <Link href={course.detailsLink}>{button}</Link>;
     }
     return button;
   }
