@@ -118,6 +118,17 @@ export default function LoginPage() {
             const deviceId = getDeviceId();
             const os = getOS();
             const registeredDevice = await findRegisteredDeviceByStudentId(student.id);
+            
+            const redirectToCoursePage = () => {
+                setCurrentUser({ username: student.username, role: 'student', enrolledCourseIds: [student.courseId] });
+                let coursePath = '/physics'; // Default fallback
+                if (student.courseId === 'tawjihi-2007-supplementary') {
+                    coursePath = '/courses/physics-supplementary-2007';
+                } else if (student.courseId === 'tawjihi-2008') {
+                    coursePath = '/courses/physics-2008';
+                }
+                router.push(coursePath);
+            };
 
             if (!registeredDevice) {
                 // First time login for this student on any device, approve automatically
@@ -135,8 +146,7 @@ export default function LoginPage() {
                   title: `أهلاً بك ${student.studentName}`,
                   description: 'تم تسجيل دخولك وتسجيل هذا الجهاز بنجاح.',
                 });
-                setCurrentUser({ username: student.username, role: 'student', enrolledCourseIds: [student.courseId] });
-                router.push('/physics');
+                redirectToCoursePage();
 
             } else if (registeredDevice.deviceId === deviceId) {
                  // Device is already registered for this student
@@ -144,8 +154,7 @@ export default function LoginPage() {
                   title: `أهلاً بك مجددًا ${student.studentName}`,
                   description: 'تم تسجيل دخولك بنجاح.',
                 });
-                setCurrentUser({ username: student.username, role: 'student', enrolledCourseIds: [student.courseId] });
-                router.push('/physics');
+                redirectToCoursePage();
             } else {
                 // New device detected for a student who already has a registered device
                 await addPendingDevice({
