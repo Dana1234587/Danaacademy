@@ -1,18 +1,23 @@
 
+'use client';
+
 import { MarketingLayout } from '@/components/layout/marketing-layout';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import Image from 'next/image';
-import { CheckCircle, BookOpen, ChevronLeft, Clock, Video, ClipboardCheck, PieChart, Film } from 'lucide-react';
+import { CheckCircle, BookOpen, ChevronLeft, Clock, Video, ClipboardCheck, PieChart, Film, Rocket } from 'lucide-react';
 import Link from 'next/link';
 import { Logo } from '@/components/logo';
 import { TestimonialsMap } from '@/components/testimonials-map';
 import { AchievementCard } from '@/components/achievement-card';
 import { CourseNavBar } from '@/components/course-nav-bar';
 import { MarksDistributionChart } from '@/components/marks-distribution-chart';
+import { useStore } from '@/store/app-store';
+
 
 const course = {
+  id: 'tawjihi-2007-supplementary',
   title: 'فيزياء التكميلي - جيل 2007',
   description: 'دورة شاملة ومكثفة مصممة خصيصًا لطلاب التكميلي جيل 2007، تركز على شرح مادة الفيزياء للفصلين الأول والثاني بطريقة مبسطة وعميقة تضمن لك تحقيق أفضل النتائج في الامتحان الوزاري.',
   instructor: {
@@ -114,6 +119,9 @@ function Section({ children, className, id }: { children: React.ReactNode, class
 
 
 export default function PhysicsSupplementary2007Page() {
+  const { currentUser } = useStore((state) => ({ currentUser: state.currentUser }));
+  const isEnrolled = currentUser?.enrolledCourseIds?.includes(course.id);
+
   return (
     <MarketingLayout>
       {/* Hero Section */}
@@ -163,7 +171,16 @@ export default function PhysicsSupplementary2007Page() {
                 <CardContent className="p-6">
                   <div className="flex justify-between items-center mb-4">
                     <p className="text-3xl font-bold text-primary">{course.price}</p>
-                    <Button size="lg">انضم للدورة الآن</Button>
+                    {isEnrolled ? (
+                        <Button asChild size="lg">
+                            <Link href="/courses/physics-supplementary-2007">
+                                <Rocket className="w-4 h-4 ms-2" />
+                                الانتقال إلى الدورة
+                            </Link>
+                        </Button>
+                    ) : (
+                        <Button size="lg">انضم للدورة الآن</Button>
+                    )}
                   </div>
                    <Button variant="outline" className="w-full" asChild>
                       <Link href="/">
@@ -314,3 +331,5 @@ export default function PhysicsSupplementary2007Page() {
     </MarketingLayout>
   );
 }
+
+    
