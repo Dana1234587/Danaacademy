@@ -307,7 +307,7 @@ export default function AdminPage() {
                         <Card>
                             <CardHeader>
                                 <CardTitle>قائمة حسابات الطلاب</CardTitle>
-                                <CardDescription>جميع حسابات الطلاب المسجلة في قاعدة البيانات.</CardDescription>
+                                <CardDescription>هنا يتم عرض جميع حسابات الطلاب المسجلة في قاعدة البيانات.</CardDescription>
                             </CardHeader>
                             <CardContent>
                                 <Table>
@@ -495,5 +495,7 @@ export default function AdminPage() {
         </MainLayout>
     );
 }
+
+    
 
     
