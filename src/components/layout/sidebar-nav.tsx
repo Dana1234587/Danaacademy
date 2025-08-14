@@ -12,18 +12,18 @@ import {
   SidebarSeparator,
 } from '@/components/ui/sidebar';
 import {
-  BookOpen,
   ChevronsRight,
   Folder,
   Atom,
   ClipboardCheck,
   FileText,
   Lightbulb,
-  Settings,
   Languages,
   Book,
+  LogOut,
+  User,
 } from 'lucide-react';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
@@ -35,71 +35,50 @@ const allCourses = [
     id: 'tawjihi-2007-supplementary',
     label: 'التكميلي (جيل 2007)',
     icon: Book,
-    path: '/courses/physics-supplementary-2007',
-    content: true, // This is a placeholder; actual content pages are under /app/(content)
+    path: '/physics/supplementary-2007',
+    subItems: [
+        {
+            label: 'الفصل الأول',
+            icon: Folder,
+            path: '/physics/supplementary-2007/first-semester',
+            subItems: [
+              { 
+                label: 'الزخم الخطي والتصادمات', 
+                icon: Folder, 
+                path: '/physics/supplementary-2007/first-semester/1-linear-momentum-and-collisions', 
+                subItems: [
+                  { label: 'الدرس الأول: الزخم الخطي والدفع', icon: FileText, path: '/physics/supplementary-2007/first-semester/1-linear-momentum-and-collisions/1-linear-momentum-and-impulse', content: true },
+                  { label: 'الدرس الثاني: التصادمات', icon: FileText, path: '/physics/supplementary-2007/first-semester/1-linear-momentum-and-collisions/2-collisions', content: true },
+                ]
+              },
+              // Other units will be added here following the same structure
+            ]
+        }
+    ]
   },
   {
     id: 'tawjihi-2008',
     label: 'التوجيهي (جيل 2008)',
     icon: Book,
-    path: '/physics',
-    subItems: [
+    path: '/physics/tawjihi-2008',
+     subItems: [
       {
         label: 'الفصل الأول',
         icon: Folder,
-        path: '/physics/tawjihi/first-semester',
+        path: '/physics/tawjihi-2008/first-semester',
         subItems: [
           { 
             label: 'الزخم الخطي والتصادمات', 
             icon: Folder, 
-            path: '/physics/tawjihi/first-semester/momentum', 
+            path: '/physics/tawjihi-2008/first-semester/momentum', 
             subItems: [
-              { label: 'الزخم الخطي والدفع', icon: FileText, path: '/physics/tawjihi/first-semester/momentum/linear-momentum-and-impulse', content: true },
-              { label: 'التصادمات', icon: FileText, path: '/physics/tawjihi/first-semester/momentum/collisions', content: true },
+              { label: 'الزخم الخطي والدفع', icon: FileText, path: '/physics/tawjihi-2008/first-semester/momentum/linear-momentum-and-impulse', content: true },
+              { label: 'التصادمات', icon: FileText, path: '/physics/tawjihi-2008/first-semester/momentum/collisions', content: true },
             ]
           },
-          { 
-            label: 'الحركة الدورانية', 
-            icon: Folder, 
-            path: '/physics/tawjihi/first-semester/rotational-motion',
-            subItems: [
-              { label: 'العزم والاتزان السكوني', icon: FileText, path: '/physics/tawjihi/first-semester/rotational-motion/torque-and-static-equilibrium', content: true },
-              { label: 'ديناميكا الحركة الدورانية', icon: FileText, path: '/physics/tawjihi/first-semester/rotational-motion/rotational-dynamics', content: true },
-              { label: 'الزخم الزاوي', icon: FileText, path: '/physics/tawjihi/first-semester/rotational-motion/angular-momentum', content: true },
-            ]
-          },
-          { 
-            label: 'التيار والدارات الكهربائية', 
-            icon: Folder, 
-            path: '/physics/tawjihi/first-semester/circuits',
-            subItems: [
-                { label: 'المقاومة والقوة الدافعة', icon: FileText, path: '/physics/tawjihi/first-semester/circuits/resistance', content: true },
-                { label: 'القدرة والدارة البسيطة', icon: FileText, path: '/physics/tawjihi/first-semester/circuits/power', content: true },
-                { label: 'قاعدتا كيرشوف', icon: FileText, path: '/physics/tawjihi/first-semester/circuits/kirchhoff', content: true },
-            ]
-          },
-          { 
-            label: 'المجال المغناطيسي', 
-            icon: Folder, 
-            path: '/physics/tawjihi/first-semester/magnetic-field',
-            subItems: [
-                { label: 'القوة المغناطيسية', icon: FileText, path: '/physics/tawjihi/first-semester/magnetic-field/force', content: true },
-                { label: 'المجال المغناطيسي من تيار', icon: FileText, path: '/physics/tawjihi/first-semester/magnetic-field/from-current', content: true },
-            ]
-          },
-        ],
+        ]
       },
-      {
-        label: 'الفصل الثاني',
-        icon: Folder,
-        path: '/physics/tawjihi/second-semester',
-        subItems: [
-          { label: 'الحث الكهرومغناطيسي', icon: Folder, path: '/physics/tawjihi/second-semester/electromagnetic-induction', content: true },
-          { label: 'فيزياء الكم', icon: Folder, path: '/physics/tawjihi/second-semester/quantum-physics', content: true },
-          { label: 'الفيزياء النووية', icon: Folder, path: '/physics/tawjihi/second-semester/nuclear-physics', content: true },
-        ],
-      },
-    ],
+    ]
   },
 ];
 
@@ -114,13 +93,16 @@ const contentTypes = [
 function SidebarNavMenu() {
   const pathname = usePathname();
   const currentUser = useStore((state) => state.currentUser);
+  const router = useRouter();
 
   if (!currentUser) {
-      // Handle case where user is not logged in, maybe show a login button or nothing
-      return null;
+     router.push('/login');
+     return null;
   }
-
-  const accessibleCourses = allCourses.filter(course => currentUser.enrolledCourseIds.includes(course.id));
+  
+  const accessibleCourses = currentUser.role === 'admin' 
+    ? allCourses 
+    : allCourses.filter(course => currentUser.enrolledCourseIds.includes(course.id));
 
   const renderMenuItems = (items: any[], level = 0, parentPath = '') => {
     return items.map((item, index) => {
@@ -177,8 +159,8 @@ function SidebarNavMenu() {
                   <div className={cn("ms-7 border-s border-border")}>
                   {contentTypes.map((contentType) => (
                       <SidebarMenuItem key={contentType.folder} className="ms-4">
-                          <Link href={`${currentPath.replace('/courses/physics-supplementary-2007', '/physics/tawjihi/first-semester/momentum')}/${contentType.folder}`}>
-                              <SidebarMenuButton variant="ghost" isActive={pathname === `${currentPath}/${contentType.folder}`}>
+                          <Link href={`${item.path.replace('/courses/physics-supplementary-2007', '/physics/tawjihi/first-semester/momentum')}/${contentType.folder}`}>
+                              <SidebarMenuButton variant="ghost" isActive={pathname.endsWith(contentType.folder)}>
                                   <contentType.icon className="h-4 w-4"/>
                                   <span>{contentType.label}</span>
                               </SidebarMenuButton>
@@ -199,6 +181,14 @@ function SidebarNavMenu() {
 
 
 export function SidebarNav() {
+  const { currentUser, logout } = useStore((state) => ({ currentUser: state.currentUser, logout: state.logout }));
+  const router = useRouter();
+
+  const handleLogout = () => {
+    logout();
+    router.push('/login');
+  }
+
   return (
     <>
       <SidebarHeader>
@@ -207,6 +197,19 @@ export function SidebarNav() {
         </Link>
       </SidebarHeader>
       <SidebarContent>
+        {currentUser?.role === 'admin' && (
+            <SidebarMenu>
+                <SidebarMenuItem>
+                    <Link href="/admin">
+                        <SidebarMenuButton isActive={usePathname() === '/admin'}>
+                            <User />
+                            لوحة التحكم
+                        </SidebarMenuButton>
+                    </Link>
+                </SidebarMenuItem>
+                <SidebarSeparator/>
+            </SidebarMenu>
+        )}
         <SidebarNavMenu />
       </SidebarContent>
       <SidebarSeparator />
@@ -220,10 +223,10 @@ export function SidebarNav() {
                 </SidebarMenuButton>
             </Link>
           </SidebarMenuItem>
-          <SidebarMenuItem>
-            <Button variant="ghost" className="w-full justify-start gap-2">
-                <Languages />
-                English
+           <SidebarMenuItem>
+            <Button onClick={handleLogout} variant="ghost" className="w-full justify-start gap-2">
+                <LogOut />
+                تسجيل الخروج
             </Button>
           </SidebarMenuItem>
         </SidebarMenu>

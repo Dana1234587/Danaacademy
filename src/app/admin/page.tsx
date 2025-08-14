@@ -8,15 +8,25 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
-import { UserPlus, KeyRound, MonitorCheck, Loader2, Search, Smartphone, Monitor, Fingerprint, Globe, List, Home, Book, Users } from 'lucide-react';
-import { useState } from 'react';
+import { UserPlus, KeyRound, MonitorCheck, Loader2, Search, Smartphone, Monitor, Fingerprint, Globe, List, Home, Users, Edit, Trash2 } from 'lucide-react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { useStore } from '@/store/app-store';
+import { getStudents, addStudent as addStudentService, type Student } from '@/services/studentService';
+import { getPendingDevices, getRegisteredDevices, approveDevice as approveDeviceService, type PendingDevice, type RegisteredDevice } from '@/services/deviceService';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
 
-
-// Mock Data - This is now only for initialization if the store is empty
 const availableCourses = [
     { id: 'tawjihi-2007-supplementary', name: 'فيزياء تكميلي 2007' },
     { id: 'tawjihi-2008', name: 'فيزياء توجيهي 2008' },
@@ -27,58 +37,95 @@ export default function AdminPage() {
     const { toast } = useToast();
     const [isLoading, setIsLoading] = useState<Record<string, boolean>>({});
     
-    // Use the central store now
-    const students = useStore((state) => state.students);
-    const addStudent = useStore((state) => state.addStudent);
-    const pendingDevices = useStore((state) => state.pendingDevices);
-    const registeredDevices = useStore((state) => state.registeredDevices);
-    const approveDevice = useStore((state) => state.approveDevice);
+    // State to hold data from services
+    const [students, setStudents] = useState<Student[]>([]);
+    const [pendingDevices, setPendingDevices] = useState<PendingDevice[]>([]);
+    const [registeredDevices, setRegisteredDevices] = useState<RegisteredDevice[]>([]);
 
     const [newStudentName, setNewStudentName] = useState('');
     const [newStudentUsername, setNewStudentUsername] = useState('');
     const [newStudentPassword, setNewStudentPassword] = useState('');
     const [selectedCourse, setSelectedCourse] = useState('');
     const [searchQuery, setSearchQuery] = useState('');
-    const [searchedStudent, setSearchedStudent] = useState<(typeof students[0]) | null>(null);
+    const [searchedStudent, setSearchedStudent] = useState<Student | null>(null);
 
-    const handleCreateAccount = (e: React.FormEvent) => {
+    // Fetch data on component mount
+    useEffect(() => {
+        fetchData();
+    }, []);
+
+    const fetchData = async () => {
+        setIsLoading({ ...isLoading, page: true });
+        try {
+            const [studentsData, pendingDevicesData, registeredDevicesData] = await Promise.all([
+                getStudents(),
+                getPendingDevices(),
+                getRegisteredDevices()
+            ]);
+            setStudents(studentsData);
+            setPendingDevices(pendingDevicesData);
+            setRegisteredDevices(registeredDevicesData);
+        } catch (error) {
+            toast({ variant: 'destructive', title: 'فشل تحميل البيانات', description: 'لم نتمكن من جلب البيانات من الخادم.' });
+        } finally {
+            setIsLoading({ ...isLoading, page: false });
+        }
+    };
+
+    const handleCreateAccount = async (e: React.FormEvent) => {
         e.preventDefault();
         setIsLoading({ ...isLoading, create: true });
-        setTimeout(() => {
+        try {
+            const courseDetails = availableCourses.find(c => c.id === selectedCourse);
+            if (!courseDetails) {
+                 toast({ variant: 'destructive', title: 'خطأ', description: 'الرجاء اختيار دورة صحيحة.' });
+                 setIsLoading({ ...isLoading, create: false });
+                 return;
+            }
+            
             const newStudentData = {
-                id: `s${students.length + 1}`,
                 studentName: newStudentName,
                 username: newStudentUsername,
                 password: newStudentPassword,
-                course: availableCourses.find(c => c.id === selectedCourse)?.name || '',
-                courseId: selectedCourse,
+                course: courseDetails.name,
+                courseId: courseDetails.id,
             };
             
-            addStudent(newStudentData);
+            await addStudentService(newStudentData);
             
             toast({
                 title: 'تم إنشاء الحساب بنجاح',
                 description: `تم إنشاء حساب للطالب ${newStudentName} في دورة ${newStudentData.course}.`,
             });
-
+            
+            // Reset form and refetch data
             setNewStudentName('');
             setNewStudentUsername('');
             setNewStudentPassword('');
             setSelectedCourse('');
+            fetchData();
+
+        } catch (error) {
+            toast({ variant: 'destructive', title: 'فشل إنشاء الحساب', description: 'حدث خطأ غير متوقع.' });
+        } finally {
             setIsLoading({ ...isLoading, create: false });
-        }, 1000);
+        }
     };
 
-    const handleApproveDevice = (id: string, studentName: string) => {
+    const handleApproveDevice = async (id: string, studentName: string) => {
         setIsLoading({ ...isLoading, [id]: true });
-        setTimeout(() => {
-            approveDevice(id);
+        try {
+            await approveDeviceService(id);
             toast({
                 title: 'تمت الموافقة',
                 description: `تمت الموافقة على الجهاز الجديد للطالب ${studentName}.`,
             });
-            setIsLoading({ ...isLoading, [id]: false });
-        }, 1000);
+            fetchData(); // Refetch all data
+        } catch (error) {
+             toast({ variant: 'destructive', title: 'فشلت الموافقة', description: 'حدث خطأ أثناء محاولة الموافقة على الجهاز.' });
+        } finally {
+             setIsLoading({ ...isLoading, [id]: false });
+        }
     };
     
     const handleSearchStudent = () => {
@@ -93,10 +140,14 @@ export default function AdminPage() {
                 title: 'تم إعادة تعيين كلمة المرور',
                 description: `كلمة المرور الجديدة للطالب ${name} هي "newpass123".`,
             });
+            // Here you would call a service to update the password in Firestore
             setIsLoading({ ...isLoading, reset: false });
         }, 1000);
     };
 
+    if (isLoading['page']) {
+        return <MainLayout><div className="flex justify-center items-center h-screen"><Loader2 className="h-16 w-16 animate-spin"/></div></MainLayout>
+    }
 
     return (
         <MainLayout>
@@ -178,6 +229,7 @@ export default function AdminPage() {
                                             <TableHead>اسم المستخدم</TableHead>
                                             <TableHead>كلمة المرور</TableHead>
                                             <TableHead>الدورة المسجل بها</TableHead>
+                                            <TableHead>الإجراءات</TableHead>
                                         </TableRow>
                                     </TableHeader>
                                     <TableBody>
@@ -187,6 +239,26 @@ export default function AdminPage() {
                                                 <TableCell>{student.username}</TableCell>
                                                 <TableCell>{student.password}</TableCell>
                                                 <TableCell>{student.course}</TableCell>
+                                                <TableCell className="flex gap-2">
+                                                  <Button variant="outline" size="icon"><Edit className="w-4 h-4" /></Button>
+                                                  <AlertDialog>
+                                                    <AlertDialogTrigger asChild>
+                                                      <Button variant="destructive" size="icon"><Trash2 className="w-4 h-4" /></Button>
+                                                    </AlertDialogTrigger>
+                                                    <AlertDialogContent>
+                                                      <AlertDialogHeader>
+                                                        <AlertDialogTitle>هل أنت متأكد؟</AlertDialogTitle>
+                                                        <AlertDialogDescription>
+                                                          هذا الإجراء سيحذف حساب الطالب بشكل نهائي ولا يمكن التراجع عنه.
+                                                        </AlertDialogDescription>
+                                                      </AlertDialogHeader>
+                                                      <AlertDialogFooter>
+                                                        <AlertDialogCancel>إلغاء</AlertDialogCancel>
+                                                        <AlertDialogAction>حذف</AlertDialogAction>
+                                                      </AlertDialogFooter>
+                                                    </AlertDialogContent>
+                                                  </AlertDialog>
+                                                </TableCell>
                                             </TableRow>
                                         ))}
                                     </TableBody>
@@ -218,7 +290,7 @@ export default function AdminPage() {
                                             <div className="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm text-muted-foreground border-t pt-4">
                                                 <div className="flex items-center gap-2">
                                                     {device.deviceType === 'Desktop' ? <Monitor className="w-4 h-4" /> : <Smartphone className="w-4 h-4" />}
-                                                    <span>{device.deviceType === 'Desktop' ? 'جهاز مكتبي' : 'هاتف محمول'}</span>
+                                                    <span>{device.os}</span>
                                                 </div>
                                                 <div className="flex items-center gap-2">
                                                     <Globe className="w-4 h-4" />
@@ -253,11 +325,12 @@ export default function AdminPage() {
                                                     <p className="font-bold text-lg">{device.studentName}</p>
                                                     <p className="text-sm text-primary">{device.course}</p>
                                                 </div>
+                                                <Button variant="destructive" size="sm"><Trash2 className="me-2" /> حذف الجهاز</Button>
                                             </div>
                                             <div className="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm text-muted-foreground border-t pt-4">
                                                 <div className="flex items-center gap-2">
                                                     {device.deviceType === 'Desktop' ? <Monitor className="w-4 h-4" /> : <Smartphone className="w-4 h-4" />}
-                                                    <span>{device.deviceType === 'Desktop' ? 'جهاز مكتبي' : 'هاتف محمول'}</span>
+                                                    <span>{device.os}</span>
                                                 </div>
                                                 <div className="flex items-center gap-2">
                                                     <Globe className="w-4 h-4" />
@@ -311,5 +384,4 @@ export default function AdminPage() {
             </div>
         </MainLayout>
     );
-
-    
+}
