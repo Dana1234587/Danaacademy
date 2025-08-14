@@ -83,7 +83,7 @@ export default function AdminPage() {
                  return;
             }
             
-            const newStudentData = {
+            const newStudentData: Omit<Student, 'id'> = {
                 studentName: newStudentName,
                 username: newStudentUsername,
                 password: newStudentPassword,
@@ -106,7 +106,11 @@ export default function AdminPage() {
             fetchData();
 
         } catch (error) {
-            toast({ variant: 'destructive', title: 'فشل إنشاء الحساب', description: 'حدث خطأ غير متوقع. قد يكون اسم المستخدم موجوداً بالفعل.' });
+            let description = 'حدث خطأ غير متوقع.';
+            if (error instanceof Error && error.message.includes('auth/email-already-in-use')) {
+                description = 'اسم المستخدم هذا موجود بالفعل. الرجاء اختيار اسم آخر.';
+            }
+            toast({ variant: 'destructive', title: 'فشل إنشاء الحساب', description });
         } finally {
             setIsLoading({ ...isLoading, create: false });
         }
@@ -134,7 +138,7 @@ export default function AdminPage() {
             await deleteStudentService(studentId);
             toast({
                 title: 'تم الحذف',
-                description: `تم حذف حساب الطالب بنجاح.`,
+                description: `تم حذف حساب الطالب من قاعدة البيانات. يجب حذفه من نظام المصادقة يدويًا.`,
             });
             fetchData();
         } catch (error) {
@@ -171,8 +175,9 @@ export default function AdminPage() {
         try {
             await resetStudentPasswordService(studentId, newPassword);
             toast({
-                title: 'تم إعادة تعيين كلمة المرور',
-                description: `كلمة المرور الجديدة للطالب ${studentName} هي "${newPassword}".`,
+                title: 'تم تحديث كلمة المرور في قاعدة البيانات',
+                description: `كلمة المرور الجديدة للطالب ${studentName} هي "${newPassword}". يرجى ملاحظة أن هذا لا يغير كلمة مرور تسجيل الدخول الفعلية في نظام المصادقة.`,
+                duration: 8000
             });
             fetchData(); // Refetch students to show new password
         } catch(error) {
