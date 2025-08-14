@@ -8,10 +8,12 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
-import { UserPlus, KeyRound, MonitorCheck, Loader2, Search, Smartphone, Monitor, Fingerprint, Globe, List, Home, Book } from 'lucide-react';
+import { UserPlus, KeyRound, MonitorCheck, Loader2, Search, Smartphone, Monitor, Fingerprint, Globe, List, Home, Book, Users } from 'lucide-react';
 import { useState } from 'react';
 import Link from 'next/link';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+
 
 // Mock Data
 const pendingDevices = [
@@ -25,9 +27,9 @@ const registeredDevices = [
 ];
 
 const students = [
-    { id: 's1', studentName: 'أحمد علي', username: 'student1', course: 'فيزياء تكميلي 2007' },
-    { id: 's2', studentName: 'فاطمة محمد', username: 'student2', course: 'فيزياء توجيهي 2008' },
-    { id: 's3', studentName: 'خالد يوسف', username: 'student3', course: 'فيزياء توجيهي 2008' },
+    { id: 's1', studentName: 'أحمد علي', username: 'ahmad.ali', course: 'فيزياء تكميلي 2007' },
+    { id: 's2', studentName: 'فاطمة محمد', username: 'fatima.mohd', course: 'فيزياء توجيهي 2008' },
+    { id: 's3', studentName: 'خالد يوسف', username: 'khaled.yousef', course: 'فيزياء توجيهي 2008' },
 ];
 
 const availableCourses = [
@@ -54,6 +56,7 @@ export default function AdminPage() {
                 title: 'تم إنشاء الحساب بنجاح',
                 description: `تم إنشاء حساب للطالب ${newStudentName} في دورة ${availableCourses.find(c => c.id === selectedCourse)?.name}.`,
             });
+            // Here you would add the new student to the students list
             setNewStudentName('');
             setNewStudentUsername('');
             setNewStudentPassword('');
@@ -107,8 +110,9 @@ export default function AdminPage() {
                 </div>
 
                 <Tabs defaultValue="create-student">
-                    <TabsList className="grid w-full grid-cols-4">
+                    <TabsList className="grid w-full grid-cols-5">
                         <TabsTrigger value="create-student"><UserPlus className="me-2" /> إنشاء حساب طالب</TabsTrigger>
+                        <TabsTrigger value="student-accounts"><Users className="me-2" /> حسابات الطلاب</TabsTrigger>
                         <TabsTrigger value="approve-devices"><MonitorCheck className="me-2" /> الموافقة على الأجهزة</TabsTrigger>
                         <TabsTrigger value="registered-devices"><List className="me-2" /> الأجهزة المسجلة</TabsTrigger>
                         <TabsTrigger value="reset-password"><KeyRound className="me-2" /> إعادة تعيين كلمة المرور</TabsTrigger>
@@ -152,6 +156,35 @@ export default function AdminPage() {
                                         إنشاء الحساب
                                     </Button>
                                 </form>
+                            </CardContent>
+                        </Card>
+                    </TabsContent>
+
+                    <TabsContent value="student-accounts">
+                        <Card>
+                            <CardHeader>
+                                <CardTitle>قائمة حسابات الطلاب</CardTitle>
+                                <CardDescription>جميع حسابات الطلاب المسجلة في النظام.</CardDescription>
+                            </CardHeader>
+                            <CardContent>
+                                <Table>
+                                    <TableHeader>
+                                        <TableRow>
+                                            <TableHead>اسم الطالب</TableHead>
+                                            <TableHead>اسم المستخدم</TableHead>
+                                            <TableHead>الدورة المسجل بها</TableHead>
+                                        </TableRow>
+                                    </TableHeader>
+                                    <TableBody>
+                                        {students.map((student) => (
+                                            <TableRow key={student.id}>
+                                                <TableCell className="font-medium">{student.studentName}</TableCell>
+                                                <TableCell>{student.username}</TableCell>
+                                                <TableCell>{student.course}</TableCell>
+                                            </TableRow>
+                                        ))}
+                                    </TableBody>
+                                </Table>
                             </CardContent>
                         </Card>
                     </TabsContent>
@@ -273,4 +306,3 @@ export default function AdminPage() {
         </MainLayout>
     );
 }
-
