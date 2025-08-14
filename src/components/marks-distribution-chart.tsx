@@ -1,19 +1,20 @@
 
 'use client';
 
-import { Bar, BarChart, CartesianGrid, XAxis, YAxis, Tooltip, ResponsiveContainer, Legend } from 'recharts';
+import { Pie, PieChart, Tooltip, ResponsiveContainer, Legend, Cell, Label } from 'recharts';
 
 interface MarksDistributionChartProps {
     data: any[];
 }
 
-const CustomTooltip = ({ active, payload, label }: any) => {
+const CustomTooltip = ({ active, payload }: any) => {
   if (active && payload && payload.length) {
+    const data = payload[0].payload;
     return (
       <div className="bg-background border border-border p-3 rounded-lg shadow-lg">
-        <p className="label font-bold text-primary">{`${label}`}</p>
-        <p className="intro text-foreground">{`العلامات : ${payload[0].value}`}</p>
-        <p className="desc text-muted-foreground">{`عدد الدوائر : ${payload[0].payload['عدد الدوائر']}`}</p>
+        <p className="label font-bold text-primary">{`${data.name}`}</p>
+        <p className="intro text-foreground">{`العلامات : ${data['العلامات']}`}</p>
+        <p className="desc text-muted-foreground">{`عدد الدوائر : ${data['عدد الدوائر']}`}</p>
       </div>
     );
   }
@@ -21,26 +22,51 @@ const CustomTooltip = ({ active, payload, label }: any) => {
   return null;
 };
 
+const CustomLegend = (props: any) => {
+    const { payload } = props;
+    return (
+        <ul className="flex flex-wrap justify-center gap-x-6 gap-y-2 mt-6">
+            {payload.map((entry: any, index: number) => (
+                <li key={`item-${index}`} className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <span className="w-3 h-3 rounded-full" style={{ backgroundColor: entry.color }} />
+                    <span>{entry.value}</span>
+                </li>
+            ))}
+        </ul>
+    );
+}
 
 export function MarksDistributionChart({ data }: MarksDistributionChartProps) {
+  const totalMarks = 200;
+
   return (
     <ResponsiveContainer width="100%" height="100%">
-      <BarChart
-        data={data}
-        margin={{
-          top: 5,
-          right: 20,
-          left: -10,
-          bottom: 5,
-        }}
-        dir="rtl"
-      >
-        <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-        <XAxis dataKey="name" stroke="hsl(var(--foreground))" angle={-15} textAnchor="end" height={50} />
-        <YAxis stroke="hsl(var(--foreground))" label={{ value: 'العلامات', angle: -90, position: 'insideLeft', fill: 'hsl(var(--foreground))' }} />
-        <Tooltip content={<CustomTooltip />} cursor={{ fill: 'hsl(var(--accent))' }} />
-        <Bar dataKey="العلامات" name="العلامات" fill="hsl(var(--primary))" radius={[4, 4, 0, 0]} />
-      </BarChart>
+      <PieChart>
+        <Tooltip content={<CustomTooltip />} />
+        <Pie
+          data={data}
+          cx="50%"
+          cy="50%"
+          dataKey="العلامات"
+          nameKey="name"
+          innerRadius={'70%'}
+          outerRadius={'90%'}
+          paddingAngle={2}
+          stroke="hsl(var(--background))"
+          strokeWidth={2}
+        >
+          {data.map((entry, index) => (
+            <Cell key={`cell-${index}`} fill={entry.fill} />
+          ))}
+           <Label 
+            value={`المجموع: ${totalMarks}`} 
+            position="center" 
+            className="text-2xl font-bold"
+            style={{ fill: 'hsl(var(--primary))' }}
+          />
+        </Pie>
+        <Legend content={<CustomLegend />} />
+      </PieChart>
     </ResponsiveContainer>
   );
 }
