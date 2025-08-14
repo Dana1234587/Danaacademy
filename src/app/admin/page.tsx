@@ -13,7 +13,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { useAppStore } from '@/store/app-store';
+import { useStore } from '@/store/app-store';
 
 
 // Mock Data - This is now only for initialization if the store is empty
@@ -28,11 +28,11 @@ export default function AdminPage() {
     const [isLoading, setIsLoading] = useState<Record<string, boolean>>({});
     
     // Use the central store now
-    const students = useAppStore((state) => state.students);
-    const addStudent = useAppStore((state) => state.addStudent);
-    const pendingDevices = useAppStore((state) => state.pendingDevices);
-    const registeredDevices = useAppStore((state) => state.registeredDevices);
-    const approveDevice = useAppStore((state) => state.approveDevice);
+    const students = useStore((state) => state.students);
+    const addStudent = useStore((state) => state.addStudent);
+    const pendingDevices = useStore((state) => state.pendingDevices);
+    const registeredDevices = useStore((state) => state.registeredDevices);
+    const approveDevice = useStore((state) => state.approveDevice);
 
     const [newStudentName, setNewStudentName] = useState('');
     const [newStudentUsername, setNewStudentUsername] = useState('');
@@ -311,4 +311,5 @@ export default function AdminPage() {
             </div>
         </MainLayout>
     );
-}
+
+    
