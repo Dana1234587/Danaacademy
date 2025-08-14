@@ -166,16 +166,19 @@ function SidebarNavMenu() {
             {item.content && (
               <CollapsibleContent>
                   <div className={cn("ms-7 border-s border-border")}>
-                  {contentTypes.map((contentType) => (
+                  {contentTypes.map((contentType) => {
+                    const contentPath = item.path.replace(/^\/physics/, '');
+                    return (
                       <SidebarMenuItem key={contentType.folder} className="ms-4">
-                          <Link href={`${item.path.replace('/courses/physics-supplementary-2007', '/physics/tawjihi/first-semester/momentum')}/${contentType.folder}`}>
+                          <Link href={`${contentPath}/${contentType.folder}`}>
                               <SidebarMenuButton variant="ghost" isActive={pathname.endsWith(contentType.folder)}>
                                   <contentType.icon className="h-4 w-4"/>
                                   <span>{contentType.label}</span>
                               </SidebarMenuButton>
                           </Link>
                       </SidebarMenuItem>
-                  ))}
+                    )
+                  })}
                   </div>
               </CollapsibleContent>
             )}
@@ -251,5 +254,3 @@ export function SidebarNav() {
     </>
   );
 }
-
-    
