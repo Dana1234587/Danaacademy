@@ -13,8 +13,8 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { getStudents, addStudent as addStudentService, type Student } from '@/services/studentService';
-import { getPendingDevices, getRegisteredDevices, approveDevice as approveDeviceService, type PendingDevice, type RegisteredDevice } from '@/services/deviceService';
+import { getStudents, addStudent as addStudentService, deleteStudent as deleteStudentService, resetStudentPassword as resetStudentPasswordService, type Student } from '@/services/studentService';
+import { getPendingDevices, getRegisteredDevices, approveDevice as approveDeviceService, deleteRegisteredDevice, type PendingDevice, type RegisteredDevice } from '@/services/deviceService';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -106,7 +106,7 @@ export default function AdminPage() {
             fetchData();
 
         } catch (error) {
-            toast({ variant: 'destructive', title: 'فشل إنشاء الحساب', description: 'حدث خطأ غير متوقع.' });
+            toast({ variant: 'destructive', title: 'فشل إنشاء الحساب', description: 'حدث خطأ غير متوقع. قد يكون اسم المستخدم موجوداً بالفعل.' });
         } finally {
             setIsLoading({ ...isLoading, create: false });
         }
@@ -127,22 +127,59 @@ export default function AdminPage() {
              setIsLoading({ ...isLoading, [id]: false });
         }
     };
+
+    const handleDeleteStudent = async (studentId: string) => {
+        setIsLoading({ ...isLoading, [`delete-${studentId}`]: true });
+        try {
+            await deleteStudentService(studentId);
+            toast({
+                title: 'تم الحذف',
+                description: `تم حذف حساب الطالب بنجاح.`,
+            });
+            fetchData();
+        } catch (error) {
+            toast({ variant: 'destructive', title: 'فشل الحذف', description: 'لم نتمكن من حذف الطالب.' });
+        } finally {
+            setIsLoading({ ...isLoading, [`delete-${studentId}`]: false });
+        }
+    };
     
+    const handleDeleteDevice = async (deviceId: string) => {
+         setIsLoading({ ...isLoading, [`delete-device-${deviceId}`]: true });
+        try {
+            await deleteRegisteredDevice(deviceId);
+            toast({
+                title: 'تم الحذف',
+                description: `تم حذف الجهاز المسجل بنجاح.`,
+            });
+            fetchData();
+        } catch (error) {
+            toast({ variant: 'destructive', title: 'فشل الحذف', description: 'لم نتمكن من حذف الجهاز.' });
+        } finally {
+            setIsLoading({ ...isLoading, [`delete-device-${deviceId}`]: false });
+        }
+    };
+
     const handleSearchStudent = () => {
         const found = students.find(s => s.studentName.includes(searchQuery) || s.username.includes(searchQuery));
         setSearchedStudent(found || null);
     };
 
-    const handleResetPassword = (name: string) => {
-        setIsLoading({ ...isLoading, reset: true });
-        setTimeout(() => {
-             toast({
+    const handleResetPassword = async (studentId: string, studentName: string) => {
+        const newPassword = Math.random().toString(36).slice(-8); // Generate random password
+        setIsLoading({ ...isLoading, [`reset-${studentId}`]: true });
+        try {
+            await resetStudentPasswordService(studentId, newPassword);
+            toast({
                 title: 'تم إعادة تعيين كلمة المرور',
-                description: `كلمة المرور الجديدة للطالب ${name} هي "newpass123".`,
+                description: `كلمة المرور الجديدة للطالب ${studentName} هي "${newPassword}".`,
             });
-            // Here you would call a service to update the password in Firestore
-            setIsLoading({ ...isLoading, reset: false });
-        }, 1000);
+            fetchData(); // Refetch students to show new password
+        } catch(error) {
+            toast({ variant: 'destructive', title: 'فشل إعادة التعيين', description: 'لم نتمكن من إعادة تعيين كلمة المرور.' });
+        } finally {
+            setIsLoading({ ...isLoading, [`reset-${studentId}`]: false });
+        }
     };
 
     if (isLoading['page']) {
@@ -240,21 +277,23 @@ export default function AdminPage() {
                                                 <TableCell>{student.password}</TableCell>
                                                 <TableCell>{student.course}</TableCell>
                                                 <TableCell className="flex gap-2">
-                                                  <Button variant="outline" size="icon"><Edit className="w-4 h-4" /></Button>
+                                                  <Button variant="outline" size="icon" disabled><Edit className="w-4 h-4" /></Button>
                                                   <AlertDialog>
                                                     <AlertDialogTrigger asChild>
-                                                      <Button variant="destructive" size="icon"><Trash2 className="w-4 h-4" /></Button>
+                                                      <Button variant="destructive" size="icon" disabled={isLoading[`delete-${student.id}`]}>
+                                                        {isLoading[`delete-${student.id}`] ? <Loader2 className="w-4 h-4 animate-spin" /> : <Trash2 className="w-4 h-4" />}
+                                                      </Button>
                                                     </AlertDialogTrigger>
                                                     <AlertDialogContent>
                                                       <AlertDialogHeader>
                                                         <AlertDialogTitle>هل أنت متأكد؟</AlertDialogTitle>
                                                         <AlertDialogDescription>
-                                                          هذا الإجراء سيحذف حساب الطالب بشكل نهائي ولا يمكن التراجع عنه.
+                                                          هذا الإجراء سيحذف حساب الطالب بشكل نهائي من قاعدة البيانات. سيبقى الحساب موجودًا في نظام المصادقة ويتطلب الحذف اليدوي من هناك.
                                                         </AlertDialogDescription>
                                                       </AlertDialogHeader>
                                                       <AlertDialogFooter>
                                                         <AlertDialogCancel>إلغاء</AlertDialogCancel>
-                                                        <AlertDialogAction>حذف</AlertDialogAction>
+                                                        <AlertDialogAction onClick={() => handleDeleteStudent(student.id)}>حذف</AlertDialogAction>
                                                       </AlertDialogFooter>
                                                     </AlertDialogContent>
                                                   </AlertDialog>
@@ -325,7 +364,10 @@ export default function AdminPage() {
                                                     <p className="font-bold text-lg">{device.studentName}</p>
                                                     <p className="text-sm text-primary">{device.course}</p>
                                                 </div>
-                                                <Button variant="destructive" size="sm"><Trash2 className="me-2" /> حذف الجهاز</Button>
+                                                <Button onClick={() => handleDeleteDevice(device.id)} variant="destructive" size="sm" disabled={isLoading[`delete-device-${device.id}`]}>
+                                                     {isLoading[`delete-device-${device.id}`] ? <Loader2 className="me-2 h-4 w-4 animate-spin" /> : <Trash2 className="me-2" />}
+                                                    حذف الجهاز
+                                                </Button>
                                             </div>
                                             <div className="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm text-muted-foreground border-t pt-4">
                                                 <div className="flex items-center gap-2">
@@ -371,8 +413,8 @@ export default function AdminPage() {
                                            <p className="font-bold">{searchedStudent.studentName}</p>
                                            <p className="text-sm text-muted-foreground">{searchedStudent.username}</p>
                                        </div>
-                                       <Button onClick={() => handleResetPassword(searchedStudent.studentName)} disabled={isLoading['reset']} variant="destructive">
-                                          {isLoading['reset'] ? <Loader2 className="me-2 h-4 w-4 animate-spin" /> : <KeyRound className="me-2" />}
+                                       <Button onClick={() => handleResetPassword(searchedStudent.id, searchedStudent.studentName)} disabled={isLoading[`reset-${searchedStudent.id}`]} variant="destructive">
+                                          {isLoading[`reset-${searchedStudent.id}`] ? <Loader2 className="me-2 h-4 w-4 animate-spin" /> : <KeyRound className="me-2" />}
                                           إعادة تعيين كلمة المرور
                                        </Button>
                                     </div>

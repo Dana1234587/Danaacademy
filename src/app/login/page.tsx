@@ -74,7 +74,6 @@ export default function LoginPage() {
 
     try {
         // Handle admin and student login differently.
-        // Admin email is used as is. Student usernames get a domain appended.
         const isAdminLogin = username.startsWith('admin');
         const email = isAdminLogin ? username : `${username}@dana-academy.com`;
 

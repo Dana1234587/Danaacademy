@@ -1,3 +1,7 @@
+
+import { collection, query, where, getDocs, addDoc, deleteDoc, doc, writeBatch } from 'firebase/firestore';
+import { db } from '@/lib/firebase';
+
 export type Device = {
   id: string;
   studentId: string;
@@ -12,66 +16,78 @@ export type Device = {
 export type PendingDevice = Device;
 export type RegisteredDevice = Device;
 
+const pendingDevicesCol = collection(db, 'pendingDevices');
+const registeredDevicesCol = collection(db, 'registeredDevices');
 
-// Mock data
-let pendingDevices: PendingDevice[] = [
-    { id: 'p1', studentId: 's1', studentName: 'أحمد علي', deviceId: 'a1b2-c3d4-e5f6', ipAddress: '82.114.120.50', deviceType: 'Desktop', os: 'Windows 10', course: 'فيزياء تكميلي 2007' },
-    { id: 'p2', studentId: 's2', studentName: 'فاطمة محمد', deviceId: 'g7h8-i9j0-k1l2', ipAddress: '95.211.80.15', deviceType: 'Mobile', os: 'Android 13', course: 'فيزياء توجيهي 2008' },
-];
-
-let registeredDevices: RegisteredDevice[] = [
-    { id: 'd1', studentId: 's3', studentName: 'خالد يوسف', deviceId: 'z9y8-x7w6-v5u4', ipAddress: '192.168.1.10', deviceType: 'Desktop', os: 'macOS', course: 'فيزياء توجيهي 2008' },
-];
 
 export async function getPendingDevices(): Promise<PendingDevice[]> {
-    return Promise.resolve(pendingDevices);
+    const snapshot = await getDocs(pendingDevicesCol);
+    return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as PendingDevice));
 }
 
 export async function getRegisteredDevices(): Promise<RegisteredDevice[]> {
-    return Promise.resolve(registeredDevices);
+    const snapshot = await getDocs(registeredDevicesCol);
+    return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as RegisteredDevice));
 }
 
 export async function findRegisteredDeviceByStudentId(studentId: string): Promise<RegisteredDevice | undefined> {
-    return Promise.resolve(registeredDevices.find(d => d.studentId === studentId));
+    const q = query(registeredDevicesCol, where("studentId", "==", studentId));
+    const snapshot = await getDocs(q);
+    if (snapshot.empty) {
+        return undefined;
+    }
+    const doc = snapshot.docs[0];
+    return { id: doc.id, ...doc.data() } as RegisteredDevice;
 }
 
 export async function addPendingDevice(deviceData: Omit<PendingDevice, 'id'>): Promise<PendingDevice> {
-    const newDevice: PendingDevice = {
-        id: `p${pendingDevices.length + 1}`,
-        ...deviceData
-    };
-    pendingDevices.push(newDevice);
-    return Promise.resolve(newDevice);
+    const docRef = await addDoc(pendingDevicesCol, deviceData);
+    return { id: docRef.id, ...deviceData };
 }
 
 export async function registerDevice(deviceData: Omit<RegisteredDevice, 'id'>): Promise<RegisteredDevice> {
-    const newDevice: RegisteredDevice = {
-        id: `d${registeredDevices.length + 1}`,
-        ...deviceData
-    };
-    registeredDevices.push(newDevice);
-    return Promise.resolve(newDevice);
+    const docRef = await addDoc(registeredDevicesCol, deviceData);
+    return { id: docRef.id, ...deviceData };
 }
 
 
 export async function approveDevice(pendingDeviceId: string): Promise<void> {
-    const deviceToApprove = pendingDevices.find(d => d.id === pendingDeviceId);
-    if (!deviceToApprove) {
-        throw new Error("Device not found");
+    const pendingDeviceRef = doc(db, 'pendingDevices', pendingDeviceId);
+    const pendingDeviceSnap = await getDocs(query(pendingDevicesCol, where('__name__', '==', pendingDeviceId)));
+    
+    if (pendingDeviceSnap.empty) {
+        throw new Error("Device not found in pending list");
+    }
+    
+    const deviceToApprove = { id: pendingDeviceSnap.docs[0].id, ...pendingDeviceSnap.docs[0].data() } as PendingDevice;
+
+    // Remove any existing registered device for this student
+    const existingDevice = await findRegisteredDeviceByStudentId(deviceToApprove.studentId);
+    if(existingDevice) {
+        await deleteDoc(doc(db, 'registeredDevices', existingDevice.id));
     }
 
-    const newRegisteredDevice: RegisteredDevice = {
-        ...deviceToApprove,
-        id: `d${registeredDevices.length + 1}`, // new ID for registered list
-    };
-
-    // Remove from pending
-    pendingDevices = pendingDevices.filter(d => d.id !== pendingDeviceId);
-    // Remove any existing device for this student and add the new one
-    registeredDevices = [
-        ...registeredDevices.filter(d => d.studentId !== deviceToApprove.studentId),
-        newRegisteredDevice
-    ];
+    // Add the new device to registered devices
+    const { id, ...deviceData } = deviceToApprove;
+    await addDoc(registeredDevicesCol, deviceData);
     
-    return Promise.resolve();
+    // Remove from pending devices
+    await deleteDoc(pendingDeviceRef);
+}
+
+export async function deleteRegisteredDevice(deviceId: string): Promise<void> {
+    const deviceRef = doc(db, 'registeredDevices', deviceId);
+    await deleteDoc(deviceRef);
+}
+
+export async function deleteRegisteredDeviceByStudentId(studentId: string): Promise<void> {
+    const q = query(registeredDevicesCol, where("studentId", "==", studentId));
+    const snapshot = await getDocs(q);
+    
+    const batch = writeBatch(db);
+    snapshot.docs.forEach(doc => {
+        batch.delete(doc.ref);
+    });
+    
+    await batch.commit();
 }
