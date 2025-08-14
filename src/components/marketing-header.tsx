@@ -4,7 +4,7 @@
 import Link from 'next/link';
 import { Logo } from '@/components/logo';
 import { Button } from '@/components/ui/button';
-import { BookCopy, Home, Info, Phone, User, LogOut, Shield } from 'lucide-react';
+import { BookCopy, Home, Info, Phone, User, LogOut, Shield, Book } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { usePathname, useRouter } from 'next/navigation';
 import { useStore } from '@/store/app-store';
