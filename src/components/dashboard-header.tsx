@@ -46,13 +46,13 @@ export function DashboardHeader() {
           <Languages className="h-4 w-4" />
           <span className="sr-only">تغيير اللغة</span>
         </Button>
-         <Button variant="ghost" size="icon" onClick={handleLogout}>
-          <LogOut className="h-4 w-4" />
-          <span className="sr-only">تسجيل الخروج</span>
-        </Button>
+         {currentUser && (
+            <Button variant="ghost" size="icon" onClick={handleLogout}>
+                <LogOut className="h-4 w-4" />
+                <span className="sr-only">تسجيل الخروج</span>
+            </Button>
+         )}
       </div>
     </header>
   );
 }
-
-    
