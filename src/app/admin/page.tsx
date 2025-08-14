@@ -66,7 +66,7 @@ export default function AdminPage() {
             setPendingDevices(pendingDevicesData);
             setRegisteredDevices(registeredDevicesData);
         } catch (error) {
-            toast({ variant: 'destructive', title: 'فشل تحميل البيانات', description: 'لم نتمكن من جلب البيانات من الخادم.' });
+            toast({ variant: 'destructive', title: 'فشل تحميل البيانات', description: 'لم نتمكن من جلب البيانات من الخادم. قد تكون المشكلة في صلاحيات الوصول إلى قاعدة البيانات.' });
         } finally {
             setIsLoading({ page: false });
         }
@@ -107,12 +107,14 @@ export default function AdminPage() {
 
         } catch (error: any) {
             let description = 'حدث خطأ غير متوقع.';
-            if (error.code === 'auth/email-already-in-use' || (error.message && error.message.includes('auth/email-already-in-use'))) {
+            if (error.code === 'auth/email-already-in-use') {
                 description = 'اسم المستخدم هذا موجود بالفعل. الرجاء اختيار اسم آخر.';
-            } else if (error.code === 'auth/weak-password' || (error.message && error.message.includes('auth/weak-password'))) {
+            } else if (error.code === 'auth/weak-password') {
                 description = 'كلمة المرور ضعيفة جدًا. يجب أن تتكون من 6 أحرف على الأقل.';
-            } else if (error.code === 'auth/invalid-email' || (error.message && error.message.includes('auth/invalid-email'))) {
-                 description = 'صيغة اسم المستخدم غير صالحة. يجب أن تكون باللغة الإنجليزية بدون مسافات.';
+            } else if (error.code === 'auth/invalid-email') {
+                 description = 'صيغة اسم المستخدم غير صالحة. يجب أن تكون باللغة الإنجليزية وبدون مسافات.';
+            } else if (error.code === 'permission-denied' || (error.message && error.message.toLowerCase().includes('permission-denied'))) {
+                description = 'فشل الوصول إلى قاعدة البيانات. يرجى التأكد من أن قواعد الأمان في Firebase تسمح بالكتابة للمستخدمين المسجلين.';
             }
             toast({ variant: 'destructive', title: 'فشل إنشاء الحساب', description });
         } finally {
@@ -184,7 +186,7 @@ export default function AdminPage() {
             await resetStudentPasswordService(studentId, newPassword);
             toast({
                 title: 'تم تحديث كلمة المرور في قاعدة البيانات',
-                description: `كلمة المرور الجديدة (للعرض) للطالب ${studentName} هي "${newPassword}". ملاحظة: هذا الإجراء لا يغير كلمة مرور تسجيل الدخول الفعلية للطالب.`,
+                description: `كلمة المرور الجديدة (للعرض) للطالب ${studentName} هي: ${newPassword}`,
                 duration: 9000
             });
             fetchData(); // Refetch students to show new password
