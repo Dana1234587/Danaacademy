@@ -73,7 +73,10 @@ export default function LoginPage() {
     setIsLoading(true);
 
     try {
-        const email = username.includes('@') ? username : `${username}@dana-academy.com`;
+        // Handle admin and student login differently.
+        // Admin email is used as is. Student usernames get a domain appended.
+        const isAdminLogin = username.startsWith('admin');
+        const email = isAdminLogin ? username : `${username}@dana-academy.com`;
 
         // --- Admin & Student Login via Firebase Auth ---
         await signInWithEmailAndPassword(auth, email, password);
