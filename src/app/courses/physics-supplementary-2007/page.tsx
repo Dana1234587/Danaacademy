@@ -4,12 +4,13 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import Image from 'next/image';
-import { CheckCircle, BookOpen, ChevronLeft, Clock, Video, ClipboardCheck } from 'lucide-react';
+import { CheckCircle, BookOpen, ChevronLeft, Clock, Video, ClipboardCheck, PieChart } from 'lucide-react';
 import Link from 'next/link';
 import { Logo } from '@/components/logo';
 import { TestimonialsMap } from '@/components/testimonials-map';
 import { AchievementCard } from '@/components/achievement-card';
 import { CourseNavBar } from '@/components/course-nav-bar';
+import { MarksDistributionChart } from '@/components/marks-distribution-chart';
 
 const course = {
   title: 'فيزياء التكميلي - جيل 2007',
@@ -97,6 +98,15 @@ const testimonials = [
   { id: 10, image: "https://i.ibb.co/FC2WbTC/cropped-circle-image-18.png", reviewScreenshot: "https://i.ibb.co/ns1rrF1c/Untitled-design-33.png", position: { top: '90%', left: '50%' } },
 ];
 
+const marksDistributionData = [
+  { name: 'الزخم الخطي', 'عدد الدوائر': 6, 'العلامات': 24, fill: "hsl(var(--chart-1))" },
+  { name: 'الحركة الدورانية', 'عدد الدوائر': 7, 'العلامات': 28, fill: "hsl(var(--chart-2))" },
+  { name: 'التيارات', 'عدد الدوائر': 6, 'العلامات': 24, fill: "hsl(var(--chart-3))" },
+  { name: 'المجال المغناطيسي', 'عدد الدوائر': 6, 'العلامات': 24, fill: "hsl(var(--chart-4))" },
+  { name: 'الحث الكهرومغناطيسي', 'عدد الدوائر': 10, 'العلامات': 40, fill: "hsl(var(--chart-5))" },
+  { name: 'فيزياء الكم', 'عدد الدوائر': 6, 'العلامات': 24, fill: "hsl(var(--chart-1))" },
+  { name: 'الفيزياء النووية', 'عدد الدوائر': 9, 'العلامات': 36, fill: "hsl(var(--chart-2))" },
+];
 
 function Section({ children, className, id }: { children: React.ReactNode, className?: string, id?: string }) {
   return <section id={id} className={`py-12 md:py-20 scroll-mt-20 ${className}`}>{children}</section>;
@@ -248,6 +258,21 @@ export default function PhysicsSupplementary2007Page() {
           </div>
         </Section>
         
+        {/* Marks Distribution Section */}
+        <Section id="marks-distribution">
+          <div className="flex flex-col items-center text-center space-y-6 mb-12">
+            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl text-primary">
+              توزيع العلامات بالامتحان الوزاري
+            </h2>
+            <p className="max-w-[700px] text-muted-foreground md:text-xl">
+              نظرة على الأهمية النسبية لكل وحدة في الامتحان النهائي لمساعدتك على تنظيم دراستك بفعالية.
+            </p>
+          </div>
+          <div className="h-[400px] w-full">
+            <MarksDistributionChart data={marksDistributionData} />
+          </div>
+        </Section>
+
         {/* Testimonials Section */}
         <Section id="testimonials">
           <div className="flex flex-col items-center text-center space-y-6">

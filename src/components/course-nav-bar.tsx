@@ -3,10 +3,11 @@
 
 import { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
-import { BookOpen, Star, Award } from 'lucide-react';
+import { BookOpen, Star, Award, PieChart } from 'lucide-react';
 
 const navItems = [
   { id: 'curriculum', label: 'محتويات الدورة', icon: BookOpen },
+  { id: 'marks-distribution', label: 'توزيع العلامات', icon: PieChart },
   { id: 'testimonials', label: 'آراء الطلاب', icon: Star },
   { id: 'achievements', label: 'إنجازات الطلاب', icon: Award },
 ];
