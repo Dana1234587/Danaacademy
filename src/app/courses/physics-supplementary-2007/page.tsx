@@ -1,3 +1,4 @@
+'use client';
 
 import { MainLayout } from '@/components/layout/main-layout';
 import { useStore } from '@/store/app-store';
