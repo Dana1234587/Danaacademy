@@ -8,6 +8,7 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/component
 import { Progress } from '@/components/ui/progress';
 import Link from 'next/link';
 import { DashboardHeader } from '@/components/dashboard-header';
+import { SidebarProvider } from '@/components/ui/sidebar';
 
 const courseStructure = {
   id: 'tawjihi-2007-supplementary',
@@ -212,47 +213,48 @@ export default function PhysicsSupplementary2007Page() {
   const currentUser = useStore((state) => state.currentUser);
 
   return (
-    <div className="flex flex-col min-h-screen">
-      <DashboardHeader />
-      <main className="flex-1">
-        <div className="p-4 sm:p-6 lg:p-8 container mx-auto">
-            <div className="bg-primary/5 text-center p-8 rounded-xl border border-primary/10 shadow-sm mb-8">
-                <h1 className="text-4xl font-bold text-primary">
-                    مرحبًا بك يا {currentUser?.username || 'طالبنا العزيز'} في دورة فيزياء التكميلي - جيل 2007
-                </h1>
-                <p className="mt-2 text-lg text-muted-foreground">
-                    نتمنى لك رحلة تعليمية ممتعة ومفيدة!
-                </p>
-            </div>
-            
-            <div className="space-y-12">
-                {courseStructure.subItems.map((semester, semIndex) => (
-                    <div key={semIndex}>
-                        <h2 className="text-3xl font-bold mb-6 text-center text-foreground/80 border-b-2 border-primary/20 pb-4">{semester.label}</h2>
-                        <div className="space-y-8">
-                            {semester.subItems.map((unit, unitIndex) => (
-                                <div key={unitIndex}>
-                                    <h3 className="text-2xl font-bold mb-4 text-primary">{unit.label}</h3>
-                                    <div className="space-y-4">
-                                        {unit.lessons.map((lesson, lessonIndex) => (
-                                            <LessonContent key={lessonIndex} lesson={lesson} />
-                                        ))}
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                ))}
-            </div>
+    <SidebarProvider>
+      <div className="flex flex-col min-h-screen">
+        <DashboardHeader />
+        <main className="flex-1">
+          <div className="p-4 sm:p-6 lg:p-8 container mx-auto">
+              <div className="bg-primary/5 text-center p-8 rounded-xl border border-primary/10 shadow-sm mb-8">
+                  <h1 className="text-4xl font-bold text-primary">
+                      مرحبًا بك يا {currentUser?.username || 'طالبنا العزيز'} في دورة فيزياء التكميلي - جيل 2007
+                  </h1>
+                  <p className="mt-2 text-lg text-muted-foreground">
+                      نتمنى لك رحلة تعليمية ممتعة ومفيدة!
+                  </p>
+              </div>
+              
+              <div className="space-y-12">
+                  {courseStructure.subItems.map((semester, semIndex) => (
+                      <div key={semIndex}>
+                          <h2 className="text-3xl font-bold mb-6 text-center text-foreground/80 border-b-2 border-primary/20 pb-4">{semester.label}</h2>
+                          <div className="space-y-8">
+                              {semester.subItems.map((unit, unitIndex) => (
+                                  <div key={unitIndex}>
+                                      <h3 className="text-2xl font-bold mb-4 text-primary">{unit.label}</h3>
+                                      <div className="space-y-4">
+                                          {unit.lessons.map((lesson, lessonIndex) => (
+                                              <LessonContent key={lessonIndex} lesson={lesson} />
+                                          ))}
+                                      </div>
+                                  </div>
+                              ))}
+                          </div>
+                      </div>
+                  ))}
+              </div>
 
-            <div className="mt-16">
-              <h2 className="text-3xl font-bold mb-6 text-center text-foreground/80 border-b-2 border-primary/20 pb-4">الفصل الثاني</h2>
-              <p className="text-muted-foreground text-center text-lg">سيتم اضافه المحتوى لاحقا</p>
-            </div>
+              <div className="mt-16">
+                <h2 className="text-3xl font-bold mb-6 text-center text-foreground/80 border-b-2 border-primary/20 pb-4">الفصل الثاني</h2>
+                <p className="text-muted-foreground text-center text-lg">سيتم اضافه المحتوى لاحقا</p>
+              </div>
 
-        </div>
-      </main>
-    </div>
+          </div>
+        </main>
+      </div>
+    </SidebarProvider>
   );
 }
-
