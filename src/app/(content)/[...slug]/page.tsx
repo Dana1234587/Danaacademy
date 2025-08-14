@@ -25,7 +25,7 @@ const contentTypeDetails: { [key: string]: { icon: React.ElementType; title: str
 
 
 export default function ContentPage({ params }: { params: { slug: string[] } }) {
-  const slug = params.slug || [];
+  const slug = params.slug ?? [];
   const contentType = slug[slug.length - 1];
   const details = contentTypeDetails[contentType];
   
