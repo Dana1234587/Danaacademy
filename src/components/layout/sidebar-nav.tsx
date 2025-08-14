@@ -39,20 +39,20 @@ const allCourses = [
     id: 'tawjihi-2007-supplementary',
     label: 'التكميلي (جيل 2007)',
     icon: Book,
-    path: '/physics/supplementary-2007',
+    path: '/courses/physics-supplementary-2007',
     subItems: [
         {
             label: 'الفصل الأول',
             icon: Folder,
-            path: '/physics/supplementary-2007/first-semester',
+            path: '/courses/physics-supplementary-2007/first-semester',
             subItems: [
               { 
                 label: 'الزخم الخطي والتصادمات', 
                 icon: Folder, 
-                path: '/physics/supplementary-2007/first-semester/1-linear-momentum-and-collisions', 
+                path: '/courses/physics-supplementary-2007/first-semester/1-linear-momentum-and-collisions', 
                 subItems: [
-                  { label: 'الدرس الأول: الزخم الخطي والدفع', icon: FileText, path: '/physics/supplementary-2007/first-semester/1-linear-momentum-and-collisions/1-linear-momentum-and-impulse', content: true },
-                  { label: 'الدرس الثاني: التصادمات', icon: FileText, path: '/physics/supplementary-2007/first-semester/1-linear-momentum-and-collisions/2-collisions', content: true },
+                  { label: 'الدرس الأول: الزخم الخطي والدفع', icon: FileText, path: '/app/(content)/courses/physics-supplementary-2007/first-semester/1-linear-momentum-and-collisions/1-linear-momentum-and-impulse', content: true },
+                  { label: 'الدرس الثاني: التصادمات', icon: FileText, path: '/app/(content)/courses/physics-supplementary-2007/first-semester/1-linear-momentum-and-collisions/2-collisions', content: true },
                 ]
               },
               // Other units will be added here following the same structure
@@ -64,20 +64,20 @@ const allCourses = [
     id: 'tawjihi-2008',
     label: 'التوجيهي (جيل 2008)',
     icon: Book,
-    path: '/physics/tawjihi-2008',
+    path: '/courses/physics-2008',
      subItems: [
       {
         label: 'الفصل الأول',
         icon: Folder,
-        path: '/physics/tawjihi-2008/first-semester',
+        path: '/courses/physics-2008/first-semester',
         subItems: [
           { 
             label: 'الزخم الخطي والتصادمات', 
             icon: Folder, 
-            path: '/physics/tawjihi-2008/first-semester/momentum', 
+            path: '/courses/physics-2008/first-semester/momentum', 
             subItems: [
-              { label: 'الزخم الخطي والدفع', icon: FileText, path: '/physics/tawjihi-2008/first-semester/momentum/linear-momentum-and-impulse', content: true },
-              { label: 'التصادمات', icon: FileText, path: '/physics/tawjihi-2008/first-semester/momentum/collisions', content: true },
+              { label: 'الزخم الخطي والدفع', icon: FileText, path: '/app/(content)/courses/physics-2008/first-semester/momentum/linear-momentum-and-impulse', content: true },
+              { label: 'التصادمات', icon: FileText, path: '/app/(content)/courses/physics-2008/first-semester/momentum/collisions', content: true },
             ]
           },
         ]
@@ -184,6 +184,7 @@ function SidebarNavMenu() {
 export function SidebarNav() {
   const { currentUser, logout } = useStore((state) => ({ currentUser: state.currentUser, logout: state.logout }));
   const router = useRouter();
+  const pathname = usePathname();
 
   const handleLogout = async () => {
     try {
@@ -210,7 +211,7 @@ export function SidebarNav() {
             <SidebarMenu>
                 <SidebarMenuItem>
                     <Link href="/admin">
-                        <SidebarMenuButton isActive={usePathname() === '/admin'}>
+                        <SidebarMenuButton isActive={pathname === '/admin'}>
                             <Shield />
                             لوحة تحكم المسؤول
                         </SidebarMenuButton>
