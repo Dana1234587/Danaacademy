@@ -176,27 +176,29 @@ export default function PhysicsSupplementary2007Page() {
               <h3 className="text-2xl font-bold mb-4 text-center">الفصل الأول</h3>
               <Accordion type="single" collapsible className="w-full">
                 {course.curriculum.semester1.map((unit, unitIndex) => (
-                  <AccordionItem value={`s1-unit-${unitIndex}`} key={unitIndex}>
-                    <AccordionTrigger className="text-lg font-semibold bg-muted px-4 rounded-md">
-                      {unit.title}
-                    </AccordionTrigger>
+                  <AccordionItem value={`s1-unit-${unitIndex}`} key={unitIndex} className="bg-muted/50 rounded-lg mb-4">
+                    <div className="p-4">
+                        <AccordionTrigger className="text-lg font-semibold w-full text-start p-0 hover:no-underline">
+                          {unit.title}
+                        </AccordionTrigger>
+                        {unit.videos && (
+                          <div className="flex items-center justify-start gap-6 pt-3 text-sm font-medium text-muted-foreground border-t border-dashed mt-3">
+                            <div className="flex items-center gap-2">
+                              <Video className="w-5 h-5 text-primary" />
+                              <span>{unit.videos} فيديو</span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <Clock className="w-5 h-5 text-primary" />
+                              <span>{unit.hours} ساعة دراسية</span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <ClipboardCheck className="w-5 h-5 text-primary" />
+                              <span>{unit.exams} اختبارات</span>
+                            </div>
+                          </div>
+                        )}
+                    </div>
                     <AccordionContent className="p-4 bg-background rounded-b-md">
-                       {unit.videos && (
-                        <div className="flex items-center justify-around gap-4 p-4 mb-4 border-b border-dashed">
-                          <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
-                            <Video className="w-5 h-5 text-primary" />
-                            <span>{unit.videos} فيديو</span>
-                          </div>
-                          <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
-                            <Clock className="w-5 h-5 text-primary" />
-                            <span>{unit.hours} ساعة دراسية</span>
-                          </div>
-                          <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
-                            <ClipboardCheck className="w-5 h-5 text-primary" />
-                            <span>{unit.exams} اختبارات</span>
-                          </div>
-                        </div>
-                      )}
                       {unit.lessons.length > 0 ? (
                         <ul className="space-y-2">
                            {unit.lessons.map((lesson, lessonIndex) => (
