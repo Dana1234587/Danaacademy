@@ -27,22 +27,26 @@ const course = {
       {
         title: 'الوحدة الأولى: الزخم الخطي والتصادمات',
         lessons: [
-            { name: 'الدرس الأول: الزخم الخطي والدفع',
-              sessions: [
-                { name: 'مقدمة في الزخم الخطي', duration: '15:30' },
-                { name: 'نظرية الدفع والزخم', duration: '22:10' },
-              ]
-            },
-            { name: 'الدرس الثاني: حفظ الزخم والتصادمات',
-              sessions: [
-                { name: 'مبدأ حفظ الزخم الخطي', duration: '18:45' },
-                { name: 'التصادمات المرنة وغير المرنة', duration: '25:00' },
-              ]
-            }
+            { name: 'الدرس الأول: الزخم الخطي والدفع', sessions: [] },
+            { name: 'الدرس الثاني: التصادمات', sessions: [] }
         ],
       },
-      { title: 'الوحدة الثانية: الحركة الدورانية', lessons: [] },
-      { title: 'الوحدة الثالثة: التيار والدارات الكهربائية', lessons: [] },
+      { 
+        title: 'الوحدة الثانية: الحركة الدورانية', 
+        lessons: [
+          { name: 'الدرس الأول: العزم والاتزان السكوني', sessions: [] },
+          { name: 'الدرس الثاني: ديناميكا الحركة الدورانية', sessions: [] },
+          { name: 'الدرس الثالث: الزخم الزاوي', sessions: [] }
+        ] 
+      },
+      { 
+        title: 'الوحدة الثالثة: التيار الكهربائي', 
+        lessons: [
+          { name: 'الدرس الأول: المقاومة والقوة الدافعة الكهربائية', sessions: [] },
+          { name: 'الدرس الثاني: القدرة الكهربائية والدارة البسيطة', sessions: [] },
+          { name: 'الدرس الثالث: توصيل المقاومات وقاعدتا كيرشوف', sessions: [] }
+        ] 
+      },
       { title: 'الوحدة الرابعة: المجال المغناطيسي', lessons: [] },
     ],
     semester2: [
@@ -66,7 +70,7 @@ const studentAchievements = [
 ];
 
 const testimonials = [
-  { id: 1, image: "https://i.ibb.co/7J6F87zM/image.png", reviewScreenshot: "https://i.ibb.co/2QqmbJP/image.png", position: { top: '10%', left: '15%' } },
+  { id: 1, image: "https://i.ibb.co/7J6F87z/image.png", reviewScreenshot: "https://i.ibb.co/2QqmbJP/image.png", position: { top: '10%', left: '15%' } },
   { id: 2, image: "https://i.ibb.co/DHWmf5vN/10.png", reviewScreenshot: "https://i.ibb.co/B26nXwxS/1.png", position: { top: '30%', left: '30%' } },
   { id: 3, image: "https://i.ibb.co/fGXQFykf/2.png", reviewScreenshot: "https://i.ibb.co/bjkbrnLb/image.png", position: { top: '50%', left: '10%' } },
   { id: 4, image: "https://i.ibb.co/PZWjb1QC/image.png", reviewScreenshot: "https://i.ibb.co/JL4vfhp/3.png", position: { top: '70%', left: '25%' } },
@@ -175,26 +179,14 @@ export default function PhysicsSupplementary2007Page() {
                     </AccordionTrigger>
                     <AccordionContent className="p-4">
                       {unit.lessons.length > 0 ? (
-                        <Accordion type="single" collapsible className="w-full space-y-2">
+                        <ul className="space-y-2">
                            {unit.lessons.map((lesson, lessonIndex) => (
-                               <AccordionItem value={`s1-unit-${unitIndex}-lesson-${lessonIndex}`} key={lessonIndex}>
-                                   <AccordionTrigger className="text-md font-medium ps-4">{lesson.name}</AccordionTrigger>
-                                   <AccordionContent className="ps-8 pt-2">
-                                       <ul className="space-y-2">
-                                           {lesson.sessions.map((session, sessionIndex) => (
-                                               <li key={sessionIndex} className="flex items-center justify-between text-muted-foreground">
-                                                    <span>{session.name}</span>
-                                                    <span className="flex items-center gap-2 text-sm">
-                                                        <Clock className="w-4 h-4"/>
-                                                        {session.duration}
-                                                    </span>
-                                               </li>
-                                           ))}
-                                       </ul>
-                                   </AccordionContent>
-                               </AccordionItem>
+                               <li key={lessonIndex} className="flex items-center justify-between text-muted-foreground bg-background p-3 rounded-md">
+                                   <span className="font-medium text-foreground">{lesson.name}</span>
+                                   {/* If sessions were available, they would be here */}
+                               </li>
                            ))}
-                        </Accordion>
+                        </ul>
                       ) : (
                         <p className="text-muted-foreground text-center p-4">سيتم إضافة تفاصيل هذه الوحدة قريبًا.</p>
                       )}
