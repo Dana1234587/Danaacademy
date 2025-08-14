@@ -46,14 +46,23 @@ const course = {
         ] 
       },
       { 
-        title: 'الوحدة الثالثة: التيار الكهربائي', 
+        title: 'الوحدة الثالثة: التيار الكهربائي',
+        videos: 21,
+        hours: 14,
+        exams: 5,
         lessons: [
           { name: 'الدرس الأول: المقاومة والقوة الدافعة الكهربائية', sessions: [] },
           { name: 'الدرس الثاني: القدرة الكهربائية والدارة البسيطة', sessions: [] },
           { name: 'الدرس الثالث: توصيل المقاومات وقاعدتا كيرشوف', sessions: [] }
         ] 
       },
-      { title: 'الوحدة الرابعة: المجال المغناطيسي', lessons: [] },
+      { 
+        title: 'الوحدة الرابعة: المجال المغناطيسي', 
+        videos: 11,
+        hours: 9,
+        exams: 3,
+        lessons: [] 
+      },
     ],
     semester2: [
       { title: 'الوحدة الخامسة: الحث الكهرومغناطيسي', lessons: [] },
@@ -188,7 +197,7 @@ export default function PhysicsSupplementary2007Page() {
                           <div className="flex items-center justify-start gap-6 pt-3 text-sm font-medium text-muted-foreground border-t border-dashed mt-3">
                             <div className="flex items-center gap-2">
                               <Video className="w-5 h-5 text-primary" />
-                              <span>{unit.videos} فيديو</span>
+                              <span>{unit.videos} حصة</span>
                             </div>
                             <div className="flex items-center gap-2">
                               <Clock className="w-5 h-5 text-primary" />
