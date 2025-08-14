@@ -12,12 +12,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
 import { Loader2 } from 'lucide-react';
-
-const mockStudents = [
-    { id: 's1', username: 'ahmad.ali', password: 'password123' },
-    { id: 's2', username: 'fatima.mohd', password: 'password123' },
-    { id: 's3', username: 'khaled.yousef', password: 'password123' },
-];
+import { students } from '@/lib/students';
 
 export default function LoginPage() {
   const [username, setUsername] = useState('');
@@ -39,7 +34,7 @@ export default function LoginPage() {
           description: 'يتم توجيهك إلى لوحة التحكم.',
         });
         router.push('/admin');
-      } else if (mockStudents.some(s => s.username === username && s.password === password)) {
+      } else if (students.some(s => s.username === username && s.password === password)) {
         // Mock student user
         toast({
           title: `أهلاً بك ${username}`,

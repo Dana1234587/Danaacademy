@@ -13,6 +13,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { students } from '@/lib/students';
 
 
 // Mock Data
@@ -24,12 +25,6 @@ const pendingDevices = [
 const registeredDevices = [
     { id: 'd1', studentName: 'خالد يوسف', deviceId: 'z9y8-x7w6-v5u4', ipAddress: '192.168.1.10', deviceType: 'Desktop', course: 'فيزياء توجيهي 2008' },
     { id: 'd2', studentName: 'سارة عبدالله', deviceId: 't3s2-r1q0-p9o8', ipAddress: '10.0.0.5', deviceType: 'Mobile', course: 'فيزياء تكميلي 2007' },
-];
-
-const students = [
-    { id: 's1', studentName: 'أحمد علي', username: 'ahmad.ali', password: 'password123', course: 'فيزياء تكميلي 2007' },
-    { id: 's2', studentName: 'فاطمة محمد', username: 'fatima.mohd', password: 'password123', course: 'فيزياء توجيهي 2008' },
-    { id: 's3', studentName: 'خالد يوسف', username: 'khaled.yousef', password: 'password123', course: 'فيزياء توجيهي 2008' },
 ];
 
 const availableCourses = [
