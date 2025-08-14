@@ -29,6 +29,7 @@ import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Logo } from '@/components/logo';
 import { useStore } from '@/store/app-store';
+import { useEffect } from 'react';
 
 const allCourses = [
   {
@@ -95,9 +96,14 @@ function SidebarNavMenu() {
   const currentUser = useStore((state) => state.currentUser);
   const router = useRouter();
 
+  useEffect(() => {
+    if (!currentUser) {
+      router.push('/login');
+    }
+  }, [currentUser, router]);
+
   if (!currentUser) {
-     router.push('/login');
-     return null;
+     return null; // Render nothing while redirecting
   }
   
   const accessibleCourses = currentUser.role === 'admin' 
