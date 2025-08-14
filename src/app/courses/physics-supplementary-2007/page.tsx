@@ -1,3 +1,4 @@
+
 'use client';
 
 import { MarketingLayout } from '@/components/layout/marketing-layout';
@@ -5,7 +6,7 @@ import { useStore } from '@/store/app-store';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { BookOpen, ChevronsRight, FileText, Folder } from 'lucide-react';
+import { BookOpen, ChevronsRight, FileText, Folder, Book, Atom, ClipboardCheck } from 'lucide-react';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { cn } from '@/lib/utils';
 import { usePathname } from 'next/navigation';
