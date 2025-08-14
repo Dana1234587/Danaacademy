@@ -5,7 +5,7 @@ import { getAuth } from "firebase/auth";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyCFmLhtF8h0bMqY7yLuLdjpjsCju05GQXk",
+  apiKey: "AIzaSyCFmLhtF8hObMqY7yLuLdjpjsCjuO5GQXk",
   authDomain: "dana-physics-academy.firebaseapp.com",
   projectId: "dana-physics-academy",
   storageBucket: "dana-physics-academy.firebasestorage.app",
@@ -14,6 +14,7 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
+// Check if Firebase has already been initialized
 const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
 const db = getFirestore(app);
 const auth = getAuth(app);
