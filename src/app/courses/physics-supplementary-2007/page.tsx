@@ -9,6 +9,7 @@ import { Progress } from '@/components/ui/progress';
 import Link from 'next/link';
 import { DashboardHeader } from '@/components/dashboard-header';
 import { SidebarProvider } from '@/components/ui/sidebar';
+import { Button } from '@/components/ui/button';
 
 const courseStructure = {
   id: 'tawjihi-2007-supplementary',
@@ -218,14 +219,23 @@ export default function PhysicsSupplementary2007Page() {
         <DashboardHeader />
         <main className="flex-1">
           <div className="p-4 sm:p-6 lg:p-8 container mx-auto">
-              <div className="bg-primary/5 text-center p-8 rounded-xl border border-primary/10 shadow-sm mb-8">
-                  <h1 className="text-4xl font-bold text-primary">
+            <div className="bg-primary/5 p-8 rounded-xl border border-primary/10 shadow-sm mb-8">
+              <div className="flex justify-between items-center">
+                  <div>
+                    <h1 className="text-4xl font-bold text-primary">
                       مرحبًا بك يا {currentUser?.username || 'طالبنا العزيز'} في دورة فيزياء التكميلي - جيل 2007
-                  </h1>
-                  <p className="mt-2 text-lg text-muted-foreground">
-                      نتمنى لك رحلة تعليمية ممتعة ومفيدة!
-                  </p>
+                    </h1>
+                    <p className="mt-2 text-lg text-muted-foreground">
+                        نتمنى لك رحلة تعليمية ممتعة ومفيدة!
+                    </p>
+                  </div>
+                   <Button asChild variant="outline">
+                      <Link href="/">
+                          العودة للرئيسية
+                      </Link>
+                  </Button>
               </div>
+            </div>
               
               <div className="space-y-12">
                   {courseStructure.subItems.map((semester, semIndex) => (
