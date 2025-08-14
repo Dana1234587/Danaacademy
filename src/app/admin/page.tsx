@@ -111,6 +111,8 @@ export default function AdminPage() {
                 description = 'اسم المستخدم هذا موجود بالفعل. الرجاء اختيار اسم آخر.';
             } else if (error.code === 'auth/weak-password' || (error.message && error.message.includes('auth/weak-password'))) {
                 description = 'كلمة المرور ضعيفة جدًا. يجب أن تتكون من 6 أحرف على الأقل.';
+            } else if (error.code === 'auth/invalid-email' || (error.message && error.message.includes('auth/invalid-email'))) {
+                 description = 'صيغة اسم المستخدم غير صالحة. يجب أن تكون باللغة الإنجليزية بدون مسافات.';
             }
             toast({ variant: 'destructive', title: 'فشل إنشاء الحساب', description });
         } finally {
