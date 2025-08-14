@@ -8,13 +8,13 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
-import { UserPlus, KeyRound, MonitorCheck, Loader2, Search } from 'lucide-react';
+import { UserPlus, KeyRound, MonitorCheck, Loader2, Search, Smartphone, Monitor, Fingerprint, Globe } from 'lucide-react';
 import { useState } from 'react';
 
 // Mock Data
 const pendingDevices = [
-    { id: '1', studentName: 'أحمد علي' },
-    { id: '2', studentName: 'فاطمة محمد' },
+    { id: '1', studentName: 'أحمد علي', deviceId: 'a1b2-c3d4-e5f6', ipAddress: '82.114.120.50', deviceType: 'Desktop' },
+    { id: '2', studentName: 'فاطمة محمد', deviceId: 'g7h8-i9j0-k1l2', ipAddress: '95.211.80.15', deviceType: 'Mobile' },
 ];
 
 const students = [
@@ -129,12 +129,28 @@ export default function AdminPage() {
                             <CardContent className="space-y-4">
                                 {pendingDevices.length > 0 ? (
                                     pendingDevices.map(device => (
-                                        <div key={device.id} className="flex items-center justify-between p-4 bg-muted rounded-lg">
-                                            <p className="font-medium">{device.studentName}</p>
-                                            <Button onClick={() => handleApproveDevice(device.id, device.studentName)} disabled={isLoading[device.id]} variant="secondary">
-                                                {isLoading[device.id] ? <Loader2 className="me-2 h-4 w-4 animate-spin" /> : <MonitorCheck className="me-2" />}
-                                                الموافقة على الجهاز
-                                            </Button>
+                                        <div key={device.id} className="p-4 bg-muted rounded-lg border">
+                                            <div className="flex items-center justify-between">
+                                                <p className="font-bold text-lg">{device.studentName}</p>
+                                                <Button onClick={() => handleApproveDevice(device.id, device.studentName)} disabled={isLoading[device.id]} variant="secondary">
+                                                    {isLoading[device.id] ? <Loader2 className="me-2 h-4 w-4 animate-spin" /> : <MonitorCheck className="me-2" />}
+                                                    الموافقة على الجهاز
+                                                </Button>
+                                            </div>
+                                            <div className="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm text-muted-foreground border-t pt-4">
+                                                <div className="flex items-center gap-2">
+                                                    {device.deviceType === 'Desktop' ? <Monitor className="w-4 h-4" /> : <Smartphone className="w-4 h-4" />}
+                                                    <span>{device.deviceType === 'Desktop' ? 'جهاز مكتبي' : 'هاتف محمول'}</span>
+                                                </div>
+                                                <div className="flex items-center gap-2">
+                                                    <Globe className="w-4 h-4" />
+                                                    <span dir="ltr">{device.ipAddress}</span>
+                                                </div>
+                                                <div className="flex items-center gap-2">
+                                                    <Fingerprint className="w-4 h-4" />
+                                                    <span className="truncate" dir="ltr">{device.deviceId}</span>
+                                                </div>
+                                            </div>
                                         </div>
                                     ))
                                 ) : (
