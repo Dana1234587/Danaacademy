@@ -1,0 +1,29 @@
+
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Default-deny: By default, no one can read or write to any collection
+    // unless explicitly allowed by the rules below.
+
+    // Students: Only authenticated users can read, only admin can write.
+    match /students/{studentId} {
+      allow read: if request.auth != null;
+      allow write: if request.auth.token.email == 'admin@dana-academy.com';
+    }
+
+    // Pending Devices: Users can create for themselves, only admin can read/delete.
+    match /pendingDevices/{deviceId} {
+      allow create: if request.auth != null && request.resource.data.studentId == request.auth.uid;
+      allow read, delete: if request.auth.token.email == 'admin@dana-academy.com';
+    }
+
+    // Registered Devices: Admin can write. Students can read their own devices, admin can read all.
+    match /registeredDevices/{deviceId} {
+      allow read: if request.auth.token.email == 'admin@dana-academy.com' || 
+                     (resource.data.studentId == request.auth.uid);
+      allow write: if request.auth.token.email == 'admin@dana-academy.com';
+    }
+  }
+}
