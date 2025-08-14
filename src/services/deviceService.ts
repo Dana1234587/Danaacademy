@@ -30,16 +30,13 @@ export async function getRegisteredDevices(): Promise<RegisteredDevice[]> {
     return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as RegisteredDevice));
 }
 
-export async function findRegisteredDeviceByStudentId(studentId: string): Promise<RegisteredDevice | undefined> {
+export async function findRegisteredDevicesByStudentId(studentId: string): Promise<RegisteredDevice[]> {
     const q = query(registeredDevicesCol, where("studentId", "==", studentId));
     const snapshot = await getDocs(q);
     if (snapshot.empty) {
-        return undefined;
+        return [];
     }
-    // A student should only have one registered device. If there are more, this returns the first one.
-    // The approval logic will handle deleting old ones.
-    const doc = snapshot.docs[0];
-    return { id: doc.id, ...doc.data() } as RegisteredDevice;
+    return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as RegisteredDevice));
 }
 
 export async function addPendingDevice(deviceData: Omit<PendingDevice, 'id'>): Promise<PendingDevice> {
@@ -56,13 +53,7 @@ export async function addPendingDevice(deviceData: Omit<PendingDevice, 'id'>): P
     return { id: docRef.id, ...deviceData };
 }
 
-export async function registerDevice(deviceData: Omit<RegisteredDevice, 'id'>): Promise<RegisteredDevice> {
-    const docRef = await addDoc(registeredDevicesCol, deviceData);
-    return { id: docRef.id, ...deviceData };
-}
-
-
-export async function approveDevice(pendingDeviceId: string): Promise<void> {
+export async function approveDevice(pendingDeviceId: string, mode: 'replace' | 'add'): Promise<void> {
     const pendingDeviceRef = doc(db, 'pendingDevices', pendingDeviceId);
     const pendingDeviceSnap = await getDoc(pendingDeviceRef);
     
@@ -75,24 +66,27 @@ export async function approveDevice(pendingDeviceId: string): Promise<void> {
 
     const batch = writeBatch(db);
 
-    // 1. Find and delete any existing registered devices for this student
-    const oldDevicesQuery = query(registeredDevicesCol, where("studentId", "==", studentId));
-    const oldDevicesSnapshot = await getDocs(oldDevicesQuery);
-    oldDevicesSnapshot.forEach(doc => {
-        batch.delete(doc.ref);
-    });
+    // If mode is 'replace', find and delete all existing registered devices for this student
+    if (mode === 'replace') {
+        const oldDevicesQuery = query(registeredDevicesCol, where("studentId", "==", studentId));
+        const oldDevicesSnapshot = await getDocs(oldDevicesQuery);
+        oldDevicesSnapshot.forEach(doc => {
+            batch.delete(doc.ref);
+        });
+    }
 
-    // 2. Add the new device to the registeredDevices collection
+    // Add the new device to the registeredDevices collection
     // We create a new doc reference for the new registered device
     const newRegisteredDeviceRef = doc(collection(db, 'registeredDevices'));
     batch.set(newRegisteredDeviceRef, deviceToApproveData);
     
-    // 3. Delete the device from the pendingDevices collection
+    // Delete the device from the pendingDevices collection
     batch.delete(pendingDeviceRef);
 
-    // 4. Commit all operations atomically
+    // Commit all operations atomically
     await batch.commit();
 }
+
 
 export async function deleteRegisteredDevice(deviceId: string): Promise<void> {
     const deviceRef = doc(db, 'registeredDevices', deviceId);

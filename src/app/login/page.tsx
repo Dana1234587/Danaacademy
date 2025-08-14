@@ -14,7 +14,7 @@ import { useToast } from '@/hooks/use-toast';
 import { Loader2 } from 'lucide-react';
 import { useStore } from '@/store/app-store';
 import { findStudentByUsername } from '@/services/studentService';
-import { findRegisteredDeviceByStudentId, addPendingDevice, registerDevice } from '@/services/deviceService';
+import { findRegisteredDevicesByStudentId, addPendingDevice } from '@/services/deviceService';
 import { auth } from '@/lib/firebase';
 import { signInWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
 
@@ -117,7 +117,7 @@ export default function LoginPage() {
 
             const deviceId = getDeviceId();
             const os = getOS();
-            const registeredDevice = await findRegisteredDeviceByStudentId(student.id);
+            const registeredDevices = await findRegisteredDevicesByStudentId(student.id);
             
             const redirectToCoursePage = () => {
                 setCurrentUser({ username: student.username, role: 'student', enrolledCourseIds: [student.courseId] });
@@ -130,33 +130,36 @@ export default function LoginPage() {
                 router.push(coursePath);
             };
 
-            if (!registeredDevice) {
-                // First time login for this student on any device, approve automatically
-                await registerDevice({
-                    studentId: student.id,
-                    studentName: student.studentName,
-                    deviceId: deviceId,
-                    ipAddress: '192.168.1.1', // Mock IP, consider a service for this
-                    deviceType: os === 'Android' || os === 'iOS' ? 'Mobile' : 'Desktop',
-                    os: os,
-                    course: student.course,
-                });
-                
-                toast({
-                  title: `أهلاً بك ${student.studentName}`,
-                  description: 'تم تسجيل دخولك وتسجيل هذا الجهاز بنجاح.',
-                });
-                redirectToCoursePage();
+            const isDeviceRegistered = registeredDevices.some(device => device.deviceId === deviceId);
 
-            } else if (registeredDevice.deviceId === deviceId) {
-                 // Device is already registered for this student
+            if (registeredDevices.length === 0) {
+                // First time login for this student, send for approval.
+                 await addPendingDevice({
+                     studentId: student.id,
+                     studentName: student.studentName,
+                     deviceId: deviceId,
+                     ipAddress: '82.114.120.50', // Mock IP
+                     deviceType: os === 'Android' || os === 'iOS' ? 'Mobile' : 'Desktop',
+                     os: os,
+                     course: student.course,
+                });
+                toast({
+                  variant: 'destructive',
+                  title: 'جهاز جديد مكتشف',
+                  description: 'هذا هو أول جهاز لك. تم إرسال طلب للموافقة عليه.',
+                  duration: 5000,
+                });
+                await auth.signOut();
+
+            } else if (isDeviceRegistered) {
+                 // Device is already in the approved list
                  toast({
                   title: `أهلاً بك مجددًا ${student.studentName}`,
                   description: 'تم تسجيل دخولك بنجاح.',
                 });
                 redirectToCoursePage();
             } else {
-                // New device detected for a student who already has a registered device
+                // New device detected for a student who already has other registered devices
                 await addPendingDevice({
                      studentId: student.id,
                      studentName: student.studentName,
@@ -169,7 +172,7 @@ export default function LoginPage() {
                 toast({
                   variant: 'destructive',
                   title: 'جهاز جديد مكتشف',
-                  description: 'تم ربط هذا الحساب بجهاز آخر. تم إرسال طلب للموافقة على هذا الجهاز.',
+                  description: 'تم ربط هذا الحساب بأجهزة أخرى. تم إرسال طلب للموافقة على هذا الجهاز.',
                   duration: 5000,
                 });
                 await auth.signOut(); // Sign out until the new device is approved

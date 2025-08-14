@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
-import { UserPlus, KeyRound, MonitorCheck, Loader2, Search, Smartphone, Monitor, Fingerprint, Globe, List, Home, Users, Edit, Trash2 } from 'lucide-react';
+import { UserPlus, KeyRound, MonitorCheck, Loader2, Search, Smartphone, Monitor, Fingerprint, Globe, List, Home, Users, Edit, Trash2, Check, Plus } from 'lucide-react';
 import { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -146,19 +146,20 @@ export default function AdminPage() {
         }
     };
 
-    const handleApproveDevice = async (id: string, studentName: string) => {
-        setIsLoading({ ...isLoading, [id]: true });
+    const handleApproveDevice = async (id: string, studentName: string, mode: 'replace' | 'add') => {
+        const loadingKey = `${mode}-${id}`;
+        setIsLoading(prev => ({ ...prev, [loadingKey]: true }));
         try {
-            await approveDeviceService(id);
+            await approveDeviceService(id, mode);
             toast({
                 title: 'تمت الموافقة',
-                description: `تمت الموافقة على الجهاز الجديد للطالب ${studentName}.`,
+                description: `تمت الموافقة على الجهاز الجديد للطالب ${studentName} بنجاح.`,
             });
             fetchData(); // Refetch all data
         } catch (error) {
              toast({ variant: 'destructive', title: 'فشلت الموافقة', description: 'حدث خطأ أثناء محاولة الموافقة على الجهاز.' });
         } finally {
-             setIsLoading({ ...isLoading, [id]: false });
+             setIsLoading(prev => ({ ...prev, [loadingKey]: false }));
         }
     };
 
@@ -370,15 +371,21 @@ export default function AdminPage() {
                                 {pendingDevices.length > 0 ? (
                                     pendingDevices.map(device => (
                                         <div key={device.id} className="p-4 bg-muted rounded-lg border">
-                                            <div className="flex items-center justify-between">
+                                            <div className="flex items-center justify-between flex-wrap gap-4">
                                                 <div>
                                                     <p className="font-bold text-lg">{device.studentName}</p>
                                                     <p className="text-sm text-primary">{device.course}</p>
                                                 </div>
-                                                <Button onClick={() => handleApproveDevice(device.id, device.studentName)} disabled={isLoading[device.id]} variant="secondary">
-                                                    {isLoading[device.id] ? <Loader2 className="me-2 h-4 w-4 animate-spin" /> : <MonitorCheck className="me-2" />}
-                                                    الموافقة على الجهاز
-                                                </Button>
+                                                <div className="flex gap-2">
+                                                    <Button onClick={() => handleApproveDevice(device.id, device.studentName, 'replace')} disabled={isLoading[`replace-${device.id}`]} variant="secondary">
+                                                        {isLoading[`replace-${device.id}`] ? <Loader2 className="me-2 h-4 w-4 animate-spin" /> : <Check className="me-2" />}
+                                                        موافقة واستبدال
+                                                    </Button>
+                                                    <Button onClick={() => handleApproveDevice(device.id, device.studentName, 'add')} disabled={isLoading[`add-${device.id}`]} variant="outline">
+                                                        {isLoading[`add-${device.id}`] ? <Loader2 className="me-2 h-4 w-4 animate-spin" /> : <Plus className="me-2" />}
+                                                        موافقة وإضافة
+                                                    </Button>
+                                                </div>
                                             </div>
                                             <div className="mt-4 space-y-2 text-sm text-muted-foreground border-t pt-4">
                                                 <div className="flex items-center gap-2">
