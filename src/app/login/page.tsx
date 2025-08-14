@@ -12,7 +12,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
 import { Loader2 } from 'lucide-react';
-import { students } from '@/lib/students';
+import { useAppStore, useStore } from '@/store/app-store';
 
 export default function LoginPage() {
   const [username, setUsername] = useState('');
@@ -21,28 +21,92 @@ export default function LoginPage() {
   const router = useRouter();
   const { toast } = useToast();
 
+  const students = useStore((state) => state.students);
+  const setCurrentUser = useStore((state) => state.setCurrentUser);
+  const addPendingDevice = useStore((state) => state.addPendingDevice);
+  const registeredDevices = useStore((state) => state.registeredDevices);
+  const registerDevice = useStore((state) => state.registerDevice);
+  const pendingDevices = useStore((state) => state.pendingDevices);
+
+
+  // This function would generate a unique ID for the device.
+  // In a real app, you might use a library like `fingerprintjs2`.
+  const getDeviceId = () => {
+    // A more robust device ID would be better.
+    // This is a simplified version.
+    return `device_${navigator.userAgent}_${Math.random()}`;
+  };
+
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
 
-    // Mock authentication logic
     setTimeout(() => {
+      // --- Admin Login ---
       if (username === 'admin' && password === 'password') {
-        // Admin user
         toast({
           title: 'أهلاً بعودتك دكتورة دانا',
           description: 'يتم توجيهك إلى لوحة التحكم.',
         });
+        setCurrentUser({ username: 'admin', role: 'admin', enrolledCourseIds: ['tawjihi-2007-supplementary', 'tawjihi-2008'] });
         router.push('/admin');
-      } else if (students.some(s => s.username === username && s.password === password)) {
-        // Mock student user
-        toast({
-          title: `أهلاً بك ${username}`,
-          description: 'تم تسجيل دخولك بنجاح.',
-        });
-        // Here you would implement the device binding logic
-        // For now, we'll just redirect to the main physics page
-        router.push('/physics');
+        setIsLoading(false);
+        return;
+      }
+      
+      // --- Student Login ---
+      const student = students.find(s => s.username === username && s.password === password);
+      
+      if (student) {
+        const deviceId = getDeviceId();
+        const registeredDevice = registeredDevices.find(d => d.studentId === student.id);
+        
+        if (!registeredDevice) {
+            // First time login on any device for this student
+            registerDevice({
+                id: `d${registeredDevices.length + 1}`,
+                studentId: student.id,
+                studentName: student.studentName,
+                deviceId: deviceId,
+                ipAddress: '192.168.1.1', // Mock IP
+                deviceType: 'Desktop', // Mock device type
+                course: student.course,
+            });
+            
+            toast({
+              title: `أهلاً بك ${student.studentName}`,
+              description: 'تم تسجيل دخولك وتسجيل هذا الجهاز بنجاح.',
+            });
+            setCurrentUser({ username: student.username, role: 'student', enrolledCourseIds: [student.courseId] });
+            router.push('/physics');
+
+        } else if (registeredDevice.deviceId === deviceId) {
+             // This check is simplified and might not always work perfectly.
+             // A real app would need a more stable device fingerprint.
+             toast({
+              title: `أهلاً بك مجددًا ${student.studentName}`,
+              description: 'تم تسجيل دخولك بنجاح.',
+            });
+            setCurrentUser({ username: student.username, role: 'student', enrolledCourseIds: [student.courseId] });
+            router.push('/physics');
+        } else {
+            // New device detected, add to pending and show message
+            addPendingDevice({
+                 id: `p${pendingDevices.length + 1}`,
+                 studentId: student.id,
+                 studentName: student.studentName,
+                 deviceId: deviceId,
+                 ipAddress: '82.114.120.50', // Mock IP
+                 deviceType: 'Mobile', // Mock device type
+                 course: student.course,
+            });
+            toast({
+              variant: 'destructive',
+              title: 'جهاز جديد مكتشف',
+              description: 'تم ربط هذا الحساب بجهاز آخر. تم إرسال طلب للموافقة على هذا الجهاز.',
+              duration: 5000,
+            });
+        }
       } else {
         toast({
           variant: 'destructive',

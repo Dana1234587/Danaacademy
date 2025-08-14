@@ -13,54 +13,52 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { students as initialStudents } from '@/lib/students';
+import { useAppStore } from '@/store/app-store';
 
 
-// Mock Data
-const pendingDevices = [
-    { id: '1', studentName: 'أحمد علي', deviceId: 'a1b2-c3d4-e5f6', ipAddress: '82.114.120.50', deviceType: 'Desktop', course: 'فيزياء تكميلي 2007' },
-    { id: '2', studentName: 'فاطمة محمد', deviceId: 'g7h8-i9j0-k1l2', ipAddress: '95.211.80.15', deviceType: 'Mobile', course: 'فيزياء توجيهي 2008' },
-];
-
-const registeredDevices = [
-    { id: 'd1', studentName: 'خالد يوسف', deviceId: 'z9y8-x7w6-v5u4', ipAddress: '192.168.1.10', deviceType: 'Desktop', course: 'فيزياء توجيهي 2008' },
-    { id: 'd2', studentName: 'سارة عبدالله', deviceId: 't3s2-r1q0-p9o8', ipAddress: '10.0.0.5', deviceType: 'Mobile', course: 'فيزياء تكميلي 2007' },
-];
-
+// Mock Data - This is now only for initialization if the store is empty
 const availableCourses = [
-    { id: 'physics-supplementary-2007', name: 'فيزياء تكميلي 2007' },
-    { id: 'physics-2008', name: 'فيزياء توجيهي 2008' },
+    { id: 'tawjihi-2007-supplementary', name: 'فيزياء تكميلي 2007' },
+    { id: 'tawjihi-2008', name: 'فيزياء توجيهي 2008' },
 ];
 
 
 export default function AdminPage() {
     const { toast } = useToast();
     const [isLoading, setIsLoading] = useState<Record<string, boolean>>({});
-    const [students, setStudents] = useState(initialStudents);
+    
+    // Use the central store now
+    const students = useAppStore((state) => state.students);
+    const addStudent = useAppStore((state) => state.addStudent);
+    const pendingDevices = useAppStore((state) => state.pendingDevices);
+    const registeredDevices = useAppStore((state) => state.registeredDevices);
+    const approveDevice = useAppStore((state) => state.approveDevice);
+
     const [newStudentName, setNewStudentName] = useState('');
     const [newStudentUsername, setNewStudentUsername] = useState('');
     const [newStudentPassword, setNewStudentPassword] = useState('');
     const [selectedCourse, setSelectedCourse] = useState('');
     const [searchQuery, setSearchQuery] = useState('');
-    const [searchedStudent, setSearchedStudent] = useState<{id: string, studentName: string, username: string} | null>(null);
+    const [searchedStudent, setSearchedStudent] = useState<(typeof students[0]) | null>(null);
 
     const handleCreateAccount = (e: React.FormEvent) => {
         e.preventDefault();
         setIsLoading({ ...isLoading, create: true });
         setTimeout(() => {
-            const newStudent = {
+            const newStudentData = {
                 id: `s${students.length + 1}`,
                 studentName: newStudentName,
                 username: newStudentUsername,
                 password: newStudentPassword,
-                course: availableCourses.find(c => c.id === selectedCourse)?.name || ''
+                course: availableCourses.find(c => c.id === selectedCourse)?.name || '',
+                courseId: selectedCourse,
             };
-            // This now correctly updates the state
-            setStudents(prevStudents => [...prevStudents, newStudent]);
+            
+            addStudent(newStudentData);
             
             toast({
                 title: 'تم إنشاء الحساب بنجاح',
-                description: `تم إنشاء حساب للطالب ${newStudentName} في دورة ${newStudent.course}.`,
+                description: `تم إنشاء حساب للطالب ${newStudentName} في دورة ${newStudentData.course}.`,
             });
 
             setNewStudentName('');
@@ -71,14 +69,14 @@ export default function AdminPage() {
         }, 1000);
     };
 
-    const handleApproveDevice = (id: string, name: string) => {
+    const handleApproveDevice = (id: string, studentName: string) => {
         setIsLoading({ ...isLoading, [id]: true });
         setTimeout(() => {
+            approveDevice(id);
             toast({
                 title: 'تمت الموافقة',
-                description: `تمت الموافقة على الجهاز الجديد للطالب ${name}.`,
+                description: `تمت الموافقة على الجهاز الجديد للطالب ${studentName}.`,
             });
-            // Here you would remove the item from the pending list and add to registered
             setIsLoading({ ...isLoading, [id]: false });
         }, 1000);
     };

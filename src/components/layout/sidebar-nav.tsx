@@ -28,6 +28,7 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/component
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Logo } from '@/components/logo';
+import { useStore } from '@/store/app-store';
 
 const allCourses = [
   {
@@ -109,25 +110,17 @@ const contentTypes = [
     { label: 'محاكاة', icon: Atom, folder: 'simulations' },
 ];
 
-// MOCK: This would come from user session/authentication context
-const useUser = () => {
-    // For admin, show all courses.
-    const pathname = usePathname();
-    if (pathname.startsWith('/admin')) {
-        return { user: { role: 'admin', enrolledCourseIds: allCourses.map(c => c.id) }};
-    }
-    
-    // For a student, just show one course.
-    // In a real app, this would be based on their actual enrollments.
-    return { user: { role: 'student', enrolledCourseIds: ['tawjihi-2008'] } };
-};
-
 
 function SidebarNavMenu() {
   const pathname = usePathname();
-  const { user } = useUser();
+  const currentUser = useStore((state) => state.currentUser);
 
-  const accessibleCourses = allCourses.filter(course => user?.enrolledCourseIds.includes(course.id));
+  if (!currentUser) {
+      // Handle case where user is not logged in, maybe show a login button or nothing
+      return null;
+  }
+
+  const accessibleCourses = allCourses.filter(course => currentUser.enrolledCourseIds.includes(course.id));
 
   const renderMenuItems = (items: any[], level = 0, parentPath = '') => {
     return items.map((item, index) => {
