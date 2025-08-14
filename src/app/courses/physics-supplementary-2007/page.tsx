@@ -1,13 +1,13 @@
 
 'use client';
 
-import { MainLayout } from '@/components/layout/main-layout';
 import { useStore } from '@/store/app-store';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Folder, FileText, Settings2 } from 'lucide-react';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { Progress } from '@/components/ui/progress';
 import Link from 'next/link';
+import { DashboardHeader } from '@/components/dashboard-header';
 
 const courseStructure = {
   id: 'tawjihi-2007-supplementary',
@@ -212,8 +212,10 @@ export default function PhysicsSupplementary2007Page() {
   const currentUser = useStore((state) => state.currentUser);
 
   return (
-    <MainLayout>
-       <div className="p-4 sm:p-6 lg:p-8 container mx-auto">
+    <div className="flex flex-col min-h-screen">
+      <DashboardHeader />
+      <main className="flex-1">
+        <div className="p-4 sm:p-6 lg:p-8 container mx-auto">
             <div className="bg-primary/5 text-center p-8 rounded-xl border border-primary/10 shadow-sm mb-8">
                 <h1 className="text-4xl font-bold text-primary">
                     مرحبًا بك يا {currentUser?.username || 'طالبنا العزيز'} في دورة فيزياء التكميلي - جيل 2007
@@ -243,7 +245,14 @@ export default function PhysicsSupplementary2007Page() {
                 ))}
             </div>
 
-      </div>
-    </MainLayout>
+            <div className="mt-16">
+              <h2 className="text-3xl font-bold mb-6 text-center text-foreground/80 border-b-2 border-primary/20 pb-4">الفصل الثاني</h2>
+              <p className="text-muted-foreground text-center text-lg">سيتم اضافه المحتوى لاحقا</p>
+            </div>
+
+        </div>
+      </main>
+    </div>
   );
 }
+
