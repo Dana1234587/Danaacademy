@@ -29,9 +29,17 @@ import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Logo } from '@/components/logo';
 
-const menuItems = [
+const allCourses = [
   {
-    label: 'التوجيهي',
+    id: 'tawjihi-2007-supplementary',
+    label: 'التكميلي (جيل 2007)',
+    icon: Book,
+    path: '/courses/physics-supplementary-2007',
+    content: true, // This is a placeholder; actual content pages are under /app/(content)
+  },
+  {
+    id: 'tawjihi-2008',
+    label: 'التوجيهي (جيل 2008)',
     icon: Book,
     path: '/physics',
     subItems: [
@@ -94,14 +102,32 @@ const menuItems = [
   },
 ];
 
+
 const contentTypes = [
     { label: 'شرح المادة', icon: FileText, folder: 'concepts' },
     { label: 'اختبارات قصيرة', icon: ClipboardCheck, folder: 'quizzes' },
     { label: 'محاكاة', icon: Atom, folder: 'simulations' },
 ];
 
+// MOCK: This would come from user session/authentication context
+const useUser = () => {
+    // For admin, show all courses.
+    const pathname = usePathname();
+    if (pathname.startsWith('/admin')) {
+        return { user: { role: 'admin', enrolledCourseIds: allCourses.map(c => c.id) }};
+    }
+    
+    // For a student, just show one course.
+    // In a real app, this would be based on their actual enrollments.
+    return { user: { role: 'student', enrolledCourseIds: ['tawjihi-2008'] } };
+};
+
+
 function SidebarNavMenu() {
   const pathname = usePathname();
+  const { user } = useUser();
+
+  const accessibleCourses = allCourses.filter(course => user?.enrolledCourseIds.includes(course.id));
 
   const renderMenuItems = (items: any[], level = 0, parentPath = '') => {
     return items.map((item, index) => {
@@ -158,7 +184,7 @@ function SidebarNavMenu() {
                   <div className={cn("ms-7 border-s border-border")}>
                   {contentTypes.map((contentType) => (
                       <SidebarMenuItem key={contentType.folder} className="ms-4">
-                          <Link href={`${currentPath}/${contentType.folder}`}>
+                          <Link href={`${currentPath.replace('/courses/physics-supplementary-2007', '/physics/tawjihi/first-semester/momentum')}/${contentType.folder}`}>
                               <SidebarMenuButton variant="ghost" isActive={pathname === `${currentPath}/${contentType.folder}`}>
                                   <contentType.icon className="h-4 w-4"/>
                                   <span>{contentType.label}</span>
@@ -175,7 +201,7 @@ function SidebarNavMenu() {
     });
   };
 
-  return <SidebarMenu>{renderMenuItems(menuItems)}</SidebarMenu>;
+  return <SidebarMenu>{renderMenuItems(accessibleCourses)}</SidebarMenu>;
 }
 
 

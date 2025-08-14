@@ -8,19 +8,25 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
-import { UserPlus, KeyRound, MonitorCheck, Loader2, Search, Smartphone, Monitor, Fingerprint, Globe } from 'lucide-react';
+import { UserPlus, KeyRound, MonitorCheck, Loader2, Search, Smartphone, Monitor, Fingerprint, Globe, List, Home } from 'lucide-react';
 import { useState } from 'react';
+import Link from 'next/link';
 
 // Mock Data
 const pendingDevices = [
-    { id: '1', studentName: 'أحمد علي', deviceId: 'a1b2-c3d4-e5f6', ipAddress: '82.114.120.50', deviceType: 'Desktop' },
-    { id: '2', studentName: 'فاطمة محمد', deviceId: 'g7h8-i9j0-k1l2', ipAddress: '95.211.80.15', deviceType: 'Mobile' },
+    { id: '1', studentName: 'أحمد علي', deviceId: 'a1b2-c3d4-e5f6', ipAddress: '82.114.120.50', deviceType: 'Desktop', course: 'فيزياء تكميلي 2007' },
+    { id: '2', studentName: 'فاطمة محمد', deviceId: 'g7h8-i9j0-k1l2', ipAddress: '95.211.80.15', deviceType: 'Mobile', course: 'فيزياء توجيهي 2008' },
+];
+
+const registeredDevices = [
+    { id: 'd1', studentName: 'خالد يوسف', deviceId: 'z9y8-x7w6-v5u4', ipAddress: '192.168.1.10', deviceType: 'Desktop', course: 'فيزياء توجيهي 2008' },
+    { id: 'd2', studentName: 'سارة عبدالله', deviceId: 't3s2-r1q0-p9o8', ipAddress: '10.0.0.5', deviceType: 'Mobile', course: 'فيزياء تكميلي 2007' },
 ];
 
 const students = [
-    { id: 's1', studentName: 'أحمد علي', username: 'student1' },
-    { id: 's2', studentName: 'فاطمة محمد', username: 'student2' },
-    { id: 's3', studentName: 'خالد يوسف', username: 'student3' },
+    { id: 's1', studentName: 'أحمد علي', username: 'student1', course: 'فيزياء تكميلي 2007' },
+    { id: 's2', studentName: 'فاطمة محمد', username: 'student2', course: 'فيزياء توجيهي 2008' },
+    { id: 's3', studentName: 'خالد يوسف', username: 'student3', course: 'فيزياء توجيهي 2008' },
 ];
 
 export default function AdminPage() {
@@ -54,7 +60,7 @@ export default function AdminPage() {
                 title: 'تمت الموافقة',
                 description: `تمت الموافقة على الجهاز الجديد للطالب ${name}.`,
             });
-            // Here you would remove the item from the pending list
+            // Here you would remove the item from the pending list and add to registered
             setIsLoading({ ...isLoading, [id]: false });
         }, 1000);
     };
@@ -79,15 +85,23 @@ export default function AdminPage() {
     return (
         <MainLayout>
             <div className="p-4 sm:p-6 lg:p-8">
-                <div className="mb-8">
-                    <h1 className="text-3xl font-bold">لوحة تحكم المسؤول</h1>
-                    <p className="text-muted-foreground">مرحباً دكتورة دانا، هنا يمكنك إدارة الأكاديمية.</p>
+                <div className="flex justify-between items-center mb-8">
+                    <div>
+                        <h1 className="text-3xl font-bold">لوحة تحكم المسؤول</h1>
+                        <p className="text-muted-foreground">مرحباً دكتورة دانا، هنا يمكنك إدارة الأكاديمية.</p>
+                    </div>
+                     <Button asChild variant="outline">
+                        <Link href="/">
+                            <Home className="me-2" /> العودة للرئيسية
+                        </Link>
+                    </Button>
                 </div>
 
                 <Tabs defaultValue="create-student">
-                    <TabsList className="grid w-full grid-cols-3">
+                    <TabsList className="grid w-full grid-cols-4">
                         <TabsTrigger value="create-student"><UserPlus className="me-2" /> إنشاء حساب طالب</TabsTrigger>
                         <TabsTrigger value="approve-devices"><MonitorCheck className="me-2" /> الموافقة على الأجهزة</TabsTrigger>
+                        <TabsTrigger value="registered-devices"><List className="me-2" /> الأجهزة المسجلة</TabsTrigger>
                         <TabsTrigger value="reset-password"><KeyRound className="me-2" /> إعادة تعيين كلمة المرور</TabsTrigger>
                     </TabsList>
 
@@ -130,8 +144,11 @@ export default function AdminPage() {
                                 {pendingDevices.length > 0 ? (
                                     pendingDevices.map(device => (
                                         <div key={device.id} className="p-4 bg-muted rounded-lg border">
-                                            <div className="flex items-center justify-between">
-                                                <p className="font-bold text-lg">{device.studentName}</p>
+                                            <div className="flex items-start justify-between">
+                                                <div>
+                                                    <p className="font-bold text-lg">{device.studentName}</p>
+                                                    <p className="text-sm text-primary">{device.course}</p>
+                                                </div>
                                                 <Button onClick={() => handleApproveDevice(device.id, device.studentName)} disabled={isLoading[device.id]} variant="secondary">
                                                     {isLoading[device.id] ? <Loader2 className="me-2 h-4 w-4 animate-spin" /> : <MonitorCheck className="me-2" />}
                                                     الموافقة على الجهاز
@@ -155,6 +172,45 @@ export default function AdminPage() {
                                     ))
                                 ) : (
                                     <p className="text-muted-foreground text-center py-8">لا توجد طلبات معلقة حاليًا.</p>
+                                )}
+                            </CardContent>
+                        </Card>
+                    </TabsContent>
+                    
+                     <TabsContent value="registered-devices">
+                        <Card>
+                            <CardHeader>
+                                <CardTitle>الأجهزة المسجلة</CardTitle>
+                                <CardDescription>قائمة بجميع الأجهزة المعتمدة حاليًا للطلاب.</CardDescription>
+                            </CardHeader>
+                            <CardContent className="space-y-4">
+                                {registeredDevices.length > 0 ? (
+                                    registeredDevices.map(device => (
+                                       <div key={device.id} className="p-4 bg-muted/50 rounded-lg border">
+                                            <div className="flex items-start justify-between">
+                                                <div>
+                                                    <p className="font-bold text-lg">{device.studentName}</p>
+                                                    <p className="text-sm text-primary">{device.course}</p>
+                                                </div>
+                                            </div>
+                                            <div className="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm text-muted-foreground border-t pt-4">
+                                                <div className="flex items-center gap-2">
+                                                    {device.deviceType === 'Desktop' ? <Monitor className="w-4 h-4" /> : <Smartphone className="w-4 h-4" />}
+                                                    <span>{device.deviceType === 'Desktop' ? 'جهاز مكتبي' : 'هاتف محمول'}</span>
+                                                </div>
+                                                <div className="flex items-center gap-2">
+                                                    <Globe className="w-4 h-4" />
+                                                    <span dir="ltr">{device.ipAddress}</span>
+                                                </div>
+                                                <div className="flex items-center gap-2">
+                                                    <Fingerprint className="w-4 h-4" />
+                                                    <span className="truncate" dir="ltr">{device.deviceId}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    ))
+                                ) : (
+                                    <p className="text-muted-foreground text-center py-8">لا توجد أجهزة مسجلة حاليًا.</p>
                                 )}
                             </CardContent>
                         </Card>
