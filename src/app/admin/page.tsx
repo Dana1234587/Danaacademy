@@ -45,6 +45,8 @@ export default function AdminPage() {
     const [newStudentName, setNewStudentName] = useState('');
     const [newStudentUsername, setNewStudentUsername] = useState('');
     const [newStudentPassword, setNewStudentPassword] = useState('');
+    const [newStudentPhone1, setNewStudentPhone1] = useState('');
+    const [newStudentPhone2, setNewStudentPhone2] = useState('');
     const [selectedCourse, setSelectedCourse] = useState('');
     const [searchQuery, setSearchQuery] = useState('');
     const [searchedStudent, setSearchedStudent] = useState<Student | null>(null);
@@ -99,6 +101,8 @@ export default function AdminPage() {
                 studentName: newStudentName,
                 username: newStudentUsername,
                 password: newStudentPassword,
+                phone1: newStudentPhone1,
+                phone2: newStudentPhone2,
                 course: courseDetails.name,
                 courseId: courseDetails.id,
             };
@@ -114,6 +118,8 @@ export default function AdminPage() {
             setNewStudentName('');
             setNewStudentUsername('');
             setNewStudentPassword('');
+            setNewStudentPhone1('');
+            setNewStudentPhone2('');
             setSelectedCourse('');
             fetchData();
 
@@ -265,6 +271,14 @@ export default function AdminPage() {
                                         <Input id="student-password" type="password" value={newStudentPassword} onChange={(e) => setNewStudentPassword(e.target.value)} placeholder="6 أحرف على الأقل" required />
                                     </div>
                                     <div className="space-y-2">
+                                        <Label htmlFor="student-phone1">رقم الهاتف 1 (اختياري)</Label>
+                                        <Input id="student-phone1" type="tel" value={newStudentPhone1} onChange={(e) => setNewStudentPhone1(e.target.value)} placeholder="رقم هاتف الطالب أو ولي الأمر" />
+                                    </div>
+                                    <div className="space-y-2">
+                                        <Label htmlFor="student-phone2">رقم الهاتف 2 (اختياري)</Label>
+                                        <Input id="student-phone2" type="tel" value={newStudentPhone2} onChange={(e) => setNewStudentPhone2(e.target.value)} placeholder="رقم هاتف إضافي" />
+                                    </div>
+                                    <div className="space-y-2">
                                         <Label htmlFor="course-select">الدورة المسجل بها</Label>
                                         <Select onValueChange={setSelectedCourse} value={selectedCourse} required>
                                             <SelectTrigger id="course-select">
@@ -300,6 +314,8 @@ export default function AdminPage() {
                                             <TableHead>اسم المستخدم</TableHead>
                                             <TableHead>كلمة المرور</TableHead>
                                             <TableHead>الدورة المسجل بها</TableHead>
+                                            <TableHead>رقم الهاتف 1</TableHead>
+                                            <TableHead>رقم الهاتف 2</TableHead>
                                             <TableHead>الإجراءات</TableHead>
                                         </TableRow>
                                     </TableHeader>
@@ -310,6 +326,8 @@ export default function AdminPage() {
                                                 <TableCell>{student.username}</TableCell>
                                                 <TableCell>{student.password}</TableCell>
                                                 <TableCell>{student.course}</TableCell>
+                                                <TableCell>{student.phone1}</TableCell>
+                                                <TableCell>{student.phone2}</TableCell>
                                                 <TableCell className="flex gap-2">
                                                   <Button variant="outline" size="icon" disabled><Edit className="w-4 h-4" /></Button>
                                                   <AlertDialog>

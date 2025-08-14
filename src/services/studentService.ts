@@ -13,6 +13,8 @@ export type Student = {
   password?: string; // Password will be stored in Firestore but is optional on the type
   course: string;
   courseId: string;
+  phone1?: string;
+  phone2?: string;
 };
 
 export async function getStudents(): Promise<Student[]> {
@@ -43,7 +45,9 @@ export async function addStudent(studentData: Omit<Student, 'id'>): Promise<Stud
         username: studentData.username,
         password: studentData.password, // Storing password in plaintext as requested
         course: studentData.course,
-        courseId: studentData.courseId
+        courseId: studentData.courseId,
+        phone1: studentData.phone1 || '',
+        phone2: studentData.phone2 || '',
     };
     
     await setDoc(studentDocRef, firestoreData);
