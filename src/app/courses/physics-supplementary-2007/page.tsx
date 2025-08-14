@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import Image from 'next/image';
-import { CheckCircle, BookOpen, ChevronLeft, Clock } from 'lucide-react';
+import { CheckCircle, BookOpen, ChevronLeft, Clock, Video, ClipboardCheck } from 'lucide-react';
 import Link from 'next/link';
 import { Logo } from '@/components/logo';
 import { TestimonialsMap } from '@/components/testimonials-map';
@@ -26,6 +26,9 @@ const course = {
     semester1: [
       {
         title: 'الوحدة الأولى: الزخم الخطي والتصادمات',
+        videos: 18,
+        hours: 14.5,
+        exams: 4,
         lessons: [
             { name: 'الدرس الأول: الزخم الخطي والدفع', sessions: [] },
             { name: 'الدرس الثاني: التصادمات', sessions: [] }
@@ -177,11 +180,27 @@ export default function PhysicsSupplementary2007Page() {
                     <AccordionTrigger className="text-lg font-semibold bg-muted px-4 rounded-md">
                       {unit.title}
                     </AccordionTrigger>
-                    <AccordionContent className="p-4">
+                    <AccordionContent className="p-4 bg-background rounded-b-md">
+                       {unit.videos && (
+                        <div className="flex items-center justify-around gap-4 p-4 mb-4 border-b border-dashed">
+                          <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
+                            <Video className="w-5 h-5 text-primary" />
+                            <span>{unit.videos} فيديو</span>
+                          </div>
+                          <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
+                            <Clock className="w-5 h-5 text-primary" />
+                            <span>{unit.hours} ساعة دراسية</span>
+                          </div>
+                          <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
+                            <ClipboardCheck className="w-5 h-5 text-primary" />
+                            <span>{unit.exams} اختبارات</span>
+                          </div>
+                        </div>
+                      )}
                       {unit.lessons.length > 0 ? (
                         <ul className="space-y-2">
                            {unit.lessons.map((lesson, lessonIndex) => (
-                               <li key={lessonIndex} className="flex items-center justify-between text-muted-foreground bg-background p-3 rounded-md">
+                               <li key={lessonIndex} className="flex items-center justify-between text-muted-foreground bg-muted/50 p-3 rounded-md">
                                    <span className="font-medium text-foreground">{lesson.name}</span>
                                    {/* If sessions were available, they would be here */}
                                </li>
