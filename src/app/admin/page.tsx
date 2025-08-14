@@ -9,7 +9,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 import { UserPlus, KeyRound, MonitorCheck, Loader2, Search, Smartphone, Monitor, Fingerprint, Globe, List, Home, Users, Edit, Trash2 } from 'lucide-react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
@@ -49,6 +49,14 @@ export default function AdminPage() {
     const [searchQuery, setSearchQuery] = useState('');
     const [searchedStudent, setSearchedStudent] = useState<Student | null>(null);
 
+    // Group registered devices by student
+    const groupedRegisteredDevices = useMemo(() => {
+        return registeredDevices.reduce((acc, device) => {
+            (acc[device.studentId] = acc[device.studentId] || []).push(device);
+            return acc;
+        }, {} as Record<string, RegisteredDevice[]>);
+    }, [registeredDevices]);
+
     // Fetch data on component mount
     useEffect(() => {
         fetchData();
@@ -74,6 +82,10 @@ export default function AdminPage() {
 
     const handleCreateAccount = async (e: React.FormEvent) => {
         e.preventDefault();
+        if (!selectedCourse) {
+            toast({ variant: 'destructive', title: 'خطأ', description: 'الرجاء اختيار دورة للطالب.' });
+            return;
+        }
         setIsLoading({ ...isLoading, create: true });
         try {
             const courseDetails = availableCourses.find(c => c.id === selectedCourse);
@@ -377,36 +389,42 @@ export default function AdminPage() {
                                 <CardTitle>الأجهزة المسجلة</CardTitle>
                                 <CardDescription>قائمة بجميع الأجهزة المعتمدة حاليًا للطلاب.</CardDescription>
                             </CardHeader>
-                            <CardContent className="space-y-4">
-                                {registeredDevices.length > 0 ? (
-                                    registeredDevices.map(device => (
-                                       <div key={device.id} className="p-4 bg-muted/50 rounded-lg border">
-                                            <div className="flex items-start justify-between">
-                                                <div>
-                                                    <p className="font-bold text-lg">{device.studentName}</p>
-                                                    <p className="text-sm text-primary">{device.course}</p>
+                            <CardContent className="space-y-6">
+                                {Object.keys(groupedRegisteredDevices).length > 0 ? (
+                                    Object.entries(groupedRegisteredDevices).map(([studentId, devices]) => {
+                                        const student = students.find(s => s.id === studentId);
+                                        return (
+                                            <div key={studentId} className="p-4 bg-muted/50 rounded-lg border">
+                                                <div className="pb-4 border-b">
+                                                    <p className="font-bold text-lg">{student?.studentName || 'طالب غير معروف'}</p>
+                                                    <p className="text-sm text-primary">{student?.course}</p>
                                                 </div>
-                                                <Button onClick={() => handleDeleteDevice(device.id)} variant="destructive" size="sm" disabled={isLoading[`delete-device-${device.id}`]}>
-                                                     {isLoading[`delete-device-${device.id}`] ? <Loader2 className="me-2 h-4 w-4 animate-spin" /> : <Trash2 className="me-2" />}
-                                                    حذف الجهاز
-                                                </Button>
+                                                <div className="space-y-4 pt-4">
+                                                    {devices.map(device => (
+                                                        <div key={device.id} className="flex items-start justify-between">
+                                                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm text-muted-foreground w-full">
+                                                                <div className="flex items-center gap-2">
+                                                                    {device.deviceType === 'Desktop' ? <Monitor className="w-4 h-4" /> : <Smartphone className="w-4 h-4" />}
+                                                                    <span>{device.os}</span>
+                                                                </div>
+                                                                <div className="flex items-center gap-2">
+                                                                    <Globe className="w-4 h-4" />
+                                                                    <span dir="ltr">{device.ipAddress}</span>
+                                                                </div>
+                                                                <div className="flex items-center gap-2">
+                                                                    <Fingerprint className="w-4 h-4" />
+                                                                    <span className="truncate" dir="ltr">{device.deviceId}</span>
+                                                                </div>
+                                                            </div>
+                                                            <Button onClick={() => handleDeleteDevice(device.id)} variant="destructive" size="icon" disabled={isLoading[`delete-device-${device.id}`]}>
+                                                                {isLoading[`delete-device-${device.id}`] ? <Loader2 className="w-4 h-4 animate-spin" /> : <Trash2 className="w-4 h-4" />}
+                                                            </Button>
+                                                        </div>
+                                                    ))}
+                                                </div>
                                             </div>
-                                            <div className="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm text-muted-foreground border-t pt-4">
-                                                <div className="flex items-center gap-2">
-                                                    {device.deviceType === 'Desktop' ? <Monitor className="w-4 h-4" /> : <Smartphone className="w-4 h-4" />}
-                                                    <span>{device.os}</span>
-                                                </div>
-                                                <div className="flex items-center gap-2">
-                                                    <Globe className="w-4 h-4" />
-                                                    <span dir="ltr">{device.ipAddress}</span>
-                                                </div>
-                                                <div className="flex items-center gap-2">
-                                                    <Fingerprint className="w-4 h-4" />
-                                                    <span className="truncate" dir="ltr">{device.deviceId}</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    ))
+                                        )
+                                    })
                                 ) : (
                                     <p className="text-muted-foreground text-center py-8">لا توجد أجهزة مسجلة حاليًا.</p>
                                 )}

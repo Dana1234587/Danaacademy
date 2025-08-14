@@ -18,13 +18,20 @@ import { findRegisteredDeviceByStudentId, addPendingDevice, registerDevice } fro
 import { auth } from '@/lib/firebase';
 import { signInWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
 
-// This is a simplified device ID generator. A real-world app should use a more robust
-// fingerprinting library like FingerprintJS.
-const getDeviceId = () => {
-  const userAgent = navigator.userAgent;
-  const platform = navigator.platform;
-  const random = Math.random().toString(36).substring(2);
-  return `${userAgent}-${platform}-${random}`;
+// This function now generates a stable device ID and stores it in localStorage.
+const getDeviceId = (): string => {
+  const DANA_ACADEMY_DEVICE_ID = 'DANA_ACADEMY_DEVICE_ID';
+  let deviceId = localStorage.getItem(DANA_ACADEMY_DEVICE_ID);
+
+  if (!deviceId) {
+    const userAgent = navigator.userAgent;
+    const platform = navigator.platform;
+    const random = Math.random().toString(36).substring(2);
+    deviceId = `${userAgent}-${platform}-${random}`;
+    localStorage.setItem(DANA_ACADEMY_DEVICE_ID, deviceId);
+  }
+
+  return deviceId;
 };
 
 const getOS = () => {

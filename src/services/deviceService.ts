@@ -1,5 +1,5 @@
 
-import { collection, query, where, getDocs, addDoc, deleteDoc, doc, writeBatch } from 'firebase/firestore';
+import { collection, query, where, getDocs, addDoc, deleteDoc, doc, writeBatch, getDoc } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 
 export type Device = {
@@ -36,11 +36,22 @@ export async function findRegisteredDeviceByStudentId(studentId: string): Promis
     if (snapshot.empty) {
         return undefined;
     }
+    // A student should only have one registered device. If there are more, this returns the first one.
+    // The approval logic will handle deleting old ones.
     const doc = snapshot.docs[0];
     return { id: doc.id, ...doc.data() } as RegisteredDevice;
 }
 
 export async function addPendingDevice(deviceData: Omit<PendingDevice, 'id'>): Promise<PendingDevice> {
+    // Check if a pending request for this exact device already exists to avoid duplicates
+    const q = query(pendingDevicesCol, where("deviceId", "==", deviceData.deviceId));
+    const existingSnapshot = await getDocs(q);
+    if (!existingSnapshot.empty) {
+        // A request for this device already exists, so don't add another one.
+        const existingDoc = existingSnapshot.docs[0];
+        return { id: existingDoc.id, ...existingDoc.data() } as PendingDevice;
+    }
+
     const docRef = await addDoc(pendingDevicesCol, deviceData);
     return { id: docRef.id, ...deviceData };
 }
@@ -53,23 +64,27 @@ export async function registerDevice(deviceData: Omit<RegisteredDevice, 'id'>): 
 
 export async function approveDevice(pendingDeviceId: string): Promise<void> {
     const pendingDeviceRef = doc(db, 'pendingDevices', pendingDeviceId);
-    const pendingDeviceSnap = await getDocs(query(pendingDevicesCol, where('__name__', '==', pendingDeviceId)));
+    const pendingDeviceSnap = await getDoc(pendingDeviceRef); // Use getDoc for single document
     
-    if (pendingDeviceSnap.empty) {
+    if (!pendingDeviceSnap.exists()) {
         throw new Error("Device not found in pending list");
     }
     
-    const deviceToApprove = { id: pendingDeviceSnap.docs[0].id, ...pendingDeviceSnap.docs[0].data() } as PendingDevice;
-
-    // Remove any existing registered device for this student
-    const existingDevice = await findRegisteredDeviceByStudentId(deviceToApprove.studentId);
-    if(existingDevice) {
-        await deleteDoc(doc(db, 'registeredDevices', existingDevice.id));
+    const deviceToApproveData = pendingDeviceSnap.data();
+    
+    // Remove any existing registered device for this student to ensure only one is active
+    const q = query(registeredDevicesCol, where("studentId", "==", deviceToApproveData.studentId));
+    const oldDevicesSnapshot = await getDocs(q);
+    if(!oldDevicesSnapshot.empty){
+        const batch = writeBatch(db);
+        oldDevicesSnapshot.docs.forEach(doc => {
+            batch.delete(doc.ref);
+        });
+        await batch.commit();
     }
-
+    
     // Add the new device to registered devices
-    const { id, ...deviceData } = deviceToApprove;
-    await addDoc(registeredDevicesCol, deviceData);
+    await addDoc(registeredDevicesCol, deviceToApproveData);
     
     // Remove from pending devices
     await deleteDoc(pendingDeviceRef);
@@ -93,4 +108,3 @@ export async function deleteRegisteredDeviceByStudentId(studentId: string): Prom
     
     await batch.commit();
 }
-
