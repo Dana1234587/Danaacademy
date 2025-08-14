@@ -5,12 +5,12 @@ import { getAuth } from "firebase/auth";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  "projectId": "dana-academy-physics",
-  "appId": "1:986877154589:web:2a94f2c9f95be126103df4",
-  "storageBucket": "dana-academy-physics.appspot.com",
-  "apiKey": "AIzaSyCvUOpOQBLNMPlFPoEjTMl1-14k6Xqyfo8",
-  "authDomain": "dana-academy-physics.firebaseapp.com",
-  "messagingSenderId": "986877154589"
+  apiKey: "AIzaSyCFmLhtF8h0bMqY7yLuLdjpjsCju05GQXk",
+  authDomain: "dana-physics-academy.firebaseapp.com",
+  projectId: "dana-physics-academy",
+  storageBucket: "dana-physics-academy.firebasestorage.app",
+  messagingSenderId: "103537274842",
+  appId: "1:103537274842:web:564729a5095355461d5ae3"
 };
 
 // Initialize Firebase
