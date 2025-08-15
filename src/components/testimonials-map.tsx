@@ -7,7 +7,12 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { X } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Pagination, Autoplay } from 'swiper/modules';
 
+import 'swiper/css';
+import 'swiper/css/pagination';
+import 'swiper/css/autoplay';
 
 type Position = {
   top?: string;
@@ -40,13 +45,39 @@ export function TestimonialsMap({ testimonials }: TestimonialsMapProps) {
     setActiveTestimonial(null);
   };
   
+  // Smart Solution: Show an elegant swiper on mobile, and the interactive map on desktop.
   if (isMobile) {
       return (
-          <div className="text-center p-4 bg-muted rounded-lg border border-dashed">
-              <p className="text-muted-foreground">
-                  لعرض خريطة آراء الطلاب التفاعلية، يرجى تصفح الموقع من جهاز كمبيوتر أو لابتوب.
-              </p>
-          </div>
+        <div className="w-full max-w-md mx-auto">
+          <Swiper
+            modules={[Pagination, Autoplay]}
+            spaceBetween={30}
+            slidesPerView={1}
+            loop={true}
+            autoplay={{
+                delay: 3000,
+                disableOnInteraction: false,
+            }}
+            pagination={{
+              clickable: true,
+            }}
+            className="!pb-10" // Add padding-bottom for pagination
+          >
+            {testimonials.map((testimonial) => (
+              <SwiperSlide key={testimonial.id}>
+                <div className="aspect-[9/16] relative w-full h-full overflow-hidden rounded-lg shadow-lg border">
+                  <Image
+                    src={testimonial.reviewScreenshot}
+                    alt={`Review screenshot ${testimonial.id}`}
+                    fill={true}
+                    className="object-contain"
+                    sizes="(max-width: 768px) 100vw, 33vw"
+                  />
+                </div>
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        </div>
       )
   }
 
@@ -105,6 +136,3 @@ export function TestimonialsMap({ testimonials }: TestimonialsMapProps) {
     </div>
   );
 }
-
-
-    
