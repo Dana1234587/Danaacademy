@@ -1,8 +1,7 @@
+
 'use server';
 
 import { collection, query, where, getDocs, addDoc, deleteDoc, doc, writeBatch, getDoc } from 'firebase/firestore';
-// The client-side db is not needed here anymore as all admin operations should use adminDB
-// import { db } from '@/lib/firebase'; 
 import { adminDB } from '@/lib/firebase-admin'; // Use Admin DB for backend operations
 
 export type Device = {
