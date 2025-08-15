@@ -105,7 +105,7 @@ export default function AdminPage() {
         const studentEmail = `${newStudentUsername}@dana-academy.com`;
         
         // **Critical Step 1: Preserve Admin Credentials**
-        const adminEmail = auth.currentUser?.email;
+        const adminEmail = currentUser?.email;
         const adminPassword = prompt("للتأكيد، يرجى إدخال كلمة المرور الخاصة بك كمسؤول:");
 
         if (!adminEmail || !adminPassword) {
@@ -116,12 +116,11 @@ export default function AdminPage() {
 
         try {
             // **Critical Step 2: Create Student Auth Account**
-            // This temporarily signs out the admin and signs in the new user.
             const userCredential = await createUserWithEmailAndPassword(auth, studentEmail, newStudentPassword);
             const user = userCredential.user;
 
             // **Critical Step 3: Re-authenticate Admin Immediately**
-            // This restores the admin's session and permissions.
+            // This is the most important step to restore the admin's session and permissions.
             await signInWithEmailAndPassword(auth, adminEmail, adminPassword);
             
             // **Critical Step 4: Now, with admin privileges restored, write to Firestore.**
