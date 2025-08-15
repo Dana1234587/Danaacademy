@@ -27,6 +27,8 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '@/lib/firebase';
 
 const availableCourses = [
     { id: 'tawjihi-2007-supplementary', name: 'فيزياء تكميلي 2007' },
@@ -77,7 +79,7 @@ export default function AdminPage() {
             setPendingDevices(pendingDevicesData);
             setRegisteredDevices(registeredDevicesData);
             toast({ title: 'تم تحديث البيانات', description: 'تم جلب أحدث البيانات من الخادم بنجاح.' });
-        } catch (error) {
+        } catch (error: any) {
             toast({ variant: 'destructive', title: 'فشل تحميل البيانات', description: `لم نتمكن من جلب البيانات. قد يكون السبب مشكلة في قواعد الأمان في Firebase. الخطأ: ${error.message}` });
         } finally {
             setIsLoading(prev => ({ ...prev, page: false }));
@@ -93,7 +95,13 @@ export default function AdminPage() {
         setIsLoading(prev => ({ ...prev, create: true }));
         try {
             const coursesDetails = availableCourses.filter(c => selectedCourses.includes(c.id));
-            
+            const email = `${newStudentUsername}@dana-academy.com`;
+
+            // Step 1: Create the user in Firebase Auth
+            const userCredential = await createUserWithEmailAndPassword(auth, email, newStudentPassword);
+            const user = userCredential.user;
+
+            // Step 2: Add student data to Firestore
             const newStudentData = {
                 studentName: newStudentName,
                 username: newStudentUsername,
@@ -104,7 +112,7 @@ export default function AdminPage() {
                 courseIds: coursesDetails.map(c => c.id),
             };
             
-            await addStudentService(newStudentData);
+            await addStudentService(user.uid, newStudentData);
             
             toast({
                 title: 'تم إنشاء الحساب بنجاح',
@@ -535,4 +543,3 @@ export default function AdminPage() {
     );
 }
 
-    

@@ -1,8 +1,7 @@
 
 // This service will handle all Firestore operations related to students
-import { collection, getDocs, doc, setDoc, deleteDoc, updateDoc, query, where } from 'firebase/firestore';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { db, auth } from '@/lib/firebase';
+import { collection, getDocs, doc, setDoc, deleteDoc, updateDoc, query, where, addDoc } from 'firebase/firestore';
+import { db } from '@/lib/firebase';
 import { deleteRegisteredDeviceByStudentId } from './deviceService';
 
 
@@ -17,6 +16,8 @@ export type Student = {
   phone2?: string;
 };
 
+type NewStudentData = Omit<Student, 'id'>
+
 export async function getStudents(): Promise<Student[]> {
   const studentsCol = collection(db, 'students');
   const studentSnapshot = await getDocs(studentsCol);
@@ -24,42 +25,9 @@ export async function getStudents(): Promise<Student[]> {
   return studentList;
 }
 
-export async function addStudent(studentData: Omit<Student, 'id'>): Promise<void> {
-    if (!studentData.password) {
-        throw new Error("Password is required to create a student.");
-    }
-    if (!studentData.courseIds || studentData.courseIds.length === 0) {
-        throw new Error("At least one course must be selected.");
-    }
-
-    const email = `${studentData.username}@dana-academy.com`;
-
-    // 1. Create user in Firebase Authentication
-    const userCredential = await createUserWithEmailAndPassword(auth, email, studentData.password);
-    const user = userCredential.user;
-
-    try {
-        // 2. Create student document in Firestore with the UID from Auth as the document ID
-        const studentDocRef = doc(db, 'students', user.uid);
-        
-        const firestoreData = {
-            studentName: studentData.studentName,
-            username: studentData.username,
-            password: studentData.password,
-            courses: studentData.courses,
-            courseIds: studentData.courseIds,
-            phone1: studentData.phone1 || '',
-            phone2: studentData.phone2 || '',
-        };
-        
-        await setDoc(studentDocRef, firestoreData);
-
-    } catch (firestoreError) {
-        // This is a critical error. The user was created in Auth but not in Firestore.
-        // This can happen due to security rule violations or other DB errors.
-        // We re-throw a more informative error to be handled by the UI.
-        throw new Error(`User created in Auth, but failed to save to database. Firebase error: ${firestoreError.message}. Please delete the user from Firebase Authentication manually and try again.`);
-    }
+export async function addStudent(uid: string, studentData: NewStudentData): Promise<void> {
+    const studentDocRef = doc(db, 'students', uid);
+    await setDoc(studentDocRef, studentData);
 }
 
 
