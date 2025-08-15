@@ -150,11 +150,9 @@ export default function LoginPage() {
             const result = await registerDevice(registrationInput);
             
             if (result.status === 'registered' || result.status === 'already-exists') {
-                 toast({
-                  title: `أهلاً بك مجددًا ${student.studentName}`,
-                  description: result.message,
-                });
-                redirectToCoursePage();
+                 // The operation is successful, we just need to redirect.
+                 // The toast was likely causing a race condition on Vercel.
+                 redirectToCoursePage();
             } else if (result.status === 'pending') {
                 toast({
                   variant: 'destructive',
@@ -253,3 +251,5 @@ export default function LoginPage() {
     </MarketingLayout>
   );
 }
+
+    
