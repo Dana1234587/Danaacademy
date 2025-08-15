@@ -1,8 +1,7 @@
 
 // This service will handle all Firestore operations related to students
-import { collection, getDocs, doc, setDoc, deleteDoc, updateDoc, query, where, addDoc } from 'firebase/firestore';
+import { collection, getDocs, doc, setDoc, deleteDoc, updateDoc, query, where, writeBatch } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
-import { deleteRegisteredDeviceByStudentId } from './deviceService';
 
 
 export type Student = {
@@ -72,11 +71,6 @@ export async function deleteStudent(studentId: string): Promise<void> {
     
     // Commit the batch
     await batch.commit();
-
-    toast({
-        title: 'تم الحذف من قاعدة البيانات',
-        description: `تم حذف بيانات الطالب وأجهزته المسجلة. إن كان له حساب مصادقة، فيجب حذفه يدويًا من لوحة تحكم Firebase.`,
-    });
 }
 
 export async function updateStudent(studentId: string, data: Partial<Omit<Student, 'id' | 'password'>>): Promise<void> {
@@ -94,8 +88,3 @@ export async function resetStudentPassword(studentId: string, newPassword: strin
     });
     console.warn(`Password for student ${studentId} updated in Firestore. This does NOT change their actual login password.`);
 }
-
-// Helper to get toast functionality in service files
-import { toast } from '@/hooks/use-toast';
-import { writeBatch } from 'firebase/firestore';
-
