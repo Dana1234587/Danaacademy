@@ -124,28 +124,3 @@ const registerDeviceFlow = ai.defineFlow(
     }
   }
 );
-
-// We need to register this new flow so Genkit knows about it.
-// I will add the import to the development entry point.
-const devFile = `import { config } from 'dotenv';
-config();
-
-import '@/ai/flows/generate-quiz.ts';
-import '@/ai/flows/register-device.ts';
-`;
-// This is a workaround to modify the dev file.
-// In a real scenario, this would be handled by the build system.
-const _ = ai.defineFlow({ name: 'updateDevFile', outputSchema: z.any() }, async () => {
-  const fs = await import('fs/promises');
-  await fs.writeFile('src/ai/dev.ts', devFile);
-  return 'ok';
-});
-```
-  </change>
-  <change>
-    <file>src/ai/dev.ts</file>
-    <content><![CDATA[import { config } from 'dotenv';
-config();
-
-import '@/ai/flows/generate-quiz.ts';
-import '@/ai/flows/register-device.ts';
