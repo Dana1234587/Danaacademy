@@ -93,11 +93,6 @@ export default function AdminPage() {
         setIsLoading(prev => ({ ...prev, create: true }));
         try {
             const coursesDetails = availableCourses.filter(c => selectedCourses.includes(c.id));
-            if (coursesDetails.length !== selectedCourses.length) {
-                 toast({ variant: 'destructive', title: 'خطأ', description: 'الرجاء اختيار دورات صحيحة.' });
-                 setIsLoading(prev => ({ ...prev, create: false }));
-                 return;
-            }
             
             const newStudentData = {
                 studentName: newStudentName,
@@ -140,6 +135,8 @@ export default function AdminPage() {
                     case 'auth/invalid-email':
                         description = 'صيغة اسم المستخدم غير صالحة. الرجاء استخدام حروف إنجليزية وأرقام فقط بدون مسافات أو رموز.';
                         break;
+                    default:
+                        description = error.message;
                 }
             } else if (error.message) {
                 description = error.message;
@@ -532,3 +529,5 @@ export default function AdminPage() {
         </MainLayout>
     );
 }
+
+    

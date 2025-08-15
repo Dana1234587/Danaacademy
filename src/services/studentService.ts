@@ -1,6 +1,6 @@
 
 // This service will handle all Firestore operations related to students
-import { collection, getDocs, addDoc, query, where, doc, setDoc, deleteDoc, updateDoc } from 'firebase/firestore';
+import { collection, getDocs, doc, setDoc, deleteDoc, updateDoc } from 'firebase/firestore';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { db, auth } from '@/lib/firebase';
 import { deleteRegisteredDeviceByStudentId } from './deviceService';
@@ -28,11 +28,13 @@ export async function addStudent(studentData: Omit<Student, 'id'>): Promise<void
     if (!studentData.password) {
         throw new Error("Password is required to create a student.");
     }
+    if (!studentData.courseIds || studentData.courseIds.length === 0) {
+        throw new Error("At least one course must be selected.");
+    }
 
     const email = `${studentData.username}@dana-academy.com`;
 
     // 1. Create user in Firebase Authentication
-    // This step must happen first to check for existing usernames (emails).
     const userCredential = await createUserWithEmailAndPassword(auth, email, studentData.password);
     const user = userCredential.user;
 
@@ -50,15 +52,10 @@ export async function addStudent(studentData: Omit<Student, 'id'>): Promise<void
             phone2: studentData.phone2 || '',
         };
         
-        // This operation is now allowed by the security rules because the admin is logged in.
         await setDoc(studentDocRef, firestoreData);
 
     } catch (firestoreError: any) {
-        // If Firestore write fails, we should ideally delete the created Auth user
-        // to avoid orphaned auth accounts. However, this requires admin privileges
-        // not available on the client. For now, we'll just throw the error.
         console.error("Firestore write failed, but Auth user was created:", user.uid, firestoreError);
-        // The detailed error from firestoreError is more useful
         throw new Error(`User created in Auth, but failed to save to database. Firebase error: ${firestoreError.message}. Please delete the user from Firebase Authentication manually and try again.`);
     }
 }
@@ -102,3 +99,4 @@ export async function resetStudentPassword(studentId: string, newPassword: strin
     console.warn(`Password for student ${studentId} updated in Firestore. This does NOT change their actual login password.`);
 }
 
+    
