@@ -1,27 +1,32 @@
 rules_version = '2';
+
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // Authenticated users can only read their own documents in 'admins' or 'students'
-    match /admins/{userId} {
-      allow read: if request.auth != null && request.auth.uid == userId;
+    // Helper function to check if a user is an admin
+    function isAdmin() {
+      return request.auth.token.admin == true;
     }
 
+    // Rules for the 'students' collection
     match /students/{userId} {
-      allow read: if request.auth != null && request.auth.uid == userId;
+      // Admins can perform all actions.
+      // Students can only read their own document.
+      allow list, write, delete: if isAdmin();
+      allow read: if isAdmin() || request.auth.uid == userId;
     }
     
-    // Admins can read and write all student and device data
-    match /students/{studentId} {
-        allow list, read, write, delete: if request.auth != null && request.auth.token.admin == true;
+    // Admins can read their own data
+    match /admins/{userId} {
+        allow read: if request.auth.uid == userId;
     }
 
-    match /pendingDevices/{deviceId} {
-        allow list, read, write, delete: if request.auth != null && request.auth.token.admin == true;
+    // Admins have full access to device management collections
+    match /pendingDevices/{docId} {
+        allow read, list, write, delete: if isAdmin();
     }
-    
-    match /registeredDevices/{deviceId} {
-        allow list, read, write, delete: if request.auth != null && request.auth.token.admin == true;
+    match /registeredDevices/{docId} {
+        allow read, list, write, delete: if isAdmin();
     }
   }
 }
