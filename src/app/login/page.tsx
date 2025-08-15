@@ -150,8 +150,6 @@ export default function LoginPage() {
             const result = await registerDevice(registrationInput);
             
             if (result.status === 'registered' || result.status === 'already-exists') {
-                 // The operation is successful, we just need to redirect.
-                 // The toast was likely causing a race condition on Vercel.
                  redirectToCoursePage();
             } else if (result.status === 'pending') {
                 toast({
@@ -173,9 +171,9 @@ export default function LoginPage() {
         }
     } catch (error: any) {
         console.error("Login error:", error);
-        let description = 'اسم المستخدم أو كلمة المرور غير صحيحة.';
+        let description = 'حدث خطأ غير متوقع. الرجاء المحاولة مرة أخرى.';
         if (error.code === 'auth/invalid-credential' || error.code === 'auth/wrong-password' || error.code === 'auth/user-not-found') {
-            description = 'اسم المستخدم أو كلمة المرور غير صحيحة. الرجاء التأكد من البيانات والمحاولة مرة أخرى.';
+            description = 'بيانات الاعتماد التي أدخلتها غير صحيحة. يرجى التحقق من اسم المستخدم وكلمة المرور والمحاولة مرة أخرى.';
         } else if (error.message) {
             description = error.message;
         }
@@ -183,6 +181,7 @@ export default function LoginPage() {
               variant: 'destructive',
               title: 'فشل تسجيل الدخول',
               description: description,
+              duration: 9000,
         });
     } finally {
         setIsLoading(false);
@@ -251,5 +250,3 @@ export default function LoginPage() {
     </MarketingLayout>
   );
 }
-
-    
