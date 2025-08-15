@@ -1,1 +1,1 @@
-checkpoint before attempting the new fix for device registration.
+New checkpoint before re-evaluating the server error.
