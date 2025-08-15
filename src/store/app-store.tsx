@@ -3,9 +3,9 @@
 
 import { create, useStore as useZustandStore } from 'zustand';
 import React, { createContext, useContext, useRef, type ReactNode, useEffect } from 'react';
-import { auth } from '@/lib/firebase';
+import { auth, db } from '@/lib/firebase';
 import { onAuthStateChanged, type User as FirebaseUser } from 'firebase/auth';
-import { findStudentByUsername } from '@/services/studentService';
+import { doc, getDoc } from 'firebase/firestore';
 
 // Define types for our data
 export type User = {
@@ -53,36 +53,42 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     store.getState().setLoading(true);
 
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser: FirebaseUser | null) => {
-      if (firebaseUser && firebaseUser.email) {
-        if (firebaseUser.email.startsWith('admin')) {
+      if (firebaseUser) {
+        // Check if the user is an admin by looking for their document in the 'admins' collection
+        const adminDocRef = doc(db, 'admins', firebaseUser.uid);
+        const adminDocSnap = await getDoc(adminDocRef);
+
+        if (adminDocSnap.exists() && adminDocSnap.data().role === 'admin') {
+          // User is an admin
           store.getState().setCurrentUser({ 
               uid: firebaseUser.uid,
-              username: 'admin',
-              email: firebaseUser.email, 
+              username: 'admin', // Or fetch from a profile doc if needed
+              email: firebaseUser.email || '', 
               role: 'admin', 
-              enrolledCourseIds: ['tawjihi-2007-supplementary', 'tawjihi-2008'] 
+              enrolledCourseIds: ['tawjihi-2007-supplementary', 'tawjihi-2008'] // Admins can see all courses
           });
         } else {
-          const studentUsername = firebaseUser.email.split('@')[0];
-          const student = await findStudentByUsername(studentUsername);
-          if (student) {
-            store.getState().setCurrentUser({ 
-                uid: student.id,
-                username: student.studentName,
-                email: firebaseUser.email,
+          // User is likely a student, fetch their data from the 'students' collection
+          const studentDocRef = doc(db, 'students', firebaseUser.uid);
+          const studentDocSnap = await getDoc(studentDocRef);
+
+          if (studentDocSnap.exists()) {
+             const studentData = studentDocSnap.data();
+             store.getState().setCurrentUser({ 
+                uid: firebaseUser.uid,
+                username: studentData.studentName,
+                email: firebaseUser.email || '',
                 role: 'student', 
-                enrolledCourseIds: student.courseIds 
+                enrolledCourseIds: studentData.courseIds || []
             });
           } else {
-            // Student data not found in Firestore, which might happen briefly during creation.
-            // We avoid logging out immediately to prevent race conditions.
-            // If the user is truly invalid, they won't be able to do anything anyway.
-            console.warn(`User ${firebaseUser.email} authenticated but not found in Firestore.`);
-            store.getState().logout();
+             // User is authenticated but has no data in 'admins' or 'students'
+             console.warn(`User ${firebaseUser.uid} authenticated but not found in Firestore collections.`);
+             store.getState().logout();
           }
         }
       } else {
-        // No user, clear the state
+        // No user is signed in
         store.getState().logout();
       }
     });

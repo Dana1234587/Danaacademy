@@ -14,9 +14,11 @@ import { useToast } from '@/hooks/use-toast';
 import { Loader2 } from 'lucide-react';
 import { findStudentByUsername } from '@/services/studentService';
 import { findRegisteredDevicesByStudentId, addPendingDevice } from '@/services/deviceService';
-import { auth } from '@/lib/firebase';
+import { auth, db } from '@/lib/firebase';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { useStore } from '@/store/app-store';
+import { doc, getDoc } from 'firebase/firestore';
+
 
 // This function now generates a stable device ID and stores it in localStorage.
 const getDeviceId = (): string => {
@@ -74,27 +76,31 @@ export default function LoginPage() {
     setIsLoading(true);
 
     try {
-        const isAdminLogin = username.startsWith('admin');
+        // Username can now be the admin's email or a student's username
+        const isAdminLogin = username.includes('@'); 
         const email = isAdminLogin ? username : `${username}@dana-academy.com`;
 
         const userCredential = await signInWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
 
-        if (user && user.email) {
-             if (isAdminLogin) {
-                // Fetch admin data (or create a representation)
-                // The store will handle this based on the email
-                toast({
-                  title: 'أهلاً بعودتك دكتورة دانا',
-                  description: 'يتم توجيهك إلى لوحة التحكم.',
-                });
-                router.push('/admin');
-                return;
-            }
-            
-            const student = await findStudentByUsername(username);
+        // The auth state listener in AppProvider will handle setting the user role
+        // and redirecting. Here we just need to determine the initial redirect path.
+        
+        const adminDocRef = doc(db, 'admins', user.uid);
+        const adminDocSnap = await getDoc(adminDocRef);
 
-            if (!student) {
+        if (adminDocSnap.exists()) {
+             toast({
+              title: 'أهلاً بعودتك دكتورة دانا',
+              description: 'يتم توجيهك إلى لوحة التحكم.',
+            });
+            router.push('/admin');
+        } else {
+             const studentDocRef = doc(db, 'students', user.uid);
+             const studentDocSnap = await getDoc(studentDocRef);
+             const student = studentDocSnap.data();
+
+             if (!student) {
                 toast({
                     variant: 'destructive',
                     title: 'فشل تسجيل الدخول',
@@ -104,20 +110,10 @@ export default function LoginPage() {
                 setIsLoading(false);
                 return;
             }
-            
-            // Set current user in the store
-            setCurrentUser({
-                uid: student.id,
-                username: student.studentName,
-                email: user.email,
-                role: 'student', 
-                enrolledCourseIds: student.courseIds 
-            });
-
 
             const deviceId = getDeviceId();
             const os = getOS();
-            const registeredDevices = await findRegisteredDevicesByStudentId(student.id);
+            const registeredDevices = await findRegisteredDevicesByStudentId(user.uid);
             
             const redirectToCoursePage = () => {
                 let coursePath = '/';
@@ -131,7 +127,7 @@ export default function LoginPage() {
 
             const isDeviceRegistered = registeredDevices.some(device => device.deviceId === deviceId);
 
-            if (registeredDevices.length === 0 || isDeviceRegistered) {
+            if (registeredDevices.length < 2 || isDeviceRegistered) { // Allow up to 2 devices
                  toast({
                   title: `أهلاً بك مجددًا ${student.studentName}`,
                   description: 'تم تسجيل دخولك بنجاح.',
@@ -139,10 +135,10 @@ export default function LoginPage() {
                 redirectToCoursePage();
             } else {
                 await addPendingDevice({
-                     studentId: student.id,
+                     studentId: user.uid,
                      studentName: student.studentName,
                      deviceId: deviceId,
-                     ipAddress: 'Fetching...', // Mock IP, can be replaced with a service
+                     ipAddress: 'Fetching...', 
                      deviceType: os === 'Android' || os === 'iOS' ? 'Mobile' : 'Desktop',
                      os: os,
                      courses: student.courses,
@@ -150,13 +146,14 @@ export default function LoginPage() {
                 toast({
                   variant: 'destructive',
                   title: 'جهاز جديد مكتشف',
-                  description: 'تم ربط هذا الحساب بأجهزة أخرى. تم إرسال طلب للموافقة على هذا الجهاز.',
+                  description: 'لقد وصلت إلى الحد الأقصى من الأجهزة المسموح بها. تم إرسال طلب للموافقة على هذا الجهاز.',
                   duration: 5000,
                 });
                 await auth.signOut();
             }
         }
-    } catch (error) {
+    } catch (error: any) {
+        console.error("Login error:", error);
          toast({
               variant: 'destructive',
               title: 'فشل تسجيل الدخول',
@@ -188,7 +185,7 @@ export default function LoginPage() {
                   <Input 
                     id="username" 
                     type="text" 
-                    placeholder="admin@dana-academy.com" 
+                    placeholder="example@domain.com or student_username" 
                     required 
                     className="bg-background/80" 
                     value={username}

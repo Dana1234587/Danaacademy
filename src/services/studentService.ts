@@ -1,6 +1,5 @@
 import { collection, getDocs, doc, setDoc, deleteDoc, updateDoc, query, where, writeBatch } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
 
 export type Student = {
   id: string; // This will be the Firebase Auth UID
@@ -14,9 +13,9 @@ export type Student = {
   phone2?: string;
 };
 
-export type NewStudentData = Omit<Student, 'id'>;
+// This type now includes the student's UID from Auth
+export type NewStudentData = Omit<Student, 'id'> & { uid: string };
 
-// The secret key for our "secured" public registration
 const REGISTRATION_SECRET_KEY = "DANA_ACADEMY_VERY_SECRET_KEY";
 
 export async function getStudents(): Promise<Student[]> {
@@ -26,14 +25,12 @@ export async function getStudents(): Promise<Student[]> {
   return studentList;
 }
 
-export async function addStudent(studentData: NewStudentData & { uid: string }): Promise<void> {
-    const { uid, ...firestoreData } = studentData;
-    
-    const studentDocRef = doc(db, 'students', uid);
-    await setDoc(studentDocRef, {
-        ...firestoreData,
-        secretKey: REGISTRATION_SECRET_KEY, 
-    });
+// The student creation logic is now split. Auth creation is in the component.
+// This function is only for adding the student data to Firestore.
+export async function addStudent(studentData: Student): Promise<void> {
+    const { id, ...firestoreData } = studentData;
+    const studentDocRef = doc(db, 'students', id);
+    await setDoc(studentDocRef, firestoreData);
 }
 
 

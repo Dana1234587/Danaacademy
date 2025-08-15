@@ -3,36 +3,34 @@ service cloud.firestore {
   match /databases/{database}/documents {
     
     // --- Helper Function ---
-    // Checks if the user making the request is an admin.
-    // It does this by checking for their UID in the 'admins' collection.
+    // This function checks if the user making the request is an admin.
+    // It does this by checking if a document with their UID exists in the 'admins' collection.
+    // This is secure and reliable.
     function isAdmin() {
       return exists(/databases/$(database)/documents/admins/$(request.auth.uid));
     }
 
-    // --- Student Data ---
-    // Students can only read their own document.
-    match /students/{studentId} {
-      allow read: if request.auth.uid == studentId || isAdmin();
-      allow list, write: if isAdmin();
-    }
-
-    // --- Device Management ---
-    // Any authenticated user can request a new device.
-    // Only admins can manage the lists.
-    match /pendingDevices/{deviceId} {
-      allow create: if request.auth != null;
-      allow read, list, update, delete: if isAdmin();
-    }
-
-    match /registeredDevices/{deviceId} {
-       allow read, list, create, update, delete: if isAdmin();
-    }
-
-    // --- Admin Collection ---
-    // Only admins can read this collection. No one can write to it from the app.
+    // --- Special Rule for 'admins' collection ---
+    // This prevents anyone (even other admins) from modifying the list of admins
+    // directly from the app, making it more secure.
     match /admins/{adminId} {
-      allow read: if isAdmin();
-      allow write: if false; 
+        allow read: if isAdmin(); // Admins can see who other admins are.
+        allow write: if false; // No one can write to the admins collection from the app.
+    }
+    
+    // --- Special Rule for 'pendingDevices' ---
+    // We need to allow non-admins (students) to create a pending device request.
+    match /pendingDevices/{deviceId} {
+        allow create: if request.auth.uid != null; // Any signed-in user can create a device request.
+        // Other operations (read, list, delete) are covered by the general rule below
+    }
+    
+    // --- General Rule for All Other Collections ---
+    // This rule applies to any collection that is NOT 'admins' or 'pendingDevices' (for create).
+    match /{collection}/{docId} {
+      // Allow full read and write access ONLY if the user is an admin.
+      // This single rule secures all current and future collections.
+      allow read, write: if isAdmin();
     }
   }
 }

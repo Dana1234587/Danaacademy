@@ -28,8 +28,9 @@ import {
 } from "@/components/ui/alert-dialog"
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { useStore } from '@/store/app-store';
-import { auth } from '@/lib/firebase';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { initializeApp, deleteApp } from "firebase/app";
+import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
+import { firebaseConfig } from '@/lib/firebase';
 
 
 const availableCourses = [
@@ -79,7 +80,7 @@ export default function AdminPage() {
         } catch (error: any) {
             console.error("Error fetching data:", error);
             const errorMessage = error.code === 'permission-denied' 
-                ? 'فشل جلب البيانات. تأكدي من تحديث قواعد الأمان في Firebase بشكل صحيح.'
+                ? 'فشل جلب البيانات. تأكدي من أن قواعد الأمان في Firestore صحيحة وأن حسابك يملك صلاحيات المسؤول.'
                 : `حدث خطأ غير متوقع: ${error.message}`;
             toast({ 
                 variant: 'destructive', 
@@ -93,7 +94,7 @@ export default function AdminPage() {
     }, [toast]);
 
     useEffect(() => {
-        if (currentUser) {
+        if (currentUser?.role === 'admin') {
             fetchData();
         }
     }, [fetchData, currentUser]);
@@ -104,27 +105,27 @@ export default function AdminPage() {
             toast({ variant: 'destructive', title: 'خطأ', description: 'الرجاء اختيار دورة واحدة على الأقل للطالب.' });
             return;
         }
-        if (!currentUser) {
-            toast({ variant: 'destructive', title: 'خطأ', description: 'يجب تسجيل الدخول كمسؤول لإنشاء حساب.' });
-            return;
-        }
         setIsLoading(prev => ({ ...prev, create: true }));
 
         const studentEmail = `${newStudentUsername}@dana-academy.com`;
 
+        // Create a secondary Firebase app instance to create users without signing out the admin
+        const secondaryAppName = `secondary-app-${Date.now()}`;
+        const secondaryApp = initializeApp(firebaseConfig, secondaryAppName);
+        const secondaryAuth = getAuth(secondaryApp);
+
         try {
-            // No need for re-authentication anymore, we just create the user.
-            const userCredential = await createUserWithEmailAndPassword(auth, studentEmail, newStudentPassword);
+            const userCredential = await createUserWithEmailAndPassword(secondaryAuth, studentEmail, newStudentPassword);
             const user = userCredential.user;
             
             const coursesDetails = availableCourses.filter(c => selectedCourses.includes(c.id));
             
             await addStudent({
-                uid: user.uid,
+                id: user.uid,
                 studentName: newStudentName,
                 username: newStudentUsername,
                 email: studentEmail,
-                password: newStudentPassword, // Storing for reference
+                password: newStudentPassword,
                 phone1: newStudentPhone1,
                 phone2: newStudentPhone2,
                 courses: coursesDetails.map(c => c.name),
@@ -172,6 +173,8 @@ export default function AdminPage() {
             });
         } finally {
             setIsLoading(prev => ({ ...prev, create: false }));
+            // Clean up the secondary app instance
+            deleteApp(secondaryApp).catch(err => console.error("Error deleting secondary app", err));
         }
     };
 
@@ -260,6 +263,14 @@ export default function AdminPage() {
             setIsLoading(prev => ({ ...prev, [`reset-${studentId}`]: false }));
         }
     };
+    
+    if (!currentUser) {
+       return <MainLayout><div className="p-8 text-center">الرجاء تسجيل الدخول للوصول لهذه الصفحة.</div></MainLayout>
+    }
+    
+    if (currentUser.role !== 'admin') {
+        return <MainLayout><div className="p-8 text-center text-destructive">ليس لديك الصلاحيات الكافية للوصول لهذه الصفحة.</div></MainLayout>
+    }
 
     if (isLoading['page'] && students.length === 0) {
         return <MainLayout><div className="flex justify-center items-center h-screen"><Loader2 className="h-16 w-16 animate-spin"/></div></MainLayout>

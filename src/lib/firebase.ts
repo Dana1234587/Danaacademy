@@ -26,4 +26,6 @@ if (!getApps().length) {
 const auth: Auth = getAuth(app);
 const db: Firestore = getFirestore(app);
 
-export { app, db, auth };
+// We also export initializeApp and getAuth to be able to create a secondary app instance
+// for creating users without signing out the admin.
+export { app, db, auth, initializeApp, getAuth, firebaseConfig };
