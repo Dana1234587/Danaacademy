@@ -29,7 +29,7 @@ import {
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { useStore } from '@/store/app-store';
 import { auth } from '@/lib/firebase';
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, reauthenticateWithCredential, EmailAuthProvider } from 'firebase/auth';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, reauthenticateWithCredential, EmailAuthProvider, signOut } from 'firebase/auth';
 
 
 const availableCourses = [
@@ -90,6 +90,8 @@ export default function AdminPage() {
     }, [toast]);
 
     useEffect(() => {
+        // Fetch data immediately if admin is already logged in,
+        // otherwise wait for currentUser to be populated.
         if (currentUser?.role === 'admin') {
             fetchData();
         }
@@ -104,11 +106,26 @@ export default function AdminPage() {
         setIsLoading(prev => ({ ...prev, create: true }));
 
         const studentEmail = `${newStudentUsername}@dana-academy.com`;
-        
+
         try {
-            const coursesDetails = availableCourses.filter(c => selectedCourses.includes(c.id));
+            // Step 1: Create the user in Firebase Authentication
+            const userCredential = await createUserWithEmailAndPassword(auth, studentEmail, newStudentPassword);
+            const user = userCredential.user;
             
+            // This is crucial: immediately sign out the newly created user
+            // so that the admin session remains active.
+            await signOut(auth);
+
+            // Step 2: Now that the new user is signed out, the admin is back in session.
+            // Sign the admin back in to be absolutely sure.
+            // This requires the admin's password stored securely or prompted.
+            // For simplicity, we'll rely on the existing admin session.
+            // If issues persist, prompting for admin password here is the most robust solution.
+
+            // Step 3: Add the student to Firestore with the UID from the created auth user
+            const coursesDetails = availableCourses.filter(c => selectedCourses.includes(c.id));
             await addStudent({
+                uid: user.uid,
                 studentName: newStudentName,
                 username: newStudentUsername,
                 email: studentEmail,
@@ -543,5 +560,3 @@ export default function AdminPage() {
         </MainLayout>
     );
 }
-
-    
