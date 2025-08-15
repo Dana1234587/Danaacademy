@@ -1,1 +1,1 @@
-checkpoint for device management implementation
+checkpoint before attempting the new fix for device registration.
