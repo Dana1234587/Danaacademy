@@ -81,7 +81,7 @@ export default function AdminPage() {
             toast({ 
                 variant: 'destructive', 
                 title: 'فشل تحميل البيانات', 
-                description: `لم نتمكن من جلب البيانات. قد يكون السبب مشكلة في قواعد الأمان في Firebase. الخطأ: ${error.message}` 
+                description: `حدث خطأ أثناء جلب البيانات. قد يكون السبب مشكلة في قواعد الأمان في Firebase. الخطأ: ${error.message}` 
             });
         } finally {
             setIsLoading(prev => ({ ...prev, page: false }));
@@ -89,9 +89,11 @@ export default function AdminPage() {
     }, [toast]);
 
     useEffect(() => {
-        fetchData();
-    }, [fetchData]);
-
+        if (currentUser?.role === 'admin') {
+            fetchData();
+        }
+    }, [fetchData, currentUser]);
+    
     const handleCreateAccount = async (e: React.FormEvent) => {
         e.preventDefault();
         if (selectedCourses.length === 0) {
@@ -101,7 +103,7 @@ export default function AdminPage() {
         setIsLoading(prev => ({ ...prev, create: true }));
 
         const studentEmail = `${newStudentUsername}@dana-academy.com`;
-        const adminEmail = currentUser?.email;
+        const adminEmail = auth.currentUser?.email;
         const adminPassword = prompt("للتأكيد، يرجى إدخال كلمة المرور الخاصة بك كمسؤول:");
 
         if (!adminEmail || !adminPassword) {
@@ -111,11 +113,14 @@ export default function AdminPage() {
         }
 
         try {
-            // Step 1: Create the student user in Firebase Auth
+            // Step 1: Create the student user in Firebase Auth. This logs the admin out.
             const userCredential = await createUserWithEmailAndPassword(auth, studentEmail, newStudentPassword);
             const user = userCredential.user;
 
-            // Step 2: Add student data to Firestore
+            // Step 2: IMPORTANT - Re-authenticate the admin to restore their session and permissions.
+            await signInWithEmailAndPassword(auth, adminEmail, adminPassword);
+            
+            // Step 3: Now that the admin is re-authenticated, add student data to Firestore.
             const coursesDetails = availableCourses.filter(c => selectedCourses.includes(c.id));
             const newStudentData: NewStudentData = {
                 studentName: newStudentName,
@@ -156,11 +161,12 @@ export default function AdminPage() {
                     case 'auth/invalid-email':
                         description = 'صيغة اسم المستخدم غير صالحة. الرجاء استخدام حروف إنجليزية وأرقام فقط بدون مسافات أو رموز.';
                         break;
+                     case 'auth/wrong-password':
+                        description = 'كلمة مرور المسؤول غير صحيحة. فشلت عملية إعادة المصادقة.';
+                        break;
                     default:
-                        description = `Firebase Auth Error: ${error.message}`;
+                        description = `Firebase Error: ${error.message}`;
                 }
-            } else if (error.message.includes('PERMISSION_DENIED') || error.message.includes('permission-denied')) {
-                description = 'فشل الوصول إلى قاعدة البيانات. يرجى التأكد من أن قواعد الأمان في Firebase صحيحة وتسمح للمسؤول بإنشاء الحسابات.';
             } else if (error.message) {
                  description = error.message;
             }
@@ -171,11 +177,19 @@ export default function AdminPage() {
                 duration: 9000 
             });
         } finally {
-            // IMPORTANT: Re-authenticate the admin to restore their session
-            await signInWithEmailAndPassword(auth, adminEmail, adminPassword);
+            // The re-authentication is now part of the main flow, 
+            // but we add it here as a fallback to ensure admin is always signed in.
+            if (auth.currentUser?.email !== adminEmail) {
+                try {
+                    await signInWithEmailAndPassword(auth, adminEmail, adminPassword);
+                } catch (reauthError) {
+                    console.error("Failed to re-authenticate admin in finally block:", reauthError);
+                }
+            }
             setIsLoading(prev => ({ ...prev, create: false }));
         }
     };
+
 
     const handleApproveDevice = async (id: string, studentName: string, mode: 'replace' | 'add') => {
         const loadingKey = `${mode}-${id}`;
@@ -209,8 +223,8 @@ export default function AdminPage() {
                 description: `تم حذف بيانات الطالب. إن كان له حساب مصادقة، فيجب حذفه يدويًا من لوحة تحكم Firebase.`,
             });
             fetchData();
-        } catch (error) {
-            toast({ variant: 'destructive', title: 'فشل الحذف', description: 'لم نتمكن من حذف الطالب.' });
+        } catch (error: any) {
+            toast({ variant: 'destructive', title: 'فشل الحذف', description: `حدث خطأ: ${error.message}` });
         } finally {
             setIsLoading(prev => ({ ...prev, [`delete-${studentId}`]: false }));
         }
