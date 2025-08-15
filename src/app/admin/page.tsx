@@ -9,7 +9,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Checkbox } from "@/components/ui/checkbox"
 import { useToast } from '@/hooks/use-toast';
-import { UserPlus, KeyRound, MonitorCheck, Loader2, Search, Smartphone, Monitor, Fingerprint, Globe, List, Home, Users, Edit, Trash2, Check, Plus, RefreshCw } from 'lucide-react';
+import { UserPlus, KeyRound, MonitorCheck, Loader2, Search, Smartphone, Monitor, Fingerprint, Globe, List, Home, Users, Edit, Trash2, Check, Plus, RefreshCw, Info } from 'lucide-react';
 import { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
@@ -26,6 +26,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
 const availableCourses = [
     { id: 'tawjihi-2007-supplementary', name: 'فيزياء تكميلي 2007' },
@@ -328,7 +329,14 @@ export default function AdminPage() {
                                 <CardDescription>هنا يتم عرض جميع حسابات الطلاب المسجلة في قاعدة البيانات.</CardDescription>
                             </CardHeader>
                             <CardContent className="overflow-x-auto">
-                                <Table>
+                                <Alert>
+                                    <Info className="h-4 w-4" />
+                                    <AlertTitle>ملاحظة هامة</AlertTitle>
+                                    <AlertDescription>
+                                        هذه القائمة تعرض الطلاب المسجلين في قاعدة بيانات التطبيق (Firestore) فقط. أي مستخدم يتم إضافته يدويًا من خلال لوحة تحكم Firebase Authentication لن يظهر هنا، حيث يجب إنشاؤه من خلال قسم "إنشاء حساب" لضمان مزامنة البيانات.
+                                    </AlertDescription>
+                                </Alert>
+                                <Table className="mt-4">
                                     <TableHeader>
                                         <TableRow>
                                             <TableHead>اسم الطالب</TableHead>
@@ -513,5 +521,7 @@ export default function AdminPage() {
         </MainLayout>
     );
 }
+
+    
 
     
