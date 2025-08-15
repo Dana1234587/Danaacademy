@@ -3,29 +3,40 @@ rules_version = '2';
 
 service cloud.firestore {
   match /databases/{database}/documents {
-  
-    // Admins can read their own document
+
+    // By default, deny all reads and writes
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Admins collection: allow any authenticated user to read.
+    // This is needed for the app to check if a logged-in user has an admin role.
     match /admins/{adminId} {
-      allow read, write: if request.auth.uid == adminId;
+      allow read: if request.auth != null;
+      // Write access should be limited, but for the admin panel, we'll allow admins to write.
+      allow write: if request.auth != null && get(/databases/$(database)/documents/admins/$(request.auth.uid)).data.role == 'admin';
     }
 
-    // Students can read their own document. Admins can read all students.
+    // Students collection: allow authenticated users to read, but only admins to write.
     match /students/{studentId} {
-      allow read: if request.auth.uid == studentId || exists(/databases/$(database)/documents/admins/$(request.auth.uid));
-      allow write: if request.auth.uid == studentId || exists(/databases/$(database)/documents/admins/$(request.auth.uid));
+      allow read: if request.auth != null;
+      // Only admins can create, update, or delete student documents.
+      allow write: if request.auth != null && get(/databases/$(database)/documents/admins/$(request.auth.uid)).data.role == 'admin';
     }
 
-    // Admins can read all pending/registered devices.
-    // Students can only add a pending device or read their own registered devices.
-    match /pendingDevices/{docId} {
-      allow read, write, delete: if exists(/databases/$(database)/documents/admins/$(request.auth.uid));
-      allow create: if request.auth != null;
+    // Pending Devices collection:
+    // Students can create their own requests.
+    // Admins can read and delete requests.
+    match /pendingDevices/{deviceId} {
+      allow create: if request.auth.uid == request.resource.data.studentId;
+      allow read, delete: if request.auth != null && get(/databases/$(database)/documents/admins/$(request.auth.uid)).data.role == 'admin';
     }
-    
-    match /registeredDevices/{docId} {
-       allow read, write, delete: if exists(/databases/$(database)/documents/admins/$(request.auth.uid));
-       // Allow a logged-in user to read their own devices
-       allow read: if request.auth.uid == resource.data.studentId;
+
+    // Registered Devices collection:
+    // Only admins have full control. Students cannot write here directly.
+    // The registration logic will be handled by a secure backend function (our Genkit flow).
+    match /registeredDevices/{deviceId} {
+       allow read, write: if request.auth != null && get(/databases/$(database)/documents/admins/$(request.auth.uid)).data.role == 'admin';
     }
   }
 }
