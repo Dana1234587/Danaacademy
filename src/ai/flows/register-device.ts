@@ -16,21 +16,27 @@ import {
 } from './register-device.types';
 import admin from 'firebase-admin';
 
-// Self-contained Firebase Admin initialization for Vercel compatibility
+// Self-contained Firebase Admin initialization for Vercel/local compatibility
 const getAdminDB = () => {
     const serviceAccountKey = process.env.SERVICE_ACCOUNT_KEY;
-    if (!serviceAccountKey) {
-        throw new Error('SERVICE_ACCOUNT_KEY is not set in environment variables.');
-    }
 
-    if (!admin.apps.length) {
+    if (admin.apps.length === 0) {
         try {
-            admin.initializeApp({
-                credential: admin.credential.cert(JSON.parse(serviceAccountKey)),
-            });
+            // Check if service account key is available (for Vercel)
+            if (serviceAccountKey) {
+                admin.initializeApp({
+                    credential: admin.credential.cert(JSON.parse(serviceAccountKey)),
+                });
+            } else {
+                // Otherwise, use Application Default Credentials (for local development)
+                console.log("Service account key not found, using Application Default Credentials.");
+                admin.initializeApp();
+            }
         } catch (error: any) {
+             // This can happen in hot-reload environments, it's safe to ignore.
              if (!/already exists/u.test(error.message)) {
                 console.error('Firebase admin initialization error:', error.stack);
+                throw error; // Re-throw other errors
             }
         }
     }

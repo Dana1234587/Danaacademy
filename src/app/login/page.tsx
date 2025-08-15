@@ -170,10 +170,9 @@ export default function LoginPage() {
             }
         }
     } catch (error: any) {
-        console.error("Login error:", error);
         let description = 'حدث خطأ غير متوقع. الرجاء المحاولة مرة أخرى.';
-        if (error.code === 'auth/invalid-credential' || error.code === 'auth/wrong-password' || error.code === 'auth/user-not-found') {
-            description = 'بيانات الاعتماد التي أدخلتها غير صحيحة. يرجى التحقق من اسم المستخدم وكلمة المرور والمحاولة مرة أخرى.';
+        if (error.code === 'auth/invalid-credential') {
+            description = 'بيانات الاعتماد التي أدخلتها غير صالحة. يرجى التحقق من اسم المستخدم وكلمة المرور.';
         } else if (error.message) {
             description = error.message;
         }
