@@ -53,17 +53,19 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     store.getState().setLoading(true);
 
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser: FirebaseUser | null) => {
-      // If no user is logged in, set user to null and stop loading.
       if (!firebaseUser) {
         store.getState().logout();
         return;
       }
 
-      // If a user is logged in, try to fetch their data.
       try {
-        // First, check if the user is an admin.
         const adminDocRef = doc(db, 'admins', firebaseUser.uid);
-        const adminDocSnap = await getDoc(adminDocRef);
+        const studentDocRef = doc(db, 'students', firebaseUser.uid);
+
+        const [adminDocSnap, studentDocSnap] = await Promise.all([
+            getDoc(adminDocRef),
+            getDoc(studentDocRef)
+        ]);
         
         if (adminDocSnap.exists()) {
            const adminData = adminDocSnap.data();
@@ -72,15 +74,9 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
               username: adminData.displayName || 'Admin',
               email: firebaseUser.email || '', 
               role: 'admin',
-              // Admins can see all courses for navigation purposes
               enrolledCourseIds: ['tawjihi-2007-supplementary', 'tawjihi-2008'] 
           });
-        } else {
-          // If not an admin, they must be a student.
-          const studentDocRef = doc(db, 'students', firebaseUser.uid);
-          const studentDocSnap = await getDoc(studentDocRef);
-
-          if (studentDocSnap.exists()) {
+        } else if (studentDocSnap.exists()) {
              const studentData = studentDocSnap.data();
              store.getState().setCurrentUser({ 
                 uid: firebaseUser.uid,
@@ -89,15 +85,12 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
                 role: 'student', 
                 enrolledCourseIds: studentData.courseIds || []
             });
-          } else {
-             // User is authenticated but has no data in our database.
+        } else {
              console.warn(`User ${firebaseUser.uid} authenticated but not found in Firestore collections.`);
              store.getState().logout();
-          }
         }
       } catch (error) {
         console.error("Error fetching user data:", error);
-        // If there's an error (e.g., permission denied), log the user out from the app state.
         store.getState().logout();
       }
     });
