@@ -7,12 +7,12 @@ import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyCFmLhtF8hObMqY7yLuLdjpjsCjuO5GQXk",
-  authDomain: "dana-physics-academy.firebaseapp.com",
-  projectId: "dana-physics-academy",
-  storageBucket: "dana-physics-academy.firebasestorage.app",
-  messagingSenderId: "103537274842",
-  appId: "1:103537274842:web:564729a5095355461d5ae3"
+  apiKey: "AIzaSyCvUOpOQBLNMPlFPoEjTMl1-14k6Xqyfo8",
+  authDomain: "dana-academy-physics.firebaseapp.com",
+  projectId: "dana-academy-physics",
+  storageBucket: "dana-academy-physics.firebasestorage.app",
+  messagingSenderId: "986877154589",
+  appId: "1:986877154589:web:2a94f2c9f95be126103df4"
 };
 
 // Initialize Firebase
