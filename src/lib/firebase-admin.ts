@@ -1,17 +1,22 @@
 // src/lib/firebase-admin.ts
 import admin from 'firebase-admin';
-import { firebaseConfig } from './firebase'; // We can reuse the config
+import { firebaseConfig } from './firebase';
 
-// Check if the admin app is already initialized
 if (!admin.apps.length) {
   try {
-    // When running in a Google Cloud environment, the SDK can auto-discover credentials
-    admin.initializeApp({
-        // If you have a service account JSON, you would use:
-        // credential: admin.credential.cert(serviceAccount),
-        // but for App Hosting, auto-discovery is preferred.
+    if (process.env.NODE_ENV === 'development') {
+      // Running locally, use the service account key
+      const serviceAccount = require('../../serviceAccountKey.json');
+      admin.initializeApp({
+        credential: admin.credential.cert(serviceAccount),
         projectId: firebaseConfig.projectId,
-    });
+      });
+    } else {
+      // Running in a Google Cloud environment (App Hosting), auto-discover credentials
+      admin.initializeApp({
+        projectId: firebaseConfig.projectId,
+      });
+    }
   } catch (error) {
     console.error('Firebase admin initialization error', error);
   }
