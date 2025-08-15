@@ -40,14 +40,10 @@ export function CourseCard({ course, className }: CourseCardProps) {
   };
 
   const handleCardClick = () => {
-    if (isMobile) {
-        // On mobile, clicking the card should navigate, not flip.
-        const path = course.detailsLink || course.link || '#';
-        // This programmatic navigation would require useRouter, but a Link wrapper is simpler.
-        // For now, we will let the Link components handle navigation.
-    } else {
-       setIsFlipped(!isFlipped);
-    }
+    // On mobile, a click should flip the card.
+    // On desktop, the card flips on hover, so a click can be reserved for navigation if needed,
+    // but here we will make it flip for consistency if someone clicks instead of hovers.
+    setIsFlipped(!isFlipped);
   };
 
 
@@ -60,55 +56,6 @@ export function CourseCard({ course, className }: CourseCardProps) {
   const curriculumColor = course.curriculum ? curriculumColorMap[course.curriculum] || 'bg-gray-500' : 'bg-gray-500';
 
 
-  if (isMobile) {
-    // --- Mobile View: A simple, non-flipping card ---
-    return (
-        <Card className={cn("w-full max-w-sm flex flex-col overflow-hidden rounded-lg shadow-lg border-2 border-primary bg-white/30 backdrop-blur-sm", className)}>
-            <Link href={course.detailsLink || course.link || '#'} className="block">
-                {course.curriculum && (
-                  <div className={cn(
-                    "absolute top-2 -right-11 transform rotate-45 text-white text-xs font-bold text-center z-10 w-40 py-1",
-                    curriculumColor
-                  )}>
-                    {course.curriculum}
-                  </div>
-                )}
-                <div className="relative aspect-video overflow-hidden">
-                    <Image
-                        src={course.imageUrl}
-                        alt={course.title}
-                        fill
-                        className="object-cover"
-                        data-ai-hint={course.imageHint}
-                    />
-                </div>
-                <div className="flex flex-1 flex-col p-4 justify-between">
-                    <CardHeader className="p-0">
-                        <CardTitle className="text-lg font-bold text-primary leading-tight h-14">
-                            {course.title}
-                        </CardTitle>
-                    </CardHeader>
-                     <CardContent className="p-0 mt-2 flex-1">
-                        <p className="text-sm text-muted-foreground">
-                            {course.description}
-                        </p>
-                    </CardContent>
-                    <CardFooter className="p-0 pt-4 flex justify-between items-center">
-                       <p className="text-xl font-bold text-foreground">{course.price}</p>
-                       <Button variant="ghost" size="sm" asChild>
-                           <span>
-                               تفاصيل <ArrowLeft className="w-4 h-4 ms-2" />
-                           </span>
-                       </Button>
-                    </CardFooter>
-                </div>
-            </Link>
-        </Card>
-    );
-  }
-
-
-  // --- Desktop View: The original flipping card ---
   return (
       <div
         className={cn("w-full max-w-sm h-96 perspective-1000 group", className)}
