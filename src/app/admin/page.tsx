@@ -76,7 +76,6 @@ export default function AdminPage() {
             setStudents(studentsData);
             setPendingDevices(pendingDevicesData);
             setRegisteredDevices(registeredDevicesData);
-            toast({ title: 'تم تحديث البيانات', description: 'تم جلب أحدث البيانات من الخادم بنجاح.' });
         } catch (error: any) {
             console.error("Error fetching data:", error);
             toast({ 
@@ -90,7 +89,7 @@ export default function AdminPage() {
     }, [toast]);
 
     useEffect(() => {
-        if (currentUser?.role === 'admin') {
+        if (currentUser) { // Just check if a user is logged in
             fetchData();
         }
     }, [fetchData, currentUser]);
@@ -106,10 +105,12 @@ export default function AdminPage() {
         const studentEmail = `${newStudentUsername}@dana-academy.com`;
 
         try {
+            // No need for re-authentication anymore, we just create the user.
             const userCredential = await createUserWithEmailAndPassword(auth, studentEmail, newStudentPassword);
             const user = userCredential.user;
             
             const coursesDetails = availableCourses.filter(c => selectedCourses.includes(c.id));
+            
             await addStudent({
                 uid: user.uid,
                 studentName: newStudentName,
@@ -127,6 +128,7 @@ export default function AdminPage() {
                 description: `تم إنشاء حساب للطالب ${newStudentName}.`,
             });
             
+            // Clear form and refetch data
             setNewStudentName('');
             setNewStudentUsername('');
             setNewStudentPassword('');
@@ -175,7 +177,7 @@ export default function AdminPage() {
                 title: 'تمت الموافقة',
                 description: `تمت الموافقة على الجهاز الجديد للطالب ${studentName} بنجاح.`,
             });
-            fetchData(); // Refetch all data
+            fetchData();
         } catch (error) {
              toast({ variant: 'destructive', title: 'فشلت الموافقة', description: 'حدث خطأ أثناء محاولة الموافقة على الجهاز.' });
         } finally {
@@ -234,7 +236,7 @@ export default function AdminPage() {
     };
 
     const handleResetPassword = async (studentId: string, studentName: string) => {
-        const newPassword = Math.random().toString(36).slice(-8); // Generate random password
+        const newPassword = Math.random().toString(36).slice(-8);
         setIsLoading(prev => ({ ...prev, [`reset-${studentId}`]: true }));
         try {
             await resetStudentPasswordService(studentId, newPassword);
@@ -243,7 +245,7 @@ export default function AdminPage() {
                 description: `كلمة المرور الجديدة (للعرض) للطالب ${studentName} هي: ${newPassword}`,
                 duration: 9000
             });
-            fetchData(); // Refetch students to show new password
+            fetchData();
         } catch(error) {
             toast({ variant: 'destructive', title: 'فشل إعادة التعيين', description: 'لم نتمكن من إعادة تعيين كلمة المرور.' });
         } finally {
