@@ -24,7 +24,7 @@ export async function getStudents(): Promise<Student[]> {
   return studentList;
 }
 
-export async function addStudent(studentData: Omit<Student, 'id' | 'course' | 'courseId'> & { courses: string[], courseIds: string[] }): Promise<Student> {
+export async function addStudent(studentData: Omit<Student, 'id'>): Promise<Student> {
     if (!studentData.password) {
         throw new Error("Password is required to create a student.");
     }
