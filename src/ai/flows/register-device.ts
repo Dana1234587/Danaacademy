@@ -8,19 +8,14 @@
  */
 
 import { ai } from '@/ai/genkit';
-import { z } from 'genkit';
-import {
-  findRegisteredDevicesByStudentId,
-  addPendingDevice,
-} from '@/services/deviceService';
-import { collection, doc, setDoc, getDocs, query, where } from 'firebase/firestore';
-import { db } from '@/lib/firebase';
 import { 
     RegisterDeviceInputSchema, 
     RegisterDeviceOutputSchema,
     type RegisterDeviceInput,
     type RegisterDeviceOutput
 } from './register-device.types';
+import { collection, query, where, getDocs, addDoc, doc, setDoc } from 'firebase/firestore';
+import { db } from '@/lib/firebase'; // We keep this for type consistency if needed, but will use adminDB for writes.
 
 
 const registerDeviceFlow = ai.defineFlow(
@@ -31,7 +26,11 @@ const registerDeviceFlow = ai.defineFlow(
   },
   async (input) => {
     try {
-      const registeredDevices = await findRegisteredDevicesByStudentId(input.studentId);
+      const registeredDevicesCol = collection(db, 'registeredDevices');
+      const q = query(registeredDevicesCol, where("studentId", "==", input.studentId));
+      const registeredDevicesSnapshot = await getDocs(q);
+      const registeredDevices = registeredDevicesSnapshot.docs.map(doc => doc.data());
+
       const isDeviceAlreadyRegistered = registeredDevices.some(d => d.deviceId === input.deviceId);
 
       if (isDeviceAlreadyRegistered) {
@@ -61,12 +60,13 @@ const registerDeviceFlow = ai.defineFlow(
       }
 
       // If it's a new device and not the first, check if a pending request already exists.
-      const q = query(
-        collection(db, 'pendingDevices'), 
+      const pendingDevicesCol = collection(db, 'pendingDevices');
+      const pendingQuery = query(
+        pendingDevicesCol, 
         where("deviceId", "==", input.deviceId), 
         where("studentId", "==", input.studentId)
       );
-      const existingPendingSnapshot = await getDocs(q);
+      const existingPendingSnapshot = await getDocs(pendingQuery);
 
       if (!existingPendingSnapshot.empty) {
         return {
@@ -76,7 +76,7 @@ const registerDeviceFlow = ai.defineFlow(
       }
       
       // If no pending request, create one.
-      await addPendingDevice({
+      await addDoc(pendingDevicesCol, {
         studentId: input.studentId,
         studentName: input.studentName,
         deviceId: input.deviceId,
@@ -100,6 +100,7 @@ const registerDeviceFlow = ai.defineFlow(
     }
   }
 );
+
 
 export async function registerDevice(
   input: RegisterDeviceInput
