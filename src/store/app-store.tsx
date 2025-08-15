@@ -61,21 +61,29 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
 
       // If a user is logged in, try to fetch their data.
       try {
-        // First, check if the user is an admin.
-        const adminDocRef = doc(db, 'admins', firebaseUser.uid);
-        const adminDocSnap = await getDoc(adminDocRef);
-
-        if (adminDocSnap.exists()) {
-          const adminData = adminDocSnap.data();
-          store.getState().setCurrentUser({ 
-              uid: firebaseUser.uid,
-              username: adminData.displayName || 'Admin',
-              email: firebaseUser.email || '', 
-              role: 'admin',
-              enrolledCourseIds: ['tawjihi-2007-supplementary', 'tawjihi-2008'] 
-          });
+        // First, check if the user is an admin by checking for the custom claim.
+        const idTokenResult = await firebaseUser.getIdTokenResult();
+        const isAdmin = idTokenResult.claims.admin === true;
+        
+        if (isAdmin) {
+          const adminDocRef = doc(db, 'admins', firebaseUser.uid);
+          const adminDocSnap = await getDoc(adminDocRef);
+           if (adminDocSnap.exists()) {
+               const adminData = adminDocSnap.data();
+                store.getState().setCurrentUser({ 
+                  uid: firebaseUser.uid,
+                  username: adminData.displayName || 'Admin',
+                  email: firebaseUser.email || '', 
+                  role: 'admin',
+                  // Admins can see all courses for navigation purposes
+                  enrolledCourseIds: ['tawjihi-2007-supplementary', 'tawjihi-2008'] 
+              });
+           } else {
+               console.warn(`Admin user ${firebaseUser.uid} has claim but no document in 'admins' collection.`);
+               store.getState().logout();
+           }
         } else {
-          // If not an admin, check if they are a student.
+          // If not an admin, they must be a student.
           const studentDocRef = doc(db, 'students', firebaseUser.uid);
           const studentDocSnap = await getDoc(studentDocRef);
 
