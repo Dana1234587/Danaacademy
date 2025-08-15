@@ -29,7 +29,12 @@ const getDeviceId = (): string => {
     // A more robust device ID generation
     const canvas = document.createElement('canvas');
     const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
-    const renderer = gl ? gl.getParameter(gl.RENDERER) : '';
+    
+    let renderer = '';
+    if (gl && 'getParameter' in gl && 'RENDERER' in gl) {
+        renderer = gl.getParameter(gl.RENDERER);
+    }
+    
     const userAgent = navigator.userAgent;
     const platform = navigator.platform;
     const random = Math.random().toString(36).substring(2);
@@ -68,7 +73,7 @@ export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const { toast } = useToast();
-  const { setCurrentUser } = useStore();
+  const { setCurrentUser } = useStore((state) => ({ setCurrentUser: state.setCurrentUser }));
 
 
   const handleLogin = async (e: React.FormEvent) => {
