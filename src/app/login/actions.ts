@@ -1,39 +1,10 @@
 'use server';
 
-import { z } from 'zod';
-import admin from 'firebase-admin';
 import type { RegisterDeviceInput, RegisterDeviceOutput } from '@/ai/flows/register-device.types';
-
-// Self-contained Firebase Admin initialization for Vercel/local compatibility
-const getAdminDB = () => {
-    const serviceAccountKey = process.env.SERVICE_ACCOUNT_KEY;
-
-    if (admin.apps.length === 0) {
-        try {
-            // Check if service account key is available (for Vercel)
-            if (serviceAccountKey) {
-                admin.initializeApp({
-                    credential: admin.credential.cert(JSON.parse(serviceAccountKey)),
-                });
-            } else {
-                // Otherwise, use Application Default Credentials (for local development)
-                console.log("Service account key not found, using Application Default Credentials.");
-                admin.initializeApp();
-            }
-        } catch (error: any) {
-             // This can happen in hot-reload environments, it's safe to ignore.
-             if (!/already exists/u.test(error.message)) {
-                console.error('Firebase admin initialization error:', error.stack);
-                throw error; // Re-throw other errors
-            }
-        }
-    }
-    return admin.firestore();
-};
+import { adminDB } from '@/lib/firebase-admin';
 
 export async function registerDeviceAction(input: RegisterDeviceInput): Promise<RegisterDeviceOutput> {
     try {
-      const adminDB = getAdminDB();
       const registeredDevicesCol = adminDB.collection('registeredDevices');
       const pendingDevicesCol = adminDB.collection('pendingDevices');
 
