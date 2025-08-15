@@ -59,7 +59,7 @@ export async function deleteStudent(studentId: string): Promise<void> {
 
 export async function updateStudent(studentId: string, data: Partial<Omit<Student, 'id' | 'password'>>): Promise<void> {
     const studentRef = doc(db, "students", studentId);
-    await setDoc(studentRef, data, { merge: true });
+    await updateDoc(studentRef, data);
 }
 
 export async function resetStudentPassword(studentId: string, newPassword: string):Promise<void> {

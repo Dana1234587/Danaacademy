@@ -13,19 +13,18 @@ import { UserPlus, KeyRound, MonitorCheck, Loader2, Search, Smartphone, Monitor,
 import { useState, useEffect, useMemo, useCallback } from 'react';
 import Link from 'next/link';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { getStudents, addStudent, deleteStudent as deleteStudentService, resetStudentPassword as resetStudentPasswordService, type Student } from '@/services/studentService';
+import { getStudents, addStudent, deleteStudent as deleteStudentService, resetStudentPassword as resetStudentPasswordService, updateStudent as updateStudentService, type Student } from '@/services/studentService';
 import { getPendingDevices, getRegisteredDevices, approveDevice as approveDeviceService, deleteRegisteredDevice, type PendingDevice, type RegisteredDevice } from '@/services/deviceService';
 import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog"
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  DialogClose
+} from "@/components/ui/dialog"
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { useStore } from '@/store/app-store';
 import { initializeApp, deleteApp } from "firebase/app";
@@ -57,6 +56,15 @@ export default function AdminPage() {
     const [selectedCourses, setSelectedCourses] = useState<string[]>([]);
     const [searchQuery, setSearchQuery] = useState('');
     const [searchedStudent, setSearchedStudent] = useState<Student | null>(null);
+
+    // Edit Student State
+    const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+    const [editingStudent, setEditingStudent] = useState<Student | null>(null);
+    const [editStudentName, setEditStudentName] = useState('');
+    const [editPhone1, setEditPhone1] = useState('');
+    const [editPhone2, setEditPhone2] = useState('');
+    const [editSelectedCourses, setEditSelectedCourses] = useState<string[]>([]);
+
 
     // Group registered devices by student
     const groupedRegisteredDevices = useMemo(() => {
@@ -268,6 +276,49 @@ export default function AdminPage() {
         }
     };
     
+    const openEditDialog = (student: Student) => {
+        setEditingStudent(student);
+        setEditStudentName(student.studentName);
+        setEditPhone1(student.phone1 || '');
+        setEditPhone2(student.phone2 || '');
+        setEditSelectedCourses(student.courseIds || []);
+        setIsEditDialogOpen(true);
+    };
+
+    const handleUpdateStudent = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!editingStudent) return;
+        if (editSelectedCourses.length === 0) {
+            toast({ variant: 'destructive', title: 'خطأ', description: 'الرجاء اختيار دورة واحدة على الأقل للطالب.' });
+            return;
+        }
+        setIsLoading(prev => ({ ...prev, [`update-${editingStudent.id}`]: true }));
+
+        const coursesDetails = availableCourses.filter(c => editSelectedCourses.includes(c.id));
+        const updatedData = {
+            studentName: editStudentName,
+            phone1: editPhone1,
+            phone2: editPhone2,
+            courses: coursesDetails.map(c => c.name),
+            courseIds: coursesDetails.map(c => c.id),
+        };
+
+        try {
+            await updateStudentService(editingStudent.id, updatedData);
+            toast({
+                title: 'تم تحديث البيانات',
+                description: `تم تحديث بيانات الطالب ${editStudentName} بنجاح.`,
+            });
+            fetchData();
+            setIsEditDialogOpen(false);
+            setEditingStudent(null);
+        } catch (error: any) {
+            toast({ variant: 'destructive', title: 'فشل التحديث', description: `حدث خطأ: ${error.message}` });
+        } finally {
+            setIsLoading(prev => ({ ...prev, [`update-${editingStudent.id}`]: false }));
+        }
+    };
+
     if (!currentUser) {
        return <MainLayout><div className="p-8 text-center">الرجاء تسجيل الدخول للوصول لهذه الصفحة.</div></MainLayout>
     }
@@ -412,7 +463,7 @@ export default function AdminPage() {
                                                         <TableCell>{student.phone1 || '-'}</TableCell>
                                                         <TableCell>{student.phone2 || '-'}</TableCell>
                                                         <TableCell className="flex gap-2">
-                                                          <Button variant="outline" size="icon" disabled><Edit className="w-4 h-4" /></Button>
+                                                          <Button variant="outline" size="icon" onClick={() => openEditDialog(student)}><Edit className="w-4 h-4" /></Button>
                                                           <Button 
                                                             variant="destructive" 
                                                             size="icon" 
@@ -575,6 +626,65 @@ export default function AdminPage() {
                     </TabsContent>
                 </Tabs>
             </div>
+             <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
+                <DialogContent>
+                    <form onSubmit={handleUpdateStudent}>
+                        <DialogHeader>
+                            <DialogTitle>تعديل بيانات الطالب: {editingStudent?.studentName}</DialogTitle>
+                            <DialogDescription>
+                                يمكنك تعديل بيانات الطالب هنا. اسم المستخدم وكلمة المرور لا يمكن تغييرهما من هنا.
+                            </DialogDescription>
+                        </DialogHeader>
+                        <div className="grid gap-4 py-4">
+                            <div className="grid grid-cols-4 items-center gap-4">
+                                <Label htmlFor="edit-student-name" className="text-right">الاسم</Label>
+                                <Input id="edit-student-name" value={editStudentName} onChange={(e) => setEditStudentName(e.target.value)} className="col-span-3" />
+                            </div>
+                             <div className="grid grid-cols-4 items-center gap-4">
+                                <Label htmlFor="edit-phone1" className="text-right">هاتف 1</Label>
+                                <Input id="edit-phone1" value={editPhone1} onChange={(e) => setEditPhone1(e.target.value)} className="col-span-3" />
+                            </div>
+                             <div className="grid grid-cols-4 items-center gap-4">
+                                <Label htmlFor="edit-phone2" className="text-right">هاتف 2</Label>
+                                <Input id="edit-phone2" value={editPhone2} onChange={(e) => setEditPhone2(e.target.value)} className="col-span-3" />
+                            </div>
+                            <div className="col-span-4 space-y-3">
+                                <Label>الدورات المسجل بها</Label>
+                                <div className="space-y-2 rounded-md border p-4">
+                                    {availableCourses.map(course => (
+                                        <div key={`edit-${course.id}`} className="flex items-center space-x-2 space-x-reverse">
+                                            <Checkbox
+                                                id={`edit-${course.id}`}
+                                                checked={editSelectedCourses.includes(course.id)}
+                                                onCheckedChange={(checked) => {
+                                                    return checked
+                                                        ? setEditSelectedCourses([...editSelectedCourses, course.id])
+                                                        : setEditSelectedCourses(editSelectedCourses.filter(id => id !== course.id))
+                                                }}
+                                            />
+                                            <label
+                                                htmlFor={`edit-${course.id}`}
+                                                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                                            >
+                                                {course.name}
+                                            </label>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                        <DialogFooter>
+                            <DialogClose asChild>
+                                <Button type="button" variant="secondary">إلغاء</Button>
+                            </DialogClose>
+                            <Button type="submit" disabled={isLoading[`update-${editingStudent?.id}`]}>
+                                {isLoading[`update-${editingStudent?.id}`] && <Loader2 className="me-2 h-4 w-4 animate-spin" />}
+                                حفظ التغييرات
+                            </Button>
+                        </DialogFooter>
+                    </form>
+                </DialogContent>
+            </Dialog>
         </MainLayout>
     );
 }
