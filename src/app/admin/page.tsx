@@ -85,6 +85,12 @@ export default function AdminPage() {
         }, {} as Record<string, RegisteredDevice[]>);
     }, [registeredDevices]);
 
+    const devicesForSearchedStudent = useMemo(() => {
+        if (!searchedStudent) return [];
+        return registeredDevices.filter(device => device.studentId === searchedStudent.id);
+    }, [searchedStudent, registeredDevices]);
+
+
     const fetchData = useCallback(async () => {
         setIsLoading(prev => ({ ...prev, page: true }));
         try {
@@ -363,7 +369,7 @@ export default function AdminPage() {
                         <TabsTrigger value="student-accounts"><Users className="me-2" /> الطلاب</TabsTrigger>
                         <TabsTrigger value="approve-devices"><MonitorCheck className="me-2" /> الموافقة</TabsTrigger>
                         <TabsTrigger value="registered-devices"><List className="me-2" /> الأجهزة</TabsTrigger>
-                        <TabsTrigger value="reset-password"><KeyRound className="me-2" /> إعادة تعيين</TabsTrigger>
+                        <TabsTrigger value="search-student"><Search className="me-2" /> بحث عن طالب</TabsTrigger>
                     </TabsList>
 
                     <TabsContent value="create-student">
@@ -608,21 +614,14 @@ export default function AdminPage() {
                         </Card>
                     </TabsContent>
 
-                    <TabsContent value="reset-password">
+                    <TabsContent value="search-student">
                         <Card>
                             <CardHeader>
-                                <CardTitle>إعادة تعيين كلمة المرور</CardTitle>
-                                <CardDescription>ابحثي عن الطالب لإنشاء كلمة مرور جديدة، والتي سيتم تحديثها في كل من نظام المصادقة وقاعدة البيانات.</CardDescription>
+                                <CardTitle>بحث عن أجهزة طالب</CardTitle>
+                                <CardDescription>ابحثي عن الطالب لعرض جميع أجهزته المسجلة، مع إمكانية إلغاء أي جهاز.</CardDescription>
                             </CardHeader>
                             <CardContent className="space-y-4">
-                                <Alert variant="destructive">
-                                    <AlertTriangle className="h-4 w-4" />
-                                    <AlertTitle>إجراء حاسم</AlertTitle>
-                                    <AlertDescription>
-                                       هذه العملية ستقوم بتغيير كلمة المرور الفعلية للطالب. سيتم عرض كلمة المرور الجديدة لمرة واحدة فقط.
-                                    </AlertDescription>
-                                </Alert>
-                                <div className="flex flex-col sm:flex-row gap-2 mt-4">
+                                 <div className="flex flex-col sm:flex-row gap-2 mt-4">
                                     <Input 
                                         placeholder="ابحثي بالاسم أو اسم المستخدم..." 
                                         value={searchQuery}
@@ -631,16 +630,40 @@ export default function AdminPage() {
                                     />
                                     <Button onClick={handleSearchStudent}><Search className="me-2"/>بحث</Button>
                                 </div>
+
                                 {searchedStudent && (
-                                    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 bg-muted rounded-lg mt-4 gap-4">
-                                       <div>
-                                           <p className="font-bold">{searchedStudent.studentName}</p>
-                                           <p className="text-sm text-muted-foreground">{searchedStudent.username}</p>
-                                       </div>
-                                       <Button onClick={() => handleResetPassword(searchedStudent.id, searchedStudent.studentName)} disabled={isLoading[`reset-${searchedStudent.id}`]} variant="destructive">
-                                          {isLoading[`reset-${searchedStudent.id}`] ? <Loader2 className="me-2 h-4 w-4 animate-spin" /> : <KeyRound className="me-2" />}
-                                          إعادة تعيين
-                                       </Button>
+                                     <div className="p-4 bg-muted/50 rounded-lg border mt-6">
+                                        <div className="pb-4 border-b">
+                                            <p className="font-bold text-lg">{searchedStudent?.studentName}</p>
+                                            <p className="text-sm text-primary">{searchedStudent?.courses?.join(', ')}</p>
+                                        </div>
+                                        <div className="space-y-4 pt-4">
+                                            {devicesForSearchedStudent.length > 0 ? (
+                                                devicesForSearchedStudent.map(device => (
+                                                    <div key={device.id} className="flex items-start justify-between gap-4">
+                                                        <div className="flex-1 space-y-2 text-sm text-muted-foreground">
+                                                            <div className="flex items-center gap-2">
+                                                                {device.deviceType === 'Desktop' ? <Monitor className="w-4 h-4" /> : <Smartphone className="w-4 h-4" />}
+                                                                <span>{device.os}</span>
+                                                            </div>
+                                                            <div className="flex items-center gap-2">
+                                                                <Globe className="w-4 h-4" />
+                                                                <span dir="ltr">{device.ipAddress}</span>
+                                                            </div>
+                                                            <div className="flex items-start gap-2">
+                                                                <Fingerprint className="w-4 h-4 mt-1 flex-shrink-0" />
+                                                                <span className="break-all" dir="ltr">{device.deviceId}</span>
+                                                            </div>
+                                                        </div>
+                                                        <Button onClick={() => handleDeleteDevice(device.id)} variant="destructive" size="icon" disabled={isLoading[`delete-device-${device.id}`]}>
+                                                            {isLoading[`delete-device-${device.id}`] ? <Loader2 className="w-4 h-4 animate-spin" /> : <Trash2 className="w-4 h-4" />}
+                                                        </Button>
+                                                    </div>
+                                                ))
+                                            ) : (
+                                                <p className="text-muted-foreground text-center py-4">لا توجد أجهزة مسجلة لهذا الطالب.</p>
+                                            )}
+                                        </div>
                                     </div>
                                 )}
                             </CardContent>
