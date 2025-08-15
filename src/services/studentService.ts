@@ -1,4 +1,3 @@
-
 // This service will handle all Firestore operations related to students
 import { collection, getDocs, doc, setDoc, deleteDoc, updateDoc, query, where, writeBatch } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
