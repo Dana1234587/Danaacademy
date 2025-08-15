@@ -12,7 +12,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
 import { Loader2 } from 'lucide-react';
-import { registerDevice } from '@/ai/flows/register-device';
+import { registerDeviceAction } from './actions';
 import type { RegisterDeviceInput } from '@/ai/flows/register-device.types';
 import { auth, db } from '@/lib/firebase';
 import { signInWithEmailAndPassword } from 'firebase/auth';
@@ -147,7 +147,7 @@ export default function LoginPage() {
                 ipAddress: 'Fetching...'
             };
             
-            const result = await registerDevice(registrationInput);
+            const result = await registerDeviceAction(registrationInput);
             
             if (result.status === 'registered' || result.status === 'already-exists') {
                  redirectToCoursePage();
