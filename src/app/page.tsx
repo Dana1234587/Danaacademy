@@ -294,7 +294,7 @@ export default function Home() {
                         نفخر بطلابنا ونتائجهم المتميزة التي هي شهادة على نجاح أساليبنا التعليمية.
                     </p>
                 </div>
-                <div className="mt-12 grid gap-x-8 gap-y-24 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 justify-items-center">
+                <div className="mt-12 grid gap-x-8 gap-y-24 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 justify-items-center">
                     {studentAchievements.map((student, index) => (
                         <AchievementCard key={index} student={student} />
                     ))}
@@ -323,7 +323,3 @@ export default function Home() {
     </MarketingLayout>
   );
 }
-
-    
-
-    

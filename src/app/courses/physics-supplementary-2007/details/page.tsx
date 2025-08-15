@@ -320,7 +320,7 @@ export default function PhysicsSupplementary2007Page() {
                     نفخر بطلابنا ونتائجهم المتميزة التي هي شهادة على نجاح أساليبنا التعليمية.
                 </p>
             </div>
-            <div className="mt-12 grid gap-x-8 gap-y-24 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-center">
+            <div className="mt-12 grid gap-x-8 gap-y-24 sm:grid-cols-2 lg:grid-cols-3 justify-center">
                 {studentAchievements.map((student, index) => (
                     <AchievementCard key={index} student={student} />
                 ))}
@@ -331,5 +331,3 @@ export default function PhysicsSupplementary2007Page() {
     </MarketingLayout>
   );
 }
-
-    
