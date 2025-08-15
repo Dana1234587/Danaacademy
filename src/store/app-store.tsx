@@ -54,25 +54,20 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
 
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser: FirebaseUser | null) => {
       if (firebaseUser) {
-        // Check if the user is an admin by looking for their document in the 'admins' collection based on their email.
-        const adminsCol = doc(db, 'admins', 'admin@dana-academy.com'); // Directly check the admin document
-        const adminDocSnap = await getDoc(adminsCol);
+        // Check if the user is an admin by looking for their UID in the 'admins' collection.
+        const adminDocRef = doc(db, 'admins', firebaseUser.uid);
+        const adminDocSnap = await getDoc(adminDocRef);
 
-        let isAdmin = false;
-        // This logic checks if an `admins` collection exists and the user's email is a key.
-        // A more robust check might query a specific field.
-        if (adminDocSnap.exists() && adminDocSnap.data()[firebaseUser.email as string]) {
-            isAdmin = true;
-        }
-
-        if (isAdmin) {
+        if (adminDocSnap.exists()) {
           // User is an admin
+          const adminData = adminDocSnap.data();
           store.getState().setCurrentUser({ 
               uid: firebaseUser.uid,
-              username: 'admin', // Or fetch from a profile doc if needed
+              username: adminData.displayName || 'Admin', // Use a display name from the doc or a default
               email: firebaseUser.email || '', 
               role: 'admin', 
-              enrolledCourseIds: ['tawjihi-2007-supplementary', 'tawjihi-2008'] // Admins can see all courses
+              // Admins can see all courses. You can make this dynamic if you add a courses field to the admin doc.
+              enrolledCourseIds: ['tawjihi-2007-supplementary', 'tawjihi-2008'] 
           });
         } else {
           // User is likely a student, fetch their data from the 'students' collection
