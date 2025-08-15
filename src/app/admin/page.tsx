@@ -16,6 +16,17 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { getStudents, addStudent, deleteStudent as deleteStudentService, resetStudentPassword as resetStudentPasswordService, updateStudent as updateStudentService, type Student } from '@/services/studentService';
 import { getPendingDevices, getRegisteredDevices, approveDevice as approveDeviceService, deleteRegisteredDevice, type PendingDevice, type RegisteredDevice } from '@/services/deviceService';
 import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
+import {
   Dialog,
   DialogContent,
   DialogDescription,
@@ -208,19 +219,13 @@ export default function AdminPage() {
         }
     };
 
-    const handleDeleteStudent = async (studentId: string, studentName: string) => {
-        const confirmation = prompt(`هل أنت متأكد من حذف الطالب "${studentName}"؟ هذا الإجراء سيحذف بياناته من قاعدة البيانات فقط ولا يمكن التراجع عنه. اكتب "حذف" للتأكيد.`);
-        if (confirmation !== 'حذف') {
-            toast({ title: 'تم الإلغاء', description: 'لم يتم حذف الطالب.' });
-            return;
-        }
-
+    const handleDeleteStudent = async (studentId: string) => {
         setIsLoading(prev => ({ ...prev, [`delete-${studentId}`]: true }));
         try {
             await deleteStudentService(studentId);
             toast({
-                title: 'تم الحذف من قاعدة البيانات',
-                description: `تم حذف بيانات الطالب. إن كان له حساب مصادقة، فيجب حذفه يدويًا من لوحة تحكم Firebase.`,
+                title: 'تم الحذف بنجاح',
+                description: `تم حذف بيانات الطالب وجهازه المسجل من قاعدة البيانات.`,
             });
             fetchData();
         } catch (error: any) {
@@ -436,7 +441,7 @@ export default function AdminPage() {
                                     <Info className="h-4 w-4" />
                                     <AlertTitle>ملاحظة هامة</AlertTitle>
                                     <AlertDescription>
-                                        هذه القائمة تعرض الطلاب المسجلين في قاعدة بيانات التطبيق (Firestore) فقط. أي مستخدم يتم إضافته يدويًا من خلال لوحة تحكم Firebase Authentication لن يظهر هنا، حيث يجب إنشاؤه من خلال قسم "إنشاء حساب" لضمان مزامنة البيانات.
+                                        حذف الطالب من هنا سيحذف بياناته من قاعدة البيانات وجهازه المسجل. حساب المصادقة الخاص به يجب حذفه يدويًا من لوحة تحكم Firebase.
                                     </AlertDescription>
                                 </Alert>
                                 <div className="mt-4 overflow-x-auto">
@@ -464,13 +469,30 @@ export default function AdminPage() {
                                                         <TableCell>{student.phone2 || '-'}</TableCell>
                                                         <TableCell className="flex gap-2">
                                                           <Button variant="outline" size="icon" onClick={() => openEditDialog(student)}><Edit className="w-4 h-4" /></Button>
-                                                          <Button 
-                                                            variant="destructive" 
-                                                            size="icon" 
-                                                            onClick={() => handleDeleteStudent(student.id, student.studentName)}
-                                                            disabled={isLoading[`delete-${student.id}`]}>
-                                                                {isLoading[`delete-${student.id}`] ? <Loader2 className="w-4 h-4 animate-spin" /> : <Trash2 className="w-4 h-4" />}
-                                                          </Button>
+                                                          <AlertDialog>
+                                                              <AlertDialogTrigger asChild>
+                                                                  <Button 
+                                                                    variant="destructive" 
+                                                                    size="icon" 
+                                                                    disabled={isLoading[`delete-${student.id}`]}>
+                                                                        {isLoading[`delete-${student.id}`] ? <Loader2 className="w-4 h-4 animate-spin" /> : <Trash2 className="w-4 h-4" />}
+                                                                  </Button>
+                                                              </AlertDialogTrigger>
+                                                              <AlertDialogContent>
+                                                                  <AlertDialogHeader>
+                                                                      <AlertDialogTitle>هل أنت متأكد تمامًا؟</AlertDialogTitle>
+                                                                      <AlertDialogDescription>
+                                                                          هذا الإجراء سيحذف بيانات الطالب "{student.studentName}" وأجهزته المسجلة نهائيًا. لا يمكن التراجع عن هذا الإجراء.
+                                                                      </AlertDialogDescription>
+                                                                  </AlertDialogHeader>
+                                                                  <AlertDialogFooter>
+                                                                      <AlertDialogCancel>إلغاء</AlertDialogCancel>
+                                                                      <AlertDialogAction onClick={() => handleDeleteStudent(student.id)} className="bg-destructive hover:bg-destructive/90">
+                                                                          نعم، قم بالحذف
+                                                                      </AlertDialogAction>
+                                                                  </AlertDialogFooter>
+                                                              </AlertDialogContent>
+                                                          </AlertDialog>
                                                         </TableCell>
                                                     </TableRow>
                                                 ))
@@ -688,3 +710,5 @@ export default function AdminPage() {
         </MainLayout>
     );
 }
+
+    
