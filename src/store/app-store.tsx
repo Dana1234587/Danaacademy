@@ -62,6 +62,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         const adminDocRef = doc(db, 'admins', firebaseUser.uid);
         const studentDocRef = doc(db, 'students', firebaseUser.uid);
 
+        // Fetch both documents in parallel to be more efficient.
         const [adminDocSnap, studentDocSnap] = await Promise.all([
             getDoc(adminDocRef),
             getDoc(studentDocRef)
