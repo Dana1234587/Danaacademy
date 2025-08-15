@@ -53,12 +53,13 @@ export async function addStudent(studentData: Omit<Student, 'id'>): Promise<void
         // This operation is now allowed by the security rules because the admin is logged in.
         await setDoc(studentDocRef, firestoreData);
 
-    } catch (firestoreError) {
+    } catch (firestoreError: any) {
         // If Firestore write fails, we should ideally delete the created Auth user
         // to avoid orphaned auth accounts. However, this requires admin privileges
         // not available on the client. For now, we'll just throw the error.
         console.error("Firestore write failed, but Auth user was created:", user.uid, firestoreError);
-        throw new Error("User created in Auth, but failed to save to database. Please delete the user from Firebase Authentication manually and try again.");
+        // The detailed error from firestoreError is more useful
+        throw new Error(`User created in Auth, but failed to save to database. Firebase error: ${firestoreError.message}. Please delete the user from Firebase Authentication manually and try again.`);
     }
 }
 

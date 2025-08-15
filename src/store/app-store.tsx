@@ -10,6 +10,7 @@ import { findStudentByUsername } from '@/services/studentService';
 // Define types for our data
 // Note: The actual data types are now in the services, but we keep them here for the User type.
 type User = {
+    uid: string;
     username: string;
     role: 'admin' | 'student';
     enrolledCourseIds: string[];
@@ -55,6 +56,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
       if (firebaseUser && firebaseUser.email) {
         if (firebaseUser.email.startsWith('admin')) {
           store.getState().setCurrentUser({ 
+              uid: firebaseUser.uid,
               username: 'admin', 
               role: 'admin', 
               enrolledCourseIds: ['tawjihi-2007-supplementary', 'tawjihi-2008'] 
@@ -63,6 +65,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
           const student = await findStudentByUsername(firebaseUser.email.split('@')[0]);
           if (student) {
             store.getState().setCurrentUser({ 
+                uid: student.id,
                 username: student.studentName, 
                 role: 'student', 
                 enrolledCourseIds: student.courseIds 
