@@ -1,36 +1,47 @@
+
 rules_version = '2';
+
 service cloud.firestore {
   match /databases/{database}/documents {
-    
-    // --- Helper Function ---
-    // This function checks if the user making the request is an admin.
-    // It does this by checking if a document with their UID exists in the 'admins' collection.
-    // This is secure and reliable.
+  
+    // Helper function to check if a user is an admin
     function isAdmin() {
+      // An admin's UID must exist in the /admins collection.
+      // This is more secure than checking a role field, as it relies on the document's existence.
       return exists(/databases/$(database)/documents/admins/$(request.auth.uid));
     }
 
-    // --- Special Rule for 'admins' collection ---
-    // This prevents anyone (even other admins) from modifying the list of admins
-    // directly from the app, making it more secure.
-    match /admins/{adminId} {
-        allow read: if isAdmin(); // Admins can see who other admins are.
-        allow write: if false; // No one can write to the admins collection from the app.
-    }
-    
-    // --- Special Rule for 'pendingDevices' ---
-    // We need to allow non-admins (students) to create a pending device request.
-    match /pendingDevices/{deviceId} {
-        allow create: if request.auth.uid != null; // Any signed-in user can create a device request.
-        // Other operations (read, list, delete) are covered by the general rule below
-    }
-    
-    // --- General Rule for All Other Collections ---
-    // This rule applies to any collection that is NOT 'admins' or 'pendingDevices' (for create).
-    match /{collection}/{docId} {
-      // Allow full read and write access ONLY if the user is an admin.
-      // This single rule secures all current and future collections.
+    // Admins have full read/write access to the entire database.
+    match /{document=**} {
       allow read, write: if isAdmin();
+    }
+
+    // Students collection rules
+    match /students/{studentId} {
+      // A student can only read their own document.
+      allow read: if request.auth.uid == studentId;
+      // Admins can update any student document. Students can't update their own yet.
+      allow update: if isAdmin();
+      // Allow creation by admin (handled by admin write rule above), deny for others.
+      allow create: if isAdmin();
+    }
+    
+    // Pending devices collection rules
+    match /pendingDevices/{docId} {
+        // Any authenticated user can create a pending device request.
+        allow create: if request.auth != null;
+        // Only admins can read or delete pending requests.
+        allow read, delete: if isAdmin();
+    }
+
+    // Registered devices collection rules
+    match /registeredDevices/{docId} {
+        // A student can only read devices that are registered to their studentId.
+        allow read: if request.auth.uid == resource.data.studentId;
+        // Only admins can delete registered devices.
+        allow delete: if isAdmin();
+        // Only admins can create registered devices (on approval).
+        allow create: if isAdmin();
     }
   }
 }
