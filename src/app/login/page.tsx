@@ -12,7 +12,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
 import { Loader2 } from 'lucide-react';
-import { findRegisteredDevicesByStudentId, addPendingDevice } from '@/services/deviceService';
+import { registerDevice, type RegisterDeviceInput } from '@/ai/flows/register-device';
 import { auth, db } from '@/lib/firebase';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { useStore } from '@/store/app-store';
@@ -120,7 +120,6 @@ export default function LoginPage() {
 
             const deviceId = getDeviceId();
             const os = getOS();
-            const registeredDevices = await findRegisteredDevicesByStudentId(user.uid);
             
             const redirectToCoursePage = () => {
                 let coursePath = '/';
@@ -132,28 +131,39 @@ export default function LoginPage() {
                 router.push(coursePath);
             };
 
-            const isDeviceRegistered = registeredDevices.some(device => device.deviceId === deviceId);
+            // Call the secure cloud flow to handle device registration
+            const registrationInput: RegisterDeviceInput = {
+                studentId: user.uid,
+                studentName: student.studentName,
+                deviceId: deviceId,
+                os: os,
+                deviceType: os === 'Android' || os === 'iOS' ? 'Mobile' : 'Desktop',
+                courses: student.courses,
+                ipAddress: 'Fetching...' // This can be enhanced in the cloud function if needed
+            };
 
-            if (registeredDevices.length < 2 || isDeviceRegistered) { 
+            const result = await registerDevice(registrationInput);
+            
+            if (result.status === 'registered' || result.status === 'already-exists') {
                  toast({
                   title: `أهلاً بك مجددًا ${student.studentName}`,
-                  description: 'تم تسجيل دخولك بنجاح.',
+                  description: result.message,
                 });
                 redirectToCoursePage();
-            } else {
-                await addPendingDevice({
-                     studentId: user.uid,
-                     studentName: student.studentName,
-                     deviceId: deviceId,
-                     ipAddress: 'Fetching...', 
-                     deviceType: os === 'Android' || os === 'iOS' ? 'Mobile' : 'Desktop',
-                     os: os,
-                     courses: student.courses,
-                });
+            } else if (result.status === 'pending') {
                 toast({
                   variant: 'destructive',
                   title: 'جهاز جديد مكتشف',
-                  description: 'لقد وصلت إلى الحد الأقصى من الأجهزة المسموح بها. تم إرسال طلب للموافقة على هذا الجهاز.',
+                  description: result.message,
+                  duration: 5000,
+                });
+                await auth.signOut();
+            } else {
+                // Handle 'error' status
+                 toast({
+                  variant: 'destructive',
+                  title: 'حدث خطأ',
+                  description: result.message,
                   duration: 5000,
                 });
                 await auth.signOut();
@@ -164,6 +174,8 @@ export default function LoginPage() {
         let description = 'اسم المستخدم أو كلمة المرور غير صحيحة.';
         if (error.code === 'auth/invalid-credential' || error.code === 'auth/wrong-password' || error.code === 'auth/user-not-found') {
             description = 'اسم المستخدم أو كلمة المرور غير صحيحة. الرجاء التأكد من البيانات والمحاولة مرة أخرى.';
+        } else if (error.message) {
+            description = error.message;
         }
          toast({
               variant: 'destructive',
