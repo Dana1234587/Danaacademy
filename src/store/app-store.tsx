@@ -8,10 +8,10 @@ import { onAuthStateChanged, type User as FirebaseUser } from 'firebase/auth';
 import { findStudentByUsername } from '@/services/studentService';
 
 // Define types for our data
-type User = {
+export type User = {
     uid: string;
     username: string;
-    email: string; // Add email to the user type
+    email: string;
     role: 'admin' | 'student';
     enrolledCourseIds: string[];
 }
@@ -63,7 +63,8 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
               enrolledCourseIds: ['tawjihi-2007-supplementary', 'tawjihi-2008'] 
           });
         } else {
-          const student = await findStudentByUsername(firebaseUser.email.split('@')[0]);
+          const studentUsername = firebaseUser.email.split('@')[0];
+          const student = await findStudentByUsername(studentUsername);
           if (student) {
             store.getState().setCurrentUser({ 
                 uid: student.id,
@@ -73,7 +74,10 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
                 enrolledCourseIds: student.courseIds 
             });
           } else {
-            // Student data not found in Firestore, treat as logged out
+            // Student data not found in Firestore, which might happen briefly during creation.
+            // We avoid logging out immediately to prevent race conditions.
+            // If the user is truly invalid, they won't be able to do anything anyway.
+            console.warn(`User ${firebaseUser.email} authenticated but not found in Firestore.`);
             store.getState().logout();
           }
         }

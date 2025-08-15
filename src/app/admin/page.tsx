@@ -103,6 +103,8 @@ export default function AdminPage() {
         setIsLoading(prev => ({ ...prev, create: true }));
 
         const studentEmail = `${newStudentUsername}@dana-academy.com`;
+        
+        // **Critical Step 1: Preserve Admin Credentials**
         const adminEmail = auth.currentUser?.email;
         const adminPassword = prompt("للتأكيد، يرجى إدخال كلمة المرور الخاصة بك كمسؤول:");
 
@@ -113,25 +115,28 @@ export default function AdminPage() {
         }
 
         try {
-            // Step 1: Create the student user in Firebase Auth. This logs the admin out.
+            // **Critical Step 2: Create Student Auth Account**
+            // This temporarily signs out the admin and signs in the new user.
             const userCredential = await createUserWithEmailAndPassword(auth, studentEmail, newStudentPassword);
             const user = userCredential.user;
 
-            // Step 2: IMPORTANT - Re-authenticate the admin to restore their session and permissions.
+            // **Critical Step 3: Re-authenticate Admin Immediately**
+            // This restores the admin's session and permissions.
             await signInWithEmailAndPassword(auth, adminEmail, adminPassword);
             
-            // Step 3: Now that the admin is re-authenticated, add student data to Firestore.
+            // **Critical Step 4: Now, with admin privileges restored, write to Firestore.**
             const coursesDetails = availableCourses.filter(c => selectedCourses.includes(c.id));
             const newStudentData: NewStudentData = {
                 studentName: newStudentName,
                 username: newStudentUsername,
-                password: newStudentPassword,
+                password: newStudentPassword, // Storing for reference/reset purposes
                 phone1: newStudentPhone1,
                 phone2: newStudentPhone2,
                 courses: coursesDetails.map(c => c.name),
                 courseIds: coursesDetails.map(c => c.id),
             };
             
+            // This function now only writes to Firestore and will succeed due to admin re-authentication.
             await addStudentService(user.uid, newStudentData);
             
             toast({
@@ -176,16 +181,16 @@ export default function AdminPage() {
                 description, 
                 duration: 9000 
             });
-        } finally {
-            // The re-authentication is now part of the main flow, 
-            // but we add it here as a fallback to ensure admin is always signed in.
+             // **Fallback Re-authentication:** If any error occurred, especially after student creation,
+            // ensure the admin is signed back in to prevent being logged out.
             if (auth.currentUser?.email !== adminEmail) {
                 try {
                     await signInWithEmailAndPassword(auth, adminEmail, adminPassword);
                 } catch (reauthError) {
-                    console.error("Failed to re-authenticate admin in finally block:", reauthError);
+                    console.error("Failed to re-authenticate admin in error block:", reauthError);
                 }
             }
+        } finally {
             setIsLoading(prev => ({ ...prev, create: false }));
         }
     };

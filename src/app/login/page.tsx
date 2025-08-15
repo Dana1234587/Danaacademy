@@ -16,6 +16,7 @@ import { findStudentByUsername } from '@/services/studentService';
 import { findRegisteredDevicesByStudentId, addPendingDevice } from '@/services/deviceService';
 import { auth } from '@/lib/firebase';
 import { signInWithEmailAndPassword } from 'firebase/auth';
+import { useStore } from '@/store/app-store';
 
 // This function now generates a stable device ID and stores it in localStorage.
 const getDeviceId = (): string => {
@@ -23,15 +24,30 @@ const getDeviceId = (): string => {
   let deviceId = localStorage.getItem(DANA_ACADEMY_DEVICE_ID);
 
   if (!deviceId) {
+    // A more robust device ID generation
+    const canvas = document.createElement('canvas');
+    const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+    const renderer = gl ? gl.getParameter(gl.RENDERER) : '';
     const userAgent = navigator.userAgent;
     const platform = navigator.platform;
     const random = Math.random().toString(36).substring(2);
-    deviceId = `${userAgent}-${platform}-${random}`;
+    
+    deviceId = `${userAgent}-${platform}-${renderer}-${random}`;
+    // Simple hash function to shorten it and make it less identifiable
+    let hash = 0;
+    for (let i = 0; i < deviceId.length; i++) {
+        const char = deviceId.charCodeAt(i);
+        hash = ((hash << 5) - hash) + char;
+        hash = hash & hash; // Convert to 32bit integer
+    }
+    
+    deviceId = `dana-device-${hash.toString(16)}`;
     localStorage.setItem(DANA_ACADEMY_DEVICE_ID, deviceId);
   }
 
   return deviceId;
 };
+
 
 const getOS = () => {
     const userAgent = window.navigator.userAgent;
@@ -50,34 +66,33 @@ export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const { toast } = useToast();
+  const { setCurrentUser } = useStore();
+
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
 
     try {
-        // Handle admin and student login differently.
         const isAdminLogin = username.startsWith('admin');
         const email = isAdminLogin ? username : `${username}@dana-academy.com`;
 
-        // --- Admin & Student Login via Firebase Auth ---
-        await signInWithEmailAndPassword(auth, email, password);
-        const user = auth.currentUser; // Get the currently signed-in user
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
 
         if (user && user.email) {
-             // --- Admin Login Logic ---
-             if (user.email.startsWith('admin')) {
+             if (isAdminLogin) {
+                // Fetch admin data (or create a representation)
+                // The store will handle this based on the email
                 toast({
                   title: 'أهلاً بعودتك دكتورة دانا',
                   description: 'يتم توجيهك إلى لوحة التحكم.',
                 });
                 router.push('/admin');
-                return; // Important: Exit after admin login
+                return;
             }
             
-            // --- Student Login Logic ---
-            const studentUsername = user.email.split('@')[0];
-            const student = await findStudentByUsername(studentUsername);
+            const student = await findStudentByUsername(username);
 
             if (!student) {
                 toast({
@@ -85,17 +100,27 @@ export default function LoginPage() {
                     title: 'فشل تسجيل الدخول',
                     description: 'بيانات الطالب غير موجودة في قاعدة البيانات.',
                 });
-                await auth.signOut(); // Sign out the user if their data isn't in firestore
+                await auth.signOut();
                 setIsLoading(false);
                 return;
             }
+            
+            // Set current user in the store
+            setCurrentUser({
+                uid: student.id,
+                username: student.studentName,
+                email: user.email,
+                role: 'student', 
+                enrolledCourseIds: student.courseIds 
+            });
+
 
             const deviceId = getDeviceId();
             const os = getOS();
             const registeredDevices = await findRegisteredDevicesByStudentId(student.id);
             
             const redirectToCoursePage = () => {
-                let coursePath = '/'; // Default fallback
+                let coursePath = '/';
                 if (student.courseIds?.includes('tawjihi-2007-supplementary')) {
                     coursePath = '/courses/physics-supplementary-2007';
                 } else if (student.courseIds?.includes('tawjihi-2008')) {
@@ -106,39 +131,18 @@ export default function LoginPage() {
 
             const isDeviceRegistered = registeredDevices.some(device => device.deviceId === deviceId);
 
-            if (registeredDevices.length === 0) {
-                // First time login for this student, send for approval.
-                 await addPendingDevice({
-                     studentId: student.id,
-                     studentName: student.studentName,
-                     deviceId: deviceId,
-                     ipAddress: '82.114.120.50', // Mock IP
-                     deviceType: os === 'Android' || os === 'iOS' ? 'Mobile' : 'Desktop',
-                     os: os,
-                     courses: student.courses,
-                });
-                toast({
-                  variant: 'destructive',
-                  title: 'جهاز جديد مكتشف',
-                  description: 'هذا هو أول جهاز لك. تم إرسال طلب للموافقة عليه.',
-                  duration: 5000,
-                });
-                await auth.signOut();
-
-            } else if (isDeviceRegistered) {
-                 // Device is already in the approved list
+            if (registeredDevices.length === 0 || isDeviceRegistered) {
                  toast({
                   title: `أهلاً بك مجددًا ${student.studentName}`,
                   description: 'تم تسجيل دخولك بنجاح.',
                 });
                 redirectToCoursePage();
             } else {
-                // New device detected for a student who already has other registered devices
                 await addPendingDevice({
                      studentId: student.id,
                      studentName: student.studentName,
                      deviceId: deviceId,
-                     ipAddress: '82.114.120.50', // Mock IP
+                     ipAddress: 'Fetching...', // Mock IP, can be replaced with a service
                      deviceType: os === 'Android' || os === 'iOS' ? 'Mobile' : 'Desktop',
                      os: os,
                      courses: student.courses,
@@ -149,7 +153,7 @@ export default function LoginPage() {
                   description: 'تم ربط هذا الحساب بأجهزة أخرى. تم إرسال طلب للموافقة على هذا الجهاز.',
                   duration: 5000,
                 });
-                await auth.signOut(); // Sign out until the new device is approved
+                await auth.signOut();
             }
         }
     } catch (error) {
