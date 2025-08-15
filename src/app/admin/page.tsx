@@ -13,7 +13,7 @@ import { UserPlus, KeyRound, MonitorCheck, Loader2, Search, Smartphone, Monitor,
 import { useState, useEffect, useMemo, useCallback } from 'react';
 import Link from 'next/link';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { getStudents, addStudent as addStudentService, deleteStudent as deleteStudentService, resetStudentPassword as resetStudentPasswordService, type Student, type NewStudentData } from '@/services/studentService';
+import { getStudents, addStudent, deleteStudent as deleteStudentService, resetStudentPassword as resetStudentPasswordService, type Student } from '@/services/studentService';
 import { getPendingDevices, getRegisteredDevices, approveDevice as approveDeviceService, deleteRegisteredDevice, type PendingDevice, type RegisteredDevice } from '@/services/deviceService';
 import {
   AlertDialog,
@@ -27,8 +27,6 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '@/lib/firebase';
 import { useStore } from '@/store/app-store';
 
 const availableCourses = [
@@ -104,39 +102,19 @@ export default function AdminPage() {
 
         const studentEmail = `${newStudentUsername}@dana-academy.com`;
         
-        // **Critical Step 1: Preserve Admin Credentials**
-        const adminEmail = currentUser?.email;
-        const adminPassword = prompt("للتأكيد، يرجى إدخال كلمة المرور الخاصة بك كمسؤول:");
-
-        if (!adminEmail || !adminPassword) {
-            toast({ variant: "destructive", title: "فشل الإنشاء", description: "لا يمكن إكمال العملية بدون بيانات اعتماد المسؤول." });
-            setIsLoading(prev => ({ ...prev, create: false }));
-            return;
-        }
-
         try {
-            // **Critical Step 2: Create Student Auth Account**
-            const userCredential = await createUserWithEmailAndPassword(auth, studentEmail, newStudentPassword);
-            const user = userCredential.user;
-
-            // **Critical Step 3: Re-authenticate Admin Immediately**
-            // This is the most important step to restore the admin's session and permissions.
-            await signInWithEmailAndPassword(auth, adminEmail, adminPassword);
-            
-            // **Critical Step 4: Now, with admin privileges restored, write to Firestore.**
             const coursesDetails = availableCourses.filter(c => selectedCourses.includes(c.id));
-            const newStudentData: NewStudentData = {
+            
+            await addStudent({
                 studentName: newStudentName,
                 username: newStudentUsername,
-                password: newStudentPassword, // Storing for reference/reset purposes
+                email: studentEmail,
+                password: newStudentPassword,
                 phone1: newStudentPhone1,
                 phone2: newStudentPhone2,
                 courses: coursesDetails.map(c => c.name),
                 courseIds: coursesDetails.map(c => c.id),
-            };
-            
-            // This function now only writes to Firestore and will succeed due to admin re-authentication.
-            await addStudentService(user.uid, newStudentData);
+            });
             
             toast({
                 title: 'تم إنشاء الحساب بنجاح',
@@ -165,9 +143,6 @@ export default function AdminPage() {
                     case 'auth/invalid-email':
                         description = 'صيغة اسم المستخدم غير صالحة. الرجاء استخدام حروف إنجليزية وأرقام فقط بدون مسافات أو رموز.';
                         break;
-                     case 'auth/wrong-password':
-                        description = 'كلمة مرور المسؤول غير صحيحة. فشلت عملية إعادة المصادقة.';
-                        break;
                     default:
                         description = `Firebase Error: ${error.message}`;
                 }
@@ -180,15 +155,6 @@ export default function AdminPage() {
                 description, 
                 duration: 9000 
             });
-             // **Fallback Re-authentication:** If any error occurred, especially after student creation,
-            // ensure the admin is signed back in to prevent being logged out.
-            if (auth.currentUser?.email !== adminEmail) {
-                try {
-                    await signInWithEmailAndPassword(auth, adminEmail, adminPassword);
-                } catch (reauthError) {
-                    console.error("Failed to re-authenticate admin in error block:", reauthError);
-                }
-            }
         } finally {
             setIsLoading(prev => ({ ...prev, create: false }));
         }
@@ -574,3 +540,5 @@ export default function AdminPage() {
         </MainLayout>
     );
 }
+
+    
