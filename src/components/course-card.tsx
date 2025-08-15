@@ -5,9 +5,10 @@ import { useState } from 'react';
 import Image from 'next/image';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ShoppingCart } from 'lucide-react';
+import { ShoppingCart, ArrowLeft } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 interface CourseCardProps {
   course: {
@@ -25,21 +26,27 @@ interface CourseCardProps {
 
 export function CourseCard({ course, className }: CourseCardProps) {
   const [isFlipped, setIsFlipped] = useState(false);
+  const isMobile = useIsMobile();
 
   const handleMouseEnter = () => {
-    if (typeof window !== 'undefined' && !('ontouchstart' in window || navigator.maxTouchPoints > 0)) {
-        setIsFlipped(true);
+    if (!isMobile) {
+      setIsFlipped(true);
     }
   };
   const handleMouseLeave = () => {
-     if (typeof window !== 'undefined' && !('ontouchstart' in window || navigator.maxTouchPoints > 0)) {
-        setIsFlipped(false);
+    if (!isMobile) {
+      setIsFlipped(false);
     }
   };
 
   const handleCardClick = () => {
-    if (typeof window !== 'undefined' && ('ontouchstart' in window || navigator.maxTouchPoints > 0)) {
-        setIsFlipped(!isFlipped);
+    if (isMobile) {
+        // On mobile, clicking the card should navigate, not flip.
+        const path = course.detailsLink || course.link || '#';
+        // This programmatic navigation would require useRouter, but a Link wrapper is simpler.
+        // For now, we will let the Link components handle navigation.
+    } else {
+       setIsFlipped(!isFlipped);
     }
   };
 
@@ -52,45 +59,56 @@ export function CourseCard({ course, className }: CourseCardProps) {
 
   const curriculumColor = course.curriculum ? curriculumColorMap[course.curriculum] || 'bg-gray-500' : 'bg-gray-500';
 
-  const DetailsButton = () => {
-    const buttonContent = (
-       <Button variant="ghost" size="sm">
-          تفاصيل
-       </Button>
-    );
-    // The details button (front of card) should not trigger flip on touch devices.
-    // It should navigate.
-    const handleClick = (e: React.MouseEvent) => {
-      e.stopPropagation();
-    }
-    
-    if (course.detailsLink) {
-        return <Link href={course.detailsLink} onClick={handleClick}>{buttonContent}</Link>;
-    }
 
-    if (course.link) {
-      return <Link href={course.link} onClick={handleClick}>{buttonContent}</Link>;
-    }
-    
-    return null;
-  };
-
-  const AddToCartButton = () => {
-    const button = (
-      <Button variant="secondary" size="sm">
-          <ShoppingCart className="h-4 w-4 me-2" />
-          تفاصيل الدورة
-      </Button>
+  if (isMobile) {
+    // --- Mobile View: A simple, non-flipping card ---
+    return (
+        <Card className={cn("w-full max-w-sm flex flex-col overflow-hidden rounded-lg shadow-lg border-2 border-primary bg-white/30 backdrop-blur-sm", className)}>
+            <Link href={course.detailsLink || course.link || '#'} className="block">
+                {course.curriculum && (
+                  <div className={cn(
+                    "absolute top-2 -right-11 transform rotate-45 text-white text-xs font-bold text-center z-10 w-40 py-1",
+                    curriculumColor
+                  )}>
+                    {course.curriculum}
+                  </div>
+                )}
+                <div className="relative aspect-video overflow-hidden">
+                    <Image
+                        src={course.imageUrl}
+                        alt={course.title}
+                        fill
+                        className="object-cover"
+                        data-ai-hint={course.imageHint}
+                    />
+                </div>
+                <div className="flex flex-1 flex-col p-4 justify-between">
+                    <CardHeader className="p-0">
+                        <CardTitle className="text-lg font-bold text-primary leading-tight h-14">
+                            {course.title}
+                        </CardTitle>
+                    </CardHeader>
+                     <CardContent className="p-0 mt-2 flex-1">
+                        <p className="text-sm text-muted-foreground">
+                            {course.description}
+                        </p>
+                    </CardContent>
+                    <CardFooter className="p-0 pt-4 flex justify-between items-center">
+                       <p className="text-xl font-bold text-foreground">{course.price}</p>
+                       <Button variant="ghost" size="sm" asChild>
+                           <span>
+                               تفاصيل <ArrowLeft className="w-4 h-4 ms-2" />
+                           </span>
+                       </Button>
+                    </CardFooter>
+                </div>
+            </Link>
+        </Card>
     );
-    const handleClick = (e: React.MouseEvent) => {
-      e.stopPropagation();
-    }
-     if (course.detailsLink) {
-      return <Link href={course.detailsLink} onClick={handleClick}>{button}</Link>;
-    }
-    return <div onClick={handleClick}>{button}</div>;
   }
 
+
+  // --- Desktop View: The original flipping card ---
   return (
       <div
         className={cn("w-full max-w-sm h-96 perspective-1000 group", className)}
@@ -131,7 +149,9 @@ export function CourseCard({ course, className }: CourseCardProps) {
                     </CardHeader>
                     <CardFooter className="p-0 flex justify-between items-center">
                        <p className="text-xl font-bold text-foreground">{course.price}</p>
-                       <DetailsButton />
+                       <Button variant="ghost" size="sm">
+                           تفاصيل
+                       </Button>
                     </CardFooter>
                 </div>
             </Card>
@@ -148,12 +168,15 @@ export function CourseCard({ course, className }: CourseCardProps) {
                 </CardContent>
                 <CardFooter className="p-0 mt-4 flex justify-between items-center">
                     <p className="text-xl font-bold">{course.price}</p>
-                    <AddToCartButton />
+                    <Link href={course.detailsLink || course.link || '#'} onClick={(e) => e.stopPropagation()}>
+                        <Button variant="secondary" size="sm">
+                            <ShoppingCart className="h-4 w-4 me-2" />
+                            تفاصيل الدورة
+                        </Button>
+                    </Link>
               </CardFooter>
             </Card>
         </div>
       </div>
   );
 }
-
-    

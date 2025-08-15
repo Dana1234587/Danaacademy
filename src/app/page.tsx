@@ -204,7 +204,7 @@ export default function Home() {
                         انضم إلى دوراتنا المصممة بعناية لمساعدتك على إتقان مفاهيم الفيزياء وتحقيق أفضل النتائج.
                     </p>
                 </div>
-                <div className="mt-12 grid gap-8 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 justify-center">
+                <div className="mt-12 grid gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 justify-center">
                   {courses.map((course, index) => (
                     <div key={index} className="flex justify-center">
                       <CourseCard course={course} />
