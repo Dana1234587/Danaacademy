@@ -29,7 +29,7 @@ import {
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { useStore } from '@/store/app-store';
 import { auth } from '@/lib/firebase';
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, reauthenticateWithCredential, EmailAuthProvider, signOut } from 'firebase/auth';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
 
 
 const availableCourses = [
@@ -78,10 +78,14 @@ export default function AdminPage() {
             setRegisteredDevices(registeredDevicesData);
         } catch (error: any) {
             console.error("Error fetching data:", error);
+            const errorMessage = error.code === 'permission-denied' 
+                ? 'فشل جلب البيانات. تأكدي من تحديث قواعد الأمان في Firebase بشكل صحيح.'
+                : `حدث خطأ غير متوقع: ${error.message}`;
             toast({ 
                 variant: 'destructive', 
                 title: 'فشل تحميل البيانات', 
-                description: `حدث خطأ أثناء جلب البيانات. الرجاء التأكد من تحديث قواعد الأمان في Firebase. الخطأ: ${error.message}` 
+                description: errorMessage,
+                duration: 9000,
             });
         } finally {
             setIsLoading(prev => ({ ...prev, page: false }));
@@ -89,7 +93,7 @@ export default function AdminPage() {
     }, [toast]);
 
     useEffect(() => {
-        if (currentUser) { // Just check if a user is logged in
+        if (currentUser) {
             fetchData();
         }
     }, [fetchData, currentUser]);
@@ -98,6 +102,10 @@ export default function AdminPage() {
         e.preventDefault();
         if (selectedCourses.length === 0) {
             toast({ variant: 'destructive', title: 'خطأ', description: 'الرجاء اختيار دورة واحدة على الأقل للطالب.' });
+            return;
+        }
+        if (!currentUser) {
+            toast({ variant: 'destructive', title: 'خطأ', description: 'يجب تسجيل الدخول كمسؤول لإنشاء حساب.' });
             return;
         }
         setIsLoading(prev => ({ ...prev, create: true }));
@@ -116,7 +124,7 @@ export default function AdminPage() {
                 studentName: newStudentName,
                 username: newStudentUsername,
                 email: studentEmail,
-                password: newStudentPassword,
+                password: newStudentPassword, // Storing for reference
                 phone1: newStudentPhone1,
                 phone2: newStudentPhone2,
                 courses: coursesDetails.map(c => c.name),
@@ -135,7 +143,7 @@ export default function AdminPage() {
             setNewStudentPhone1('');
             setNewStudentPhone2('');
             setSelectedCourses([]);
-            fetchData();
+            fetchData(); // Refresh the list
 
         } catch (error: any) {
             let description = 'حدث خطأ غير متوقع. الرجاء المحاولة مرة أخرى.';
@@ -379,26 +387,34 @@ export default function AdminPage() {
                                             </TableRow>
                                         </TableHeader>
                                         <TableBody>
-                                            {students.map((student) => (
-                                                <TableRow key={student.id}>
-                                                    <TableCell className="font-medium whitespace-nowrap">{student.studentName}</TableCell>
-                                                    <TableCell className="whitespace-nowrap">{student.username}</TableCell>
-                                                    <TableCell>{student.password}</TableCell>
-                                                    <TableCell className="whitespace-nowrap">{student.courses?.join(', ') || 'N/A'}</TableCell>
-                                                    <TableCell>{student.phone1 || '-'}</TableCell>
-                                                    <TableCell>{student.phone2 || '-'}</TableCell>
-                                                    <TableCell className="flex gap-2">
-                                                      <Button variant="outline" size="icon" disabled><Edit className="w-4 h-4" /></Button>
-                                                      <Button 
-                                                        variant="destructive" 
-                                                        size="icon" 
-                                                        onClick={() => handleDeleteStudent(student.id, student.studentName)}
-                                                        disabled={isLoading[`delete-${student.id}`]}>
-                                                            {isLoading[`delete-${student.id}`] ? <Loader2 className="w-4 h-4 animate-spin" /> : <Trash2 className="w-4 h-4" />}
-                                                      </Button>
+                                            {students.length > 0 ? (
+                                                students.map((student) => (
+                                                    <TableRow key={student.id}>
+                                                        <TableCell className="font-medium whitespace-nowrap">{student.studentName}</TableCell>
+                                                        <TableCell className="whitespace-nowrap">{student.username}</TableCell>
+                                                        <TableCell>{student.password}</TableCell>
+                                                        <TableCell className="whitespace-nowrap">{student.courses?.join(', ') || 'N/A'}</TableCell>
+                                                        <TableCell>{student.phone1 || '-'}</TableCell>
+                                                        <TableCell>{student.phone2 || '-'}</TableCell>
+                                                        <TableCell className="flex gap-2">
+                                                          <Button variant="outline" size="icon" disabled><Edit className="w-4 h-4" /></Button>
+                                                          <Button 
+                                                            variant="destructive" 
+                                                            size="icon" 
+                                                            onClick={() => handleDeleteStudent(student.id, student.studentName)}
+                                                            disabled={isLoading[`delete-${student.id}`]}>
+                                                                {isLoading[`delete-${student.id}`] ? <Loader2 className="w-4 h-4 animate-spin" /> : <Trash2 className="w-4 h-4" />}
+                                                          </Button>
+                                                        </TableCell>
+                                                    </TableRow>
+                                                ))
+                                            ) : (
+                                                <TableRow>
+                                                    <TableCell colSpan={7} className="text-center text-muted-foreground h-24">
+                                                        لا يوجد طلاب مسجلون حاليًا.
                                                     </TableCell>
                                                 </TableRow>
-                                            ))}
+                                            )}
                                         </TableBody>
                                     </Table>
                                 </div>
