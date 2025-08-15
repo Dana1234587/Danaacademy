@@ -14,8 +14,6 @@ import {
     type RegisterDeviceInput,
     type RegisterDeviceOutput
 } from './register-device.types';
-import { collection, query, where, getDocs } from 'firebase/firestore';
-import { db } from '@/lib/firebase'; 
 import { adminDB } from '@/lib/firebase-admin';
 
 
@@ -91,9 +89,11 @@ const registerDeviceFlow = ai.defineFlow(
 
     } catch (error: any) {
       console.error('Error in registerDeviceFlow:', error);
+      // Provide a more specific error message if available
+      const errorMessage = error.details || error.message || 'An unknown error occurred during device registration.';
       return {
         status: 'error',
-        message: error.message || 'An unknown error occurred during device registration.',
+        message: errorMessage,
       };
     }
   }
