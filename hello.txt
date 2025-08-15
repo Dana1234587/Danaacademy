@@ -1,1 +1,1 @@
-hi
+checkpoint for device management implementation
