@@ -1,35 +1,38 @@
-
 rules_version = '2';
-
 service cloud.firestore {
   match /databases/{database}/documents {
     
     // Helper function to check if the user is an admin
     function isAdmin() {
-      return request.auth != null && request.auth.token.email == 'admin@dana-academy.com';
+      return request.auth.token.email == 'admin@dana-academy.com';
     }
 
-    // Students can only read their own data.
-    // Admins can read, list, and write all student data.
+    // --- Students Collection Rules ---
     match /students/{studentId} {
-      allow read: if request.auth != null && (request.auth.uid == studentId || isAdmin());
-      allow list, create, update, delete: if isAdmin();
+      // Admin can list all students, and perform any action on any student doc.
+      // A logged-in user can only read their own document.
+      allow list: if isAdmin();
+      allow read: if isAdmin() || request.auth.uid == studentId;
+      allow write: if isAdmin();
     }
-    
-    // Any authenticated user can create a pending device request for themselves.
-    // Admins can read, list, and delete pending devices.
+
+    // --- Pending Devices Collection Rules ---
     match /pendingDevices/{deviceId} {
+      // Any authenticated user can create a pending device request (for themselves).
+      // This is crucial for the first-time login flow.
       allow create: if request.auth != null && request.resource.data.studentId == request.auth.uid;
-      allow read, list, delete: if isAdmin();
+      // Only the admin can read the list of pending devices or delete them.
+      allow list, read, delete: if isAdmin();
     }
-    
-    // Students can read their own registered devices.
-    // Admins can read, list, create, and delete all registered devices.
+
+    // --- Registered Devices Collection Rules ---
     match /registeredDevices/{deviceId} {
-       allow read: if request.auth != null && get(/databases/$(database)/documents/registeredDevices/$(deviceId)).data.studentId == request.auth.uid;
-       allow list, create, delete: if isAdmin();
+       // Admin can list all registered devices.
+      allow list: if isAdmin();
+      // Admin can read any device doc. A student can only read their own.
+      allow read: if isAdmin() || (request.auth.uid == resource.data.studentId);
+      // Only admin can write (create, update, delete) registered devices.
+      allow write: if isAdmin();
     }
   }
 }
-
-    
