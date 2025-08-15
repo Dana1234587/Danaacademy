@@ -1,29 +1,32 @@
+
 rules_version = '2';
+
 service cloud.firestore {
   match /databases/{database}/documents {
   
-    // Admin user can read and write all documents.
-    // This rule is broad but necessary for the admin panel to function correctly,
-    // allowing it to fetch lists of students, devices, etc.
-    // The security is enforced by checking for a custom claim 'admin' which is set securely.
+    // Rule 1: Admins have god-mode.
+    // If a user has the custom claim 'admin' set to true, they can read/write anything.
     match /{document=**} {
-      allow read, write: if get(/databases/$(database)/documents/admins/$(request.auth.uid)).data.role == 'admin';
+      allow read, write: if request.auth.token.admin == true;
     }
-
-    // Students can read and update their own document.
+    
+    // Rule 2: Student can only read/update their own document in the 'students' collection.
+    // They cannot see other students' data. This is in addition to the admin rule above.
     match /students/{studentId} {
       allow read, update: if request.auth.uid == studentId;
     }
     
-    // Students can read the devices registered to their own studentId.
+    // Rule 3: A logged-in user can read devices associated with their studentId.
+    // This uses a 'get' call to securely check if the requesting user's UID matches the studentId on the device document.
     match /registeredDevices/{deviceId} {
-       allow read: if request.auth.uid == resource.data.studentId;
+      allow read: if request.auth != null && get(/databases/$(database)/documents/students/$(request.auth.uid)).id == resource.data.studentId;
     }
 
-    // Any authenticated user can create a pending device request.
-    // This is safe because the document contains their UID, and only an admin can approve it.
+    // Rule 4: Any authenticated user (i.e., a student trying to register a new device) can create a pending device request.
+    // Only admins can read or delete these requests.
     match /pendingDevices/{pendingDeviceId} {
       allow create: if request.auth != null;
     }
+    
   }
 }

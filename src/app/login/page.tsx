@@ -12,7 +12,6 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
 import { Loader2 } from 'lucide-react';
-import { findStudentByUsername } from '@/services/studentService';
 import { findRegisteredDevicesByStudentId, addPendingDevice } from '@/services/deviceService';
 import { auth, db } from '@/lib/firebase';
 import { signInWithEmailAndPassword } from 'firebase/auth';
@@ -86,11 +85,11 @@ export default function LoginPage() {
         // The auth state listener in AppProvider will handle setting the user role
         // and redirecting. Here we just need to determine the initial redirect path.
         
-        const adminDocRef = doc(db, 'admins', user.uid);
-        const adminDocSnap = await getDoc(adminDocRef);
-
-        if (adminDocSnap.exists()) {
-             toast({
+        // This part is now handled by the central auth listener in app-store.tsx
+        // We just need to check if the user is an admin to redirect correctly.
+        const idTokenResult = await user.getIdTokenResult();
+        if (idTokenResult.claims.admin) {
+            toast({
               title: 'أهلاً بعودتك دكتورة دانا',
               description: 'يتم توجيهك إلى لوحة التحكم.',
             });
@@ -127,7 +126,7 @@ export default function LoginPage() {
 
             const isDeviceRegistered = registeredDevices.some(device => device.deviceId === deviceId);
 
-            if (registeredDevices.length < 2 || isDeviceRegistered) { // Allow up to 2 devices
+            if (registeredDevices.length < 2 || isDeviceRegistered) { 
                  toast({
                   title: `أهلاً بك مجددًا ${student.studentName}`,
                   description: 'تم تسجيل دخولك بنجاح.',

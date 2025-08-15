@@ -59,36 +59,40 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
       }
 
       try {
-        const adminDocRef = doc(db, 'admins', firebaseUser.uid);
-        const studentDocRef = doc(db, 'students', firebaseUser.uid);
-
-        // Fetch both documents in parallel to be more efficient.
-        const [adminDocSnap, studentDocSnap] = await Promise.all([
-            getDoc(adminDocRef),
-            getDoc(studentDocRef)
-        ]);
+        const idTokenResult = await firebaseUser.getIdTokenResult(true); // Force refresh the token
         
-        if (adminDocSnap.exists()) {
-           const adminData = adminDocSnap.data();
-           store.getState().setCurrentUser({ 
-              uid: firebaseUser.uid,
-              username: adminData.displayName || 'Admin',
-              email: firebaseUser.email || '', 
-              role: 'admin',
-              enrolledCourseIds: ['tawjihi-2007-supplementary', 'tawjihi-2008'] 
-          });
-        } else if (studentDocSnap.exists()) {
-             const studentData = studentDocSnap.data();
+        if (idTokenResult.claims.admin) {
+           const adminDocRef = doc(db, 'admins', firebaseUser.uid);
+           const adminDocSnap = await getDoc(adminDocRef);
+           if (adminDocSnap.exists()) {
+             const adminData = adminDocSnap.data();
              store.getState().setCurrentUser({ 
                 uid: firebaseUser.uid,
-                username: studentData.studentName,
-                email: firebaseUser.email || '',
-                role: 'student', 
-                enrolledCourseIds: studentData.courseIds || []
+                username: adminData.displayName || 'Admin',
+                email: firebaseUser.email || '', 
+                role: 'admin',
+                enrolledCourseIds: ['tawjihi-2007-supplementary', 'tawjihi-2008'] // Or fetch from a specific field if needed
             });
-        } else {
-             console.warn(`User ${firebaseUser.uid} authenticated but not found in Firestore collections.`);
+           } else {
+             console.warn(`User ${firebaseUser.uid} has admin claim but no document in 'admins' collection.`);
              store.getState().logout();
+           }
+        } else {
+             const studentDocRef = doc(db, 'students', firebaseUser.uid);
+             const studentDocSnap = await getDoc(studentDocRef);
+             if (studentDocSnap.exists()) {
+                 const studentData = studentDocSnap.data();
+                 store.getState().setCurrentUser({ 
+                    uid: firebaseUser.uid,
+                    username: studentData.studentName,
+                    email: firebaseUser.email || '',
+                    role: 'student', 
+                    enrolledCourseIds: studentData.courseIds || []
+                });
+             } else {
+                 console.warn(`User ${firebaseUser.uid} is not an admin and not found in 'students' collection.`);
+                 store.getState().logout();
+             }
         }
       } catch (error) {
         console.error("Error fetching user data:", error);
