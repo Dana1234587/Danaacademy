@@ -10,6 +10,7 @@
 
 
 
+
 import { MarketingLayout } from '@/components/layout/marketing-layout';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, Rocket } from 'lucide-react';
@@ -24,7 +25,7 @@ import { CourseCard } from '@/components/course-card';
 
 
 function Section({ children, className, id }: { children: React.ReactNode, className?: string, id?: string }) {
-  return <section id={id} className={`py-12 md:py-20 ${className}`}>{children}</section>;
+  return <section id={id} className={`py-12 md:py-20 px-4 md:px-0 ${className}`}>{children}</section>;
 }
 
 const memorableMoments = [
@@ -157,8 +158,8 @@ export default function Home() {
         </div>
 
         <Section className="bg-background z-10 relative">
-            <div className="container px-4 md:px-6">
-                <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div className="container mx-auto px-4 md:px-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
                     <div className="space-y-6 text-center md:text-start p-2">
                         <h2 className="text-3xl sm:text-4xl font-bold" style={{color: '#776391'}}>
                            مرحباً بك في دانا أكاديمي!
@@ -206,7 +207,7 @@ export default function Home() {
 
         {/* Courses Section */}
         <Section id="courses-section" className="bg-muted z-10 relative">
-            <div className="container px-4 md:px-6">
+            <div className="container mx-auto px-4 md:px-6">
                 <div className="flex flex-col items-center text-center space-y-6">
                     <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl text-primary">
                         الدورات المتاحة
@@ -227,7 +228,7 @@ export default function Home() {
 
         {/* Why Dana Academy Section */}
         <Section className="bg-background z-10 relative">
-            <div className="container px-4 md:px-6">
+            <div className="container mx-auto px-4 md:px-6">
                 <div className="flex flex-col items-center text-center space-y-6 animate-fade-in-up animation-delay-300">
                     <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl text-primary">
                         لماذا دانا أكاديمي؟
@@ -276,7 +277,7 @@ export default function Home() {
         
         {/* Testimonials Section */}
         <Section className="bg-white">
-          <div className="container px-4 md:px-6">
+          <div className="container mx-auto px-4 md:px-6">
             <div className="flex flex-col items-center text-center space-y-6">
               <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl text-primary">
                 آراء طلابنا
@@ -299,7 +300,7 @@ export default function Home() {
 
         {/* Student Achievements Section */}
         <Section className="bg-background">
-            <div className="container px-4 md:px-6">
+            <div className="container mx-auto px-4 md:px-6">
                 <div className="flex flex-col items-center text-center space-y-6">
                     <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl text-primary">
                         إنجازات طلابنا
@@ -308,7 +309,7 @@ export default function Home() {
                         نفخر بطلابنا ونتائجهم المتميزة التي هي شهادة على نجاح أساليبنا التعليمية.
                     </p>
                 </div>
-                <div className="mt-12 grid gap-x-8 gap-y-24 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-items-center">
+                <div className="mt-12 grid gap-x-8 gap-y-24 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-items-center">
                     {studentAchievements.map((student, index) => (
                         <AchievementCard key={index} student={student} />
                     ))}
@@ -318,7 +319,7 @@ export default function Home() {
 
         {/* Memorable Moments Section */}
         <Section className="bg-muted">
-            <div className="container px-4 md:px-6">
+            <div className="container mx-auto px-4 md:px-6">
                 <div className="flex flex-col items-center text-center space-y-6">
                     <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl text-primary">
                         ألبوم الصور
@@ -337,18 +338,3 @@ export default function Home() {
     </MarketingLayout>
   );
 }
-
-    
-
-    
-
-    
-
-    
-
-
-
-
-
-
-    

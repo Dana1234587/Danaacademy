@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { Card } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 import { Award, Percent } from 'lucide-react';
+import { useState } from 'react';
 
 interface AchievementCardProps {
   student: {
@@ -18,12 +19,34 @@ interface AchievementCardProps {
 }
 
 export function AchievementCard({ student, className }: AchievementCardProps) {
+    const [isHovered, setIsHovered] = useState(false);
+    const isTouchDevice = typeof window !== 'undefined' && ('ontouchstart' in window || navigator.maxTouchPoints > 0);
+
+    const handleInteraction = () => {
+        if (isTouchDevice) {
+            setIsHovered(prev => !prev);
+        }
+    };
+    
+    const handleMouseEnter = () => {
+        if (!isTouchDevice) setIsHovered(true);
+    }
+    const handleMouseLeave = () => {
+        if (!isTouchDevice) setIsHovered(false);
+    }
+
+
   return (
-    <div className={cn("relative group w-[300px] h-[200px]", className)}>
+    <div 
+        className={cn("relative group w-[300px] h-[200px]", className)}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        onClick={handleInteraction}
+    >
         {/* Text Card */}
         <Card className={cn(
-            "w-full h-full rounded-xl transition-all duration-300 transform overflow-hidden", // Added overflow-hidden
-            "border-2 border-dashed border-primary bg-white/30 backdrop-blur-sm shadow-lg text-foreground p-0 flex flex-col justify-between" // Changed padding
+            "w-full h-full rounded-xl transition-all duration-300 transform overflow-hidden",
+            "border-2 border-dashed border-primary bg-white/30 backdrop-blur-sm shadow-lg text-foreground p-0 flex flex-col justify-between"
         )}>
             <div className="p-6">
                 <h3 className="text-2xl font-bold text-primary">{student.name}</h3>
@@ -50,11 +73,11 @@ export function AchievementCard({ student, className }: AchievementCardProps) {
             </div>
         </Card>
 
-        {/* Image that appears on hover */}
+        {/* Image that appears on hover/tap */}
         <div className={cn(
             "absolute top-0 right-0 w-[200px] h-[300px] rounded-xl shadow-xl transition-all duration-500 ease-in-out",
             "opacity-0 scale-90 -translate-y-4 -z-10",
-            "group-hover:opacity-100 group-hover:scale-100 group-hover:-translate-y-1/3 group-hover:-translate-x-[110%] group-hover:z-10"
+            (isHovered || isTouchDevice && isHovered) && "opacity-100 scale-100 -translate-y-1/3 -translate-x-[110%] z-10"
         )}>
             <Image
             src={student.imageUrl}

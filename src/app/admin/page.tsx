@@ -376,7 +376,7 @@ export default function AdminPage() {
                                                     <p className="font-bold text-lg">{device.studentName}</p>
                                                     <p className="text-sm text-primary">{device.course}</p>
                                                 </div>
-                                                <div className="flex gap-2 flex-wrap">
+                                                <div className="flex flex-col sm:flex-row gap-2 flex-wrap">
                                                     <Button onClick={() => handleApproveDevice(device.id, device.studentName, 'replace')} disabled={isLoading[`replace-${device.id}`]} variant="secondary">
                                                         {isLoading[`replace-${device.id}`] ? <Loader2 className="me-2 h-4 w-4 animate-spin" /> : <Check className="me-2" />}
                                                         موافقة واستبدال
@@ -495,7 +495,3 @@ export default function AdminPage() {
         </MainLayout>
     );
 }
-
-    
-
-    
