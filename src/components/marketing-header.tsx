@@ -56,20 +56,24 @@ export function MarketingHeader() {
     <nav className={cn(
       isMobile ? 'flex flex-col gap-6 text-lg' : 'hidden md:flex gap-8 items-center'
     )}>
-      {navLinks.map(link => (
-        <Link 
-          key={link.href} 
-          href={link.href} 
-          className={cn(
-            "animated-underline flex items-center gap-2 font-medium text-foreground hover:text-primary transition-colors",
-            isMobile ? 'text-2xl' : 'text-lg',
-            pathname === link.href && 'text-primary'
-          )}
-        >
-          <link.icon className="h-5 w-5" />
-          {link.text}
-        </Link>
-      ))}
+      {navLinks.map((link) => {
+        const LinkWrapper = isMobile ? SheetClose : 'div';
+        return (
+          <LinkWrapper key={link.href}>
+            <Link
+              href={link.href} 
+              className={cn(
+                "animated-underline flex items-center gap-2 font-medium text-foreground hover:text-primary transition-colors",
+                isMobile ? 'text-2xl' : 'text-lg',
+                pathname === link.href && 'text-primary'
+              )}
+            >
+              <link.icon className="h-5 w-5" />
+              {link.text}
+            </Link>
+          </LinkWrapper>
+        )
+      })}
     </nav>
   );
   
@@ -80,7 +84,9 @@ export function MarketingHeader() {
           <Logo className="h-14 w-auto object-contain" />
         </Link>
         
-        <NavLinksContent />
+        <div className="hidden md:flex">
+          <NavLinksContent />
+        </div>
 
         <div className="flex items-center gap-2">
             {!currentUser ? (
@@ -125,9 +131,11 @@ export function MarketingHeader() {
                     </SheetTrigger>
                     <SheetContent side="right" className="w-full sm:w-3/4 bg-background p-8">
                         <div className="flex flex-col h-full">
-                           <Link href="/" className="mb-8">
-                            <Logo className="h-16 w-auto object-contain" />
-                           </Link>
+                           <SheetClose asChild>
+                            <Link href="/" className="mb-8">
+                              <Logo className="h-16 w-auto object-contain" />
+                            </Link>
+                           </SheetClose>
                            <NavLinksContent isMobile={true} />
                            <div className="mt-auto space-y-4">
                             {!currentUser ? (
@@ -160,10 +168,12 @@ export function MarketingHeader() {
                                       </Button>
                                     </SheetClose>
                                   )}
-                                  <Button onClick={handleLogout} variant="destructive" size="lg" className="w-full">
-                                      <LogOut className="h-5 w-5" />
-                                      تسجيل الخروج
-                                  </Button>
+                                  <SheetClose asChild>
+                                    <Button onClick={handleLogout} variant="destructive" size="lg" className="w-full">
+                                        <LogOut className="h-5 w-5" />
+                                        تسجيل الخروج
+                                    </Button>
+                                  </SheetClose>
                                 </>
                               )}
                            </div>
@@ -176,3 +186,5 @@ export function MarketingHeader() {
     </header>
   );
 }
+
+    

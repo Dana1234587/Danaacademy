@@ -90,3 +90,5 @@ export function AchievementCard({ student, className }: AchievementCardProps) {
     </div>
   );
 }
+
+    

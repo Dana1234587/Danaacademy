@@ -26,14 +26,22 @@ interface CourseCardProps {
 export function CourseCard({ course, className }: CourseCardProps) {
   const [isFlipped, setIsFlipped] = useState(false);
 
-  const handleMouseEnter = () => setIsFlipped(true);
-  const handleMouseLeave = () => setIsFlipped(false);
-  const isTouchDevice = typeof window !== 'undefined' && ('ontouchstart' in window || navigator.maxTouchPoints > 0);
+  const handleMouseEnter = () => {
+    if (typeof window !== 'undefined' && !('ontouchstart' in window || navigator.maxTouchPoints > 0)) {
+        setIsFlipped(true);
+    }
+  };
+  const handleMouseLeave = () => {
+     if (typeof window !== 'undefined' && !('ontouchstart' in window || navigator.maxTouchPoints > 0)) {
+        setIsFlipped(false);
+    }
+  };
+
   const handleCardClick = () => {
-    if (isTouchDevice) {
+    if (typeof window !== 'undefined' && ('ontouchstart' in window || navigator.maxTouchPoints > 0)) {
         setIsFlipped(!isFlipped);
     }
-  }
+  };
 
 
   const curriculumColorMap: { [key: string]: string } = {
@@ -50,10 +58,20 @@ export function CourseCard({ course, className }: CourseCardProps) {
           تفاصيل
        </Button>
     );
-    if (course.link) {
-      return <Link href={course.link}>{buttonContent}</Link>;
+    // The details button (front of card) should not trigger flip on touch devices.
+    // It should navigate.
+    const handleClick = (e: React.MouseEvent) => {
+      e.stopPropagation();
     }
-    // Fallback or render nothing if no link
+    
+    if (course.detailsLink) {
+        return <Link href={course.detailsLink} onClick={handleClick}>{buttonContent}</Link>;
+    }
+
+    if (course.link) {
+      return <Link href={course.link} onClick={handleClick}>{buttonContent}</Link>;
+    }
+    
     return null;
   };
 
@@ -64,17 +82,20 @@ export function CourseCard({ course, className }: CourseCardProps) {
           تفاصيل الدورة
       </Button>
     );
-     if (course.detailsLink) {
-      return <Link href={course.detailsLink}>{button}</Link>;
+    const handleClick = (e: React.MouseEvent) => {
+      e.stopPropagation();
     }
-    return button;
+     if (course.detailsLink) {
+      return <Link href={course.detailsLink} onClick={handleClick}>{button}</Link>;
+    }
+    return <div onClick={handleClick}>{button}</div>;
   }
 
   return (
       <div
         className={cn("w-full max-w-sm h-96 perspective-1000 group", className)}
-        onMouseEnter={!isTouchDevice ? handleMouseEnter : undefined}
-        onMouseLeave={!isTouchDevice ? handleMouseLeave : undefined}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
         onClick={handleCardClick}
       >
         <div
@@ -134,3 +155,5 @@ export function CourseCard({ course, className }: CourseCardProps) {
       </div>
   );
 }
+
+    

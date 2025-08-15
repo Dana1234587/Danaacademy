@@ -21,14 +21,28 @@ interface FlippableCardProps {
 export function FlippableCard({ cardId, frontContent, backContent, className }: FlippableCardProps) {
   const [isFlipped, setIsFlipped] = useState(false);
 
-  const handleMouseEnter = () => setIsFlipped(true);
-  const handleMouseLeave = () => setIsFlipped(false);
+  const handleInteraction = () => {
+    setIsFlipped(!isFlipped);
+  };
+  
+  const handleMouseEnter = () => {
+     if (typeof window !== 'undefined' && !('ontouchstart' in window || navigator.maxTouchPoints > 0)) {
+        setIsFlipped(true);
+    }
+  }
+
+  const handleMouseLeave = () => {
+      if (typeof window !== 'undefined' && !('ontouchstart' in window || navigator.maxTouchPoints > 0)) {
+        setIsFlipped(false);
+    }
+  }
 
   return (
     <div
       className={cn("w-full h-64 perspective-1000 group", className)}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      onClick={handleInteraction}
     >
       <div
         className={cn(
@@ -61,3 +75,5 @@ export function FlippableCard({ cardId, frontContent, backContent, className }: 
     </div>
   );
 }
+
+    
