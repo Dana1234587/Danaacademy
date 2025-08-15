@@ -1,0 +1,8 @@
+{
+  "admins": {
+    "admin@dana-academy.com": {
+      "role": "admin",
+      "addedOn": "2024-01-01"
+    }
+  }
+}
