@@ -123,7 +123,7 @@ export default function AdminPage() {
         } catch (error: any) {
             let description = 'حدث خطأ غير متوقع. الرجاء المحاولة مرة أخرى.';
              if (error.message.includes('PERMISSION_DENIED') || error.message.includes('permission-denied')) {
-                description = 'فشل الوصول إلى قاعدة البيانات. يرجى التأكد من أن قواعد الأمان في Firebase تسمح بإنشاء الحسابات.';
+                description = 'فشل الوصول إلى قاعدة البيانات. يرجى التأكد من أن قواعد الأمان في Firebase صحيحة وتسمح للمسؤول بإنشاء الحسابات.';
             } else if (error.code) {
                 switch (error.code) {
                     case 'auth/email-already-in-use':
@@ -136,12 +136,17 @@ export default function AdminPage() {
                         description = 'صيغة اسم المستخدم غير صالحة. الرجاء استخدام حروف إنجليزية وأرقام فقط بدون مسافات أو رموز.';
                         break;
                     default:
-                        description = error.message;
+                        description = `Firebase error: ${error.message}`;
                 }
             } else if (error.message) {
-                description = error.message;
+                 description = error.message;
             }
-            toast({ variant: 'destructive', title: 'فشل إنشاء الحساب', description, duration: 9000 });
+            toast({ 
+                variant: 'destructive', 
+                title: 'فشل إنشاء الحساب', 
+                description: `${description} إذا استمرت المشكلة، قد تحتاج لحذف المستخدم من قسم المصادقة في Firebase والمحاولة مرة أخرى.`, 
+                duration: 9000 
+            });
         } finally {
             setIsLoading(prev => ({ ...prev, create: false }));
         }
@@ -529,5 +534,3 @@ export default function AdminPage() {
         </MainLayout>
     );
 }
-
-    

@@ -1,6 +1,6 @@
 
 // This service will handle all Firestore operations related to students
-import { collection, getDocs, doc, setDoc, deleteDoc, updateDoc } from 'firebase/firestore';
+import { collection, getDocs, doc, setDoc, deleteDoc, updateDoc, query, where } from 'firebase/firestore';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { db, auth } from '@/lib/firebase';
 import { deleteRegisteredDeviceByStudentId } from './deviceService';
@@ -54,8 +54,10 @@ export async function addStudent(studentData: Omit<Student, 'id'>): Promise<void
         
         await setDoc(studentDocRef, firestoreData);
 
-    } catch (firestoreError: any) {
-        console.error("Firestore write failed, but Auth user was created:", user.uid, firestoreError);
+    } catch (firestoreError) {
+        // This is a critical error. The user was created in Auth but not in Firestore.
+        // This can happen due to security rule violations or other DB errors.
+        // We re-throw a more informative error to be handled by the UI.
         throw new Error(`User created in Auth, but failed to save to database. Firebase error: ${firestoreError.message}. Please delete the user from Firebase Authentication manually and try again.`);
     }
 }
@@ -98,5 +100,3 @@ export async function resetStudentPassword(studentId: string, newPassword: strin
     });
     console.warn(`Password for student ${studentId} updated in Firestore. This does NOT change their actual login password.`);
 }
-
-    
