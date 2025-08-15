@@ -59,6 +59,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
       }
 
       try {
+        // Attempt to fetch from both collections simultaneously
         const [adminDocSnap, studentDocSnap] = await Promise.all([
           getDoc(doc(db, 'admins', firebaseUser.uid)),
           getDoc(doc(db, 'students', firebaseUser.uid))
@@ -68,10 +69,11 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
            const adminData = adminDocSnap.data();
            store.getState().setCurrentUser({ 
               uid: firebaseUser.uid,
-              username: adminData.displayName || 'Admin',
+              username: 'Admin', // Admin username can be static or from doc
               email: firebaseUser.email || '', 
               role: 'admin',
-              enrolledCourseIds: ['tawjihi-2007-supplementary', 'tawjihi-2008'] // Or fetch from a specific field if needed
+              // Admins have access to all courses by default in the UI logic
+              enrolledCourseIds: ['tawjihi-2007-supplementary', 'tawjihi-2008'] 
           });
         } else if (studentDocSnap.exists()) {
              const studentData = studentDocSnap.data();

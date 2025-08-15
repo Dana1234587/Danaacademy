@@ -4,29 +4,28 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
   
-    // Rule 1: Admins have god-mode.
-    // If a user has the custom claim 'admin' set to true, they can read/write anything.
-    match /{document=**} {
-      allow read, write: if request.auth.token.admin == true;
-    }
-    
-    // Rule 2: Student can only read/update their own document in the 'students' collection.
-    // They cannot see other students' data. This is in addition to the admin rule above.
-    match /students/{studentId} {
-      allow read, update: if request.auth.uid == studentId;
-    }
-    
-    // Rule 3: A logged-in user can read devices associated with their studentId.
-    // This uses a 'get' call to securely check if the requesting user's UID matches the studentId on the device document.
-    match /registeredDevices/{deviceId} {
-      allow read: if request.auth != null && get(/databases/$(database)/documents/students/$(request.auth.uid)).id == resource.data.studentId;
+    // Admins can read their own document
+    match /admins/{adminId} {
+      allow read, write: if request.auth.uid == adminId;
     }
 
-    // Rule 4: Any authenticated user (i.e., a student trying to register a new device) can create a pending device request.
-    // Only admins can read or delete these requests.
-    match /pendingDevices/{pendingDeviceId} {
+    // Students can read their own document. Admins can read all students.
+    match /students/{studentId} {
+      allow read: if request.auth.uid == studentId || exists(/databases/$(database)/documents/admins/$(request.auth.uid));
+      allow write: if request.auth.uid == studentId || exists(/databases/$(database)/documents/admins/$(request.auth.uid));
+    }
+
+    // Admins can read all pending/registered devices.
+    // Students can only add a pending device or read their own registered devices.
+    match /pendingDevices/{docId} {
+      allow read, write, delete: if exists(/databases/$(database)/documents/admins/$(request.auth.uid));
       allow create: if request.auth != null;
     }
     
+    match /registeredDevices/{docId} {
+       allow read, write, delete: if exists(/databases/$(database)/documents/admins/$(request.auth.uid));
+       // Allow a logged-in user to read their own devices
+       allow read: if request.auth.uid == resource.data.studentId;
+    }
   }
 }
