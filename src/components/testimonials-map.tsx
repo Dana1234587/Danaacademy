@@ -39,7 +39,7 @@ export function TestimonialsMap({ testimonials }: TestimonialsMapProps) {
   
   return (
     <div 
-      className="relative w-full h-[500px] md:h-[600px] bg-background rounded-lg overflow-auto"
+      className="relative w-full h-[500px] md:h-[600px] bg-background rounded-lg overflow-auto md:overflow-hidden"
     >
         <div className="relative w-[800px] h-full md:w-full">
           {testimonials.map((testimonial) => (
@@ -93,4 +93,3 @@ export function TestimonialsMap({ testimonials }: TestimonialsMapProps) {
     </div>
   );
 }
-

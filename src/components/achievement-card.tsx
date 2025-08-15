@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { Card } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 import { Award, Percent } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 interface AchievementCardProps {
   student: {
@@ -20,7 +20,12 @@ interface AchievementCardProps {
 
 export function AchievementCard({ student, className }: AchievementCardProps) {
     const [isHovered, setIsHovered] = useState(false);
-    const isTouchDevice = typeof window !== 'undefined' && ('ontouchstart' in window || navigator.maxTouchPoints > 0);
+    const [isTouchDevice, setIsTouchDevice] = useState(false);
+
+    useEffect(() => {
+        // This check runs only once on the client-side
+        setIsTouchDevice('ontouchstart' in window || navigator.maxTouchPoints > 0);
+    }, []);
 
     const handleInteraction = () => {
         if (isTouchDevice) {
@@ -77,7 +82,7 @@ export function AchievementCard({ student, className }: AchievementCardProps) {
         <div className={cn(
             "absolute top-0 right-0 w-[200px] h-[300px] rounded-xl shadow-xl transition-all duration-500 ease-in-out",
             "opacity-0 scale-90 -translate-y-4 -z-10",
-            (isHovered || isTouchDevice && isHovered) && "opacity-100 scale-100 -translate-y-1/3 -translate-x-[110%] z-10"
+            (isHovered) && "opacity-100 scale-100 -translate-y-1/3 -translate-x-[110%] z-10"
         )}>
             <Image
             src={student.imageUrl}
@@ -90,5 +95,3 @@ export function AchievementCard({ student, className }: AchievementCardProps) {
     </div>
   );
 }
-
-    
