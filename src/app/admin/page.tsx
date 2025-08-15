@@ -28,6 +28,9 @@ import {
 } from "@/components/ui/alert-dialog"
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { useStore } from '@/store/app-store';
+import { auth } from '@/lib/firebase';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, reauthenticateWithCredential, EmailAuthProvider } from 'firebase/auth';
+
 
 const availableCourses = [
     { id: 'tawjihi-2007-supplementary', name: 'فيزياء تكميلي 2007' },
@@ -62,7 +65,6 @@ export default function AdminPage() {
         }, {} as Record<string, RegisteredDevice[]>);
     }, [registeredDevices]);
 
-    // Fetch data on component mount
     const fetchData = useCallback(async () => {
         setIsLoading(prev => ({ ...prev, page: true }));
         try {
@@ -76,10 +78,11 @@ export default function AdminPage() {
             setRegisteredDevices(registeredDevicesData);
             toast({ title: 'تم تحديث البيانات', description: 'تم جلب أحدث البيانات من الخادم بنجاح.' });
         } catch (error: any) {
+            console.error("Error fetching data:", error);
             toast({ 
                 variant: 'destructive', 
                 title: 'فشل تحميل البيانات', 
-                description: `حدث خطأ أثناء جلب البيانات. قد يكون السبب مشكلة في قواعد الأمان في Firebase. الخطأ: ${error.message}` 
+                description: `حدث خطأ أثناء جلب البيانات. الرجاء التأكد من تحديث قواعد الأمان في Firebase. الخطأ: ${error.message}` 
             });
         } finally {
             setIsLoading(prev => ({ ...prev, page: false }));
@@ -179,7 +182,7 @@ export default function AdminPage() {
     };
 
     const handleDeleteStudent = async (studentId: string, studentName: string) => {
-        const confirmation = prompt(`هل أنت متأكد من حذف الطالب "${studentName}"؟ هذا الإجراء لا يمكن التراجع عنه. اكتب "حذف" للتأكيد.`);
+        const confirmation = prompt(`هل أنت متأكد من حذف الطالب "${studentName}"؟ هذا الإجراء سيحذف بياناته من قاعدة البيانات فقط ولا يمكن التراجع عنه. اكتب "حذف" للتأكيد.`);
         if (confirmation !== 'حذف') {
             toast({ title: 'تم الإلغاء', description: 'لم يتم حذف الطالب.' });
             return;
