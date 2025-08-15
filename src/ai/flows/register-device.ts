@@ -14,7 +14,28 @@ import {
     type RegisterDeviceInput,
     type RegisterDeviceOutput
 } from './register-device.types';
-import { adminDB } from '@/lib/firebase-admin';
+import admin from 'firebase-admin';
+
+// Self-contained Firebase Admin initialization for Vercel compatibility
+const getAdminDB = () => {
+    const serviceAccountKey = process.env.SERVICE_ACCOUNT_KEY;
+    if (!serviceAccountKey) {
+        throw new Error('SERVICE_ACCOUNT_KEY is not set in environment variables.');
+    }
+
+    if (!admin.apps.length) {
+        try {
+            admin.initializeApp({
+                credential: admin.credential.cert(JSON.parse(serviceAccountKey)),
+            });
+        } catch (error: any) {
+             if (!/already exists/u.test(error.message)) {
+                console.error('Firebase admin initialization error:', error.stack);
+            }
+        }
+    }
+    return admin.firestore();
+};
 
 
 const registerDeviceFlow = ai.defineFlow(
@@ -25,6 +46,7 @@ const registerDeviceFlow = ai.defineFlow(
   },
   async (input) => {
     try {
+      const adminDB = getAdminDB();
       const registeredDevicesCol = adminDB.collection('registeredDevices');
       const pendingDevicesCol = adminDB.collection('pendingDevices');
 
@@ -90,7 +112,6 @@ const registerDeviceFlow = ai.defineFlow(
 
     } catch (error: any) {
       console.error('Error in registerDeviceFlow:', error);
-      // Provide a more specific error message if available
       const errorMessage = error.message || 'An unknown error occurred during device registration.';
       return {
         status: 'error',
