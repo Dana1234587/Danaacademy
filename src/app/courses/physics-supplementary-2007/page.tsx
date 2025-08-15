@@ -3,7 +3,7 @@
 
 import { useStore } from '@/store/app-store';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Folder, FileText, Settings2 } from 'lucide-react';
+import { Folder, FileText, Settings2, Lock } from 'lucide-react';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { Progress } from '@/components/ui/progress';
 import Link from 'next/link';
@@ -11,6 +11,10 @@ import { DashboardHeader } from '@/components/dashboard-header';
 import { SidebarProvider } from '@/components/ui/sidebar';
 import { Button } from '@/components/ui/button';
 import { Home } from 'lucide-react';
+import { MainLayout } from '@/components/layout/main-layout';
+import { Loader2 } from 'lucide-react';
+
+const courseId = 'tawjihi-2007-supplementary';
 
 const courseStructure = {
   id: 'tawjihi-2007-supplementary',
@@ -212,7 +216,51 @@ function LessonContent({ lesson }: { lesson: any }) {
 
 
 export default function PhysicsSupplementary2007Page() {
-  const currentUser = useStore((state) => state.currentUser);
+  const { currentUser, isLoading } = useStore((state) => ({ 
+    currentUser: state.currentUser,
+    isLoading: state.isLoading 
+  }));
+
+  if (isLoading) {
+    return (
+      <MainLayout>
+        <div className="flex justify-center items-center h-screen">
+          <Loader2 className="h-16 w-16 animate-spin" />
+        </div>
+      </MainLayout>
+    );
+  }
+
+  const isAuthorized = currentUser?.role === 'admin' || (currentUser?.role === 'student' && currentUser.enrolledCourseIds.includes(courseId));
+
+  if (!isAuthorized) {
+    return (
+        <MainLayout>
+            <div className="p-4 sm:p-6 lg:p-8 container mx-auto text-center">
+                <Card className="max-w-md mx-auto mt-10">
+                    <CardHeader>
+                        <CardTitle className="flex items-center justify-center gap-2">
+                            <Lock className="w-8 h-8 text-destructive" />
+                            <span>محتوى مقيد</span>
+                        </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <p className="text-lg text-muted-foreground">
+                            عذرًا، ليس لديك الصلاحية للوصول إلى هذه الدورة.
+                        </p>
+                        <p className="mt-2 text-sm">
+                            يرجى التأكد من تسجيلك في دورة "فيزياء التكميلي - جيل 2007".
+                        </p>
+                        <Button asChild className="mt-6">
+                            <Link href="/">العودة إلى الصفحة الرئيسية</Link>
+                        </Button>
+                    </CardContent>
+                </Card>
+            </div>
+        </MainLayout>
+    );
+  }
+
 
   return (
     <SidebarProvider>
@@ -270,3 +318,4 @@ export default function PhysicsSupplementary2007Page() {
     </SidebarProvider>
   );
 }
+
