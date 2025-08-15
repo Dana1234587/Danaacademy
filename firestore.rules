@@ -3,36 +3,9 @@ rules_version = '2';
 
 service cloud.firestore {
   match /databases/{database}/documents {
-
-    // Default rule: Deny all reads and writes unless explicitly allowed.
+    // Allow read/write access to authenticated users
     match /{document=**} {
-      allow read, write: if false;
-    }
-
-    // Students Collection Rules:
-    // - Authenticated users can read (needed for admin panel).
-    // - Only admin can write (create, update, delete).
-    match /students/{studentId} {
-      allow read: if request.auth != null;
-      allow write: if request.auth.token.email == 'admin@dana-academy.com';
-    }
-
-    // Pending Devices Collection Rules:
-    // - A student can create a request only for themselves.
-    // - Only admin can read or delete pending requests.
-    match /pendingDevices/{deviceId} {
-      allow create: if request.auth != null && request.resource.data.studentId == request.auth.uid;
-      allow read, delete: if request.auth.token.email == 'admin@dana-academy.com';
-    }
-
-    // Registered Devices Collection Rules:
-    // - Admin can read all devices.
-    // - A student can only read their own registered devices.
-    // - Only admin can write (create, update, delete).
-    match /registeredDevices/{deviceId} {
-      allow read: if request.auth.token.email == 'admin@dana-academy.com' || 
-                     (resource.data.studentId == request.auth.uid);
-      allow write: if request.auth.token.email == 'admin@dana-academy.com';
+      allow read, write: if request.auth != null;
     }
   }
 }
