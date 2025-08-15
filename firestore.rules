@@ -1,30 +1,27 @@
-
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    function isAdmin() {
-      return request.auth.token.admin == true;
+    // Authenticated users can only read their own documents in 'admins' or 'students'
+    match /admins/{userId} {
+      allow read: if request.auth != null && request.auth.uid == userId;
     }
 
-    // Admins can read/write all student and device data
+    match /students/{userId} {
+      allow read: if request.auth != null && request.auth.uid == userId;
+    }
+    
+    // Admins can read and write all student and device data
     match /students/{studentId} {
-      allow read, write: if isAdmin();
-      // Students can only read their own data
-      allow read: if request.auth != null && request.auth.uid == studentId;
+        allow list, read, write, delete: if request.auth != null && request.auth.token.admin == true;
     }
 
     match /pendingDevices/{deviceId} {
-      allow read, write, delete: if isAdmin();
+        allow list, read, write, delete: if request.auth != null && request.auth.token.admin == true;
     }
     
     match /registeredDevices/{deviceId} {
-      allow read, write, delete: if isAdmin();
-    }
-
-    // Admins can read their own document (for login verification)
-    match /admins/{adminId} {
-      allow read: if request.auth != null && request.auth.uid == adminId;
+        allow list, read, write, delete: if request.auth != null && request.auth.token.admin == true;
     }
   }
 }
