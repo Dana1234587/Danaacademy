@@ -122,7 +122,7 @@ export default function AdminPage() {
 
         } catch (error: any) {
             let description = 'حدث خطأ غير متوقع. الرجاء المحاولة مرة أخرى.';
-             if (error.message.includes('PERMISSION_DENIED') || error.message.includes('permission-denied')) {
+             if (error.message.includes('PERMISSION_DENIED') || error.message.includes('permission-denied') || error.message.includes('insufficient permissions')) {
                 description = 'فشل الوصول إلى قاعدة البيانات. يرجى التأكد من أن قواعد الأمان في Firebase صحيحة وتسمح للمسؤول بإنشاء الحسابات.';
             } else if (error.code) {
                 switch (error.code) {
