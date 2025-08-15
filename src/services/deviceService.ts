@@ -10,7 +10,7 @@ export type Device = {
   ipAddress: string;
   deviceType: 'Desktop' | 'Mobile';
   os: string;
-  course: string;
+  courses: string[];
 };
 
 export type PendingDevice = Device;

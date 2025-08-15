@@ -11,8 +11,8 @@ export type Student = {
   studentName: string;
   username: string;
   password?: string; // Password will be stored in Firestore but is optional on the type
-  course: string;
-  courseId: string;
+  courses: string[];
+  courseIds: string[];
   phone1?: string;
   phone2?: string;
 };
@@ -24,7 +24,7 @@ export async function getStudents(): Promise<Student[]> {
   return studentList;
 }
 
-export async function addStudent(studentData: Omit<Student, 'id'>): Promise<Student> {
+export async function addStudent(studentData: Omit<Student, 'id' | 'course' | 'courseId'> & { courses: string[], courseIds: string[] }): Promise<Student> {
     if (!studentData.password) {
         throw new Error("Password is required to create a student.");
     }
@@ -44,8 +44,8 @@ export async function addStudent(studentData: Omit<Student, 'id'>): Promise<Stud
         studentName: studentData.studentName,
         username: studentData.username,
         password: studentData.password, // Storing password in plaintext as requested
-        course: studentData.course,
-        courseId: studentData.courseId,
+        courses: studentData.courses,
+        courseIds: studentData.courseIds,
         phone1: studentData.phone1 || '',
         phone2: studentData.phone2 || '',
     };

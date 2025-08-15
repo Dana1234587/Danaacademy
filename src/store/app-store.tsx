@@ -65,7 +65,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
             store.getState().setCurrentUser({ 
                 username: student.studentName, 
                 role: 'student', 
-                enrolledCourseIds: [student.courseId] 
+                enrolledCourseIds: student.courseIds 
             });
           } else {
             // Student data not found in Firestore, treat as logged out

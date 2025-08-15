@@ -7,11 +7,11 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Checkbox } from "@/components/ui/checkbox"
 import { useToast } from '@/hooks/use-toast';
 import { UserPlus, KeyRound, MonitorCheck, Loader2, Search, Smartphone, Monitor, Fingerprint, Globe, List, Home, Users, Edit, Trash2, Check, Plus } from 'lucide-react';
 import { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { getStudents, addStudent as addStudentService, deleteStudent as deleteStudentService, resetStudentPassword as resetStudentPasswordService, type Student } from '@/services/studentService';
 import { getPendingDevices, getRegisteredDevices, approveDevice as approveDeviceService, deleteRegisteredDevice, type PendingDevice, type RegisteredDevice } from '@/services/deviceService';
@@ -47,7 +47,7 @@ export default function AdminPage() {
     const [newStudentPassword, setNewStudentPassword] = useState('');
     const [newStudentPhone1, setNewStudentPhone1] = useState('');
     const [newStudentPhone2, setNewStudentPhone2] = useState('');
-    const [selectedCourse, setSelectedCourse] = useState('');
+    const [selectedCourses, setSelectedCourses] = useState<string[]>([]);
     const [searchQuery, setSearchQuery] = useState('');
     const [searchedStudent, setSearchedStudent] = useState<Student | null>(null);
 
@@ -84,27 +84,27 @@ export default function AdminPage() {
 
     const handleCreateAccount = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (!selectedCourse) {
-            toast({ variant: 'destructive', title: 'خطأ', description: 'الرجاء اختيار دورة للطالب.' });
+        if (selectedCourses.length === 0) {
+            toast({ variant: 'destructive', title: 'خطأ', description: 'الرجاء اختيار دورة واحدة على الأقل للطالب.' });
             return;
         }
         setIsLoading({ ...isLoading, create: true });
         try {
-            const courseDetails = availableCourses.find(c => c.id === selectedCourse);
-            if (!courseDetails) {
-                 toast({ variant: 'destructive', title: 'خطأ', description: 'الرجاء اختيار دورة صحيحة.' });
+            const coursesDetails = availableCourses.filter(c => selectedCourses.includes(c.id));
+            if (coursesDetails.length !== selectedCourses.length) {
+                 toast({ variant: 'destructive', title: 'خطأ', description: 'الرجاء اختيار دورات صحيحة.' });
                  setIsLoading({ ...isLoading, create: false });
                  return;
             }
             
-            const newStudentData: Omit<Student, 'id'> = {
+            const newStudentData = {
                 studentName: newStudentName,
                 username: newStudentUsername,
                 password: newStudentPassword,
                 phone1: newStudentPhone1,
                 phone2: newStudentPhone2,
-                course: courseDetails.name,
-                courseId: courseDetails.id,
+                courses: coursesDetails.map(c => c.name),
+                courseIds: coursesDetails.map(c => c.id),
             };
             
             await addStudentService(newStudentData);
@@ -120,7 +120,7 @@ export default function AdminPage() {
             setNewStudentPassword('');
             setNewStudentPhone1('');
             setNewStudentPhone2('');
-            setSelectedCourse('');
+            setSelectedCourses([]);
             fetchData();
 
         } catch (error: any) {
@@ -254,7 +254,7 @@ export default function AdminPage() {
                         <Card>
                             <CardHeader>
                                 <CardTitle>إنشاء حساب طالب جديد</CardTitle>
-                                <CardDescription>أدخلي بيانات الطالب والدورة لإنشاء حسابه في نظام المصادقة وقاعدة البيانات.</CardDescription>
+                                <CardDescription>أدخلي بيانات الطالب والدورات لإنشاء حسابه في نظام المصادقة وقاعدة البيانات.</CardDescription>
                             </CardHeader>
                             <CardContent>
                                 <form onSubmit={handleCreateAccount} className="space-y-4">
@@ -272,24 +272,35 @@ export default function AdminPage() {
                                             <Label htmlFor="student-password">كلمة المرور</Label>
                                             <Input id="student-password" type="password" value={newStudentPassword} onChange={(e) => setNewStudentPassword(e.target.value)} placeholder="6 أحرف على الأقل" required />
                                         </div>
-                                         <div className="space-y-2">
-                                            <Label htmlFor="course-select">الدورة المسجل بها</Label>
-                                            <Select onValuechange={setSelectedCourse} value={selectedCourse} required>
-                                                <SelectTrigger id="course-select">
-                                                    <SelectValue placeholder="اختاري الدورة" />
-                                                </SelectTrigger>
-                                                <SelectContent>
-                                                    {availableCourses.map(course => (
-                                                        <SelectItem key={course.id} value={course.id}>{course.name}</SelectItem>
-                                                    ))}
-                                                </SelectContent>
-                                            </Select>
+                                         <div className="space-y-3 md:col-span-2">
+                                            <Label>الدورات المسجل بها</Label>
+                                            <div className="space-y-2 rounded-md border p-4">
+                                                {availableCourses.map(course => (
+                                                    <div key={course.id} className="flex items-center space-x-2">
+                                                        <Checkbox
+                                                            id={course.id}
+                                                            checked={selectedCourses.includes(course.id)}
+                                                            onCheckedChange={(checked) => {
+                                                                return checked
+                                                                    ? setSelectedCourses([...selectedCourses, course.id])
+                                                                    : setSelectedCourses(selectedCourses.filter(id => id !== course.id))
+                                                            }}
+                                                        />
+                                                        <label
+                                                          htmlFor={course.id}
+                                                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                                                        >
+                                                          {course.name}
+                                                        </label>
+                                                    </div>
+                                                ))}
+                                            </div>
                                         </div>
-                                        <div className="space-y-2 md:col-span-2">
+                                        <div className="space-y-2">
                                             <Label htmlFor="student-phone1">رقم الهاتف 1 (اختياري)</Label>
                                             <Input id="student-phone1" type="tel" value={newStudentPhone1} onChange={(e) => setNewStudentPhone1(e.target.value)} placeholder="رقم هاتف الطالب أو ولي الأمر" />
                                         </div>
-                                        <div className="space-y-2 md:col-span-2">
+                                        <div className="space-y-2">
                                             <Label htmlFor="student-phone2">رقم الهاتف 2 (اختياري)</Label>
                                             <Input id="student-phone2" type="tel" value={newStudentPhone2} onChange={(e) => setNewStudentPhone2(e.target.value)} placeholder="رقم هاتف إضافي" />
                                         </div>
@@ -316,7 +327,7 @@ export default function AdminPage() {
                                             <TableHead>اسم الطالب</TableHead>
                                             <TableHead>اسم المستخدم</TableHead>
                                             <TableHead>كلمة المرور</TableHead>
-                                            <TableHead>الدورة</TableHead>
+                                            <TableHead>الدورات</TableHead>
                                             <TableHead>هاتف 1</TableHead>
                                             <TableHead>هاتف 2</TableHead>
                                             <TableHead>الإجراءات</TableHead>
@@ -328,7 +339,7 @@ export default function AdminPage() {
                                                 <TableCell className="font-medium whitespace-nowrap">{student.studentName}</TableCell>
                                                 <TableCell className="whitespace-nowrap">{student.username}</TableCell>
                                                 <TableCell>{student.password}</TableCell>
-                                                <TableCell className="whitespace-nowrap">{student.course}</TableCell>
+                                                <TableCell className="whitespace-nowrap">{student.courses?.join(', ') || 'N/A'}</TableCell>
                                                 <TableCell>{student.phone1}</TableCell>
                                                 <TableCell>{student.phone2}</TableCell>
                                                 <TableCell className="flex gap-2">
@@ -374,7 +385,7 @@ export default function AdminPage() {
                                             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between flex-wrap gap-4">
                                                 <div>
                                                     <p className="font-bold text-lg">{device.studentName}</p>
-                                                    <p className="text-sm text-primary">{device.course}</p>
+                                                    <p className="text-sm text-primary">{device.courses.join(', ')}</p>
                                                 </div>
                                                 <div className="flex flex-col sm:flex-row gap-2 flex-wrap">
                                                     <Button onClick={() => handleApproveDevice(device.id, device.studentName, 'replace')} disabled={isLoading[`replace-${device.id}`]} variant="secondary">
@@ -424,7 +435,7 @@ export default function AdminPage() {
                                             <div key={studentId} className="p-4 bg-muted/50 rounded-lg border">
                                                 <div className="pb-4 border-b">
                                                     <p className="font-bold text-lg">{student?.studentName || 'طالب غير معروف'}</p>
-                                                    <p className="text-sm text-primary">{student?.course}</p>
+                                                    <p className="text-sm text-primary">{student?.courses?.join(', ')}</p>
                                                 </div>
                                                 <div className="space-y-4 pt-4">
                                                     {devices.map(device => (

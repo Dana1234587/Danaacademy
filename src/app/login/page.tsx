@@ -96,9 +96,9 @@ export default function LoginPage() {
             
             const redirectToCoursePage = () => {
                 let coursePath = '/'; // Default fallback
-                if (student.courseId === 'tawjihi-2007-supplementary') {
+                if (student.courseIds?.includes('tawjihi-2007-supplementary')) {
                     coursePath = '/courses/physics-supplementary-2007';
-                } else if (student.courseId === 'tawjihi-2008') {
+                } else if (student.courseIds?.includes('tawjihi-2008')) {
                     coursePath = '/courses/physics-2008';
                 }
                 router.push(coursePath);
@@ -115,7 +115,7 @@ export default function LoginPage() {
                      ipAddress: '82.114.120.50', // Mock IP
                      deviceType: os === 'Android' || os === 'iOS' ? 'Mobile' : 'Desktop',
                      os: os,
-                     course: student.course,
+                     courses: student.courses,
                 });
                 toast({
                   variant: 'destructive',
@@ -141,7 +141,7 @@ export default function LoginPage() {
                      ipAddress: '82.114.120.50', // Mock IP
                      deviceType: os === 'Android' || os === 'iOS' ? 'Mobile' : 'Desktop',
                      os: os,
-                     course: student.course,
+                     courses: student.courses,
                 });
                 toast({
                   variant: 'destructive',
