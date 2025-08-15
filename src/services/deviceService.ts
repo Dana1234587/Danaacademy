@@ -1,6 +1,7 @@
 
 import { collection, query, where, getDocs, addDoc, deleteDoc, doc, writeBatch, getDoc } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
+import { adminDB } from '@/lib/firebase-admin'; // Use Admin DB for backend operations
 
 export type Device = {
   id: string;
@@ -54,30 +55,29 @@ export async function addPendingDevice(deviceData: Omit<PendingDevice, 'id'>): P
 }
 
 export async function approveDevice(pendingDeviceId: string, mode: 'replace' | 'add'): Promise<void> {
-    const pendingDeviceRef = doc(db, 'pendingDevices', pendingDeviceId);
-    const pendingDeviceSnap = await getDoc(pendingDeviceRef);
+    const pendingDeviceRef = adminDB.collection('pendingDevices').doc(pendingDeviceId);
+    const pendingDeviceSnap = await pendingDeviceRef.get();
     
-    if (!pendingDeviceSnap.exists()) {
+    if (!pendingDeviceSnap.exists) {
         throw new Error("Device not found in pending list.");
     }
     
-    const deviceToApproveData = pendingDeviceSnap.data();
+    const deviceToApproveData = pendingDeviceSnap.data()!;
     const studentId = deviceToApproveData.studentId;
 
-    const batch = writeBatch(db);
+    const batch = adminDB.batch();
 
     // If mode is 'replace', find and delete all existing registered devices for this student
     if (mode === 'replace') {
-        const oldDevicesQuery = query(registeredDevicesCol, where("studentId", "==", studentId));
-        const oldDevicesSnapshot = await getDocs(oldDevicesQuery);
+        const oldDevicesQuery = adminDB.collection('registeredDevices').where("studentId", "==", studentId);
+        const oldDevicesSnapshot = await oldDevicesQuery.get();
         oldDevicesSnapshot.forEach(doc => {
             batch.delete(doc.ref);
         });
     }
 
     // Add the new device to the registeredDevices collection
-    // We create a new doc reference for the new registered device
-    const newRegisteredDeviceRef = doc(collection(db, 'registeredDevices'));
+    const newRegisteredDeviceRef = adminDB.collection('registeredDevices').doc();
     batch.set(newRegisteredDeviceRef, deviceToApproveData);
     
     // Delete the device from the pendingDevices collection
@@ -89,17 +89,16 @@ export async function approveDevice(pendingDeviceId: string, mode: 'replace' | '
 
 
 export async function deleteRegisteredDevice(deviceId: string): Promise<void> {
-    const deviceRef = doc(db, 'registeredDevices', deviceId);
-    await deleteDoc(deviceRef);
+    await adminDB.collection('registeredDevices').doc(deviceId).delete();
 }
 
 export async function deleteRegisteredDeviceByStudentId(studentId: string): Promise<void> {
-    const q = query(registeredDevicesCol, where("studentId", "==", studentId));
-    const snapshot = await getDocs(q);
+    const q = adminDB.collection('registeredDevices').where("studentId", "==", studentId);
+    const snapshot = await q.get();
     
     if (snapshot.empty) return; // No devices to delete
 
-    const batch = writeBatch(db);
+    const batch = adminDB.batch();
     snapshot.docs.forEach(doc => {
         batch.delete(doc.ref);
     });

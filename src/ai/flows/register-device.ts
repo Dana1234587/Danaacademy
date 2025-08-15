@@ -14,8 +14,9 @@ import {
     type RegisterDeviceInput,
     type RegisterDeviceOutput
 } from './register-device.types';
-import { collection, query, where, getDocs, addDoc, doc, setDoc } from 'firebase/firestore';
-import { db } from '@/lib/firebase'; // We keep this for type consistency if needed, but will use adminDB for writes.
+import { collection, query, where, getDocs } from 'firebase/firestore';
+import { db } from '@/lib/firebase'; 
+import { adminDB } from '@/lib/firebase-admin';
 
 
 const registerDeviceFlow = ai.defineFlow(
@@ -26,9 +27,9 @@ const registerDeviceFlow = ai.defineFlow(
   },
   async (input) => {
     try {
-      const registeredDevicesCol = collection(db, 'registeredDevices');
-      const q = query(registeredDevicesCol, where("studentId", "==", input.studentId));
-      const registeredDevicesSnapshot = await getDocs(q);
+      const registeredDevicesCol = adminDB.collection('registeredDevices');
+      const q = registeredDevicesCol.where("studentId", "==", input.studentId);
+      const registeredDevicesSnapshot = await q.get();
       const registeredDevices = registeredDevicesSnapshot.docs.map(doc => doc.data());
 
       const isDeviceAlreadyRegistered = registeredDevices.some(d => d.deviceId === input.deviceId);
@@ -41,9 +42,8 @@ const registerDeviceFlow = ai.defineFlow(
       }
       
       if (registeredDevices.length === 0) {
-        // This is the first device, register it automatically.
-        const newDeviceRef = doc(collection(db, 'registeredDevices'));
-        await setDoc(newDeviceRef, {
+        // This is the first device, register it automatically using the Admin SDK.
+        await adminDB.collection('registeredDevices').add({
             studentId: input.studentId,
             studentName: input.studentName,
             deviceId: input.deviceId,
@@ -60,13 +60,11 @@ const registerDeviceFlow = ai.defineFlow(
       }
 
       // If it's a new device and not the first, check if a pending request already exists.
-      const pendingDevicesCol = collection(db, 'pendingDevices');
-      const pendingQuery = query(
-        pendingDevicesCol, 
-        where("deviceId", "==", input.deviceId), 
-        where("studentId", "==", input.studentId)
-      );
-      const existingPendingSnapshot = await getDocs(pendingQuery);
+      const pendingDevicesCol = adminDB.collection('pendingDevices');
+      const pendingQuery = pendingDevicesCol
+        .where("deviceId", "==", input.deviceId)
+        .where("studentId", "==", input.studentId);
+      const existingPendingSnapshot = await pendingQuery.get();
 
       if (!existingPendingSnapshot.empty) {
         return {
@@ -75,8 +73,8 @@ const registerDeviceFlow = ai.defineFlow(
         };
       }
       
-      // If no pending request, create one.
-      await addDoc(pendingDevicesCol, {
+      // If no pending request, create one using the Admin SDK.
+      await adminDB.collection('pendingDevices').add({
         studentId: input.studentId,
         studentName: input.studentName,
         deviceId: input.deviceId,

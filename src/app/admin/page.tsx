@@ -225,7 +225,7 @@ export default function AdminPage() {
             await deleteStudentService(studentId);
             toast({
                 title: 'تم الحذف بنجاح',
-                description: `تم حذف بيانات الطالب وجهازه المسجل من قاعدة البيانات.`,
+                description: `تم حذف الطالب من المصادقة وقاعدة البيانات بنجاح.`,
             });
             fetchData();
         } catch (error: any) {
@@ -269,9 +269,9 @@ export default function AdminPage() {
         try {
             await resetStudentPasswordService(studentId, newPassword);
             toast({
-                title: 'تم تحديث كلمة المرور في قاعدة البيانات',
-                description: `كلمة المرور الجديدة (للعرض) للطالب ${studentName} هي: ${newPassword}`,
-                duration: 9000
+                title: 'تم تحديث كلمة المرور بنجاح',
+                description: `كلمة المرور الجديدة للطالب ${studentName} هي: ${newPassword}. تم تحديثها في المصادقة وقاعدة البيانات.`,
+                duration: 15000
             });
             fetchData();
         } catch(error) {
@@ -441,7 +441,7 @@ export default function AdminPage() {
                                     <Info className="h-4 w-4" />
                                     <AlertTitle>ملاحظة هامة</AlertTitle>
                                     <AlertDescription>
-                                        حذف الطالب من هنا سيحذف بياناته من قاعدة البيانات وجهازه المسجل. حساب المصادقة الخاص به يجب حذفه يدويًا من لوحة تحكم Firebase.
+                                        حذف الطالب من هنا سيحذف بياناته من قاعدة البيانات وجهازه المسجل وحسابه في نظام المصادقة.
                                     </AlertDescription>
                                 </Alert>
                                 <div className="mt-4 overflow-x-auto">
@@ -482,7 +482,7 @@ export default function AdminPage() {
                                                                   <AlertDialogHeader>
                                                                       <AlertDialogTitle>هل أنت متأكد تمامًا؟</AlertDialogTitle>
                                                                       <AlertDialogDescription>
-                                                                          هذا الإجراء سيحذف بيانات الطالب "{student.studentName}" وأجهزته المسجلة نهائيًا. لا يمكن التراجع عن هذا الإجراء.
+                                                                          هذا الإجراء سيحذف بيانات الطالب "{student.studentName}" وأجهزته المسجلة وحسابه في نظام المصادقة نهائيًا. لا يمكن التراجع عن هذا الإجراء.
                                                                       </AlertDialogDescription>
                                                                   </AlertDialogHeader>
                                                                   <AlertDialogFooter>
@@ -611,15 +611,15 @@ export default function AdminPage() {
                     <TabsContent value="reset-password">
                         <Card>
                             <CardHeader>
-                                <CardTitle>إعادة تعيين كلمة المرور (للعرض فقط)</CardTitle>
-                                <CardDescription>ابحثي عن الطالب لإنشاء كلمة مرور جديدة وتخزينها في قاعدة البيانات للمساعدة عند الحاجة.</CardDescription>
+                                <CardTitle>إعادة تعيين كلمة المرور</CardTitle>
+                                <CardDescription>ابحثي عن الطالب لإنشاء كلمة مرور جديدة، والتي سيتم تحديثها في كل من نظام المصادقة وقاعدة البيانات.</CardDescription>
                             </CardHeader>
                             <CardContent className="space-y-4">
                                 <Alert variant="destructive">
                                     <AlertTriangle className="h-4 w-4" />
-                                    <AlertTitle>ملاحظة هامة</AlertTitle>
+                                    <AlertTitle>إجراء حاسم</AlertTitle>
                                     <AlertDescription>
-                                       هذه العملية تقوم فقط بتغيير كلمة المرور المعروضة في قاعدة البيانات. هي **لا تغير** كلمة المرور الفعلية التي يستخدمها الطالب لتسجيل الدخول. لتغييرها بشكل فعلي، يجب استخدام لوحة تحكم Firebase.
+                                       هذه العملية ستقوم بتغيير كلمة المرور الفعلية للطالب. سيتم عرض كلمة المرور الجديدة لمرة واحدة فقط.
                                     </AlertDescription>
                                 </Alert>
                                 <div className="flex flex-col sm:flex-row gap-2 mt-4">
