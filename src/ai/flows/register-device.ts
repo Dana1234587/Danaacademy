@@ -26,12 +26,14 @@ const registerDeviceFlow = ai.defineFlow(
   async (input) => {
     try {
       const registeredDevicesCol = adminDB.collection('registeredDevices');
-      const q = registeredDevicesCol.where("studentId", "==", input.studentId);
-      const registeredDevicesSnapshot = await q.get();
-      const registeredDevices = registeredDevicesSnapshot.docs.map(doc => doc.data());
+      const pendingDevicesCol = adminDB.collection('pendingDevices');
+
+      // Check for existing registered device
+      const registeredQuery = registeredDevicesCol.where("studentId", "==", input.studentId);
+      const registeredSnapshot = await registeredQuery.get();
+      const registeredDevices = registeredSnapshot.docs.map(doc => doc.data());
 
       const isDeviceAlreadyRegistered = registeredDevices.some(d => d.deviceId === input.deviceId);
-
       if (isDeviceAlreadyRegistered) {
         return {
           status: 'already-exists',
@@ -39,8 +41,8 @@ const registerDeviceFlow = ai.defineFlow(
         };
       }
       
+      // If no registered devices, this is the first device.
       if (registeredDevices.length === 0) {
-        // This is the first device, register it automatically using the Admin SDK.
         await adminDB.collection('registeredDevices').add({
             studentId: input.studentId,
             studentName: input.studentName,
@@ -58,7 +60,6 @@ const registerDeviceFlow = ai.defineFlow(
       }
 
       // If it's a new device and not the first, check if a pending request already exists.
-      const pendingDevicesCol = adminDB.collection('pendingDevices');
       const pendingQuery = pendingDevicesCol
         .where("deviceId", "==", input.deviceId)
         .where("studentId", "==", input.studentId);
@@ -71,7 +72,7 @@ const registerDeviceFlow = ai.defineFlow(
         };
       }
       
-      // If no pending request, create one using the Admin SDK.
+      // If no pending request, create one.
       await adminDB.collection('pendingDevices').add({
         studentId: input.studentId,
         studentName: input.studentName,
@@ -90,10 +91,10 @@ const registerDeviceFlow = ai.defineFlow(
     } catch (error: any) {
       console.error('Error in registerDeviceFlow:', error);
       // Provide a more specific error message if available
-      const errorMessage = error.details || error.message || 'An unknown error occurred during device registration.';
+      const errorMessage = error.message || 'An unknown error occurred during device registration.';
       return {
         status: 'error',
-        message: errorMessage,
+        message: `Server Error: ${errorMessage}`,
       };
     }
   }
