@@ -24,40 +24,42 @@ export async function getStudents(): Promise<Student[]> {
   return studentList;
 }
 
-export async function addStudent(studentData: Omit<Student, 'id'>): Promise<Student> {
+export async function addStudent(studentData: Omit<Student, 'id'>): Promise<void> {
     if (!studentData.password) {
         throw new Error("Password is required to create a student.");
     }
 
-    // Firebase auth requires an email format. We'll append a dummy domain.
     const email = `${studentData.username}@dana-academy.com`;
 
     // 1. Create user in Firebase Authentication
+    // This step must happen first to check for existing usernames (emails).
     const userCredential = await createUserWithEmailAndPassword(auth, email, studentData.password);
     const user = userCredential.user;
 
-    // 2. Create student document in Firestore with the UID from Auth as the document ID
-    const studentDocRef = doc(db, 'students', user.uid);
-    
-    // Create a new object for Firestore that includes the password and other details
-    const firestoreData = {
-        studentName: studentData.studentName,
-        username: studentData.username,
-        password: studentData.password, // Storing password in plaintext as requested
-        courses: studentData.courses,
-        courseIds: studentData.courseIds,
-        phone1: studentData.phone1 || '',
-        phone2: studentData.phone2 || '',
-    };
-    
-    await setDoc(studentDocRef, firestoreData);
+    try {
+        // 2. Create student document in Firestore with the UID from Auth as the document ID
+        const studentDocRef = doc(db, 'students', user.uid);
+        
+        const firestoreData = {
+            studentName: studentData.studentName,
+            username: studentData.username,
+            password: studentData.password,
+            courses: studentData.courses,
+            courseIds: studentData.courseIds,
+            phone1: studentData.phone1 || '',
+            phone2: studentData.phone2 || '',
+        };
+        
+        // This operation is now allowed by the security rules because the admin is logged in.
+        await setDoc(studentDocRef, firestoreData);
 
-    const newStudent: Student = {
-        id: user.uid,
-        ...firestoreData
-    };
-    
-    return newStudent;
+    } catch (firestoreError) {
+        // If Firestore write fails, we should ideally delete the created Auth user
+        // to avoid orphaned auth accounts. However, this requires admin privileges
+        // not available on the client. For now, we'll just throw the error.
+        console.error("Firestore write failed, but Auth user was created:", user.uid, firestoreError);
+        throw new Error("User created in Auth, but failed to save to database. Please delete the user from Firebase Authentication manually and try again.");
+    }
 }
 
 
@@ -99,4 +101,3 @@ export async function resetStudentPassword(studentId: string, newPassword: strin
     console.warn(`Password for student ${studentId} updated in Firestore. This does NOT change their actual login password.`);
 }
 
-    

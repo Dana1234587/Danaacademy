@@ -141,8 +141,10 @@ export default function AdminPage() {
                         description = 'صيغة اسم المستخدم غير صالحة. الرجاء استخدام حروف إنجليزية وأرقام فقط بدون مسافات أو رموز.';
                         break;
                 }
+            } else if (error.message) {
+                description = error.message;
             }
-            toast({ variant: 'destructive', title: 'فشل إنشاء الحساب', description });
+            toast({ variant: 'destructive', title: 'فشل إنشاء الحساب', description, duration: 9000 });
         } finally {
             setIsLoading(prev => ({ ...prev, create: false }));
         }
@@ -530,5 +532,3 @@ export default function AdminPage() {
         </MainLayout>
     );
 }
-
-    
