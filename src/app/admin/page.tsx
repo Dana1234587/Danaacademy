@@ -174,7 +174,11 @@ export default function AdminPage() {
         } finally {
             setIsLoading(prev => ({ ...prev, create: false }));
             // Clean up the secondary app instance
-            deleteApp(secondaryApp).catch(err => console.error("Error deleting secondary app", err));
+            try {
+                await deleteApp(secondaryApp);
+            } catch (err) {
+                console.error("Error deleting secondary app", err);
+            }
         }
     };
 
