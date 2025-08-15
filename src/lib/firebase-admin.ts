@@ -17,7 +17,11 @@ if (!admin.apps.length) {
     });
     console.log("Firebase Admin SDK initialized successfully.");
   } catch (error: any) {
-    console.error('Firebase admin initialization error:', error.message);
+    // In a serverless environment, sometimes the error is that the app is already initialized.
+    // We can ignore this specific error.
+    if (error.code !== 'auth/credential-already-in-use') {
+        console.error('Firebase admin initialization error:', error.message);
+    }
   }
 }
 
