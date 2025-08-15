@@ -13,26 +13,20 @@ export type Student = {
   phone2?: string;
 };
 
-// This type now includes the student's UID from Auth
-export type NewStudentData = Omit<Student, 'id'> & { uid: string };
-
-const REGISTRATION_SECRET_KEY = "DANA_ACADEMY_VERY_SECRET_KEY";
+const studentsCol = collection(db, 'students');
 
 export async function getStudents(): Promise<Student[]> {
-  const studentsCol = collection(db, 'students');
   const studentSnapshot = await getDocs(studentsCol);
   const studentList = studentSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Student));
   return studentList;
 }
 
-// The student creation logic is now split. Auth creation is in the component.
-// This function is only for adding the student data to Firestore.
+// This function now only adds the student data to Firestore, assuming auth is created elsewhere.
 export async function addStudent(studentData: Student): Promise<void> {
-    const { id, ...firestoreData } = studentData;
-    const studentDocRef = doc(db, 'students', id);
+    const { id, ...firestoreData } = studentData; // Separate the id from the rest of the data
+    const studentDocRef = doc(db, 'students', id); // Use the auth UID as the document ID
     await setDoc(studentDocRef, firestoreData);
 }
-
 
 export async function findStudentByUsername(username: string): Promise<Student | undefined> {
     const q = query(collection(db, "students"), where("username", "==", username));

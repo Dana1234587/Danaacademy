@@ -54,11 +54,18 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
 
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser: FirebaseUser | null) => {
       if (firebaseUser) {
-        // Check if the user is an admin by looking for their document in the 'admins' collection
-        const adminDocRef = doc(db, 'admins', firebaseUser.uid);
-        const adminDocSnap = await getDoc(adminDocRef);
+        // Check if the user is an admin by looking for their document in the 'admins' collection based on their email.
+        const adminsCol = doc(db, 'admins', 'admin@dana-academy.com'); // Directly check the admin document
+        const adminDocSnap = await getDoc(adminsCol);
 
-        if (adminDocSnap.exists() && adminDocSnap.data().role === 'admin') {
+        let isAdmin = false;
+        // This logic checks if an `admins` collection exists and the user's email is a key.
+        // A more robust check might query a specific field.
+        if (adminDocSnap.exists() && adminDocSnap.data()[firebaseUser.email as string]) {
+            isAdmin = true;
+        }
+
+        if (isAdmin) {
           // User is an admin
           store.getState().setCurrentUser({ 
               uid: firebaseUser.uid,
