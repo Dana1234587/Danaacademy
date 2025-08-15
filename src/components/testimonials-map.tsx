@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState } from 'react';
@@ -5,6 +6,8 @@ import Image from 'next/image';
 import { AnimatePresence, motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { X } from 'lucide-react';
+import { useIsMobile } from '@/hooks/use-mobile';
+
 
 type Position = {
   top?: string;
@@ -26,6 +29,8 @@ interface TestimonialsMapProps {
 
 export function TestimonialsMap({ testimonials }: TestimonialsMapProps) {
   const [activeTestimonial, setActiveTestimonial] = useState<Testimonial | null>(null);
+  const isMobile = useIsMobile();
+
 
   const handleDotClick = (testimonial: Testimonial) => {
     setActiveTestimonial(testimonial);
@@ -34,6 +39,17 @@ export function TestimonialsMap({ testimonials }: TestimonialsMapProps) {
   const handleClose = () => {
     setActiveTestimonial(null);
   };
+  
+  if (isMobile) {
+      return (
+          <div className="text-center p-4 bg-muted rounded-lg border border-dashed">
+              <p className="text-muted-foreground">
+                  لعرض خريطة آراء الطلاب التفاعلية، يرجى تصفح الموقع من جهاز كمبيوتر أو لابتوب.
+              </p>
+          </div>
+      )
+  }
+
 
   return (
     <div 
@@ -89,3 +105,6 @@ export function TestimonialsMap({ testimonials }: TestimonialsMapProps) {
     </div>
   );
 }
+
+
+    

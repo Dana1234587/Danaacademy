@@ -13,7 +13,7 @@ import { CourseCard } from '@/components/course-card';
 
 
 function Section({ children, className, id }: { children: React.ReactNode, className?: string, id?: string }) {
-  return <section id={id} className={`py-12 md:py-20 px-4 md:px-0 ${className}`}>{children}</section>;
+  return <section id={id} className={`py-12 md:py-20 ${className}`}>{children}</section>;
 }
 
 const memorableMoments = [
@@ -145,8 +145,8 @@ export default function Home() {
             </svg>
         </div>
 
-        <Section className="bg-background z-10 relative">
-            <div className="container mx-auto px-4 md:px-6">
+        <Section className="bg-background z-10 relative px-4 md:px-0">
+            <div className="container mx-auto">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
                     <div className="space-y-6 text-center md:text-start p-2">
                         <h2 className="text-3xl sm:text-4xl font-bold" style={{color: '#776391'}}>
@@ -194,8 +194,8 @@ export default function Home() {
 
 
         {/* Courses Section */}
-        <Section id="courses-section" className="bg-muted z-10 relative">
-            <div className="container mx-auto px-4 md:px-6">
+        <Section id="courses-section" className="bg-muted z-10 relative px-4 md:px-0">
+            <div className="container mx-auto">
                 <div className="flex flex-col items-center text-center space-y-6">
                     <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl text-primary">
                         الدورات المتاحة
@@ -215,8 +215,8 @@ export default function Home() {
         </Section>
 
         {/* Why Dana Academy Section */}
-        <Section className="bg-background z-10 relative">
-            <div className="container mx-auto px-4 md:px-6">
+        <Section className="bg-background z-10 relative px-4 md:px-0">
+            <div className="container mx-auto">
                 <div className="flex flex-col items-center text-center space-y-6 animate-fade-in-up animation-delay-300">
                     <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl text-primary">
                         لماذا دانا أكاديمي؟
@@ -264,8 +264,8 @@ export default function Home() {
         </Section>
         
         {/* Testimonials Section */}
-        <Section className="bg-white">
-          <div className="container mx-auto px-4 md:px-6">
+        <Section id="testimonials" className="bg-white px-4 md:px-0">
+          <div className="container mx-auto">
             <div className="flex flex-col items-center text-center space-y-6">
               <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl text-primary">
                 آراء طلابنا
@@ -277,18 +277,15 @@ export default function Home() {
                 انقر على صورة أي طالب لعرض رأيه كاملا
               </p>
             </div>
-            <div className="mt-12 hidden md:block">
+            <div className="mt-12">
               <TestimonialsMap testimonials={testimonials} />
-            </div>
-             <div className="mt-12 md:hidden">
-              <p className="text-center text-muted-foreground">عرض الخريطة التفاعلية متاح على شاشات سطح المكتب.</p>
             </div>
           </div>
         </Section>
 
         {/* Student Achievements Section */}
-        <Section className="bg-background">
-            <div className="container mx-auto px-4 md:px-6">
+        <Section className="bg-background px-4 md:px-0">
+            <div className="container mx-auto">
                 <div className="flex flex-col items-center text-center space-y-6">
                     <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl text-primary">
                         إنجازات طلابنا
@@ -306,8 +303,8 @@ export default function Home() {
         </Section>
 
         {/* Memorable Moments Section */}
-        <Section className="bg-muted">
-            <div className="container mx-auto px-4 md:px-6">
+        <Section className="bg-muted px-4 md:px-0">
+            <div className="container mx-auto">
                 <div className="flex flex-col items-center text-center space-y-6">
                     <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl text-primary">
                         ألبوم الصور
@@ -326,5 +323,7 @@ export default function Home() {
     </MarketingLayout>
   );
 }
+
+    
 
     
