@@ -74,27 +74,35 @@ export default function LoginPage() {
     e.preventDefault();
     setIsLoading(true);
 
-    try {
-        // Username can now be the admin's email or a student's username
-        const isAdminLogin = username.includes('@'); 
-        const email = isAdminLogin ? username : `${username}@dana-academy.com`;
+    const isAdminLogin = username.includes('@');
+    const email = isAdminLogin ? username : `${username}@dana-academy.com`;
 
+    try {
         const userCredential = await signInWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
 
-        // The auth state listener in AppProvider will handle setting the user role
-        // and redirecting. Here we just need to determine the initial redirect path.
-        
-        // This part is now handled by the central auth listener in app-store.tsx
-        // We just need to check if the user is an admin to redirect correctly.
-        const idTokenResult = await user.getIdTokenResult();
-        if (idTokenResult.claims.admin) {
-            toast({
-              title: 'أهلاً بعودتك دكتورة دانا',
-              description: 'يتم توجيهك إلى لوحة التحكم.',
-            });
-            router.push('/admin');
+        if (isAdminLogin) {
+            // It's an admin login attempt
+            const adminDocRef = doc(db, 'admins', user.uid);
+            const adminDocSnap = await getDoc(adminDocRef);
+
+            if (adminDocSnap.exists()) {
+                toast({
+                    title: 'أهلاً بعودتك دكتورة دانا',
+                    description: 'يتم توجيهك إلى لوحة التحكم.',
+                });
+                // The onAuthStateChanged listener in app-store will handle setting the user.
+                router.push('/admin');
+            } else {
+                 toast({
+                    variant: 'destructive',
+                    title: 'فشل تسجيل الدخول',
+                    description: 'بيانات الاعتماد للمسؤول غير صحيحة.',
+                });
+                await auth.signOut();
+            }
         } else {
+             // It's a student login attempt
              const studentDocRef = doc(db, 'students', user.uid);
              const studentDocSnap = await getDoc(studentDocRef);
              const student = studentDocSnap.data();
@@ -153,10 +161,14 @@ export default function LoginPage() {
         }
     } catch (error: any) {
         console.error("Login error:", error);
+        let description = 'اسم المستخدم أو كلمة المرور غير صحيحة.';
+        if (error.code === 'auth/invalid-credential' || error.code === 'auth/wrong-password' || error.code === 'auth/user-not-found') {
+            description = 'اسم المستخدم أو كلمة المرور غير صحيحة. الرجاء التأكد من البيانات والمحاولة مرة أخرى.';
+        }
          toast({
               variant: 'destructive',
               title: 'فشل تسجيل الدخول',
-              description: 'اسم المستخدم أو كلمة المرور غير صحيحة.',
+              description: description,
         });
     } finally {
         setIsLoading(false);
