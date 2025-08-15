@@ -1,7 +1,8 @@
 'use server';
 
 import { collection, query, where, getDocs, addDoc, deleteDoc, doc, writeBatch, getDoc } from 'firebase/firestore';
-import { db } from '@/lib/firebase';
+// The client-side db is not needed here anymore as all admin operations should use adminDB
+// import { db } from '@/lib/firebase'; 
 import { adminDB } from '@/lib/firebase-admin'; // Use Admin DB for backend operations
 
 export type Device = {
@@ -18,23 +19,24 @@ export type Device = {
 export type PendingDevice = Device;
 export type RegisteredDevice = Device;
 
-const pendingDevicesCol = collection(db, 'pendingDevices');
-const registeredDevicesCol = collection(db, 'registeredDevices');
+// We use adminDB for all server-side data fetching for the admin panel.
+const pendingDevicesCol = adminDB.collection('pendingDevices');
+const registeredDevicesCol = adminDB.collection('registeredDevices');
 
 
 export async function getPendingDevices(): Promise<PendingDevice[]> {
-    const snapshot = await getDocs(pendingDevicesCol);
+    const snapshot = await pendingDevicesCol.get();
     return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as PendingDevice));
 }
 
 export async function getRegisteredDevices(): Promise<RegisteredDevice[]> {
-    const snapshot = await getDocs(registeredDevicesCol);
+    const snapshot = await registeredDevicesCol.get();
     return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as RegisteredDevice));
 }
 
 export async function findRegisteredDevicesByStudentId(studentId: string): Promise<RegisteredDevice[]> {
-    const q = query(registeredDevicesCol, where("studentId", "==", studentId));
-    const snapshot = await getDocs(q);
+    const q = registeredDevicesCol.where("studentId", "==", studentId);
+    const snapshot = await q.get();
     if (snapshot.empty) {
         return [];
     }
@@ -43,16 +45,17 @@ export async function findRegisteredDevicesByStudentId(studentId: string): Promi
 
 export async function addPendingDevice(deviceData: Omit<PendingDevice, 'id'>): Promise<PendingDevice> {
     // Check if a pending request for this exact device already exists to avoid duplicates
-    const q = query(pendingDevicesCol, where("deviceId", "==", deviceData.deviceId), where("studentId", "==", deviceData.studentId));
-    const existingSnapshot = await getDocs(q);
+    const q = pendingDevicesCol.where("deviceId", "==", deviceData.deviceId).where("studentId", "==", deviceData.studentId);
+    const existingSnapshot = await q.get();
     if (!existingSnapshot.empty) {
         // A request for this device already exists, so don't add another one.
         const existingDoc = existingSnapshot.docs[0];
         return { id: existingDoc.id, ...existingDoc.data() } as PendingDevice;
     }
 
-    const docRef = await addDoc(pendingDevicesCol, deviceData);
-    return { id: docRef.id, ...deviceData };
+    const docRef = await pendingDevicesCol.add(deviceData);
+    const newDocSnap = await docRef.get();
+    return { id: newDocSnap.id, ...newDocSnap.data() } as PendingDevice;
 }
 
 export async function approveDevice(pendingDeviceId: string, mode: 'replace' | 'add'): Promise<void> {

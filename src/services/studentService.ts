@@ -1,7 +1,8 @@
 'use server';
 
 import { collection, getDocs, doc, setDoc, deleteDoc, updateDoc, query, where, writeBatch } from 'firebase/firestore';
-import { db } from '@/lib/firebase';
+// The client-side db is not needed here anymore as all admin operations should use adminDB
+// import { db } from '@/lib/firebase'; 
 import { adminDB, adminAuth } from '@/lib/firebase-admin';
 
 export type Student = {
@@ -16,10 +17,11 @@ export type Student = {
   phone2?: string;
 };
 
-const studentsCol = collection(db, 'students');
+// We use adminDB for all server-side data fetching for the admin panel.
+const studentsCol = adminDB.collection('students');
 
 export async function getStudents(): Promise<Student[]> {
-  const studentSnapshot = await getDocs(studentsCol);
+  const studentSnapshot = await studentsCol.get();
   const studentList = studentSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Student));
   return studentList;
 }
@@ -32,8 +34,8 @@ export async function addStudent(studentData: Student): Promise<void> {
 }
 
 export async function findStudentByUsername(username: string): Promise<Student | undefined> {
-    const q = query(collection(db, "students"), where("username", "==", username));
-    const querySnapshot = await getDocs(q);
+    const q = studentsCol.where("username", "==", username);
+    const querySnapshot = await q.get();
     
     if (querySnapshot.empty) {
         return undefined;
