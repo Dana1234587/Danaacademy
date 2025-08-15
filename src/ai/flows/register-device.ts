@@ -42,6 +42,7 @@ const registerDeviceFlow = ai.defineFlow(
       }
       
       if (registeredDevices.length === 0) {
+        // This is the first device, register it automatically.
         const newDeviceRef = doc(collection(db, 'registeredDevices'));
         await setDoc(newDeviceRef, {
             studentId: input.studentId,
@@ -59,6 +60,7 @@ const registerDeviceFlow = ai.defineFlow(
         };
       }
 
+      // If it's a new device and not the first, check if a pending request already exists.
       const q = query(
         collection(db, 'pendingDevices'), 
         where("deviceId", "==", input.deviceId), 
@@ -73,6 +75,7 @@ const registerDeviceFlow = ai.defineFlow(
         };
       }
       
+      // If no pending request, create one.
       await addPendingDevice({
         studentId: input.studentId,
         studentName: input.studentName,
