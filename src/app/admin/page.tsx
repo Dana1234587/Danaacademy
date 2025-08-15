@@ -9,7 +9,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Checkbox } from "@/components/ui/checkbox"
 import { useToast } from '@/hooks/use-toast';
-import { UserPlus, KeyRound, MonitorCheck, Loader2, Search, Smartphone, Monitor, Fingerprint, Globe, List, Home, Users, Edit, Trash2, Check, Plus } from 'lucide-react';
+import { UserPlus, KeyRound, MonitorCheck, Loader2, Search, Smartphone, Monitor, Fingerprint, Globe, List, Home, Users, Edit, Trash2, Check, Plus, RefreshCw } from 'lucide-react';
 import { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
@@ -65,7 +65,7 @@ export default function AdminPage() {
     }, []);
 
     const fetchData = async () => {
-        setIsLoading({ page: true });
+        setIsLoading(prev => ({ ...prev, page: true }));
         try {
             const [studentsData, pendingDevicesData, registeredDevicesData] = await Promise.all([
                 getStudents(),
@@ -75,10 +75,11 @@ export default function AdminPage() {
             setStudents(studentsData);
             setPendingDevices(pendingDevicesData);
             setRegisteredDevices(registeredDevicesData);
+            toast({ title: 'تم تحديث البيانات', description: 'تم جلب أحدث البيانات من الخادم بنجاح.' });
         } catch (error) {
             toast({ variant: 'destructive', title: 'فشل تحميل البيانات', description: 'لم نتمكن من جلب البيانات من الخادم. تأكدي من صلاحيات الوصول إلى قاعدة البيانات.' });
         } finally {
-            setIsLoading({ page: false });
+            setIsLoading(prev => ({ ...prev, page: false }));
         }
     };
 
@@ -88,12 +89,12 @@ export default function AdminPage() {
             toast({ variant: 'destructive', title: 'خطأ', description: 'الرجاء اختيار دورة واحدة على الأقل للطالب.' });
             return;
         }
-        setIsLoading({ ...isLoading, create: true });
+        setIsLoading(prev => ({ ...prev, create: true }));
         try {
             const coursesDetails = availableCourses.filter(c => selectedCourses.includes(c.id));
             if (coursesDetails.length !== selectedCourses.length) {
                  toast({ variant: 'destructive', title: 'خطأ', description: 'الرجاء اختيار دورات صحيحة.' });
-                 setIsLoading({ ...isLoading, create: false });
+                 setIsLoading(prev => ({ ...prev, create: false }));
                  return;
             }
             
@@ -142,7 +143,7 @@ export default function AdminPage() {
             }
             toast({ variant: 'destructive', title: 'فشل إنشاء الحساب', description });
         } finally {
-            setIsLoading({ ...isLoading, create: false });
+            setIsLoading(prev => ({ ...prev, create: false }));
         }
     };
 
@@ -164,7 +165,7 @@ export default function AdminPage() {
     };
 
     const handleDeleteStudent = async (studentId: string) => {
-        setIsLoading({ ...isLoading, [`delete-${studentId}`]: true });
+        setIsLoading(prev => ({ ...prev, [`delete-${studentId}`]: true }));
         try {
             await deleteStudentService(studentId);
             toast({
@@ -175,12 +176,12 @@ export default function AdminPage() {
         } catch (error) {
             toast({ variant: 'destructive', title: 'فشل الحذف', description: 'لم نتمكن من حذف الطالب.' });
         } finally {
-            setIsLoading({ ...isLoading, [`delete-${studentId}`]: false });
+            setIsLoading(prev => ({ ...prev, [`delete-${studentId}`]: false }));
         }
     };
     
     const handleDeleteDevice = async (deviceId: string) => {
-         setIsLoading({ ...isLoading, [`delete-device-${deviceId}`]: true });
+         setIsLoading(prev => ({ ...prev, [`delete-device-${deviceId}`]: true }));
         try {
             await deleteRegisteredDevice(deviceId);
             toast({
@@ -191,7 +192,7 @@ export default function AdminPage() {
         } catch (error) {
             toast({ variant: 'destructive', title: 'فشل الحذف', description: 'لم نتمكن من حذف الجهاز.' });
         } finally {
-            setIsLoading({ ...isLoading, [`delete-device-${deviceId}`]: false });
+            setIsLoading(prev => ({ ...prev, [`delete-device-${deviceId}`]: false }));
         }
     };
 
@@ -206,7 +207,7 @@ export default function AdminPage() {
 
     const handleResetPassword = async (studentId: string, studentName: string) => {
         const newPassword = Math.random().toString(36).slice(-8); // Generate random password
-        setIsLoading({ ...isLoading, [`reset-${studentId}`]: true });
+        setIsLoading(prev => ({ ...prev, [`reset-${studentId}`]: true }));
         try {
             await resetStudentPasswordService(studentId, newPassword);
             toast({
@@ -218,11 +219,11 @@ export default function AdminPage() {
         } catch(error) {
             toast({ variant: 'destructive', title: 'فشل إعادة التعيين', description: 'لم نتمكن من إعادة تعيين كلمة المرور.' });
         } finally {
-            setIsLoading({ ...isLoading, [`reset-${studentId}`]: false });
+            setIsLoading(prev => ({ ...prev, [`reset-${studentId}`]: false }));
         }
     };
 
-    if (isLoading['page'] && !Object.keys(isLoading).some(k => k !== 'page')) {
+    if (isLoading['page'] && !students.length) {
         return <MainLayout><div className="flex justify-center items-center h-screen"><Loader2 className="h-16 w-16 animate-spin"/></div></MainLayout>
     }
 
@@ -234,11 +235,17 @@ export default function AdminPage() {
                         <h1 className="text-3xl font-bold">لوحة تحكم المسؤول</h1>
                         <p className="text-muted-foreground">مرحباً دكتورة دانا، هنا يمكنك إدارة الأكاديمية.</p>
                     </div>
-                     <Button asChild variant="outline">
-                        <Link href="/">
-                            <Home className="me-2" /> العودة للرئيسية
-                        </Link>
-                    </Button>
+                     <div className="flex gap-2">
+                        <Button onClick={fetchData} variant="secondary" disabled={isLoading['page']}>
+                            {isLoading['page'] ? <Loader2 className="me-2 animate-spin" /> : <RefreshCw className="me-2" />}
+                            تحديث البيانات
+                        </Button>
+                         <Button asChild variant="outline">
+                            <Link href="/">
+                                <Home className="me-2" /> العودة للرئيسية
+                            </Link>
+                        </Button>
+                    </div>
                 </div>
 
                 <Tabs defaultValue="create-student">
@@ -506,3 +513,5 @@ export default function AdminPage() {
         </MainLayout>
     );
 }
+
+    
