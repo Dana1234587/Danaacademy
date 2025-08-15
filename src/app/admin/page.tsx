@@ -78,7 +78,7 @@ export default function AdminPage() {
             setRegisteredDevices(registeredDevicesData);
             toast({ title: 'تم تحديث البيانات', description: 'تم جلب أحدث البيانات من الخادم بنجاح.' });
         } catch (error) {
-            toast({ variant: 'destructive', title: 'فشل تحميل البيانات', description: 'لم نتمكن من جلب البيانات. قد يكون السبب مشكلة في قواعد الأمان في Firebase.' });
+            toast({ variant: 'destructive', title: 'فشل تحميل البيانات', description: `لم نتمكن من جلب البيانات. قد يكون السبب مشكلة في قواعد الأمان في Firebase. الخطأ: ${error.message}` });
         } finally {
             setIsLoading(prev => ({ ...prev, page: false }));
         }
@@ -534,3 +534,5 @@ export default function AdminPage() {
         </MainLayout>
     );
 }
+
+    
