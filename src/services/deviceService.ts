@@ -1,3 +1,4 @@
+'use server';
 
 import { collection, query, where, getDocs, addDoc, deleteDoc, doc, writeBatch, getDoc } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
