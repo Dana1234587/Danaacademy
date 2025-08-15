@@ -8,10 +8,10 @@ import { onAuthStateChanged, type User as FirebaseUser } from 'firebase/auth';
 import { findStudentByUsername } from '@/services/studentService';
 
 // Define types for our data
-// Note: The actual data types are now in the services, but we keep them here for the User type.
 type User = {
     uid: string;
     username: string;
+    email: string; // Add email to the user type
     role: 'admin' | 'student';
     enrolledCourseIds: string[];
 }
@@ -57,7 +57,8 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         if (firebaseUser.email.startsWith('admin')) {
           store.getState().setCurrentUser({ 
               uid: firebaseUser.uid,
-              username: 'admin', 
+              username: 'admin',
+              email: firebaseUser.email, 
               role: 'admin', 
               enrolledCourseIds: ['tawjihi-2007-supplementary', 'tawjihi-2008'] 
           });
@@ -66,7 +67,8 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
           if (student) {
             store.getState().setCurrentUser({ 
                 uid: student.id,
-                username: student.studentName, 
+                username: student.studentName,
+                email: firebaseUser.email,
                 role: 'student', 
                 enrolledCourseIds: student.courseIds 
             });

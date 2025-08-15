@@ -9,11 +9,11 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Checkbox } from "@/components/ui/checkbox"
 import { useToast } from '@/hooks/use-toast';
-import { UserPlus, KeyRound, MonitorCheck, Loader2, Search, Smartphone, Monitor, Fingerprint, Globe, List, Home, Users, Edit, Trash2, Check, Plus, RefreshCw, Info } from 'lucide-react';
-import { useState, useEffect, useMemo } from 'react';
+import { UserPlus, KeyRound, MonitorCheck, Loader2, Search, Smartphone, Monitor, Fingerprint, Globe, List, Home, Users, Edit, Trash2, Check, Plus, RefreshCw, Info, AlertTriangle } from 'lucide-react';
+import { useState, useEffect, useMemo, useCallback } from 'react';
 import Link from 'next/link';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { getStudents, addStudent as addStudentService, deleteStudent as deleteStudentService, resetStudentPassword as resetStudentPasswordService, type Student } from '@/services/studentService';
+import { getStudents, addStudent as addStudentService, deleteStudent as deleteStudentService, resetStudentPassword as resetStudentPasswordService, type Student, type NewStudentData } from '@/services/studentService';
 import { getPendingDevices, getRegisteredDevices, approveDevice as approveDeviceService, deleteRegisteredDevice, type PendingDevice, type RegisteredDevice } from '@/services/deviceService';
 import {
   AlertDialog,
@@ -27,8 +27,9 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
+import { useStore } from '@/store/app-store';
 
 const availableCourses = [
     { id: 'tawjihi-2007-supplementary', name: 'فيزياء تكميلي 2007' },
@@ -38,6 +39,7 @@ const availableCourses = [
 
 export default function AdminPage() {
     const { toast } = useToast();
+    const { currentUser } = useStore((state) => ({ currentUser: state.currentUser }));
     const [isLoading, setIsLoading] = useState<Record<string, boolean>>({});
     
     // State to hold data from services
@@ -63,11 +65,7 @@ export default function AdminPage() {
     }, [registeredDevices]);
 
     // Fetch data on component mount
-    useEffect(() => {
-        fetchData();
-    }, []);
-
-    const fetchData = async () => {
+    const fetchData = useCallback(async () => {
         setIsLoading(prev => ({ ...prev, page: true }));
         try {
             const [studentsData, pendingDevicesData, registeredDevicesData] = await Promise.all([
@@ -80,11 +78,19 @@ export default function AdminPage() {
             setRegisteredDevices(registeredDevicesData);
             toast({ title: 'تم تحديث البيانات', description: 'تم جلب أحدث البيانات من الخادم بنجاح.' });
         } catch (error: any) {
-            toast({ variant: 'destructive', title: 'فشل تحميل البيانات', description: `لم نتمكن من جلب البيانات. قد يكون السبب مشكلة في قواعد الأمان في Firebase. الخطأ: ${error.message}` });
+            toast({ 
+                variant: 'destructive', 
+                title: 'فشل تحميل البيانات', 
+                description: `لم نتمكن من جلب البيانات. قد يكون السبب مشكلة في قواعد الأمان في Firebase. الخطأ: ${error.message}` 
+            });
         } finally {
             setIsLoading(prev => ({ ...prev, page: false }));
         }
-    };
+    }, [toast]);
+
+    useEffect(() => {
+        fetchData();
+    }, [fetchData]);
 
     const handleCreateAccount = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -93,16 +99,25 @@ export default function AdminPage() {
             return;
         }
         setIsLoading(prev => ({ ...prev, create: true }));
-        try {
-            const coursesDetails = availableCourses.filter(c => selectedCourses.includes(c.id));
-            const email = `${newStudentUsername}@dana-academy.com`;
 
-            // Step 1: Create the user in Firebase Auth
-            const userCredential = await createUserWithEmailAndPassword(auth, email, newStudentPassword);
+        const studentEmail = `${newStudentUsername}@dana-academy.com`;
+        const adminEmail = currentUser?.email;
+        const adminPassword = prompt("للتأكيد، يرجى إدخال كلمة المرور الخاصة بك كمسؤول:");
+
+        if (!adminEmail || !adminPassword) {
+            toast({ variant: "destructive", title: "فشل الإنشاء", description: "لا يمكن إكمال العملية بدون بيانات اعتماد المسؤول." });
+            setIsLoading(prev => ({ ...prev, create: false }));
+            return;
+        }
+
+        try {
+            // Step 1: Create the student user in Firebase Auth
+            const userCredential = await createUserWithEmailAndPassword(auth, studentEmail, newStudentPassword);
             const user = userCredential.user;
 
             // Step 2: Add student data to Firestore
-            const newStudentData = {
+            const coursesDetails = availableCourses.filter(c => selectedCourses.includes(c.id));
+            const newStudentData: NewStudentData = {
                 studentName: newStudentName,
                 username: newStudentUsername,
                 password: newStudentPassword,
@@ -130,9 +145,7 @@ export default function AdminPage() {
 
         } catch (error: any) {
             let description = 'حدث خطأ غير متوقع. الرجاء المحاولة مرة أخرى.';
-             if (error.message.includes('PERMISSION_DENIED') || error.message.includes('permission-denied') || error.message.includes('insufficient permissions')) {
-                description = 'فشل الوصول إلى قاعدة البيانات. يرجى التأكد من أن قواعد الأمان في Firebase صحيحة وتسمح للمسؤول بإنشاء الحسابات.';
-            } else if (error.code) {
+             if (error.code) {
                 switch (error.code) {
                     case 'auth/email-already-in-use':
                         description = 'اسم المستخدم هذا موجود بالفعل. الرجاء اختيار اسم آخر.';
@@ -144,18 +157,22 @@ export default function AdminPage() {
                         description = 'صيغة اسم المستخدم غير صالحة. الرجاء استخدام حروف إنجليزية وأرقام فقط بدون مسافات أو رموز.';
                         break;
                     default:
-                        description = `Firebase error: ${error.message}`;
+                        description = `Firebase Auth Error: ${error.message}`;
                 }
+            } else if (error.message.includes('PERMISSION_DENIED') || error.message.includes('permission-denied')) {
+                description = 'فشل الوصول إلى قاعدة البيانات. يرجى التأكد من أن قواعد الأمان في Firebase صحيحة وتسمح للمسؤول بإنشاء الحسابات.';
             } else if (error.message) {
                  description = error.message;
             }
             toast({ 
                 variant: 'destructive', 
                 title: 'فشل إنشاء الحساب', 
-                description: `${description} إذا استمرت المشكلة، قد تحتاج لحذف المستخدم من قسم المصادقة في Firebase والمحاولة مرة أخرى.`, 
+                description, 
                 duration: 9000 
             });
         } finally {
+            // IMPORTANT: Re-authenticate the admin to restore their session
+            await signInWithEmailAndPassword(auth, adminEmail, adminPassword);
             setIsLoading(prev => ({ ...prev, create: false }));
         }
     };
@@ -177,7 +194,13 @@ export default function AdminPage() {
         }
     };
 
-    const handleDeleteStudent = async (studentId: string) => {
+    const handleDeleteStudent = async (studentId: string, studentName: string) => {
+        const confirmation = prompt(`هل أنت متأكد من حذف الطالب "${studentName}"؟ هذا الإجراء لا يمكن التراجع عنه. اكتب "حذف" للتأكيد.`);
+        if (confirmation !== 'حذف') {
+            toast({ title: 'تم الإلغاء', description: 'لم يتم حذف الطالب.' });
+            return;
+        }
+
         setIsLoading(prev => ({ ...prev, [`delete-${studentId}`]: true }));
         try {
             await deleteStudentService(studentId);
@@ -216,6 +239,9 @@ export default function AdminPage() {
         }
         const found = students.find(s => s.studentName.includes(searchQuery) || s.username.includes(searchQuery));
         setSearchedStudent(found || null);
+        if (!found) {
+            toast({ variant: 'destructive', title: 'غير موجود', description: 'لم يتم العثور على طالب بهذا الاسم أو اسم المستخدم.' });
+        }
     };
 
     const handleResetPassword = async (studentId: string, studentName: string) => {
@@ -236,7 +262,7 @@ export default function AdminPage() {
         }
     };
 
-    if (isLoading['page'] && !students.length) {
+    if (isLoading['page'] && students.length === 0) {
         return <MainLayout><div className="flex justify-center items-center h-screen"><Loader2 className="h-16 w-16 animate-spin"/></div></MainLayout>
     }
 
@@ -250,12 +276,12 @@ export default function AdminPage() {
                     </div>
                      <div className="flex gap-2">
                         <Button onClick={fetchData} variant="secondary" disabled={isLoading['page']}>
-                            {isLoading['page'] ? <Loader2 className="me-2 animate-spin" /> : <RefreshCw className="me-2" />}
+                            {isLoading['page'] ? <Loader2 className="me-2 h-4 w-4 animate-spin" /> : <RefreshCw className="me-2 h-4 w-4" />}
                             تحديث البيانات
                         </Button>
                          <Button asChild variant="outline">
                             <Link href="/">
-                                <Home className="me-2" /> العودة للرئيسية
+                                <Home className="me-2 h-4 w-4" /> العودة للرئيسية
                             </Link>
                         </Button>
                     </div>
@@ -354,7 +380,7 @@ export default function AdminPage() {
                                             <TableRow>
                                                 <TableHead>اسم الطالب</TableHead>
                                                 <TableHead>اسم المستخدم</TableHead>
-                                                <TableHead>كلمة المرور</TableHead>
+                                                <TableHead>كلمة المرور (للعرض)</TableHead>
                                                 <TableHead>الدورات</TableHead>
                                                 <TableHead>هاتف 1</TableHead>
                                                 <TableHead>هاتف 2</TableHead>
@@ -368,29 +394,17 @@ export default function AdminPage() {
                                                     <TableCell className="whitespace-nowrap">{student.username}</TableCell>
                                                     <TableCell>{student.password}</TableCell>
                                                     <TableCell className="whitespace-nowrap">{student.courses?.join(', ') || 'N/A'}</TableCell>
-                                                    <TableCell>{student.phone1}</TableCell>
-                                                    <TableCell>{student.phone2}</TableCell>
+                                                    <TableCell>{student.phone1 || '-'}</TableCell>
+                                                    <TableCell>{student.phone2 || '-'}</TableCell>
                                                     <TableCell className="flex gap-2">
                                                       <Button variant="outline" size="icon" disabled><Edit className="w-4 h-4" /></Button>
-                                                      <AlertDialog>
-                                                        <AlertDialogTrigger asChild>
-                                                          <Button variant="destructive" size="icon" disabled={isLoading[`delete-${student.id}`]}>
+                                                      <Button 
+                                                        variant="destructive" 
+                                                        size="icon" 
+                                                        onClick={() => handleDeleteStudent(student.id, student.studentName)}
+                                                        disabled={isLoading[`delete-${student.id}`]}>
                                                             {isLoading[`delete-${student.id}`] ? <Loader2 className="w-4 h-4 animate-spin" /> : <Trash2 className="w-4 h-4" />}
-                                                          </Button>
-                                                        </AlertDialogTrigger>
-                                                        <AlertDialogContent>
-                                                          <AlertDialogHeader>
-                                                            <AlertDialogTitle>هل أنت متأكد؟</AlertDialogTitle>
-                                                            <AlertDialogDescription>
-                                                              هذا الإجراء سيحذف بيانات الطالب من قاعدة البيانات وأجهزته المسجلة. سيبقى حساب المصادقة الخاص به ويتطلب الحذف اليدوي من Firebase.
-                                                            </AlertDialogDescription>
-                                                          </AlertDialogHeader>
-                                                          <AlertDialogFooter>
-                                                            <AlertDialogCancel>إلغاء</AlertDialogCancel>
-                                                            <AlertDialogAction onClick={() => handleDeleteStudent(student.id)}>حذف</AlertDialogAction>
-                                                          </AlertDialogFooter>
-                                                        </AlertDialogContent>
-                                                      </AlertDialog>
+                                                      </Button>
                                                     </TableCell>
                                                 </TableRow>
                                             ))}
@@ -507,10 +521,10 @@ export default function AdminPage() {
                             </CardHeader>
                             <CardContent className="space-y-4">
                                 <Alert variant="destructive">
-                                    <Info className="h-4 w-4" />
+                                    <AlertTriangle className="h-4 w-4" />
                                     <AlertTitle>ملاحظة هامة</AlertTitle>
                                     <AlertDescription>
-                                       هذه العملية تقوم فقط بتغيير كلمة المرور المعروضة في قاعدة البيانات. هي **لا تغير** كلمة المرور الفعلية التي يستخدمها الطالب لتسجيل الدخول.
+                                       هذه العملية تقوم فقط بتغيير كلمة المرور المعروضة في قاعدة البيانات. هي **لا تغير** كلمة المرور الفعلية التي يستخدمها الطالب لتسجيل الدخول. لتغييرها بشكل فعلي، يجب استخدام لوحة تحكم Firebase.
                                     </AlertDescription>
                                 </Alert>
                                 <div className="flex flex-col sm:flex-row gap-2 mt-4">
@@ -542,4 +556,3 @@ export default function AdminPage() {
         </MainLayout>
     );
 }
-

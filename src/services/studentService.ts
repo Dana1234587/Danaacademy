@@ -16,7 +16,8 @@ export type Student = {
   phone2?: string;
 };
 
-type NewStudentData = Omit<Student, 'id'>
+// This type is for creating a new student, so the ID is not needed yet.
+export type NewStudentData = Omit<Student, 'id'>;
 
 export async function getStudents(): Promise<Student[]> {
   const studentsCol = collection(db, 'students');
@@ -25,6 +26,12 @@ export async function getStudents(): Promise<Student[]> {
   return studentList;
 }
 
+/**
+ * Adds a student document to the Firestore 'students' collection.
+ * This function is now separate from the auth creation process.
+ * @param uid The Firebase Auth UID of the newly created user.
+ * @param studentData The student's data to save.
+ */
 export async function addStudent(uid: string, studentData: NewStudentData): Promise<void> {
     const studentDocRef = doc(db, 'students', uid);
     await setDoc(studentDocRef, studentData);
@@ -49,8 +56,27 @@ export async function deleteStudent(studentId: string): Promise<void> {
     // This is a security measure as frontend clients typically don't have privileges to delete users.
     console.warn(`Deleting student ${studentId} from Firestore. Associated Auth user must be deleted manually.`);
     
-    await deleteDoc(doc(db, "students", studentId));
-    await deleteRegisteredDeviceByStudentId(studentId);
+    // Create a batch to perform atomic operations
+    const batch = writeBatch(db);
+
+    // 1. Delete the student document
+    const studentRef = doc(db, "students", studentId);
+    batch.delete(studentRef);
+
+    // 2. Delete all registered devices for this student
+    const registeredDevicesQuery = query(collection(db, "registeredDevices"), where("studentId", "==", studentId));
+    const registeredDevicesSnapshot = await getDocs(registeredDevicesQuery);
+    registeredDevicesSnapshot.forEach(doc => {
+        batch.delete(doc.ref);
+    });
+    
+    // Commit the batch
+    await batch.commit();
+
+    toast({
+        title: 'تم الحذف من قاعدة البيانات',
+        description: `تم حذف بيانات الطالب وأجهزته المسجلة. إن كان له حساب مصادقة، فيجب حذفه يدويًا من لوحة تحكم Firebase.`,
+    });
 }
 
 export async function updateStudent(studentId: string, data: Partial<Omit<Student, 'id' | 'password'>>): Promise<void> {
@@ -68,3 +94,8 @@ export async function resetStudentPassword(studentId: string, newPassword: strin
     });
     console.warn(`Password for student ${studentId} updated in Firestore. This does NOT change their actual login password.`);
 }
+
+// Helper to get toast functionality in service files
+import { toast } from '@/hooks/use-toast';
+import { writeBatch } from 'firebase/firestore';
+
