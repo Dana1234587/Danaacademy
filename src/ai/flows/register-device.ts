@@ -5,8 +5,6 @@
  * @fileOverview A Genkit flow for securely registering a student's device.
  *
  * - registerDevice - A function that handles the device registration logic.
- * - RegisterDeviceInput - The input type for the registerDevice function.
- * - RegisterDeviceOutput - The return type for the registerDevice function.
  */
 
 import { ai } from '@/ai/genkit';
@@ -15,27 +13,14 @@ import {
   findRegisteredDevicesByStudentId,
   addPendingDevice,
 } from '@/services/deviceService';
-import { collection, doc, setDoc, getDocs, query, where, writeBatch } from 'firebase/firestore';
+import { collection, doc, setDoc, getDocs, query, where } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
-
-export const RegisterDeviceInputSchema = z.object({
-  studentId: z.string().describe('The UID of the student.'),
-  studentName: z.string().describe('The name of the student.'),
-  deviceId: z.string().describe('The unique identifier for the device.'),
-  os: z.string().describe('The operating system of the device.'),
-  deviceType: z.enum(['Desktop', 'Mobile']).describe('The type of the device.'),
-  courses: z.array(z.string()).describe('The courses the student is enrolled in.'),
-  ipAddress: z.string().describe('The IP address of the device.'),
-});
-export type RegisterDeviceInput = z.infer<typeof RegisterDeviceInputSchema>;
-
-export const RegisterDeviceOutputSchema = z.object({
-  status: z
-    .enum(['registered', 'pending', 'already-exists', 'error'])
-    .describe('The result of the registration attempt.'),
-  message: z.string().describe('A message describing the result.'),
-});
-export type RegisterDeviceOutput = z.infer<typeof RegisterDeviceOutputSchema>;
+import { 
+    RegisterDeviceInputSchema, 
+    RegisterDeviceOutputSchema,
+    type RegisterDeviceInput,
+    type RegisterDeviceOutput
+} from './register-device.types';
 
 
 const registerDeviceFlow = ai.defineFlow(
@@ -56,7 +41,6 @@ const registerDeviceFlow = ai.defineFlow(
         };
       }
       
-      // Handle first-time device registration
       if (registeredDevices.length === 0) {
         const newDeviceRef = doc(collection(db, 'registeredDevices'));
         await setDoc(newDeviceRef, {
@@ -75,8 +59,6 @@ const registerDeviceFlow = ai.defineFlow(
         };
       }
 
-      // Handle new device when other devices are already registered
-      // Check if a pending request for this device already exists to avoid duplicates
       const q = query(
         collection(db, 'pendingDevices'), 
         where("deviceId", "==", input.deviceId), 
@@ -116,9 +98,8 @@ const registerDeviceFlow = ai.defineFlow(
   }
 );
 
-// Exported wrapper function to be called from the client
 export async function registerDevice(
   input: RegisterDeviceInput
 ): Promise<RegisterDeviceOutput> {
-  return await registerDeviceFlow(input);
+  return registerDeviceFlow(input);
 }

@@ -12,7 +12,8 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
 import { Loader2 } from 'lucide-react';
-import { registerDevice, type RegisterDeviceInput } from '@/ai/flows/register-device';
+import { registerDevice } from '@/ai/flows/register-device';
+import type { RegisterDeviceInput } from '@/ai/flows/register-device.types';
 import { auth, db } from '@/lib/firebase';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { useStore } from '@/store/app-store';
@@ -131,7 +132,6 @@ export default function LoginPage() {
                 router.push(coursePath);
             };
 
-            // Call the secure cloud flow to handle device registration
             const registrationInput: RegisterDeviceInput = {
                 studentId: user.uid,
                 studentName: student.studentName,
@@ -139,9 +139,9 @@ export default function LoginPage() {
                 os: os,
                 deviceType: os === 'Android' || os === 'iOS' ? 'Mobile' : 'Desktop',
                 courses: student.courses,
-                ipAddress: 'Fetching...' // This can be enhanced in the cloud function if needed
+                ipAddress: 'Fetching...'
             };
-
+            
             const result = await registerDevice(registrationInput);
             
             if (result.status === 'registered' || result.status === 'already-exists') {
@@ -159,7 +159,6 @@ export default function LoginPage() {
                 });
                 await auth.signOut();
             } else {
-                // Handle 'error' status
                  toast({
                   variant: 'destructive',
                   title: 'حدث خطأ',
