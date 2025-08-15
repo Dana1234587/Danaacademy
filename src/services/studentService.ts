@@ -96,5 +96,7 @@ export async function resetStudentPassword(studentId: string, newPassword: strin
     await updateDoc(studentRef, {
         password: newPassword
     });
-    console.log(`Password for student ${studentId} updated in Firestore. This does NOT change their actual login password.`);
+    console.warn(`Password for student ${studentId} updated in Firestore. This does NOT change their actual login password.`);
 }
+
+    

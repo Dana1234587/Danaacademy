@@ -78,7 +78,7 @@ export default function AdminPage() {
             setRegisteredDevices(registeredDevicesData);
             toast({ title: 'تم تحديث البيانات', description: 'تم جلب أحدث البيانات من الخادم بنجاح.' });
         } catch (error) {
-            toast({ variant: 'destructive', title: 'فشل تحميل البيانات', description: 'لم نتمكن من جلب البيانات من الخادم. تأكدي من صلاحيات الوصول إلى قاعدة البيانات.' });
+            toast({ variant: 'destructive', title: 'فشل تحميل البيانات', description: 'لم نتمكن من جلب البيانات. قد يكون السبب مشكلة في قواعد الأمان في Firebase.' });
         } finally {
             setIsLoading(prev => ({ ...prev, page: false }));
         }
@@ -127,20 +127,20 @@ export default function AdminPage() {
 
         } catch (error: any) {
             let description = 'حدث خطأ غير متوقع. الرجاء المحاولة مرة أخرى.';
-            switch (error.code) {
-                case 'auth/email-already-in-use':
-                    description = 'اسم المستخدم هذا موجود بالفعل. الرجاء اختيار اسم آخر.';
-                    break;
-                case 'auth/weak-password':
-                    description = 'كلمة المرور ضعيفة جدًا. يجب أن تتكون من 6 أحرف على الأقل.';
-                    break;
-                case 'auth/invalid-email':
-                    description = 'صيغة اسم المستخدم غير صالحة. الرجاء استخدام حروف إنجليزية وأرقام فقط بدون مسافات أو رموز.';
-                    break;
-                case 'permission-denied':
-                case 'PERMISSION_DENIED':
-                    description = 'فشل الوصول إلى قاعدة البيانات. يرجى التأكد من أن قواعد الأمان في Firebase تسمح بالكتابة للمستخدمين المسجلين.';
-                    break;
+             if (error.message.includes('PERMISSION_DENIED') || error.message.includes('permission-denied')) {
+                description = 'فشل الوصول إلى قاعدة البيانات. يرجى التأكد من أن قواعد الأمان في Firebase تسمح بإنشاء الحسابات.';
+            } else if (error.code) {
+                switch (error.code) {
+                    case 'auth/email-already-in-use':
+                        description = 'اسم المستخدم هذا موجود بالفعل. الرجاء اختيار اسم آخر.';
+                        break;
+                    case 'auth/weak-password':
+                        description = 'كلمة المرور ضعيفة جدًا. يجب أن تتكون من 6 أحرف على الأقل.';
+                        break;
+                    case 'auth/invalid-email':
+                        description = 'صيغة اسم المستخدم غير صالحة. الرجاء استخدام حروف إنجليزية وأرقام فقط بدون مسافات أو رموز.';
+                        break;
+                }
             }
             toast({ variant: 'destructive', title: 'فشل إنشاء الحساب', description });
         } finally {
@@ -171,7 +171,7 @@ export default function AdminPage() {
             await deleteStudentService(studentId);
             toast({
                 title: 'تم الحذف من قاعدة البيانات',
-                description: `تم حذف بيانات الطالب. يجب حذف المستخدم من نظام المصادقة يدويًا من لوحة تحكم Firebase.`,
+                description: `تم حذف بيانات الطالب. إن كان له حساب مصادقة، فيجب حذفه يدويًا من لوحة تحكم Firebase.`,
             });
             fetchData();
         } catch (error) {
@@ -284,7 +284,7 @@ export default function AdminPage() {
                                             <Label>الدورات المسجل بها</Label>
                                             <div className="space-y-2 rounded-md border p-4">
                                                 {availableCourses.map(course => (
-                                                    <div key={course.id} className="flex items-center space-x-2">
+                                                    <div key={course.id} className="flex items-center space-x-2 space-x-reverse">
                                                         <Checkbox
                                                             id={course.id}
                                                             checked={selectedCourses.includes(course.id)}
@@ -328,7 +328,7 @@ export default function AdminPage() {
                                 <CardTitle>قائمة حسابات الطلاب</CardTitle>
                                 <CardDescription>هنا يتم عرض جميع حسابات الطلاب المسجلة في قاعدة البيانات.</CardDescription>
                             </CardHeader>
-                            <CardContent className="overflow-x-auto">
+                            <CardContent>
                                 <Alert>
                                     <Info className="h-4 w-4" />
                                     <AlertTitle>ملاحظة هامة</AlertTitle>
@@ -336,53 +336,55 @@ export default function AdminPage() {
                                         هذه القائمة تعرض الطلاب المسجلين في قاعدة بيانات التطبيق (Firestore) فقط. أي مستخدم يتم إضافته يدويًا من خلال لوحة تحكم Firebase Authentication لن يظهر هنا، حيث يجب إنشاؤه من خلال قسم "إنشاء حساب" لضمان مزامنة البيانات.
                                     </AlertDescription>
                                 </Alert>
-                                <Table className="mt-4">
-                                    <TableHeader>
-                                        <TableRow>
-                                            <TableHead>اسم الطالب</TableHead>
-                                            <TableHead>اسم المستخدم</TableHead>
-                                            <TableHead>كلمة المرور</TableHead>
-                                            <TableHead>الدورات</TableHead>
-                                            <TableHead>هاتف 1</TableHead>
-                                            <TableHead>هاتف 2</TableHead>
-                                            <TableHead>الإجراءات</TableHead>
-                                        </TableRow>
-                                    </TableHeader>
-                                    <TableBody>
-                                        {students.map((student) => (
-                                            <TableRow key={student.id}>
-                                                <TableCell className="font-medium whitespace-nowrap">{student.studentName}</TableCell>
-                                                <TableCell className="whitespace-nowrap">{student.username}</TableCell>
-                                                <TableCell>{student.password}</TableCell>
-                                                <TableCell className="whitespace-nowrap">{student.courses?.join(', ') || 'N/A'}</TableCell>
-                                                <TableCell>{student.phone1}</TableCell>
-                                                <TableCell>{student.phone2}</TableCell>
-                                                <TableCell className="flex gap-2">
-                                                  <Button variant="outline" size="icon" disabled><Edit className="w-4 h-4" /></Button>
-                                                  <AlertDialog>
-                                                    <AlertDialogTrigger asChild>
-                                                      <Button variant="destructive" size="icon" disabled={isLoading[`delete-${student.id}`]}>
-                                                        {isLoading[`delete-${student.id}`] ? <Loader2 className="w-4 h-4 animate-spin" /> : <Trash2 className="w-4 h-4" />}
-                                                      </Button>
-                                                    </AlertDialogTrigger>
-                                                    <AlertDialogContent>
-                                                      <AlertDialogHeader>
-                                                        <AlertDialogTitle>هل أنت متأكد؟</AlertDialogTitle>
-                                                        <AlertDialogDescription>
-                                                          هذا الإجراء سيحذف بيانات الطالب من قاعدة البيانات وجهازه المسجل. سيبقى حساب المصادقة الخاص به ويتطلب الحذف اليدوي من Firebase.
-                                                        </AlertDialogDescription>
-                                                      </AlertDialogHeader>
-                                                      <AlertDialogFooter>
-                                                        <AlertDialogCancel>إلغاء</AlertDialogCancel>
-                                                        <AlertDialogAction onClick={() => handleDeleteStudent(student.id)}>حذف</AlertDialogAction>
-                                                      </AlertDialogFooter>
-                                                    </AlertDialogContent>
-                                                  </AlertDialog>
-                                                </TableCell>
+                                <div className="mt-4 overflow-x-auto">
+                                    <Table>
+                                        <TableHeader>
+                                            <TableRow>
+                                                <TableHead>اسم الطالب</TableHead>
+                                                <TableHead>اسم المستخدم</TableHead>
+                                                <TableHead>كلمة المرور</TableHead>
+                                                <TableHead>الدورات</TableHead>
+                                                <TableHead>هاتف 1</TableHead>
+                                                <TableHead>هاتف 2</TableHead>
+                                                <TableHead>الإجراءات</TableHead>
                                             </TableRow>
-                                        ))}
-                                    </TableBody>
-                                </Table>
+                                        </TableHeader>
+                                        <TableBody>
+                                            {students.map((student) => (
+                                                <TableRow key={student.id}>
+                                                    <TableCell className="font-medium whitespace-nowrap">{student.studentName}</TableCell>
+                                                    <TableCell className="whitespace-nowrap">{student.username}</TableCell>
+                                                    <TableCell>{student.password}</TableCell>
+                                                    <TableCell className="whitespace-nowrap">{student.courses?.join(', ') || 'N/A'}</TableCell>
+                                                    <TableCell>{student.phone1}</TableCell>
+                                                    <TableCell>{student.phone2}</TableCell>
+                                                    <TableCell className="flex gap-2">
+                                                      <Button variant="outline" size="icon" disabled><Edit className="w-4 h-4" /></Button>
+                                                      <AlertDialog>
+                                                        <AlertDialogTrigger asChild>
+                                                          <Button variant="destructive" size="icon" disabled={isLoading[`delete-${student.id}`]}>
+                                                            {isLoading[`delete-${student.id}`] ? <Loader2 className="w-4 h-4 animate-spin" /> : <Trash2 className="w-4 h-4" />}
+                                                          </Button>
+                                                        </AlertDialogTrigger>
+                                                        <AlertDialogContent>
+                                                          <AlertDialogHeader>
+                                                            <AlertDialogTitle>هل أنت متأكد؟</AlertDialogTitle>
+                                                            <AlertDialogDescription>
+                                                              هذا الإجراء سيحذف بيانات الطالب من قاعدة البيانات وأجهزته المسجلة. سيبقى حساب المصادقة الخاص به ويتطلب الحذف اليدوي من Firebase.
+                                                            </AlertDialogDescription>
+                                                          </AlertDialogHeader>
+                                                          <AlertDialogFooter>
+                                                            <AlertDialogCancel>إلغاء</AlertDialogCancel>
+                                                            <AlertDialogAction onClick={() => handleDeleteStudent(student.id)}>حذف</AlertDialogAction>
+                                                          </AlertDialogFooter>
+                                                        </AlertDialogContent>
+                                                      </AlertDialog>
+                                                    </TableCell>
+                                                </TableRow>
+                                            ))}
+                                        </TableBody>
+                                    </Table>
+                                </div>
                             </CardContent>
                         </Card>
                     </TabsContent>
@@ -492,7 +494,14 @@ export default function AdminPage() {
                                 <CardDescription>ابحثي عن الطالب لإنشاء كلمة مرور جديدة وتخزينها في قاعدة البيانات للمساعدة عند الحاجة.</CardDescription>
                             </CardHeader>
                             <CardContent className="space-y-4">
-                                <div className="flex flex-col sm:flex-row gap-2">
+                                <Alert variant="destructive">
+                                    <Info className="h-4 w-4" />
+                                    <AlertTitle>ملاحظة هامة</AlertTitle>
+                                    <AlertDescription>
+                                       هذه العملية تقوم فقط بتغيير كلمة المرور المعروضة في قاعدة البيانات. هي **لا تغير** كلمة المرور الفعلية التي يستخدمها الطالب لتسجيل الدخول.
+                                    </AlertDescription>
+                                </Alert>
+                                <div className="flex flex-col sm:flex-row gap-2 mt-4">
                                     <Input 
                                         placeholder="ابحثي بالاسم أو اسم المستخدم..." 
                                         value={searchQuery}
@@ -521,7 +530,5 @@ export default function AdminPage() {
         </MainLayout>
     );
 }
-
-    
 
     
