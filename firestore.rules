@@ -1,29 +1,30 @@
 
 rules_version = '2';
-
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // Students can only read their own document.
-    // Creation/Update/Deletion is handled by admin/server-side logic.
-    match /students/{userId} {
-      allow read: if request.auth != null && request.auth.uid == userId;
-      allow write: if false; // No client-side writes
+    function isAdmin() {
+      return request.auth.token.admin == true;
     }
 
-    // Admins can only read their own document.
-    match /admins/{userId} {
-      allow read: if request.auth != null && request.auth.uid == userId;
-      allow write: if false; // No client-side writes
+    // Admins can read/write all student and device data
+    match /students/{studentId} {
+      allow read, write: if isAdmin();
+      // Students can only read their own data
+      allow read: if request.auth != null && request.auth.uid == studentId;
     }
 
-    // Registered and Pending devices can only be read by an admin through a server-side function.
-    // Client-side read is blocked.
-    match /registeredDevices/{deviceId} {
-      allow read, write: if false;
-    }
     match /pendingDevices/{deviceId} {
-       allow read, write: if false;
+      allow read, write, delete: if isAdmin();
+    }
+    
+    match /registeredDevices/{deviceId} {
+      allow read, write, delete: if isAdmin();
+    }
+
+    // Admins can read their own document (for login verification)
+    match /admins/{adminId} {
+      allow read: if request.auth != null && request.auth.uid == adminId;
     }
   }
 }
