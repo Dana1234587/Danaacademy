@@ -172,7 +172,7 @@ export default function Home() {
                     <div className="flex justify-center items-center">
                         <div className="relative group w-full max-w-[376px] h-auto aspect-square">
                             <Image
-                                src="https://i.ibb.co/Kck1HBsB/image.png"
+                                src="https://i.ibb.co/SXn1vhJP/NEW-NEW.png"
                                 alt="About Dana Academy"
                                 width={376}
                                 height={376}
