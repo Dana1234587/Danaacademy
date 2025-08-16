@@ -25,7 +25,7 @@ const course = {
     imageUrl: 'https://i.ibb.co/SXn1vhJP/NEW-NEW.png',
     imageHint: 'instructor portrait',
   },
-  coverImageUrl: 'https://i.ibb.co/v6JXwghs/image.png',
+  coverImageUrl: 'https://i.ibb.co/Kck1HBsB/image.png',
   coverImageHint: 'physics textbook',
   price: '50.00 د.أ',
   curriculum: {
@@ -331,3 +331,5 @@ export default function PhysicsSupplementary2007Page() {
     </MarketingLayout>
   );
 }
+
+    
