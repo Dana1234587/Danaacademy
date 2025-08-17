@@ -35,14 +35,12 @@ export default function LinearMomentumConceptPage() {
                   <span>شرح حصة الدرس</span>
                 </CardTitle>
               </CardHeader>
-              <CardContent className="p-0">
-                <iframe
-                  src="https://iframe.mediadelivery.net/play/480623/c3383407-52a1-409d-a748-ff5b9ec0b3f6"
-                  className="w-full aspect-video border-0"
-                  allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
-                  allowFullScreen={true}
-                ></iframe>
-              </CardContent>
+              <iframe
+                src="https://iframe.mediadelivery.net/play/480623/c3383407-52a1-409d-a748-ff5b9ec0b3f6"
+                className="w-full aspect-video border-0"
+                allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
+                allowFullScreen={true}
+              ></iframe>
             </Card>
             <Card className="mt-6">
                 <CardHeader>
