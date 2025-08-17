@@ -1,0 +1,90 @@
+'use client';
+
+import { MainLayout } from '@/components/layout/main-layout';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { ChevronLeft, Youtube, FileText, BarChart, BrainCircuit } from 'lucide-react';
+import Link from 'next/link';
+
+export default function LinearMomentumConceptPage() {
+  return (
+    <MainLayout>
+      <div className="p-4 sm:p-6 lg:p-8">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
+          <div>
+            <p className="text-sm text-primary font-medium">الدرس الأول: الزخم الخطي والدفع</p>
+            <h1 className="text-3xl font-bold mt-1">مفهوم الزخم الخطي</h1>
+            <p className="text-muted-foreground mt-2 max-w-2xl">
+              في هذه الحصة، سنتعرف على أحد أهم المفاهيم في الميكانيكا الكلاسيكية، وكيف نصف حركة الأجسام من حولنا.
+            </p>
+          </div>
+          <Button asChild variant="outline">
+            <Link href="/courses/physics-supplementary-2007">
+              <ChevronLeft className="me-2 h-4 w-4" /> العودة إلى قائمة الدروس
+            </Link>
+          </Button>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Main Content: Video Player */}
+          <div className="lg:col-span-2">
+            <Card className="overflow-hidden">
+              <CardHeader className="bg-muted/50 border-b p-4">
+                <CardTitle className="flex items-center gap-2 text-xl">
+                  <Youtube className="w-6 h-6 text-red-600" />
+                  <span>شرح حصة الدرس</span>
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="p-0">
+                {/* Video Player Placeholder */}
+                <div 
+                  className="w-full aspect-video bg-slate-900 flex items-center justify-center text-slate-400"
+                  data-ai-hint="video player"
+                >
+                  <div className="text-center">
+                    <Youtube className="w-16 h-16 mx-auto" />
+                    <p className="mt-2 text-lg font-semibold">سيتم إضافة فيديو الحصة هنا قريباً</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+            <Card className="mt-6">
+                <CardHeader>
+                    <CardTitle>نقاط رئيسية من الحصة</CardTitle>
+                    <CardDescription>أهم الأفكار والقوانين التي تم تغطيتها في هذا الفيديو.</CardDescription>
+                </CardHeader>
+                <CardContent>
+                    <ul className="space-y-3 list-disc list-inside text-muted-foreground">
+                        <li>تعريف الزخم الخطي ككمية متجهة.</li>
+                        <li>العلاقة بين الزخم والكتلة والسرعة.</li>
+                        <li>وحدة قياس الزخم الخطي في النظام الدولي.</li>
+                        <li>أمثلة عملية على الزخم الخطي في حياتنا اليومية.</li>
+                    </ul>
+                </CardContent>
+            </Card>
+          </div>
+
+          {/* Sidebar: Related Content */}
+          <div className="lg:col-span-1 space-y-6">
+            <Card>
+              <CardHeader>
+                <CardTitle>موارد إضافية</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                <Button variant="ghost" className="w-full justify-start">
+                  <FileText className="me-3"/> ورقة عمل الدرس (PDF)
+                </Button>
+                <Button variant="ghost" className="w-full justify-start">
+                  <BarChart className="me-3"/> ملخص القوانين
+                </Button>
+                 <Button variant="ghost" className="w-full justify-start">
+                  <BrainCircuit className="me-3"/> اختبار قصير للمراجعة
+                </Button>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </div>
+    </MainLayout>
+  );
+}
