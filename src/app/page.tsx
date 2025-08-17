@@ -71,7 +71,7 @@ const courses = [
     imageHint: 'physics textbook',
     curriculum: 'الأردن',
     link: '/courses/physics-supplementary-2007',
-    detailsLink: '/courses/physics-supplementary-2007/details',
+    detailsLink: '/courses/physics-supplementary-2007-details',
   },
   {
     title: 'فيزياء التوجيهي - جيل 2008',
