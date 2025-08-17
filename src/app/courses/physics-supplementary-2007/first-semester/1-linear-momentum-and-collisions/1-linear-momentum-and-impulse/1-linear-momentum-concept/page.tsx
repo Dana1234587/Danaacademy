@@ -13,7 +13,7 @@ export default function LinearMomentumConceptPage() {
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
           <div>
             <p className="text-sm text-primary font-medium">الدرس الأول: الزخم الخطي والدفع</p>
-            <h1 className="text-3xl font-bold mt-1">مفهوم الزخم الخطي</h1>
+            <h1 className="text-3xl font-bold mt-1">حصة رقم (1): مفهوم الزخم الخطي</h1>
             <p className="text-muted-foreground mt-2 max-w-2xl">
               في هذه الحصة، سنتعرف على أحد أهم المفاهيم في الميكانيكا الكلاسيكية، وكيف نصف حركة الأجسام من حولنا.
             </p>
@@ -29,7 +29,7 @@ export default function LinearMomentumConceptPage() {
           {/* Main Content Area */}
           <div className="lg:col-span-2 space-y-6">
             
-            {/* Responsive Video Player Container */}
+            {/* عرض الفيديو بطريقة نموذجية */}
             <div className="relative w-full rounded-lg overflow-hidden shadow-lg" style={{ paddingBottom: '56.25%' }}>
                 <iframe
                     src="https://iframe.mediadelivery.net/embed/480623/c3383407-52a1-409d-a748-ff5b9ec0b3f6?autoplay=false&loop=false&muted=false&preload=true"

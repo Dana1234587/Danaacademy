@@ -13,7 +13,7 @@ export default function NewtonsSecondLawQuestionsPage() {
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
           <div>
             <p className="text-sm text-primary font-medium">الدرس الأول: الزخم الخطي والدفع</p>
-            <h1 className="text-3xl font-bold mt-1">قانون نيوتن الثاني (حل أسئلة)</h1>
+            <h1 className="text-3xl font-bold mt-1">حصة رقم (7): قانون نيوتن الثاني (حل أسئلة)</h1>
             <p className="text-muted-foreground mt-2 max-w-2xl">
               في هذه الحصة، سنقوم بتطبيق قانون نيوتن الثاني بصيغته العامة لحل مجموعة متنوعة من المسائل.
             </p>

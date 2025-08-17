@@ -13,7 +13,7 @@ export default function NewtonsSecondLawPage() {
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
           <div>
             <p className="text-sm text-primary font-medium">الدرس الأول: الزخم الخطي والدفع</p>
-            <h1 className="text-3xl font-bold mt-1">قانون نيوتن الثاني بدلالة الزخم الخطي (شرح)</h1>
+            <h1 className="text-3xl font-bold mt-1">حصة رقم (6): قانون نيوتن الثاني بدلالة الزخم الخطي (شرح)</h1>
             <p className="text-muted-foreground mt-2 max-w-2xl">
               في هذه الحصة، سنتعرف على الصيغة العامة لقانون نيوتن الثاني وعلاقتها بالزخم الخطي.
             </p>
