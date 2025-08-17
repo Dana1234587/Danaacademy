@@ -54,10 +54,10 @@ const courseStructure = {
             { 
               title: 'الدرس الثاني: التصادمات', 
               topics: [
-                { label: 'التصادمات ج1', path: '/courses/physics-supplementary-2007/first-semester/1-linear-momentum-and-collisions/2-collisions/1-collisions-p1' },
-                { label: 'التصادمات ج2', path: '/courses/physics-supplementary-2007/first-semester/1-linear-momentum-and-collisions/2-collisions/2-collisions-p2' },
-                { label: 'التصادمات ج3', path: '/courses/physics-supplementary-2007/first-semester/1-linear-momentum-and-collisions/2-collisions/3-collisions-p3' },
-                { label: 'البندول القذفي ومهد نيوتن', path: '/courses/physics-supplementary-2007/first-semester/1-linear-momentum-and-collisions/2-collisions/4-ballistic-pendulum-and-newtons-cradle' },
+                { label: 'حصة رقم (15): التصادمات (الجزء الأول)', path: '/courses/physics-supplementary-2007/first-semester/1-linear-momentum-and-collisions/2-collisions/1-collisions-p1' },
+                { label: 'حصة رقم (16): التصادمات (الجزء الثاني)', path: '/courses/physics-supplementary-2007/first-semester/1-linear-momentum-and-collisions/2-collisions/2-collisions-p2' },
+                { label: 'حصة رقم (17): التصادمات (الجزء الثالث)', path: '/courses/physics-supplementary-2007/first-semester/1-linear-momentum-and-collisions/2-collisions/3-collisions-p3' },
+                { label: 'حصة رقم (18): البندول القذفي وكرات نيوتن', path: '/courses/physics-supplementary-2007/first-semester/1-linear-momentum-and-collisions/2-collisions/4-ballistic-pendulum-and-newtons-cradle' },
               ]
             },
           ]
