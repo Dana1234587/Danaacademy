@@ -33,8 +33,9 @@ export default function LinearMomentumConceptPage() {
             {/* Responsive Video Player Container */}
             <div className="relative w-full rounded-lg overflow-hidden shadow-lg" style={{ paddingBottom: '56.25%' }}>
                 <iframe
-                    src="https://iframe.mediadelivery.net/play/480623/c3383407-52a1-409d-a748-ff5b9ec0b3f6"
+                    src="https://iframe.mediadelivery.net/embed/480623/c3383407-52a1-409d-a748-ff5b9ec0b3f6?autoplay=false&loop=false&muted=false&preload=true"
                     className="absolute top-0 left-0 w-full h-full border-0"
+                    loading="lazy"
                     allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
                     allowFullScreen={true}
                 ></iframe>
