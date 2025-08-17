@@ -198,7 +198,7 @@ function LessonContent({ lesson }: { lesson: any }) {
                             {lesson.topics.map((topic: any, topicIndex: number) => (
                                 <li key={topicIndex}>
                                     <Link 
-                                      href={`${topic.path}/concepts`} 
+                                      href={`${topic.path}`} 
                                       className="text-muted-foreground hover:text-primary transition-colors flex items-center gap-2"
                                     >
                                         <FileText className="w-4 h-4 text-primary/50" />
@@ -318,4 +318,3 @@ export default function PhysicsSupplementary2007Page() {
     </SidebarProvider>
   );
 }
-
