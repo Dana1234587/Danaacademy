@@ -4,7 +4,7 @@
 import { MainLayout } from '@/components/layout/main-layout';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ChevronLeft, Youtube, FileText, BarChart, BrainCircuit } from 'lucide-react';
+import { ChevronLeft, FileText, BarChart, BrainCircuit } from 'lucide-react';
 import Link from 'next/link';
 
 export default function LinearMomentumConceptPage() {
@@ -29,7 +29,7 @@ export default function LinearMomentumConceptPage() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Main Content: Video Player */}
           <div className="lg:col-span-2 space-y-6">
-            <div className="relative w-full aspect-video rounded-lg overflow-hidden shadow-lg">
+            <div className="relative w-full rounded-lg overflow-hidden shadow-lg" style={{ paddingBottom: '56.25%' }}>
                 <iframe
                     src="https://iframe.mediadelivery.net/play/480623/c3383407-52a1-409d-a748-ff5b9ec0b3f6"
                     className="absolute top-0 left-0 w-full h-full border-0"
