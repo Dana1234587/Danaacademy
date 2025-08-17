@@ -150,22 +150,22 @@ const courseStructure = {
             {
               title: 'الدرس الأول: المجال المغناطيسي الناتج عن تيار',
               topics: [
-                { label: 'مفهوم المجال المغناطيسي', path: '/courses/physics-supplementary-2007/first-semester/4-magnetic-field/1-field-from-current/1-magnetic-field-concept' },
-                { label: 'قانون بايوت-سافارت', path: '/courses/physics-supplementary-2007/first-semester/4-magnetic-field/1-field-from-current/2-biot-savart-law' },
-                { label: 'المجال من سلك طويل', path: '/courses/physics-supplementary-2007/first-semester/4-magnetic-field/1-field-from-current/3-field-from-long-wire' },
-                { label: 'المجال من حلقة دائرية', path: '/courses/physics-supplementary-2007/first-semester/4-magnetic-field/1-field-from-current/4-field-from-circular-loop' },
-                { label: 'المجال من ملف لولبي', path: '/courses/physics-supplementary-2007/first-semester/4-magnetic-field/1-field-from-current/5-field-from-solenoid' },
-                { label: 'نقطة انعدام المجال المغناطيسي', path: '/courses/physics-supplementary-2007/first-semester/4-magnetic-field/1-field-from-current/6-zero-magnetic-field-point' },
+                { label: 'حصة رقم (1): مفهوم المجال المغناطيسي', path: '/courses/physics-supplementary-2007/first-semester/4-magnetic-field/1-field-from-current/1-magnetic-field-concept' },
+                { label: 'حصة رقم (2): قانون بيو-سافار', path: '/courses/physics-supplementary-2007/first-semester/4-magnetic-field/1-field-from-current/2-biot-savart-law' },
+                { label: 'حصة رقم (3): المجال المغناطيسي الناشئ عن مرور تيار في سلك طويل', path: '/courses/physics-supplementary-2007/first-semester/4-magnetic-field/1-field-from-current/3-field-from-long-wire' },
+                { label: 'حصة رقم (4): المجال المغناطيسي الناشئ عن حلقة دائرية', path: '/courses/physics-supplementary-2007/first-semester/4-magnetic-field/1-field-from-current/4-field-from-circular-loop' },
+                { label: 'حصة رقم (5): المجال المغناطيسي الناشئ عن مرور تيار في ملف لولبي', path: '/courses/physics-supplementary-2007/first-semester/4-magnetic-field/1-field-from-current/5-field-from-solenoid' },
+                { label: 'حصة رقم (6): نقطة انعدام المجال المغناطيسي', path: '/courses/physics-supplementary-2007/first-semester/4-magnetic-field/1-field-from-current/6-zero-magnetic-field-point' },
               ]
             },
             {
               title: 'الدرس الثاني: القوة المغناطيسية',
               topics: [
-                { label: 'القوة على شحنة متحركة', path: '/courses/physics-supplementary-2007/first-semester/4-magnetic-field/2-magnetic-force/1-force-on-moving-charge' },
-                { label: 'حركة شحنة في مجال منتظم', path: '/courses/physics-supplementary-2007/first-semester/4-magnetic-field/2-magnetic-force/2-charge-motion-in-uniform-field' },
-                { label: 'القوة على موصل', path: '/courses/physics-supplementary-2007/first-semester/4-magnetic-field/2-magnetic-force/3-force-on-conductor' },
-                { label: 'القوة بين موصلين متوازيين', path: '/courses/physics-supplementary-2007/first-semester/4-magnetic-field/2-magnetic-force/4-force-between-parallel-conductors' },
-                { label: 'عزم الازدواج وتطبيقاته', path: '/courses/physics-supplementary-2007/first-semester/4-magnetic-field/2-magnetic-force/5-couple-torque-and-applications' },
+                { label: 'حصة رقم (7): القوة المغناطيسية المؤثرة في شحنة متحركة في مجال مغناطيسي', path: '/courses/physics-supplementary-2007/first-semester/4-magnetic-field/2-magnetic-force/1-force-on-moving-charge' },
+                { label: 'حصة رقم (8): حركة شحنة في مجال مغناطيسي منتظم', path: '/courses/physics-supplementary-2007/first-semester/4-magnetic-field/2-magnetic-force/2-charge-motion-in-uniform-field' },
+                { label: 'حصة رقم (9): القوة المغناطيسية المؤثرة في موصل', path: '/courses/physics-supplementary-2007/first-semester/4-magnetic-field/2-magnetic-force/3-force-on-conductor' },
+                { label: 'حصة رقم (10): القوة المغناطيسية بين موصلين متوازيين', path: '/courses/physics-supplementary-2007/first-semester/4-magnetic-field/2-magnetic-force/4-force-between-parallel-conductors' },
+                { label: 'حصة رقم (11): عزم الازدواج وتطبيقات تكنولوجية', path: '/courses/physics-supplementary-2007/first-semester/4-magnetic-field/2-magnetic-force/5-couple-torque-and-applications' },
               ]
             }
           ]
