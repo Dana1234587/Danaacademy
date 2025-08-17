@@ -36,15 +36,13 @@ export default function LinearMomentumConceptPage() {
                 </CardTitle>
               </CardHeader>
               <CardContent className="p-0">
-                {/* Video Player Placeholder */}
-                <div 
-                  className="w-full aspect-video bg-slate-900 flex items-center justify-center text-slate-400"
-                  data-ai-hint="video player"
-                >
-                  <div className="text-center">
-                    <Youtube className="w-16 h-16 mx-auto" />
-                    <p className="mt-2 text-lg font-semibold">سيتم إضافة فيديو الحصة هنا قريباً</p>
-                  </div>
+                <div className="w-full aspect-video">
+                  <iframe
+                    src="https://iframe.mediadelivery.net/play/480623/c3383407-52a1-409d-a748-ff5b9ec0b3f6"
+                    className="w-full h-full border-0"
+                    allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
+                    allowFullScreen={true}
+                  ></iframe>
                 </div>
               </CardContent>
             </Card>
