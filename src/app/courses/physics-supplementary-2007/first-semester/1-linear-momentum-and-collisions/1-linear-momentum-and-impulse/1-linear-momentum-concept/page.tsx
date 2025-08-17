@@ -1,7 +1,6 @@
 
 'use client';
 
-import { MainLayout } from '@/components/layout/main-layout';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { ChevronLeft, FileText, BarChart, BrainCircuit } from 'lucide-react';
@@ -9,7 +8,7 @@ import Link from 'next/link';
 
 export default function LinearMomentumConceptPage() {
   return (
-    <MainLayout>
+    <div className="min-h-screen bg-muted/40">
       <div className="p-4 sm:p-6 lg:p-8">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
           <div>
@@ -78,6 +77,6 @@ export default function LinearMomentumConceptPage() {
           </div>
         </div>
       </div>
-    </MainLayout>
+    </div>
   );
 }
