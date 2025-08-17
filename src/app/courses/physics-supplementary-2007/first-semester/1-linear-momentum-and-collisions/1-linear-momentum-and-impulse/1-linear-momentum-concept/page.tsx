@@ -1,3 +1,4 @@
+
 'use client';
 
 import { MainLayout } from '@/components/layout/main-layout';
@@ -27,22 +28,17 @@ export default function LinearMomentumConceptPage() {
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Main Content: Video Player */}
-          <div className="lg:col-span-2">
-            <Card className="overflow-hidden">
-              <CardHeader className="bg-muted/50 border-b p-4">
-                <CardTitle className="flex items-center gap-2 text-xl">
-                  <Youtube className="w-6 h-6 text-red-600" />
-                  <span>شرح حصة الدرس</span>
-                </CardTitle>
-              </CardHeader>
-              <iframe
-                src="https://iframe.mediadelivery.net/play/480623/c3383407-52a1-409d-a748-ff5b9ec0b3f6"
-                className="w-full aspect-video border-0"
-                allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
-                allowFullScreen={true}
-              ></iframe>
-            </Card>
-            <Card className="mt-6">
+          <div className="lg:col-span-2 space-y-6">
+            <div className="overflow-hidden rounded-lg shadow-lg">
+                <iframe
+                    src="https://iframe.mediadelivery.net/play/480623/c3383407-52a1-409d-a748-ff5b9ec0b3f6"
+                    className="w-full aspect-video border-0"
+                    allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
+                    allowFullScreen={true}
+                ></iframe>
+            </div>
+            
+            <Card>
                 <CardHeader>
                     <CardTitle>نقاط رئيسية من الحصة</CardTitle>
                     <CardDescription>أهم الأفكار والقوانين التي تم تغطيتها في هذا الفيديو.</CardDescription>
