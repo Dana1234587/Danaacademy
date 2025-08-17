@@ -29,10 +29,10 @@ export default function LinearMomentumConceptPage() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Main Content: Video Player */}
           <div className="lg:col-span-2 space-y-6">
-            <div className="overflow-hidden rounded-lg shadow-lg">
+            <div className="relative w-full aspect-video rounded-lg overflow-hidden shadow-lg">
                 <iframe
                     src="https://iframe.mediadelivery.net/play/480623/c3383407-52a1-409d-a748-ff5b9ec0b3f6"
-                    className="w-full aspect-video border-0"
+                    className="absolute top-0 left-0 w-full h-full border-0"
                     allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
                     allowFullScreen={true}
                 ></iframe>
