@@ -245,8 +245,8 @@ export function QuizClient({ questions }: { questions: QuizQuestion[] }) {
       </CardContent>
       <CardFooter className="flex justify-between">
         <Button onClick={handlePrevious} disabled={currentQuestionIndex === 0} variant="outline">
-            <ChevronLeft className="me-2 h-4 w-4" />
-            التالي
+            <ChevronRight className="me-2 h-4 w-4" />
+            السابق
         </Button>
         {currentQuestionIndex === questions.length - 1 ? (
           <AlertDialog>
@@ -273,12 +273,11 @@ export function QuizClient({ questions }: { questions: QuizQuestion[] }) {
           </AlertDialog>
         ) : (
           <Button onClick={handleNext}>
-            السابق
-            <ChevronRight className="ms-2 h-4 w-4" />
+            التالي
+            <ChevronLeft className="ms-2 h-4 w-4" />
           </Button>
         )}
       </CardFooter>
     </Card>
   );
 }
-
