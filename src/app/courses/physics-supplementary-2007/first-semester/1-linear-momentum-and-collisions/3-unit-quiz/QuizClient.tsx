@@ -148,6 +148,7 @@ export function QuizClient({ questions }: { questions: QuizQuestion[] }) {
             </div>
         )}
         <RadioGroup
+          key={currentQuestionIndex}
           value={answers[currentQuestionIndex]?.toString() ?? ""}
           onValueChange={handleAnswerChange}
           className="space-y-4"
@@ -161,11 +162,6 @@ export function QuizClient({ questions }: { questions: QuizQuestion[] }) {
         </RadioGroup>
       </CardContent>
       <CardFooter className="flex justify-between">
-        <Button onClick={handlePrevious} disabled={currentQuestionIndex === 0} variant="outline">
-          <ChevronRight className="me-2 h-4 w-4" />
-          السابق
-        </Button>
-        
         {currentQuestionIndex === questions.length - 1 ? (
           <AlertDialog>
             <AlertDialogTrigger asChild>
@@ -195,6 +191,10 @@ export function QuizClient({ questions }: { questions: QuizQuestion[] }) {
             <ChevronLeft className="ms-2 h-4 w-4" />
           </Button>
         )}
+        <Button onClick={handlePrevious} disabled={currentQuestionIndex === 0} variant="outline">
+          <ChevronRight className="me-2 h-4 w-4" />
+          السابق
+        </Button>
       </CardFooter>
     </Card>
   );
