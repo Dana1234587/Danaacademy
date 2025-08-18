@@ -103,6 +103,13 @@ const courseStructure = {
                 { label: 'حصة رقم (14): حفظ الزخم الزاوي', path: '/courses/physics-supplementary-2007/first-semester/2-rotational-motion/3-angular-momentum/3-angular-momentum-conservation' },
                 { label: 'حصة رقم (15): أسئلة تميز', path: '/courses/physics-supplementary-2007/first-semester/2-rotational-motion/3-angular-momentum/4-advanced-questions' },
               ]
+            },
+            { 
+              title: 'اختبار الوحدة الثانية', 
+              isQuiz: true,
+              topics: [
+                { label: 'أسئلة اختبار الوحدة', path: '/courses/physics-supplementary-2007/first-semester/2-rotational-motion/4-unit-quiz' },
+              ]
             }
           ]
         },
@@ -146,6 +153,13 @@ const courseStructure = {
                 { label: 'حصة رقم (20): كيرشوف (حل أمثلة إضافية 1)', path: '/courses/physics-supplementary-2007/first-semester/3-electric-current/3-resistor-connections-and-kirchhoff/8-kirchhoffs-extra-examples-1' },
                 { label: 'حصة رقم (21): كيرشوف (حل أمثلة إضافية 2)', path: '/courses/physics-supplementary-2007/first-semester/3-electric-current/3-resistor-connections-and-kirchhoff/9-kirchhoffs-extra-examples-2' },
               ]
+            },
+            { 
+              title: 'اختبار الوحدة الثالثة', 
+              isQuiz: true,
+              topics: [
+                { label: 'أسئلة اختبار الوحدة', path: '/courses/physics-supplementary-2007/first-semester/3-electric-current/4-unit-quiz' },
+              ]
             }
           ]
         },
@@ -173,6 +187,13 @@ const courseStructure = {
                 { label: 'حصة رقم (9): القوة المغناطيسية المؤثرة في موصل', path: '/courses/physics-supplementary-2007/first-semester/4-magnetic-field/2-magnetic-force/3-force-on-conductor' },
                 { label: 'حصة رقم (10): القوة المغناطيسية بين موصلين متوازيين', path: '/courses/physics-supplementary-2007/first-semester/4-magnetic-field/2-magnetic-force/4-force-between-parallel-conductors' },
                 { label: 'حصة رقم (11): عزم الازدواج وتطبيقات تكنولوجية', path: '/courses/physics-supplementary-2007/first-semester/4-magnetic-field/2-magnetic-force/5-couple-torque-and-applications' },
+              ]
+            },
+            { 
+              title: 'اختبار الوحدة الرابعة', 
+              isQuiz: true,
+              topics: [
+                { label: 'أسئلة اختبار الوحدة', path: '/courses/physics-supplementary-2007/first-semester/4-magnetic-field/3-unit-quiz' },
               ]
             }
           ]
