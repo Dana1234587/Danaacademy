@@ -36,31 +36,6 @@ import { signOut } from 'firebase/auth';
 
 const allCourses = [
   {
-    id: 'tawjihi-2007-supplementary',
-    label: 'التكميلي (جيل 2007)',
-    icon: Book,
-    path: '/courses/physics-supplementary-2007',
-    subItems: [
-        {
-            label: 'الفصل الأول',
-            icon: Folder,
-            path: '/courses/physics-supplementary-2007/first-semester',
-            subItems: [
-              { 
-                label: 'الزخم الخطي والتصادمات', 
-                icon: Folder, 
-                path: '/courses/physics-supplementary-2007/first-semester/1-linear-momentum-and-collisions', 
-                subItems: [
-                  { label: 'الدرس الأول: الزخم الخطي والدفع', icon: FileText, path: '/app/(content)/courses/physics-supplementary-2007/first-semester/1-linear-momentum-and-collisions/1-linear-momentum-and-impulse', content: true },
-                  { label: 'الدرس الثاني: التصادمات', icon: FileText, path: '/app/(content)/courses/physics-supplementary-2007/first-semester/1-linear-momentum-and-collisions/2-collisions', content: true },
-                ]
-              },
-              // Other units will be added here following the same structure
-            ]
-        }
-    ]
-  },
-  {
     id: 'tawjihi-2008',
     label: 'التوجيهي (جيل 2008)',
     icon: Book,
