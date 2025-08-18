@@ -46,7 +46,7 @@ export function SidebarNav() {
         </Link>
       </SidebarHeader>
       <SidebarContent>
-        {/* Content has been removed as per the user's request */}
+        
       </SidebarContent>
       <SidebarSeparator />
       <SidebarFooter>
