@@ -107,37 +107,37 @@ const courseStructure = {
             { 
               title: 'الدرس الأول: المقاومة والقوة الدافعة الكهربائية', 
               topics: [
-                { label: 'مفهوم التيار الكهربائي', path: '/courses/physics-supplementary-2007/first-semester/3-electric-current/1-resistance-and-emf/1-current-concept' },
-                { label: 'المقاومة الكهربائية', path: '/courses/physics-supplementary-2007/first-semester/3-electric-current/1-resistance-and-emf/2-electrical-resistance' },
-                { label: 'المقاومية', path: '/courses/physics-supplementary-2007/first-semester/3-electric-current/1-resistance-and-emf/3-resistivity' },
-                { label: 'أسئلة قدرات عليا على المقاومية', path: '/courses/physics-supplementary-2007/first-semester/3-electric-current/1-resistance-and-emf/4-resistivity-advanced-questions' },
-                { label: 'قانون أوم', path: '/courses/physics-supplementary-2007/first-semester/3-electric-current/1-resistance-and-emf/5-ohms-law' },
-                { label: 'القوة الدافعة الكهربائية', path: '/courses/physics-supplementary-2007/first-semester/3-electric-current/1-resistance-and-emf/6-electromotive-force' },
-                { label: 'تغيرات الجهد ج1', path: '/courses/physics-supplementary-2007/first-semester/3-electric-current/1-resistance-and-emf/7-voltage-changes-p1' },
-                { label: 'تغيرات الجهد ج2', path: '/courses/physics-supplementary-2007/first-semester/3-electric-current/1-resistance-and-emf/8-voltage-changes-p2' },
+                { label: 'حصة رقم (1): مفهوم التيار الكهربائي (شرح وحل أسئلة)', path: '/courses/physics-supplementary-2007/first-semester/3-electric-current/1-resistance-and-emf/1-current-concept' },
+                { label: 'حصة رقم (2): المقاومة الكهربائية', path: '/courses/physics-supplementary-2007/first-semester/3-electric-current/1-resistance-and-emf/2-electrical-resistance' },
+                { label: 'حصة رقم (3): المقاومية', path: '/courses/physics-supplementary-2007/first-semester/3-electric-current/1-resistance-and-emf/3-resistivity' },
+                { label: 'حصة رقم (4): المقاومة والمقاومية - حل أسئلة تميز', path: '/courses/physics-supplementary-2007/first-semester/3-electric-current/1-resistance-and-emf/4-resistivity-advanced-questions' },
+                { label: 'حصة رقم (5): قانون أوم', path: '/courses/physics-supplementary-2007/first-semester/3-electric-current/1-resistance-and-emf/5-ohms-law' },
+                { label: 'حصة رقم (6): القوة الدافعة الكهربائية', path: '/courses/physics-supplementary-2007/first-semester/3-electric-current/1-resistance-and-emf/6-electromotive-force' },
+                { label: 'حصة رقم (7): تغيرات الجهد الكهربائي (الجزء الأول)', path: '/courses/physics-supplementary-2007/first-semester/3-electric-current/1-resistance-and-emf/7-voltage-changes-p1' },
+                { label: 'حصة رقم (8): تغيرات الجهد الكهربائي (الجزء الثاني)', path: '/courses/physics-supplementary-2007/first-semester/3-electric-current/1-resistance-and-emf/8-voltage-changes-p2' },
               ]
             },
             { 
               title: 'الدرس الثاني: القدرة والدارات البسيطة', 
               topics: [
-                { label: 'القدرة', path: '/courses/physics-supplementary-2007/first-semester/3-electric-current/2-power-and-simple-circuits/1-power' },
-                { label: 'إعادة شرح القدرة والطاقة', path: '/courses/physics-supplementary-2007/first-semester/3-electric-current/2-power-and-simple-circuits/2-power-energy-redo' },
-                { label: 'أسئلة الكتاب على القدرة والطاقة', path: '/courses/physics-supplementary-2007/first-semester/3-electric-current/2-power-and-simple-circuits/3-power-energy-book-questions' },
-                { label: 'أسئلة فلسطين على القدرة والطاقة', path: '/courses/physics-supplementary-2007/first-semester/3-electric-current/2-power-and-simple-circuits/4-power-energy-palestine-questions' },
+                { label: 'حصة رقم (9): القدرة', path: '/courses/physics-supplementary-2007/first-semester/3-electric-current/2-power-and-simple-circuits/1-power' },
+                { label: 'حصة رقم (10): القدرة والطاقة (حصة إضافية معادة)', path: '/courses/physics-supplementary-2007/first-semester/3-electric-current/2-power-and-simple-circuits/2-power-energy-redo' },
+                { label: 'حصة رقم (11): القدرة والطاقة (حل أسئلة الكتاب)', path: '/courses/physics-supplementary-2007/first-semester/3-electric-current/2-power-and-simple-circuits/3-power-energy-book-questions' },
+                { label: 'حصة رقم (12): القدرة والطاقة (حل أسئلة إضافية - فلسطين)', path: '/courses/physics-supplementary-2007/first-semester/3-electric-current/2-power-and-simple-circuits/4-power-energy-palestine-questions' },
               ]
             },
             { 
               title: 'الدرس الثالث: توصيل المقاومات وقاعدتا كيرشوف', 
               topics: [
-                { label: 'توصيل المقاومات', path: '/courses/physics-supplementary-2007/first-semester/3-electric-current/3-resistor-connections-and-kirchhoff/1-resistor-connections' },
-                { label: 'توصيل المقاومات (قدرات عليا)', path: '/courses/physics-supplementary-2007/first-semester/3-electric-current/3-resistor-connections-and-kirchhoff/2-resistor-connections-advanced' },
-                { label: 'الدارة البسيطة', path: '/courses/physics-supplementary-2007/first-semester/3-electric-current/3-resistor-connections-and-kirchhoff/3-simple-circuits' },
-                { label: 'أمثلة إضافية على الدارة البسيطة', path: '/courses/physics-supplementary-2007/first-semester/3-electric-current/3-resistor-connections-and-kirchhoff/4-simple-circuits-extra-examples' },
-                { label: 'قاعدة كيرشوف الأولى', path: '/courses/physics-supplementary-2007/first-semester/3-electric-current/3-resistor-connections-and-kirchhoff/5-kirchhoffs-first-rule' },
-                { label: 'قاعدة كيرشوف الثانية', path: '/courses/physics-supplementary-2007/first-semester/3-electric-current/3-resistor-connections-and-kirchhoff/6-kirchhoffs-second-rule' },
-                { label: 'قاعدتا كيرشوف', path: '/courses/physics-supplementary-2007/first-semester/3-electric-current/3-resistor-connections-and-kirchhoff/7-kirchhoffs-rules' },
-                { label: 'أمثلة إضافية على كيرشوف 1', path: '/courses/physics-supplementary-2007/first-semester/3-electric-current/3-resistor-connections-and-kirchhoff/8-kirchhoffs-extra-examples-1' },
-                { label: 'أمثلة إضافية على كيرشوف 2', path: '/courses/physics-supplementary-2007/first-semester/3-electric-current/3-resistor-connections-and-kirchhoff/9-kirchhoffs-extra-examples-2' },
+                { label: 'حصة رقم (13): توصيل المقاومات (شرح وحل أسئلة)', path: '/courses/physics-supplementary-2007/first-semester/3-electric-current/3-resistor-connections-and-kirchhoff/1-resistor-connections' },
+                { label: 'حصة رقم (14): أسئلة تميز على توصيل المقاومات', path: '/courses/physics-supplementary-2007/first-semester/3-electric-current/3-resistor-connections-and-kirchhoff/2-resistor-connections-advanced' },
+                { label: 'حصة رقم (15): الدارات الكهربائية البسيطة', path: '/courses/physics-supplementary-2007/first-semester/3-electric-current/3-resistor-connections-and-kirchhoff/3-simple-circuits' },
+                { label: 'حصة رقم (16): الدارات البسيطة (حل أمثلة إضافية)', path: '/courses/physics-supplementary-2007/first-semester/3-electric-current/3-resistor-connections-and-kirchhoff/4-simple-circuits-extra-examples' },
+                { label: 'حصة رقم (17): قاعدة كيرشوف الأولى', path: '/courses/physics-supplementary-2007/first-semester/3-electric-current/3-resistor-connections-and-kirchhoff/5-kirchhoffs-first-rule' },
+                { label: 'حصة رقم (18): قاعدة كيرشوف الثانية', path: '/courses/physics-supplementary-2007/first-semester/3-electric-current/3-resistor-connections-and-kirchhoff/6-kirchhoffs-second-rule' },
+                { label: 'حصة رقم (19): قاعدتا كيرشوف', path: '/courses/physics-supplementary-2007/first-semester/3-electric-current/3-resistor-connections-and-kirchhoff/7-kirchhoffs-rules' },
+                { label: 'حصة رقم (20): كيرشوف (حل أمثلة إضافية 1)', path: '/courses/physics-supplementary-2007/first-semester/3-electric-current/3-resistor-connections-and-kirchhoff/8-kirchhoffs-extra-examples-1' },
+                { label: 'حصة رقم (21): كيرشوف (حل أمثلة إضافية 2)', path: '/courses/physics-supplementary-2007/first-semester/3-electric-current/3-resistor-connections-and-kirchhoff/9-kirchhoffs-extra-examples-2' },
               ]
             }
           ]
@@ -161,7 +161,7 @@ const courseStructure = {
             {
               title: 'الدرس الثاني: القوة المغناطيسية',
               topics: [
-                { label: 'حصة رقم (7): القوة المغناطيسية المؤثرة في شحنة متحركة في مجال مغناطيسي', path: '/courses/physics-supplementary-2007/first-semester/4-magnetic-field/2-magnetic-force/1-force-on-moving-charge' },
+                { label: 'حصة رقم (7): القوة المغناطيسية المؤثرة في شحنة متحركة', path: '/courses/physics-supplementary-2007/first-semester/4-magnetic-field/2-magnetic-force/1-force-on-moving-charge' },
                 { label: 'حصة رقم (8): حركة شحنة في مجال مغناطيسي منتظم', path: '/courses/physics-supplementary-2007/first-semester/4-magnetic-field/2-magnetic-force/2-charge-motion-in-uniform-field' },
                 { label: 'حصة رقم (9): القوة المغناطيسية المؤثرة في موصل', path: '/courses/physics-supplementary-2007/first-semester/4-magnetic-field/2-magnetic-force/3-force-on-conductor' },
                 { label: 'حصة رقم (10): القوة المغناطيسية بين موصلين متوازيين', path: '/courses/physics-supplementary-2007/first-semester/4-magnetic-field/2-magnetic-force/4-force-between-parallel-conductors' },
