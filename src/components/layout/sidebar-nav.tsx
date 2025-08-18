@@ -51,14 +51,6 @@ export function SidebarNav() {
       <SidebarSeparator />
       <SidebarFooter>
         <SidebarMenu>
-          <SidebarMenuItem>
-            <Link href="/quiz">
-                <Button variant="ghost" className="w-full justify-start gap-2">
-                    <Lightbulb />
-                    مولد الاختبارات
-                </Button>
-            </Link>
-          </SidebarMenuItem>
            <SidebarMenuItem>
             <Button onClick={handleLogout} variant="ghost" className="w-full justify-start gap-2">
                 <LogOut />
