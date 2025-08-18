@@ -177,8 +177,6 @@ export const unit1QuizQuestions: QuizQuestion[] = [
   {
     id: 14,
     questionText: 'اصطدمت كتلة مقدارها 50g تسير بسرعة 5m/s نحو اليمين بجدار، وارتدت بطاقة حركية تعادل ربع طاقتها الابتدائية وعلى نفس الخط. الدفع المؤثر على الكرة:',
-    image: 'https://i.ibb.co/mXzR19H/q14.png',
-    imageHint: 'ball hitting wall',
     options: [
       '0.125N·s',
       '0.375N·s',
