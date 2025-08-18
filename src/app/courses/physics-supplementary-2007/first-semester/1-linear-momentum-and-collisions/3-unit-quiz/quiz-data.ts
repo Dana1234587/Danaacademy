@@ -101,8 +101,6 @@ export const unit1QuizQuestions: QuizQuestion[] = [
   {
     id: 8,
     questionText: 'كرة تنس كتلتها 57.0g تتحرك إلى اليمين بسرعة 21.0m/s، وردّها اللاعب مباشرة إلى اليسار بسرعة 25.0m/s. إذا كان زمن التلامس 60.0ms: التغير في الزخم والقوة المتوسطة يساوي:',
-    image: 'https://i.ibb.co/V5p4y5N/q8.png',
-    imageHint: 'tennis ball collision',
     options: [
       'Δp = -2.6kg·m/s , F = -43.7N',
       'Δp = -2.6kg·m/s , F = -3.8N',
@@ -115,8 +113,6 @@ export const unit1QuizQuestions: QuizQuestion[] = [
   {
     id: 9,
     questionText: 'جسم كتلته 2kg يتحرك إلى اليمين بسرعة 4m/s، اصطدم وجهاً لوجه تصادماً مرناً مع جسم آخر كتلته 1kg ساكن. ما سرعة الجسم (1kg) بعد التصادم؟',
-    image: 'https://i.ibb.co/gJFk4Pz/q9.png',
-    imageHint: 'two blocks colliding elastically',
     options: [
       '0',
       'أكبر من 4m/s',
@@ -129,7 +125,7 @@ export const unit1QuizQuestions: QuizQuestion[] = [
   {
     id: 10,
     questionText: 'قوة محصلة باتجاه +x أثرت على صندوق ساكن كتلته 2.5kg لمدة زمنية كما في منحنى (قوة–زمن). مقدار الدفع والقوة المتوسطة يساوي:',
-    image: 'https://i.ibb.co/ZJ9N6kH/image.png',
+    image: 'https://i.ibb.co/YB5mNSry/q10.png',
     imageHint: 'Force-time graph triangle',
     options: [
       'I = 13.5N·s , F̄ = 4.5N',
@@ -247,8 +243,6 @@ export const unit1QuizQuestions: QuizQuestion[] = [
   {
     id: 19,
     questionText: 'كرة تنس كتلتها 57.0g تتحرك يميناً بسرعة 21.0m/s، وردها اللاعب يساراً بسرعة 25.0m/s خلال زمن 60.0ms. التغير في الزخم والقوة المتوسطة:',
-    image: 'https://i.ibb.co/V5p4y5N/q8.png',
-    imageHint: 'tennis ball collision',
     options: [
       'Δp = -2.6kg·m/s , F = -43.7N',
       'Δp = -2.6kg·m/s , F = -3.8N',
@@ -261,8 +255,6 @@ export const unit1QuizQuestions: QuizQuestion[] = [
   {
     id: 20,
     questionText: 'جسم كتلته 2kg يتحرك يميناً بسرعة 4m/s واصطدم مرناً بجسم كتلته 1kg ساكن. ما سرعة الجسم (1kg) بعد التصادم؟',
-    image: 'https://i.ibb.co/gJFk4Pz/q9.png',
-    imageHint: 'two blocks colliding elastically',
     options: [
       '0',
       'أكبر من 4m/s',
@@ -273,3 +265,5 @@ export const unit1QuizQuestions: QuizQuestion[] = [
     explanation: 'هذا السؤال مكرر (نفس السؤال 9). في التصادم المرن لجسم متحرك مع آخر ساكن، إذا كانت كتلة الجسم الأول أكبر، فسيتحرك الجسم الثاني بسرعة أكبر من سرعة الجسم الأول الابتدائية. باستخدام قوانين حفظ الزخم والطاقة، نجد أن سرعة الجسم الثاني ستكون 5.33m/s، وهي أكبر من 4m/s.',
   },
 ];
+
+    
