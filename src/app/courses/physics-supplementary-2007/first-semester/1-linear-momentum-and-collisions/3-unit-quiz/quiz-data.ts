@@ -13,6 +13,8 @@ export const unit1QuizQuestions: QuizQuestion[] = [
   {
     id: 1,
     questionText: 'يمثل الشكل نوع من الأسماك الاستوائية التي تصطاد عن طريق إطلاق قطرات من الماء من أفواهها على الحشرات الموجودة فوق سطح الماء لإسقاطها في الماء حيث يمكن للسمك أن يأكلها. يمكن لسمكة كتلتها 65g ساكنة عند سطح الماء أن تقذف قطرة ماء كتلتها 0.30g خلال زمن قصير مدته 0.5ms. تُظهر القياسات عالية السرعة أن الماء لديه سرعة مقدارها 2.5m/s واتجاهها نحو الأعلى. اعتمادًا على المعلومات فإن سرعة السمكة لحظة قذفها لقطرة الماء مباشرة تكون:',
+    image: 'https://i.ibb.co/Cs1WT8VB/q1.png',
+    imageHint: 'archer fish hunting',
     options: [
       '10mm/s للأسفل',
       '0.1m/s للأعلى',
@@ -86,7 +88,7 @@ export const unit1QuizQuestions: QuizQuestion[] = [
     id: 7,
     questionText: 'وُضع نابض خفيف مضغوط بين صندوقين A و B كتلتيهما على الترتيب m و 3m على سطح أفقي أملس. بعد قطع الحبل تحركت الكتلة 3m إلى اليمين بسرعة 2m/s. ما سرعة واتجاه الكتلة m؟',
     image: 'https://i.ibb.co/VccJ4wqM/q7.png',
-    imageHint: 'two boxes with spring',
+    imageHint: 'two boxes spring',
     options: [
       '6m/s نحو اليسار',
       '1.5m/s نحو اليمين',
@@ -124,7 +126,7 @@ export const unit1QuizQuestions: QuizQuestion[] = [
     id: 10,
     questionText: 'قوة محصلة باتجاه +x أثرت على صندوق ساكن كتلته 2.5kg لمدة زمنية كما في منحنى (قوة–زمن). مقدار الدفع والقوة المتوسطة يساوي:',
     image: 'https://i.ibb.co/YB5mNSry/q10.png',
-    imageHint: 'Force-time graph triangle',
+    imageHint: 'force-time graph',
     options: [
       'I = 13.5N·s , F̄ = 4.5N',
       'I = 13.5N·s , F̄ = 9.00kN',
@@ -162,7 +164,7 @@ export const unit1QuizQuestions: QuizQuestion[] = [
     id: 13,
     questionText: 'الشكل المقابل يمثل العلاقة بين السرعة والزمن لجسم كتلته 2kg. مقدار الدفع المؤثر على الجسم خلال 40s يساوي:',
     image: 'https://i.ibb.co/8LKgnH5Q/q13.png',
-    imageHint: 'Velocity-time graph',
+    imageHint: 'velocity-time graph',
     options: [
       '10N·s',
       '0.75N·s',
@@ -176,7 +178,7 @@ export const unit1QuizQuestions: QuizQuestion[] = [
     id: 14,
     questionText: 'اصطدمت كتلة مقدارها 50g تسير بسرعة 5m/s نحو اليمين بجدار، وارتدت بطاقة حركية تعادل ربع طاقتها الابتدائية وعلى نفس الخط. الدفع المؤثر على الكرة:',
     image: 'https://i.ibb.co/mXzR19H/q14.png',
-    imageHint: 'ball hitting a wall',
+    imageHint: 'ball hitting wall',
     options: [
       '0.125N·s',
       '0.375N·s',
