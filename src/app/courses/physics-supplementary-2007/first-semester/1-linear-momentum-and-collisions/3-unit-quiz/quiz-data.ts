@@ -27,8 +27,6 @@ export const unit1QuizQuestions: QuizQuestion[] = [
   {
     id: 2,
     questionText: 'جرار ضخم يسير على طريق ريفي نحو الشرق اصطدم تصادمًا عديم المرونة مع سيارة ريفية تتحرك بنفس السرعة نحو الغرب. أي مركبة تتعرض لتغير أكبر في الزخم الخطي وتغير أكبر في الطاقة الحركية علماً أن كتلة الجرار أكبر من كتلة السيارة؟',
-    image: 'https://i.ibb.co/3YYxP0F/image.png',
-    imageHint: 'Tractor and car collision',
     options: [
       'الجرار والسيارة لهما نفس مقدار التغير في الزخم الخطي لكن التغير في الطاقة الحركية للسيارة أكبر',
       'الجرار والسيارة لهما نفس مقدار التغير في الزخم الخطي لكن التغير في الطاقة الحركية للجرار أكبر',
@@ -41,8 +39,6 @@ export const unit1QuizQuestions: QuizQuestion[] = [
   {
     id: 3,
     questionText: 'جسم كتلته 3kg يتحرك إلى اليمين بسرعة 2m/s على سطح أفقي أملس، اصطدم وجهاً لوجه والتحم مع جسم آخر كتلته 2kg كان يتحرك إلى اليسار بسرعة 4m/s. أي مما يلي صحيح بعد التصادم؟',
-    image: 'https://i.ibb.co/XbCq8qY/image.png',
-    imageHint: 'Two blocks colliding',
     options: [
       'الطاقة الحركية للنظام بعد التصادم = 22J',
       'الطاقة الحركية للنظام بعد التصادم = الطاقة الحركية للنظام قبل التصادم',
@@ -55,8 +51,6 @@ export const unit1QuizQuestions: QuizQuestion[] = [
   {
     id: 4,
     questionText: 'صبي كتلته 65.0kg وأخته كتلتها 40.0kg، وكلاهما يرتديان حذاءً ذو بكرات، يواجهان بعضهما البعض في حالة سكون. دفعت الفتاة الصبي بقوة فأصبح يتحرك بسرعة v نحو الغرب. مقدار واتجاه سرعة الفتاة:',
-    image: 'https://i.ibb.co/zX51yCc/image.png',
-    imageHint: 'Boy and girl on ice',
     options: [
       '1.625v نحو الغرب',
       '1.625v نحو الشرق',
@@ -93,6 +87,8 @@ export const unit1QuizQuestions: QuizQuestion[] = [
   {
     id: 7,
     questionText: 'وُضع نابض خفيف مضغوط بين صندوقين A و B كتلتيهما على الترتيب m و 3m على سطح أفقي أملس. بعد قطع الحبل تحركت الكتلة 3m إلى اليمين بسرعة 2m/s. ما سرعة واتجاه الكتلة m؟',
+    image: 'https://i.ibb.co/VccJ4wqM/q7.png',
+    imageHint: 'two boxes with spring',
     options: [
       '6m/s نحو اليسار',
       '1.5m/s نحو اليمين',
@@ -105,11 +101,13 @@ export const unit1QuizQuestions: QuizQuestion[] = [
   {
     id: 8,
     questionText: 'كرة تنس كتلتها 57.0g تتحرك إلى اليمين بسرعة 21.0m/s، وردّها اللاعب مباشرة إلى اليسار بسرعة 25.0m/s. إذا كان زمن التلامس 60.0ms: التغير في الزخم والقوة المتوسطة يساوي:',
+    image: 'https://i.ibb.co/V5p4y5N/q8.png',
+    imageHint: 'tennis ball collision',
     options: [
-      'Δp = -2.6kg·m/s , F = 43.7N , (-x)',
-      'Δp = -2.6kg·m/s , F = 3.8N , (-x)',
-      'Δp = +2.6kg·m/s , F = 43.7N , (+x)',
-      'Δp = +2.6kg·m/s , F = 3.8N , (+x)',
+      'Δp = -2.6kg·m/s , F = -43.7N',
+      'Δp = -2.6kg·m/s , F = -3.8N',
+      'Δp = +2.6kg·m/s , F = +43.7N',
+      'Δp = +2.6kg·m/s , F = +3.8N',
     ],
     correctAnswerIndex: 0,
     explanation: 'Δp = m(vբ - vᵢ) = 0.057*(-25 - 21) = -2.622kg.m/s. القوة F = Δp/Δt = -2.622 / 0.060 = -43.7N. الإشارة السالبة تعني أن اتجاه القوة والتغير في الزخم هو نحو اليسار (-x).',
@@ -117,6 +115,8 @@ export const unit1QuizQuestions: QuizQuestion[] = [
   {
     id: 9,
     questionText: 'جسم كتلته 2kg يتحرك إلى اليمين بسرعة 4m/s، اصطدم وجهاً لوجه تصادماً مرناً مع جسم آخر كتلته 1kg ساكن. ما سرعة الجسم (1kg) بعد التصادم؟',
+    image: 'https://i.ibb.co/gJFk4Pz/q9.png',
+    imageHint: 'two blocks colliding elastically',
     options: [
       '0',
       'أكبر من 4m/s',
@@ -183,6 +183,8 @@ export const unit1QuizQuestions: QuizQuestion[] = [
   {
     id: 14,
     questionText: 'اصطدمت كتلة مقدارها 50g تسير بسرعة 5m/s نحو اليمين بجدار، وارتدت بطاقة حركية تعادل ربع طاقتها الابتدائية وعلى نفس الخط. الدفع المؤثر على الكرة:',
+    image: 'https://i.ibb.co/mXzR19H/q14.png',
+    imageHint: 'ball hitting a wall',
     options: [
       '0.125N·s',
       '0.375N·s',
@@ -231,6 +233,8 @@ export const unit1QuizQuestions: QuizQuestion[] = [
   {
     id: 18,
     questionText: 'وُضع نابض مضغوط بين صندوقين A, B كتلتيهما m, 3m على سطح أملس. بعد التحرير تحركت الكتلة 3m يميناً بسرعة 2m/s. سرعة واتجاه الكتلة m:',
+    image: 'https://i.ibb.co/VccJ4wqM/q7.png',
+    imageHint: 'two boxes with spring',
     options: [
       '6m/s نحو اليسار',
       '1.5m/s نحو اليمين',
@@ -243,6 +247,8 @@ export const unit1QuizQuestions: QuizQuestion[] = [
   {
     id: 19,
     questionText: 'كرة تنس كتلتها 57.0g تتحرك يميناً بسرعة 21.0m/s، وردها اللاعب يساراً بسرعة 25.0m/s خلال زمن 60.0ms. التغير في الزخم والقوة المتوسطة:',
+    image: 'https://i.ibb.co/V5p4y5N/q8.png',
+    imageHint: 'tennis ball collision',
     options: [
       'Δp = -2.6kg·m/s , F = -43.7N',
       'Δp = -2.6kg·m/s , F = -3.8N',
@@ -255,6 +261,8 @@ export const unit1QuizQuestions: QuizQuestion[] = [
   {
     id: 20,
     questionText: 'جسم كتلته 2kg يتحرك يميناً بسرعة 4m/s واصطدم مرناً بجسم كتلته 1kg ساكن. ما سرعة الجسم (1kg) بعد التصادم؟',
+    image: 'https://i.ibb.co/gJFk4Pz/q9.png',
+    imageHint: 'two blocks colliding elastically',
     options: [
       '0',
       'أكبر من 4m/s',
@@ -265,5 +273,3 @@ export const unit1QuizQuestions: QuizQuestion[] = [
     explanation: 'هذا السؤال مكرر (نفس السؤال 9). في التصادم المرن لجسم متحرك مع آخر ساكن، إذا كانت كتلة الجسم الأول أكبر، فسيتحرك الجسم الثاني بسرعة أكبر من سرعة الجسم الأول الابتدائية. باستخدام قوانين حفظ الزخم والطاقة، نجد أن سرعة الجسم الثاني ستكون 5.33m/s، وهي أكبر من 4m/s.',
   },
 ];
-
-    
