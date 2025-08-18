@@ -3,7 +3,7 @@
 
 import { useStore } from '@/store/app-store';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Folder, FileText, Settings2, Lock } from 'lucide-react';
+import { Folder, FileText, Settings2, Lock, ClipboardCheck } from 'lucide-react';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { Progress } from '@/components/ui/progress';
 import Link from 'next/link';
@@ -58,6 +58,13 @@ const courseStructure = {
                 { label: 'حصة رقم (16): التصادمات (الجزء الثاني)', path: '/courses/physics-supplementary-2007/first-semester/1-linear-momentum-and-collisions/2-collisions/2-collisions-p2' },
                 { label: 'حصة رقم (17): التصادمات (الجزء الثالث)', path: '/courses/physics-supplementary-2007/first-semester/1-linear-momentum-and-collisions/2-collisions/3-collisions-p3' },
                 { label: 'حصة رقم (18): البندول القذفي وكرات نيوتن', path: '/courses/physics-supplementary-2007/first-semester/1-linear-momentum-and-collisions/2-collisions/4-ballistic-pendulum-and-newtons-cradle' },
+              ]
+            },
+            { 
+              title: 'اختبار الوحدة الأولى', 
+              isQuiz: true,
+              topics: [
+                { label: 'أسئلة اختبار الوحدة', path: '/courses/physics-supplementary-2007/first-semester/1-linear-momentum-and-collisions/3-unit-quiz' },
               ]
             },
           ]
@@ -176,6 +183,21 @@ const courseStructure = {
 };
 
 function LessonContent({ lesson }: { lesson: any }) {
+    if (lesson.isQuiz) {
+        return (
+             <Card className="border-primary/20 bg-primary/5">
+                 <Link 
+                    href={lesson.topics[0].path}
+                    className="flex items-center justify-between p-4 text-lg font-semibold text-primary hover:bg-primary/10 transition-colors rounded-lg"
+                 >
+                    <div className="flex items-center gap-3">
+                        <ClipboardCheck className="w-6 h-6"/>
+                        <span>{lesson.title}</span>
+                    </div>
+                 </Link>
+             </Card>
+        )
+    }
     return (
         <Collapsible defaultOpen={false} className="mb-4">
             <Card className="border-primary/20">
