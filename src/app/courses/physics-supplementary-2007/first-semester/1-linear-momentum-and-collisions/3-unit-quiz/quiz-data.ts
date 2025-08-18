@@ -13,8 +13,6 @@ export const unit1QuizQuestions: QuizQuestion[] = [
   {
     id: 1,
     questionText: 'يمثل الشكل نوع من الأسماك الاستوائية التي تصطاد عن طريق إطلاق قطرات من الماء من أفواهها على الحشرات الموجودة فوق سطح الماء لإسقاطها في الماء حيث يمكن للسمك أن يأكلها. يمكن لسمكة كتلتها 65g ساكنة عند سطح الماء أن تقذف قطرة ماء كتلتها 0.30g خلال زمن قصير مدته 0.5ms. تُظهر القياسات عالية السرعة أن الماء لديه سرعة مقدارها 2.5m/s واتجاهها نحو الأعلى. اعتمادًا على المعلومات فإن سرعة السمكة لحظة قذفها لقطرة الماء مباشرة تكون:',
-    image: 'https://i.ibb.co/Cs1WT8VB/q1.png',
-    imageHint: 'Diagram of a fish spitting water',
     options: [
       '10mm/s للأسفل',
       '0.1m/s للأعلى',
@@ -151,8 +149,6 @@ export const unit1QuizQuestions: QuizQuestion[] = [
   {
     id: 12,
     questionText: 'أُطلقت رصاصة كتلتها 8g في اتجاه أفقي، وانغرست في جسم خشبي كتلته 9kg معلق بخيط طوله 50cm. تحرك الجسمان معاً بسرعة 0.4m/s. ما مقدار السرعة الابتدائية للرصاصة؟',
-    image: 'https://i.ibb.co/3YghQ0C/image.png',
-    imageHint: 'Ballistic pendulum diagram',
     options: [
       '450m/s',
       '4m/s',
@@ -165,7 +161,7 @@ export const unit1QuizQuestions: QuizQuestion[] = [
   {
     id: 13,
     questionText: 'الشكل المقابل يمثل العلاقة بين السرعة والزمن لجسم كتلته 2kg. مقدار الدفع المؤثر على الجسم خلال 40s يساوي:',
-    image: 'https://i.ibb.co/xL8G2Jc/q13.png',
+    image: 'https://i.ibb.co/8LKgnH5Q/q13.png',
     imageHint: 'Velocity-time graph',
     options: [
       '10N·s',
@@ -265,5 +261,3 @@ export const unit1QuizQuestions: QuizQuestion[] = [
     explanation: 'هذا السؤال مكرر (نفس السؤال 9). في التصادم المرن لجسم متحرك مع آخر ساكن، إذا كانت كتلة الجسم الأول أكبر، فسيتحرك الجسم الثاني بسرعة أكبر من سرعة الجسم الأول الابتدائية. باستخدام قوانين حفظ الزخم والطاقة، نجد أن سرعة الجسم الثاني ستكون 5.33m/s، وهي أكبر من 4m/s.',
   },
 ];
-
-    
