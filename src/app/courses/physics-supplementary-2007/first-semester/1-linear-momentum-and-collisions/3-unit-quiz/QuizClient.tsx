@@ -91,7 +91,7 @@ export function QuizClient({ questions }: { questions: QuizQuestion[] }) {
           <CardTitle>النتيجة النهائية</CardTitle>
           <CardDescription>
             لقد حصلت على {score} من {questions.length} بشكل صحيح.
-            علامتك هي: {(score / questions.length) * 100}%.
+            علامتك هي: {((score / questions.length) * 100).toFixed(2)}%.
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
@@ -148,7 +148,7 @@ export function QuizClient({ questions }: { questions: QuizQuestion[] }) {
             </div>
         )}
         <RadioGroup
-          value={answers[currentQuestionIndex]?.toString()}
+          value={answers[currentQuestionIndex]?.toString() ?? ""}
           onValueChange={handleAnswerChange}
           className="space-y-4"
         >
@@ -165,6 +165,7 @@ export function QuizClient({ questions }: { questions: QuizQuestion[] }) {
           <ChevronRight className="me-2 h-4 w-4" />
           السابق
         </Button>
+        
         {currentQuestionIndex === questions.length - 1 ? (
           <AlertDialog>
             <AlertDialogTrigger asChild>
@@ -198,5 +199,3 @@ export function QuizClient({ questions }: { questions: QuizQuestion[] }) {
     </Card>
   );
 }
-
-    
