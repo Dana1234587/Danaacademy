@@ -42,7 +42,7 @@ export const unit1QuizQuestions: QuizQuestion[] = [
     options: [
       'الطاقة الحركية للنظام بعد التصادم = 22J',
       'الطاقة الحركية للنظام بعد التصادم = الطاقة الحركية للنظام قبل التصادم',
-      'الزخم الخطي للنظام \\(\\text{kg} \\cdot \\text{m/s}\\) -2 =',
+      'الزخم الخطي للنظام = -2 kg.m/s',
       'الزخم الخطي للنظام بعد التصادم أقل من الزخم الخطي للنظام قبل التصادم',
     ],
     correctAnswerIndex: 2,
@@ -58,7 +58,7 @@ export const unit1QuizQuestions: QuizQuestion[] = [
       '0.615v نحو الشرق',
     ],
     correctAnswerIndex: 1,
-    explanation: 'من حفظ الزخم: $\\Sigma p_i = \\Sigma p_f = 0$. إذن: $m_{\\text{boy}} \\cdot v_{\\text{boy}} + m_{\\text{girl}} \\cdot v_{\\text{girl}} = 0$. $(65.0 \\text{kg})(-v) + (40.0 \\text{kg})(v_{\\text{girl}}) = 0$.  وبالتالي $40 v_{\\text{girl}} = 65v$.  إذن $v_{\\text{girl}} = \\frac{65}{40}v = 1.625v$. بما أن سرعة الصبي سالبة (غربًا)، يجب أن تكون سرعة الفتاة موجبة (شرقًا).',
+    explanation: 'من حفظ الزخم: $\\Sigma p_i = \\Sigma p_f = 0$. إذن: $m_{\\text{boy}} v_{\\text{boy}} + m_{\\text{girl}} v_{\\text{girl}} = 0$. بالتعويض، مع اعتبار اتجاه الغرب سالبًا: $(65.0 \\text{kg})(-v) + (40.0 \\text{kg})(v_{\\text{girl}}) = 0$.  وبالتالي $40 v_{\\text{girl}} = 65v$.  إذن $v_{\\text{girl}} = \\frac{65}{40}v = 1.625v$. بما أن سرعة الصبي سالبة (غربًا)، يجب أن تكون سرعة الفتاة موجبة (شرقًا).',
   },
   {
     id: 5,
@@ -82,7 +82,7 @@ export const unit1QuizQuestions: QuizQuestion[] = [
       '6.0 x 10⁴ J',
     ],
     correctAnswerIndex: 0,
-    explanation: 'أولًا نحسب السرعة النهائية $v_f$ من حفظ الزخم: $m_B v_B = (m_A+m_B) v_f \\implies (900 \\text{kg})(20 \\text{m/s}) = (2700 \\text{kg}) v_f \\implies v_f \\approx 6.67 \\text{m/s}$. ثم نحسب التغير في الطاقة: $\\Delta K = K_f - K_i = \\frac{1}{2}(2700)(6.67)^2 - \\frac{1}{2}(900)(20)^2 \\approx 60000 - 180000 = -120000 \\text{ J} = -1.2 \\times 10^5 \\text{ J}$.',
+    explanation: 'أولًا نحسب السرعة النهائية $v_f$ من حفظ الزخم: $m_B v_B = (m_A+m_B) v_f$. بالتعويض: $(900 \\text{kg})(20 \\text{m/s}) = (1800+900 \\text{kg}) v_f \\implies 18000 = 2700 v_f \\implies v_f = \\frac{18000}{2700} \\approx 6.67 \\text{m/s}$. ثم نحسب التغير في الطاقة: $\\Delta K = K_f - K_i = \\frac{1}{2}(2700)(6.67)^2 - \\frac{1}{2}(900)(20)^2 \\approx 60000 - 180000 = -120000 \\text{ J} = -1.2 \\times 10^5 \\text{ J}$.',
   },
   {
     id: 7,
@@ -96,7 +96,7 @@ export const unit1QuizQuestions: QuizQuestion[] = [
       '6m/s نحو اليمين',
     ],
     correctAnswerIndex: 0,
-    explanation: 'من حفظ الزخم (الزخم الابتدائي = 0): $0 = m_A v_A + m_B v_B \\implies 0 = (m) v_A + (3m)(+2 \\text{m/s})$. إذن $-m v_A = 6m$. وبالتالي $v_A = -6 \\text{m/s}$. الإشارة السالبة تعني نحو اليسار.',
+    explanation: 'من حفظ الزخم (الزخم الابتدائي = 0): $0 = m_A v_A + m_B v_B$. بالتعويض مع اعتبار اليمين موجبًا: $0 = (m) v_A + (3m)(+2 \\text{m/s})$. إذن $m v_A = -6m$. وبالتالي $v_A = -6 \\text{m/s}$. الإشارة السالبة تعني نحو اليسار.',
   },
   {
     id: 8,
@@ -120,7 +120,7 @@ export const unit1QuizQuestions: QuizQuestion[] = [
       'مساوية لـ 4m/s',
     ],
     correctAnswerIndex: 1,
-    explanation: 'في التصادم المرن لجسم متحرك مع آخر ساكن، إذا كانت كتلة الجسم الأول أكبر، فسيتحرك الجسم الثاني بسرعة أكبر من سرعة الجسم الأول الابتدائية. باستخدام قوانين حفظ الزخم والطاقة، $v_{2f} = (\\frac{2m_1}{m_1+m_2})v_{1i} = (\\frac{2 \\cdot 2}{2+1}) \\cdot 4 = \\frac{8}{3} \\cdot 4 = 5.33 \\text{m/s}$، وهي أكبر من $4 \\text{m/s}$.',
+    explanation: 'في التصادم المرن لجسم متحرك مع آخر ساكن، إذا كانت كتلة الجسم الأول أكبر، فسيتحرك الجسم الثاني بسرعة أكبر من سرعة الجسم الأول الابتدائية. باستخدام قوانين حفظ الزخم والطاقة: $v_{2f} = (\\frac{2m_1}{m_1+m_2})v_{1i} = (\\frac{2 \\cdot 2}{2+1}) \\cdot 4 = \\frac{8}{3} \\cdot 4 \\approx 5.33 \\text{m/s}$. وهي أكبر من $4 \\text{m/s}$.',
   },
   {
     id: 10,
@@ -184,7 +184,7 @@ export const unit1QuizQuestions: QuizQuestion[] = [
       '-0.125 N·s',
     ],
     correctAnswerIndex: 2,
-    explanation: '$K_f = \\frac{1}{4} K_i \\implies \\frac{1}{2}mv_f^2 = \\frac{1}{4}(\\frac{1}{2}mv_i^2) \\implies v_f^2 = \\frac{1}{4}v_i^2 \\implies v_f = \\frac{1}{2}v_i = \\frac{1}{2} \\cdot 5 \\text{m/s} = 2.5 \\text{m/s}$. بما أنها ارتدت، فاتجاهها معاكس، إذن $v_f = -2.5 \\text{m/s}$. الدفع $I = \\Delta p = m(v_f - v_i) = 0.050 \\text{kg}(-2.5 \\text{m/s} - 5 \\text{m/s}) = 0.050(-7.5) = -0.375 \\text{ N} \\cdot \\text{s}$.',
+    explanation: 'العلاقة بين طاقة الحركة والسرعة هي $K = \\frac{1}{2}mv^2$. إذا كانت $K_f = \\frac{1}{4} K_i$ فإن $\\frac{1}{2}mv_f^2 = \\frac{1}{4}(\\frac{1}{2}mv_i^2)$, وهذا يعني أن $v_f^2 = \\frac{1}{4}v_i^2$, أي أن $v_f = \\frac{1}{2}v_i = \\frac{1}{2} \\cdot 5 = 2.5 \\text{m/s}$. بما أنها ارتدت، فاتجاهها معاكس، إذن $v_f = -2.5 \\text{m/s}$. الدفع $I = \\Delta p = m(v_f - v_i) = 0.050 \\text{kg}(-2.5 \\text{m/s} - 5 \\text{m/s}) = 0.050(-7.5) = -0.375 \\text{ N} \\cdot \\text{s}$.',
   },
   {
     id: 15,
@@ -210,7 +210,7 @@ export const unit1QuizQuestions: QuizQuestion[] = [
       'F₁ = 3 F₂',
     ],
     correctAnswerIndex: 0,
-    explanation: 'التغير في الزخم (الدفع) ثابت في كلتا الحالتين. $I = F\\Delta t$. بدون خوذة: $I = F_1 \\cdot t_1$. مع خوذة: $I = F_2 \\cdot t_2$. إذن $F_1 t_1 = F_2 t_2$. بالتعويض $F_1 \\cdot (1 \\text{ms}) = F_2 \\cdot (6 \\text{ms})$. إذن $F_1 = 6 F_2$. القوة بدون خوذة أكبر بستة أضعاف.',
+    explanation: 'التغير في الزخم (الدفع) ثابت في كلتا الحالتين. $I = F \\Delta t$. بدون خوذة: $I = F_1 t_1$. مع خوذة: $I = F_2 t_2$. إذن $F_1 t_1 = F_2 t_2$. بالتعويض $F_1 \\cdot (1 \\text{ms}) = F_2 \\cdot (6 \\text{ms})$. إذن $F_1 = 6 F_2$. القوة بدون خوذة أكبر بستة أضعاف.',
   },
   {
     id: 17,
@@ -260,8 +260,6 @@ export const unit1QuizQuestions: QuizQuestion[] = [
       'مساوية لـ 4m/s',
     ],
     correctAnswerIndex: 1,
-    explanation: 'في التصادم المرن لجسم متحرك مع آخر ساكن، إذا كانت كتلة الجسم الأول أكبر، فسيتحرك الجسم الثاني بسرعة أكبر من سرعة الجسم الأول الابتدائية. باستخدام قوانين حفظ الزخم والطاقة، $v_{2f} = (\\frac{2m_1}{m_1+m_2})v_{1i} = (\\frac{2 \\cdot 2}{2+1}) \\cdot 4 = \\frac{4}{3} \\cdot 4 \\approx 5.33 \\text{m/s}$، وهي أكبر من $4 \\text{m/s}$.',
+    explanation: 'في التصادم المرن لجسم متحرك مع آخر ساكن، إذا كانت كتلة الجسم الأول أكبر، فسيتحرك الجسم الثاني بسرعة أكبر من سرعة الجسم الأول الابتدائية. باستخدام قوانين حفظ الزخم والطاقة: $v_{2f} = (\\frac{2m_1}{m_1+m_2})v_{1i} = (\\frac{2 \\cdot 2}{2+1}) \\cdot 4 = \\frac{8}{3} \\cdot 4 \\approx 5.33 \\text{m/s}$. وهي أكبر من $4 \\text{m/s}$.',
   },
 ];
-
-    
