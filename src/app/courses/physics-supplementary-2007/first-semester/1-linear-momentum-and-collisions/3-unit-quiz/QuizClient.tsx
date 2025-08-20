@@ -284,7 +284,7 @@ export function QuizClient({ questions }: { questions: QuizQuestion[] }) {
         </RadioGroup>
       </CardContent>
       <CardFooter className="flex justify-between">
-         <Button onClick={handleNext} disabled={currentQuestionIndex === questions.length - 1} variant="outline">
+         <Button onClick={handleNext} disabled={currentQuestionIndex === questions.length - 1}>
             <ChevronRight className="ms-2 h-4 w-4" />
             التالي
         </Button>
@@ -312,7 +312,7 @@ export function QuizClient({ questions }: { questions: QuizQuestion[] }) {
             </AlertDialogContent>
           </AlertDialog>
         ) : (
-          <Button onClick={handlePrevious} disabled={currentQuestionIndex === 0}>
+          <Button onClick={handlePrevious} disabled={currentQuestionIndex === 0} variant="outline">
             السابق
             <ChevronLeft className="me-2 h-4 w-4" />
           </Button>
