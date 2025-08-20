@@ -286,7 +286,7 @@ export function QuizClient({ questions }: { questions: QuizQuestion[] }) {
         <Progress value={progress} className="mt-2" />
       </CardHeader>
       <CardContent>
-        <div className="text-lg font-semibold mb-4 text-center"><SmartTextRenderer text={currentQuestion.questionText} /></div>
+        <div className="text-lg font-semibold mb-4 text-right"><SmartTextRenderer text={currentQuestion.questionText} /></div>
         {currentQuestion.image && (
             <div className="my-6 flex justify-center">
                 <Image src={currentQuestion.image} alt={`Question ${currentQuestion.id}`} width={400} height={250} className="rounded-lg shadow-md" data-ai-hint={currentQuestion.imageHint || 'question image'} />
@@ -297,11 +297,12 @@ export function QuizClient({ questions }: { questions: QuizQuestion[] }) {
           value={answers[currentQuestionIndex]?.toString() ?? ""}
           onValueChange={handleAnswerChange}
           className="space-y-4"
+          dir="rtl"
         >
           {currentQuestion.options.map((option, index) => (
             <Label key={index} htmlFor={`q${currentQuestion.id}-o${index}`} className="flex items-center gap-4 border p-4 rounded-lg cursor-pointer hover:bg-accent has-[:checked]:bg-primary/10 has-[:checked]:border-primary">
               <RadioGroupItem value={index.toString()} id={`q${currentQuestion.id}-o${index}`} />
-              <span className="flex-1 text-base"><InlineSmartTextRenderer text={option} /></span>
+              <span className="flex-1 text-base text-right"><InlineSmartTextRenderer text={option} /></span>
             </Label>
           ))}
         </RadioGroup>
