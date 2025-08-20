@@ -57,9 +57,26 @@ const SmartTextRenderer = ({ text }: { text: string }) => {
     );
 };
 
+// Renderer for option items, forcing specific layout with flexbox
+const OptionRenderer = ({ text }: { text: string }) => {
+    const parts = text.split('$');
+    const arabicPart = parts[0] || '';
+    const latexPart = parts[1] || '';
 
-// Renderer for inline elements like options and titles which don't need complex directionality logic
+    return (
+        <div className="flex justify-between items-center w-full" dir="rtl">
+            <span>{arabicPart}</span>
+            {latexPart && <span dir="ltr"><InlineMath math={latexPart} /></span>}
+        </div>
+    );
+};
+
+
+// Renderer for inline elements like titles which don't need complex directionality logic
 const InlineSmartTextRenderer = ({ text }: { text: string }) => {
+    if (!text.includes('$')) {
+        return <>{text}</>;
+    }
     const parts = text.split('$');
     return (
         <>
@@ -243,7 +260,7 @@ export function QuizClient({ questions }: { questions: QuizQuestion[] }) {
                                 return (
                                     <div key={optionIndex} className={`flex items-center gap-2 p-2 rounded-md ${isCorrect ? 'bg-green-200/50 text-green-800' : ''} ${isSelected && !isCorrect ? 'bg-red-200/50 text-red-800' : ''}`}>
                                         {isCorrect ? <CheckCircle className="w-4 h-4 text-green-600"/> : (isSelected ? <XCircle className="w-4 h-4 text-red-600"/> : <span className="w-4 h-4"></span>)}
-                                        <span><InlineSmartTextRenderer text={option} /></span>
+                                        <div className="flex-1"><OptionRenderer text={option} /></div>
                                         {isSelected && <span className="text-xs font-bold ms-auto">{'(إجابتك)'}</span>}
                                         {isCorrect && <span className="text-xs font-bold ms-auto">{'(الإجابة الصحيحة)'}</span>}
                                     </div>
@@ -300,9 +317,9 @@ export function QuizClient({ questions }: { questions: QuizQuestion[] }) {
           dir="rtl"
         >
           {currentQuestion.options.map((option, index) => (
-            <Label key={index} htmlFor={`q${currentQuestion.id}-o${index}`} className="flex items-center gap-4 border p-4 rounded-lg cursor-pointer hover:bg-accent has-[:checked]:bg-primary/10 has-[:checked]:border-primary">
+            <Label key={index} htmlFor={`q${currentQuestion.id}-o${index}`} className="flex flex-row-reverse items-center gap-4 border p-4 rounded-lg cursor-pointer hover:bg-accent has-[:checked]:bg-primary/10 has-[:checked]:border-primary">
               <RadioGroupItem value={index.toString()} id={`q${currentQuestion.id}-o${index}`} />
-              <span className="flex-1 text-base text-right"><InlineSmartTextRenderer text={option} /></span>
+              <span className="flex-1 text-base text-right"><OptionRenderer text={option} /></span>
             </Label>
           ))}
         </RadioGroup>
