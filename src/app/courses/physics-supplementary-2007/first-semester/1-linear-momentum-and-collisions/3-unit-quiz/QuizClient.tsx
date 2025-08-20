@@ -133,7 +133,7 @@ export function QuizClient({ questions }: { questions: QuizQuestion[] }) {
                     <Info className="h-4 w-4" />
                     <AlertTitle>تفاصيل الاختبار</AlertTitle>
                     <AlertDescription>
-                        <ul className="list-disc list-inside space-y-2 mt-2">
+                        <ul className="list-disc list-outside space-y-2 mt-2 pe-4">
                            <li><SmartTextRenderer as="span" text={`عدد الأسئلة: $${questions.length}$ سؤال.`} /></li>
                            <li><SmartTextRenderer as="span" text={`مدة الاختبار: $60$ دقيقة.`} /></li>
                            <li><SmartTextRenderer as="span" text={`علامة كل سؤال: $4$ علامات (المجموع الكلي: $${questions.length * 4}$ علامة).`} /></li>
@@ -144,7 +144,7 @@ export function QuizClient({ questions }: { questions: QuizQuestion[] }) {
                     <AlertTriangle className="h-4 w-4" />
                     <AlertTitle>نصائح هامة</AlertTitle>
                     <AlertDescription>
-                        <ul className="list-disc list-inside space-y-2 mt-2">
+                        <ul className="list-disc list-outside space-y-2 mt-2 pe-4">
                             <li>تأكد من وجود ورقة وقلم بجانبك للحل.</li>
                             <li>احضر آلة حاسبة.</li>
                             <li>للحصول على تقييم دقيق لمستواك، تأكد من أنك قد راجعت وحدة "الزخم الخطي والتصادمات" بشكل كامل.</li>
