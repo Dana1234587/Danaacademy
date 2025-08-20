@@ -24,8 +24,8 @@ const SmartTextRenderer = ({ text, as: Wrapper = 'p' }: { text: string; as?: Rea
     const lines = text.split('\n');
 
     const renderPart = (part: string, index: number) => {
+        // Even indices are text, odd are math
         if (index % 2 === 0) {
-            // This is Arabic text
             return <span key={index} dir="rtl">{part}</span>;
         } else {
             // This is LaTeX
@@ -34,7 +34,7 @@ const SmartTextRenderer = ({ text, as: Wrapper = 'p' }: { text: string; as?: Rea
     };
     
     return (
-        <Wrapper>
+        <Wrapper className="leading-relaxed">
             {lines.map((line, lineIndex) => (
                 <span key={lineIndex} className="block my-1 text-right">
                     {line.split('$').map(renderPart)}
@@ -182,7 +182,7 @@ export function QuizClient({ questions }: { questions: QuizQuestion[] }) {
                 <div>
                     <p className="text-muted-foreground text-lg">علامتك النهائية</p>
                      <div className="text-5xl font-bold text-primary">
-                       <SmartTextRenderer as="span" text={`$${finalMark}$`} />
+                       <SmartTextRenderer as="div" text={`$${finalMark}$`} />
                        <span className="text-2xl text-muted-foreground">
                          /
                          <SmartTextRenderer as="span" text={`$${totalMarks}$`} />
@@ -284,7 +284,7 @@ export function QuizClient({ questions }: { questions: QuizQuestion[] }) {
         </RadioGroup>
       </CardContent>
       <CardFooter className="flex justify-between">
-         <Button onClick={handlePrevious} disabled={currentQuestionIndex === 0} variant="outline">
+         <Button onClick={handleNext} disabled={currentQuestionIndex === questions.length - 1} variant="outline">
             <ChevronRight className="ms-2 h-4 w-4" />
             التالي
         </Button>
@@ -312,7 +312,7 @@ export function QuizClient({ questions }: { questions: QuizQuestion[] }) {
             </AlertDialogContent>
           </AlertDialog>
         ) : (
-          <Button onClick={handleNext}>
+          <Button onClick={handlePrevious} disabled={currentQuestionIndex === 0}>
             السابق
             <ChevronLeft className="me-2 h-4 w-4" />
           </Button>
