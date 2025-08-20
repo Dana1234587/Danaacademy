@@ -22,7 +22,7 @@ export const unit1QuizQuestions: QuizQuestion[] = [
       '$0.1 \\text{ m/s}$ للأسفل',
     ],
     correctAnswerIndex: 0,
-    explanation: 'بتطبيق قانون حفظ الزخم الخطي:\n$\\Sigma p_i = \\Sigma p_f$\nبما أن النظام كان ساكنًا، فإن الزخم الابتدائي يساوي صفرًا. إذن:\n$0 = m_{\\text{fish}} \\cdot v_{\\text{fish}} + m_{\\text{water}} \\cdot v_{\\text{water}}$\nمع اعتبار الاتجاه للأعلى هو الموجب:\n$0 = (65 \\text{g}) \\cdot v_{\\text{fish}} + (0.30 \\text{g}) \\cdot (+2.5 \\text{m/s})$\nومنها:\n$v_{\\text{fish}} = -\\frac{0.30 \\cdot 2.5}{65} \\approx -0.0115 \\text{ m/s}$\nالإشارة السالبة تعني للأسفل. للتحويل إلى $mm/s$ نضرب في $1000$:\n$v_{\\text{fish}} \\approx 11.5 \\text{ mm/s}$ للأسفل.',
+    explanation: 'بتطبيق قانون حفظ الزخم الخطي:\n\n$\\Sigma p_i = \\Sigma p_f$\n\nبما أن النظام كان ساكنًا، فإن الزخم الابتدائي يساوي صفرًا. إذن:\n\n$0 = m_{\\text{fish}} \\cdot v_{\\text{fish}} + m_{\\text{water}} \\cdot v_{\\text{water}}$\n\nمع اعتبار الاتجاه للأعلى هو الموجب:\n\n$0 = (65 \\text{g}) \\cdot v_{\\text{fish}} + (0.30 \\text{g}) \\cdot (+2.5 \\text{m/s})$\n\nومنها:\n\n$v_{\\text{fish}} = -\\frac{0.30 \\cdot 2.5}{65} \\approx -0.0115 \\text{ m/s}$\n\nالإشارة السالبة تعني للأسفل. للتحويل إلى $mm/s$ نضرب في $1000$:\n\n$v_{\\text{fish}} \\approx 11.5 \\text{ mm/s}$ للأسفل.',
   },
   {
     id: 2,
@@ -34,7 +34,7 @@ export const unit1QuizQuestions: QuizQuestion[] = [
       'التغير في الزخم الخطي والطاقة الحركية للسيارة أكبر من الجرار',
     ],
     correctAnswerIndex: 1,
-    explanation: 'وفقًا لقانون نيوتن الثالث، القوة المتبادلة بين الجرار والسيارة متساوية في المقدار ومعاكسة في الاتجاه.\nبما أن زمن التصادم متساوٍ، فإن الدفع (التغير في الزخم) يكون متساويًا في المقدار لكلا الجسمين:\n$|\\Delta p_1| = |\\Delta p_2|$\nلكن الطاقة الحركية تعتمد على الكتلة والسرعة. بما أن كتلة الجرار أكبر ($m_1 > m_2$) وطاقته الحركية الابتدائية أكبر، فإن مقدار الفقد في طاقته الحركية يكون أكبر.',
+    explanation: 'وفقًا لقانون نيوتن الثالث، القوة المتبادلة بين الجرار والسيارة متساوية في المقدار ومعاكسة في الاتجاه.\n\nبما أن زمن التصادم متساوٍ، فإن الدفع (التغير في الزخم) يكون متساويًا في المقدار لكلا الجسمين:\n\n$|\\Delta p_1| = |\\Delta p_2|$\n\nلكن الطاقة الحركية تعتمد على الكتلة والسرعة. بما أن كتلة الجرار أكبر ($m_1 > m_2$) وطاقته الحركية الابتدائية أكبر، فإن مقدار الفقد في طاقته الحركية يكون أكبر.',
   },
   {
     id: 3,
@@ -46,7 +46,7 @@ export const unit1QuizQuestions: QuizQuestion[] = [
       'الزخم الخطي للنظام بعد التصادم أقل من الزخم الخطي للنظام قبل التصادم',
     ],
     correctAnswerIndex: 2,
-    explanation: 'الزخم محفوظ في التصادمات. نحسب الزخم الابتدائي:\n$\\Sigma p_i = (3 \\text{kg})(+2 \\text{m/s}) + (2 \\text{kg})(-4 \\text{m/s}) = 6 - 8 = -2 \\text{ kg} \\cdot \\text{m/s}$\nبما أن الزخم محفوظ، فإن الزخم الخطي للنظام بعد التصادم يساوي الزخم الخطي قبل التصادم، أي $-2 \\text{ kg} \\cdot \\text{m/s}$.',
+    explanation: 'الزخم محفوظ في التصادمات. نحسب الزخم الابتدائي:\n\n$\\Sigma p_i = (3 \\text{kg})(+2 \\text{m/s}) + (2 \\text{kg})(-4 \\text{m/s}) = 6 - 8 = -2 \\text{ kg} \\cdot \\text{m/s}$\n\nبما أن الزخم محفوظ، فإن الزخم الخطي للنظام بعد التصادم يساوي الزخم الخطي قبل التصادم، أي $-2 \\text{ kg} \\cdot \\text{m/s}$.',
   },
   {
     id: 4,
@@ -58,7 +58,7 @@ export const unit1QuizQuestions: QuizQuestion[] = [
       '$0.615v$ نحو الشرق',
     ],
     correctAnswerIndex: 1,
-    explanation: 'من حفظ الزخم:\n$\\Sigma p_i = \\Sigma p_f = 0$\nإذن:\n$m_{\\text{boy}} v_{\\text{boy}} + m_{\\text{girl}} v_{\\text{girl}} = 0$\nبالتعويض، مع اعتبار اتجاه الغرب سالبًا:\n$(65.0 \\text{kg})(-v) + (40.0 \\text{kg})(v_{\\text{girl}}) = 0$\nوبالتالي:\n$40 v_{\\text{girl}} = 65v$\nإذن:\n$v_{\\text{girl}} = \\frac{65}{40}v = 1.625v$\nبما أن سرعة الصبي سالبة (غربًا)، يجب أن تكون سرعة الفتاة موجبة (شرقًا).',
+    explanation: 'من حفظ الزخم:\n\n$\\Sigma p_i = \\Sigma p_f = 0$\n\nإذن:\n\n$m_{\\text{boy}} v_{\\text{boy}} + m_{\\text{girl}} v_{\\text{girl}} = 0$\n\nبالتعويض، مع اعتبار اتجاه الغرب سالبًا:\n\n$(65.0 \\text{kg})(-v) + (40.0 \\text{kg})(v_{\\text{girl}}) = 0$\n\nوبالتالي:\n\n$40 v_{\\text{girl}} = 65v$\n\nإذن:\n\n$v_{\\text{girl}} = \\frac{65}{40}v = 1.625v$\n\nبما أن سرعة الصبي سالبة (غربًا)، يجب أن تكون سرعة الفتاة موجبة (شرقًا).',
   },
   {
     id: 5,
@@ -70,7 +70,7 @@ export const unit1QuizQuestions: QuizQuestion[] = [
       'النظام المعزول هو الذي تكون فيه القوى المؤثرة قوى داخلية فقط ومحصلة القوى الخارجية $= 0$',
     ],
     correctAnswerIndex: 3,
-    explanation: 'النظام المعزول يُعرَّف بأنه نظام تكون فيه محصلة القوى الخارجية المؤثرة عليه تساوي صفرًا\n($\\Sigma F_{\\text{ext}} = 0$)\nوتكون القوى المؤثرة هي قوى داخلية فقط بين أجزاء النظام.\nالخيار (أ) خاطئ لأن زيادة الزمن تقلل القوة.\nالخيار (ب) و (ج) يخلطان بين الزخم الكلي للنظام والزخم لكل جسم، وبين حفظ الزخم وحفظ الطاقة.',
+    explanation: 'النظام المعزول يُعرَّف بأنه نظام تكون فيه محصلة القوى الخارجية المؤثرة عليه تساوي صفرًا\n\n($\\Sigma F_{\\text{ext}} = 0$)\n\nوتكون القوى المؤثرة هي قوى داخلية فقط بين أجزاء النظام.\n\nالخيار (أ) خاطئ لأن زيادة الزمن تقلل القوة.\n\nالخيار (ب) و (ج) يخلطان بين الزخم الكلي للنظام والزخم لكل جسم، وبين حفظ الزخم وحفظ الطاقة.',
   },
   {
     id: 6,
@@ -82,7 +82,7 @@ export const unit1QuizQuestions: QuizQuestion[] = [
       '$6.0 \\times 10^4 \\text{ J}$',
     ],
     correctAnswerIndex: 0,
-    explanation: 'أولًا نحسب السرعة النهائية $v_f$ من حفظ الزخم:\n$m_B v_B = (m_A+m_B) v_f$\nبالتعويض:\n$(900 \\text{kg})(20 \\text{m/s}) = (1800+900 \\text{kg}) v_f$\n$18000 = 2700 v_f$\n$v_f = \\frac{18000}{2700} \\approx 6.67 \\text{m/s}$\nثم نحسب التغير في الطاقة:\n$\\Delta K = K_f - K_i$\n$\\Delta K = \\frac{1}{2}(2700)(6.67)^2 - \\frac{1}{2}(900)(20)^2$\n$\\Delta K \\approx 60000 - 180000 = -120000 \\text{ J}$\n$\\Delta K = -1.2 \\times 10^5 \\text{ J}$',
+    explanation: 'أولًا نحسب السرعة النهائية $v_f$ من حفظ الزخم:\n\n$m_B v_B = (m_A+m_B) v_f$\n\nبالتعويض:\n\n$(900 \\text{kg})(20 \\text{m/s}) = (1800+900 \\text{kg}) v_f$\n\n$18000 = 2700 v_f$\n\n$v_f = \\frac{18000}{2700} \\approx 6.67 \\text{m/s}$\n\nثم نحسب التغير في الطاقة:\n\n$\\Delta K = K_f - K_i$\n\n$\\Delta K = \\frac{1}{2}(2700)(6.67)^2 - \\frac{1}{2}(900)(20)^2$\n\n$\\Delta K \\approx 60000 - 180000 = -120000 \\text{ J}$\n\n$\\Delta K = -1.2 \\times 10^5 \\text{ J}$',
   },
   {
     id: 7,
@@ -96,7 +96,7 @@ export const unit1QuizQuestions: QuizQuestion[] = [
       '$6\\text{m/s}$ نحو اليمين',
     ],
     correctAnswerIndex: 0,
-    explanation: 'من حفظ الزخم (الزخم الابتدائي $= 0$):\n$0 = m_A v_A + m_B v_B$\nبالتعويض مع اعتبار اليمين موجبًا:\n$0 = (m) v_A + (3m)(+2 \\text{m/s})$\nإذن:\n$m v_A = -6m$\nوبالتالي:\n$v_A = -6 \\text{m/s}$\nالإشارة السالبة تعني نحو اليسار.',
+    explanation: 'من حفظ الزخم (الزخم الابتدائي $= 0$):\n\n$0 = m_A v_A + m_B v_B$\n\nبالتعويض مع اعتبار اليمين موجبًا:\n\n$0 = (m) v_A + (3m)(+2 \\text{m/s})$\n\nإذن:\n\n$m v_A = -6m$\n\nوبالتالي:\n\n$v_A = -6 \\text{m/s}$\n\nالإشارة السالبة تعني نحو اليسار.',
   },
   {
     id: 8,
@@ -108,7 +108,7 @@ export const unit1QuizQuestions: QuizQuestion[] = [
       '$\\Delta p = +2.6 \\text{ kg} \\cdot \\text{m/s} , F = +3.8\\text{N}$',
     ],
     correctAnswerIndex: 0,
-    explanation: 'باعتبار اليمين موجبًا. التغير في الزخم:\n$\\Delta p = m(v_f - v_i)$\n$\\Delta p = 0.057 \\text{kg}(-25 \\text{m/s} - 21 \\text{m/s}) = -2.622 \\text{ kg} \\cdot \\text{m/s}$\nالقوة المتوسطة:\n$F = \\frac{\\Delta p}{\\Delta t}$\n$F = \\frac{-2.622 \\text{ kg} \\cdot \\text{m/s}}{0.060 \\text{s}} = -43.7 \\text{N}$\nالإشارة السالبة تعني أن اتجاه القوة والتغير في الزخم هو نحو اليسار.',
+    explanation: 'باعتبار اليمين موجبًا. التغير في الزخم:\n\n$\\Delta p = m(v_f - v_i)$\n\n$\\Delta p = 0.057 \\text{kg}(-25 \\text{m/s} - 21 \\text{m/s}) = -2.622 \\text{ kg} \\cdot \\text{m/s}$\n\nالقوة المتوسطة:\n\n$F = \\frac{\\Delta p}{\\Delta t}$\n\n$F = \\frac{-2.622 \\text{ kg} \\cdot \\text{m/s}}{0.060 \\text{s}} = -43.7 \\text{N}$\n\nالإشارة السالبة تعني أن اتجاه القوة والتغير في الزخم هو نحو اليسار.',
   },
   {
     id: 9,
@@ -120,7 +120,7 @@ export const unit1QuizQuestions: QuizQuestion[] = [
       'مساوية لـ $4\\text{m/s}$',
     ],
     correctAnswerIndex: 1,
-    explanation: 'في التصادم المرن لجسم متحرك مع آخر ساكن، إذا كانت كتلة الجسم الأول أكبر، فسيتحرك الجسم الثاني بسرعة أكبر من سرعة الجسم الأول الابتدائية.\nباستخدام قوانين حفظ الزخم والطاقة:\n$v_{2f} = (\\frac{2m_1}{m_1+m_2})v_{1i}$\n$v_{2f} = (\\frac{2 \\cdot 2}{2+1}) \\cdot 4 = \\frac{8}{3} \\cdot 4 \\approx 5.33 \\text{m/s}$\nوهي أكبر من $4 \\text{m/s}$.',
+    explanation: 'في التصادم المرن لجسم متحرك مع آخر ساكن، إذا كانت كتلة الجسم الأول أكبر، فسيتحرك الجسم الثاني بسرعة أكبر من سرعة الجسم الأول الابتدائية.\nباستخدام قوانين حفظ الزخم والطاقة:\n\n$v_{2f} = (\\frac{2m_1}{m_1+m_2})v_{1i}$\n\n$v_{2f} = (\\frac{2 \\cdot 2}{2+1}) \\cdot 4 = \\frac{8}{3} \\cdot 4 \\approx 5.33 \\text{m/s}$\n\nوهي أكبر من $4 \\text{m/s}$.',
   },
   {
     id: 10,
@@ -134,7 +134,7 @@ export const unit1QuizQuestions: QuizQuestion[] = [
       '$I = 22500 \\text{ N} \\cdot \\text{s} , \\bar{F} = 9.00\\text{N}$',
     ],
     correctAnswerIndex: 0,
-    explanation: 'الدفع $I$ يساوي المساحة تحت المنحنى.\nمساحة المثلث:\n$I = \\frac{1}{2} \\cdot \\text{القاعدة} \\cdot \\text{الارتفاع}$\n$I = \\frac{1}{2} \\cdot (3 \\text{s}) \\cdot (9 \\text{N}) = 13.5 \\text{ N} \\cdot \\text{s}$\nالقوة المتوسطة:\n$\\bar{F} = \\frac{I}{\\Delta t}$\n$\\bar{F} = \\frac{13.5 \\text{ N} \\cdot \\text{s}}{3 \\text{s}} = 4.5 \\text{N}$',
+    explanation: 'الدفع $I$ يساوي المساحة تحت المنحنى.\n\nمساحة المثلث:\n\n$I = \\frac{1}{2} \\cdot \\text{القاعدة} \\cdot \\text{الارتفاع}$\n\n$I = \\frac{1}{2} \\cdot (3 \\text{s}) \\cdot (9 \\text{N}) = 13.5 \\text{ N} \\cdot \\text{s}$\n\nالقوة المتوسطة:\n\n$\\bar{F} = \\frac{I}{\\Delta t}$\n\n$\\bar{F} = \\frac{13.5 \\text{ N} \\cdot \\text{s}}{3 \\text{s}} = 4.5 \\text{N}$',
   },
   {
     id: 11,
@@ -146,7 +146,7 @@ export const unit1QuizQuestions: QuizQuestion[] = [
       'زيادة مقدار القوة المحصلة المؤثرة على الراكب',
     ],
     correctAnswerIndex: 0,
-    explanation: 'مبدأ عمل الوسادة الهوائية وحزام الأمان هو زيادة زمن التصادم ($\\Delta t$).\nالعلاقة بين القوة والتغير في الزخم هي:\n$F = \\frac{\\Delta p}{\\Delta t}$\nبما أن التغير في الزخم ($\\Delta p$) ثابت (لأن السيارة تتوقف)، فإن زيادة الزمن ($\\Delta t$) تؤدي إلى تقليل القوة المؤثرة على الراكب.',
+    explanation: 'مبدأ عمل الوسادة الهوائية وحزام الأمان هو زيادة زمن التصادم ($\\Delta t$).\n\nالعلاقة بين القوة والتغير في الزخم هي:\n\n$F = \\frac{\\Delta p}{\\Delta t}$\n\nبما أن التغير في الزخم ($\\Delta p$) ثابت (لأن السيارة تتوقف)، فإن زيادة الزمن ($\\Delta t$) تؤدي إلى تقليل القوة المؤثرة على الراكب.',
   },
   {
     id: 12,
@@ -158,7 +158,7 @@ export const unit1QuizQuestions: QuizQuestion[] = [
       '$100 \\text{ m/s}$',
     ],
     correctAnswerIndex: 0,
-    explanation: 'من حفظ الزخم في التصادم عديم المرونة:\n$m_1 v_{1i} = (m_1 + m_2)v_f$\nإذن:\n$(0.008 \\text{kg}) \\cdot v_{1i} = (9.008 \\text{kg}) \\cdot (0.4 \\text{m/s})$\nوبالتالي:\n$v_{1i} = \\frac{3.6032}{0.008} \\approx 450.4 \\text{ m/s}$',
+    explanation: 'من حفظ الزخم في التصادم عديم المرونة:\n\n$m_1 v_{1i} = (m_1 + m_2)v_f$\n\nإذن:\n\n$(0.008 \\text{kg}) \\cdot v_{1i} = (9.008 \\text{kg}) \\cdot (0.4 \\text{m/s})$\n\nوبالتالي:\n\n$v_{1i} = \\frac{3.6032}{0.008} \\approx 450.4 \\text{ m/s}$',
   },
   {
     id: 13,
@@ -172,7 +172,7 @@ export const unit1QuizQuestions: QuizQuestion[] = [
       '$40 \\text{ N} \\cdot \\text{s}$',
     ],
     correctAnswerIndex: 2,
-    explanation: 'الدفع يساوي التغير في الزخم:\n$I = \\Delta p = m(v_f - v_i)$\nمن الرسم البياني، $v_f$ (عند $t=40$s) = $20$m/s و $v_i$ (عند $t=0$s) = $5$m/s.\nإذن:\n$I = 2 \\text{kg} \\cdot (20 \\text{m/s} - 5 \\text{m/s}) = 2 \\cdot 15 = 30 \\text{ N} \\cdot \\text{s}$',
+    explanation: 'الدفع يساوي التغير في الزخم:\n\n$I = \\Delta p = m(v_f - v_i)$\n\nمن الرسم البياني، $v_f$ (عند $t=40$s) = $20$m/s و $v_i$ (عند $t=0$s) = $5$m/s.\n\nإذن:\n\n$I = 2 \\text{kg} \\cdot (20 \\text{m/s} - 5 \\text{m/s}) = 2 \\cdot 15 = 30 \\text{ N} \\cdot \\text{s}$',
   },
   {
     id: 14,
@@ -184,7 +184,7 @@ export const unit1QuizQuestions: QuizQuestion[] = [
       '$-0.125 \\text{ N} \\cdot \\text{s}$',
     ],
     correctAnswerIndex: 2,
-    explanation: 'العلاقة بين طاقة الحركة والسرعة هي $K = \\frac{1}{2}mv^2$.\nإذا كانت $K_f = \\frac{1}{4} K_i$ فإن:\n$\\frac{1}{2}mv_f^2 = \\frac{1}{4}(\\frac{1}{2}mv_i^2)$\nوهذا يعني أن:\n$v_f^2 = \\frac{1}{4}v_i^2$\nإذن:\n$v_f = \\frac{1}{2}v_i = \\frac{1}{2} \\cdot 5 = 2.5 \\text{m/s}$\nبما أنها ارتدت، فاتجاهها معاكس، إذن $v_f = -2.5 \\text{m/s}$.\nالدفع:\n$I = \\Delta p = m(v_f - v_i)$\n$I = 0.050 \\text{kg}(-2.5 \\text{m/s} - 5 \\text{m/s}) = 0.050(-7.5) = -0.375 \\text{ N} \\cdot \\text{s}$',
+    explanation: 'العلاقة بين طاقة الحركة والسرعة هي $K = \\frac{1}{2}mv^2$.\nإذا كانت $K_f = \\frac{1}{4} K_i$ فإن:\n\n$\\frac{1}{2}mv_f^2 = \\frac{1}{4}(\\frac{1}{2}mv_i^2)$\n\nوهذا يعني أن:\n\n$v_f^2 = \\frac{1}{4}v_i^2$\n\nإذن:\n\n$v_f = \\frac{1}{2}v_i = \\frac{1}{2} \\cdot 5 = 2.5 \\text{m/s}$\n\nبما أنها ارتدت، فاتجاهها معاكس، إذن $v_f = -2.5 \\text{m/s}$.\n\nالدفع:\n\n$I = \\Delta p = m(v_f - v_i)$\n\n$I = 0.050 \\text{kg}(-2.5 \\text{m/s} - 5 \\text{m/s}) = 0.050(-7.5) = -0.375 \\text{ N} \\cdot \\text{s}$',
   },
   {
     id: 15,
@@ -196,7 +196,7 @@ export const unit1QuizQuestions: QuizQuestion[] = [
       'القوة',
     ],
     correctAnswerIndex: 1,
-    explanation: 'الميل = $\\frac{\\Delta y}{\\Delta x} = \\frac{I}{\\Delta v}$.\nبما أن الدفع $I = \\Delta p = m\\Delta v$، فإن:\nالميل = $\\frac{m\\Delta v}{\\Delta v} = m$\nإذن، الميل يمثل كتلة الجسم.',
+    explanation: 'الميل = $\\frac{\\Delta y}{\\Delta x} = \\frac{I}{\\Delta v}$.\n\nبما أن الدفع $I = \\Delta p = m\\Delta v$، فإن:\n\nالميل = $\\frac{m\\Delta v}{\\Delta v} = m$\n\nإذن، الميل يمثل كتلة الجسم.',
   },
   {
     id: 16,
@@ -210,7 +210,7 @@ export const unit1QuizQuestions: QuizQuestion[] = [
       '$F_1 = 3 F_2$',
     ],
     correctAnswerIndex: 0,
-    explanation: 'التغير في الزخم (الدفع) ثابت في كلتا الحالتين.\n$I = F \\Delta t$\nبدون خوذة: $I = F_1 t_1$.\nمع خوذة: $I = F_2 t_2$.\nإذن:\n$F_1 t_1 = F_2 t_2$\nبالتعويض:\n$F_1 \\cdot (1 \\text{ms}) = F_2 \\cdot (6 \\text{ms})$\nإذن:\n$F_1 = 6 F_2$\nالقوة بدون خوذة أكبر بستة أضعاف.',
+    explanation: 'التغير في الزخم (الدفع) ثابت في كلتا الحالتين.\n\n$I = F \\Delta t$\n\nبدون خوذة: $I = F_1 t_1$.\n\nمع خوذة: $I = F_2 t_2$.\n\nإذن:\n\n$F_1 t_1 = F_2 t_2$\n\nبالتعويض:\n\n$F_1 \\cdot (1 \\text{ms}) = F_2 \\cdot (6 \\text{ms})$\n\nإذن:\n\n$F_1 = 6 F_2$\n\nالقوة بدون خوذة أكبر بستة أضعاف.',
   },
   {
     id: 17,
@@ -224,7 +224,7 @@ export const unit1QuizQuestions: QuizQuestion[] = [
       'الوسادة الهوائية الموجودة في السيارة التي تركبها الدمية ($A$) أفضل من الوسادة الهوائية الموجودة في السيارة التي تركبها الدمية ($B$)',
     ],
     correctAnswerIndex: 3,
-    explanation: 'المساحة تحت منحنى (القوة-الزمن) تمثل الدفع (التغير في الزخم)، وهي متساوية تقريبًا لكلا الدميتين.\nالوسادة الهوائية الأفضل هي التي تقلل القوة القصوى ($F_{\\text{max}}$) بزيادة زمن التصادم ($\\Delta t$).\nمنحنى ($B$) يوضح قوة قصوى أقل وزمن تصادم أطول، مما يعني وسادة هوائية أفضل.\nلذلك، العبارة (د) التي تقول إن وسادة A أفضل هي العبارة الخاطئة.',
+    explanation: 'المساحة تحت منحنى (القوة-الزمن) تمثل الدفع (التغير في الزخم)، وهي متساوية تقريبًا لكلا الدميتين.\n\nالوسادة الهوائية الأفضل هي التي تقلل القوة القصوى ($F_{\\text{max}}$) بزيادة زمن التصادم ($\\Delta t$).\n\nمنحنى ($B$) يوضح قوة قصوى أقل وزمن تصادم أطول، مما يعني وسادة هوائية أفضل.\n\nلذلك، العبارة (د) التي تقول إن وسادة A أفضل هي العبارة الخاطئة.',
   },
   {
     id: 18,
@@ -236,7 +236,7 @@ export const unit1QuizQuestions: QuizQuestion[] = [
       "يتغير مقدارًا، ويبقى اتجاهه ثابتًا"
     ],
     correctAnswerIndex: 0,
-    explanation: "الزخم الخطي كمية متجهة ($p = mv$).\nفي الحركة الدائرية بسرعة ثابتة، مقدار السرعة ($v$) ثابت، وبالتالي مقدار الزخم ($mv$) ثابت.\nلكن اتجاه السرعة يتغير باستمرار ليبقى مماسًا للمسار الدائري، وبالتالي يتغير اتجاه الزخم أيضًا باستمرار."
+    explanation: "الزخم الخطي كمية متجهة ($p = mv$).\n\nفي الحركة الدائرية بسرعة ثابتة، مقدار السرعة ($v$) ثابت، وبالتالي مقدار الزخم ($mv$) ثابت.\n\nلكن اتجاه السرعة يتغير باستمرار ليبقى مماسًا للمسار الدائري، وبالتالي يتغير اتجاه الزخم أيضًا باستمرار."
   },
   {
     id: 19,
@@ -248,7 +248,7 @@ export const unit1QuizQuestions: QuizQuestion[] = [
       '$75$',
     ],
     correctAnswerIndex: 0,
-    explanation: 'لنعتبر اتجاه الغرب هو السالب. إذن $v_i = -25 \\text{m/s}$ والسرعة بعد الارتداد (شرقًا) $v_f = +15 \\text{m/s}$.\nالتغير في الزخم:\n$\\Delta p = m(v_f - v_i)$\n$\\Delta p = 3 \\text{kg} \\cdot (15 \\text{m/s} - (-25 \\text{m/s}))$\n$\\Delta p = 3 \\text{kg} \\cdot (40 \\text{m/s}) = 120 \\text{ kg} \\cdot \\text{m/s}$',
+    explanation: 'لنعتبر اتجاه الغرب هو السالب. إذن $v_i = -25 \\text{m/s}$ والسرعة بعد الارتداد (شرقًا) $v_f = +15 \\text{m/s}$.\n\nالتغير في الزخم:\n\n$\\Delta p = m(v_f - v_i)$\n\n$\\Delta p = 3 \\text{kg} \\cdot (15 \\text{m/s} - (-25 \\text{m/s}))$\n\n$\\Delta p = 3 \\text{kg} \\cdot (40 \\text{m/s}) = 120 \\text{ kg} \\cdot \\text{m/s}$',
   },
   {
     id: 20,
@@ -260,6 +260,8 @@ export const unit1QuizQuestions: QuizQuestion[] = [
       'مساوية لـ $4\\text{m/s}$',
     ],
     correctAnswerIndex: 1,
-    explanation: 'في التصادم المرن لجسم متحرك مع آخر ساكن، إذا كانت كتلة الجسم الأول أكبر، فسيتحرك الجسم الثاني بسرعة أكبر من سرعة الجسم الأول الابتدائية.\nباستخدام قوانين حفظ الزخم والطاقة:\n$v_{2f} = (\\frac{2m_1}{m_1+m_2})v_{1i}$\n$v_{2f} = (\\frac{2 \\cdot 2}{2+1}) \\cdot 4 = \\frac{8}{3} \\cdot 4 \\approx 5.33 \\text{m/s}$\nوهي أكبر من $4 \\text{m/s}$.',
+    explanation: 'في التصادم المرن لجسم متحرك مع آخر ساكن، إذا كانت كتلة الجسم الأول أكبر، فسيتحرك الجسم الثاني بسرعة أكبر من سرعة الجسم الأول الابتدائية.\n\nباستخدام قوانين حفظ الزخم والطاقة:\n\n$v_{2f} = (\\frac{2m_1}{m_1+m_2})v_{1i}$\n\n$v_{2f} = (\\frac{2 \\cdot 2}{2+1}) \\cdot 4 = \\frac{8}{3} \\cdot 4 \\approx 5.33 \\text{m/s}$\n\nوهي أكبر من $4 \\text{m/s}$.',
   },
 ];
+
+    
