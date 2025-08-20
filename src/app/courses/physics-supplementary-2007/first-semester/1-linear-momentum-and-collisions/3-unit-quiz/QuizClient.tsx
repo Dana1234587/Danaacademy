@@ -210,7 +210,7 @@ export function QuizClient({ questions }: { questions: QuizQuestion[] }) {
                                 )
                             })}
                         </div>
-                        <p className="mt-4 text-sm text-muted-foreground bg-muted p-3 rounded-md"><span className="font-bold">الشرح:</span> <SmartTextRenderer text={question.explanation}/></p>
+                        <p className="mt-4 text-sm text-muted-foreground bg-muted p-3 rounded-md whitespace-pre-wrap"><span className="font-bold">الشرح:</span> <SmartTextRenderer text={question.explanation}/></p>
                         </div>
                     ))}
                  </div>
@@ -301,3 +301,4 @@ export function QuizClient({ questions }: { questions: QuizQuestion[] }) {
     </Card>
   );
 }
+
