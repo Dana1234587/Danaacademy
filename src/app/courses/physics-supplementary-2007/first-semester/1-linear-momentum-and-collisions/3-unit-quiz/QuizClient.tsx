@@ -12,7 +12,9 @@ import Image from 'next/image';
 import type { QuizQuestion } from './quiz-data';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert';
+import 'katex/dist/katex.min.css';
 import { InlineMath, BlockMath } from 'react-katex';
+
 
 const QUIZ_DURATION_SECONDS = 60 * 60; // 60 minutes
 
@@ -57,8 +59,25 @@ const SmartTextRenderer = ({ text }: { text: string }) => {
     );
 };
 
-// Renderer for option items, forcing specific layout with flexbox
 const OptionRenderer = ({ text }: { text: string }) => {
+    // Regex to find content within parentheses like (A) or (B)
+    const parenthesisRegex = /(.*)\((.+)\)(.*)/;
+    const match = text.match(parenthesisRegex);
+
+    if (match) {
+        const before = match[1]?.trim() || '';
+        const inside = match[2]?.trim() || '';
+        const after = match[3]?.trim() || '';
+        
+        return (
+            <div className="flex items-center justify-start gap-1 w-full" dir="rtl">
+                <span>{before}</span>
+                <span dir="ltr">(<InlineMath math={inside} />)</span>
+                <span>{after}</span>
+            </div>
+        );
+    }
+    
     const parts = text.split('$');
     const arabicPart = parts[0] || '';
     const latexPart = parts[1] || '';
