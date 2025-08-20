@@ -18,93 +18,40 @@ import { InlineMath, BlockMath } from 'react-katex';
 
 const QUIZ_DURATION_SECONDS = 60 * 60; // 60 minutes
 
-// Smart renderer to handle mixed text and LaTeX with proper directionality
+// The robust, universal renderer for bidirectional text
 const SmartTextRenderer = ({ text }: { text: string }) => {
-    // Split the entire text into lines to process each one individually
+    // Split the text by lines first to handle block-level elements
     const lines = text.split('\n');
 
     return (
-        <div>
+        <>
             {lines.map((line, lineIndex) => {
-                // Check if a line is purely a LaTeX block (starts and ends with $)
+                // Check if a line is purely a LaTeX block
                 const isLatexBlock = line.trim().startsWith('$') && line.trim().endsWith('$');
 
                 if (isLatexBlock) {
-                    // Render LaTeX blocks with LTR direction
                     return (
-                        <div key={lineIndex} dir="ltr" className="my-2">
+                        <div key={lineIndex} dir="ltr" className="my-2 text-center">
                             <BlockMath math={line.trim().slice(1, -1)} />
                         </div>
                     );
-                } else {
-                    // For mixed or pure text lines, maintain RTL direction
-                    // Split the line into parts for inline rendering
-                    const parts = line.split('$');
-                    return (
-                        <p key={lineIndex} dir="rtl" className="my-1">
-                            {parts.map((part, partIndex) => {
-                                if (partIndex % 2 === 0) {
-                                    // Regular text part
-                                    return <React.Fragment key={partIndex}>{part}</React.Fragment>;
-                                } else {
-                                    // Inline LaTeX part
-                                    return <InlineMath key={partIndex} math={part} />;
-                                }
-                            })}
-                        </p>
-                    );
                 }
-            })}
-        </div>
-    );
-};
-
-const OptionRenderer = ({ text }: { text: string }) => {
-    // Regex to find content within parentheses like (A) or (B)
-    const parenthesisRegex = /(.*)\((.+)\)(.*)/;
-    const match = text.match(parenthesisRegex);
-
-    if (match) {
-        const before = match[1]?.trim() || '';
-        const inside = match[2]?.trim() || '';
-        const after = match[3]?.trim() || '';
-        
-        return (
-            <div className="flex items-center justify-start gap-1 w-full" dir="rtl">
-                <span>{before}</span>
-                <span dir="ltr">(<InlineMath math={inside} />)</span>
-                <span>{after}</span>
-            </div>
-        );
-    }
-    
-    const parts = text.split('$');
-    const arabicPart = parts[0] || '';
-    const latexPart = parts[1] || '';
-
-    return (
-        <div className="flex justify-between items-center w-full" dir="rtl">
-            <span>{arabicPart}</span>
-            {latexPart && <span dir="ltr"><InlineMath math={latexPart} /></span>}
-        </div>
-    );
-};
-
-
-// Renderer for inline elements like titles which don't need complex directionality logic
-const InlineSmartTextRenderer = ({ text }: { text: string }) => {
-    if (!text.includes('$')) {
-        return <>{text}</>;
-    }
-    const parts = text.split('$');
-    return (
-        <>
-            {parts.map((part, index) => {
-                if (index % 2 === 0) {
-                    return <React.Fragment key={index}>{part}</React.Fragment>;
-                } else {
-                    return <InlineMath key={index} math={part} />;
-                }
+                
+                // For mixed content lines, split into parts
+                const parts = line.split('$');
+                return (
+                    <p key={lineIndex} className="my-1">
+                        {parts.map((part, partIndex) => {
+                            if (partIndex % 2 === 0) {
+                                // Regular text part (Arabic)
+                                return <span key={partIndex} dir="rtl">{part}</span>;
+                            } else {
+                                // Inline LaTeX part (Math, symbols, numbers)
+                                return <span key={partIndex} dir="ltr" style={{ display: 'inline-block' }}><InlineMath math={part} /></span>;
+                            }
+                        })}
+                    </p>
+                );
             })}
         </>
     );
@@ -200,9 +147,9 @@ export function QuizClient({ questions }: { questions: QuizQuestion[] }) {
                     <AlertTitle>تفاصيل الاختبار</AlertTitle>
                     <AlertDescription>
                         <ul className="list-disc list-inside space-y-2 mt-2">
-                           <li>عدد الأسئلة: <InlineSmartTextRenderer text={`$${questions.length}$`} /> سؤال.</li>
-                           <li>مدة الاختبار: <InlineSmartTextRenderer text={`$60$`} /> دقيقة.</li>
-                           <li>علامة كل سؤال: <InlineSmartTextRenderer text={`$4$`} /> علامات (المجموع الكلي: <InlineSmartTextRenderer text={`$${questions.length * 4}$`} /> علامة).</li>
+                           <li>عدد الأسئلة: <span><SmartTextRenderer text={`$${questions.length}$ سؤال.`} /></span></li>
+                           <li>مدة الاختبار: <span><SmartTextRenderer text={`$60$ دقيقة.`} /></span></li>
+                           <li>علامة كل سؤال: <span><SmartTextRenderer text={`$4$ علامات (المجموع الكلي: $${questions.length * 4}$ علامة).`} /></span></li>
                         </ul>
                     </AlertDescription>
                 </Alert>
@@ -247,16 +194,16 @@ export function QuizClient({ questions }: { questions: QuizQuestion[] }) {
             <div className="p-6 bg-muted rounded-lg border flex flex-col sm:flex-row justify-around items-center text-center gap-6">
                 <div>
                     <p className="text-muted-foreground text-lg">علامتك النهائية</p>
-                    <p className="text-5xl font-bold text-primary"><InlineSmartTextRenderer text={`$${finalMark}$`}/><span className="text-2xl text-muted-foreground">/<InlineSmartTextRenderer text={`$${totalMarks}$`} /></span></p>
+                    <p className="text-5xl font-bold text-primary"><SmartTextRenderer text={`$${finalMark}$`} /><span className="text-2xl text-muted-foreground">/<SmartTextRenderer text={`$${totalMarks}$`} /></span></p>
                 </div>
                 <div className="space-y-2">
                    <div className="flex items-center gap-2 text-green-600 font-semibold">
                         <CheckCircle className="w-5 h-5"/>
-                        <span><InlineSmartTextRenderer text={`$${correctAnswers}$`} /> إجابات صحيحة</span>
+                        <span><SmartTextRenderer text={`$${correctAnswers}$ إجابات صحيحة`} /></span>
                    </div>
                    <div className="flex items-center gap-2 text-red-600 font-semibold">
                         <XCircle className="w-5 h-5"/>
-                        <span><InlineSmartTextRenderer text={`$${incorrectAnswers}$`} /> إجابات خاطئة</span>
+                        <span><SmartTextRenderer text={`$${incorrectAnswers}$ إجابات خاطئة`} /></span>
                    </div>
                 </div>
             </div>
@@ -279,14 +226,14 @@ export function QuizClient({ questions }: { questions: QuizQuestion[] }) {
                                 return (
                                     <div key={optionIndex} className={`flex items-center gap-2 p-2 rounded-md ${isCorrect ? 'bg-green-200/50 text-green-800' : ''} ${isSelected && !isCorrect ? 'bg-red-200/50 text-red-800' : ''}`}>
                                         {isCorrect ? <CheckCircle className="w-4 h-4 text-green-600"/> : (isSelected ? <XCircle className="w-4 h-4 text-red-600"/> : <span className="w-4 h-4"></span>)}
-                                        <div className="flex-1"><OptionRenderer text={option} /></div>
+                                        <div className="flex-1"><SmartTextRenderer text={option} /></div>
                                         {isSelected && <span className="text-xs font-bold ms-auto">{'(إجابتك)'}</span>}
                                         {isCorrect && <span className="text-xs font-bold ms-auto">{'(الإجابة الصحيحة)'}</span>}
                                     </div>
                                 )
                             })}
                         </div>
-                        <div className="mt-4 text-sm text-muted-foreground bg-muted p-3 rounded-md">
+                        <div className="mt-4 text-sm text-muted-foreground bg-muted p-3 rounded-md" dir="rtl">
                             <p className="font-bold">الشرح:</p>
                             <SmartTextRenderer text={question.explanation}/>
                         </div>
@@ -314,7 +261,7 @@ export function QuizClient({ questions }: { questions: QuizQuestion[] }) {
     <Card className="max-w-3xl mx-auto">
       <CardHeader>
         <div className="flex justify-between items-center">
-            <CardTitle><InlineSmartTextRenderer text={`السؤال $${currentQuestionIndex + 1}$ من $${questions.length}$`} /></CardTitle>
+            <CardTitle><SmartTextRenderer text={`السؤال $${currentQuestionIndex + 1}$ من $${questions.length}$`} /></CardTitle>
             <div className={`font-mono text-lg p-2 rounded-md ${timeLeft < 60 ? 'text-destructive animate-pulse' : 'text-foreground'}`}>
                 {formatTime(timeLeft)}
             </div>
@@ -338,7 +285,7 @@ export function QuizClient({ questions }: { questions: QuizQuestion[] }) {
           {currentQuestion.options.map((option, index) => (
             <Label key={index} htmlFor={`q${currentQuestion.id}-o${index}`} className="flex flex-row-reverse items-center gap-4 border p-4 rounded-lg cursor-pointer hover:bg-accent has-[:checked]:bg-primary/10 has-[:checked]:border-primary">
               <RadioGroupItem value={index.toString()} id={`q${currentQuestion.id}-o${index}`} />
-              <span className="flex-1 text-base text-right"><OptionRenderer text={option} /></span>
+              <div className="flex-1 text-base text-right"><SmartTextRenderer text={option} /></div>
             </Label>
           ))}
         </RadioGroup>

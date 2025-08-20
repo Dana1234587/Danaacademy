@@ -172,7 +172,7 @@ export const unit1QuizQuestions: QuizQuestion[] = [
       '$40 \\text{ N} \\cdot \\text{s}$',
     ],
     correctAnswerIndex: 2,
-    explanation: 'الدفع يساوي التغير في الزخم:\n\n$I = \\Delta p = m(v_f - v_i)$\n\nمن الرسم البياني، $v_f$ (عند $t=40$s) $= 20$m/s و $v_i$ (عند $t=0$s) $= 5$m/s.\n\nإذن:\n\n$I = 2 \\text{kg} \\cdot (20 \\text{m/s} - 5 \\text{m/s}) = 2 \\cdot 15 = 30 \\text{ N} \\cdot \\text{s}$',
+    explanation: 'الدفع يساوي التغير في الزخم:\n\n $I = \\Delta p = m(v_f - v_i)$\n\nمن الرسم البياني، $v_f$ (عند $t=40$s) $= 20$m/s و $v_i$ (عند $t=0$s) $= 5$m/s.\n\nإذن:\n\n$I = 2 \\text{kg} \\cdot (20 \\text{m/s} - 5 \\text{m/s}) = 2 \\cdot 15 = 30 \\text{ N} \\cdot \\text{s}$',
   },
   {
     id: 14,
