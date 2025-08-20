@@ -16,31 +16,49 @@ import { InlineMath, BlockMath } from 'react-katex';
 
 const QUIZ_DURATION_SECONDS = 60 * 60; // 60 minutes
 
-// Smart renderer to handle mixed text and LaTeX
+// Smart renderer to handle mixed text and LaTeX with proper directionality
 const SmartTextRenderer = ({ text }: { text: string }) => {
-    // Split text into parts: regular text and LaTeX expressions
-    const parts = text.split('$');
+    // Split the entire text into lines to process each one individually
+    const lines = text.split('\n');
+
     return (
-        <>
-            {parts.map((part, index) => {
-                if (index % 2 === 0) {
-                    // Regular text, split by newlines to respect paragraphs
-                    return part.split('\n').map((paragraph, pIndex) => (
-                        <React.Fragment key={`${index}-${pIndex}`}>
-                            {paragraph}
-                            {pIndex < part.split('\n').length - 1 && <br />}
-                        </React.Fragment>
-                    ));
+        <div>
+            {lines.map((line, lineIndex) => {
+                // Check if a line is purely a LaTeX block (starts and ends with $)
+                const isLatexBlock = line.trim().startsWith('$') && line.trim().endsWith('$');
+
+                if (isLatexBlock) {
+                    // Render LaTeX blocks with LTR direction
+                    return (
+                        <div key={lineIndex} dir="ltr" className="my-2">
+                            <BlockMath math={line.trim().slice(1, -1)} />
+                        </div>
+                    );
                 } else {
-                    // This is a LaTeX part, use BlockMath for standalone equations
-                    return <BlockMath key={index} math={part} />;
+                    // For mixed or pure text lines, maintain RTL direction
+                    // Split the line into parts for inline rendering
+                    const parts = line.split('$');
+                    return (
+                        <p key={lineIndex} dir="rtl" className="my-1">
+                            {parts.map((part, partIndex) => {
+                                if (partIndex % 2 === 0) {
+                                    // Regular text part
+                                    return <React.Fragment key={partIndex}>{part}</React.Fragment>;
+                                } else {
+                                    // Inline LaTeX part
+                                    return <InlineMath key={partIndex} math={part} />;
+                                }
+                            })}
+                        </p>
+                    );
                 }
             })}
-        </>
+        </div>
     );
 };
 
-// Renderer for inline elements like options and titles
+
+// Renderer for inline elements like options and titles which don't need complex directionality logic
 const InlineSmartTextRenderer = ({ text }: { text: string }) => {
     const parts = text.split('$');
     return (
@@ -232,7 +250,10 @@ export function QuizClient({ questions }: { questions: QuizQuestion[] }) {
                                 )
                             })}
                         </div>
-                        <div className="mt-4 text-sm text-muted-foreground bg-muted p-3 rounded-md whitespace-pre-wrap"><span className="font-bold">الشرح:</span> <SmartTextRenderer text={question.explanation}/></div>
+                        <div className="mt-4 text-sm text-muted-foreground bg-muted p-3 rounded-md">
+                            <span className="font-bold">الشرح:</span>
+                            <SmartTextRenderer text={question.explanation}/>
+                        </div>
                         </div>
                     ))}
                  </div>
