@@ -172,7 +172,7 @@ export const unit1QuizQuestions: QuizQuestion[] = [
       '$40 \\text{ N} \\cdot \\text{s}$',
     ],
     correctAnswerIndex: 2,
-    explanation: 'الدفع يساوي التغير في الزخم:\n\n$I = \\Delta p = m(v_f - v_i)$\n\nمن الرسم البياني، $v_f$ (عند $t=40$s) = $20$m/s و $v_i$ (عند $t=0$s) = $5$m/s.\n\nإذن:\n\n$I = 2 \\text{kg} \\cdot (20 \\text{m/s} - 5 \\text{m/s}) = 2 \\cdot 15 = 30 \\text{ N} \\cdot \\text{s}$',
+    explanation: 'الدفع يساوي التغير في الزخم:\n\n$I = \\Delta p = m(v_f - v_i)$\n\nمن الرسم البياني، $v_f$ (عند $t=40$s) $= 20$m/s و $v_i$ (عند $t=0$s) $= 5$m/s.\n\nإذن:\n\n$I = 2 \\text{kg} \\cdot (20 \\text{m/s} - 5 \\text{m/s}) = 2 \\cdot 15 = 30 \\text{ N} \\cdot \\text{s}$',
   },
   {
     id: 14,
@@ -263,3 +263,5 @@ export const unit1QuizQuestions: QuizQuestion[] = [
     explanation: 'في التصادم المرن لجسم متحرك مع آخر ساكن، إذا كانت كتلة الجسم الأول أكبر، فسيتحرك الجسم الثاني بسرعة أكبر من سرعة الجسم الأول الابتدائية.\n\nباستخدام قوانين حفظ الزخم والطاقة:\n\n$v_{2f} = (\\frac{2m_1}{m_1+m_2})v_{1i}$\n\n$v_{2f} = (\\frac{2 \\cdot 2}{2+1}) \\cdot 4 = \\frac{8}{3} \\cdot 4 \\approx 5.33 \\text{m/s}$\n\nوهي أكبر من $4 \\text{m/s}$.',
   },
 ];
+
+    
