@@ -18,15 +18,37 @@ const QUIZ_DURATION_SECONDS = 60 * 60; // 60 minutes
 
 // Smart renderer to handle mixed text and LaTeX
 const SmartTextRenderer = ({ text }: { text: string }) => {
+    // Split text into parts: regular text and LaTeX expressions
     const parts = text.split('$');
     return (
         <>
             {parts.map((part, index) => {
                 if (index % 2 === 0) {
-                    // Regular text
+                    // Regular text, split by newlines to respect paragraphs
+                    return part.split('\n').map((paragraph, pIndex) => (
+                        <React.Fragment key={`${index}-${pIndex}`}>
+                            {paragraph}
+                            {pIndex < part.split('\n').length - 1 && <br />}
+                        </React.Fragment>
+                    ));
+                } else {
+                    // This is a LaTeX part, use BlockMath for standalone equations
+                    return <BlockMath key={index} math={part} />;
+                }
+            })}
+        </>
+    );
+};
+
+// Renderer for inline elements like options and titles
+const InlineSmartTextRenderer = ({ text }: { text: string }) => {
+    const parts = text.split('$');
+    return (
+        <>
+            {parts.map((part, index) => {
+                if (index % 2 === 0) {
                     return <React.Fragment key={index}>{part}</React.Fragment>;
                 } else {
-                    // LaTeX part
                     return <InlineMath key={index} math={part} />;
                 }
             })}
@@ -124,9 +146,9 @@ export function QuizClient({ questions }: { questions: QuizQuestion[] }) {
                     <AlertTitle>تفاصيل الاختبار</AlertTitle>
                     <AlertDescription>
                         <ul className="list-disc list-inside space-y-2 mt-2">
-                           <li>عدد الأسئلة: <SmartTextRenderer text={`$${questions.length}$`} /> سؤال.</li>
-                           <li>مدة الاختبار: <SmartTextRenderer text={`$60$`} /> دقيقة.</li>
-                           <li>علامة كل سؤال: <SmartTextRenderer text={`$4$`} /> علامات (المجموع الكلي: <SmartTextRenderer text={`$${questions.length * 4}$`} /> علامة).</li>
+                           <li>عدد الأسئلة: <InlineSmartTextRenderer text={`$${questions.length}$`} /> سؤال.</li>
+                           <li>مدة الاختبار: <InlineSmartTextRenderer text={`$60$`} /> دقيقة.</li>
+                           <li>علامة كل سؤال: <InlineSmartTextRenderer text={`$4$`} /> علامات (المجموع الكلي: <InlineSmartTextRenderer text={`$${questions.length * 4}$`} /> علامة).</li>
                         </ul>
                     </AlertDescription>
                 </Alert>
@@ -171,16 +193,16 @@ export function QuizClient({ questions }: { questions: QuizQuestion[] }) {
             <div className="p-6 bg-muted rounded-lg border flex flex-col sm:flex-row justify-around items-center text-center gap-6">
                 <div>
                     <p className="text-muted-foreground text-lg">علامتك النهائية</p>
-                    <p className="text-5xl font-bold text-primary"><SmartTextRenderer text={`$${finalMark}$`}/><span className="text-2xl text-muted-foreground">/<SmartTextRenderer text={`$${totalMarks}$`} /></span></p>
+                    <p className="text-5xl font-bold text-primary"><InlineSmartTextRenderer text={`$${finalMark}$`}/><span className="text-2xl text-muted-foreground">/<InlineSmartTextRenderer text={`$${totalMarks}$`} /></span></p>
                 </div>
                 <div className="space-y-2">
                    <div className="flex items-center gap-2 text-green-600 font-semibold">
                         <CheckCircle className="w-5 h-5"/>
-                        <span><SmartTextRenderer text={`$${correctAnswers}$`} /> إجابات صحيحة</span>
+                        <span><InlineSmartTextRenderer text={`$${correctAnswers}$`} /> إجابات صحيحة</span>
                    </div>
                    <div className="flex items-center gap-2 text-red-600 font-semibold">
                         <XCircle className="w-5 h-5"/>
-                        <span><SmartTextRenderer text={`$${incorrectAnswers}$`} /> إجابات خاطئة</span>
+                        <span><InlineSmartTextRenderer text={`$${incorrectAnswers}$`} /> إجابات خاطئة</span>
                    </div>
                 </div>
             </div>
@@ -190,7 +212,7 @@ export function QuizClient({ questions }: { questions: QuizQuestion[] }) {
                     <h3 className="text-xl font-bold text-center">التفاصيل الكاملة للاختبار</h3>
                     {questions.map((question, index) => (
                         <div key={question.id} className={`p-4 rounded-lg border ${answers[index] === question.correctAnswerIndex ? 'border-green-500 bg-green-500/10' : 'border-red-500 bg-red-500/10'}`}>
-                        <p className="font-bold mb-2">السؤال <SmartTextRenderer text={`$${index + 1}$`} />: <SmartTextRenderer text={question.questionText} /></p>
+                        <p className="font-bold mb-2">السؤال <InlineSmartTextRenderer text={`$${index + 1}$`} />: <InlineSmartTextRenderer text={question.questionText} /></p>
                         {question.image && (
                             <div className="my-4 flex justify-center">
                                 <Image src={question.image} alt={`Question ${question.id}`} width={300} height={200} className="rounded-md" data-ai-hint={question.imageHint || "question diagram"} />
@@ -203,14 +225,14 @@ export function QuizClient({ questions }: { questions: QuizQuestion[] }) {
                                 return (
                                     <div key={optionIndex} className={`flex items-center gap-2 p-2 rounded-md ${isCorrect ? 'bg-green-200/50 text-green-800' : ''} ${isSelected && !isCorrect ? 'bg-red-200/50 text-red-800' : ''}`}>
                                         {isCorrect ? <CheckCircle className="w-4 h-4 text-green-600"/> : (isSelected ? <XCircle className="w-4 h-4 text-red-600"/> : <span className="w-4 h-4"></span>)}
-                                        <span><SmartTextRenderer text={option} /></span>
+                                        <span><InlineSmartTextRenderer text={option} /></span>
                                         {isSelected && <span className="text-xs font-bold ms-auto">{'(إجابتك)'}</span>}
                                         {isCorrect && <span className="text-xs font-bold ms-auto">{'(الإجابة الصحيحة)'}</span>}
                                     </div>
                                 )
                             })}
                         </div>
-                        <p className="mt-4 text-sm text-muted-foreground bg-muted p-3 rounded-md whitespace-pre-wrap"><span className="font-bold">الشرح:</span> <SmartTextRenderer text={question.explanation}/></p>
+                        <div className="mt-4 text-sm text-muted-foreground bg-muted p-3 rounded-md whitespace-pre-wrap"><span className="font-bold">الشرح:</span> <SmartTextRenderer text={question.explanation}/></div>
                         </div>
                     ))}
                  </div>
@@ -235,7 +257,7 @@ export function QuizClient({ questions }: { questions: QuizQuestion[] }) {
     <Card className="max-w-3xl mx-auto">
       <CardHeader>
         <div className="flex justify-between items-center">
-            <CardTitle>السؤال <SmartTextRenderer text={`$${currentQuestionIndex + 1}$`} /> من <SmartTextRenderer text={`$${questions.length}$`} /></CardTitle>
+            <CardTitle>السؤال <InlineSmartTextRenderer text={`$${currentQuestionIndex + 1}$`} /> من <InlineSmartTextRenderer text={`$${questions.length}$`} /></CardTitle>
             <div className={`font-mono text-lg p-2 rounded-md ${timeLeft < 60 ? 'text-destructive animate-pulse' : 'text-foreground'}`}>
                 {formatTime(timeLeft)}
             </div>
@@ -243,7 +265,7 @@ export function QuizClient({ questions }: { questions: QuizQuestion[] }) {
         <Progress value={progress} className="mt-2" />
       </CardHeader>
       <CardContent>
-        <p className="text-lg font-semibold mb-4 text-center"><SmartTextRenderer text={currentQuestion.questionText} /></p>
+        <p className="text-lg font-semibold mb-4 text-center"><InlineSmartTextRenderer text={currentQuestion.questionText} /></p>
         {currentQuestion.image && (
             <div className="my-6 flex justify-center">
                 <Image src={currentQuestion.image} alt={`Question ${currentQuestion.id}`} width={400} height={250} className="rounded-lg shadow-md" data-ai-hint={currentQuestion.imageHint || 'question image'} />
@@ -258,7 +280,7 @@ export function QuizClient({ questions }: { questions: QuizQuestion[] }) {
           {currentQuestion.options.map((option, index) => (
             <Label key={index} htmlFor={`q${currentQuestion.id}-o${index}`} className="flex items-center gap-4 border p-4 rounded-lg cursor-pointer hover:bg-accent has-[:checked]:bg-primary/10 has-[:checked]:border-primary">
               <RadioGroupItem value={index.toString()} id={`q${currentQuestion.id}-o${index}`} />
-              <span className="flex-1 text-base"><SmartTextRenderer text={option} /></span>
+              <span className="flex-1 text-base"><InlineSmartTextRenderer text={option} /></span>
             </Label>
           ))}
         </RadioGroup>
@@ -301,4 +323,3 @@ export function QuizClient({ questions }: { questions: QuizQuestion[] }) {
     </Card>
   );
 }
-
