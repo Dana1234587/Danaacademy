@@ -230,7 +230,7 @@ export function QuizClient({ questions }: { questions: QuizQuestion[] }) {
                     <h3 className="text-xl font-bold text-center">التفاصيل الكاملة للاختبار</h3>
                     {questions.map((question, index) => (
                         <div key={question.id} className={`p-4 rounded-lg border ${answers[index] === question.correctAnswerIndex ? 'border-green-500 bg-green-500/10' : 'border-red-500 bg-red-500/10'}`}>
-                        <p className="font-bold mb-2">السؤال <InlineSmartTextRenderer text={`$${index + 1}$`} />: <InlineSmartTextRenderer text={question.questionText} /></p>
+                        <div className="font-bold mb-2"><SmartTextRenderer text={`السؤال $${index + 1}$: ${question.questionText}`} /></div>
                         {question.image && (
                             <div className="my-4 flex justify-center">
                                 <Image src={question.image} alt={`Question ${question.id}`} width={300} height={200} className="rounded-md" data-ai-hint={question.imageHint || "question diagram"} />
@@ -251,7 +251,7 @@ export function QuizClient({ questions }: { questions: QuizQuestion[] }) {
                             })}
                         </div>
                         <div className="mt-4 text-sm text-muted-foreground bg-muted p-3 rounded-md">
-                            <span className="font-bold">الشرح:</span>
+                            <p className="font-bold">الشرح:</p>
                             <SmartTextRenderer text={question.explanation}/>
                         </div>
                         </div>
@@ -278,7 +278,7 @@ export function QuizClient({ questions }: { questions: QuizQuestion[] }) {
     <Card className="max-w-3xl mx-auto">
       <CardHeader>
         <div className="flex justify-between items-center">
-            <CardTitle>السؤال <InlineSmartTextRenderer text={`$${currentQuestionIndex + 1}$`} /> من <InlineSmartTextRenderer text={`$${questions.length}$`} /></CardTitle>
+            <CardTitle><InlineSmartTextRenderer text={`السؤال $${currentQuestionIndex + 1}$ من $${questions.length}$`} /></CardTitle>
             <div className={`font-mono text-lg p-2 rounded-md ${timeLeft < 60 ? 'text-destructive animate-pulse' : 'text-foreground'}`}>
                 {formatTime(timeLeft)}
             </div>
@@ -286,7 +286,7 @@ export function QuizClient({ questions }: { questions: QuizQuestion[] }) {
         <Progress value={progress} className="mt-2" />
       </CardHeader>
       <CardContent>
-        <p className="text-lg font-semibold mb-4 text-center"><InlineSmartTextRenderer text={currentQuestion.questionText} /></p>
+        <div className="text-lg font-semibold mb-4 text-center"><SmartTextRenderer text={currentQuestion.questionText} /></div>
         {currentQuestion.image && (
             <div className="my-6 flex justify-center">
                 <Image src={currentQuestion.image} alt={`Question ${currentQuestion.id}`} width={400} height={250} className="rounded-lg shadow-md" data-ai-hint={currentQuestion.imageHint || 'question image'} />
