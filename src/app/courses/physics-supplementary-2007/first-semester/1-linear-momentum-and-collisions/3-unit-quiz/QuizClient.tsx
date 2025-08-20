@@ -19,39 +19,37 @@ import { InlineMath, BlockMath } from 'react-katex';
 const QUIZ_DURATION_SECONDS = 60 * 60; // 60 minutes
 
 // The robust, universal renderer for bidirectional text
-const SmartTextRenderer = ({ text }: { text: string }) => {
-    // Split the text by lines first to handle block-level elements
+const SmartTextRenderer = ({ text, as = 'p' }: { text: string; as?: 'p' | 'span' | 'div' }) => {
     const lines = text.split('\n');
+    const Wrapper = as;
 
     return (
-        <>
+        <Wrapper>
             {lines.map((line, lineIndex) => {
-                // Check if a line is purely a LaTeX block
-                if (line.trim().startsWith('$') && line.trim().endsWith('$')) {
+                const isLatexBlock = line.trim().startsWith('$') && line.trim().endsWith('$');
+
+                if (isLatexBlock) {
                     return (
-                        <div key={lineIndex} dir="ltr" className="my-2 text-center">
+                        <div key={lineIndex} dir="ltr" className="my-2 text-center w-full">
                             <BlockMath math={line.trim().slice(1, -1)} />
                         </div>
                     );
                 }
                 
-                // For mixed content lines, split into parts
                 const parts = line.split('$');
                 return (
-                    <p key={lineIndex} className="my-1">
+                    <span key={lineIndex} className="block my-1">
                         {parts.map((part, partIndex) => {
                             if (partIndex % 2 === 0) {
-                                // Regular text part (Arabic)
-                                return <span key={partIndex}>{part}</span>;
+                                return <span key={partIndex} dir="rtl">{part}</span>;
                             } else {
-                                // Inline LaTeX part (Math, symbols, numbers)
-                                return <span key={partIndex} dir="ltr" style={{ display: 'inline-block' }}><InlineMath math={part} /></span>;
+                                return <span key={partIndex} dir="ltr" className="inline-block"><InlineMath math={part} /></span>;
                             }
                         })}
-                    </p>
+                    </span>
                 );
             })}
-        </>
+        </Wrapper>
     );
 };
 
@@ -145,9 +143,9 @@ export function QuizClient({ questions }: { questions: QuizQuestion[] }) {
                     <AlertTitle>تفاصيل الاختبار</AlertTitle>
                     <AlertDescription>
                         <ul className="list-disc list-inside space-y-2 mt-2">
-                           <li>عدد الأسئلة: <span><SmartTextRenderer text={`$${questions.length}$ سؤال.`} /></span></li>
-                           <li>مدة الاختبار: <span><SmartTextRenderer text={`$60$ دقيقة.`} /></span></li>
-                           <li>علامة كل سؤال: <span><SmartTextRenderer text={`$4$ علامات (المجموع الكلي: $${questions.length * 4}$ علامة).`} /></span></li>
+                           <li>عدد الأسئلة: <span className="inline-block"><SmartTextRenderer as="span" text={`$${questions.length}$ سؤال.`} /></span></li>
+                           <li>مدة الاختبار: <span className="inline-block"><SmartTextRenderer as="span" text={`$60$ دقيقة.`} /></span></li>
+                           <li>علامة كل سؤال: <span className="inline-block"><SmartTextRenderer as="span" text={`$4$ علامات (المجموع الكلي: $${questions.length * 4}$ علامة).`} /></span></li>
                         </ul>
                     </AlertDescription>
                 </Alert>
@@ -192,16 +190,22 @@ export function QuizClient({ questions }: { questions: QuizQuestion[] }) {
             <div className="p-6 bg-muted rounded-lg border flex flex-col sm:flex-row justify-around items-center text-center gap-6">
                 <div>
                     <p className="text-muted-foreground text-lg">علامتك النهائية</p>
-                    <p className="text-5xl font-bold text-primary"><SmartTextRenderer text={`$${finalMark}$`} /><span className="text-2xl text-muted-foreground">/<SmartTextRenderer text={`$${totalMarks}$`} /></span></p>
+                    <div className="text-5xl font-bold text-primary">
+                      <SmartTextRenderer as="span" text={`$${finalMark}$`} />
+                      <span className="text-2xl text-muted-foreground">
+                        /
+                        <SmartTextRenderer as="span" text={`$${totalMarks}$`} />
+                      </span>
+                    </div>
                 </div>
                 <div className="space-y-2">
                    <div className="flex items-center gap-2 text-green-600 font-semibold">
                         <CheckCircle className="w-5 h-5"/>
-                        <span><SmartTextRenderer text={`$${correctAnswers}$ إجابات صحيحة`} /></span>
+                        <SmartTextRenderer as="span" text={`$${correctAnswers}$ إجابات صحيحة`} />
                    </div>
                    <div className="flex items-center gap-2 text-red-600 font-semibold">
                         <XCircle className="w-5 h-5"/>
-                        <span><SmartTextRenderer text={`$${incorrectAnswers}$ إجابات خاطئة`} /></span>
+                        <SmartTextRenderer as="span" text={`$${incorrectAnswers}$ إجابات خاطئة`} />
                    </div>
                 </div>
             </div>
@@ -211,7 +215,7 @@ export function QuizClient({ questions }: { questions: QuizQuestion[] }) {
                     <h3 className="text-xl font-bold text-center">التفاصيل الكاملة للاختبار</h3>
                     {questions.map((question, index) => (
                         <div key={question.id} className={`p-4 rounded-lg border ${answers[index] === question.correctAnswerIndex ? 'border-green-500 bg-green-500/10' : 'border-red-500 bg-red-500/10'}`}>
-                        <div className="font-bold mb-2"><SmartTextRenderer text={`السؤال $${index + 1}$: ${question.questionText}`} /></div>
+                        <div className="font-bold mb-2 text-right"><SmartTextRenderer as="p" text={`السؤال $${index + 1}$: ${question.questionText}`} /></div>
                         {question.image && (
                             <div className="my-4 flex justify-center">
                                 <Image src={question.image} alt={`Question ${question.id}`} width={300} height={200} className="rounded-md" data-ai-hint={question.imageHint || "question diagram"} />
@@ -224,7 +228,7 @@ export function QuizClient({ questions }: { questions: QuizQuestion[] }) {
                                 return (
                                     <div key={optionIndex} className={`flex items-center gap-2 p-2 rounded-md ${isCorrect ? 'bg-green-200/50 text-green-800' : ''} ${isSelected && !isCorrect ? 'bg-red-200/50 text-red-800' : ''}`}>
                                         {isCorrect ? <CheckCircle className="w-4 h-4 text-green-600"/> : (isSelected ? <XCircle className="w-4 h-4 text-red-600"/> : <span className="w-4 h-4"></span>)}
-                                        <div className="flex-1"><SmartTextRenderer text={option} /></div>
+                                        <div className="flex-1 text-right"><SmartTextRenderer as="span" text={option} /></div>
                                         {isSelected && <span className="text-xs font-bold ms-auto">{'(إجابتك)'}</span>}
                                         {isCorrect && <span className="text-xs font-bold ms-auto">{'(الإجابة الصحيحة)'}</span>}
                                     </div>
@@ -233,7 +237,7 @@ export function QuizClient({ questions }: { questions: QuizQuestion[] }) {
                         </div>
                         <div className="mt-4 text-sm text-muted-foreground bg-muted p-3 rounded-md" dir="rtl">
                             <p className="font-bold">الشرح:</p>
-                            <SmartTextRenderer text={question.explanation}/>
+                            <SmartTextRenderer as="div" text={question.explanation}/>
                         </div>
                         </div>
                     ))}
@@ -259,15 +263,15 @@ export function QuizClient({ questions }: { questions: QuizQuestion[] }) {
     <Card className="max-w-3xl mx-auto">
       <CardHeader>
         <div className="flex justify-between items-center">
-            <CardTitle><SmartTextRenderer text={`السؤال $${currentQuestionIndex + 1}$ من $${questions.length}$`} /></CardTitle>
+            <CardTitle><SmartTextRenderer as="span" text={`السؤال $${currentQuestionIndex + 1}$ من $${questions.length}$`} /></CardTitle>
             <div className={`font-mono text-lg p-2 rounded-md ${timeLeft < 60 ? 'text-destructive animate-pulse' : 'text-foreground'}`}>
-                <SmartTextRenderer text={formatTime(timeLeft)} />
+                <SmartTextRenderer as="span" text={formatTime(timeLeft)} />
             </div>
         </div>
         <Progress value={progress} className="mt-2" />
       </CardHeader>
       <CardContent>
-        <div className="text-lg font-semibold mb-4 text-right"><SmartTextRenderer text={currentQuestion.questionText} /></div>
+        <div className="text-lg font-semibold mb-4 text-right"><SmartTextRenderer as="p" text={currentQuestion.questionText} /></div>
         {currentQuestion.image && (
             <div className="my-6 flex justify-center">
                 <Image src={currentQuestion.image} alt={`Question ${currentQuestion.id}`} width={400} height={250} className="rounded-lg shadow-md" data-ai-hint={currentQuestion.imageHint || 'question image'} />
@@ -283,7 +287,7 @@ export function QuizClient({ questions }: { questions: QuizQuestion[] }) {
           {currentQuestion.options.map((option, index) => (
             <Label key={index} htmlFor={`q${currentQuestion.id}-o${index}`} className="flex flex-row-reverse items-center gap-4 border p-4 rounded-lg cursor-pointer hover:bg-accent has-[:checked]:bg-primary/10 has-[:checked]:border-primary">
               <RadioGroupItem value={index.toString()} id={`q${currentQuestion.id}-o${index}`} />
-              <div className="flex-1 text-base text-right"><SmartTextRenderer text={option} /></div>
+              <div className="flex-1 text-base text-right"><SmartTextRenderer as="span" text={option} /></div>
             </Label>
           ))}
         </RadioGroup>
