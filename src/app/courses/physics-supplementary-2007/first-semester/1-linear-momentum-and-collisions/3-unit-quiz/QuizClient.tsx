@@ -27,9 +27,7 @@ const SmartTextRenderer = ({ text }: { text: string }) => {
         <>
             {lines.map((line, lineIndex) => {
                 // Check if a line is purely a LaTeX block
-                const isLatexBlock = line.trim().startsWith('$') && line.trim().endsWith('$');
-
-                if (isLatexBlock) {
+                if (line.trim().startsWith('$') && line.trim().endsWith('$')) {
                     return (
                         <div key={lineIndex} dir="ltr" className="my-2 text-center">
                             <BlockMath math={line.trim().slice(1, -1)} />
@@ -44,7 +42,7 @@ const SmartTextRenderer = ({ text }: { text: string }) => {
                         {parts.map((part, partIndex) => {
                             if (partIndex % 2 === 0) {
                                 // Regular text part (Arabic)
-                                return <span key={partIndex} dir="rtl">{part}</span>;
+                                return <span key={partIndex}>{part}</span>;
                             } else {
                                 // Inline LaTeX part (Math, symbols, numbers)
                                 return <span key={partIndex} dir="ltr" style={{ display: 'inline-block' }}><InlineMath math={part} /></span>;
@@ -263,7 +261,7 @@ export function QuizClient({ questions }: { questions: QuizQuestion[] }) {
         <div className="flex justify-between items-center">
             <CardTitle><SmartTextRenderer text={`السؤال $${currentQuestionIndex + 1}$ من $${questions.length}$`} /></CardTitle>
             <div className={`font-mono text-lg p-2 rounded-md ${timeLeft < 60 ? 'text-destructive animate-pulse' : 'text-foreground'}`}>
-                {formatTime(timeLeft)}
+                <SmartTextRenderer text={formatTime(timeLeft)} />
             </div>
         </div>
         <Progress value={progress} className="mt-2" />
