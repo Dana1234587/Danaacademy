@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
@@ -12,8 +12,28 @@ import Image from 'next/image';
 import type { QuizQuestion } from './quiz-data';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert';
+import { InlineMath, BlockMath } from 'react-katex';
 
 const QUIZ_DURATION_SECONDS = 60 * 60; // 60 minutes
+
+// Smart renderer to handle mixed text and LaTeX
+const SmartTextRenderer = ({ text }: { text: string }) => {
+    const parts = text.split('$');
+    return (
+        <>
+            {parts.map((part, index) => {
+                if (index % 2 === 0) {
+                    // Regular text
+                    return <React.Fragment key={index}>{part}</React.Fragment>;
+                } else {
+                    // LaTeX part
+                    return <InlineMath key={index} math={part} />;
+                }
+            })}
+        </>
+    );
+};
+
 
 export function QuizClient({ questions }: { questions: QuizQuestion[] }) {
   const [quizState, setQuizState] = useState<'not-started' | 'active' | 'finished'>('not-started');
@@ -104,9 +124,9 @@ export function QuizClient({ questions }: { questions: QuizQuestion[] }) {
                     <AlertTitle>تفاصيل الاختبار</AlertTitle>
                     <AlertDescription>
                         <ul className="list-disc list-inside space-y-2 mt-2">
-                           <li>عدد الأسئلة: {questions.length} سؤال.</li>
-                           <li>مدة الاختبار: 60 دقيقة.</li>
-                           <li>علامة كل سؤال: 4 علامات (المجموع الكلي: {questions.length * 4} علامة).</li>
+                           <li>عدد الأسئلة: <SmartTextRenderer text={`$${questions.length}$`} /> سؤال.</li>
+                           <li>مدة الاختبار: <SmartTextRenderer text={`$60$`} /> دقيقة.</li>
+                           <li>علامة كل سؤال: <SmartTextRenderer text={`$4$`} /> علامات (المجموع الكلي: <SmartTextRenderer text={`$${questions.length * 4}$`} /> علامة).</li>
                         </ul>
                     </AlertDescription>
                 </Alert>
@@ -151,16 +171,16 @@ export function QuizClient({ questions }: { questions: QuizQuestion[] }) {
             <div className="p-6 bg-muted rounded-lg border flex flex-col sm:flex-row justify-around items-center text-center gap-6">
                 <div>
                     <p className="text-muted-foreground text-lg">علامتك النهائية</p>
-                    <p className="text-5xl font-bold text-primary">{finalMark}<span className="text-2xl text-muted-foreground">/{totalMarks}</span></p>
+                    <p className="text-5xl font-bold text-primary"><SmartTextRenderer text={`$${finalMark}$`}/><span className="text-2xl text-muted-foreground">/<SmartTextRenderer text={`$${totalMarks}$`} /></span></p>
                 </div>
                 <div className="space-y-2">
                    <div className="flex items-center gap-2 text-green-600 font-semibold">
                         <CheckCircle className="w-5 h-5"/>
-                        <span>{correctAnswers} إجابات صحيحة</span>
+                        <span><SmartTextRenderer text={`$${correctAnswers}$`} /> إجابات صحيحة</span>
                    </div>
                    <div className="flex items-center gap-2 text-red-600 font-semibold">
                         <XCircle className="w-5 h-5"/>
-                        <span>{incorrectAnswers} إجابات خاطئة</span>
+                        <span><SmartTextRenderer text={`$${incorrectAnswers}$`} /> إجابات خاطئة</span>
                    </div>
                 </div>
             </div>
@@ -170,7 +190,7 @@ export function QuizClient({ questions }: { questions: QuizQuestion[] }) {
                     <h3 className="text-xl font-bold text-center">التفاصيل الكاملة للاختبار</h3>
                     {questions.map((question, index) => (
                         <div key={question.id} className={`p-4 rounded-lg border ${answers[index] === question.correctAnswerIndex ? 'border-green-500 bg-green-500/10' : 'border-red-500 bg-red-500/10'}`}>
-                        <p className="font-bold mb-2">السؤال {index + 1}: {question.questionText}</p>
+                        <p className="font-bold mb-2">السؤال <SmartTextRenderer text={`$${index + 1}$`} />: <SmartTextRenderer text={question.questionText} /></p>
                         {question.image && (
                             <div className="my-4 flex justify-center">
                                 <Image src={question.image} alt={`Question ${question.id}`} width={300} height={200} className="rounded-md" data-ai-hint={question.imageHint || "question diagram"} />
@@ -183,14 +203,14 @@ export function QuizClient({ questions }: { questions: QuizQuestion[] }) {
                                 return (
                                     <div key={optionIndex} className={`flex items-center gap-2 p-2 rounded-md ${isCorrect ? 'bg-green-200/50 text-green-800' : ''} ${isSelected && !isCorrect ? 'bg-red-200/50 text-red-800' : ''}`}>
                                         {isCorrect ? <CheckCircle className="w-4 h-4 text-green-600"/> : (isSelected ? <XCircle className="w-4 h-4 text-red-600"/> : <span className="w-4 h-4"></span>)}
-                                        <span>{option}</span>
+                                        <span><SmartTextRenderer text={option} /></span>
                                         {isSelected && <span className="text-xs font-bold ms-auto">{'(إجابتك)'}</span>}
                                         {isCorrect && <span className="text-xs font-bold ms-auto">{'(الإجابة الصحيحة)'}</span>}
                                     </div>
                                 )
                             })}
                         </div>
-                        <p className="mt-4 text-sm text-muted-foreground bg-muted p-3 rounded-md"><span className="font-bold">الشرح:</span> {question.explanation}</p>
+                        <p className="mt-4 text-sm text-muted-foreground bg-muted p-3 rounded-md"><span className="font-bold">الشرح:</span> <SmartTextRenderer text={question.explanation}/></p>
                         </div>
                     ))}
                  </div>
@@ -215,7 +235,7 @@ export function QuizClient({ questions }: { questions: QuizQuestion[] }) {
     <Card className="max-w-3xl mx-auto">
       <CardHeader>
         <div className="flex justify-between items-center">
-            <CardTitle>السؤال {currentQuestionIndex + 1} من {questions.length}</CardTitle>
+            <CardTitle>السؤال <SmartTextRenderer text={`$${currentQuestionIndex + 1}$`} /> من <SmartTextRenderer text={`$${questions.length}$`} /></CardTitle>
             <div className={`font-mono text-lg p-2 rounded-md ${timeLeft < 60 ? 'text-destructive animate-pulse' : 'text-foreground'}`}>
                 {formatTime(timeLeft)}
             </div>
@@ -223,7 +243,7 @@ export function QuizClient({ questions }: { questions: QuizQuestion[] }) {
         <Progress value={progress} className="mt-2" />
       </CardHeader>
       <CardContent>
-        <p className="text-lg font-semibold mb-4 text-center">{currentQuestion.questionText}</p>
+        <p className="text-lg font-semibold mb-4 text-center"><SmartTextRenderer text={currentQuestion.questionText} /></p>
         {currentQuestion.image && (
             <div className="my-6 flex justify-center">
                 <Image src={currentQuestion.image} alt={`Question ${currentQuestion.id}`} width={400} height={250} className="rounded-lg shadow-md" data-ai-hint={currentQuestion.imageHint || 'question image'} />
@@ -238,7 +258,7 @@ export function QuizClient({ questions }: { questions: QuizQuestion[] }) {
           {currentQuestion.options.map((option, index) => (
             <Label key={index} htmlFor={`q${currentQuestion.id}-o${index}`} className="flex items-center gap-4 border p-4 rounded-lg cursor-pointer hover:bg-accent has-[:checked]:bg-primary/10 has-[:checked]:border-primary">
               <RadioGroupItem value={index.toString()} id={`q${currentQuestion.id}-o${index}`} />
-              <span className="flex-1 text-base">{option}</span>
+              <span className="flex-1 text-base"><SmartTextRenderer text={option} /></span>
             </Label>
           ))}
         </RadioGroup>

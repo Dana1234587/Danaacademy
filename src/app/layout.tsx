@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 import { Toaster } from "@/components/ui/toaster";
 import { AppProvider } from '@/store/app-store';
+import 'katex/dist/katex.min.css';
 
 export const metadata: Metadata = {
   title: 'Dana Academy for Physics',
