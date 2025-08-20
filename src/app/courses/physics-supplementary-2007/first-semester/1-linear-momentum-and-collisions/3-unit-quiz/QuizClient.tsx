@@ -18,7 +18,7 @@ import { InlineMath, BlockMath } from 'react-katex';
 
 const QUIZ_DURATION_SECONDS = 60 * 60; // 60 minutes
 
-// The robust, universal renderer for bidirectional text
+// A robust, universal renderer for bidirectional text
 const SmartTextRenderer = ({ text, as: Wrapper = 'p' }: { text: string; as?: React.ElementType }) => {
     const lines = text.split('\n');
 
@@ -30,7 +30,7 @@ const SmartTextRenderer = ({ text, as: Wrapper = 'p' }: { text: string; as?: Rea
                 if (isLatexBlock) {
                     return (
                         <div key={lineIndex} dir="ltr" className="my-2 text-center w-full">
-                            <BlockMath math={line.trim().slice(1, -1)} />
+                           <span className="inline-block"><BlockMath math={line.trim().slice(1, -1)} /></span>
                         </div>
                     );
                 }
@@ -292,6 +292,10 @@ export function QuizClient({ questions }: { questions: QuizQuestion[] }) {
         </RadioGroup>
       </CardContent>
       <CardFooter className="flex justify-between">
+         <Button onClick={handlePrevious} disabled={currentQuestionIndex === 0} variant="outline">
+            <ChevronRight className="me-2 h-4 w-4" />
+            السابق
+        </Button>
         {currentQuestionIndex === questions.length - 1 ? (
           <AlertDialog>
             <AlertDialogTrigger asChild>
@@ -321,10 +325,6 @@ export function QuizClient({ questions }: { questions: QuizQuestion[] }) {
             <ChevronLeft className="ms-2 h-4 w-4" />
           </Button>
         )}
-        <Button onClick={handlePrevious} disabled={currentQuestionIndex === 0} variant="outline">
-            <ChevronRight className="me-2 h-4 w-4" />
-            السابق
-        </Button>
       </CardFooter>
     </Card>
   );
