@@ -9,11 +9,11 @@ export interface QuizQuestion {
   explanation: string;
 }
 
-const unit2QuizQuestions: QuizQuestion[] = [
+export const unit2QuizQuestions: QuizQuestion[] = [
   {
     id: 1,
     questionText: 'اختر رمز الإجابة الصحيحة',
-    image: 'https://i.ibb.co/Xr1bh4G/1.png',
+    image: 'https://i.ibb.co/Xr1bh4G7/1.png',
     imageHint: 'rotational equilibrium question',
     options: ['أ', 'ب', 'ج', 'د'],
     correctAnswerIndex: 0,
@@ -146,5 +146,3 @@ const unit2QuizQuestions: QuizQuestion[] = [
       explanation: `سيتم إضافة شرح مفصل للإجابة الصحيحة هنا بعد مراجعة السؤال رقم 15.`,
   }
 ];
-
-export { unit2QuizQuestions };
