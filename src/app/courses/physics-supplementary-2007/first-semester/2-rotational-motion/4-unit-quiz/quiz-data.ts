@@ -12,7 +12,7 @@ export interface QuizQuestion {
 const firstQuestion: QuizQuestion = {
   id: 1,
   questionText: 'اختر رمز الإجابة الصحيحة',
-  image: 'https://i.ibb.co/Xr1bh4G7/1.png',
+  image: 'https://i.ibb.co/Xr1bh4G/1.png',
   imageHint: 'rotational equilibrium question',
   options: ['أ', 'ب', 'ج', 'د'],
   correctAnswerIndex: 0,
@@ -123,7 +123,7 @@ const placeholderQuestions: QuizQuestion[] = [
     {
         id: 13,
         questionText: `اختر رمز الإجابة الصحيحة`,
-        image: `https://i.ibb.co/L6L6vtr/13.png`,
+        image: `https://i.ibb.co/60pHNbyr/13.png`,
         imageHint: 'physics question',
         options: ['أ', 'ب', 'ج', 'د'],
         correctAnswerIndex: 0,
@@ -132,7 +132,7 @@ const placeholderQuestions: QuizQuestion[] = [
     {
         id: 14,
         questionText: `اختر رمز الإجابة الصحيحة`,
-        image: `https://i.ibb.co/j3gqN5D/14.png`,
+        image: `https://i.ibb.co/G3v3D5Bv/14.png`,
         imageHint: 'physics question',
         options: ['أ', 'ب', 'ج', 'د'],
         correctAnswerIndex: 0,
@@ -141,7 +141,7 @@ const placeholderQuestions: QuizQuestion[] = [
     {
         id: 15,
         questionText: `اختر رمز الإجابة الصحيحة`,
-        image: `https://i.ibb.co/jWp8Z2N/15.png`,
+        image: `https://i.ibb.co/wFxzJFLG/15.png`,
         imageHint: 'physics question',
         options: ['أ', 'ب', 'ج', 'د'],
         correctAnswerIndex: 0,
@@ -158,4 +158,4 @@ const placeholderQuestions: QuizQuestion[] = [
     }))
 ];
 
-export const unit2QuizQuestions: QuizQuestion[] = [firstQuestion, secondQuestion, ...placeholderQuestions.slice(2)];
+export const unit2QuizQuestions: QuizQuestion[] = [firstQuestion, secondQuestion, ...placeholderQuestions];
