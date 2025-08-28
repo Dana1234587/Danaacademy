@@ -274,12 +274,7 @@ $\\tau_{net} = \\tau_1 + \\tau_2 + \\tau_3 = -1.62 + 2.34 + 1.782 = +2.502 \\tex
     questionText: 'اختر رمز الإجابة الصحيحة',
     image: 'https://i.ibb.co/qKvbm6n/11.png',
     imageHint: 'physics question torque wrench',
-    options: [
-        'أ) $4.25 \\text{ N.m}$ مع عقارب الساعة',
-        'ب) $4.25 \\text{ N.m}$ عكس اتجاه عقارب الساعة',
-        'ج) $2.56 \\text{ N.m}$ عكس اتجاه حركة عقارب الساعة',
-        'د) $2.56 \\text{ N.m}$ مع اتجاه حركة عقارب الساعة'
-    ],
+    options: ['أ', 'ب', 'جـ', 'د'],
     correctAnswerIndex: 2,
     explanation: `**الحل التفصيلي**
 
@@ -302,12 +297,7 @@ $\\tau = 0.25 \\times 17 \\times \\sin(37^\\circ) \\approx 0.25 \\times 17 \\tim
       questionText: 'اختر رمز الإجابة الصحيحة',
       image: `https://i.ibb.co/SXPLzqw7/12.png`,
       imageHint: 'physics question static equilibrium',
-      options: [
-        'أ) $(8 \\text{ N}, 9 \\text{ N})$',
-        'ب) $(9 \\text{ N}, 8 \\text{ N})$',
-        'ج) $(9 \\text{ N}, 10 \\text{ N})$',
-        'د) $(10 \\text{ N}, 9 \\text{ N})$'
-      ],
+      options: ['أ', 'ب', 'جـ', 'د'],
       correctAnswerIndex: 2,
       explanation: `**الحل التفصيلي**
 1) الاتزان الخطي (محصلة القوى الرأسية = صفر)
@@ -341,12 +331,7 @@ $T_1 = 19 - T_2 = 19 - 10 = 9 \\text{ N}$.
       questionText: 'اختر رمز الإجابة الصحيحة',
       image: `https://i.ibb.co/G3v3D5Bv/14.png`,
       imageHint: 'physics question angular momentum comparison',
-      options: [
-        'أ) $\\frac{1}{2}$',
-        'ب) $\\frac{2}{1}$',
-        'ج) $\\frac{1}{4}$',
-        'د) $\\frac{4}{1}$'
-      ],
+      options: ['أ', 'ب', 'جـ', 'د'],
       correctAnswerIndex: 3,
       explanation: `الزخم الزاوي $L = I\\omega = \\frac{2}{5}mr^2\\omega$.
 مع تساوي $m, \\omega$:
@@ -355,10 +340,10 @@ $\\frac{L_A}{L_B} = \\frac{r_A^2}{r_B^2} = \\frac{(2r_B)^2}{r_B^2} = 4$.
   },
   {
       id: 14,
-      questionText: 'اختر رمز الإجابة الصحيحة',
+      questionText: 'يبين الشكل أسطوانتين (1،2) متماثلتين في الكتلة والأبعاد والسرعة الزاوية. الأولى مجوفة عزم قصورها $I_1=mr^2$، والثانية مصمتة عزم قصورها $I_2=\\frac{1}{2}mr^2$. تدوران حول محور ثابت عمودي يمر بمركزيهما. أوجد النسبة:\n$\\frac{KE_{R1}}{KE_{R2}}=?$',
       image: `https://i.ibb.co/G3v3D5Bv/14.png`,
       imageHint: 'physics question rotational kinetic energy comparison',
-      options: ['أ) $\\frac{1}{1}$','ب) $\\frac{1}{2}$','ج) $\\frac{2}{1}$','د) $\\frac{4}{1}$'],
+      options: ['أ', 'ب', 'جـ', 'د'],
       correctAnswerIndex: 2,
       explanation: `الطاقة الحركية الدورانية $KE = \\frac{1}{2}I\\omega^2$. بما أن $\\omega$ متساوية:
 $\\frac{KE_{R1}}{KE_{R2}} = \\frac{I_1}{I_2} = \\frac{mr^2}{\\frac{1}{2}mr^2} = 2$.
@@ -369,12 +354,7 @@ $\\frac{KE_{R1}}{KE_{R2}} = \\frac{I_1}{I_2} = \\frac{mr^2}{\\frac{1}{2}mr^2} = 
       questionText: `اختر رمز الإجابة الصحيحة`,
       image: `https://i.ibb.co/wFxzJFLG/15.png`,
       imageHint: 'physics question rotational dynamics',
-      options: [
-        'أ) يتباطؤ وبعكس اتجاه حركة عقارب الساعة',
-        'ب) يتباطؤ وباتجاه حركة عقارب الساعة',
-        'ج) يتسارع وبعكس اتجاه حركة عقارب الساعة',
-        'د) يتسارع وباتجاه حركة عقارب الساعة',
-      ],
+      options: ['أ', 'ب', 'جـ', 'د'],
       correctAnswerIndex: 1,
       explanation: `**الحل:**
 الإشارة الموجبة نعدّها عكس عقارب الساعة.
@@ -388,3 +368,4 @@ $\\alpha > 0 \\implies$ العجلة الزاوية في الاتجاه المع
 
     
     
+
