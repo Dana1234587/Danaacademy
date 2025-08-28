@@ -28,13 +28,103 @@ export const unit2QuizQuestions: QuizQuestion[] = [
     correctAnswerIndex: 1,
     explanation: 'القصور الذاتي الدوراني الأصلي يُعطى بالعلاقة I = mr². \nعندما تتضاعف الكتلة (m\' = 2m) ويقل نصف القطر إلى النصف (r\' = r/2)، يصبح القصور الذاتي الجديد:\nI\' = m\'(r\')²\nI\' = (2m)(r/2)²\nI\' = (2m)(r²/4)\nI\' = (2/4)mr²\nI\' = (1/2)mr²\nبما أن I = mr²، فإن I\' = I/2. الإجابة الصحيحة هي (ب).',
   },
-  ...Array.from({ length: 18 }, (_, i) => ({
-    id: i + 3,
+  {
+    id: 3,
     questionText: `اختر رمز الإجابة الصحيحة`,
-    image: `https://placehold.co/800x400?text=Question+${i + 3}`,
+    image: `https://i.ibb.co/396PKKrG/3.png`,
     imageHint: 'physics question',
     options: ['أ', 'ب', 'ج', 'د'],
     correctAnswerIndex: 0, // Default to 'أ' for now
-    explanation: `سيتم إضافة شرح مفصل للإجابة الصحيحة هنا بعد مراجعة السؤال رقم ${i + 3}.`,
+    explanation: `سيتم إضافة شرح مفصل للإجابة الصحيحة هنا بعد مراجعة السؤال رقم 3.`,
+  },
+  {
+    id: 4,
+    questionText: `اختر رمز الإجابة الصحيحة`,
+    image: `https://i.ibb.co/6RYJVmh2/4.png`,
+    imageHint: 'physics question',
+    options: ['أ', 'ب', 'ج', 'د'],
+    correctAnswerIndex: 0, // Default to 'أ' for now
+    explanation: `سيتم إضافة شرح مفصل للإجابة الصحيحة هنا بعد مراجعة السؤال رقم 4.`,
+  },
+  {
+    id: 5,
+    questionText: `اختر رمز الإجابة الصحيحة`,
+    image: `https://i.ibb.co/BV3Z6jFX/5.png`,
+    imageHint: 'physics question',
+    options: ['أ', 'ب', 'ج', 'د'],
+    correctAnswerIndex: 0, // Default to 'أ' for now
+    explanation: `سيتم إضافة شرح مفصل للإجابة الصحيحة هنا بعد مراجعة السؤال رقم 5.`,
+  },
+  {
+    id: 6,
+    questionText: `اختر رمز الإجابة الصحيحة`,
+    image: `https://i.ibb.co/1YFmkxB3/6.png`,
+    imageHint: 'physics question',
+    options: ['أ', 'ب', 'ج', 'د'],
+    correctAnswerIndex: 0, // Default to 'أ' for now
+    explanation: `سيتم إضافة شرح مفصل للإجابة الصحيحة هنا بعد مراجعة السؤال رقم 6.`,
+  },
+  {
+    id: 7,
+    questionText: `اختر رمز الإجابة الصحيحة`,
+    image: `https://i.ibb.co/mr1PyV6y/7.png`,
+    imageHint: 'physics question',
+    options: ['أ', 'ب', 'ج', 'د'],
+    correctAnswerIndex: 0, // Default to 'أ' for now
+    explanation: `سيتم إضافة شرح مفصل للإجابة الصحيحة هنا بعد مراجعة السؤال رقم 7.`,
+  },
+  {
+    id: 8,
+    questionText: `اختر رمز الإجابة الصحيحة`,
+    image: `https://i.ibb.co/W4HWLnSW/8.png`,
+    imageHint: 'physics question',
+    options: ['أ', 'ب', 'ج', 'د'],
+    correctAnswerIndex: 0, // Default to 'أ' for now
+    explanation: `سيتم إضافة شرح مفصل للإجابة الصحيحة هنا بعد مراجعة السؤال رقم 8.`,
+  },
+  {
+    id: 9,
+    questionText: `اختر رمز الإجابة الصحيحة`,
+    image: `https://i.ibb.co/VprFdfDq/9.png`,
+    imageHint: 'physics question',
+    options: ['أ', 'ب', 'ج', 'د'],
+    correctAnswerIndex: 0, // Default to 'أ' for now
+    explanation: `سيتم إضافة شرح مفصل للإجابة الصحيحة هنا بعد مراجعة السؤال رقم 9.`,
+  },
+  {
+    id: 10,
+    questionText: `اختر رمز الإجابة الصحيحة`,
+    image: `https://i.ibb.co/h1HCDr8x/10.png`,
+    imageHint: 'physics question',
+    options: ['أ', 'ب', 'ج', 'د'],
+    correctAnswerIndex: 0, // Default to 'أ' for now
+    explanation: `سيتم إضافة شرح مفصل للإجابة الصحيحة هنا بعد مراجعة السؤال رقم 10.`,
+  },
+  {
+    id: 11,
+    questionText: `اختر رمز الإجابة الصحيحة`,
+    image: `https://i.ibb.co/qKvbm6n/11.png`,
+    imageHint: 'physics question',
+    options: ['أ', 'ب', 'ج', 'د'],
+    correctAnswerIndex: 0, // Default to 'أ' for now
+    explanation: `سيتم إضافة شرح مفصل للإجابة الصحيحة هنا بعد مراجعة السؤال رقم 11.`,
+  },
+  {
+    id: 12,
+    questionText: `اختر رمز الإجابة الصحيحة`,
+    image: `https://i.ibb.co/SXPLzqw7/12.png`,
+    imageHint: 'physics question',
+    options: ['أ', 'ب', 'ج', 'د'],
+    correctAnswerIndex: 0, // Default to 'أ' for now
+    explanation: `سيتم إضافة شرح مفصل للإجابة الصحيحة هنا بعد مراجعة السؤال رقم 12.`,
+  },
+  ...Array.from({ length: 8 }, (_, i) => ({
+    id: i + 13,
+    questionText: `اختر رمز الإجابة الصحيحة`,
+    image: `https://placehold.co/800x400?text=Question+${i + 13}`,
+    imageHint: 'physics question',
+    options: ['أ', 'ب', 'ج', 'د'],
+    correctAnswerIndex: 0, // Default to 'أ' for now
+    explanation: `سيتم إضافة شرح مفصل للإجابة الصحيحة هنا بعد مراجعة السؤال رقم ${i + 13}.`,
   }))
 ];
