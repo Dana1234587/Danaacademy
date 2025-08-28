@@ -13,7 +13,7 @@ export const unit2QuizQuestions: QuizQuestion[] = [
   {
     id: 1,
     questionText: 'اختر رمز الإجابة الصحيحة',
-    image: 'https://i.ibb.co/Xr1bh4G/1.png',
+    image: 'https://i.ibb.co/Xr1bh4G7/1.png',
     imageHint: 'rotational equilibrium question with multiple forces',
     options: ['أ', 'ب', 'ج', 'د'],
     correctAnswerIndex: 2,
@@ -340,7 +340,7 @@ $\\frac{L_A}{L_B} = \\frac{r_A^2}{r_B^2} = \\frac{(2r_B)^2}{r_B^2} = 4$.
   },
   {
       id: 14,
-      questionText: 'يبين الشكل أسطوانتين (1،2) متماثلتين في الكتلة والأبعاد والسرعة الزاوية. الأولى مجوفة عزم قصورها $I_1=mr^2$، والثانية مصمتة عزم قصورها $I_2=\\frac{1}{2}mr^2$. تدوران حول محور ثابت عمودي يمر بمركزيهما. أوجد النسبة:\n$\\frac{KE_{R1}}{KE_{R2}}=?$',
+      questionText: 'اختر رمز الإجابة الصحيحة',
       image: `https://i.ibb.co/G3v3D5Bv/14.png`,
       imageHint: 'physics question rotational kinetic energy comparison',
       options: ['أ', 'ب', 'جـ', 'د'],
@@ -368,4 +368,3 @@ $\\alpha > 0 \\implies$ العجلة الزاوية في الاتجاه المع
 
     
     
-
