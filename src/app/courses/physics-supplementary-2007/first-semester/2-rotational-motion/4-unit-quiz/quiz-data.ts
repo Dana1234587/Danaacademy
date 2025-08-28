@@ -120,13 +120,13 @@ $F = \\frac{\\tau}{r_\\perp}$
 مقدار عزم القوة يساوي 8 نيوتن.متر. **الإجابة الصحيحة هي (ب).**`
   },
   {
-      id: 5,
-      questionText: 'اختر رمز الإجابة الصحيحة',
-      image: `https://i.ibb.co/BV3Z6jFX/5.png`,
-      imageHint: 'physics question angular velocity',
-      options: ['أ', 'ب', 'ج', 'د'],
-      correctAnswerIndex: 3,
-      explanation: `**الحل (باستخدام عزم الازدواج):**
+    id: 5,
+    questionText: `عُلِّق قضيب طوله $0.90\\text{m}$ ووزنه $F_g = 4\\text{N}$ في وضع أفقي بواسطة خيطين رأسيين عند طرفيه $A$ و $B$؛ شدّ الخيط عند $A$ هو $T_1$ وعند $B$ هو $T_2$. عُلِّق ثقلان مقدارهما $6\\text{N}$ و $9\\text{N}$ عند النقطتين $C$ و $D$ كما في الشكل، حيث: $AB = 0.90\\text{m}$, $AC = 0.30\\text{m}$, $AD = 0.60\\text{m}$, $AO = 0.45\\text{m}$ ($O$ مركز القضيب حيث يؤثّر وزنه). أوجد مقدار قوة الشد في كل من الخيطين $(T_1, T_2)$ على الترتيب.`,
+    image: `https://i.ibb.co/BV3Z6jFX/5.png`,
+    imageHint: 'physics question angular velocity',
+    options: ['أ', 'ب', 'ج', 'د'],
+    correctAnswerIndex: 3,
+    explanation: `**الحل (باستخدام عزم الازدواج):**
 قوتان متوازيتان متساويتان ومتعاكستان تشكلان ازدواجًا.
 عزم الازدواج: $\\tau = Fd$ حيث $d$ هي المسافة العمودية بين خطي عمل القوتين.
 بما أن القوتين أفقيتان، فإن $d$ يساوي الفاصل الرأسي بين نقطتي التأثير:
@@ -296,19 +296,44 @@ $\\tau = 0.25 \\times 17 \\times \\sin(37^\\circ) \\approx 0.25 \\times 17 \\tim
       id: 12,
       questionText: `اختر رمز الإجابة الصحيحة`,
       image: `https://i.ibb.co/SXPLzqw7/12.png`,
-      imageHint: 'physics question rolling race',
+      imageHint: 'physics question static equilibrium',
       options: ['أ', 'ب', 'ج', 'د'],
-      correctAnswerIndex: 0,
-      explanation: `الجسم الذي يصل أولاً هو الذي يمتلك أصغر عزم قصور ذاتي. الكرة المصمتة تمتلك أصغر عزم قصور ذاتي بين الخيارات المتاحة.`
+      correctAnswerIndex: 2,
+      explanation: `**الحل التفصيلي**
+1) الاتزان الخطي (محصلة القوى الرأسية = صفر)
+
+القوى لأسفل: $6 + 9 + 4 = 19 \\text{ N}$.
+إذن:
+$T_1 + T_2 = 19$ (1)
+
+2) الاتزان الدوراني (مجموع العزوم حول $A$ = صفر)
+
+نأخذ عكس عقارب الساعة موجبًا.
+
+عزم ثقل $6\\text{N}$ عند $C$: $+6 \\times 0.30 = +1.80 \\text{ N.m}$.
+
+عزم ثقل $9\\text{N}$ عند $D$: $+9 \\times 0.60 = +5.40 \\text{ N.m}$.
+
+عزم وزن القضيب $4\\text{N}$ عند المركز: $+4 \\times 0.45 = +1.80 \\text{ N.m}$.
+
+عزم شدّ $T_2$ عند $B$ (لأعلى على بعد $0.90\\text{m}$ من $A$): $-T_2 \\times 0.90$.
+
+شرط الاتزان:
+$(+1.80 + 5.40 + 1.80) - 0.90 T_2 = 0 \\implies 9.00 - 0.90 T_2 = 0 \\implies T_2 = 10 \\text{ N}$.
+
+من (1):
+$T_1 = 19 - T_2 = 19 - 10 = 9 \\text{ N}$.
+
+الإجابة الصحيحة: (ج) $(9 \\text{ N}, 10 \\text{ N})$.`
   },
   {
       id: 13,
       questionText: `اختر رمز الإجابة الصحيحة`,
       image: `https://i.ibb.co/60pHNbyr/13.png`,
-      imageHint: 'physics question static equilibrium tension',
+      imageHint: 'physics question rolling race',
       options: ['أ', 'ب', 'ج', 'د'],
       correctAnswerIndex: 0,
-      explanation: `من الاتزان، القوة الرأسية تساوي 100 نيوتن. وبسبب التماثل، يتوزع الشد بالتساوي على الخيطين، وكل منهما بزاوية 30 درجة. وبالتالي، الشد في كل خيط هو 100 نيوتن.`
+      explanation: `الجسم الذي يصل أولاً هو الذي يمتلك أصغر عزم قصور ذاتي. الكرة المصمتة تمتلك أصغر عزم قصور ذاتي بين الخيارات المتاحة.`
   },
   {
       id: 14,
@@ -329,6 +354,8 @@ $\\tau = 0.25 \\times 17 \\times \\sin(37^\\circ) \\approx 0.25 \\times 17 \\tim
       explanation: `أولاً، نحسب العزم: τ = F * r = 10 * 0.5 = 5 N.m. ثم نستخدم قانون نيوتن الثاني للدوران: τ = I * α. إذن، α = τ / I = 5 / 2 = 2.5 rad/s².`
   }
 ];
+
+    
 
     
 
