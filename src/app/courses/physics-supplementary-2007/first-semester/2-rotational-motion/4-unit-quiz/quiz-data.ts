@@ -13,7 +13,7 @@ export interface QuizQuestion {
 const firstQuestion = {
     id: 1,
     questionText: 'في الشكل المجاور، إذا كانت محصلة العزوم المؤثرة في العارضة تساوي صفرًا، فإن مقدار القوة F بوحدة N تساوي:',
-    image: 'https://i.ibb.co/Xr1bh4G/1.png',
+    image: 'https://i.ibb.co/Xr1bh4G7/1.png',
     imageHint: 'rotational equilibrium question',
     options: ['أ', 'ب', 'ج', 'د'],
     correctAnswerIndex: 0,
