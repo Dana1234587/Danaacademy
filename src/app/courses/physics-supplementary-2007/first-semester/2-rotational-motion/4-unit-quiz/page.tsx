@@ -1,25 +1,24 @@
 
 'use client';
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { MainLayout } from '@/components/layout/main-layout';
+import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { ChevronLeft, ClipboardCheck } from 'lucide-react';
-import Link from 'next/link';
+import { QuizClient } from './QuizClient';
+import { unit2QuizQuestions } from './quiz-data';
 
 export default function Unit2QuizPage() {
   return (
-    <div className="min-h-screen bg-muted/40">
+    <MainLayout>
       <div className="p-4 sm:p-6 lg:p-8">
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4 max-w-3xl mx-auto">
           <div>
             <p className="text-sm text-primary font-medium">الوحدة الثانية: الحركة الدورانية</p>
             <h1 className="text-3xl font-bold mt-1 flex items-center gap-3">
                 <ClipboardCheck className="w-8 h-8" />
                 اختبار الوحدة الثانية
             </h1>
-            <p className="text-muted-foreground mt-2 max-w-2xl">
-              هنا ستجد أسئلة شاملة لتقييم فهمك الكامل لوحدة الحركة الدورانية.
-            </p>
           </div>
           <Button asChild variant="outline">
             <Link href="/courses/physics-supplementary-2007">
@@ -29,19 +28,9 @@ export default function Unit2QuizPage() {
         </div>
 
         <div className="grid grid-cols-1 gap-8">
-            <Card>
-                <CardHeader>
-                    <CardTitle>أسئلة الاختبار</CardTitle>
-                    <CardDescription>سيتم إضافة أسئلة الاختبار هنا قريبًا.</CardDescription>
-                </CardHeader>
-                <CardContent>
-                    <div className="text-center text-muted-foreground p-8">
-                        <p>قيد التحضير...</p>
-                    </div>
-                </CardContent>
-            </Card>
+            <QuizClient questions={unit2QuizQuestions} />
         </div>
       </div>
-    </div>
+    </MainLayout>
   );
 }
