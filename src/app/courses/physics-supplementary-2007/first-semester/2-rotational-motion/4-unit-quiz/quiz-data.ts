@@ -15,12 +15,7 @@ export const unit2QuizQuestions: QuizQuestion[] = [
     questionText: 'اختر رمز الإجابة الصحيحة',
     image: 'https://i.ibb.co/Xr1bh4G7/1.png',
     imageHint: 'rotational equilibrium question with multiple forces',
-    options: [
-      '$60\\text{N}$',
-      '$150\\text{N}$',
-      '$300\\text{N}$',
-      '$600\\text{N}$'
-    ],
+    options: ['أ', 'ب', 'ج', 'د'],
     correctAnswerIndex: 2,
     explanation: `#### الطريقة الأولى: حساب محصلة العزوم حول المحور O
 
@@ -63,12 +58,7 @@ $60 - 0.2F = 0 \\implies F = 300 \\text{ N}$`,
       questionText: 'اختر رمز الإجابة الصحيحة',
       image: 'https://i.ibb.co/GfH6MqBW/2.png',
       imageHint: 'moment of inertia question',
-      options: [
-          'تزداد السرعة الزاوية ويزداد الزخم الزاوي',
-          'تزداد السرعة الزاوية ويبقى الزخم الزاوي ثابتًا',
-          'تزداد السرعة الزاوية ويزداد عزم القصور الذاتي للنظام',
-          'تقل السرعة الزاوية ويزداد عزم القصور الذاتي للنظام'
-      ],
+      options: ['أ', 'ب', 'ج', 'د'],
       correctAnswerIndex: 1,
       explanation: `#### 1. فهم المبدأ الفيزيائي الأساسي:
 النظام يتكون من القرص الدوّار + الأطفال الثلاثة.
@@ -97,12 +87,7 @@ $60 - 0.2F = 0 \\implies F = 300 \\text{ N}$`,
       questionText: 'اختر رمز الإجابة الصحيحة',
       image: `https://i.ibb.co/396PKKrG/3.png`,
       imageHint: 'physics question torque constant velocity',
-      options: [
-        'تقل',
-        'تزداد',
-        'تبقى ثابتة',
-        'معطيات السؤال غير كافية'
-      ],
+      options: ['أ', 'ب', 'ج', 'د'],
       correctAnswerIndex: 0, 
       explanation: `العلاقة الأساسية للعزم هي $\\tau = F \\times r_\\perp$.
 للحفاظ على نفس مقدار العزم ($\\tau$ ثابت)، يمكن إعادة ترتيب المعادلة لتصبح:
@@ -116,7 +101,7 @@ $F = \\frac{\\tau}{r_\\perp}$
       questionText: `اختر رمز الإجابة الصحيحة`,
       image: `https://i.ibb.co/6RYJVmh2/4.png`,
       imageHint: 'physics question torque calculation',
-      options: ['$0.08$', '$8$', '$80$', '$800$'],
+      options: ['أ', 'ب', 'ج', 'د'],
       correctAnswerIndex: 1,
       explanation: `#### 1. تحديد المعطيات:
 - القوة المؤثرة ($F$) = $10 \\text{ N}$
