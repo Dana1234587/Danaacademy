@@ -289,7 +289,7 @@ export function QuizClient({ questions }: { questions: QuizQuestion[] }) {
         >
           {currentQuestion.options.map((option, index) => (
             <Label key={index} htmlFor={`q${currentQuestion.id}-o${index}`} className="flex items-center gap-4 border p-4 rounded-lg cursor-pointer hover:bg-accent has-[:checked]:bg-primary/10 has-[:checked]:border-primary">
-              <RadioGroupItem value={index.toString()} id={`q${current_question.id}-o${index}`} />
+              <RadioGroupItem value={index.toString()} id={`q${currentQuestion.id}-o${index}`} />
               <div className="flex-1 text-base"><SmartTextRenderer as="span" text={option} /></div>
             </Label>
           ))}
