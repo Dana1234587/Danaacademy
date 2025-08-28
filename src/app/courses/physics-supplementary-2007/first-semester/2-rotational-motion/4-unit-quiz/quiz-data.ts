@@ -118,13 +118,40 @@ export const unit2QuizQuestions: QuizQuestion[] = [
     correctAnswerIndex: 0, // Default to 'أ' for now
     explanation: `سيتم إضافة شرح مفصل للإجابة الصحيحة هنا بعد مراجعة السؤال رقم 12.`,
   },
-  ...Array.from({ length: 8 }, (_, i) => ({
-    id: i + 13,
+  {
+    id: 13,
     questionText: `اختر رمز الإجابة الصحيحة`,
-    image: `https://placehold.co/800x400?text=Question+${i + 13}`,
+    image: `https://i.ibb.co/L6L6vtr/13.png`,
     imageHint: 'physics question',
     options: ['أ', 'ب', 'ج', 'د'],
     correctAnswerIndex: 0, // Default to 'أ' for now
-    explanation: `سيتم إضافة شرح مفصل للإجابة الصحيحة هنا بعد مراجعة السؤال رقم ${i + 13}.`,
+    explanation: `سيتم إضافة شرح مفصل للإجابة الصحيحة هنا بعد مراجعة السؤال رقم 13.`,
+  },
+    {
+    id: 14,
+    questionText: `اختر رمز الإجابة الصحيحة`,
+    image: `https://i.ibb.co/j3gqN5D/14.png`,
+    imageHint: 'physics question',
+    options: ['أ', 'ب', 'ج', 'د'],
+    correctAnswerIndex: 0, // Default to 'أ' for now
+    explanation: `سيتم إضافة شرح مفصل للإجابة الصحيحة هنا بعد مراجعة السؤال رقم 14.`,
+  },
+  {
+    id: 15,
+    questionText: `اختر رمز الإجابة الصحيحة`,
+    image: `https://i.ibb.co/jWp8Z2N/15.png`,
+    imageHint: 'physics question',
+    options: ['أ', 'ب', 'ج', 'د'],
+    correctAnswerIndex: 0, // Default to 'أ' for now
+    explanation: `سيتم إضافة شرح مفصل للإجابة الصحيحة هنا بعد مراجعة السؤال رقم 15.`,
+  },
+  ...Array.from({ length: 5 }, (_, i) => ({
+    id: i + 16,
+    questionText: `اختر رمز الإجابة الصحيحة`,
+    image: `https://placehold.co/800x400?text=Question+${i + 16}`,
+    imageHint: 'physics question',
+    options: ['أ', 'ب', 'ج', 'د'],
+    correctAnswerIndex: 0, // Default to 'أ' for now
+    explanation: `سيتم إضافة شرح مفصل للإجابة الصحيحة هنا بعد مراجعة السؤال رقم ${i + 16}.`,
   }))
 ];
