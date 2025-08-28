@@ -12,7 +12,7 @@ export interface QuizQuestion {
 export const unit2QuizQuestions: QuizQuestion[] = [
   {
     id: 1,
-    questionText: 'مسطرة مهملة الوزن طولها $100\\text{cm}$ قابلة للدوران حول محور يمر بمنتصفها $O$. عند الطرفين $A$ و $B$ تؤثر قوتان رأسيّتان مقدار كلٍّ منهما $60\\text{N}$ (إحداهما لأعلى عند $A$ والأخرى لأسفل عند $B$). وعلى نقطتين داخليتين $C$ و $D$ (بحيث $AC=BD=30\\text{cm}$) تؤثر قوتان مائلتان مقدار كلٍّ منهما $F$ بزاوية $30^\\circ$ مع المسطرة (كما في الشكل). إذا كانت المسطرة في حالة اتزان، فأوجد $F$.',
+    questionText: 'اختر رمز الإجابة الصحيحة',
     image: 'https://i.ibb.co/Xr1bh4G7/1.png',
     imageHint: 'rotational equilibrium question with multiple forces',
     options: [
@@ -60,7 +60,7 @@ $60 - 0.2F = 0 \\implies F = 300 \\text{ N}$`,
   },
   {
       id: 2,
-      questionText: 'ثلاثة أطفال كتلهم $(20\\text{kg}, 28\\text{kg}, 32\\text{kg})$ يقفون عند حافة لُعبة دوّارة على شكل قرص دائري منتظم كتلته $M=100\\text{kg}$ ونصف قطره $r=2.0\\text{m}$. يدور القرص بسرعة زاوية ثابتة مقدارها $\\omega_0=2.0\\text{rad/s}$ حول محور ثابت عمودي على سطح القرص ويمرّ بمركزه. تحرّك الطفل ذو الكتلة $20\\text{kg}$ باتجاه المحور وتوقّف عند مركز القرص. ما الذي يحدث؟',
+      questionText: 'اختر رمز الإجابة الصحيحة',
       image: 'https://i.ibb.co/GfH6MqBW/2.png',
       imageHint: 'moment of inertia question',
       options: [
@@ -94,7 +94,9 @@ $60 - 0.2F = 0 \\implies F = 300 \\text{ N}$`,
   },
   {
       id: 3,
-      questionText: 'كلما زاد مقدار ذراع القوة فإن مقدار القوة اللازمة لإحداث نفس مقدار العزم …',
+      questionText: 'اختر رمز الإجابة الصحيحة',
+      image: `https://i.ibb.co/396PKKrG/3.png`,
+      imageHint: 'physics question torque constant velocity',
       options: [
         'تقل',
         'تزداد',
@@ -112,7 +114,7 @@ $F = \\frac{\\tau}{r_\\perp}$
   {
       id: 4,
       questionText: `اختر رمز الإجابة الصحيحة`,
-      image: `https://i.ibb.co/8YnDBWz/image.png`,
+      image: `https://i.ibb.co/6RYJVmh2/4.png`,
       imageHint: 'physics question torque calculation',
       options: ['$0.08$', '$8$', '$80$', '$800$'],
       correctAnswerIndex: 1,
@@ -140,7 +142,7 @@ $F = \\frac{\\tau}{r_\\perp}$
       image: `https://i.ibb.co/BV3Z6jFX/5.png`,
       imageHint: 'physics question angular velocity',
       options: ['أ', 'ب', 'ج', 'د'],
-      correctAnswerIndex: 3,
+      correctAnswerIndex: 0,
       explanation: `إذا كانت السرعة الزاوية ثابتة، فإن التسارع الزاوي يساوي صفر. وبحسب قانون نيوتن الثاني للحركة الدورانية (العزم = عزم القصور الذاتي * التسارع الزاوي)، فإن محصلة العزم تساوي صفر.`,
   },
   {
@@ -149,7 +151,7 @@ $F = \\frac{\\tau}{r_\\perp}$
       image: `https://i.ibb.co/1YFmkxB3/6.png`,
       imageHint: 'physics question moment of inertia comparison',
       options: ['أ', 'ب', 'ج', 'د'],
-      correctAnswerIndex: 3,
+      correctAnswerIndex: 0,
       explanation: `عزم القصور الذاتي يعتمد على توزيع الكتلة حول محور الدوران. أقل عزم قصور ذاتي يكون عندما تكون الكتل أقرب ما يمكن لمحور الدوران، كما هو موضح في الشكل (د).`,
   },
   {
@@ -158,7 +160,7 @@ $F = \\frac{\\tau}{r_\\perp}$
       image: `https://i.ibb.co/mr1PyV6y/7.png`,
       imageHint: 'physics question seesaw balance',
       options: ['أ', 'ب', 'ج', 'د'],
-      correctAnswerIndex: 1,
+      correctAnswerIndex: 0,
       explanation: `عندما يقترب الطفل الأثقل من نقطة الارتكاز، يقل عزمه. سيصبح عزم الطفل الأخف هو الأكبر، مما يؤدي إلى دوران الأرجوحة باتجاه الطفل الأخف.`,
   },
   {
@@ -167,7 +169,7 @@ $F = \\frac{\\tau}{r_\\perp}$
       image: `https://i.ibb.co/W4HWLnSW/8.png`,
       imageHint: 'physics question rotational motion',
       options: ['أ', 'ب', 'ج', 'د'],
-      correctAnswerIndex: 2,
+      correctAnswerIndex: 0,
       explanation: `الإزاحة الزاوية في الثانية الأولى هي θ. الإزاحة الكلية بعد ثانيتين هي 4θ. إذن، الإزاحة في الثانية الثانية وحدها هي 3θ.`,
   },
   {
@@ -185,7 +187,7 @@ $F = \\frac{\\tau}{r_\\perp}$
       image: `https://i.ibb.co/h1HCDr8x/10.png`,
       imageHint: 'physics question work energy theorem rotational',
       options: ['أ', 'ب', 'ج', 'د'],
-      correctAnswerIndex: 1,
+      correctAnswerIndex: 0,
       explanation: `الشغل المبذول يساوي التغير في الطاقة الحركية الدورانية. W = ΔK = ½ * I * (ωf² - ωi²) = 96 J.`,
   },
   {
@@ -194,7 +196,7 @@ $F = \\frac{\\tau}{r_\\perp}$
       image: `https://i.ibb.co/qKvbm6n/11.png`,
       imageHint: 'physics question rotational work',
       options: ['أ', 'ب', 'ج', 'د'],
-      correctAnswerIndex: 2,
+      correctAnswerIndex: 0,
       explanation: `الشغل الدوراني = العزم * الإزاحة الزاوية بالراديان. Δθ = 20 * 2π = 40π rad. W = 10 * 40π = 400π J.`,
   },
   {
@@ -203,7 +205,7 @@ $F = \\frac{\\tau}{r_\\perp}$
       image: `https://i.ibb.co/SXPLzqw7/12.png`,
       imageHint: 'physics question rolling race',
       options: ['أ', 'ب', 'ج', 'د'],
-      correctAnswerIndex: 1,
+      correctAnswerIndex: 0,
       explanation: `الجسم الذي يصل أولاً هو الذي يمتلك أصغر عزم قصور ذاتي. الكرة المصمتة تمتلك أصغر عزم قصور ذاتي بين الخيارات المتاحة.`,
   },
   {
@@ -212,7 +214,7 @@ $F = \\frac{\\tau}{r_\\perp}$
       image: `https://i.ibb.co/60pHNbyr/13.png`,
       imageHint: 'physics question static equilibrium tension',
       options: ['أ', 'ب', 'ج', 'د'],
-      correctAnswerIndex: 1,
+      correctAnswerIndex: 0,
       explanation: `من الاتزان، القوة الرأسية تساوي 100 نيوتن. وبسبب التماثل، يتوزع الشد بالتساوي على الخيطين، وكل منهما بزاوية 30 درجة. وبالتالي، الشد في كل خيط هو 100 نيوتن.`,
   },
   {
@@ -221,7 +223,7 @@ $F = \\frac{\\tau}{r_\\perp}$
       image: `https://i.ibb.co/G3v3D5Bv/14.png`,
       imageHint: 'physics question angular momentum comparison',
       options: ['أ', 'ب', 'ج', 'د'],
-      correctAnswerIndex: 3,
+      correctAnswerIndex: 0,
       explanation: `الزخم الزاوي = عزم القصور الذاتي * السرعة الزاوية. بما أن السرعة الزاوية متساوية، فإن الجسم الذي يمتلك أكبر زخم زاوي هو الذي يمتلك أكبر عزم قصور ذاتي، وهي الحلقة.`,
   },
   {
@@ -230,7 +232,7 @@ $F = \\frac{\\tau}{r_\\perp}$
       image: `https://i.ibb.co/wFxzJFLG/15.png`,
       imageHint: 'physics question rotational dynamics',
       options: ['أ', 'ب', 'ج', 'د'],
-      correctAnswerIndex: 1,
+      correctAnswerIndex: 0,
       explanation: `أولاً، نحسب العزم: τ = F * r = 10 * 0.5 = 5 N.m. ثم نستخدم قانون نيوتن الثاني للدوران: τ = I * α. إذن، α = τ / I = 5 / 2 = 2.5 rad/s².`,
   }
 ];
