@@ -271,17 +271,7 @@ $\\tau_{net} = \\tau_1 + \\tau_2 + \\tau_3 = -1.62 + 2.34 + 1.782 = +2.502 \\tex
   },
   {
     id: 11,
-    questionText: `يستخدم شخص مفتاح شدّ لشدّ صامولة كما هو موضّح. طول المفتاح 
-25.0
- cm
-، وتؤثِّر عند طرفه قوة مقدارها 
-17.0
- N
- أفقية نحو اليسار، بحيث تصنع زاوية 
-37
-∘
-
- مع اتجاه المفتاح. ما مقدار عزم القوة واتجاهه؟`,
+    questionText: 'اختر رمز الإجابة الصحيحة',
     image: 'https://i.ibb.co/qKvbm6n/11.png',
     imageHint: 'physics question torque wrench',
     options: [
@@ -309,7 +299,7 @@ $\\tau = 0.25 \\times 17 \\times \\sin(37^\\circ) \\approx 0.25 \\times 17 \\tim
   },
   {
       id: 12,
-      questionText: `عُلِّق قضيب طوله $0.90\\text{m}$ ووزنه $F_g = 4\\text{N}$ في وضع أفقي بواسطة خيطين رأسيين عند طرفيه $A$ و $B$؛ شدّ الخيط عند $A$ هو $T_1$ وعند $B$ هو $T_2$. عُلِّق ثقلان مقدارهما $6\\text{N}$ و $9\\text{N}$ عند النقطتين $C$ و $D$ كما في الشكل، حيث: $AB = 0.90\\text{m}$, $AC = 0.30\\text{m}$, $AD = 0.60\\text{m}$, $AO = 0.45\\text{m}$ ($O$ مركز القضيب حيث يؤثّر وزنه). أوجد مقدار قوة الشد في كل من الخيطين $(T_1, T_2)$ على الترتيب.`,
+      questionText: 'اختر رمز الإجابة الصحيحة',
       image: `https://i.ibb.co/SXPLzqw7/12.png`,
       imageHint: 'physics question static equilibrium',
       options: [
@@ -348,7 +338,7 @@ $T_1 = 19 - T_2 = 19 - 10 = 9 \\text{ N}$.
   },
   {
       id: 13,
-      questionText: 'في الشكل المجاور كرتان مصمتتان متماثلتان في الكتلة، نصف قطر الكرة A يساوي ضعف نصف قطر الكرة B أي $r_A = 2r_B$. كلتاهما تدوران حول محور ثابت يمر بمركزيهما بنفس السرعة الزاوية $\\omega$. إذا كان عزم القصور للكرة المصمتة $I = \\frac{2}{5}mr^2$، فأوجد النسبة: $\\frac{L_A}{L_B} = ?$ ',
+      questionText: 'اختر رمز الإجابة الصحيحة',
       image: `https://i.ibb.co/G3v3D5Bv/14.png`,
       imageHint: 'physics question angular momentum comparison',
       options: [
@@ -365,7 +355,7 @@ $\\frac{L_A}{L_B} = \\frac{r_A^2}{r_B^2} = \\frac{(2r_B)^2}{r_B^2} = 4$.
   },
   {
       id: 14,
-      questionText: 'يبين الشكل أسطوانتين (1،2) متماثلتين في الكتلة والأبعاد والسرعة الزاوية. الأولى مجوفة عزم قصورها $I_1 = mr^2$، والثانية مصمتة عزم قصورها $I_2 = \\frac{1}{2}mr^2$. تدوران حول محور ثابت عمودي يمر بمركزيهما. أوجد النسبة: $\\frac{KE_{R1}}{KE_{R2}} = ?$ ',
+      questionText: 'اختر رمز الإجابة الصحيحة',
       image: `https://i.ibb.co/G3v3D5Bv/14.png`,
       imageHint: 'physics question rotational kinetic energy comparison',
       options: ['أ) $\\frac{1}{1}$','ب) $\\frac{1}{2}$','ج) $\\frac{2}{1}$','د) $\\frac{4}{1}$'],
@@ -376,7 +366,7 @@ $\\frac{KE_{R1}}{KE_{R2}} = \\frac{I_1}{I_2} = \\frac{mr^2}{\\frac{1}{2}mr^2} = 
   },
   {
       id: 15,
-      questionText: `إذا علمت أن السرعة الزاوية لجسم عند لحظة زمنية معينة $\\omega = -6 \\text{ rad/s}$ وتسارعه الزاوي عند اللحظة نفسها $\\alpha = +4 \\text{ rad/s}^2$، فإن الجسم يدور:`,
+      questionText: `اختر رمز الإجابة الصحيحة`,
       image: `https://i.ibb.co/wFxzJFLG/15.png`,
       imageHint: 'physics question rotational dynamics',
       options: [
