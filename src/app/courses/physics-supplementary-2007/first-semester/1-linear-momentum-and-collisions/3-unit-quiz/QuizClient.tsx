@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
 import { Progress } from '@/components/ui/progress';
-import { AlertTriangle, CheckCircle, ChevronLeft, ChevronRight, Redo, XCircle, ListChecks, Info } from 'lucide-react';
+import { AlertTriangle, CheckCircle, ChevronLeft, ChevronRight, Redo, XCircle, ListChecks, Info, Rocket, BrainCircuit, BookOpen, Clock, Calculator, Pencil } from 'lucide-react';
 import Image from 'next/image';
 import type { QuizQuestion } from './quiz-data';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
@@ -121,42 +121,54 @@ export function QuizClient({ questions }: { questions: QuizQuestion[] }) {
   const currentQuestion = questions[currentQuestionIndex];
   const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
   
-  if (quizState === 'not-started') {
+ if (quizState === 'not-started') {
     return (
-        <Card className="max-w-3xl mx-auto">
-            <CardHeader>
-                <CardTitle>تعليمات الاختبار</CardTitle>
-                <CardDescription>يرجى قراءة التعليمات التالية بعناية قبل البدء.</CardDescription>
+        <Card className="max-w-3xl mx-auto border-primary/20 shadow-lg bg-gradient-to-br from-primary/5 via-background to-background">
+            <CardHeader className="text-center p-8">
+                 <div className="mx-auto bg-primary/10 p-4 rounded-full w-fit mb-4">
+                    <BrainCircuit className="w-12 h-12 text-primary" />
+                 </div>
+                <CardTitle className="text-3xl font-bold text-primary">أنت على وشك بدء اختبار الوحدة</CardTitle>
+                <CardDescription className="text-muted-foreground text-lg mt-2">
+                    استعد لاختبار معلوماتك وتحدي نفسك. بالتوفيق!
+                </CardDescription>
             </CardHeader>
-            <CardContent className="space-y-6">
-                 <Alert>
-                    <Info className="h-4 w-4" />
-                    <AlertTitle>تفاصيل الاختبار</AlertTitle>
+            <CardContent className="space-y-8 px-8">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+                    <div className="bg-muted/50 p-4 rounded-lg">
+                        <BookOpen className="w-8 h-8 text-primary mx-auto mb-2" />
+                        <h4 className="font-bold">عدد الأسئلة</h4>
+                        <p className="text-muted-foreground"><SmartTextRenderer as="span" text={`$${questions.length}$ سؤال`} /></p>
+                    </div>
+                     <div className="bg-muted/50 p-4 rounded-lg">
+                        <Clock className="w-8 h-8 text-primary mx-auto mb-2" />
+                        <h4 className="font-bold">المدة</h4>
+                        <p className="text-muted-foreground"><SmartTextRenderer as="span" text={`$60$ دقيقة`} /></p>
+                    </div>
+                     <div className="bg-muted/50 p-4 rounded-lg">
+                        <CheckCircle className="w-8 h-8 text-primary mx-auto mb-2" />
+                        <h4 className="font-bold">العلامة الكلية</h4>
+                        <p className="text-muted-foreground"><SmartTextRenderer as="span" text={`$${questions.length * 4}$ علامة`} /></p>
+                    </div>
+                </div>
+
+                 <Alert variant="destructive" className="bg-destructive/5 border-destructive/20">
+                    <AlertTriangle className="h-5 w-5 text-destructive" />
+                    <AlertTitle className="font-bold">نصائح قبل البدء</AlertTitle>
                     <AlertDescription>
                         <ul className="list-disc list-outside space-y-2 mt-2 pe-4">
-                           <li><SmartTextRenderer as="span" text={`عدد الأسئلة: $${questions.length}$ سؤال.`} /></li>
-                           <li><SmartTextRenderer as="span" text={`مدة الاختبار: $60$ دقيقة.`} /></li>
-                           <li><SmartTextRenderer as="span" text={`علامة كل سؤال: $4$ علامات (المجموع الكلي: $${questions.length * 4}$ علامة).`} /></li>
+                            <li className="flex items-start gap-2"><Pencil className="w-4 h-4 mt-1" /><span>تأكد من وجود ورقة وقلم بجانبك للحل.</span></li>
+                            <li className="flex items-start gap-2"><Calculator className="w-4 h-4 mt-1" /><span>احضر آلة حاسبة.</span></li>
+                            <li className="flex items-start gap-2"><BookOpen className="w-4 h-4 mt-1" /><span>للحصول على تقييم دقيق، تأكد من مراجعتك الكاملة لوحدة "الزخم الخطي والتصادمات".</span></li>
                         </ul>
                     </AlertDescription>
                 </Alert>
-                <Alert variant="destructive">
-                    <AlertTriangle className="h-4 w-4" />
-                    <AlertTitle>نصائح هامة</AlertTitle>
-                    <AlertDescription>
-                        <ul className="list-disc list-outside space-y-2 mt-2 pe-4">
-                            <li>تأكد من وجود ورقة وقلم بجانبك للحل.</li>
-                            <li>احضر آلة حاسبة.</li>
-                            <li>للحصول على تقييم دقيق لمستواك، تأكد من أنك قد راجعت وحدة "الزخم الخطي والتصادمات" بشكل كامل.</li>
-                        </ul>
-                    </AlertDescription>
-                </Alert>
-                 <p className="text-sm text-muted-foreground text-center">
-                    سيبدأ المؤقت بالعد التنازلي فور ضغطك على زر "ابدأ الاختبار الآن". بالتوفيق!
-                 </p>
             </CardContent>
-            <CardFooter>
-                <Button onClick={startQuiz} className="w-full" size="lg">ابدأ الاختبار الآن</Button>
+            <CardFooter className="p-8">
+                <Button onClick={startQuiz} className="w-full text-lg py-6" size="lg">
+                    <Rocket className="me-2 w-5 h-5 animate-pulse-slow" />
+                    لنبدأ الاختبار!
+                </Button>
             </CardFooter>
         </Card>
     );
@@ -277,7 +289,7 @@ export function QuizClient({ questions }: { questions: QuizQuestion[] }) {
         >
           {currentQuestion.options.map((option, index) => (
             <Label key={index} htmlFor={`q${currentQuestion.id}-o${index}`} className="flex items-center gap-4 border p-4 rounded-lg cursor-pointer hover:bg-accent has-[:checked]:bg-primary/10 has-[:checked]:border-primary">
-              <RadioGroupItem value={index.toString()} id={`q${currentQuestion.id}-o${index}`} />
+              <RadioGroupItem value={index.toString()} id={`q${current_question.id}-o${index}`} />
               <div className="flex-1 text-base"><SmartTextRenderer as="span" text={option} /></div>
             </Label>
           ))}
