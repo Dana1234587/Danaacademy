@@ -121,7 +121,7 @@ $F = \\frac{\\tau}{r_\\perp}$
   },
   {
     id: 5,
-    questionText: `عُلِّق قضيب طوله $0.90\\text{m}$ ووزنه $F_g = 4\\text{N}$ في وضع أفقي بواسطة خيطين رأسيين عند طرفيه $A$ و $B$؛ شدّ الخيط عند $A$ هو $T_1$ وعند $B$ هو $T_2$. عُلِّق ثقلان مقدارهما $6\\text{N}$ و $9\\text{N}$ عند النقطتين $C$ و $D$ كما في الشكل، حيث: $AB = 0.90\\text{m}$, $AC = 0.30\\text{m}$, $AD = 0.60\\text{m}$, $AO = 0.45\\text{m}$ ($O$ مركز القضيب حيث يؤثّر وزنه). أوجد مقدار قوة الشد في كل من الخيطين $(T_1, T_2)$ على الترتيب.`,
+    questionText: `اختر رمز الإجابة الصحيحة`,
     image: `https://i.ibb.co/BV3Z6jFX/5.png`,
     imageHint: 'physics question angular velocity',
     options: ['أ', 'ب', 'ج', 'د'],
@@ -271,10 +271,25 @@ $\\tau_{net} = \\tau_1 + \\tau_2 + \\tau_3 = -1.62 + 2.34 + 1.782 = +2.502 \\tex
   },
   {
     id: 11,
-    questionText: 'اختر رمز الإجابة الصحيحة',
+    questionText: `يستخدم شخص مفتاح شدّ لشدّ صامولة كما هو موضّح. طول المفتاح 
+25.0
+ cm
+، وتؤثِّر عند طرفه قوة مقدارها 
+17.0
+ N
+ أفقية نحو اليسار، بحيث تصنع زاوية 
+37
+∘
+
+ مع اتجاه المفتاح. ما مقدار عزم القوة واتجاهه؟`,
     image: 'https://i.ibb.co/qKvbm6n/11.png',
     imageHint: 'physics question torque wrench',
-    options: ['أ', 'ب', 'ج', 'د'],
+    options: [
+        'أ) $4.25 \\text{ N.m}$ مع عقارب الساعة',
+        'ب) $4.25 \\text{ N.m}$ عكس اتجاه عقارب الساعة',
+        'ج) $2.56 \\text{ N.m}$ عكس اتجاه حركة عقارب الساعة',
+        'د) $2.56 \\text{ N.m}$ مع اتجاه حركة عقارب الساعة'
+    ],
     correctAnswerIndex: 2,
     explanation: `**الحل التفصيلي**
 
@@ -294,10 +309,15 @@ $\\tau = 0.25 \\times 17 \\times \\sin(37^\\circ) \\approx 0.25 \\times 17 \\tim
   },
   {
       id: 12,
-      questionText: `اختر رمز الإجابة الصحيحة`,
+      questionText: `عُلِّق قضيب طوله $0.90\\text{m}$ ووزنه $F_g = 4\\text{N}$ في وضع أفقي بواسطة خيطين رأسيين عند طرفيه $A$ و $B$؛ شدّ الخيط عند $A$ هو $T_1$ وعند $B$ هو $T_2$. عُلِّق ثقلان مقدارهما $6\\text{N}$ و $9\\text{N}$ عند النقطتين $C$ و $D$ كما في الشكل، حيث: $AB = 0.90\\text{m}$, $AC = 0.30\\text{m}$, $AD = 0.60\\text{m}$, $AO = 0.45\\text{m}$ ($O$ مركز القضيب حيث يؤثّر وزنه). أوجد مقدار قوة الشد في كل من الخيطين $(T_1, T_2)$ على الترتيب.`,
       image: `https://i.ibb.co/SXPLzqw7/12.png`,
       imageHint: 'physics question static equilibrium',
-      options: ['أ', 'ب', 'ج', 'د'],
+      options: [
+        'أ) $(8 \\text{ N}, 9 \\text{ N})$',
+        'ب) $(9 \\text{ N}, 8 \\text{ N})$',
+        'ج) $(9 \\text{ N}, 10 \\text{ N})$',
+        'د) $(10 \\text{ N}, 9 \\text{ N})$'
+      ],
       correctAnswerIndex: 2,
       explanation: `**الحل التفصيلي**
 1) الاتزان الخطي (محصلة القوى الرأسية = صفر)
@@ -328,12 +348,20 @@ $T_1 = 19 - T_2 = 19 - 10 = 9 \\text{ N}$.
   },
   {
       id: 13,
-      questionText: `اختر رمز الإجابة الصحيحة`,
-      image: `https://i.ibb.co/60pHNbyr/13.png`,
-      imageHint: 'physics question rolling race',
-      options: ['أ', 'ب', 'ج', 'د'],
-      correctAnswerIndex: 0,
-      explanation: `الجسم الذي يصل أولاً هو الذي يمتلك أصغر عزم قصور ذاتي. الكرة المصمتة تمتلك أصغر عزم قصور ذاتي بين الخيارات المتاحة.`
+      questionText: `في الشكل المجاور كرتان مصمتتان متماثلتان في الكتلة، نصف قطر الكرة A يساوي ضعف نصف قطر الكرة B أي $r_A = 2r_B$. كلتاهما تدوران حول محور ثابت يمر بمركزيهما بنفس السرعة الزاوية $\\omega$. إذا كان عزم القصور للكرة المصمتة $I = \\frac{2}{5}mr^2$، فأوجد النسبة: $\\frac{L_A}{L_B} = ?$`,
+      image: `https://i.ibb.co/G3v3D5Bv/14.png`,
+      imageHint: 'physics question angular momentum comparison',
+      options: [
+        'أ) $\\frac{1}{2}$',
+        'ب) $\\frac{2}{1}$',
+        'ج) $\\frac{1}{4}$',
+        'د) $\\frac{4}{1}$'
+      ],
+      correctAnswerIndex: 3,
+      explanation: `الزخم الزاوي $L = I\\omega = \\frac{2}{5}mr^2\\omega$.
+مع تساوي $m, \\omega$:
+$\\frac{L_A}{L_B} = \\frac{r_A^2}{r_B^2} = \\frac{(2r_B)^2}{r_B^2} = 4$.
+الإجابة الصحيحة: د).`
   },
   {
       id: 14,
@@ -365,3 +393,5 @@ $\\alpha > 0 \\implies$ العجلة الزاوية في الاتجاه المع
 الإجابة الصحيحة: ب).`
   }
 ];
+
+    
