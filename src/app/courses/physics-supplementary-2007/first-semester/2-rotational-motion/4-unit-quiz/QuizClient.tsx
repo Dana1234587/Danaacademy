@@ -44,10 +44,6 @@ const SmartTextRenderer = ({ text, as: Wrapper = 'p' }: { text: string; as?: Rea
     );
 };
 
-const HtmlRenderer = ({ htmlString }: { htmlString: string }) => {
-    return <div dangerouslySetInnerHTML={{ __html: htmlString }} />;
-};
-
 
 export function QuizClient({ questions }: { questions: QuizQuestion[] }) {
   const [quizState, setQuizState] = useState<'not-started' | 'active' | 'finished'>('not-started');
@@ -244,7 +240,7 @@ export function QuizClient({ questions }: { questions: QuizQuestion[] }) {
                         </div>
                         <div className="mt-4 text-sm text-muted-foreground bg-muted p-3 rounded-md" dir="rtl">
                             <p className="font-bold">الشرح:</p>
-                            <HtmlRenderer htmlString={question.explanation} />
+                            <SmartTextRenderer as="div" text={question.explanation} />
                         </div>
                         </div>
                     ))}
