@@ -13,8 +13,8 @@ const Resistor = ({ x, y, label, width = 60, vertical=false }: { x: number, y: n
   
     return (
     <g transform={`translate(${x}, ${y})`}>
-      <path d={path} stroke="black" strokeWidth="1.5" fill="none" />
-      <text x={textX} y={textY} textAnchor={vertical ? "start" : "middle"} fontSize="12">{label}</text>
+      <path d="M 0 10 L 5 10 L 10 0 L 20 20 L 30 0 L 40 20 L 45 10 L 50 10" stroke="black" strokeWidth="1.5" fill="none" />
+      <text x={25} y={-5} textAnchor={"middle"} fontSize="12">{label}</text>
     </g>
   )};
 
@@ -38,27 +38,27 @@ export const WheatstoneBridge = ({ r1="R1", r2="R2", r3="R3", r4="R4", r5="R5" }
       {/* Resistors */}
       <line x1="20" y1="75" x2="125" y2="20" stroke="black" strokeWidth="1.5" />
       <g transform="translate(62, 40) rotate(-24)">
-        <Resistor x={0} y={0} label={r1} width={50} />
+        <Resistor x={0} y={0} label={r1} />
       </g>
       
       <line x1="125" y1="20" x2="230" y2="75" stroke="black" strokeWidth="1.5" />
        <g transform="translate(165, 40) rotate(24)">
-        <Resistor x={0} y={0} label={r2} width={50} />
+        <Resistor x={0} y={0} label={r2} />
       </g>
 
       <line x1="20" y1="75" x2="125" y2="130" stroke="black" strokeWidth="1.5" />
       <g transform="translate(62, 95) rotate(24)">
-        <Resistor x={0} y={0} label={r3} width={50} />
+        <Resistor x={0} y={0} label={r3} />
       </g>
 
       <line x1="125" y1="130" x2="230" y2="75" stroke="black" strokeWidth="1.5" />
       <g transform="translate(165, 95) rotate(-24)">
-        <Resistor x={0} y={0} label={r4} width={50} />
+        <Resistor x={0} y={0} label={r4} />
       </g>
       
       <line x1="125" y1="20" x2="125" y2="130" stroke="black" strokeWidth="1.5" />
-      <g transform="translate(118, 70)">
-        <Resistor x={0} y={0} label={r5} width={15} vertical={true}/>
+      <g transform="translate(118, 70) rotate(90)">
+        <Resistor x={-25} y={-6.5} label={r5} />
       </g>
 
     </svg>

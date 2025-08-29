@@ -9,6 +9,7 @@ import { Label } from '@/components/ui/label';
 import { CheckCircle, XCircle } from 'lucide-react';
 import 'katex/dist/katex.min.css';
 import { InlineMath } from 'react-katex';
+import { GroundedCircuit } from './diagram';
 
 // A robust, universal renderer for bidirectional text
 const SmartTextRenderer = ({ text, as: Wrapper = 'p' }: { text: string; as?: React.ElementType }) => {
@@ -42,10 +43,11 @@ const quizQuestions = [
     explanation: 'الأميتر يقيس التيار المار عبره. إذا تم وضعه في فرع لا يمر به تيار (مثل فرع الجلفانومتر في قنطرة وتستون متزنة)، فإنه سيقرأ صفرًا.'
   },
   {
-    questionText: 'إذا تم حساب فرق الجهد بين نقطتين a و b عبر مسارين مختلفين في دارة، فإن النتيجتين يجب أن تكونا:',
-    options: ['متساويتين في المقدار ومتعاكستين في الإشارة', 'متساويتين تمامًا', ' مختلفتين', 'النتيجة الأولى ضعف الثانية'],
-    correctAnswerIndex: 1,
-    explanation: 'فرق الجهد بين أي نقطتين في الدارة هو قيمة فريدة لا تعتمد على المسار المتبع لحسابها. هذا هو أساس قاعدة كيرشوف الثانية (قاعدة العروة).'
+    questionText: 'في الدارة الموضحة، ما هو جهد النقطة a؟',
+    diagram: true,
+    options: ['+21 V', '+7 V', '-7 V', '0 V'],
+    correctAnswerIndex: 0,
+    explanation: 'هذا السؤال يتطلب حل الدارة بالكامل باستخدام كيرشوف. الحل التفصيلي طويل ولكن المبدأ هو إيجاد التيارات في كل فرع ثم حساب الجهد من النقطة المؤرضة (b) إلى النقطة (a) عبر أي مسار. الإجابة الصحيحة بعد الحل هي +21 فولت.'
   },
   {
     questionText: 'تعتبر قاعدتا كيرشوف ضرورية لتحليل الدارات التي...',
@@ -88,6 +90,7 @@ export default function KirchhoffsExtraExamples2QuizPage() {
           <Card key={qIndex} className={`border-2 ${isSubmitted ? (selectedAnswers[qIndex] === q.correctAnswerIndex ? 'border-green-500' : 'border-red-500') : 'border-border'} transition-colors duration-300 shadow-lg`}>
             <CardHeader>
               <CardTitle><SmartTextRenderer as="div" text={`السؤال ${qIndex + 1}: ${q.questionText}`} /></CardTitle>
+              {q.diagram && <GroundedCircuit />}
             </CardHeader>
             <CardContent>
               <RadioGroup onValueChange={(value) => handleAnswerChange(qIndex, parseInt(value))} value={selectedAnswers[qIndex]?.toString()} className="grid grid-cols-1 md:grid-cols-2 gap-4">

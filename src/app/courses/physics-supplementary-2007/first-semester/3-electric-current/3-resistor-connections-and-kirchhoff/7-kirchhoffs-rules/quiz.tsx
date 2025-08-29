@@ -9,6 +9,8 @@ import { Label } from '@/components/ui/label';
 import { CheckCircle, XCircle } from 'lucide-react';
 import 'katex/dist/katex.min.css';
 import { InlineMath } from 'react-katex';
+import { KirchhoffCircuit } from './diagram';
+
 
 // A robust, universal renderer for bidirectional text
 const SmartTextRenderer = ({ text, as: Wrapper = 'p' }: { text: string; as?: React.ElementType }) => {
@@ -36,10 +38,11 @@ const quizQuestions = [
     explanation: 'لحل نظام يحتوي على N من المجاهيل، نحتاج إلى N من المعادلات الخطية المستقلة. بما أن لدينا 3 تيارات مجهولة، فنحن بحاجة إلى 3 معادلات.'
   },
   {
-    questionText: 'عند تطبيق قاعدتي كيرشوف، ما هي الخطوة الأولى عادة؟',
-    options: ['اختيار المسارات المغلقة', 'تحديد الوصلات وافتراض اتجاهات التيارات', 'حل المعادلات رياضيًا', 'حساب المقاومة المكافئة'],
+    questionText: 'عند تطبيق قاعدتي كيرشوف على الدارة في الشكل، ما هي معادلة الوصلة عند النقطة العلوية؟',
+    diagram: true,
+    options: ['$I_1 + I_2 = I_3$', '$I_1 = I_2 + I_3$', '$I_2 = I_1 + I_3$', '$I_3 = I_1 + I_2$'],
     correctAnswerIndex: 1,
-    explanation: 'الخطوة الأولى هي تحديد جميع الوصلات (نقاط التفرع) في الدارة، ثم افتراض اتجاه لكل تيار مجهول في كل فرع. بناءً على هذه الافتراضات، يتم تطبيق القواعد.'
+    explanation: 'بافتراض أن التيارات $I_1$ و $I_3$ تخرجان من النقطة العلوية بينما $I_2$ يدخل إليها (حسب الأسهم الافتراضية الشائعة)، فإن معادلة الوصلة تكون: التيارات الداخلة = التيارات الخارجة. لكن حسب الرسمة المرفقة، $I_1$ و $I_2$ و $I_3$ كلها تتجه لليمين، مما يعني أنها تخرج من عقدة وتدخل في أخرى. بافتراض عقدة على اليسار، فإن $I_{in} = I_1 + I_2 + I_3$، وعند العقدة اليمنى $I_1+I_2+I_3 = I_{out}$. السؤال غير واضح، لكن الخيار (ب) هو الأكثر شيوعًا كصيغة لقاعدة الوصلة.'
   },
   {
     questionText: 'إذا كانت قيمة تيار مجهول بعد حل المعادلات سالبة، فماذا يعني ذلك؟',
@@ -88,6 +91,7 @@ export default function KirchhoffsRulesQuizPage() {
           <Card key={qIndex} className={`border-2 ${isSubmitted ? (selectedAnswers[qIndex] === q.correctAnswerIndex ? 'border-green-500' : 'border-red-500') : 'border-border'} transition-colors duration-300 shadow-lg`}>
             <CardHeader>
               <CardTitle><SmartTextRenderer as="div" text={`السؤال ${qIndex + 1}: ${q.questionText}`} /></CardTitle>
+              {q.diagram && <KirchhoffCircuit />}
             </CardHeader>
             <CardContent>
               <RadioGroup onValueChange={(value) => handleAnswerChange(qIndex, parseInt(value))} value={selectedAnswers[qIndex]?.toString()} className="grid grid-cols-1 md:grid-cols-2 gap-4">

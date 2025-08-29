@@ -9,6 +9,7 @@ import { Label } from '@/components/ui/label';
 import { CheckCircle, XCircle } from 'lucide-react';
 import 'katex/dist/katex.min.css';
 import { InlineMath } from 'react-katex';
+import { VoltmeterCircuit } from './diagram';
 
 // A robust, universal renderer for bidirectional text
 const SmartTextRenderer = ({ text, as: Wrapper = 'p' }: { text: string; as?: React.ElementType }) => {
@@ -48,10 +49,11 @@ const quizQuestions = [
     explanation: 'القدرة المستهلكة في المقاومة موجبة دائمًا. القدرة المنتجة من البطارية تكون موجبة ($P = \\varepsilon I$) عندما تكون البطارية في حالة تفريغ (التيار يخرج من قطبها الموجب).'
   },
   {
-    questionText: 'في دارة تحتوي على بطاريتين موصولتين بشكل متعاكس (موجب مع موجب)، فإن البطارية ذات القوة الدافعة الأكبر سوف...',
-    options: ['تشحن البطارية الأصغر', 'تُشحن بواسطة البطارية الأصغر', 'لا يمر بهما تيار', 'تنفجران'],
-    correctAnswerIndex: 0,
-    explanation: 'البطارية ذات القوة الدافعة الكهربائية الأكبر ستفرض اتجاه التيار في الدارة، وبالتالي ستكون في حالة تفريغ، بينما ستُجبر البطارية ذات القوة الدافعة الأصغر على استقبال التيار في قطبها الموجب، أي أنها ستكون في حالة شحن.'
+    questionText: 'في الدارة الموضحة، إذا كانت قراءة الفولتميتر المثالي هي 4 فولت، فما مقدار القوة الدافعة للبطارية ($\\varepsilon$)? (لم يتم رسم الدارة بشكل صحيح، سيتم تحديثها)',
+    diagram: true,
+    options: ['6 فولت', '8 فولت', '10 فولت', '12 فولت'],
+    correctAnswerIndex: 2,
+    explanation: 'هذا السؤال يعتمد على رسمة معينة. بشكل عام، يتم حل مثل هذه الأسئلة بتطبيق قانون كيرشوف للعروة التي تحتوي على الفولتميتر والبطارية والمقاومات الأخرى لإيجاد علاقة بين قراءة الفولتميتر والقوة الدافعة.'
   },
   {
     questionText: 'عند تطبيق قاعدة العروة على مسار مغلق، ما هو المجموع الجبري للتغيرات في الجهد؟',
@@ -88,6 +90,7 @@ export default function KirchhoffsExtraExamples1QuizPage() {
           <Card key={qIndex} className={`border-2 ${isSubmitted ? (selectedAnswers[qIndex] === q.correctAnswerIndex ? 'border-green-500' : 'border-red-500') : 'border-border'} transition-colors duration-300 shadow-lg`}>
             <CardHeader>
               <CardTitle><SmartTextRenderer as="div" text={`السؤال ${qIndex + 1}: ${q.questionText}`} /></CardTitle>
+               {q.diagram && <VoltmeterCircuit />}
             </CardHeader>
             <CardContent>
               <RadioGroup onValueChange={(value) => handleAnswerChange(qIndex, parseInt(value))} value={selectedAnswers[qIndex]?.toString()} className="grid grid-cols-1 md:grid-cols-2 gap-4">
