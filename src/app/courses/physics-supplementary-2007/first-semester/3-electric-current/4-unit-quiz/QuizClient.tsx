@@ -222,13 +222,17 @@ export function QuizClient({ questions }: { questions: QuizQuestion[] }) {
                     <h3 className="text-xl font-bold text-center">التفاصيل الكاملة للاختبار</h3>
                     {questions.map((question, index) => (
                         <div key={question.id} className={`p-4 rounded-lg border ${answers[index] === question.correctAnswerIndex ? 'border-green-500 bg-green-500/10' : 'border-red-500 bg-red-500/10'}`}>
-                        <div className="font-bold mb-2"><SmartTextRenderer as="div" text={`السؤال $${index + 1}$: ${question.questionText}`} /></div>
-                        {question.image && (
-                            <div className="my-4 flex justify-center">
-                                <Image src={question.image} alt={`Question ${question.id}`} width={300} height={200} className="rounded-md" data-ai-hint={question.imageHint || "question diagram"} />
-                            </div>
-                        )}
-                        <div className="space-y-2 text-sm">
+                        
+                        <div className="flex gap-4 items-start">
+                            <div className="flex-1 font-bold mb-2"><SmartTextRenderer as="div" text={`السؤال $${index + 1}$: ${question.questionText}`} /></div>
+                             {question.image && (
+                                <div className="relative w-40 h-40 flex-shrink-0">
+                                    <Image src={question.image} alt={`Question ${question.id}`} layout="fill" objectFit="contain" className="rounded-md" data-ai-hint={question.imageHint || "question diagram"} />
+                                </div>
+                            )}
+                        </div>
+
+                        <div className="space-y-2 text-sm mt-4">
                             {question.options.map((option, optionIndex) => {
                                 const isCorrect = optionIndex === question.correctAnswerIndex;
                                 const isSelected = optionIndex === answers[index];
@@ -267,7 +271,7 @@ export function QuizClient({ questions }: { questions: QuizQuestion[] }) {
 
 
   return (
-    <Card className="max-w-3xl mx-auto">
+    <Card className="max-w-4xl mx-auto w-full">
       <CardHeader>
         <div className="flex justify-between items-center">
             <CardTitle><SmartTextRenderer as="span" text={`السؤال $${currentQuestionIndex + 1}$ من $${questions.length}$`} /></CardTitle>
@@ -278,17 +282,22 @@ export function QuizClient({ questions }: { questions: QuizQuestion[] }) {
         <Progress value={progress} className="mt-2" />
       </CardHeader>
       <CardContent>
-        <div className="text-lg font-semibold mb-4"><SmartTextRenderer as="div" text={currentQuestion.questionText} /></div>
-        {currentQuestion.image && (
-            <div className="my-6 flex justify-center">
-                <Image src={currentQuestion.image} alt={`Question ${currentQuestion.id}`} width={800} height={450} className="rounded-lg shadow-md" data-ai-hint={currentQuestion.imageHint || 'question image'} />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+            <div className="text-lg font-semibold space-y-4">
+              <SmartTextRenderer as="div" text={currentQuestion.questionText} />
             </div>
-        )}
+            {currentQuestion.image ? (
+                <div className="relative w-full h-64 md:h-80 mx-auto">
+                    <Image src={currentQuestion.image} alt={`Question ${currentQuestion.id}`} layout="fill" objectFit="contain" className="rounded-lg shadow-md" data-ai-hint={currentQuestion.imageHint || 'question image'} />
+                </div>
+            ) : <div />
+          }
+        </div>
         <RadioGroup
           key={currentQuestionIndex}
           value={answers[currentQuestionIndex]?.toString() ?? ""}
           onValueChange={handleAnswerChange}
-          className="space-y-4"
+          className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6"
           dir="rtl"
         >
           {currentQuestion.options.map((option, index) => (
