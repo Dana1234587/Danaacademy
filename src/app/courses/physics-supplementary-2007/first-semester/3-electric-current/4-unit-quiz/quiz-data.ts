@@ -34,30 +34,38 @@ export const unit3QuizQuestions: QuizQuestion[] = [
       '($\\frac{1}{4}$,$\\frac{1}{1}$)',
     ],
     correctAnswerIndex: 0,
-    explanation: `<b>أولًا: حساب نسبة المقاومية ($\\frac{\\rho_1}{\\rho_2}$):</b><br/>
-بما أن الموصلين مصنوعان من نفس المادة (النحاس)، فإن مقاوميتهما النوعية متساوية. إذن:<br/>
-$\\rho_1 = \\rho_2$<br/>
-وبالتالي، النسبة $\\frac{\\rho_1}{\\rho_2} = 1$.<br/><br/>
-<b>ثانيًا: حساب نسبة التيارين ($\\frac{I_1}{I_2}$):</b><br/>
-<ol style="list-style-type: decimal; padding-right: 20px;">
-  <li><b>نحسب مقاومة كل موصل:</b>
-    <ul style="list-style-type: disc; padding-right: 20px; margin-top: 5px;">
-      <li>المقاومة تُعطى بالعلاقة: $R = \\frac{\\rho L}{A} = \\frac{\\rho L}{\\pi r^2}$</li>
-      <li>مقاومة الموصل الأول: $R_1 = \\frac{\\rho l}{\\pi r^2}$</li>
-      <li>مقاومة الموصل الثاني: $R_2 = \\frac{\\rho (3l)}{\\pi (2r)^2} = \\frac{3\\rho l}{4\\pi r^2} = \\frac{3}{4} R_1$</li>
-    </ul>
-  </li>
-  <li><b>نستخدم قانون أوم لإيجاد نسبة التيارين:</b>
-    <ul style="list-style-type: disc; padding-right: 20px; margin-top: 5px;">
-      <li>من قانون أوم، $I = \\frac{V}{R}$. بما أن الجهد (V) ثابت لكلا الموصلين، فإن التيار يتناسب عكسيًا مع المقاومة ($I \\propto \\frac{1}{R}$).</li>
-      <li>إذًا، $\\frac{I_1}{I_2} = \\frac{R_2}{R_1}$</li>
-      <li>نعوض بقيمة $R_2$: $\\frac{I_1}{I_2} = \\frac{\\frac{3}{4} R_1}{R_1} = \\frac{3}{4}$</li>
-    </ul>
-  </li>
-</ol>
-<b>النتيجة النهائية:</b><br/>
-الزوج المرتب هو ($\\frac{I_1}{I_2}$, $\\frac{\\rho_1}{\\rho_2}$) = ($\\frac{3}{4}$, $1$).<br/>
-<b>الإجابة الصحيحة هي (أ).</b>`
+    explanation: `
+    <div dir="rtl">
+        <b>أولًا: حساب نسبة المقاومية $(\\rho_1/\\rho_2)$:</b>
+        <p>بما أن الموصلين مصنوعان من نفس المادة (النحاس)، فإن مقاوميتهما النوعية متساوية. إذن:</p>
+        <p>$\\rho_1 = \\rho_2$</p>
+        <p>وبالتالي، النسبة $\\frac{\\rho_1}{\\rho_2} = 1$.</p>
+        <br/>
+        <b>ثانيًا: حساب نسبة التيارين $(I_1/I_2)$:</b>
+        <ol style="list-style-type: decimal; padding-right: 20px;">
+            <li>
+                <b>نحسب مقاومة كل موصل:</b>
+                <ul style="list-style-type: disc; padding-right: 20px; margin-top: 5px;">
+                    <li>المقاومة تُعطى بالعلاقة: $R = \\rho \\frac{L}{A} = \\rho \\frac{L}{\\pi r^2}$</li>
+                    <li>مقاومة الموصل الأول: $R_1 = \\rho \\frac{l}{\\pi r^2}$</li>
+                    <li>مقاومة الموصل الثاني: $R_2 = \\rho \\frac{3l}{\\pi (2r)^2} = \\frac{3\\rho l}{4\\pi r^2} = \\frac{3}{4} R_1$</li>
+                </ul>
+            </li>
+            <li>
+                <b>نستخدم قانون أوم لإيجاد نسبة التيارين:</b>
+                <ul style="list-style-type: disc; padding-right: 20px; margin-top: 5px;">
+                    <li>من قانون أوم، $I = \\frac{V}{R}$. بما أن الجهد (V) ثابت لكلا الموصلين، فإن التيار يتناسب عكسيًا مع المقاومة $(I \\propto \\frac{1}{R})$.</li>
+                    <li>إذًا، $\\frac{I_1}{I_2} = \\frac{R_2}{R_1}$</li>
+                    <li>نعوض بقيمة $R_2$: $\\frac{I_1}{I_2} = \\frac{\\frac{3}{4} R_1}{R_1} = \\frac{3}{4}$</li>
+                </ul>
+            </li>
+        </ol>
+        <br/>
+        <b>النتيجة النهائية:</b>
+        <p>الزوج المرتب هو $(I_1/I_2, \\rho_1/\\rho_2) = (3/4, 1)$.</p>
+        <b>الإجابة الصحيحة هي (أ).</b>
+    </div>
+    `
   },
   {
     id: 3,
