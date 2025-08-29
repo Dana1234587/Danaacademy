@@ -332,7 +332,7 @@ export function QuizClient({ questions }: { questions: QuizQuestion[] }) {
                 key={currentQuestionIndex}
                 value={answers[currentQuestionIndex]?.toString() ?? ""}
                 onValueChange={handleAnswerChange}
-                className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6"
+                className="grid grid-cols-2 gap-4 mt-6"
                 dir="rtl"
                 >
                 {currentQuestion.options.map((option, index) => {
