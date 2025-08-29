@@ -76,7 +76,7 @@ export default function LinearMomentumConceptPage() {
                           <BarChart className="me-3"/> ملخص القوانين
                         </Button>
                     </DialogTrigger>
-                    <DialogContent>
+                    <DialogContent className="max-w-xl h-5/6 overflow-y-auto">
                         <DialogHeader>
                             <DialogTitle>ملخص قوانين: مفهوم الزخم الخطي</DialogTitle>
                         </DialogHeader>
