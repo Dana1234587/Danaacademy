@@ -4,7 +4,9 @@ import React from 'react';
 
 const Resistor = ({ x, y, label, vertical = false }: { x: number, y: number, label: string, vertical?: boolean }) => (
   <g transform={`translate(${x}, ${y})`}>
-    <path d={vertical ? "M 0 0 L 0 5 L -10 10 L 10 20 L -10 30 L 10 40 L 0 45 L 0 50" : "M 0 10 L 5 10 L 10 0 L 20 20 L 30 0 L 40 20 L 45 10 L 50 10"} stroke="black" strokeWidth="1.5" fill="none" />
+    <path d={vertical ? "M 0 0 L 0 5 L -10 10 L 10 20 L -10 30 L 10 40 L 0 45 L 0 50" : "M 0 0 L 5 -8 L 15 8 L 25 -8 L 35 8 L 45 -8 L 50 0"} stroke="black" strokeWidth="1.5" fill="none" />
+    <line x1={vertical ? 0 : -10} y1={vertical ? -10 : 0} x2="0" y2="0" stroke="black" strokeWidth="1.5" />
+    <line x1="50" y1="0" x2={vertical ? 50 : 60} y2="0" stroke="black" strokeWidth="1.5" transform={vertical ? 'rotate(90 25 0)' : ''} />
     <text x={vertical ? 15 : 25} y={vertical ? 25 : -15} textAnchor="middle" fontSize="12">{label}</text>
   </g>
 );
@@ -13,19 +15,19 @@ const Battery = ({ x, y, label, vertical = false }: { x: number, y: number, labe
     <g transform={`translate(${x}, ${y})`}>
       {vertical ? (
         <>
-            <line x1="0" y1="0" x2="0" y2="5" stroke="black" strokeWidth="1.5" />
+            <line x1="0" y1={-10} x2="0" y2="5" stroke="black" strokeWidth="1.5" />
             <line x1="-10" y1="15" x2="10" y2="15" stroke="black" strokeWidth="2" />
             <line x1="-5" y1="25" x2="5" y2="25" stroke="black" strokeWidth="1.5" />
-            <line x1="0" y1="35" x2="0" y2="40" stroke="black" strokeWidth="1.5" />
+            <line x1="0" y1="35" x2="0" y2="50" stroke="black" strokeWidth="1.5" />
             <text x="20" y="23" fontSize="12">{label}</text>
         </>
       ) : (
         <>
-            <line x1="0" y1="10" x2="5" y2="10" stroke="black" strokeWidth="1.5" />
-            <line x1="15" y1="0" x2="15" y2="20" stroke="black" strokeWidth="2" />
-            <line x1="25" y1="5" x2="25" y2="15" stroke="black" strokeWidth="1.5" />
-            <line x1="35" y1="10" x2="40" y2="10" stroke="black" strokeWidth="1.5" />
-            <text x="20" y="-5" textAnchor="middle" fontSize="12">{label}</text>
+            <line x1={-10} y1="0" x2="5" y2="0" stroke="black" strokeWidth="1.5" />
+            <line x1="15" y1="-10" x2="15" y2="10" stroke="black" strokeWidth="2" />
+            <line x1="25" y1="-5" x2="25" y2="5" stroke="black" strokeWidth="1.5" />
+            <line x1="35" y1="0" x2="50" y2="0" stroke="black" strokeWidth="1.5" />
+            <text x="25" y="-15" textAnchor="middle" fontSize="12">{label}</text>
         </>
       )}
     </g>
@@ -42,20 +44,21 @@ export const LoopDiagram = () => (
 
 
             {/* Top Branch */}
-            <g transform="translate(40, 20)"><Battery x={0} y={0} label="ε1" /></g>
-            <g transform="translate(100, 20)"><Resistor x={0} y={0} label="R1" /></g>
-             <line x1="20" y1="30" x2="40" y2="30" stroke="black" strokeWidth="1.5" />
-             <line x1="80" y1="30" x2="100" y2="30" stroke="black" strokeWidth="1.5" />
+            <g transform="translate(40, 30)"><Battery x={0} y={0} label="ε1" /></g>
+            <g transform="translate(100, 30)"><Resistor x={0} y={0} label="R1" /></g>
+             <line x1="20" y1="30" x2="30" y2="30" stroke="black" strokeWidth="1.5" />
+             <line x1="90" y1="30" x2="100" y2="30" stroke="black" strokeWidth="1.5" />
              <line x1="150" y1="30" x2="180" y2="30" stroke="black" strokeWidth="1.5" />
 
             {/* Right Branch */}
-             <g transform="translate(170, 50)"><Resistor x={0} y={0} label="R2" vertical={true} /></g>
-            <line x1="180" y1="30" x2="180" y2="50" stroke="black" strokeWidth="1.5" />
+             <g transform="translate(180, 50)"><Resistor x={0} y={0} label="R2" vertical={true} /></g>
+            <line x1="180" y1="30" x2="180" y2="40" stroke="black" strokeWidth="1.5" />
             <line x1="180" y1="100" x2="180" y2="150" stroke="black" strokeWidth="1.5" />
 
             {/* Bottom Branch */}
-            <line x1="180" y1="150" x2="80" y2="150" stroke="black" strokeWidth="1.5" />
-             <g transform="translate(20, 140)"><Resistor x={0} y={0} label="R3" /></g>
+            <line x1="180" y1="150" x2="90" y2="150" stroke="black" strokeWidth="1.5" />
+             <g transform="translate(30, 150)"><Resistor x={0} y={0} label="R3" /></g>
+             <line x1="20" y1="150" x2="30" y2="150" stroke="black" strokeWidth="1.5" />
              <line x1="20" y1="150" x2="20" y2="30" stroke="black" strokeWidth="1.5" />
         </svg>
     </div>

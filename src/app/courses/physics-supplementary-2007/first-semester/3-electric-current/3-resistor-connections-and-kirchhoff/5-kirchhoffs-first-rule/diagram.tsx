@@ -22,12 +22,12 @@ export const Junction = () => (
             <text x="110" y="45" fontSize="14" fontWeight="bold">I2</text>
 
             {/* Outgoing current I3 */}
-            <line x1="130" y1="75" x2="230" y2="75" stroke="black" strokeWidth="1.5" />
+            <line x1="125" y1="75" x2="230" y2="75" stroke="black" strokeWidth="1.5" />
             <polygon points="225,70 235,75 225,80" fill="black" />
             <text x="180" y="70" fontSize="14" fontWeight="bold">I3</text>
 
             {/* Outgoing current I4 */}
-            <line x1="125" y1="80" x2="125" y2="130" stroke="black" strokeWidth="1.5" />
+            <line x1="125" y1="75" x2="125" y2="130" stroke="black" strokeWidth="1.5" />
             <polygon points="120,125 125,135 130,125" fill="black" />
             <text x="135" y="110" fontSize="14" fontWeight="bold">I4</text>
             
