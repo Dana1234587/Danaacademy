@@ -49,8 +49,8 @@ export default function SummaryPage() {
           <Info className="h-4 w-4" />
           <AlertTitle className="font-bold">أنواع المحولات</AlertTitle>
           <AlertDescription>
-           - **محول رافع للجهد:** $N_s > N_p \\implies V_s > V_p \\implies I_s < I_p$. <br/>
-           - **محول خافض للجهد:** $N_s < N_p \\implies V_s < V_p \\implies I_s > I_p$.
+           - **محول رافع للجهد:** $N_s > N_p \implies V_s > V_p \implies I_s < I_p$. <br/>
+           - **محول خافض للجهد:** $N_s < N_p \implies V_s < V_p \implies I_s > I_p$.
           </AlertDescription>
         </Alert>
       </div>
