@@ -76,7 +76,7 @@ export default function LinearMomentumConceptPage() {
                           <BarChart className="me-3"/> ملخص القوانين
                         </Button>
                     </DialogTrigger>
-                    <DialogContent className="max-w-xl h-5/6 overflow-y-auto">
+                    <DialogContent className="max-w-xl h-auto max-h-[80vh] overflow-y-auto">
                         <DialogHeader>
                             <DialogTitle>ملخص قوانين: مفهوم الزخم الخطي</DialogTitle>
                         </DialogHeader>
@@ -89,7 +89,7 @@ export default function LinearMomentumConceptPage() {
                           <BrainCircuit className="me-3"/> اختبار قصير للمراجعة
                         </Button>
                     </DialogTrigger>
-                    <DialogContent className="max-w-4xl h-5/6 overflow-y-auto">
+                    <DialogContent className="max-w-4xl h-[90vh] overflow-y-auto">
                         <DialogHeader>
                             <DialogTitle>اختبار قصير: مفهوم الزخم الخطي</DialogTitle>
                         </DialogHeader>

@@ -2,17 +2,14 @@
 'use client';
 
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Info } from 'lucide-react';
 import 'katex/dist/katex.min.css';
-import { InlineMath, BlockMath } from 'react-katex';
+import { BlockMath, InlineMath } from 'react-katex';
 
 // A robust, universal renderer for bidirectional text
 const SmartTextRenderer = ({ text, as: Wrapper = 'p' }: { text: string; as?: React.ElementType }) => {
     const lines = text.split('\n');
     const renderPart = (part: string, index: number) => {
         if (index % 2 === 0) return <span key={index} dir="rtl">{part}</span>;
-        // The katex component will handle LTR rendering for the math formula
         return <span key={index} className="inline-block mx-1"><InlineMath math={part} /></span>;
     };
     return (
@@ -28,14 +25,14 @@ const SmartTextRenderer = ({ text, as: Wrapper = 'p' }: { text: string; as?: Rea
 
 const laws = [
     {
-        title: "تعريف الزخم الخطي ($\\vec{p}$)",
-        formula: "\\vec{p} = m \\cdot \\vec{v}",
-        description: "الزخم الخطي هو حاصل ضرب كتلة الجسم (m) في سرعته المتجهة ($\\vec{v}$). وهو كمية فيزيائية متجهة، اتجاهها هو نفس اتجاه السرعة."
+        title: "العلاقة بين طاقة الحركة K والزخم p",
+        formula: "K = \\frac{p^2}{2m}",
+        description: "يمكن اشتقاق هذه العلاقة من قانوني طاقة الحركة $K=\\frac{1}{2}mv^2$ والزخم $p=mv$."
     },
     {
-        title: "وحدة قياس الزخم الخطي",
-        formula: "kg \\cdot m/s",
-        description: "في النظام الدولي للوحدات (SI)، يُقاس الزخم بوحدة كيلوغرام متر لكل ثانية."
+        title: "العلاقة بين الزخم p وطاقة الحركة K",
+        formula: "p = \\sqrt{2mK}",
+        description: "هذه الصيغة مفيدة جدًا عند مقارنة زخم جسمين لهما نفس طاقة الحركة أو العكس."
     },
 ];
 
@@ -58,13 +55,6 @@ export default function SummaryPage() {
             </CardContent>
           </Card>
         ))}
-         <Alert>
-          <Info className="h-4 w-4" />
-          <AlertTitle className="font-bold">ملاحظة على الاتجاه</AlertTitle>
-          <AlertDescription>
-            بشكل عام، نعتبر الحركة نحو اليمين (أو محور x الموجب) ذات إشارة موجبة (+)، والحركة نحو اليسار (أو محور x السالب) ذات إشارة سالبة (-).
-          </AlertDescription>
-        </Alert>
       </div>
     </div>
   );

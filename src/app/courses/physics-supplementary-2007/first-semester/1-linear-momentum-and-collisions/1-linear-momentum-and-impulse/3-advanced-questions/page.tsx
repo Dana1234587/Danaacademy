@@ -7,6 +7,7 @@ import { ChevronLeft, FileText, BarChart, BrainCircuit } from 'lucide-react';
 import Link from 'next/link';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import QuizPage from './quiz';
+import SummaryPage from './summary';
 
 export default function AdvancedQuestionsPage() {
   return (
@@ -67,16 +68,26 @@ export default function AdvancedQuestionsPage() {
                 <Button variant="ghost" className="w-full justify-start">
                   <FileText className="me-3"/> ورقة عمل الدرس (PDF)
                 </Button>
-                <Button variant="ghost" className="w-full justify-start">
-                  <BarChart className="me-3"/> ملخص القوانين
-                </Button>
+                 <Dialog>
+                    <DialogTrigger asChild>
+                        <Button variant="ghost" className="w-full justify-start">
+                          <BarChart className="me-3"/> ملخص القوانين
+                        </Button>
+                    </DialogTrigger>
+                    <DialogContent className="max-w-xl h-auto max-h-[80vh] overflow-y-auto">
+                        <DialogHeader>
+                            <DialogTitle>ملخص قوانين: أسئلة تميز</DialogTitle>
+                        </DialogHeader>
+                        <SummaryPage />
+                    </DialogContent>
+                 </Dialog>
                  <Dialog>
                     <DialogTrigger asChild>
                         <Button variant="ghost" className="w-full justify-start">
                           <BrainCircuit className="me-3"/> اختبار قصير للمراجعة
                         </Button>
                     </DialogTrigger>
-                    <DialogContent className="max-w-4xl h-5/6 overflow-y-auto">
+                    <DialogContent className="max-w-4xl h-[90vh] overflow-y-auto">
                         <DialogHeader>
                             <DialogTitle>اختبار قصير: أسئلة تميز</DialogTitle>
                         </DialogHeader>
