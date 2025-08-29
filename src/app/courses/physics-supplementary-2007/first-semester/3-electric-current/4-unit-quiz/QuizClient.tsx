@@ -318,9 +318,9 @@ export function QuizClient({ questions }: { questions: QuizQuestion[] }) {
                 <Progress value={progress} className="mt-2" />
             </CardHeader>
             <CardContent>
-                <div className={`grid gap-6 items-start ${currentQuestion.image ? 'md:grid-cols-2' : 'md:grid-cols-1'}`}>
+                <div className={`grid gap-6 items-start ${currentQuestion.image ? 'md:grid-cols-2' : 'grid-cols-1'}`}>
                     <div className="text-lg font-semibold space-y-4">
-                    <SmartTextRenderer as="div" text={currentQuestion.questionText} />
+                        <SmartTextRenderer as="div" text={currentQuestion.questionText} />
                     </div>
                     {currentQuestion.image && (
                         <div className="relative w-full h-48 mx-auto">
