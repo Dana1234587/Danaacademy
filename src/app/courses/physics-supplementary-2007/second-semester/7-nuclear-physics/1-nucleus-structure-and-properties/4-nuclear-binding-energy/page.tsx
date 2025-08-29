@@ -6,7 +6,8 @@ import { Button } from '@/components/ui/button';
 import { ChevronLeft, FileText, BarChart, BrainCircuit } from 'lucide-react';
 import Link from 'next/link';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import NuclearBindingEnergyQuizPage from './quiz';
+import QuizPage from './quiz';
+import SummaryPage from './summary';
 
 
 export default function NuclearBindingEnergyPage() {
@@ -67,9 +68,19 @@ export default function NuclearBindingEnergyPage() {
                 <Button variant="ghost" className="w-full justify-start">
                   <FileText className="me-3"/> ورقة عمل الدرس (PDF)
                 </Button>
-                <Button variant="ghost" className="w-full justify-start">
-                  <BarChart className="me-3"/> ملخص القوانين
-                </Button>
+                <Dialog>
+                    <DialogTrigger asChild>
+                        <Button variant="ghost" className="w-full justify-start">
+                          <BarChart className="me-3"/> ملخص القوانين
+                        </Button>
+                    </DialogTrigger>
+                    <DialogContent className="max-w-xl h-auto max-h-[80vh] overflow-y-auto">
+                        <DialogHeader>
+                            <DialogTitle>ملخص قوانين: طاقة الربط النووية</DialogTitle>
+                        </DialogHeader>
+                        <SummaryPage />
+                    </DialogContent>
+                 </Dialog>
                  <Dialog>
                     <DialogTrigger asChild>
                         <Button variant="ghost" className="w-full justify-start">
@@ -80,7 +91,7 @@ export default function NuclearBindingEnergyPage() {
                         <DialogHeader>
                             <DialogTitle>اختبار قصير: طاقة الربط النووية</DialogTitle>
                         </DialogHeader>
-                        <NuclearBindingEnergyQuizPage />
+                        <QuizPage />
                     </DialogContent>
                  </Dialog>
               </CardContent>

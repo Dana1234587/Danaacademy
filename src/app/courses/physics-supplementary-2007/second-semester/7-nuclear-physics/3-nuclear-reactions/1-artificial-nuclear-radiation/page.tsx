@@ -5,6 +5,9 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { ChevronLeft, FileText, BarChart, BrainCircuit } from 'lucide-react';
 import Link from 'next/link';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import QuizPage from './quiz';
+import SummaryPage from './summary';
 
 export default function ArtificialNuclearRadiationPage() {
   return (
@@ -42,7 +45,7 @@ export default function ArtificialNuclearRadiationPage() {
             <Card>
                 <CardHeader>
                     <CardTitle>نقاط رئيسية من الحصة</CardTitle>
-                    <CardDescription>أهم الأفكار والقوانين التي سيتم تغطيتها في هذا الفيديو.</CardDescription>
+                    <CardDescription>أهم الأفكار والقوانين التي تم تغطيتها في هذا الفيديو.</CardDescription>
                 </CardHeader>
                 <CardContent>
                     <ul className="space-y-3 list-disc list-inside text-muted-foreground">
@@ -64,12 +67,32 @@ export default function ArtificialNuclearRadiationPage() {
                 <Button variant="ghost" className="w-full justify-start">
                   <FileText className="me-3"/> ورقة عمل الدرس (PDF)
                 </Button>
-                <Button variant="ghost" className="w-full justify-start">
-                  <BarChart className="me-3"/> ملخص القوانين
-                </Button>
-                 <Button variant="ghost" className="w-full justify-start">
-                  <BrainCircuit className="me-3"/> اختبار قصير للمراجعة
-                </Button>
+                <Dialog>
+                    <DialogTrigger asChild>
+                        <Button variant="ghost" className="w-full justify-start">
+                          <BarChart className="me-3"/> ملخص القوانين
+                        </Button>
+                    </DialogTrigger>
+                    <DialogContent className="max-w-xl h-auto max-h-[80vh] overflow-y-auto">
+                        <DialogHeader>
+                            <DialogTitle>ملخص قوانين: التفاعلات النووية</DialogTitle>
+                        </DialogHeader>
+                        <SummaryPage />
+                    </DialogContent>
+                 </Dialog>
+                 <Dialog>
+                    <DialogTrigger asChild>
+                        <Button variant="ghost" className="w-full justify-start">
+                          <BrainCircuit className="me-3"/> اختبار قصير للمراجعة
+                        </Button>
+                    </DialogTrigger>
+                    <DialogContent className="max-w-4xl h-5/6 overflow-y-auto">
+                        <DialogHeader>
+                            <DialogTitle>اختبار قصير: التفاعلات النووية</DialogTitle>
+                        </DialogHeader>
+                        <QuizPage />
+                    </DialogContent>
+                 </Dialog>
               </CardContent>
             </Card>
           </div>

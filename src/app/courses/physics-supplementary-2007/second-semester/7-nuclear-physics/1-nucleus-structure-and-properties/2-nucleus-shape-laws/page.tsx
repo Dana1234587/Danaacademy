@@ -6,7 +6,8 @@ import { Button } from '@/components/ui/button';
 import { ChevronLeft, FileText, BarChart, BrainCircuit } from 'lucide-react';
 import Link from 'next/link';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import NucleusShapeLawsQuizPage from './quiz';
+import QuizPage from './quiz';
+import SummaryPage from './summary';
 
 
 export default function NucleusShapeLawsPage() {
@@ -67,9 +68,19 @@ export default function NucleusShapeLawsPage() {
                 <Button variant="ghost" className="w-full justify-start">
                   <FileText className="me-3"/> ورقة عمل الدرس (PDF)
                 </Button>
-                <Button variant="ghost" className="w-full justify-start">
-                  <BarChart className="me-3"/> ملخص القوانين
-                </Button>
+                <Dialog>
+                    <DialogTrigger asChild>
+                        <Button variant="ghost" className="w-full justify-start">
+                          <BarChart className="me-3"/> ملخص القوانين
+                        </Button>
+                    </DialogTrigger>
+                    <DialogContent className="max-w-xl h-auto max-h-[80vh] overflow-y-auto">
+                        <DialogHeader>
+                            <DialogTitle>ملخص قوانين: شكل النواة</DialogTitle>
+                        </DialogHeader>
+                        <SummaryPage />
+                    </DialogContent>
+                 </Dialog>
                  <Dialog>
                     <DialogTrigger asChild>
                         <Button variant="ghost" className="w-full justify-start">
@@ -80,7 +91,7 @@ export default function NucleusShapeLawsPage() {
                         <DialogHeader>
                             <DialogTitle>اختبار قصير: قوانين متعلقة بشكل النواة</DialogTitle>
                         </DialogHeader>
-                        <NucleusShapeLawsQuizPage />
+                        <QuizPage />
                     </DialogContent>
                  </Dialog>
               </CardContent>
