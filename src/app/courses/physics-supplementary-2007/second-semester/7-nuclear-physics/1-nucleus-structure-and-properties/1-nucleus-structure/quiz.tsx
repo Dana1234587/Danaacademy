@@ -82,48 +82,50 @@ export default function NucleusStructureQuizPage() {
 
   return (
     <div className="p-4 bg-muted/40">
-       <div className="max-w-3xl mx-auto">
-      <Card className="border-0 shadow-none">
-        <CardContent className="space-y-8 pt-6">
-          {quizQuestions.map((q, qIndex) => (
-            <div key={qIndex} className={`p-4 rounded-lg border ${isSubmitted ? (selectedAnswers[qIndex] === q.correctAnswerIndex ? 'border-green-500 bg-green-500/10' : 'border-red-500 bg-red-500/10') : 'border-border'}`}>
-              <div className="font-bold mb-4"><SmartTextRenderer as="div" text={`السؤال ${qIndex + 1}: ${q.questionText}`} /></div>
-              <RadioGroup onValueChange={(value) => handleAnswerChange(qIndex, parseInt(value))} value={selectedAnswers[qIndex]?.toString()}>
+       <div className="max-w-4xl mx-auto">
+      <div className="space-y-8">
+        {quizQuestions.map((q, qIndex) => (
+          <Card key={qIndex} className={`border-2 ${isSubmitted ? (selectedAnswers[qIndex] === q.correctAnswerIndex ? 'border-green-500' : 'border-red-500') : 'border-border'} transition-colors duration-300 shadow-lg`}>
+            <CardHeader>
+              <CardTitle><SmartTextRenderer as="div" text={`السؤال ${qIndex + 1}: ${q.questionText}`} /></CardTitle>
+            </CardHeader>
+            <CardContent>
+              <RadioGroup onValueChange={(value) => handleAnswerChange(qIndex, parseInt(value))} value={selectedAnswers[qIndex]?.toString()} className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {q.options.map((option, oIndex) => (
-                  <div key={oIndex} className="flex items-center space-x-2 space-x-reverse">
+                  <Label key={oIndex} htmlFor={`q${qIndex}-o${oIndex}`} className={`p-4 rounded-lg border-2 flex items-center gap-4 cursor-pointer transition-all hover:bg-accent ${selectedAnswers[qIndex] === oIndex ? 'bg-primary/10 border-primary' : 'bg-background'}`}>
                     <RadioGroupItem value={oIndex.toString()} id={`q${qIndex}-o${oIndex}`} disabled={isSubmitted} />
-                    <Label htmlFor={`q${qIndex}-o${oIndex}`} className="flex-1 cursor-pointer">
-                        <SmartTextRenderer as="span" text={option} />
-                    </Label>
-                    {isSubmitted && selectedAnswers[qIndex] === oIndex && selectedAnswers[qIndex] !== q.correctAnswerIndex && <XCircle className="w-5 h-5 text-red-500"/>}
-                    {isSubmitted && oIndex === q.correctAnswerIndex && <CheckCircle className="w-5 h-5 text-green-500"/>}
-                  </div>
+                    <SmartTextRenderer as="span" text={option} />
+                     {isSubmitted && selectedAnswers[qIndex] === oIndex && selectedAnswers[qIndex] !== q.correctAnswerIndex && <XCircle className="w-5 h-5 text-red-500 ms-auto"/>}
+                    {isSubmitted && oIndex === q.correctAnswerIndex && <CheckCircle className="w-5 h-5 text-green-500 ms-auto"/>}
+                  </Label>
                 ))}
               </RadioGroup>
-              {isSubmitted && (
-                 <div className="mt-4 text-sm text-muted-foreground bg-muted p-3 rounded-md">
-                    <p className="font-bold">الشرح:</p>
-                    <SmartTextRenderer as="p" text={q.explanation} />
-                 </div>
-              )}
-            </div>
-          ))}
-        </CardContent>
-        <CardFooter className="flex flex-col items-center gap-4">
-            {!isSubmitted ? (
-                <Button onClick={handleSubmit} className="w-full">إظهار النتائج</Button>
-            ) : (
-                <div className="text-center w-full space-y-4">
-                    <p className="text-xl font-bold">
-                        نتيجتك: {calculateScore()} / {quizQuestions.length}
-                    </p>
-                    <Button onClick={() => { setIsSubmitted(false); setSelectedAnswers(new Array(quizQuestions.length).fill(null)); }} variant="outline">
-                        إعادة الاختبار
-                    </Button>
-                </div>
+            </CardContent>
+             {isSubmitted && (
+                 <CardFooter className="flex flex-col items-start bg-muted/50 p-4 mt-4 rounded-b-lg">
+                    <p className="font-bold text-foreground">الشرح:</p>
+                    <SmartTextRenderer as="p" text={q.explanation} className="text-muted-foreground" />
+                 </CardFooter>
             )}
-        </CardFooter>
-      </Card>
+          </Card>
+        ))}
+      </div>
+      
+      <div className="mt-8 text-center">
+        {!isSubmitted ? (
+            <Button onClick={handleSubmit} size="lg" className="w-full max-w-xs mx-auto">إظهار النتائج</Button>
+        ) : (
+            <Card className="max-w-sm mx-auto p-6">
+                <CardTitle className="text-2xl mb-4">نتيجتك النهائية</CardTitle>
+                <p className="text-3xl font-bold text-primary">
+                    {calculateScore()} / {quizQuestions.length}
+                </p>
+                <Button onClick={() => { setIsSubmitted(false); setSelectedAnswers(new Array(quizQuestions.length).fill(null)); }} variant="outline" className="mt-6">
+                    إعادة الاختبار
+                </Button>
+            </Card>
+        )}
+      </div>
       </div>
     </div>
   );
