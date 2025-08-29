@@ -9,6 +9,7 @@ import { Label } from '@/components/ui/label';
 import { CheckCircle, XCircle } from 'lucide-react';
 import 'katex/dist/katex.min.css';
 import { InlineMath } from 'react-katex';
+import { ForceTimeGraph } from './diagram';
 
 // A robust, universal renderer for bidirectional text
 const SmartTextRenderer = ({ text, as: Wrapper = 'p' }: { text: string; as?: React.ElementType }) => {
@@ -42,10 +43,11 @@ const quizQuestions = [
     explanation: 'ميل المنحنى هو $\\frac{\\Delta p}{\\Delta t}$. وفقًا للصيغة العامة لقانون نيوتن الثاني، فإن القوة المحصلة تساوي المعدل الزمني للتغير في الزخم الخطي.'
   },
   {
-    questionText: 'جسم كتلته $2 kg$ بدأ حركته من السكون. إذا أثرت عليه قوة كما في منحنى (قوة-زمن) بسيط (مثلث ارتفاعه 10N وقاعدته 4s)، فما سرعته النهائية؟',
+    questionText: 'بالاعتماد على الرسم البياني، جسم كتلته $2 kg$ بدأ حركته من السكون. ما سرعته النهائية بعد $4s$؟',
+    graph: true,
     options: ['$5 m/s$', '$10 m/s$', '$20 m/s$', '$40 m/s$'],
     correctAnswerIndex: 1,
-    explanation: 'الدفع = المساحة تحت المنحنى = $0.5 \\times \\text{القاعدة} \\times \\text{الارتفاع} = 0.5 \\times 4s \\times 10N = 20 Ns$. الدفع يساوي التغير في الزخم: $\\Delta p = m(v_f - v_i)$. إذن $20 = 2(v_f - 0) \\Rightarrow v_f = 10 m/s$.'
+    explanation: 'الدفع = المساحة تحت المنحنى = مساحة المثلث = $0.5 \\times \\text{القاعدة} \\times \\text{الارتفاع} = 0.5 \\times 4s \\times 10N = 20 Ns$. الدفع يساوي التغير في الزخم: $\\Delta p = m(v_f - v_i)$. إذن $20 = 2(v_f - 0) \\Rightarrow v_f = 10 m/s$.'
   },
   {
     questionText: 'إذا كان منحنى (الزخم - الزمن) لجسم خطًا أفقيًا لا يساوي الصفر، فهذا يعني أن...',
@@ -54,10 +56,11 @@ const quizQuestions = [
     explanation: 'خط أفقي يعني أن الميل يساوي صفر. بما أن ميل منحنى (الزخم-الزمن) يمثل القوة المحصلة، فإن القوة المحصلة تساوي صفرًا. وهذا يعني أن الجسم يتحرك بسرعة ثابتة (زخم ثابت).'
   },
   {
-    questionText: 'يمثل الرسم البياني علاقة القوة بالزمن لجسم. إذا كان الدفع خلال أول ثانيتين يساوي $I_1$ والدفع خلال الثانيتين التاليتين يساوي $I_2$, فأي علاقة صحيحة؟ (بافتراض شكل منحنى متزايد)',
+    questionText: 'يمثل الرسم البياني علاقة القوة بالزمن لجسم. إذا كان الدفع خلال أول ثانيتين يساوي $I_1$ والدفع خلال الثانيتين التاليتين يساوي $I_2$, فأي علاقة صحيحة؟',
+    graph: true,
     options: ['$I_1 > I_2$', '$I_1 < I_2$', '$I_1 = I_2$', 'لا يمكن التحديد'],
     correctAnswerIndex: 1,
-    explanation: 'الدفع هو المساحة تحت المنحنى. إذا كان المنحنى متزايدًا، فإن المساحة تحت المنحنى للفترة الزمنية [2, 4] ستكون أكبر من المساحة تحت المنحنى للفترة [0, 2]. لذلك $I_2 > I_1$.'
+    explanation: 'الدفع هو المساحة تحت المنحنى. المساحة تحت المنحنى للفترة الزمنية [0, 2] هي مساحة شبه منحرف أصغر من مساحة شبه المنحرف للفترة [2, 4]. لذلك $I_2 > I_1$.'
   },
 ];
 
@@ -88,6 +91,7 @@ export default function GraphQuestionsQuizPage() {
           <Card key={qIndex} className={`border-2 ${isSubmitted ? (selectedAnswers[qIndex] === q.correctAnswerIndex ? 'border-green-500' : 'border-red-500') : 'border-border'} transition-colors duration-300 shadow-lg`}>
             <CardHeader>
               <CardTitle><SmartTextRenderer as="div" text={`السؤال ${qIndex + 1}: ${q.questionText}`} /></CardTitle>
+              {q.graph && <ForceTimeGraph />}
             </CardHeader>
             <CardContent>
               <RadioGroup onValueChange={(value) => handleAnswerChange(qIndex, parseInt(value))} value={selectedAnswers[qIndex]?.toString()} className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -130,4 +134,3 @@ export default function GraphQuestionsQuizPage() {
     </div>
   );
 }
-
