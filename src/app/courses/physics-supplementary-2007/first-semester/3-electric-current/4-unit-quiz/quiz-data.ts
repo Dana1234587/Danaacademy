@@ -119,7 +119,7 @@ export const unit3QuizQuestions: QuizQuestion[] = [
   {
     id: 9,
     questionText: 'يمثّل الشكل المجاور دائرة كهربائية. إذا كانت قراءة الفولتميتر تساوي $25 V$، فأوجد قيمة المقاومة $R$ وفرق الجهد بين النقطتين $d,c$ (يرمز له $V_{dc}$) على الترتيب.',
-    image: 'https://i.ibb.co/ZcyL2s7/9.png',
+    image: 'https://i.ibb.co/5gKQp0dz/7.png',
     imageHint: 'kirchhoff rules circuit',
     options: [
       '$R=2.5 \\Omega, V_{dc}=15 V$',
