@@ -274,17 +274,20 @@ export function QuizClient({ questions }: { questions: QuizQuestion[] }) {
         <Progress value={progress} className="mt-2" />
       </CardHeader>
       <CardContent>
-        <div className="text-lg font-semibold mb-4"><SmartTextRenderer as="div" text={currentQuestion.questionText} /></div>
-        {currentQuestion.image && (
-            <div className="my-6 flex justify-center">
-                <Image src={currentQuestion.image} alt={`Question ${currentQuestion.id}`} width={400} height={250} className="rounded-lg shadow-md" data-ai-hint={currentQuestion.imageHint || 'question image'} />
-            </div>
-        )}
+        <div className={`grid gap-6 items-start ${currentQuestion.image ? 'md:grid-cols-2' : 'md:grid-cols-1'}`}>
+          <div className="text-lg font-semibold mb-4"><SmartTextRenderer as="div" text={currentQuestion.questionText} /></div>
+          {currentQuestion.image && (
+              <div className="relative w-full h-48 mx-auto">
+                  <Image src={currentQuestion.image} alt={`Question ${currentQuestion.id}`} layout="fill" objectFit="contain" className="rounded-lg shadow-md" data-ai-hint={currentQuestion.imageHint || 'question image'} />
+              </div>
+          )}
+        </div>
+
         <RadioGroup
           key={currentQuestionIndex}
           value={answers[currentQuestionIndex]?.toString() ?? ""}
           onValueChange={handleAnswerChange}
-          className="space-y-4"
+          className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6"
           dir="rtl"
         >
           {currentQuestion.options.map((option, index) => (
