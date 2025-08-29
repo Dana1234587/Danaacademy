@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState } from 'react';
@@ -5,10 +6,9 @@ import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/componen
 import { Button } from '@/components/ui/button';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
-import { CheckCircle, XCircle, ChevronLeft } from 'lucide-react';
+import { CheckCircle, XCircle } from 'lucide-react';
 import 'katex/dist/katex.min.css';
 import { InlineMath } from 'react-katex';
-import Link from 'next/link';
 
 // A robust, universal renderer for bidirectional text
 const SmartTextRenderer = ({ text, as: Wrapper = 'p' }: { text: string; as?: React.ElementType }) => {
@@ -81,20 +81,10 @@ export default function NucleusStructureQuizPage() {
   }
 
   return (
-    <div className="p-4 sm:p-6 lg:p-8 bg-muted/40 min-h-screen">
+    <div className="p-4 bg-muted/40">
        <div className="max-w-3xl mx-auto">
-        <div className="mb-8">
-            <Button asChild variant="outline">
-                <Link href="/courses/physics-supplementary-2007/second-semester/7-nuclear-physics/1-nucleus-structure-and-properties/1-nucleus-structure">
-                  <ChevronLeft className="me-2 h-4 w-4" /> العودة إلى الدرس
-                </Link>
-            </Button>
-        </div>
-      <Card>
-        <CardHeader className="text-center">
-          <CardTitle>اختبار قصير: بنية النواة</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-8">
+      <Card className="border-0 shadow-none">
+        <CardContent className="space-y-8 pt-6">
           {quizQuestions.map((q, qIndex) => (
             <div key={qIndex} className={`p-4 rounded-lg border ${isSubmitted ? (selectedAnswers[qIndex] === q.correctAnswerIndex ? 'border-green-500 bg-green-500/10' : 'border-red-500 bg-red-500/10') : 'border-border'}`}>
               <div className="font-bold mb-4"><SmartTextRenderer as="div" text={`السؤال ${qIndex + 1}: ${q.questionText}`} /></div>
