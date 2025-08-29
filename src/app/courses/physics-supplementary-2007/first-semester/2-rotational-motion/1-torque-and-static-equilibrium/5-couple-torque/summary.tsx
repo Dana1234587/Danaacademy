@@ -5,7 +5,24 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert';
 import { Info } from 'lucide-react';
 import 'katex/dist/katex.min.css';
-import { BlockMath } from 'react-katex';
+import { BlockMath, InlineMath } from 'react-katex';
+
+const SmartTextRenderer = ({ text, as: Wrapper = 'p' }: { text: string; as?: React.ElementType }) => {
+    const lines = text.split('\n');
+    const renderPart = (part: string, index: number) => {
+        if (index % 2 === 0) return <span key={index} dir="rtl">{part}</span>;
+        return <span key={index} className="inline-block mx-1"><InlineMath math={part} /></span>;
+    };
+    return (
+        <Wrapper className="leading-relaxed">
+            {lines.map((line, lineIndex) => (
+                <span key={lineIndex} className="block my-1 text-right">
+                    {line.split('$').map(renderPart)}
+                </span>
+            ))}
+        </Wrapper>
+    );
+};
 
 const laws = [
     {
@@ -16,7 +33,7 @@ const laws = [
     {
         title: "حساب مركز الكتلة لنظام من الجسيمات",
         formula: "x_{CM} = \\frac{\\sum m_i x_i}{\\sum m_i}",
-        description: "لحساب إحداثي مركز الكتلة على محور (x)، نضرب كتلة كل جسيم في إحداثيه السيني، نجمع النواتج، ثم نقسم على الكتلة الكلية للنظام. نفس المبدأ ينطبق على المحورين y و z."
+        description: "لحساب إحداثي مركز الكتلة على محور ($x$)، نضرب كتلة كل جسيم في إحداثيه السيني، نجمع النواتج، ثم نقسم على الكتلة الكلية للنظام. نفس المبدأ ينطبق على المحورين $y$ و $z$."
     }
 ];
 
@@ -36,7 +53,7 @@ export default function SummaryPage() {
                   </div>
                 }
                 <CardDescription className="text-right">
-                    {law.description}
+                    <SmartTextRenderer text={law.description} />
                 </CardDescription>
             </CardContent>
           </Card>

@@ -50,10 +50,10 @@ export default function SummaryPage() {
           <AlertDescription>
             في أي دارة كهربائية، القدرة الكلية المنتجة تساوي القدرة الكلية المستهلكة.
             <div dir="ltr" className="text-center mt-2 font-mono text-sm">
-                $\\Sigma P_{produced} = \\Sigma P_{consumed}$
+                <BlockMath math={"\\Sigma P_{produced} = \\Sigma P_{consumed}"} />
             </div>
              <div dir="ltr" className="text-center mt-1 font-mono text-sm">
-                $\\varepsilon I = I^2R_{ext} + I^2r_{int}$
+                <BlockMath math={"\\varepsilon I = I^2R_{ext} + I^2r_{int}"} />
             </div>
           </AlertDescription>
         </Alert>

@@ -61,7 +61,7 @@ export default function SummaryPage() {
           <Info className="h-4 w-4" />
           <AlertTitle className="font-bold">حفظ الطاقة مقابل حفظ الزخم الزاوي</AlertTitle>
           <AlertDescription>
-            <SmartTextRenderer as="div" text={'في الأنظمة التي يتم فيها حفظ الزخم الزاوي (مثل المتزلج الذي يضم ذراعيه)، لا تكون الطاقة الحركية الدورانية محفوظة بالضرورة. في الواقع، هي تزداد لأن $K = L^2 / (2I)$، وعندما يقل I، تزداد K.'} />
+            <SmartTextRenderer as="div" text={'في الأنظمة التي يتم فيها حفظ الزخم الزاوي (مثل المتزلج الذي يضم ذراعيه)، لا تكون الطاقة الحركية الدورانية محفوظة بالضرورة. في الواقع، هي تزداد لأن $K = L^2 / (2I)$، وعندما يقل $I$، تزداد $K$.'} />
           </AlertDescription>
         </Alert>
       </div>

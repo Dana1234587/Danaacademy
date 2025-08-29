@@ -62,7 +62,7 @@ export default function SummaryPage() {
           <Info className="h-4 w-4" />
           <AlertTitle className="font-bold">ملاحظة على الاتجاه</AlertTitle>
           <AlertDescription>
-            بشكل عام، نعتبر الحركة نحو اليمين (أو محور x الموجب) ذات إشارة موجبة (+)، والحركة نحو اليسار (أو محور x السالب) ذات إشارة سالبة (-).
+             <SmartTextRenderer as="div" text={"بشكل عام، نعتبر الحركة نحو اليمين (أو محور $x$ الموجب) ذات إشارة موجبة (+)، والحركة نحو اليسار (أو محور $x$ السالب) ذات إشارة سالبة (-)."} />
           </AlertDescription>
         </Alert>
       </div>

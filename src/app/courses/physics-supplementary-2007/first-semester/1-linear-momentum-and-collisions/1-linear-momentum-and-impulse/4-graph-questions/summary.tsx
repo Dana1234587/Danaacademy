@@ -1,9 +1,26 @@
 
 'use client';
 
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import 'katex/dist/katex.min.css';
-import { BlockMath } from 'react-katex';
+import { InlineMath } from 'react-katex';
+
+const SmartTextRenderer = ({ text, as: Wrapper = 'p' }: { text: string; as?: React.ElementType }) => {
+    const lines = text.split('\n');
+    const renderPart = (part: string, index: number) => {
+        if (index % 2 === 0) return <span key={index} dir="rtl">{part}</span>;
+        return <span key={index} className="inline-block mx-1"><InlineMath math={part} /></span>;
+    };
+    return (
+        <Wrapper className="leading-relaxed">
+            {lines.map((line, lineIndex) => (
+                <span key={lineIndex} className="block my-1 text-right">
+                    {line.split('$').map(renderPart)}
+                </span>
+            ))}
+        </Wrapper>
+    );
+};
 
 const laws = [
     {
@@ -34,7 +51,7 @@ export default function SummaryPage() {
             <CardContent className="space-y-2">
                 <ul className="list-disc list-inside text-right text-muted-foreground space-y-2">
                   {law.points.map((point, pIndex) => (
-                    <li key={pIndex}>{point}</li>
+                    <li key={pIndex}><SmartTextRenderer as="span" text={point} /></li>
                   ))}
                 </ul>
             </CardContent>

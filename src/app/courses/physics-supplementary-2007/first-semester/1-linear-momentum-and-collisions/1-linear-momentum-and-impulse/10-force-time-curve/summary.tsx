@@ -5,7 +5,24 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert';
 import { Info } from 'lucide-react';
 import 'katex/dist/katex.min.css';
-import { BlockMath } from 'react-katex';
+import { BlockMath, InlineMath } from 'react-katex';
+
+const SmartTextRenderer = ({ text, as: Wrapper = 'p' }: { text: string; as?: React.ElementType }) => {
+    const lines = text.split('\n');
+    const renderPart = (part: string, index: number) => {
+        if (index % 2 === 0) return <span key={index} dir="rtl">{part}</span>;
+        return <span key={index} className="inline-block mx-1"><InlineMath math={part} /></span>;
+    };
+    return (
+        <Wrapper className="leading-relaxed">
+            {lines.map((line, lineIndex) => (
+                <span key={lineIndex} className="block my-1 text-right">
+                    {line.split('$').map(renderPart)}
+                </span>
+            ))}
+        </Wrapper>
+    );
+};
 
 const laws = [
     {
@@ -43,10 +60,7 @@ export default function SummaryPage() {
           <Info className="h-4 w-4" />
           <AlertTitle className="font-bold">تذكر قوانين المساحة</AlertTitle>
           <AlertDescription>
-           ستحتاج إلى حساب مساحة الأشكال الهندسية البسيطة: <br/>
-            - مساحة المستطيل = الطول × العرض <br/>
-            - مساحة المثلث = 0.5 × القاعدة × الارتفاع <br/>
-            - مساحة شبه المنحرف = 0.5 × (مجموع القاعدتين المتوازيتين) × الارتفاع
+           <SmartTextRenderer as="div" text={'ستحتاج إلى حساب مساحة الأشكال الهندسية البسيطة: \n- مساحة المستطيل = الطول × العرض \n- مساحة المثلث = $0.5$ × القاعدة × الارتفاع \n- مساحة شبه المنحرف = $0.5$ × (مجموع القاعدتين المتوازيتين) × الارتفاع'} />
           </AlertDescription>
         </Alert>
       </div>

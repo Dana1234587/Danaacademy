@@ -30,11 +30,9 @@ export default function SummaryPage() {
               <CardTitle className="text-primary text-xl text-right">{law.title}</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-                {law.formula && 
-                  <div dir="ltr" className="bg-primary/5 p-4 rounded-lg text-center">
-                      <BlockMath math={law.formula} />
-                  </div>
-                }
+                <div dir="ltr" className="bg-primary/5 p-4 rounded-lg text-center">
+                    <BlockMath math={law.formula} />
+                </div>
                 <CardDescription className="text-right">
                     {law.description}
                 </CardDescription>
@@ -52,5 +50,3 @@ export default function SummaryPage() {
     </div>
   );
 }
-
-    
