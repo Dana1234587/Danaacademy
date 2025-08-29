@@ -5,6 +5,9 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { ChevronLeft, FileText, BarChart, BrainCircuit } from 'lucide-react';
 import Link from 'next/link';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import StabilityBandQuizPage from './quiz';
+
 
 export default function StabilityBandPage() {
   return (
@@ -42,7 +45,7 @@ export default function StabilityBandPage() {
             <Card>
                 <CardHeader>
                     <CardTitle>نقاط رئيسية من الحصة</CardTitle>
-                    <CardDescription>أهم الأفكار والقوانين التي سيتم تغطيتها في هذا الفيديو.</CardDescription>
+                    <CardDescription>أهم الأفكار والقوانين التي تم تغطيتها في هذا الفيديو.</CardDescription>
                 </CardHeader>
                 <CardContent>
                     <ul className="space-y-3 list-disc list-inside text-muted-foreground">
@@ -67,9 +70,19 @@ export default function StabilityBandPage() {
                 <Button variant="ghost" className="w-full justify-start">
                   <BarChart className="me-3"/> ملخص القوانين
                 </Button>
-                 <Button variant="ghost" className="w-full justify-start">
-                  <BrainCircuit className="me-3"/> اختبار قصير للمراجعة
-                </Button>
+                 <Dialog>
+                    <DialogTrigger asChild>
+                        <Button variant="ghost" className="w-full justify-start">
+                          <BrainCircuit className="me-3"/> اختبار قصير للمراجعة
+                        </Button>
+                    </DialogTrigger>
+                    <DialogContent className="max-w-4xl h-5/6 overflow-y-auto">
+                        <DialogHeader>
+                            <DialogTitle>اختبار قصير: نطاق الاستقرار</DialogTitle>
+                        </DialogHeader>
+                        <StabilityBandQuizPage />
+                    </DialogContent>
+                 </Dialog>
               </CardContent>
             </Card>
           </div>
