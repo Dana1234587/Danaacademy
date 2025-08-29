@@ -34,8 +34,7 @@ export const unit3QuizQuestions: QuizQuestion[] = [
       '($\\frac{1}{4}$,$\\frac{1}{1}$)',
     ],
     correctAnswerIndex: 0,
-    explanation: `
-<b>أولًا: حساب نسبة المقاومية ($\\frac{\\rho_1}{\\rho_2}$):</b><br/>
+    explanation: `<b>أولًا: حساب نسبة المقاومية ($\\frac{\\rho_1}{\\rho_2}$):</b><br/>
 بما أن الموصلين مصنوعان من نفس المادة (النحاس)، فإن مقاوميتهما النوعية متساوية. إذن:<br/>
 $\\rho_1 = \\rho_2$<br/>
 وبالتالي، النسبة $\\frac{\\rho_1}{\\rho_2} = 1$.<br/><br/>

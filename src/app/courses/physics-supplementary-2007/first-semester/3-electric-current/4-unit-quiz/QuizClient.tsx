@@ -273,78 +273,101 @@ export function QuizClient({ questions }: { questions: QuizQuestion[] }) {
 
 
   return (
-    <Card className="max-w-4xl mx-auto w-full">
-      <CardHeader>
-        <div className="flex justify-between items-center">
-            <CardTitle><SmartTextRenderer as="span" text={`السؤال $${currentQuestionIndex + 1}$ من $${questions.length}$`} /></CardTitle>
-            <div className={`font-mono text-lg p-2 rounded-md ${timeLeft < 60 ? 'text-destructive animate-pulse' : 'text-foreground'}`}>
-                <SmartTextRenderer as="span" text={formatTime(timeLeft)} />
-            </div>
-        </div>
-        <Progress value={progress} className="mt-2" />
-      </CardHeader>
-      <CardContent>
-        <div className={`grid gap-6 items-start ${currentQuestion.image ? 'md:grid-cols-2' : 'md:grid-cols-1'}`}>
-            <div className="text-lg font-semibold space-y-4">
-              <SmartTextRenderer as="div" text={currentQuestion.questionText} />
-            </div>
-            {currentQuestion.image && (
-                <div className="relative w-48 h-48 mx-auto">
-                    <Image src={currentQuestion.image} alt={`Question ${currentQuestion.id}`} layout="fill" objectFit="contain" className="rounded-lg shadow-md" data-ai-hint={currentQuestion.imageHint || 'question image'} />
+    <div className="min-h-screen bg-muted/40 flex flex-col">
+        <header className="sticky top-0 z-10 w-full bg-background border-b">
+             <div className="container mx-auto flex h-20 items-center justify-between px-4 md:px-6">
+                <div className="flex flex-col">
+                     <p className="text-sm text-primary font-medium">الوحدة الثالثة: التيار الكهربائي</p>
+                    <h1 className="text-2xl font-bold mt-1 flex items-center gap-3">
+                        <ClipboardCheck className="w-7 h-7" />
+                        اختبار الوحدة الثالثة
+                    </h1>
                 </div>
-            )}
-        </div>
-        <RadioGroup
-          key={currentQuestionIndex}
-          value={answers[currentQuestionIndex]?.toString() ?? ""}
-          onValueChange={handleAnswerChange}
-          className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6"
-          dir="rtl"
-        >
-          {currentQuestion.options.map((option, index) => (
-            <Label key={index} htmlFor={`q${currentQuestion.id}-o${index}`} className="flex items-center gap-4 border p-4 rounded-lg cursor-pointer hover:bg-accent has-[:checked]:bg-primary/10 has-[:checked]:border-primary">
-              <RadioGroupItem value={index.toString()} id={`q${currentQuestion.id}-o${index}`} />
-              <span className="font-bold">{optionLabels[index]})</span>
-              <div className="flex-1 text-base"><SmartTextRenderer as="span" text={option} /></div>
-            </Label>
-          ))}
-        </RadioGroup>
-      </CardContent>
-      <CardFooter className="flex justify-between">
-         <Button onClick={handleNext} disabled={currentQuestionIndex === questions.length - 1}>
-            <ChevronRight className="ms-2 h-4 w-4" />
-            التالي
-        </Button>
-        {currentQuestionIndex === questions.length - 1 ? (
-          <AlertDialog>
-            <AlertDialogTrigger asChild>
-                <Button variant="destructive">
-                    إنهاء الاختبار
-                    <CheckCircle className="ms-2 h-4 w-4" />
+                 <div className="flex items-center gap-4">
+                    <Button asChild variant="outline" size="sm">
+                        <Link href="/courses/physics-supplementary-2007">
+                          <ChevronLeft className="me-2 h-4 w-4" /> العودة إلى قائمة الدروس
+                        </Link>
+                    </Button>
+                    <Logo className="h-12 w-auto hidden sm:block" />
+                 </div>
+            </div>
+        </header>
+        <main className="flex-1 w-full flex items-center justify-center p-4 sm:p-6 lg:p-8">
+            <Card className="max-w-4xl mx-auto w-full">
+            <CardHeader>
+                <div className="flex justify-between items-center">
+                    <CardTitle><SmartTextRenderer as="span" text={`السؤال $${currentQuestionIndex + 1}$ من $${questions.length}$`} /></CardTitle>
+                    <div className={`font-mono text-lg p-2 rounded-md ${timeLeft < 60 ? 'text-destructive animate-pulse' : 'text-foreground'}`}>
+                        <SmartTextRenderer as="span" text={formatTime(timeLeft)} />
+                    </div>
+                </div>
+                <Progress value={progress} className="mt-2" />
+            </CardHeader>
+            <CardContent>
+                <div className={`grid gap-6 items-start ${currentQuestion.image ? 'md:grid-cols-2' : 'md:grid-cols-1'}`}>
+                    <div className="text-lg font-semibold space-y-4">
+                    <SmartTextRenderer as="div" text={currentQuestion.questionText} />
+                    </div>
+                    {currentQuestion.image && (
+                        <div className="relative w-48 h-48 mx-auto">
+                            <Image src={currentQuestion.image} alt={`Question ${currentQuestion.id}`} layout="fill" objectFit="contain" className="rounded-lg shadow-md" data-ai-hint={currentQuestion.imageHint || 'question image'} />
+                        </div>
+                    )}
+                </div>
+                <RadioGroup
+                key={currentQuestionIndex}
+                value={answers[currentQuestionIndex]?.toString() ?? ""}
+                onValueChange={handleAnswerChange}
+                className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6"
+                dir="rtl"
+                >
+                {currentQuestion.options.map((option, index) => (
+                    <Label key={index} htmlFor={`q${currentQuestion.id}-o${index}`} className="flex items-center gap-4 border p-4 rounded-lg cursor-pointer hover:bg-accent has-[:checked]:bg-primary/10 has-[:checked]:border-primary">
+                    <RadioGroupItem value={index.toString()} id={`q${currentQuestion.id}-o${index}`} />
+                    <span className="font-bold">{optionLabels[index]})</span>
+                    <div className="flex-1 text-base"><SmartTextRenderer as="span" text={option} /></div>
+                    </Label>
+                ))}
+                </RadioGroup>
+            </CardContent>
+            <CardFooter className="flex justify-between">
+                <Button onClick={handleNext} disabled={currentQuestionIndex === questions.length - 1}>
+                    <ChevronRight className="ms-2 h-4 w-4" />
+                    التالي
                 </Button>
-            </AlertDialogTrigger>
-            <AlertDialogContent>
-                <AlertDialogHeader>
-                    <AlertDialogTitle>هل أنت متأكد من إنهاء الاختبار؟</AlertDialogTitle>
-                    <AlertDialogDescription>
-                        لا يمكنك تغيير إجاباتك بعد الإنهاء. سيتم عرض نتيجتك النهائية.
-                    </AlertDialogDescription>
-                </AlertDialogHeader>
-                <AlertDialogFooter>
-                    <AlertDialogCancel>إلغاء</AlertDialogCancel>
-                    <AlertDialogAction onClick={finishQuiz} className="bg-destructive hover:bg-destructive/90">
-                        نعم، قم بالإنهاء
-                    </AlertDialogAction>
-                </AlertDialogFooter>
-            </AlertDialogContent>
-          </AlertDialog>
-        ) : (
-          <Button onClick={handlePrevious} disabled={currentQuestionIndex === 0} variant="outline">
-            السابق
-            <ChevronLeft className="me-2 h-4 w-4" />
-          </Button>
-        )}
-      </CardFooter>
-    </Card>
+                {currentQuestionIndex === questions.length - 1 ? (
+                <AlertDialog>
+                    <AlertDialogTrigger asChild>
+                        <Button variant="destructive">
+                            إنهاء الاختبار
+                            <CheckCircle className="ms-2 h-4 w-4" />
+                        </Button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                        <AlertDialogHeader>
+                            <AlertDialogTitle>هل أنت متأكد من إنهاء الاختبار؟</AlertDialogTitle>
+                            <AlertDialogDescription>
+                                لا يمكنك تغيير إجاباتك بعد الإنهاء. سيتم عرض نتيجتك النهائية.
+                            </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                            <AlertDialogCancel>إلغاء</AlertDialogCancel>
+                            <AlertDialogAction onClick={finishQuiz} className="bg-destructive hover:bg-destructive/90">
+                                نعم، قم بالإنهاء
+                            </AlertDialogAction>
+                        </AlertDialogFooter>
+                    </AlertDialogContent>
+                </AlertDialog>
+                ) : (
+                <Button onClick={handlePrevious} disabled={currentQuestionIndex === 0} variant="outline">
+                    السابق
+                    <ChevronLeft className="me-2 h-4 w-4" />
+                </Button>
+                )}
+            </CardFooter>
+            </Card>
+        </main>
+    </div>
   );
 }
