@@ -71,8 +71,8 @@ $\\rho_1 = \\rho_2$<br/>
     image: 'https://i.ibb.co/zhqngG8q/4.png',
     imageHint: 'circuit diagram with ammeter and voltmeter',
     options: [
-      '$\\varepsilon=12V, r=1\\Omega$',
-      '$2 J/s, R=12 \\Omega$',
+      '$2 J/s, R=4 \\Omega$',
+      '$7 J/s, R=12 \\Omega$',
       '$10 J/s, R=4 \\Omega$',
       '$2 J/s, R=2 \\Omega$',
     ],
@@ -85,12 +85,13 @@ $\\rho_1 = \\rho_2$<br/>
     image: 'https://i.ibb.co/NdYqWpfd/5.png',
     imageHint: 'circuit diagram with switch',
     options: [
-      '($12 V$, $1 \\Omega$)',
-      '($12 V$, $2 \\Omega$)',
-      '($9 V$, $2 \\Omega$)',
-      '($9 V$, $1 \\Omega$)',
+      '($1 \\Omega$, $12 V$)',
+      '($2 \\Omega$, $12 V$)',
+      '($2 \\Omega$, $9 V$)',
+      '($1 \\Omega$, $9 V$)',
     ],
-    correctAnswerIndex: 0,
-    explanation: 'الشرح سيتم إضافته لاحقًا.',
+    correctAnswerIndex: 1,
+    explanation: '1) المفتاح مفتوح: قراءة الفولتميتر هي جهد طرفي البطارية، وهو نفسه جهد المقاومة الخارجية $6\\Omega$. $V = 9V$ على $6\\Omega$ $\\Rightarrow I_1 = \\frac{V}{R} = \\frac{9}{6} = 1.5 A$. من علاقة جهد البطارية: $V = \\varepsilon - I_1 r \\Rightarrow 9 = \\varepsilon - 1.5r$ (معادلة 1). 2) المفتاح مغلق: الآن $6\\Omega$ توازي $12\\Omega$. المقاومة المكافئة لهما: $\\frac{1}{R_{eq}} = \\frac{1}{6} + \\frac{1}{12} = \\frac{3}{12} \\Rightarrow R_{eq} = 4\\Omega$. قراءة الفولتميتر الآن $V=8V$ على هذه المجموعة: $I_2 = \\frac{V}{R_{eq}} = \\frac{8}{4} = 2A$. من علاقة جهد البطارية: $V = \\varepsilon - I_2 r \\Rightarrow 8 = \\varepsilon - 2r$ (معادلة 2). 3) حل المعادلتين: نطرح (2) من (1): $(9-8) = (\\varepsilon - 1.5r) - (\\varepsilon - 2r) \\Rightarrow 1 = 0.5r \\Rightarrow r=2\\Omega$. نعوض في (2): $8 = \\varepsilon - 2(2) \\Rightarrow \\varepsilon = 12V$. النتيجة النهائية: $(r, \\varepsilon) = (2\\Omega, 12V)$.',
   }
 ];
+    
