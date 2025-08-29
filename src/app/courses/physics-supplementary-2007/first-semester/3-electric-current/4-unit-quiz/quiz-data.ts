@@ -56,13 +56,13 @@ export const unit3QuizQuestions: QuizQuestion[] = [
     image: 'https://i.ibb.co/zhqngG8q/4.png',
     imageHint: 'circuit diagram with ammeter and voltmeter',
     options: [
-        '$2 J/s, R=4 \\Omega$',
-        '$7 J/s, R=12 \\Omega$',
-        '$10 J/s, R=4 \\Omega$',
-        '$2 J/s, R=2 \\Omega$',
+      '$2 J/s, R=4 \\Omega$',
+      '$7 J/s, R=12 \\Omega$',
+      '$10 J/s, R=4 \\Omega$',
+      '$2 J/s, R=2 \\Omega$',
     ],
     correctAnswerIndex: 0,
-    explanation: 'أولاً: حساب الطاقة المستهلكة (القدرة) في المقاومة $8 \\Omega$:\nالتيار المقاس $I=0.5 A$ يمر عبر المقاومة $8 \\Omega$.\n$P_{8\\Omega} = I^2 R = (0.5)^2 \\times 8 = 2 \\text{ J/s}$.\n\nثانياً: إيجاد قيمة المقاومة $R$:\n1. نحسب المقاومة الكلية للدائرة بين النقطتين a و b.\n$R_{\\text{total}} = \\frac{V_{ab}}{I} = \\frac{5.5 V}{0.5 A} = 11 \\Omega$.\n2. المقاومتان $(12 \\Omega \\|\\| R)$ موصولتان على التوالي مع المقاومة $8 \\Omega$. إذن، المقاومة المكافئة لهما هي:\n$R_{\\text{parallel}} = R_{\\text{total}} - 8 \\Omega = 11 \\Omega - 8 \\Omega = 3 \\Omega$.\n3. الآن، نستخدم قانون التوصيل على التوازي لإيجاد $R$:\n$\\frac{1}{R_{\\text{parallel}}} = \\frac{1}{12} + \\frac{1}{R}$\n$\\frac{1}{3} = \\frac{1}{12} + \\frac{1}{R}$\n$\\frac{1}{R} = \\frac{1}{3} - \\frac{1}{12} = \\frac{4-1}{12} = \\frac{3}{12} = \\frac{1}{4}$\nإذن, $R = 4 \\Omega$.\n\nالنتيجة النهائية:\nمعدل الطاقة المستهلكة هو $2 \\text{ J/s}$ وقيمة المقاومة $R$ هي $4 \\Omega$.\nالإجابة الصحيحة هي (أ).'
+    explanation: 'أولاً: حساب الطاقة المستهلكة (القدرة) في المقاومة $8 \\Omega$:\nالتيار المقاس $I=0.5 A$ يمر عبر المقاومة $8 \\Omega$.\n$P_{8\\Omega} = I^2 R = (0.5)^2 \\times 8 = 2 J/s$.\n\nثانياً: إيجاد قيمة المقاومة $R$:\n1. نحسب المقاومة الكلية للدائرة بين النقطتين a و b.\n$R_{\\text{total}} = \\frac{V_{ab}}{I} = \\frac{5.5 V}{0.5 A} = 11 \\Omega$.\n2. المقاومتان $(12 \\Omega \\|\\| R)$ موصولتان على التوالي مع المقاومة $8 \\Omega$. إذن، المقاومة المكافئة لهما هي:\n$R_{\\text{parallel}} = R_{\\text{total}} - 8 \\Omega = 11 \\Omega - 8 \\Omega = 3 \\Omega$.\n3. الآن، نستخدم قانون التوصيل على التوازي لإيجاد $R$:\n$\\frac{1}{R_{\\text{parallel}}} = \\frac{1}{12} + \\frac{1}{R}$\n$\\frac{1}{3} = \\frac{1}{12} + \\frac{1}{R}$\n$\\frac{1}{R} = \\frac{1}{3} - \\frac{1}{12} = \\frac{4-1}{12} = \\frac{3}{12} = \\frac{1}{4}$\nإذن, $R = 4 \\Omega$.\n\nالنتيجة النهائية:\nمعدل الطاقة المستهلكة هو $2 J/s$ وقيمة المقاومة $R$ هي $4 \\Omega$.\nالإجابة الصحيحة هي (أ).',
   },
   {
     id: 5,
@@ -81,6 +81,7 @@ export const unit3QuizQuestions: QuizQuestion[] = [
 ];
 
     
+
 
 
 
