@@ -64,9 +64,9 @@ export const unit3QuizQuestions: QuizQuestion[] = [
     correctAnswerIndex: 0,
     explanation: '<b>أولاً: حساب الطاقة المستهلكة (القدرة) في المقاومة $8 \\Omega$:</b>\nالتيار المقاس $I=0.5 A$ يمر عبر المقاومة $8 \\Omega$.\n$P_{8\\Omega} = I^2 R = (0.5)^2 \\times 8 = 2 J/s$.\n\n<b>ثانياً: إيجاد قيمة المقاومة $R$:</b>\n1. نحسب المقاومة الكلية للدائرة بين النقطتين a و b.\n$R_{\\text{total}} = \\frac{V_{ab}}{I} = \\frac{5.5 V}{0.5 A} = 11 \\Omega$.\n2. المقاومتان $(12 \\Omega \\|\\| R)$ موصولتان على التوالي مع المقاومة $8 \\Omega$. إذن، المقاومة المكافئة لهما هي:\n$R_{\\text{parallel}} = R_{\\text{total}} - 8 \\Omega = 11 \\Omega - 8 \\Omega = 3 \\Omega$.\n3. الآن، نستخدم قانون التوصيل على التوازي لإيجاد $R$:\n$\\frac{1}{R_{\\text{parallel}}} = \\frac{1}{12} + \\frac{1}{R}$\n$\\frac{1}{3} = \\frac{1}{12} + \\frac{1}{R}$\n$\\frac{1}{R} = \\frac{1}{3} - \\frac{1}{12} = \\frac{4-1}{12} = \\frac{3}{12} = \\frac{1}{4}$\nإذن, $R = 4 \\Omega$.',
   },
-    {
+  {
     id: 5,
-    questionText: 'يمثل الشكل المجاور دارة كهربائية. عندما كان المفتاح s مفتوحاً كانت قراءة الفولتميتر ($9 V$) وبعد غلق المفتاح أصبحت ($8 V$). فإن قيمة كل من $\\varepsilon$ و $r$ على الترتيب هي:',
+    questionText: 'يمثل الشكل المجاور دارة كهربائية. عندما كان المفتاح s مفتوحاً كانت قراءة الفولتميتر ($9 V$) وبعد غلق المفتاح أصبحت ($8 V$). فإن قيمة $\\varepsilon$ و $r$ على الترتيب هي:',
     image: 'https://i.ibb.co/NdYqWpfd/5.png',
     imageHint: 'circuit diagram with switch',
     options: [
@@ -140,24 +140,6 @@ export const unit3QuizQuestions: QuizQuestion[] = [
 تيار الفرع العلوي I1 = (30-25)/4 = 1.25A.
 تيار الفرع الأوسط I2 = (30-25)/1 = 5A.
 مجموع التيار الخارج من a هو I_total = 1.25+5 = 6.25A.
-هذا التيار يتوزع بين فرع R والفرع السفلي.
-الجهد بين a و d هو $V_{ad}$. $V_{dc} = V_{ac} - V_{ad} = 25 - V_{ad}$. التيار المار في المقاومة 5 أوم هو $I_{cd} = V_{cd} / 5$.
-هناك خطأ في منطق الحل الأصلي. سنقوم بإعادة الحل من الصفر بناءً على الخيارات.
-لنفترض الخيار (أ) صحيح: $R=2.5\\Omega, V_{dc}=15V$.
-إذا كان $V_{dc}=15V$ (جهد d أعلى من c)، فالتيار في المقاومة 5 أوم هو $I_{cd} = 15/5 = 3A$ (من d إلى c).
-الجهد بين a و c هو 25V. $V_a - V_c = 25V$.
-الجهد بين d و c هو 15V. $V_d - V_c = 15V$.
-إذن $V_{ad} = V_{ac} - V_{dc} = 25-15 = 10V$. (هنا خطأ، يجب أن تكون $V_{ad} = V_a - V_d = (V_a-V_c)-(V_d-V_c) = 25-15=10V$).
-الجهد على المقاومة R هو $V_{ad}=10V$. التيار فيها $I_R = V_{ad}/R = 10/2.5 = 4A$ (من a إلى d).
-الجهد على فرع البطارية السفلية هو $V_{ad}=10V$. التيار فيه $I_{E2}$ يحسب من $V_{ad}=E_2 - I_{E2}r_2 \\implies 10=13-I_{E2}(1) \\implies I_{E2}=3A$ (من a إلى d).
-نتحقق من قانون الوصلة عند a: التيار الداخل هو $I_R+I_{E2} = 4+3=7A$. التيار الخارج هو $I_{cd}=3A$. هذا غير صحيح.
-
-دعنا نعيد التفكير في الشرح المقدم. يبدو أن هناك خطأ في تحليل التيارات في الشرح. الحل الصحيح يتطلب نظام معادلات كيرشوف كامل.
-عروة 1 (acda): $+30 - 4I_1 - 5(I_1-I_3) - 13 + 1I_3 = 0 \\implies 17 - 9I_1 + 6I_3 = 0$.
-عروة 2 (acbda): $+30 - 4I_1 - (I_1-I_3-I_R)R - 13 + 1I_3 = 0$.
-هذا معقد. لنعد إلى الطريقة البسيطة مع تصحيح المنطق.
-$V_{ac}=25V$. $I_{top}=(30-25)/4 = 1.25A$. $I_{mid}=(30-25)/1=5A$.
-$I_{out-of-a} = I_{top} + I_{mid} = 6.25A$.
 هذا التيار يتوزع بين $I_R$ و $I_{E2}$. $I_R+I_{E2}=6.25A$.
 $V_{ad} = I_R R$ و $V_{ad} = 13 - I_{E2}(1)$.
 $V_{cd} = (I_{R} + I_1) \\times 5$ ? لا، هذا خطأ.
@@ -176,16 +158,15 @@ $I_{E2}$ في الفرع السفلي، $V_{ad} = 13 - I_{E2}(1) \\implies 10 = 
   {
     id: 10,
     questionText: "يمثّل المنحنى الخطي في الصورة علاقة التيار بفرق الجهد لسلك فلزي عند درجة حرارة الغرفة. إذا انخفضت درجة حرارة السلك، فأيُّ منحنى في الخيارات يمثّل العلاقة الجديدة؟",
-    image: 'https://i.ibb.co/bF4B1sF/10.png',
+    image: 'https://i.ibb.co/8gbd5btr/image.png',
     imageHint: 'I-V graph with positive slope',
     options: [
-      { text: '', image: 'https://i.ibb.co/zxr61fn/10a.png', imageHint: 'I-V graph with smaller slope'},
-      { text: '', image: 'https://i.ibb.co/hDBfTfd/10b.png', imageHint: 'I-V graph with larger slope'},
-      { text: '', image: 'https://i.ibb.co/k19v5Jj/10c.png', imageHint: 'Non-linear I-V graph concave up'},
-      { text: '', image: 'https://i.ibb.co/L5hPz6w/10d.png', imageHint: 'Non-linear I-V graph saturating'},
+      { text: '', image: 'https://placehold.co/200x150.png', imageHint: 'I-V graph with smaller slope'},
+      { text: '', image: 'https://placehold.co/200x150.png', imageHint: 'I-V graph with larger slope'},
+      { text: '', image: 'https://placehold.co/200x150.png', imageHint: 'Non-linear I-V graph concave up'},
+      { text: '', image: 'https://placehold.co/200x150.png', imageHint: 'Non-linear I-V graph saturating'},
     ],
     correctAnswerIndex: 1,
     explanation: "عند تبريد فلز، تقل مقاوميته (R) بسبب انخفاض المقاومية (ρ). ميل منحنى I-V هو $\\frac{I}{V} = \\frac{1}{R}$. بما أن R تقل، فإن مقلوبها (الميل) يزداد. لذلك، سيكون المنحنى الجديد خطًا مستقيمًا من الأصل ولكن بميل أكبر."
   }
 ];
-
