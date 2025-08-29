@@ -1,37 +1,56 @@
 
+'use client';
+
 import React from 'react';
+
+const Resistor = ({ x, y, label }: { x: number, y: number, label: string }) => (
+  <g transform={`translate(${x}, ${y})`}>
+    <path d="M 0 10 L 5 10 L 10 0 L 20 20 L 30 0 L 40 20 L 45 10 L 50 10" stroke="black" strokeWidth="1.5" fill="none" />
+    <text x="25" y="-5" textAnchor="middle" fontSize="12">{label}</text>
+  </g>
+);
+
+const Battery = ({ x, y, label }: { x: number, y: number, label: string }) => (
+    <g transform={`translate(${x}, ${y})`}>
+      <line x1="0" y1="0" x2="0" y2="40" stroke="black" strokeWidth="1.5" />
+      <line x1="-10" y1="10" x2="10" y2="10" stroke="black" strokeWidth="1.5" />
+      <line x1="-5" y1="20" x2="5" y2="20" stroke="black" strokeWidth="1.5" />
+      <text x="15" y="18" fontSize="12">{label}</text>
+    </g>
+);
+
 
 export const SimpleCircuit = () => (
     <div className="my-4 p-4 bg-muted rounded-lg flex justify-center items-center">
-        <svg width="250" height="150" viewBox="0 0 250 150" xmlns="http://www.w3.org/2000/svg">
+        <svg width="250" height="150" viewBox="0 0 250 150">
             {/* Battery */}
-            <line x1="50" y1="75" x2="50" y2="100" stroke="black" strokeWidth="2"/>
-            <line x1="40" y1="75" x2="60" y2="75" stroke="black" strokeWidth="2"/>
-            <line x1="45" y1="65" x2="55" y2="65" stroke="black" strokeWidth="2"/>
-            <text x="30" y="70" fontSize="12">ε, r</text>
-            <line x1="50" y1="65" x2="50" y2="40" stroke="black" strokeWidth="2"/>
-            
+            <g transform="translate(40, 50)">
+                 <Battery x={0} y={0} label="ε, r" />
+            </g>
+           
             {/* Wires */}
-            <line x1="50" y1="40" x2="150" y2="40" stroke="black" strokeWidth="2"/>
-            <line x1="50" y1="100" x2="150" y2="100" stroke="black" strokeWidth="2"/>
+            <line x1="40" y1="50" x2="150" y2="50" stroke="black" strokeWidth="1.5"/>
+            <line x1="40" y1="90" x2="150" y2="90" stroke="black" strokeWidth="1.5"/>
             
+            {/* Top Branch */}
+            <line x1="150" y1="50" x2="150" y2="30" stroke="black" strokeWidth="1.5" />
+            <line x1="150" y1="30" x2="220" y2="30" stroke="black" strokeWidth="1.5" />
+            <line x1="220" y1="30" x2="220" y2="110" stroke="black" strokeWidth="1.5" />
+            <line x1="150" y1="110" x2="220" y2="110" stroke="black" strokeWidth="1.5" />
+
             {/* Resistors */}
-            <rect x="150" y="30" width="60" height="20" fill="none" stroke="black" strokeWidth="2" />
-            <text x="180" y="25" textAnchor="middle" fontSize="12">R1</text>
-            <line x1="210" y1="40" x2="230" y2="40" stroke="black" strokeWidth="2"/>
-            
-            <line x1="150" y1="100" x2="150" y2="120" stroke="black" strokeWidth="2"/>
-            <rect x="140" y="120" width="20" height="40" transform="rotate(90 150 140)" fill="none" stroke="black" strokeWidth="2"/>
-            <text x="185" y="115" fontSize="12">R2</text>
-            <line x1="150" y1="40" x2="150" y2="20" stroke="black" strokeWidth="2"/>
-            <line x1="150" y1="20" x2="230" y2="20" stroke="black" strokeWidth="2"/>
-            <line x1="230" y1="20" x2="230" y2="40" stroke="black" strokeWidth="2"/>
+            <g transform="translate(160, 20)">
+                <Resistor x={0} y={0} label="R1" />
+            </g>
+             <g transform="translate(160, 55)">
+                <Resistor x={0} y={0} label="R2" />
+            </g>
+             <g transform="translate(160, 90)">
+                <Resistor x={0} y={0} label="R3" />
+            </g>
 
-             <rect x="150" y="90" width="60" height="20" fill="none" stroke="black" strokeWidth="2" />
-             <text x="180" y="85" textAnchor="middle" fontSize="12">R3</text>
-             <line x1="210" y1="100" x2="230" y2="100" stroke="black" strokeWidth="2"/>
-             <line x1="230" y1="100" x2="230" y2="40" stroke="black" strokeWidth="2"/>
-
+            {/* Connecting parallel branches */}
+             <line x1="150" y1="50" x2="150" y2="110" stroke="black" strokeWidth="1.5"/>
         </svg>
     </div>
 );
