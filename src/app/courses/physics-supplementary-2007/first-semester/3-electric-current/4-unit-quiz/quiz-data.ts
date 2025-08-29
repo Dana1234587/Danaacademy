@@ -76,7 +76,7 @@ export const unit3QuizQuestions: QuizQuestion[] = [
         '$\\varepsilon = 9V, r = 1 \\Omega$',
     ],
     correctAnswerIndex: 1,
-    explanation: '<b>المطلوب: إيجاد $\\varepsilon$ و $r$</b>\n<b>1) المفتاح مفتوح:</b>\nقراءة الفولتميتر هي جهد طرفي البطارية، وهو نفسه جهد المقاومة الخارجية $6\\Omega$. إذن:\n$V = 9V$ على $6\\Omega \\Rightarrow I_1 = \\frac{V}{R} = \\frac{9}{6} = 1.5 A$.\nمن علاقة جهد البطارية:\n$V = \\varepsilon - I_1 r \\Rightarrow 9 = \\varepsilon - 1.5r$ (معادلة 1).\n<b>2) المفتاح مغلق:</b>\nالآن $6\\Omega$ توازي $12\\Omega$. المقاومة المكافئة لهما: $\\frac{1}{R_{eq}} = \\frac{1}{6} + \\frac{1}{12} = \\frac{3}{12} \\Rightarrow R_{eq} = 4\\Omega$. \nقراءة الفولتميتر الآن $V=8V$ على هذه المجموعة:\n$I_2 = \\frac{V}{R_{eq}} = \\frac{8}{4} = 2A$.\nمن علاقة جهد البطارية:\n$V = \\varepsilon - I_2 r \\Rightarrow 8 = \\varepsilon - 2r$ (معادلة 2).\n<b>3) حل المعادلتين:</b>\nنطرح (2) من (1): $(9-8) = (\\varepsilon - 1.5r) - (\\varepsilon - 2r) \\Rightarrow 1 = 0.5r \\Rightarrow r=2\\Omega$.\nنعوض في (2): $8 = \\varepsilon - 2(2) \\Rightarrow \\varepsilon = 12V$.\n<b>النتيجة النهائية:</b>\n$\\varepsilon = 12V, r = 2\\Omega$.'
+    explanation: '<b>المطلوب: إيجاد قيمة كل من $\\varepsilon$ و $r$</b>\n<b>1) المفتاح مفتوح:</b>\nقراءة الفولتميتر هي جهد طرفي البطارية، وهو نفسه جهد المقاومة الخارجية $6\\Omega$. إذن:\n$V = 9V$ على $6\\Omega \\Rightarrow I_1 = \\frac{V}{R} = \\frac{9}{6} = 1.5 A$.\nمن علاقة جهد البطارية:\n$V = \\varepsilon - I_1 r \\Rightarrow 9 = \\varepsilon - 1.5r$ (معادلة 1).\n<b>2) المفتاح مغلق:</b>\nالآن $6\\Omega$ توازي $12\\Omega$. المقاومة المكافئة لهما: $\\frac{1}{R_{eq}} = \\frac{1}{6} + \\frac{1}{12} = \\frac{3}{12} \\Rightarrow R_{eq} = 4\\Omega$. \nقراءة الفولتميتر الآن $V=8V$ على هذه المجموعة:\n$I_2 = \\frac{V}{R_{eq}} = \\frac{8}{4} = 2A$.\nمن علاقة جهد البطارية:\n$V = \\varepsilon - I_2 r \\Rightarrow 8 = \\varepsilon - 2r$ (معادلة 2).\n<b>3) حل المعادلتين:</b>\nنطرح (2) من (1): $(9-8) = (\\varepsilon - 1.5r) - (\\varepsilon - 2r) \\Rightarrow 1 = 0.5r \\Rightarrow r=2\\Omega$.\nنعوض في (2): $8 = \\varepsilon - 2(2) \\Rightarrow \\varepsilon = 12V$.\n<b>النتيجة النهائية:</b>\n$\\varepsilon = 12V, r = 2\\Omega$.'
   },
   {
     id: 6,
@@ -103,6 +103,18 @@ export const unit3QuizQuestions: QuizQuestion[] = [
     ],
     correctAnswerIndex: 1,
     explanation: '<b>الخطوة الأولى: حساب المقاومة (R)</b>\nنستخدم قانون القدرة $P = \\frac{V^2}{R}$.\n$R = \\frac{V^2}{P} = \\frac{(100)^2}{500} = \\frac{10000}{500} = 20 \\Omega$.\n\n<b>الخطوة الثانية: حساب طول السلك (L)</b>\nنستخدم قانون المقاومة $R = \\rho \\frac{L}{A}$.\n$L = \\frac{R \\cdot A}{\\rho} = \\frac{20 \\times (16 \\times 10^{-10})}{1.6 \\times 10^{-8}} = \\frac{320 \\times 10^{-10}}{1.6 \\times 10^{-8}} = 200 \\times 10^{-2} m = 2 m$.\n\n<b>الخطوة الثالثة: تحويل الطول إلى cm</b>\n$L = 2 m \\times 100 \\frac{cm}{m} = 200 cm$.'
+  },
+  {
+    id: 8,
+    questionText: 'ملف مقاومته (R) يستهلك طاقة كهربائية (E) عندما يمر فيه تيار شدته (I) خلال زمن (t).\nإذا زادت شدة التيار إلى الضعف (2I) واستمر مرور الزمن نفسه، فإن الطاقة المستهلكة بدلالة (E) تصبح:',
+    options: [
+      '2E',
+      '3E',
+      '4E',
+      '6E',
+    ],
+    correctAnswerIndex: 2,
+    explanation: 'الطاقة الكهربائية المستهلكة في مقاومة تُعطى بالعلاقة: $E = P \\times t = (I^2 R) \\times t$.\n\nفي الحالة الأولى:\n$E_1 = I^2 R t = E$\n\nفي الحالة الثانية، يتضاعف التيار ليصبح $I_2 = 2I$، بينما تبقى $R$ و $t$ ثابتتين:\n$E_2 = (I_2)^2 R t = (2I)^2 R t = 4(I^2 R t)$\n\nبالتعويض عن $I^2 R t$ بقيمتها من الحالة الأولى ($E$):\n$E_2 = 4E$\n\nإذًا، عند مضاعفة التيار، تتضاعف الطاقة المستهلكة أربع مرات.'
   }
 ];
     
