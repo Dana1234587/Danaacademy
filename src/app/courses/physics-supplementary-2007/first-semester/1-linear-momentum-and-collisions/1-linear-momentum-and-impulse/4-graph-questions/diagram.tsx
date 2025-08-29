@@ -9,10 +9,10 @@ export const ForceTimeGraph = () => (
       <line x1="30" y1="200" x2="30" y2="20" stroke="black" strokeWidth="2" /> {/* Y-axis */}
       
       {/* X-axis label */}
-      <text x="335" y="205" textAnchor="start" fontSize="14">t (s)</text>
+      <text x="350" y="190" textAnchor="start" fontSize="14">t (s)</text>
       
       {/* Y-axis label */}
-      <text x="25" y="15" textAnchor="end" fontSize="14">F (N)</text>
+      <text x="20" y="15" textAnchor="end" fontSize="14">F (N)</text>
 
       {/* Ticks and labels on X-axis */}
       <text x="30" y="215" textAnchor="middle">0</text>

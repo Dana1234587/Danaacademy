@@ -7,6 +7,7 @@ import { ChevronLeft, FileText, BarChart, BrainCircuit } from 'lucide-react';
 import Link from 'next/link';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import QuizPage from './quiz';
+import SummaryPage from './summary';
 
 
 export default function LinearMomentumConceptPage() {
@@ -69,9 +70,19 @@ export default function LinearMomentumConceptPage() {
                 <Button variant="ghost" className="w-full justify-start">
                   <FileText className="me-3"/> ورقة عمل الدرس (PDF)
                 </Button>
-                <Button variant="ghost" className="w-full justify-start">
-                  <BarChart className="me-3"/> ملخص القوانين
-                </Button>
+                <Dialog>
+                    <DialogTrigger asChild>
+                        <Button variant="ghost" className="w-full justify-start">
+                          <BarChart className="me-3"/> ملخص القوانين
+                        </Button>
+                    </DialogTrigger>
+                    <DialogContent>
+                        <DialogHeader>
+                            <DialogTitle>ملخص قوانين: مفهوم الزخم الخطي</DialogTitle>
+                        </DialogHeader>
+                        <SummaryPage />
+                    </DialogContent>
+                 </Dialog>
                  <Dialog>
                     <DialogTrigger asChild>
                         <Button variant="ghost" className="w-full justify-start">
