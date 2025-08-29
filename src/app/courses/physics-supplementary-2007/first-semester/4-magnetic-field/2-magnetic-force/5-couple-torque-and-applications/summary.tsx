@@ -48,7 +48,7 @@ export default function SummaryPage() {
           <Info className="h-4 w-4" />
           <AlertTitle className="font-bold">أقصى عزم وأقل عزم</AlertTitle>
           <AlertDescription>
-           - **أقصى عزم (${\tau} = NIAB$):** يحدث عندما يكون مستوى الملف موازيًا للمجال ($\\theta=90^\\circ$).<br/>
+           - **أقصى عزم (${\\tau}_{max} = NIAB$):** يحدث عندما يكون مستوى الملف موازيًا للمجال ($\\theta=90^\\circ$).<br/>
            - **أقل عزم ($\\tau = 0$):** يحدث عندما يكون مستوى الملف عموديًا على المجال ($\\theta=0^\\circ$).
           </AlertDescription>
         </Alert>
