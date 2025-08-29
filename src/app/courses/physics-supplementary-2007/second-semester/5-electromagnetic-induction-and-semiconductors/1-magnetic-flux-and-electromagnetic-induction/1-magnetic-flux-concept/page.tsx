@@ -29,11 +29,14 @@ export default function MagneticFluxConceptPage() {
           {/* Main Content Area */}
           <div className="lg:col-span-2 space-y-6">
             
-            {/* Placeholder for video */}
-            <div className="relative w-full rounded-lg overflow-hidden shadow-lg bg-slate-200" style={{ paddingTop: '56.25%' }}>
-                <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center">
-                    <p className="text-muted-foreground">سيتم إضافة الفيديو قريبًا</p>
-                </div>
+            <div className="relative w-full rounded-lg overflow-hidden shadow-lg" style={{ paddingBottom: '56.25%' }}>
+                <iframe
+                    src="https://iframe.mediadelivery.net/play/480623/ea8098bd-172c-4226-a1b3-4c33c2e226e7"
+                    className="absolute top-0 left-0 w-full h-full border-0"
+                    loading="lazy"
+                    allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
+                    allowFullScreen={true}
+                ></iframe>
             </div>
             
             <Card>
