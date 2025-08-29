@@ -5,6 +5,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { ChevronLeft, FileText, BarChart, BrainCircuit } from 'lucide-react';
 import Link from 'next/link';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import QuizPage from './quiz';
 
 export default function GraphQuestionsPage() {
   return (
@@ -68,9 +70,19 @@ export default function GraphQuestionsPage() {
                 <Button variant="ghost" className="w-full justify-start">
                   <BarChart className="me-3"/> ملخص القوانين
                 </Button>
-                 <Button variant="ghost" className="w-full justify-start">
-                  <BrainCircuit className="me-3"/> اختبار قصير للمراجعة
-                </Button>
+                 <Dialog>
+                    <DialogTrigger asChild>
+                        <Button variant="ghost" className="w-full justify-start">
+                          <BrainCircuit className="me-3"/> اختبار قصير للمراجعة
+                        </Button>
+                    </DialogTrigger>
+                    <DialogContent className="max-w-4xl h-5/6 overflow-y-auto">
+                        <DialogHeader>
+                            <DialogTitle>اختبار قصير: أسئلة الرسم البياني</DialogTitle>
+                        </DialogHeader>
+                        <QuizPage />
+                    </DialogContent>
+                 </Dialog>
               </CardContent>
             </Card>
           </div>
