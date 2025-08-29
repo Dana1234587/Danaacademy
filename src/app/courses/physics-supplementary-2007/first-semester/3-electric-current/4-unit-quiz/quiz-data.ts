@@ -63,7 +63,7 @@ $\\rho_1 = \\rho_2$<br/>
   {
     id: 3,
     questionText: 'أي من الآتية يمثل قراءة الفولتميتر في الدارة المجاورة',
-    image: 'https://placehold.co/600x400.png',
+    image: 'https://i.ibb.co/zDj4gRZ/3.png',
     imageHint: 'circuit diagram voltmeter',
     options: [
         '$Ir$',
