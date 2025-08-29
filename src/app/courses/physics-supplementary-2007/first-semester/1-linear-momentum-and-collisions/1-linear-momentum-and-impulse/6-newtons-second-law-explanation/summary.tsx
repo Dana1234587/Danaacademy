@@ -63,7 +63,7 @@ export default function SummaryPage() {
           <Info className="h-4 w-4" />
           <AlertTitle className="font-bold">متى نستخدم الصيغة العامة؟</AlertTitle>
           <AlertDescription>
-           يجب استخدام الصيغة العامة $\\Sigma F = \\frac{\\Delta p}{\\Delta t}$ في الحالات التي تتغير فيها الكتلة، مثل الصواريخ التي تحرق الوقود، أو عربات الرمل التي يتسرب منها الرمل.
+           <SmartTextRenderer as="div" text={'يجب استخدام الصيغة العامة $\\Sigma F = \\frac{\\Delta p}{\\Delta t}$ في الحالات التي تتغير فيها الكتلة، مثل الصواريخ التي تحرق الوقود، أو عربات الرمل التي يتسرب منها الرمل.'} />
           </AlertDescription>
         </Alert>
       </div>
