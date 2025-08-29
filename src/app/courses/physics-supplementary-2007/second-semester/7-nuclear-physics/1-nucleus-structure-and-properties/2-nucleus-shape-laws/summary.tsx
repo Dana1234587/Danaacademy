@@ -68,10 +68,11 @@ export default function SummaryPage() {
           <Info className="h-4 w-4" />
           <AlertTitle className="font-bold">ملاحظة هامة</AlertTitle>
           <AlertDescription>
-            هذه القوانين هي نماذج تقريبية تفترض أن النواة كروية الشكل، وهو افتراض جيد لمعظم الأنوية.
+           <SmartTextRenderer as="div" text={"هذه القوانين هي نماذج تقريبية تفترض أن النواة كروية الشكل، وهو افتراض جيد لمعظم الأنوية."} />
           </AlertDescription>
         </Alert>
       </div>
     </div>
   );
 }
+
