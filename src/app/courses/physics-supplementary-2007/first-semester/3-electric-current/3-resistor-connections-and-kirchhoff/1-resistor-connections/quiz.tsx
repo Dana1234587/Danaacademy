@@ -9,6 +9,7 @@ import { Label } from '@/components/ui/label';
 import { CheckCircle, XCircle } from 'lucide-react';
 import 'katex/dist/katex.min.css';
 import { InlineMath } from 'react-katex';
+import { ResistorsInSeries, ResistorsInParallel } from './diagram';
 
 // A robust, universal renderer for bidirectional text
 const SmartTextRenderer = ({ text, as: Wrapper = 'p' }: { text: string; as?: React.ElementType }) => {
@@ -30,25 +31,29 @@ const SmartTextRenderer = ({ text, as: Wrapper = 'p' }: { text: string; as?: Rea
 
 const quizQuestions = [
   {
-    questionText: 'عند توصيل مقاومات على التوالي، أي من الكميات التالية تكون متساوية لجميع المقاومات؟',
+    questionText: 'في التوصيل على التوالي الموضح في الرسم، أي من الكميات التالية تكون متساوية لجميع المقاومات؟',
+    diagram: 'series',
     options: ['فرق الجهد', 'التيار', 'القدرة المستهلكة', 'المقاومة'],
     correctAnswerIndex: 1,
     explanation: 'في التوصيل على التوالي، يوجد مسار واحد فقط للتيار، لذا فإن نفس التيار يمر عبر جميع المقاومات.'
   },
   {
-    questionText: 'عند توصيل مقاومات على التوازي، أي من الكميات التالية تكون متساوية لجميع المقاومات؟',
+    questionText: 'في التوصيل على التوازي الموضح في الرسم، أي من الكميات التالية تكون متساوية لجميع المقاومات؟',
+    diagram: 'parallel',
     options: ['فرق الجهد', 'التيار', 'القدرة المستهلكة', 'المقاومة'],
     correctAnswerIndex: 0,
     explanation: 'في التوصيل على التوازي، يتم توصيل أطراف جميع المقاومات بنفس النقطتين، لذا يكون فرق الجهد عبرها متساويًا.'
   },
   {
-    questionText: 'ثلاث مقاومات قيمتها 2 أوم، 3 أوم، و 6 أوم موصولة على التوالي. ما المقاومة المكافئة؟',
+    questionText: 'ثلاث مقاومات قيمتها 2 أوم، 3 أوم، و 6 أوم موصولة على التوالي كما في الرسم الأول. ما المقاومة المكافئة؟',
+    diagram: 'series',
     options: ['1 أوم', '11 أوم', '6 أوم', '1.1 أوم'],
     correctAnswerIndex: 1,
     explanation: 'في التوصيل على التوالي، المقاومة المكافئة هي مجموع المقاومات: $R_{eq} = R_1 + R_2 + R_3 = 2 + 3 + 6 = 11 \\Omega$.'
   },
   {
-    questionText: 'ثلاث مقاومات قيمتها 2 أوم، 3 أوم، و 6 أوم موصولة على التوازي. ما المقاومة المكافئة؟',
+    questionText: 'ثلاث مقاومات قيمتها 2 أوم، 3 أوم، و 6 أوم موصولة على التوازي كما في الرسم الثاني. ما المقاومة المكافئة؟',
+    diagram: 'parallel',
     options: ['1 أوم', '11 أوم', '6 أوم', '1.1 أوم'],
     correctAnswerIndex: 0,
     explanation: 'في التوصيل على التوازي: $\\frac{1}{R_{eq}} = \\frac{1}{R_1} + \\frac{1}{R_2} + \\frac{1}{R_3} = \\frac{1}{2} + \\frac{1}{3} + \\frac{1}{6} = \\frac{3+2+1}{6} = \\frac{6}{6} = 1$. إذن، $R_{eq} = 1 \\Omega$.'
@@ -85,15 +90,17 @@ export default function ResistorConnectionsQuizPage() {
        <div className="max-w-4xl mx-auto">
       <div className="space-y-8">
         {quizQuestions.map((q, qIndex) => (
-          <Card key={qIndex} className={`border-2 ${isSubmitted ? (selectedAnswers[qIndex] === q.correctAnswerIndex ? 'border-green-500' : 'border-red-500') : 'border-border'} transition-colors duration-300 shadow-lg`}>
+          <Card key={qIndex} className={\`border-2 \${isSubmitted ? (selectedAnswers[qIndex] === q.correctAnswerIndex ? 'border-green-500' : 'border-red-500') : 'border-border'} transition-colors duration-300 shadow-lg\`}>
             <CardHeader>
-              <CardTitle><SmartTextRenderer as="div" text={`السؤال ${qIndex + 1}: ${q.questionText}`} /></CardTitle>
+              <CardTitle><SmartTextRenderer as="div" text={\`السؤال \${qIndex + 1}: \${q.questionText}\`} /></CardTitle>
+              {q.diagram === 'series' && <ResistorsInSeries />}
+              {q.diagram === 'parallel' && <ResistorsInParallel />}
             </CardHeader>
             <CardContent>
               <RadioGroup onValueChange={(value) => handleAnswerChange(qIndex, parseInt(value))} value={selectedAnswers[qIndex]?.toString()} className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {q.options.map((option, oIndex) => (
-                  <Label key={oIndex} htmlFor={`q${qIndex}-o${oIndex}`} className={`p-4 rounded-lg border-2 flex items-center gap-4 cursor-pointer transition-all hover:bg-accent ${selectedAnswers[qIndex] === oIndex ? 'bg-primary/10 border-primary' : 'bg-background'}`}>
-                    <RadioGroupItem value={oIndex.toString()} id={`q${qIndex}-o${oIndex}`} disabled={isSubmitted} />
+                  <Label key={oIndex} htmlFor={\`q\${qIndex}-o\${oIndex}\`} className={\`p-4 rounded-lg border-2 flex items-center gap-4 cursor-pointer transition-all hover:bg-accent \${selectedAnswers[qIndex] === oIndex ? 'bg-primary/10 border-primary' : 'bg-background'}\`}>
+                    <RadioGroupItem value={oIndex.toString()} id={\`q\${qIndex}-o\${oIndex}\`} disabled={isSubmitted} />
                     <SmartTextRenderer as="span" text={option} />
                      {isSubmitted && selectedAnswers[qIndex] === oIndex && selectedAnswers[qIndex] !== q.correctAnswerIndex && <XCircle className="w-5 h-5 text-red-500 ms-auto"/>}
                     {isSubmitted && oIndex === q.correctAnswerIndex && <CheckCircle className="w-5 h-5 text-green-500 ms-auto"/>}

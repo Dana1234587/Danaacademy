@@ -9,6 +9,7 @@ import { Label } from '@/components/ui/label';
 import { CheckCircle, XCircle } from 'lucide-react';
 import 'katex/dist/katex.min.css';
 import { InlineMath } from 'react-katex';
+import { WheatstoneBridge } from './diagram';
 
 // A robust, universal renderer for bidirectional text
 const SmartTextRenderer = ({ text, as: Wrapper = 'p' }: { text: string; as?: React.ElementType }) => {
@@ -36,19 +37,21 @@ const quizQuestions = [
     explanation: 'عند توصيل سلك مثالي (مقاومته صفر) على التوازي مع مقاومة، سيمر كل التيار عبر السلك (لأنه يوفر مسارًا أسهل بكثير)، ولن يمر أي تيار في المقاومة، وبالتالي يتم إلغاؤها من حسابات الدارة.'
   },
   {
-    questionText: 'ما هو شرط اتزان قنطرة وتستون؟',
-    options: ['أن تكون جميع المقاومات متساوية', 'أن يكون جهد الجلفانومتر صفرًا', 'أن يكون التيار المار في الجلفانومتر صفرًا', 'أن تكون البطارية ذات جهد عالٍ'],
-    correctAnswerIndex: 2,
-    explanation: 'تكون قنطرة وتستون متزنة عندما يكون فرق الجهد بين النقطتين اللتين يوصل بينهما الجلفانومتر متساويًا. هذا يؤدي إلى أن التيار المار في فرع الجلفانومتر يساوي صفرًا. في هذه الحالة، يمكن إزالة الجلفانومتر لتحليل الدارة.'
-  },
-  {
-    questionText: 'في قنطرة وتستون متزنة، إذا كانت المقاومات هي R1, R2, R3, R4، فأي علاقة صحيحة؟',
-    options: ['$R_1/R_2 = R_3/R_4$', '$R_1 R_2 = R_3 R_4$', '$R_1 + R_2 = R_3 + R_4$', 'جميع ما سبق'],
+    questionText: 'في قنطرة وتستون الموضحة، ما هو شرط اتزانها؟',
+    diagram: 'wheatstone',
+    options: ['$R_1/R_3 = R_2/R_4$', '$R_1 R_2 = R_3 R_4$', '$R_1 + R_2 = R_3 + R_4$', 'جميع ما سبق'],
     correctAnswerIndex: 0,
-    explanation: 'شرط اتزان قنطرة وتستون هو أن تكون نسبة المقاومات في أحد فرعي القنطرة تساوي نسبتها في الفرع الآخر. العلاقة الأكثر شيوعًا هي $R_1/R_2 = R_3/R_4$ (نسبة المقاومات المتقابلة متساوية).'
+    explanation: 'تكون قنطرة وتستون متزنة عندما يكون فرق الجهد بين النقطتين c و d صفرًا، مما يعني عدم مرور تيار في المقاومة $R_5$. يتحقق هذا الشرط عندما تكون نسبة المقاومات في أحد فرعي القنطرة تساوي نسبتها في الفرع الآخر: $R_1/R_3 = R_2/R_4$.'
   },
   {
-    questionText: 'في دارة تحتوي على مقاومات متماثلة مرتبة بشكل متماثل، يمكن تبسيط الدارة عن طريق...',
+    questionText: 'في قنطرة وتستون متزنة، إذا كانت $R_1=10\\Omega$, $R_3=20\\Omega$, و $R_2=5\\Omega$, فما قيمة $R_4$؟',
+    diagram: 'wheatstone',
+    options: ['$2.5 \\Omega$', '$10 \\Omega$', '$40 \\Omega$', '$15 \\Omega$'],
+    correctAnswerIndex: 1,
+    explanation: 'من شرط الاتزان: $R_1/R_3 = R_2/R_4$. \n $10/20 = 5/R_4 \\implies 0.5 = 5/R_4 \\implies R_4 = 5 / 0.5 = 10 \\Omega$.'
+  },
+  {
+    questionText: 'في دارة تحتوي على مقاومات متماثلة مرتبة بشكل متماثل حول محور، يمكن تبسيط الدارة عن طريق...',
     options: ['إزالة المقاومة الموجودة على محور التماثل', 'مضاعفة قيمة المقاومة الموجودة على محور التماثل', 'تجاهل جميع المقاومات', 'لا يمكن تبسيطها'],
     correctAnswerIndex: 0,
     explanation: 'إذا كانت الدارة متماثلة حول محور معين، فإن النقاط المتناظرة على جانبي المحور يكون لها نفس الجهد. إذا كانت مقاومة تقع على محور التماثل، فإن فرق الجهد بين طرفيها سيكون صفرًا، وبالتالي لا يمر بها تيار ويمكن إزالتها لتبسيط الدارة.'
@@ -85,15 +88,16 @@ export default function ResistorConnectionsAdvancedQuizPage() {
        <div className="max-w-4xl mx-auto">
       <div className="space-y-8">
         {quizQuestions.map((q, qIndex) => (
-          <Card key={qIndex} className={`border-2 ${isSubmitted ? (selectedAnswers[qIndex] === q.correctAnswerIndex ? 'border-green-500' : 'border-red-500') : 'border-border'} transition-colors duration-300 shadow-lg`}>
+          <Card key={qIndex} className={\`border-2 \${isSubmitted ? (selectedAnswers[qIndex] === q.correctAnswerIndex ? 'border-green-500' : 'border-red-500') : 'border-border'} transition-colors duration-300 shadow-lg\`}>
             <CardHeader>
-              <CardTitle><SmartTextRenderer as="div" text={`السؤال ${qIndex + 1}: ${q.questionText}`} /></CardTitle>
+              <CardTitle><SmartTextRenderer as="div" text={\`السؤال \${qIndex + 1}: \${q.questionText}\`} /></CardTitle>
+              {q.diagram === 'wheatstone' && <WheatstoneBridge r1={qIndex === 2 ? "10Ω" : "R1"} r2={qIndex === 2 ? "5Ω" : "R2"} r3={qIndex === 2 ? "20Ω" : "R3"} r4={qIndex === 2 ? "R4" : "R4"} r5="R5"/>}
             </CardHeader>
             <CardContent>
               <RadioGroup onValueChange={(value) => handleAnswerChange(qIndex, parseInt(value))} value={selectedAnswers[qIndex]?.toString()} className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {q.options.map((option, oIndex) => (
-                  <Label key={oIndex} htmlFor={`q${qIndex}-o${oIndex}`} className={`p-4 rounded-lg border-2 flex items-center gap-4 cursor-pointer transition-all hover:bg-accent ${selectedAnswers[qIndex] === oIndex ? 'bg-primary/10 border-primary' : 'bg-background'}`}>
-                    <RadioGroupItem value={oIndex.toString()} id={`q${qIndex}-o${oIndex}`} disabled={isSubmitted} />
+                  <Label key={oIndex} htmlFor={\`q\${qIndex}-o\${oIndex}\`} className={\`p-4 rounded-lg border-2 flex items-center gap-4 cursor-pointer transition-all hover:bg-accent \${selectedAnswers[qIndex] === oIndex ? 'bg-primary/10 border-primary' : 'bg-background'}\`}>
+                    <RadioGroupItem value={oIndex.toString()} id={\`q\${qIndex}-o\${oIndex}\`} disabled={isSubmitted} />
                     <SmartTextRenderer as="span" text={option} />
                      {isSubmitted && selectedAnswers[qIndex] === oIndex && selectedAnswers[qIndex] !== q.correctAnswerIndex && <XCircle className="w-5 h-5 text-red-500 ms-auto"/>}
                     {isSubmitted && oIndex === q.correctAnswerIndex && <CheckCircle className="w-5 h-5 text-green-500 ms-auto"/>}

@@ -9,6 +9,7 @@ import { Label } from '@/components/ui/label';
 import { CheckCircle, XCircle } from 'lucide-react';
 import 'katex/dist/katex.min.css';
 import { InlineMath } from 'react-katex';
+import { SimpleCircuit } from './diagram';
 
 // A robust, universal renderer for bidirectional text
 const SmartTextRenderer = ({ text, as: Wrapper = 'p' }: { text: string; as?: React.ElementType }) => {
@@ -30,7 +31,8 @@ const SmartTextRenderer = ({ text, as: Wrapper = 'p' }: { text: string; as?: Rea
 
 const quizQuestions = [
   {
-    questionText: 'ما هي الخطوة الأولى دائمًا في تحليل دارة كهربائية بسيطة؟',
+    questionText: 'في دارة كهربائية بسيطة كما في الشكل، ما هي الخطوة الأولى دائمًا لتحليلها؟',
+    diagram: true,
     options: ['حساب التيار في كل فرع', 'حساب القدرة المستهلكة', 'حساب المقاومة المكافئة للدارة', 'حساب فرق الجهد لكل مقاومة'],
     correctAnswerIndex: 2,
     explanation: 'الخطوة الأولى والأهم هي تبسيط الدارة عن طريق إيجاد المقاومة المكافئة لجميع المقاومات الخارجية. هذا يسمح لنا بحساب التيار الكلي الصادر من البطارية.'
@@ -42,7 +44,8 @@ const quizQuestions = [
     explanation: 'وفقًا لقانون أوم للدارة البسيطة ($I = \\varepsilon / (R_{eq} + r)$)، التيار الكلي يتناسب عكسيًا مع المقاومة الكلية (الخارجية + الداخلية). زيادة المقاومة تؤدي إلى نقصان التيار.'
   },
   {
-    questionText: 'في دارة بسيطة، كيف يتم توزيع التيار عند نقطة تفرع إلى مقاومتين موصولتين على التوازي؟',
+    questionText: 'في الدارة الموضحة، كيف يتم توزيع التيار عند النقطة التي يتفرع فيها إلى المقاومتين R2 و R3؟',
+    diagram: true,
     options: ['يتوزع بالتساوي دائمًا', 'يمر التيار الأكبر في المقاومة الأكبر', 'يمر التيار الأكبر في المقاومة الأصغر', 'يتوقف التيار عند نقطة التفرع'],
     correctAnswerIndex: 2,
     explanation: 'التيار يفضل دائمًا المسار الأسهل (الأقل مقاومة). في التوصيل على التوازي، يكون فرق الجهد ثابتًا، ومن $I=V/R$، يتناسب التيار عكسيًا مع المقاومة. لذا، الفرع ذو المقاومة الأصغر سيحصل على النصيب الأكبر من التيار.'
@@ -85,15 +88,16 @@ export default function SimpleCircuitsQuizPage() {
        <div className="max-w-4xl mx-auto">
       <div className="space-y-8">
         {quizQuestions.map((q, qIndex) => (
-          <Card key={qIndex} className={`border-2 ${isSubmitted ? (selectedAnswers[qIndex] === q.correctAnswerIndex ? 'border-green-500' : 'border-red-500') : 'border-border'} transition-colors duration-300 shadow-lg`}>
+          <Card key={qIndex} className={\`border-2 \${isSubmitted ? (selectedAnswers[qIndex] === q.correctAnswerIndex ? 'border-green-500' : 'border-red-500') : 'border-border'} transition-colors duration-300 shadow-lg\`}>
             <CardHeader>
-              <CardTitle><SmartTextRenderer as="div" text={`السؤال ${qIndex + 1}: ${q.questionText}`} /></CardTitle>
+              <CardTitle><SmartTextRenderer as="div" text={\`السؤال \${qIndex + 1}: \${q.questionText}\`} /></CardTitle>
+              {q.diagram && <SimpleCircuit />}
             </CardHeader>
             <CardContent>
               <RadioGroup onValueChange={(value) => handleAnswerChange(qIndex, parseInt(value))} value={selectedAnswers[qIndex]?.toString()} className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {q.options.map((option, oIndex) => (
-                  <Label key={oIndex} htmlFor={`q${qIndex}-o${oIndex}`} className={`p-4 rounded-lg border-2 flex items-center gap-4 cursor-pointer transition-all hover:bg-accent ${selectedAnswers[qIndex] === oIndex ? 'bg-primary/10 border-primary' : 'bg-background'}`}>
-                    <RadioGroupItem value={oIndex.toString()} id={`q${qIndex}-o${oIndex}`} disabled={isSubmitted} />
+                  <Label key={oIndex} htmlFor={\`q\${qIndex}-o\${oIndex}\`} className={\`p-4 rounded-lg border-2 flex items-center gap-4 cursor-pointer transition-all hover:bg-accent \${selectedAnswers[qIndex] === oIndex ? 'bg-primary/10 border-primary' : 'bg-background'}\`}>
+                    <RadioGroupItem value={oIndex.toString()} id={\`q\${qIndex}-o\${oIndex}\`} disabled={isSubmitted} />
                     <SmartTextRenderer as="span" text={option} />
                      {isSubmitted && selectedAnswers[qIndex] === oIndex && selectedAnswers[qIndex] !== q.correctAnswerIndex && <XCircle className="w-5 h-5 text-red-500 ms-auto"/>}
                     {isSubmitted && oIndex === q.correctAnswerIndex && <CheckCircle className="w-5 h-5 text-green-500 ms-auto"/>}
