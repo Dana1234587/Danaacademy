@@ -5,6 +5,25 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert';
 import { Info } from 'lucide-react';
 import 'katex/dist/katex.min.css';
+import { InlineMath } from 'react-katex';
+
+// A robust, universal renderer for bidirectional text
+const SmartTextRenderer = ({ text, as: Wrapper = 'p' }: { text: string; as?: React.ElementType }) => {
+    const lines = text.split('\n');
+    const renderPart = (part: string, index: number) => {
+        if (index % 2 === 0) return <span key={index} dir="rtl">{part}</span>;
+        return <span key={index} dir="ltr" className="inline-block mx-1"><InlineMath math={part} /></span>;
+    };
+    return (
+        <Wrapper className="leading-relaxed">
+            {lines.map((line, lineIndex) => (
+                <span key={lineIndex} className="block my-1 text-right">
+                    {line.split('$').map(renderPart)}
+                </span>
+            ))}
+        </Wrapper>
+    );
+};
 
 const laws = [
     {
@@ -41,7 +60,7 @@ export default function SummaryPage() {
           <Info className="h-4 w-4" />
           <AlertTitle className="font-bold">حفظ الطاقة والكتلة</AlertTitle>
           <AlertDescription>
-           في جميع التفاعلات النووية، تكون الكتلة والطاقة محفوظتين بشكل متبادل. النقص في الكتلة بين المتفاعلات والنواتج يتحول إلى طاقة محررة وفقًا لمعادلة أينشتاين $E = \\Delta m c^2$.
+           <SmartTextRenderer as="div" text={'في جميع التفاعلات النووية، تكون الكتلة والطاقة محفوظتين بشكل متبادل. النقص في الكتلة بين المتفاعلات والنواتج يتحول إلى طاقة محررة وفقًا لمعادلة أينشتاين $E = \\Delta m c^2$'} />
           </AlertDescription>
         </Alert>
       </div>
