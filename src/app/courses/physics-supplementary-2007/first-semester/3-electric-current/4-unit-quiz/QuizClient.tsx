@@ -220,39 +220,53 @@ export function QuizClient({ questions }: { questions: QuizQuestion[] }) {
             {showDetails && (
                  <div className="space-y-6 pt-6 border-t">
                     <h3 className="text-xl font-bold text-center">التفاصيل الكاملة للاختبار</h3>
-                    {questions.map((question, index) => (
-                        <div key={question.id} className={`p-4 rounded-lg border ${answers[index] === question.correctAnswerIndex ? 'border-green-500 bg-green-500/10' : 'border-red-500 bg-red-500/10'}`}>
-                        
-                        <div className="flex gap-4 items-start flex-wrap">
-                            <div className="flex-1 font-bold mb-2 min-w-[250px]"><SmartTextRenderer as="div" text={`السؤال $${index + 1}$: ${question.questionText}`} /></div>
-                             {question.image && (
-                                <div className="relative w-48 h-48 flex-shrink-0 mx-auto">
-                                    <Image src={question.image} alt={`Question ${question.id}`} layout="fill" objectFit="contain" className="rounded-md" data-ai-hint={question.imageHint || "question diagram"} />
-                                </div>
-                            )}
-                        </div>
-
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mt-4">
-                            {question.options.map((option, optionIndex) => {
-                                const isCorrect = optionIndex === question.correctAnswerIndex;
-                                const isSelected = optionIndex === answers[index];
-                                return (
-                                    <div key={optionIndex} className={`flex items-center gap-3 p-2 rounded-md text-sm ${isCorrect ? 'bg-green-200/50 text-green-800' : ''} ${isSelected && !isCorrect ? 'bg-red-200/50 text-red-800' : ''}`}>
-                                        {isCorrect ? <CheckCircle className="w-4 h-4 text-green-600"/> : (isSelected ? <XCircle className="w-4 h-4 text-red-600"/> : <span className="w-4 h-4 flex-shrink-0"></span>)}
-                                        <div className="font-bold">{optionLabels[optionIndex]})</div>
-                                        <div className="flex-1"><SmartTextRenderer as="span" text={option} /></div>
-                                        {isSelected && <span className="text-xs font-bold ms-auto">{'(إجابتك)'}</span>}
-                                        {isCorrect && <span className="text-xs font-bold ms-auto">{'(الصحيحة)'}</span>}
+                    {questions.map((question, index) => {
+                        const isCorrect = answers[index] === question.correctAnswerIndex;
+                        return (
+                            <div key={question.id} className={`p-4 rounded-lg border ${isCorrect ? 'border-green-500 bg-green-500/10' : 'border-red-500 bg-red-500/10'}`}>
+                            
+                            <div className="flex gap-4 items-start flex-wrap">
+                                <div className="flex-1 font-bold mb-2 min-w-[250px]"><SmartTextRenderer as="div" text={`السؤال $${index + 1}$: ${question.questionText}`} /></div>
+                                 {question.image && (
+                                    <div className="relative w-48 h-48 flex-shrink-0 mx-auto">
+                                        <Image src={question.image} alt={`Question ${question.id}`} layout="fill" objectFit="contain" className="rounded-md" data-ai-hint={question.imageHint || "question diagram"} />
                                     </div>
-                                )
-                            })}
-                        </div>
-                        <div className="mt-4 text-sm text-muted-foreground bg-muted p-3 rounded-md" dir="rtl">
-                            <p className="font-bold">الشرح:</p>
-                            <SmartTextRenderer as="div" text={question.explanation} />
-                        </div>
-                        </div>
-                    ))}
+                                )}
+                            </div>
+
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mt-4">
+                                {question.options.map((option, optionIndex) => {
+                                    const isCorrectOption = optionIndex === question.correctAnswerIndex;
+                                    const isSelected = optionIndex === answers[index];
+                                    const optionText = typeof option === 'string' ? option : option.text;
+                                    const optionImage = typeof option !== 'string' ? option.image : null;
+                                    const optionImageHint = typeof option !== 'string' ? option.imageHint : null;
+                                    
+                                    return (
+                                        <div key={optionIndex} className={`flex items-center gap-3 p-2 rounded-md text-sm ${isCorrectOption ? 'bg-green-200/50 text-green-800' : ''} ${isSelected && !isCorrectOption ? 'bg-red-200/50 text-red-800' : ''}`}>
+                                            {isCorrectOption ? <CheckCircle className="w-4 h-4 text-green-600"/> : (isSelected ? <XCircle className="w-4 h-4 text-red-600"/> : <span className="w-4 h-4 flex-shrink-0"></span>)}
+                                            <div className="font-bold">{optionLabels[optionIndex]})</div>
+                                            <div className="flex-1 flex items-center gap-2">
+                                                {optionText && <SmartTextRenderer as="span" text={optionText} />}
+                                                {optionImage && (
+                                                    <div className="relative w-32 h-20">
+                                                        <Image src={optionImage} alt={`Option ${optionIndex}`} layout="fill" objectFit="contain" data-ai-hint={optionImageHint || 'option image'} />
+                                                    </div>
+                                                )}
+                                            </div>
+                                            {isSelected && <span className="text-xs font-bold ms-auto">{'(إجابتك)'}</span>}
+                                            {isCorrectOption && <span className="text-xs font-bold ms-auto">{'(الصحيحة)'}</span>}
+                                        </div>
+                                    )
+                                })}
+                            </div>
+                            <div className="mt-4 text-sm text-muted-foreground bg-muted p-3 rounded-md" dir="rtl">
+                                <p className="font-bold">الشرح:</p>
+                                <SmartTextRenderer as="div" text={question.explanation} />
+                            </div>
+                            </div>
+                        )
+                    })}
                  </div>
             )}
         </CardContent>
@@ -309,7 +323,7 @@ export function QuizClient({ questions }: { questions: QuizQuestion[] }) {
                     <SmartTextRenderer as="div" text={currentQuestion.questionText} />
                     </div>
                     {currentQuestion.image && (
-                        <div className="relative w-48 h-48 mx-auto">
+                        <div className="relative w-full h-48 mx-auto">
                             <Image src={currentQuestion.image} alt={`Question ${currentQuestion.id}`} layout="fill" objectFit="contain" className="rounded-lg shadow-md" data-ai-hint={currentQuestion.imageHint || 'question image'} />
                         </div>
                     )}
@@ -321,13 +335,25 @@ export function QuizClient({ questions }: { questions: QuizQuestion[] }) {
                 className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6"
                 dir="rtl"
                 >
-                {currentQuestion.options.map((option, index) => (
-                    <Label key={index} htmlFor={`q${currentQuestion.id}-o${index}`} className="flex items-center gap-4 border p-4 rounded-lg cursor-pointer hover:bg-accent has-[:checked]:bg-primary/10 has-[:checked]:border-primary">
-                    <RadioGroupItem value={index.toString()} id={`q${currentQuestion.id}-o${index}`} />
-                    <span className="font-bold">{optionLabels[index]})</span>
-                    <div className="flex-1 text-base"><SmartTextRenderer as="span" text={option} /></div>
-                    </Label>
-                ))}
+                {currentQuestion.options.map((option, index) => {
+                    const optionText = typeof option === 'string' ? option : option.text;
+                    const optionImage = typeof option !== 'string' ? option.image : null;
+                    const optionImageHint = typeof option !== 'string' ? option.imageHint : null;
+                    return (
+                        <Label key={index} htmlFor={`q${currentQuestion.id}-o${index}`} className="flex items-center gap-4 border p-4 rounded-lg cursor-pointer hover:bg-accent has-[:checked]:bg-primary/10 has-[:checked]:border-primary">
+                            <RadioGroupItem value={index.toString()} id={`q${currentQuestion.id}-o${index}`} />
+                            <span className="font-bold">{optionLabels[index]})</span>
+                            <div className="flex-1 text-base flex flex-col items-start gap-2">
+                                {optionText && <SmartTextRenderer as="span" text={optionText} />}
+                                {optionImage && (
+                                    <div className="relative w-40 h-24 mt-2">
+                                        <Image src={optionImage} alt={`Option ${index}`} layout="fill" objectFit="contain" data-ai-hint={optionImageHint || 'option image'} />
+                                    </div>
+                                )}
+                            </div>
+                        </Label>
+                    )
+                })}
                 </RadioGroup>
             </CardContent>
             <CardFooter className="flex justify-between">
@@ -370,5 +396,3 @@ export function QuizClient({ questions }: { questions: QuizQuestion[] }) {
     </div>
   );
 }
-
-    
