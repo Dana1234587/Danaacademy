@@ -161,10 +161,10 @@ $I_{E2}$ في الفرع السفلي، $V_{ad} = 13 - I_{E2}(1) \\implies 10 = 
     image: 'https://i.ibb.co/8gbd5btr/image.png',
     imageHint: 'I-V graph with positive slope',
     options: [
-      { text: '', image: 'https://placehold.co/200x150.png', imageHint: 'I-V graph with smaller slope'},
-      { text: '', image: 'https://placehold.co/200x150.png', imageHint: 'I-V graph with larger slope'},
-      { text: '', image: 'https://placehold.co/200x150.png', imageHint: 'Non-linear I-V graph concave up'},
-      { text: '', image: 'https://placehold.co/200x150.png', imageHint: 'Non-linear I-V graph saturating'},
+      { text: '', image: 'https://i.ibb.co/2YdfTbCP/image.png', imageHint: 'I-V graph with smaller slope'},
+      { text: '', image: 'https://i.ibb.co/XrJxPq2d/image.png', imageHint: 'I-V graph with larger slope'},
+      { text: '', image: 'https://i.ibb.co/GfTqWnLk/image.png', imageHint: 'Non-linear I-V graph concave up'},
+      { text: '', image: 'https://i.ibb.co/mVjGBQCH/image.png', imageHint: 'Non-linear I-V graph saturating'},
     ],
     correctAnswerIndex: 1,
     explanation: "عند تبريد فلز، تقل مقاوميته (R) بسبب انخفاض المقاومية (ρ). ميل منحنى I-V هو $\\frac{I}{V} = \\frac{1}{R}$. بما أن R تقل، فإن مقلوبها (الميل) يزداد. لذلك، سيكون المنحنى الجديد خطًا مستقيمًا من الأصل ولكن بميل أكبر."
