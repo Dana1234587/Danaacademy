@@ -10,8 +10,8 @@ import { BlockMath } from 'react-katex';
 const laws = [
     {
         title: "تحليل البندول القذفي",
-        formula: "",
-        description: "يتم تحليل حركة البندول القذفي على مرحلتين:\n1. مرحلة التصادم: تصادم عديم المرونة، نطبق فيه مبدأ حفظ الزخم الخطي لإيجاد السرعة المشتركة بعد التصادم. ($p_i = p_f$)\n2. مرحلة الارتفاع: حركة بندول، نطبق فيها مبدأ حفظ الطاقة الميكانيكية لربط السرعة بعد التصادم بأقصى ارتفاع يصل إليه النظام. ($K_f = U_g$)"
+        formula: "mv = (m+M)V  ->  ½(m+M)V² = (m+M)gh",
+        description: "يتم تحليل حركة البندول القذفي على مرحلتين:\n1. **مرحلة التصادم:** تصادم عديم المرونة، نطبق فيه مبدأ **حفظ الزخم الخطي** لإيجاد السرعة المشتركة بعد التصادم.\n2. **مرحلة الارتفاع:** حركة بندول، نطبق فيها مبدأ **حفظ الطاقة الميكانيكية** لربط السرعة بعد التصادم بأقصى ارتفاع يصل إليه النظام."
     },
     {
         title: "مهد نيوتن",
@@ -35,9 +35,20 @@ export default function SummaryPage() {
                     <BlockMath math={law.formula} />
                 </div>
                 )}
-                <CardDescription className="text-right">
-                    {law.description}
-                </CardDescription>
+                <div className="text-right">
+                    {law.description.split('\n').map((line, i) => {
+                        const parts = line.split(/(\*\*.*?\*\*)/g);
+                        return (
+                            <p key={i} className="my-1 leading-relaxed">
+                                {parts.map((part, j) => 
+                                    part.startsWith('**') && part.endsWith('**') ? 
+                                    <strong key={j} className="font-bold text-primary">{part.slice(2, -2)}</strong> : 
+                                    part
+                                )}
+                            </p>
+                        );
+                    })}
+                </div>
             </CardContent>
           </Card>
         ))}
@@ -45,7 +56,7 @@ export default function SummaryPage() {
           <Info className="h-4 w-4" />
           <AlertTitle className="font-bold">ملاحظة هامة</AlertTitle>
           <AlertDescription>
-           لا تخلط بين المبدأين! حفظ الزخم يُطبق **خلال** التصادم. حفظ الطاقة الميكانيكية يُطبق **بعد** التصادم أثناء حركة النظام كبندول. لا تكون الطاقة الحركية محفوظة خلال التصادم في البندول القذفي.
+           لا تخلط بين المبدأين! حفظ الزخم يُطبق <strong>خلال</strong> التصادم. حفظ الطاقة الميكانيكية يُطبق <strong>بعد</strong> التصادم أثناء حركة النظام كبندول. لا تكون الطاقة الحركية محفوظة خلال التصادم في البندول القذفي.
           </AlertDescription>
         </Alert>
       </div>
