@@ -125,6 +125,7 @@ export function QuizClient({ questions }: { questions: QuizQuestion[] }) {
   const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
   
  if (quizState === 'not-started') {
+    const totalMarks = questions.length * 4;
     return (
         <Card className="max-w-3xl mx-auto border-primary/20 shadow-lg bg-gradient-to-br from-primary/5 via-background to-background">
             <CardHeader className="text-center p-8">
@@ -141,7 +142,7 @@ export function QuizClient({ questions }: { questions: QuizQuestion[] }) {
                     <div className="bg-muted/50 p-4 rounded-lg">
                         <BookOpen className="w-8 h-8 text-primary mx-auto mb-2" />
                         <h4 className="font-bold">عدد الأسئلة</h4>
-                        <p className="text-muted-foreground"><SmartTextRenderer as="span" text={`$15$ سؤال`} /></p>
+                        <p className="text-muted-foreground"><SmartTextRenderer as="span" text={`$${questions.length}$ سؤال`} /></p>
                     </div>
                      <div className="bg-muted/50 p-4 rounded-lg">
                         <Clock className="w-8 h-8 text-primary mx-auto mb-2" />
@@ -151,7 +152,7 @@ export function QuizClient({ questions }: { questions: QuizQuestion[] }) {
                      <div className="bg-muted/50 p-4 rounded-lg">
                         <CheckCircle className="w-8 h-8 text-primary mx-auto mb-2" />
                         <h4 className="font-bold">العلامة الكلية</h4>
-                        <p className="text-muted-foreground"><SmartTextRenderer as="span" text={`$60$ علامة`} /></p>
+                        <p className="text-muted-foreground"><SmartTextRenderer as="span" text={`$${totalMarks}$ علامة`} /></p>
                     </div>
                 </div>
 
@@ -369,3 +370,5 @@ export function QuizClient({ questions }: { questions: QuizQuestion[] }) {
     </div>
   );
 }
+
+    
