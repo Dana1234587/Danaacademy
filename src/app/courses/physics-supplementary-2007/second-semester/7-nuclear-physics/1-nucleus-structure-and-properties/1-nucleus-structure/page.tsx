@@ -42,7 +42,7 @@ export default function NucleusStructurePage() {
             <Card>
                 <CardHeader>
                     <CardTitle>نقاط رئيسية من الحصة</CardTitle>
-                    <CardDescription>أهم الأفكار والقوانين التي سيتم تغطيتها في هذا الفيديو.</CardDescription>
+                    <CardDescription>أهم الأفكار والقوانين التي تم تغطيتها في هذا الفيديو.</CardDescription>
                 </CardHeader>
                 <CardContent>
                     <ul className="space-y-3 list-disc list-inside text-muted-foreground">
@@ -67,8 +67,10 @@ export default function NucleusStructurePage() {
                 <Button variant="ghost" className="w-full justify-start">
                   <BarChart className="me-3"/> ملخص القوانين
                 </Button>
-                 <Button variant="ghost" className="w-full justify-start">
-                  <BrainCircuit className="me-3"/> اختبار قصير للمراجعة
+                 <Button asChild variant="ghost" className="w-full justify-start">
+                  <Link href="/courses/physics-supplementary-2007/second-semester/7-nuclear-physics/1-nucleus-structure-and-properties/1-nucleus-structure/quiz">
+                    <BrainCircuit className="me-3"/> اختبار قصير للمراجعة
+                  </Link>
                 </Button>
               </CardContent>
             </Card>
