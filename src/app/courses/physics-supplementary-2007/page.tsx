@@ -213,41 +213,41 @@ const courseStructure = {
             {
               title: 'الدرس الأول: التدفق المغناطيسي والحث الكهرومغناطيسي',
               topics: [
-                { label: 'مفهوم التدفق المغناطيسي', path: '/courses/physics-supplementary-2007/second-semester/5-electromagnetic-induction-and-semiconductors/1-magnetic-flux-and-electromagnetic-induction/1-magnetic-flux-concept' },
-                { label: 'التدفق المغناطيسي حل اسئلة', path: '/courses/physics-supplementary-2007/second-semester/5-electromagnetic-induction-and-semiconductors/1-magnetic-flux-and-electromagnetic-induction/2-magnetic-flux-questions' },
-                { label: 'مفهوم الحث الكهرومغناطيسي', path: '/courses/physics-supplementary-2007/second-semester/5-electromagnetic-induction-and-semiconductors/1-magnetic-flux-and-electromagnetic-induction/3-electromagnetic-induction-concept' },
-                { label: 'قانون فارادي في الحث', path: '/courses/physics-supplementary-2007/second-semester/5-electromagnetic-induction-and-semiconductors/1-magnetic-flux-and-electromagnetic-induction/4-faraday-law-of-induction' },
-                { label: 'الرسم البياني', path: '/courses/physics-supplementary-2007/second-semester/5-electromagnetic-induction-and-semiconductors/1-magnetic-flux-and-electromagnetic-induction/5-graphical-representation' },
-                { label: 'القوة الدافعه الحثية في موصل', path: '/courses/physics-supplementary-2007/second-semester/5-electromagnetic-induction-and-semiconductors/1-magnetic-flux-and-electromagnetic-induction/6-motional-emf-in-conductor' },
-                { label: 'حل ورقة العمل', path: '/courses/physics-supplementary-2007/second-semester/5-electromagnetic-induction-and-semiconductors/1-magnetic-flux-and-electromagnetic-induction/7-worksheet-solutions' },
-                { label: 'قانون لنز الجزء الاول', path: '/courses/physics-supplementary-2007/second-semester/5-electromagnetic-induction-and-semiconductors/1-magnetic-flux-and-electromagnetic-induction/8-lenz-law-part1' },
-                { label: 'قانون لنز الجزء الثاني', path: '/courses/physics-supplementary-2007/second-semester/5-electromagnetic-induction-and-semiconductors/1-magnetic-flux-and-electromagnetic-induction/9-lenz-law-part2' },
-                { label: 'الحث الذاتي شرح', path: '/courses/physics-supplementary-2007/second-semester/5-electromagnetic-induction-and-semiconductors/1-magnetic-flux-and-electromagnetic-induction/10-self-inductance-explanation' },
-                { label: 'الحث الذاتي حل اسئلة', path: '/courses/physics-supplementary-2007/second-semester/5-electromagnetic-induction-and-semiconductors/1-magnetic-flux-and-electromagnetic-induction/11-self-inductance-questions' },
-                { label: 'المحول الكهربائي', path: '/courses/physics-supplementary-2007/second-semester/5-electromagnetic-induction-and-semiconductors/1-magnetic-flux-and-electromagnetic-induction/12-transformer' },
-                { label: 'المحول الكهربائي حل ورقة عمل', path: '/courses/physics-supplementary-2007/second-semester/5-electromagnetic-induction-and-semiconductors/1-magnetic-flux-and-electromagnetic-induction/13-transformer-worksheet' },
-                { label: 'حل أسئلة اختبر نفسك', path: '/courses/physics-supplementary-2007/second-semester/5-electromagnetic-induction-and-semiconductors/1-magnetic-flux-and-electromagnetic-induction/14-self-assessment-solutions' },
+                { label: 'حصة رقم (1): مفهوم التدفق المغناطيسي', path: '/courses/physics-supplementary-2007/second-semester/5-electromagnetic-induction-and-semiconductors/1-magnetic-flux-and-electromagnetic-induction/1-magnetic-flux-concept' },
+                { label: 'حصة رقم (2): التدفق المغناطيسي حل اسئلة', path: '/courses/physics-supplementary-2007/second-semester/5-electromagnetic-induction-and-semiconductors/1-magnetic-flux-and-electromagnetic-induction/2-magnetic-flux-questions' },
+                { label: 'حصة رقم (3): مفهوم الحث الكهرومغناطيسي', path: '/courses/physics-supplementary-2007/second-semester/5-electromagnetic-induction-and-semiconductors/1-magnetic-flux-and-electromagnetic-induction/3-electromagnetic-induction-concept' },
+                { label: 'حصة رقم (4): قانون فارادي في الحث', path: '/courses/physics-supplementary-2007/second-semester/5-electromagnetic-induction-and-semiconductors/1-magnetic-flux-and-electromagnetic-induction/4-faraday-law-of-induction' },
+                { label: 'حصة رقم (5): الرسم البياني', path: '/courses/physics-supplementary-2007/second-semester/5-electromagnetic-induction-and-semiconductors/1-magnetic-flux-and-electromagnetic-induction/5-graphical-representation' },
+                { label: 'حصة رقم (6): القوة الدافعه الحثية في موصل', path: '/courses/physics-supplementary-2007/second-semester/5-electromagnetic-induction-and-semiconductors/1-magnetic-flux-and-electromagnetic-induction/6-motional-emf-in-conductor' },
+                { label: 'حصة رقم (7): حل ورقة العمل', path: '/courses/physics-supplementary-2007/second-semester/5-electromagnetic-induction-and-semiconductors/1-magnetic-flux-and-electromagnetic-induction/7-worksheet-solutions' },
+                { label: 'حصة رقم (8): قانون لنز الجزء الاول', path: '/courses/physics-supplementary-2007/second-semester/5-electromagnetic-induction-and-semiconductors/1-magnetic-flux-and-electromagnetic-induction/8-lenz-law-part1' },
+                { label: 'حصة رقم (9): قانون لنز الجزء الثاني', path: '/courses/physics-supplementary-2007/second-semester/5-electromagnetic-induction-and-semiconductors/1-magnetic-flux-and-electromagnetic-induction/9-lenz-law-part2' },
+                { label: 'حصة رقم (10): الحث الذاتي شرح', path: '/courses/physics-supplementary-2007/second-semester/5-electromagnetic-induction-and-semiconductors/1-magnetic-flux-and-electromagnetic-induction/10-self-inductance-explanation' },
+                { label: 'حصة رقم (11): الحث الذاتي حل اسئلة', path: '/courses/physics-supplementary-2007/second-semester/5-electromagnetic-induction-and-semiconductors/1-magnetic-flux-and-electromagnetic-induction/11-self-inductance-questions' },
+                { label: 'حصة رقم (12): المحول الكهربائي', path: '/courses/physics-supplementary-2007/second-semester/5-electromagnetic-induction-and-semiconductors/1-magnetic-flux-and-electromagnetic-induction/12-transformer' },
+                { label: 'حصة رقم (13): المحول الكهربائي حل ورقة عمل', path: '/courses/physics-supplementary-2007/second-semester/5-electromagnetic-induction-and-semiconductors/1-magnetic-flux-and-electromagnetic-induction/13-transformer-worksheet' },
+                { label: 'حصة رقم (14): حل أسئلة اختبر نفسك', path: '/courses/physics-supplementary-2007/second-semester/5-electromagnetic-induction-and-semiconductors/1-magnetic-flux-and-electromagnetic-induction/14-self-assessment-solutions' },
               ]
             },
             {
               title: 'الدرس الثاني: دارات التيار المتردد',
               topics: [
-                { label: 'فرق الجهد المتردد', path: '/courses/physics-supplementary-2007/second-semester/5-electromagnetic-induction-and-semiconductors/2-ac-circuits/1-alternating-voltage' },
-                { label: 'دارات التيار المتردد', path: '/courses/physics-supplementary-2007/second-semester/5-electromagnetic-induction-and-semiconductors/2-ac-circuits/2-ac-circuits' },
-                { label: 'حل اسئلة', path: '/courses/physics-supplementary-2007/second-semester/5-electromagnetic-induction-and-semiconductors/2-ac-circuits/3-questions' },
-                { label: 'دارات التيار المتردد ملخص قوانين الدرس', path: '/courses/physics-supplementary-2007/second-semester/5-electromagnetic-induction-and-semiconductors/2-ac-circuits/4-ac-circuits-summary' },
-                { label: 'المعاوقة', path: '/courses/physics-supplementary-2007/second-semester/5-electromagnetic-induction-and-semiconductors/2-ac-circuits/5-impedance' },
-                { label: 'دارة rlc', path: '/courses/physics-supplementary-2007/second-semester/5-electromagnetic-induction-and-semiconductors/2-ac-circuits/6-rlc-circuit' },
-                { label: 'حل أسئلة اختبر نفسك', path: '/courses/physics-supplementary-2007/second-semester/5-electromagnetic-induction-and-semiconductors/2-ac-circuits/7-self-assessment-solutions' },
+                { label: 'حصة رقم (15): فرق الجهد المتردد', path: '/courses/physics-supplementary-2007/second-semester/5-electromagnetic-induction-and-semiconductors/2-ac-circuits/1-alternating-voltage' },
+                { label: 'حصة رقم (16): دارات التيار المتردد', path: '/courses/physics-supplementary-2007/second-semester/5-electromagnetic-induction-and-semiconductors/2-ac-circuits/2-ac-circuits' },
+                { label: 'حصة رقم (17): حل اسئلة', path: '/courses/physics-supplementary-2007/second-semester/5-electromagnetic-induction-and-semiconductors/2-ac-circuits/3-questions' },
+                { label: 'حصة رقم (18): دارات التيار المتردد ملخص قوانين الدرس', path: '/courses/physics-supplementary-2007/second-semester/5-electromagnetic-induction-and-semiconductors/2-ac-circuits/4-ac-circuits-summary' },
+                { label: 'حصة رقم (19): المعاوقة', path: '/courses/physics-supplementary-2007/second-semester/5-electromagnetic-induction-and-semiconductors/2-ac-circuits/5-impedance' },
+                { label: 'حصة رقم (20): دارة rlc', path: '/courses/physics-supplementary-2007/second-semester/5-electromagnetic-induction-and-semiconductors/2-ac-circuits/6-rlc-circuit' },
+                { label: 'حصة رقم (21): حل أسئلة اختبر نفسك', path: '/courses/physics-supplementary-2007/second-semester/5-electromagnetic-induction-and-semiconductors/2-ac-circuits/7-self-assessment-solutions' },
               ]
             },
             {
               title: 'الدرس الثالث: اشباه الموصلات',
               topics: [
-                { label: 'الاشابة', path: '/courses/physics-supplementary-2007/second-semester/5-electromagnetic-induction-and-semiconductors/3-semiconductors/1-doping' },
-                { label: 'الثنائي والترانزستور', path: '/courses/physics-supplementary-2007/second-semester/5-electromagnetic-induction-and-semiconductors/3-semiconductors/2-diode-and-transistor' },
-                { label: 'التطبيقات التكنولوجية', path: '/courses/physics-supplementary-2007/second-semester/5-electromagnetic-induction-and-semiconductors/3-semiconductors/3-technological-applications' },
-                { label: 'التجربة الاستهلالية', path: '/courses/physics-supplementary-2007/second-semester/5-electromagnetic-induction-and-semiconductors/3-semiconductors/4-introductory-experiment' },
+                { label: 'حصة رقم (22): الاشابة', path: '/courses/physics-supplementary-2007/second-semester/5-electromagnetic-induction-and-semiconductors/3-semiconductors/1-doping' },
+                { label: 'حصة رقم (23): الثنائي والترانزستور', path: '/courses/physics-supplementary-2007/second-semester/5-electromagnetic-induction-and-semiconductors/3-semiconductors/2-diode-and-transistor' },
+                { label: 'حصة رقم (24): التطبيقات التكنولوجية', path: '/courses/physics-supplementary-2007/second-semester/5-electromagnetic-induction-and-semiconductors/3-semiconductors/3-technological-applications' },
+                { label: 'حصة رقم (25): التجربة الاستهلالية', path: '/courses/physics-supplementary-2007/second-semester/5-electromagnetic-induction-and-semiconductors/3-semiconductors/4-introductory-experiment' },
               ]
             },
             {
@@ -274,26 +274,26 @@ const courseStructure = {
             {
               title: 'الدرس الأول: الطبيعة الجسيمية للضوء',
               topics: [
-                { label: 'مبدأ تكمية الطاقة', path: '/courses/physics-supplementary-2007/second-semester/6-modern-physics/1-particle-nature-of-light/1-energy-quantization' },
-                { label: 'اشعاع الجسم الاسود', path: '/courses/physics-supplementary-2007/second-semester/6-modern-physics/1-particle-nature-of-light/2-black-body-radiation' },
-                { label: 'الظاهرة الكهروضوئية 1', path: '/courses/physics-supplementary-2007/second-semester/6-modern-physics/1-particle-nature-of-light/3-photoelectric-effect-1' },
-                { label: 'الظاهرة الكهروضوئية 2', path: '/courses/physics-supplementary-2007/second-semester/6-modern-physics/1-particle-nature-of-light/4-photoelectric-effect-2' },
-                { label: 'الظاهرة الكهروضوئية 3', path: '/courses/physics-supplementary-2007/second-semester/6-modern-physics/1-particle-nature-of-light/5-photoelectric-effect-3' },
-                { label: 'ظاهرة كومبتون', path: '/courses/physics-supplementary-2007/second-semester/6-modern-physics/1-particle-nature-of-light/6-compton-effect' },
+                { label: 'حصة رقم (1): مبدأ تكمية الطاقة', path: '/courses/physics-supplementary-2007/second-semester/6-modern-physics/1-particle-nature-of-light/1-energy-quantization' },
+                { label: 'حصة رقم (2): اشعاع الجسم الاسود', path: '/courses/physics-supplementary-2007/second-semester/6-modern-physics/1-particle-nature-of-light/2-black-body-radiation' },
+                { label: 'حصة رقم (3): الظاهرة الكهروضوئية 1', path: '/courses/physics-supplementary-2007/second-semester/6-modern-physics/1-particle-nature-of-light/3-photoelectric-effect-1' },
+                { label: 'حصة رقم (4): الظاهرة الكهروضوئية 2', path: '/courses/physics-supplementary-2007/second-semester/6-modern-physics/1-particle-nature-of-light/4-photoelectric-effect-2' },
+                { label: 'حصة رقم (5): الظاهرة الكهروضوئية 3', path: '/courses/physics-supplementary-2007/second-semester/6-modern-physics/1-particle-nature-of-light/5-photoelectric-effect-3' },
+                { label: 'حصة رقم (6): ظاهرة كومبتون', path: '/courses/physics-supplementary-2007/second-semester/6-modern-physics/1-particle-nature-of-light/6-compton-effect' },
               ]
             },
             {
               title: 'الدرس الثاني: التركيب الذري',
               topics: [
-                  { label: 'فرضيات بور', path: '/courses/physics-supplementary-2007/second-semester/6-modern-physics/2-atomic-structure/1-bohr-hypotheses' },
-                  { label: 'الاطياف الذرية', path: '/courses/physics-supplementary-2007/second-semester/6-modern-physics/2-atomic-structure/2-atomic-spectra' },
-                  { label: 'دي بروي', path: '/courses/physics-supplementary-2007/second-semester/6-modern-physics/2-atomic-structure/3-de-broglie' },
+                  { label: 'حصة رقم (7): فرضيات بور', path: '/courses/physics-supplementary-2007/second-semester/6-modern-physics/2-atomic-structure/1-bohr-hypotheses' },
+                  { label: 'حصة رقم (8): الاطياف الذرية', path: '/courses/physics-supplementary-2007/second-semester/6-modern-physics/2-atomic-structure/2-atomic-spectra' },
+                  { label: 'حصة رقم (9): دي بروي', path: '/courses/physics-supplementary-2007/second-semester/6-modern-physics/2-atomic-structure/3-de-broglie' },
               ]
             },
             {
               title: 'حل أسئلة الفصل',
               topics: [
-                { label: 'حل أسئلة الفصل', path: '/courses/physics-supplementary-2007/second-semester/6-modern-physics/3-chapter-questions' }
+                { label: 'حصة رقم (10): حل أسئلة الفصل', path: '/courses/physics-supplementary-2007/second-semester/6-modern-physics/3-chapter-questions' }
               ]
             },
             {
@@ -320,31 +320,31 @@ const courseStructure = {
             {
               title: 'الدرس الأول: تركيب النواة وخصائصها',
               topics: [
-                { label: 'بنية النواة', path: '/courses/physics-supplementary-2007/second-semester/7-nuclear-physics/1-nucleus-structure-and-properties/1-nucleus-structure' },
-                { label: 'قوانين متعلقة بشكل النواة', path: '/courses/physics-supplementary-2007/second-semester/7-nuclear-physics/1-nucleus-structure-and-properties/2-nucleus-shape-laws' },
-                { label: 'نطاق الاستقرار', path: '/courses/physics-supplementary-2007/second-semester/7-nuclear-physics/1-nucleus-structure-and-properties/3-stability-band' },
-                { label: 'طاقة الربط النووية', path: '/courses/physics-supplementary-2007/second-semester/7-nuclear-physics/1-nucleus-structure-and-properties/4-nuclear-binding-energy' },
-                { label: 'حل أسئلة الدرس الأول', path: '/courses/physics-supplementary-2007/second-semester/7-nuclear-physics/1-nucleus-structure-and-properties/5-lesson1-questions' },
+                { label: 'حصة رقم (1): بنية النواة', path: '/courses/physics-supplementary-2007/second-semester/7-nuclear-physics/1-nucleus-structure-and-properties/1-nucleus-structure' },
+                { label: 'حصة رقم (2): قوانين متعلقة بشكل النواة', path: '/courses/physics-supplementary-2007/second-semester/7-nuclear-physics/1-nucleus-structure-and-properties/2-nucleus-shape-laws' },
+                { label: 'حصة رقم (3): نطاق الاستقرار', path: '/courses/physics-supplementary-2007/second-semester/7-nuclear-physics/1-nucleus-structure-and-properties/3-stability-band' },
+                { label: 'حصة رقم (4): طاقة الربط النووية', path: '/courses/physics-supplementary-2007/second-semester/7-nuclear-physics/1-nucleus-structure-and-properties/4-nuclear-binding-energy' },
+                { label: 'حصة رقم (5): حل أسئلة الدرس الأول', path: '/courses/physics-supplementary-2007/second-semester/7-nuclear-physics/1-nucleus-structure-and-properties/5-lesson1-questions' },
               ]
             },
             {
               title: 'الدرس الثاني: الاشعاع النووي',
               topics: [
-                { label: 'الاضمحلال الاشعاعي', path: '/courses/physics-supplementary-2007/second-semester/7-nuclear-physics/2-nuclear-radiation/1-radioactive-decay' },
-                { label: 'اضمحلال غاما', path: '/courses/physics-supplementary-2007/second-semester/7-nuclear-physics/2-nuclear-radiation/2-gamma-decay' },
-                { label: 'النشاطية الاشعاعية', path: '/courses/physics-supplementary-2007/second-semester/7-nuclear-physics/2-nuclear-radiation/3-radioactivity' },
+                { label: 'حصة رقم (6): الاضمحلال الاشعاعي', path: '/courses/physics-supplementary-2007/second-semester/7-nuclear-physics/2-nuclear-radiation/1-radioactive-decay' },
+                { label: 'حصة رقم (7): اضمحلال غاما', path: '/courses/physics-supplementary-2007/second-semester/7-nuclear-physics/2-nuclear-radiation/2-gamma-decay' },
+                { label: 'حصة رقم (8): النشاطية الاشعاعية', path: '/courses/physics-supplementary-2007/second-semester/7-nuclear-physics/2-nuclear-radiation/3-radioactivity' },
               ]
             },
             {
               title: 'الدرس الثالث: التفاعلات النووية',
               topics: [
-                { label: 'الاشعاع النووي الصناعي', path: '/courses/physics-supplementary-2007/second-semester/7-nuclear-physics/3-nuclear-reactions/1-artificial-nuclear-radiation' },
+                { label: 'حصة رقم (9): الاشعاع النووي الصناعي', path: '/courses/physics-supplementary-2007/second-semester/7-nuclear-physics/3-nuclear-reactions/1-artificial-nuclear-radiation' },
               ]
             },
             {
               title: 'حل أسئلة الفصل',
               topics: [
-                { label: 'حل أسئلة الفصل', path: '/courses/physics-supplementary-2007/second-semester/7-nuclear-physics/4-chapter-questions' }
+                { label: 'حصة رقم (10): حل أسئلة الفصل', path: '/courses/physics-supplementary-2007/second-semester/7-nuclear-physics/4-chapter-questions' }
               ]
             },
             {
@@ -538,5 +538,3 @@ export default function PhysicsSupplementary2007Page() {
     </SidebarProvider>
   );
 }
-
-    
