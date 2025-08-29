@@ -22,7 +22,7 @@ export const unit3QuizQuestions: QuizQuestion[] = [
         '$0.06 \\mu C$',
     ],
     correctAnswerIndex: 1,
-    explanation: 'الحل:\nأولاً، نحسب التيار الكهربائي (I) المار في الموصل، والذي يكون ثابتًا.\n$I = \\frac{\\Delta q}{\\Delta t}$\n$I = \\frac{600 \\times 10^{-6} C}{10 \\times 10^{-3} s} = 0.06 A$\n\nالآن، نستخدم هذا التيار لحساب الشحنة الجديدة ($q_{new}$) التي تعبر خلال الزمن الجديد ($t_{new}$).\n$q_{new} = I \\times t_{new}$\n$q_{new} = 0.06 A \\times 0.5 s = 0.03 C$\n\nأخيرًا، نحول الشحنة من كولوم إلى مايكروكولوم:\n$0.03 C \\times (1,000,000 \\mu C / 1 C) = 30,000 \\mu C = 3 \\times 10^4 \\mu C$\nالإجابة الصحيحة هي (ب).',
+    explanation: 'الحل:\\nأولاً، نحسب التيار الكهربائي (I) المار في الموصل، والذي يكون ثابتًا.\\n$I = \\frac{\\Delta q}{\\Delta t}$\\n$I = \\frac{600 \\times 10^{-6} C}{10 \\times 10^{-3} s} = 0.06 A$\\n\\nالآن، نستخدم هذا التيار لحساب الشحنة الجديدة ($q_{new}$) التي تعبر خلال الزمن الجديد ($t_{new}$).\\n$q_{new} = I \\times t_{new}$\\n$q_{new} = 0.06 A \\times 0.5 s = 0.03 C$\\n\\nأخيرًا، نحول الشحنة من كولوم إلى مايكروكولوم:\\n$0.03 C \\times (1,000,000 \\mu C / 1 C) = 30,000 \\mu C = 3 \\times 10^4 \\mu C$\\nالإجابة الصحيحة هي (ب).',
   },
   {
     id: 2,
@@ -65,14 +65,14 @@ $\\rho_1 = \\rho_2$<br/>
     correctAnswerIndex: 3,
     explanation: '<b>طريقة الحل</b><br/><br/>المقاومتان $R$ موصولتان على التوازي بين نفس العقدتين، إذن مقاومتُهما المكافئة:<br/>$R_{eq} = R \\|\\| R = \\frac{R}{2}$.<br/><br/>التيار الكلي في الدارة (المار في البطارية) هو $I$. جهد طرفَي المصدر (وهو نفسه جهد طرفَي المجموعة الخارجية) يساوي:<br/>$V_{\\text{terminal}} = I R_{eq} = I(\\frac{R}{2}) = \\frac{IR}{2}$.<br/><br/>وبشكلٍ مكافئ يمكن كتابته أيضًا:<br/>$V_{\\text{terminal}} = \\varepsilon - Ir$,<br/><br/>لكن من بين الخيارات المعطاة الصيغة المطابقة هي $\\frac{IR}{2}$.<br/><br/><b>الإجابة الصحيحة: (د) $\\frac{IR}{2}$.</b>'
   },
-  {
+    {
     id: 4,
     questionText: 'إذا كانت قراءة الأميتر في الشكل تساوي $0.5 A$ وقراءة الفولتميتر بين النقطتين $a,b$ تساوي $5.5 V$، فما معدل الطاقة المستهلكة في المقاومة $8 \\Omega$ (بوحدة $J/s$) وقيمة المقاومة المجهولة $R$ على الترتيب؟',
     image: 'https://i.ibb.co/zhqngG8q/4.png',
     imageHint: 'circuit diagram with ammeter and voltmeter',
     options: [
-      '$2 J/s, R=4 \\Omega$',
-      '$7 J/s, R=12 \\Omega$',
+      '$\\varepsilon=12V, r=1\\Omega$',
+      '$2 J/s, R=12 \\Omega$',
       '$10 J/s, R=4 \\Omega$',
       '$2 J/s, R=2 \\Omega$',
     ],
@@ -81,7 +81,7 @@ $\\rho_1 = \\rho_2$<br/>
   },
   {
     id: 5,
-    questionText: 'يمثل الشكل المجاور دارة كهربائية عندما كان المفتاح s مفتوح كانت قراءة الفولتميتر ($9 V$) وبعد غلق المفتاح أصبحت ($8 V$) فإن مقدار ($\\varepsilon , r$) على الترتيب',
+    questionText: 'يمثل الشكل المجاور دارة كهربائية عندما كان المفتاح s مفتوح كانت قراءة الفولتميتر ($9 V$) وبعد غلق المفتاح أصبحت ($8 V$) فإن مقدار ($r, \\varepsilon$) على الترتيب',
     image: 'https://i.ibb.co/NdYqWpfd/5.png',
     imageHint: 'circuit diagram with switch',
     options: [
@@ -90,14 +90,7 @@ $\\rho_1 = \\rho_2$<br/>
       '($9 V$, $2 \\Omega$)',
       '($9 V$, $1 \\Omega$)',
     ],
-    correctAnswerIndex: 3,
+    correctAnswerIndex: 0,
     explanation: 'الشرح سيتم إضافته لاحقًا.',
   }
 ];
-
-    
-
-
-
-
-
