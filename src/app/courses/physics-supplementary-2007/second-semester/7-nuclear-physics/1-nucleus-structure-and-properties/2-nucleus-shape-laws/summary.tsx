@@ -13,7 +13,7 @@ const SmartTextRenderer = ({ text, as: Wrapper = 'p' }: { text: string; as?: Rea
     const renderPart = (part: string, index: number) => {
         if (index % 2 === 0) return <span key={index} dir="rtl">{part}</span>;
         // The katex component will handle LTR rendering for the math formula
-        return <span key={index} className="inline-block mx-1"><InlineMath math={part} /></span>;
+        return <span key={index} dir="ltr" className="inline-block mx-1"><InlineMath math={part} /></span>;
     };
     return (
         <Wrapper className="leading-relaxed">
