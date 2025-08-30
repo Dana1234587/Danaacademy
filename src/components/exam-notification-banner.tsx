@@ -43,10 +43,7 @@ const CountdownTimer = ({ targetDate }: { targetDate: Date }) => {
         .filter(([interval, value]) => {
              const keys = Object.keys(timeLeft);
              if (value > 0) return true;
-             // Ensure seconds are shown even if they are the last unit and become 0
              if(keys.length === 1 && interval === 'seconds') return true;
-             // A bit of a hack to prevent units from disappearing too early
-             if(keys.length > 1 && interval !== 'seconds' && timeLeft.seconds > 0) return true;
              const higherIntervals = keys.slice(0, keys.indexOf(interval));
              return higherIntervals.some(key => timeLeft[key as keyof typeof timeLeft] > 0);
         })
