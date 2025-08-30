@@ -3,12 +3,13 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
 import { Progress } from '@/components/ui/progress';
-import { AlertTriangle, CheckCircle, ChevronLeft, ChevronRight, Redo, XCircle, ListChecks, Info, Rocket, BrainCircuit, BookOpen, Clock, Calculator, Pencil, ClipboardCheck, HelpCircle, Loader2 } from 'lucide-react';
+import { AlertTriangle, CheckCircle, ChevronLeft, ChevronRight, Redo, XCircle, ListChecks, Info, Rocket, BrainCircuit, BookOpen, Clock, Calculator, Pencil, ClipboardCheck, HelpCircle, Loader2, Eye } from 'lucide-react';
 import Image from 'next/image';
 import type { ExamWithQuestions } from './actions';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
@@ -44,13 +45,16 @@ const SmartTextRenderer = ({ text, as: Wrapper = 'p' }: { text: string; as?: Rea
 };
 
 
-export function ExamClient({ exam }: { exam: ExamWithQuestions }) {
-  const [quizState, setQuizState] = useState<'not-started' | 'active' | 'finished'>('not-started');
+export function ExamClient({ exam, submission }: { exam: ExamWithQuestions, submission: any | null }) {
+  const searchParams = useSearchParams();
+  const isReviewMode = searchParams.get('review') === 'true' && !!submission;
+
+  const [quizState, setQuizState] = useState<'not-started' | 'active' | 'finished'>(isReviewMode ? 'finished' : 'not-started');
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [answers, setAnswers] = useState<(number | null)[]>(new Array(exam.questions.length).fill(null));
+  const [answers, setAnswers] = useState<(number | null)[]>(isReviewMode ? submission.answers : new Array(exam.questions.length).fill(null));
   const [timeLeft, setTimeLeft] = useState(exam.duration * 60);
-  const [score, setScore] = useState(0);
-  const [showDetails, setShowDetails] = useState(false);
+  const [score, setScore] = useState(isReviewMode ? submission.score : 0);
+  const [showDetails, setShowDetails] = useState(isReviewMode);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { currentUser } = useStore();
   const { toast } = useToast();
@@ -66,6 +70,10 @@ export function ExamClient({ exam }: { exam: ExamWithQuestions }) {
       });
       setScore(calculatedScore);
       setQuizState('finished');
+      
+      // Don't submit if we are in review mode
+      if(isReviewMode) return;
+
       setIsSubmitting(true);
 
       if (!currentUser) {
@@ -92,7 +100,7 @@ export function ExamClient({ exam }: { exam: ExamWithQuestions }) {
           toast({ variant: 'destructive', title: 'فشل حفظ النتيجة', description: result.error });
       }
 
-  }, [answers, exam, currentUser, toast]);
+  }, [answers, exam, currentUser, toast, isReviewMode]);
 
   useEffect(() => {
     if (quizState !== 'active') return;
@@ -230,8 +238,51 @@ export function ExamClient({ exam }: { exam: ExamWithQuestions }) {
                           </div>
                         </div>
                     </div>
+
+                    {showDetails && (
+                        <div className="space-y-6 pt-6 border-t">
+                            <h3 className="text-xl font-bold text-center">مراجعة الإجابات</h3>
+                            {exam.questions.map((question, index) => {
+                                const studentAnswerIndex = submission?.answers[index];
+                                const isCorrect = studentAnswerIndex === question.correctAnswerIndex;
+                                return (
+                                    <div key={question.id} className={`p-4 rounded-lg border ${isCorrect ? 'border-green-500 bg-green-500/10' : 'border-red-500 bg-red-500/10'}`}>
+                                    <div className="font-bold mb-2"><SmartTextRenderer as="div" text={`السؤال $${index + 1}$: ${question.text}`} /></div>
+                                    {question.imageUrl && (
+                                        <div className="my-4 flex justify-center">
+                                            <Image src={question.imageUrl} alt={`Question ${question.id}`} width={300} height={200} className="rounded-md" />
+                                        </div>
+                                    )}
+                                    <div className="space-y-2 text-sm">
+                                        {question.options.map((option, optionIndex) => {
+                                            const isCorrectOption = optionIndex === question.correctAnswerIndex;
+                                            const isSelected = optionIndex === studentAnswerIndex;
+                                            return (
+                                                <div key={optionIndex} className={`flex items-center gap-2 p-2 rounded-md ${isCorrectOption ? 'bg-green-200/50 text-green-800' : ''} ${isSelected && !isCorrectOption ? 'bg-red-200/50 text-red-800' : ''}`}>
+                                                    {isCorrectOption ? <CheckCircle className="w-4 h-4 text-green-600"/> : (isSelected ? <XCircle className="w-4 h-4 text-red-600"/> : <span className="w-4 h-4"></span>)}
+                                                    <div className="flex-1"><SmartTextRenderer as="span" text={option} /></div>
+                                                    {isSelected && <span className="text-xs font-bold ms-auto">{'(إجابتك)'}</span>}
+                                                </div>
+                                            )
+                                        })}
+                                    </div>
+                                    {question.explanation && (
+                                        <div className="mt-4 text-sm text-muted-foreground bg-muted p-3 rounded-md" dir="rtl">
+                                            <p className="font-bold text-foreground">الشرح:</p>
+                                            <SmartTextRenderer as="div" text={question.explanation}/>
+                                        </div>
+                                    )}
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    )}
                 </CardContent>
                 <CardFooter className="flex-col sm:flex-row gap-2">
+                     <Button onClick={() => setShowDetails(!showDetails)} variant="secondary">
+                        <Eye className="me-2 h-4 w-4" />
+                        {showDetails ? 'إخفاء مراجعة الإجابات' : 'إظهار مراجعة الإجابات'}
+                    </Button>
                     <Button onClick={() => router.push('/my-exams')} variant="default">
                         العودة للامتحانات
                     </Button>

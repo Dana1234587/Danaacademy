@@ -5,16 +5,41 @@ import { ServerCrash } from 'lucide-react';
 import Link from 'next/link';
 import { getExamForStudent, type ExamWithQuestions } from './actions'; 
 import { ExamClient } from './exam-client';
+import { getStudentSubmissions } from '@/app/my-exams/actions';
+import { headers } from 'next/headers';
+import { adminAuth } from '@/lib/firebase-admin';
+
+// Helper function to get user session from server-side
+async function getUserSession() {
+  const authHeader = headers().get('Authorization');
+  if (!authHeader) return null;
+  const token = authHeader.split('Bearer ')[1];
+  if (!token) return null;
+  try {
+    const decodedToken = await adminAuth.verifyIdToken(token);
+    return decodedToken;
+  } catch (error) {
+    console.error("Error verifying auth token:", error);
+    return null;
+  }
+}
 
 export default async function ExamPage({ params }: { params: { examId: string } }) {
   const { examId } = params;
   let exam: ExamWithQuestions | null = null;
   let error: string | null = null;
+  let submission = null;
+  
+  const user = await getUserSession();
 
   try {
     exam = await getExamForStudent(examId);
     if (!exam) {
       error = "لم يتم العثور على الامتحان المطلوب.";
+    } else if (user) {
+      // Fetch submission only if exam exists and user is logged in
+      const submissions = await getStudentSubmissions(user.uid);
+      submission = submissions.find(s => s.examId === examId) || null;
     }
   } catch (err) {
     console.error("Error fetching exam details:", err);
@@ -44,5 +69,5 @@ export default async function ExamPage({ params }: { params: { examId: string } 
      )
   }
 
-  return <ExamClient exam={exam} />;
+  return <ExamClient exam={exam} submission={submission} />;
 }

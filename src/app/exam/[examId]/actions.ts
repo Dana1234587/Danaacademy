@@ -3,6 +3,7 @@
 
 import { adminDB } from '@/lib/firebase-admin';
 import type { Exam } from '@/app/admin/exams/actions';
+import { FieldValue } from 'firebase-admin/firestore';
 
 interface Question {
     id: string;
@@ -27,7 +28,7 @@ export async function getExamForStudent(examId: string): Promise<ExamWithQuestio
             return null;
         }
 
-        const examData = examSnap.data() as Omit<Exam, 'id'>;
+        const examData = examSnap.data() as Omit<Exam, 'id' | 'createdAt'> & { createdAt: FieldValue };
 
         const questionsRef = examRef.collection('questions');
         const questionsSnap = await questionsRef.get();
@@ -43,9 +44,9 @@ export async function getExamForStudent(examId: string): Promise<ExamWithQuestio
         return {
             id: examSnap.id,
             ...examData,
-            createdAt: examData.createdAt.toDate(),
-            startDate: examData.startDate ? examData.startDate.toDate() : undefined,
-            endDate: examData.endDate ? examData.endDate.toDate() : undefined,
+            createdAt: (examData.createdAt as FirebaseFirestore.Timestamp).toDate(),
+            startDate: examData.startDate ? (examData.startDate as FirebaseFirestore.Timestamp).toDate() : undefined,
+            endDate: examData.endDate ? (examData.endDate as FirebaseFirestore.Timestamp).toDate() : undefined,
             questions,
         };
 
@@ -72,7 +73,7 @@ export async function submitExamAction(data: SubmissionData): Promise<{success: 
     try {
         const submissionRef = await adminDB.collection('examSubmissions').add({
             ...data,
-            submittedAt: new Date(), // Use server timestamp
+            submittedAt: FieldValue.serverTimestamp(), // Use server timestamp
         });
         return { success: true, submissionId: submissionRef.id };
     } catch(error: any) {
