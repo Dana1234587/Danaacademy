@@ -119,7 +119,7 @@ export async function getExams(): Promise<Exam[]> {
         });
     } catch (error) {
         console.error("Error fetching exams:", error);
-        return [];
+        throw error;
     }
 }
 
@@ -139,7 +139,7 @@ export async function getAllSubmissions(): Promise<Submission[]> {
         });
     } catch (error) {
         console.error("Error fetching all submissions:", error);
-        return [];
+        throw error;
     }
 }
 
@@ -161,7 +161,7 @@ export async function getExamSubmissions(examId: string): Promise<Submission[]> 
         });
     } catch (error) {
         console.error(`Error fetching submissions for exam ${examId}:`, error);
-        return [];
+        throw error;
     }
 }
 
@@ -183,8 +183,6 @@ export async function getExamDetails(examId: string): Promise<Exam | null> {
 
     } catch (error) {
         console.error(`Error fetching exam details for ${examId}:`, error);
-        return null;
+        throw error;
     }
 }
-
-  

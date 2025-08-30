@@ -7,7 +7,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter }
 import { Button } from '@/components/ui/button';
 import { Loader2, ServerCrash, ChevronLeft, BarChart, Users, CheckCircle, Percent } from 'lucide-react';
 import Link from 'next/link';
-import { getExamSubmissions, type Submission, getExams, type Exam } from '@/app/admin/exams/actions';
+import { getExamSubmissions, type Submission, getExamDetails, type Exam } from '@/app/admin/exams/actions';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { format } from 'date-fns';
 import { ar } from 'date-fns/locale';
@@ -26,13 +26,12 @@ export default function ExamResultsPage() {
         setIsLoading(true);
         setError(null);
         try {
-            const [submissionsData, allExams] = await Promise.all([
+            const [submissionsData, examData] = await Promise.all([
                 getExamSubmissions(examId),
-                getExams()
+                getExamDetails(examId)
             ]);
             
-            const currentExam = allExams.find(e => e.id === examId);
-            setExam(currentExam || null);
+            setExam(examData);
             setSubmissions(submissionsData);
 
         } catch (err) {
@@ -212,5 +211,3 @@ export default function ExamResultsPage() {
         </div>
     );
 }
-
-    
