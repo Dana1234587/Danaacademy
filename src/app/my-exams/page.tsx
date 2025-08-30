@@ -1,10 +1,10 @@
 
 'use client';
 
-import { MainLayout } from '@/components/layout/main-layout';
+import { MarketingLayout } from '@/components/layout/marketing-layout';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Award, Loader2, ServerCrash, Clock, Calendar, HelpCircle, Check, PlayCircle, Eye } from 'lucide-react';
+import { Award, Loader2, ServerCrash, Clock, Calendar, HelpCircle, Check, PlayCircle, Eye, ChevronLeft } from 'lucide-react';
 import Link from 'next/link';
 import { getExams, type Exam, getStudentSubmissions, type Submission } from './actions'; 
 import { useState, useEffect, useCallback } from 'react';
@@ -82,6 +82,21 @@ export default function MyExamsPage() {
   const [error, setError] = useState<string | null>(null);
   const { currentUser } = useStore((state) => ({ currentUser: state.currentUser }));
 
+   const getCoursePageLink = () => {
+    if (!currentUser || currentUser.role !== 'student' || !currentUser.enrolledCourseIds.length) {
+      return '/';
+    }
+    const courseId = currentUser.enrolledCourseIds[0];
+    if (courseId === 'tawjihi-2007-supplementary') {
+      return '/courses/physics-supplementary-2007';
+    }
+    if (courseId === 'tawjihi-2008') {
+      return '/courses/physics-2008';
+    }
+    return '/';
+  }
+
+
   const fetchExams = useCallback(async () => {
     if (!currentUser) return;
     setIsLoading(true);
@@ -105,17 +120,43 @@ export default function MyExamsPage() {
   }, [currentUser]);
 
   useEffect(() => {
-    fetchExams();
-  }, [fetchExams]);
+    if(currentUser) { // Only fetch if user is logged in
+        fetchExams();
+    } else {
+        setIsLoading(false);
+    }
+  }, [fetchExams, currentUser]);
+  
+  if (!currentUser && !isLoading) {
+    return (
+        <MarketingLayout>
+            <div className="p-8 text-center text-lg">الرجاء تسجيل الدخول لعرض هذه الصفحة.</div>
+        </MarketingLayout>
+    )
+  }
 
   return (
-    <MainLayout>
+    <MarketingLayout>
       <div className="p-4 sm:p-6 lg:p-8">
-        <div className="mb-8">
-            <h1 className="text-3xl font-bold flex items-center gap-3"><Award className="w-8 h-8 text-primary"/> امتحاناتي</h1>
-            <p className="text-muted-foreground mt-2">
-              هنا يمكنك عرض جميع الامتحانات المتاحة لك، والبدء في حلها، ومراجعة نتائجك.
-            </p>
+        <div className="flex flex-wrap items-center justify-between gap-4 mb-8">
+            <div>
+                <h1 className="text-3xl font-bold flex items-center gap-3"><Award className="w-8 h-8 text-primary"/> امتحاناتي</h1>
+                <p className="text-muted-foreground mt-2">
+                هنا يمكنك عرض جميع الامتحانات المتاحة لك، والبدء في حلها، ومراجعة نتائجك.
+                </p>
+            </div>
+             <div className="flex gap-2">
+                <Button asChild variant="outline">
+                    <Link href={getCoursePageLink()}>
+                        دوراتي
+                    </Link>
+                </Button>
+                <Button asChild>
+                    <Link href="/">
+                       <ChevronLeft className="me-2 h-4 w-4" /> العودة للرئيسية
+                    </Link>
+                </Button>
+            </div>
         </div>
 
         {isLoading ? (
@@ -144,6 +185,6 @@ export default function MyExamsPage() {
             </div>
         )}
       </div>
-    </MainLayout>
+    </MarketingLayout>
   );
 }
