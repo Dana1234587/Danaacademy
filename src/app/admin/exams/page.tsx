@@ -2,9 +2,9 @@
 'use client';
 
 import { MarketingLayout } from '@/components/layout/marketing-layout';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Plus, Home, Loader2, RefreshCw, ClipboardList, Clock, CalendarIcon } from 'lucide-react';
+import { Plus, Home, Loader2, RefreshCw, ClipboardList, Clock, CalendarIcon, Eye } from 'lucide-react';
 import Link from 'next/link';
 import { getExams, type Exam } from './actions';
 import { useState, useEffect, useCallback } from 'react';
@@ -14,12 +14,12 @@ import { ar } from 'date-fns/locale';
 function ExamCard({ exam }: { exam: Exam }) {
     const formattedStartDate = exam.startDate ? format(exam.startDate, 'd MMMM yyyy, h:mm a', { locale: ar }) : 'غير محدد';
     return (
-        <Card>
+        <Card className="flex flex-col">
             <CardHeader>
                 <CardTitle className="text-xl">{exam.title}</CardTitle>
                 <CardDescription>{exam.description || 'لا يوجد وصف'}</CardDescription>
             </CardHeader>
-            <CardContent className="grid grid-cols-2 gap-4 text-sm text-muted-foreground">
+            <CardContent className="grid grid-cols-2 gap-4 text-sm text-muted-foreground flex-grow">
                 <div className="flex items-center gap-2">
                     <ClipboardList className="w-4 h-4" />
                     <span>{exam.questionCount} سؤال</span>
@@ -38,6 +38,14 @@ function ExamCard({ exam }: { exam: Exam }) {
                     <span>{formattedStartDate}</span>
                 </div>
             </CardContent>
+            <CardFooter>
+                 <Button asChild variant="secondary" className="w-full">
+                    <Link href={`/exam/${exam.id}`}>
+                        <Eye className="me-2 h-4 w-4" />
+                        معاينة الامتحان
+                    </Link>
+                </Button>
+            </CardFooter>
         </Card>
     )
 }
