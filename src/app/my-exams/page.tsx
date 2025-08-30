@@ -82,21 +82,6 @@ export default function MyExamsPage() {
   const [error, setError] = useState<string | null>(null);
   const { currentUser } = useStore((state) => ({ currentUser: state.currentUser }));
 
-   const getCoursePageLink = () => {
-    if (!currentUser || currentUser.role !== 'student' || !currentUser.enrolledCourseIds.length) {
-      return '/';
-    }
-    const courseId = currentUser.enrolledCourseIds[0];
-    if (courseId === 'tawjihi-2007-supplementary') {
-      return '/courses/physics-supplementary-2007';
-    }
-    if (courseId === 'tawjihi-2008') {
-      return '/courses/physics-2008';
-    }
-    return '/';
-  }
-
-
   const fetchExams = useCallback(async () => {
     if (!currentUser) return;
     setIsLoading(true);
@@ -144,18 +129,6 @@ export default function MyExamsPage() {
                 <p className="text-muted-foreground mt-2">
                 هنا يمكنك عرض جميع الامتحانات المتاحة لك، والبدء في حلها، ومراجعة نتائجك.
                 </p>
-            </div>
-             <div className="flex gap-2">
-                <Button asChild variant="outline">
-                    <Link href={getCoursePageLink()}>
-                        دوراتي
-                    </Link>
-                </Button>
-                <Button asChild>
-                    <Link href="/">
-                       <ChevronLeft className="me-2 h-4 w-4" /> العودة للرئيسية
-                    </Link>
-                </Button>
             </div>
         </div>
 
