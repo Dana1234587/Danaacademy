@@ -32,7 +32,9 @@ export default function ExamResultsPage() {
             ]);
             
             setExam(examData);
-            setSubmissions(submissionsData);
+            // Sort submissions by date, newest first
+            const sortedSubmissions = submissionsData.sort((a, b) => b.submittedAt.getTime() - a.submittedAt.getTime());
+            setSubmissions(sortedSubmissions);
 
         } catch (err) {
             console.error(err);

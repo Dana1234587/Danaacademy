@@ -146,7 +146,7 @@ export async function getAllSubmissions(): Promise<Submission[]> {
 
 export async function getExamSubmissions(examId: string): Promise<Submission[]> {
     try {
-        const q = adminDB.collection('examSubmissions').where("examId", "==", examId).orderBy('submittedAt', 'desc');
+        const q = adminDB.collection('examSubmissions').where("examId", "==", examId);
         const snapshot = await q.get();
         if (snapshot.empty) {
             return [];
