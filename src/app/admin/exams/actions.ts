@@ -3,7 +3,7 @@
 
 import { z } from 'zod';
 import { adminDB } from '@/lib/firebase-admin';
-import { FieldValue, Timestamp } from 'firebase-admin/firestore';
+import { FieldValue, Timestamp, collection, getDocs } from 'firebase-admin/firestore';
 
 const examFormSchema = z.object({
   title: z.string().min(5, { message: 'يجب أن يكون عنوان الامتحان 5 أحرف على الأقل.' }),
@@ -104,14 +104,17 @@ export async function createExamAction(data: ExamFormValues) {
 export async function getExams(): Promise<Exam[]> {
     try {
         const snapshot = await adminDB.collection('exams').orderBy('createdAt', 'desc').get();
+        if (snapshot.empty) {
+            return [];
+        }
         return snapshot.docs.map(doc => {
             const data = doc.data();
             return { 
                 id: doc.id, 
                 ...data,
-                createdAt: data.createdAt.toDate(),
-                startDate: data.startDate ? data.startDate.toDate() : undefined,
-                endDate: data.endDate ? data.endDate.toDate() : undefined,
+                createdAt: (data.createdAt as Timestamp).toDate(),
+                startDate: data.startDate ? (data.startDate as Timestamp).toDate() : undefined,
+                endDate: data.endDate ? (data.endDate as Timestamp).toDate() : undefined,
             } as Exam;
         });
     } catch (error) {
@@ -120,9 +123,30 @@ export async function getExams(): Promise<Exam[]> {
     }
 }
 
+export async function getAllSubmissions(): Promise<Submission[]> {
+    try {
+        const snapshot = await adminDB.collection('examSubmissions').get();
+        if (snapshot.empty) {
+            return [];
+        }
+        return snapshot.docs.map(doc => {
+            const data = doc.data();
+            return {
+                id: doc.id,
+                ...data,
+                submittedAt: (data.submittedAt as Timestamp).toDate(),
+            } as Submission;
+        });
+    } catch (error) {
+        console.error("Error fetching all submissions:", error);
+        return [];
+    }
+}
+
+
 export async function getExamSubmissions(examId: string): Promise<Submission[]> {
     try {
-        const q = adminDB.collection('examSubmissions').where("examId", "==", examId);
+        const q = adminDB.collection('examSubmissions').where("examId", "==", examId).orderBy('submittedAt', 'desc');
         const snapshot = await q.get();
         if (snapshot.empty) {
             return [];
@@ -140,3 +164,27 @@ export async function getExamSubmissions(examId: string): Promise<Submission[]> 
         return [];
     }
 }
+
+export async function getExamDetails(examId: string): Promise<Exam | null> {
+    try {
+        const docRef = adminDB.collection('exams').doc(examId);
+        const docSnap = await docRef.get();
+        if (!docSnap.exists) {
+            return null;
+        }
+        const data = docSnap.data()!;
+         return { 
+            id: docSnap.id, 
+            ...data,
+            createdAt: (data.createdAt as Timestamp).toDate(),
+            startDate: data.startDate ? (data.startDate as Timestamp).toDate() : undefined,
+            endDate: data.endDate ? (data.endDate as Timestamp).toDate() : undefined,
+        } as Exam;
+
+    } catch (error) {
+        console.error(`Error fetching exam details for ${examId}:`, error);
+        return null;
+    }
+}
+
+  

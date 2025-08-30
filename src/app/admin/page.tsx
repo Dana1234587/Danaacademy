@@ -9,7 +9,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Checkbox } from "@/components/ui/checkbox"
 import { useToast } from '@/hooks/use-toast';
-import { UserPlus, KeyRound, MonitorCheck, Loader2, Search, Smartphone, Monitor, Fingerprint, Globe, List, Home, Users, Edit, Trash2, Check, Plus, RefreshCw, Info, AlertTriangle, ClipboardCheck, ClipboardList } from 'lucide-react';
+import { UserPlus, KeyRound, MonitorCheck, Loader2, Search, Smartphone, Monitor, Fingerprint, Globe, List, Home, Users, Edit, Trash2, Check, Plus, RefreshCw, Info, AlertTriangle, ClipboardCheck, ClipboardList, BarChart3 } from 'lucide-react';
 import { useState, useEffect, useMemo, useCallback } from 'react';
 import Link from 'next/link';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
@@ -41,6 +41,7 @@ import { useStore } from '@/store/app-store';
 import { initializeApp, deleteApp } from "firebase/app";
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 import { firebaseConfig } from '@/lib/firebase';
+import { AdminPerformance } from '@/components/admin/admin-performance';
 
 
 const availableCourses = [
@@ -329,19 +330,7 @@ export default function AdminPage() {
             setIsLoading(prev => ({ ...prev, [`update-${editingStudent.id}`]: false }));
         }
     };
-
-    if (!currentUser) {
-       return <MarketingLayout><div className="p-8 text-center">الرجاء تسجيل الدخول للوصول لهذه الصفحة.</div></MarketingLayout>
-    }
-    
-    if (currentUser.role !== 'admin') {
-        return <MarketingLayout><div className="p-8 text-center text-destructive">ليس لديك الصلاحيات الكافية للوصول لهذه الصفحة.</div></MarketingLayout>
-    }
-
-    if (isLoading['page'] && students.length === 0) {
-        return <MarketingLayout><div className="flex justify-center items-center h-screen"><Loader2 className="h-16 w-16 animate-spin"/></div></MarketingLayout>
-    }
-
+  
     return (
         <>
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
@@ -358,12 +347,13 @@ export default function AdminPage() {
             </div>
 
             <Tabs defaultValue="create-student">
-                <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 md:grid-cols-5">
+                <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 md:grid-cols-6">
                     <TabsTrigger value="create-student"><UserPlus className="me-2" /> إنشاء حساب</TabsTrigger>
                     <TabsTrigger value="student-accounts"><Users className="me-2" /> الطلاب</TabsTrigger>
                     <TabsTrigger value="approve-devices"><MonitorCheck className="me-2" /> الموافقة</TabsTrigger>
                     <TabsTrigger value="registered-devices"><List className="me-2" /> الأجهزة</TabsTrigger>
                     <TabsTrigger value="search-student"><Search className="me-2" /> بحث عن طالب</TabsTrigger>
+                    <TabsTrigger value="performance"><BarChart3 className="me-2" /> أداء الطلاب</TabsTrigger>
                 </TabsList>
 
                 <TabsContent value="create-student">
@@ -663,6 +653,10 @@ export default function AdminPage() {
                         </CardContent>
                     </Card>
                 </TabsContent>
+                
+                <TabsContent value="performance">
+                    <AdminPerformance />
+                </TabsContent>
 
             </Tabs>
 
@@ -728,3 +722,5 @@ export default function AdminPage() {
         </>
     );
 }
+
+    
