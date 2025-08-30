@@ -2,7 +2,7 @@
 'use client';
 
 import { MainLayout } from '@/components/layout/main-layout';
-import { Card, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Loader2, ServerCrash } from 'lucide-react';
 import Link from 'next/link';
@@ -14,12 +14,13 @@ export default function ExamPage({ params }: { params: { examId: string } }) {
   const [exam, setExam] = useState<ExamWithQuestions | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const { examId } = params;
 
   const fetchExamDetails = useCallback(async () => {
     setIsLoading(true);
     setError(null);
     try {
-      const currentExam = await getExamForStudent(params.examId);
+      const currentExam = await getExamForStudent(examId);
       if (currentExam) {
         setExam(currentExam);
       } else {
@@ -31,7 +32,7 @@ export default function ExamPage({ params }: { params: { examId: string } }) {
     } finally {
       setIsLoading(false);
     }
-  }, [params.examId]);
+  }, [examId]);
 
   useEffect(() => {
     fetchExamDetails();
