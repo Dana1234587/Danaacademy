@@ -12,6 +12,8 @@ import {
 import {
   Lightbulb,
   LogOut,
+  Users,
+  ClipboardCheck
 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
@@ -22,7 +24,7 @@ import { signOut } from 'firebase/auth';
 import Link from 'next/link';
 
 export function SidebarNav() {
-  const { logout } = useStore((state) => ({ logout: state.logout }));
+  const { logout, currentUser } = useStore((state) => ({ logout: state.logout, currentUser: state.currentUser }));
   const router = useRouter();
 
   const handleLogout = async () => {
@@ -46,7 +48,28 @@ export function SidebarNav() {
         </Link>
       </SidebarHeader>
       <SidebarContent>
-        {/* Content removed as requested */}
+        <SidebarMenu>
+            {currentUser?.role === 'admin' && (
+                <>
+                    <SidebarMenuItem>
+                        <Link href="/admin" className="w-full">
+                           <Button variant="ghost" className="w-full justify-start gap-2">
+                             <Users />
+                             إدارة الطلاب
+                           </Button>
+                        </Link>
+                    </SidebarMenuItem>
+                    <SidebarMenuItem>
+                        <Link href="/admin/exams" className="w-full">
+                           <Button variant="ghost" className="w-full justify-start gap-2">
+                             <ClipboardCheck />
+                             إدارة الاختبارات
+                           </Button>
+                        </Link>
+                    </SidebarMenuItem>
+                </>
+            )}
+        </SidebarMenu>
       </SidebarContent>
       <SidebarSeparator />
       <SidebarFooter>

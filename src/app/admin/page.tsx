@@ -9,7 +9,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Checkbox } from "@/components/ui/checkbox"
 import { useToast } from '@/hooks/use-toast';
-import { UserPlus, KeyRound, MonitorCheck, Loader2, Search, Smartphone, Monitor, Fingerprint, Globe, List, Home, Users, Edit, Trash2, Check, Plus, RefreshCw, Info, AlertTriangle, ClipboardCheck } from 'lucide-react';
+import { UserPlus, KeyRound, MonitorCheck, Loader2, Search, Smartphone, Monitor, Fingerprint, Globe, List, Home, Users, Edit, Trash2, Check, Plus, RefreshCw, Info, AlertTriangle } from 'lucide-react';
 import { useState, useEffect, useMemo, useCallback } from 'react';
 import Link from 'next/link';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
@@ -364,13 +364,12 @@ export default function AdminPage() {
                 </div>
 
                 <Tabs defaultValue="create-student">
-                    <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 md:grid-cols-6">
+                    <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 md:grid-cols-5">
                         <TabsTrigger value="create-student"><UserPlus className="me-2" /> إنشاء حساب</TabsTrigger>
                         <TabsTrigger value="student-accounts"><Users className="me-2" /> الطلاب</TabsTrigger>
                         <TabsTrigger value="approve-devices"><MonitorCheck className="me-2" /> الموافقة</TabsTrigger>
                         <TabsTrigger value="registered-devices"><List className="me-2" /> الأجهزة</TabsTrigger>
                         <TabsTrigger value="search-student"><Search className="me-2" /> بحث عن طالب</TabsTrigger>
-                        <TabsTrigger value="exams"><ClipboardCheck className="me-2" /> الامتحانات</TabsTrigger>
                     </TabsList>
 
                     <TabsContent value="create-student">
@@ -667,25 +666,6 @@ export default function AdminPage() {
                                         </div>
                                     </div>
                                 )}
-                            </CardContent>
-                        </Card>
-                    </TabsContent>
-
-                    <TabsContent value="exams">
-                        <Card>
-                            <CardHeader>
-                                <CardTitle>إدارة الامتحانات</CardTitle>
-                                <CardDescription>هنا يمكنك إنشاء وتعديل وعرض نتائج الامتحانات.</CardDescription>
-                            </CardHeader>
-                            <CardContent>
-                                <div className="text-center py-8">
-                                    <p className="text-muted-foreground mb-4">لا توجد امتحانات حاليًا.</p>
-                                    <Button asChild>
-                                        <Link href="/admin/create-exam">
-                                            <Plus className="me-2" /> إنشاء امتحان جديد
-                                        </Link>
-                                    </Button>
-                                </div>
                             </CardContent>
                         </Card>
                     </TabsContent>
