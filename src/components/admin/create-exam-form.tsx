@@ -13,16 +13,19 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Loader2, PlusCircle } from 'lucide-react';
 import { QuestionForm } from './question-form';
+import { createExamAction } from '@/app/admin/exams/actions';
+import { useToast } from '@/hooks/use-toast';
+import { useRouter } from 'next/navigation';
 
 const examFormSchema = z.object({
   title: z.string().min(5, { message: 'يجب أن يكون عنوان الامتحان 5 أحرف على الأقل.' }),
   description: z.string().optional(),
   duration: z.coerce.number().min(1, { message: 'يجب أن تكون مدة الامتحان دقيقة واحدة على الأقل.' }),
-  courseId: z.string({ required_error: 'الرجاء اختيار الدورة.' }),
+  courseId: z.string({ required_error: 'الرجاء اختيار الدورة.' }).min(1, { message: 'الرجاء اختيار الدورة.' }),
   questions: z.array(
     z.object({
       text: z.string().min(10, { message: 'نص السؤال قصير جدًا.' }),
-      imageUrl: z.string().url().optional().or(z.literal('')),
+      imageUrl: z.string().url({ message: "الرجاء إدخال رابط صالح أو ترك الحقل فارغًا." }).optional().or(z.literal('')),
       options: z.array(z.string().min(1, { message: 'لا يمكن ترك الخيار فارغًا.' })).length(4, { message: 'يجب أن يكون هناك 4 خيارات.' }),
       correctAnswerIndex: z.coerce.number().min(0).max(3),
       explanation: z.string().optional(),
@@ -30,10 +33,12 @@ const examFormSchema = z.object({
   ).min(1, { message: 'يجب إضافة سؤال واحد على الأقل.' }),
 });
 
-type ExamFormValues = z.infer<typeof examFormSchema>;
+export type ExamFormValues = z.infer<typeof examFormSchema>;
 
 export function CreateExamForm() {
   const [isLoading, setIsLoading] = useState(false);
+  const { toast } = useToast();
+  const router = useRouter();
 
   const form = useForm<ExamFormValues>({
     resolver: zodResolver(examFormSchema),
@@ -53,10 +58,23 @@ export function CreateExamForm() {
 
   const onSubmit = async (data: ExamFormValues) => {
     setIsLoading(true);
-    console.log(data);
-    // Here we will call a server action to save the exam to Firestore
-    await new Promise(resolve => setTimeout(resolve, 1500));
+    const result = await createExamAction(data);
     setIsLoading(false);
+
+    if(result.success) {
+      toast({
+        title: 'نجاح!',
+        description: `تم إنشاء الامتحان "${data.title}" بنجاح.`,
+      });
+      router.push('/admin/exams');
+    } else {
+      toast({
+        variant: 'destructive',
+        title: 'فشل إنشاء الامتحان',
+        description: result.error || 'حدث خطأ غير متوقع. يرجى المحاولة مرة أخرى.',
+        duration: 9000
+      });
+    }
   };
 
   return (
@@ -157,7 +175,7 @@ export function CreateExamForm() {
                     إضافة سؤال جديد
                 </Button>
                 {form.formState.errors.questions && (
-                    <p className="text-sm font-medium text-destructive">{form.formState.errors.questions.message}</p>
+                     <p className="text-sm font-medium text-destructive">{form.formState.errors.questions.root?.message || form.formState.errors.questions.message}</p>
                 )}
             </CardContent>
              <CardFooter>
