@@ -1,15 +1,15 @@
 
 'use client';
 
-import { MainLayout } from '@/components/layout/main-layout';
+import { MarketingLayout } from '@/components/layout/marketing-layout';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Plus } from 'lucide-react';
+import { Plus, Home } from 'lucide-react';
 import Link from 'next/link';
 
 export default function ExamsPage() {
   return (
-    <MainLayout>
+    <MarketingLayout>
       <div className="p-4 sm:p-6 lg:p-8">
         <div className="flex items-center justify-between mb-8">
           <div>
@@ -18,11 +18,19 @@ export default function ExamsPage() {
               من هنا يمكنك إنشاء اختبارات جديدة، عرض نتائج الاختبارات السابقة، وإدارتها.
             </p>
           </div>
-           <Button asChild>
-              <Link href="/admin/create-exam">
-                <Plus className="me-2 h-4 w-4" /> إنشاء امتحان جديد
-              </Link>
-          </Button>
+          <div className="flex gap-2">
+             <Button asChild variant="outline">
+                <Link href="/">
+                    <Home className="me-2 h-4 w-4" />
+                    العودة للرئيسية
+                </Link>
+             </Button>
+             <Button asChild>
+                <Link href="/admin/create-exam">
+                    <Plus className="me-2 h-4 w-4" /> إنشاء امتحان جديد
+                </Link>
+            </Button>
+          </div>
         </div>
         
         <Card>
@@ -39,6 +47,6 @@ export default function ExamsPage() {
         </Card>
         
       </div>
-    </MainLayout>
+    </MarketingLayout>
   );
 }
