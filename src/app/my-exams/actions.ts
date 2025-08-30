@@ -32,6 +32,9 @@ export type Submission = {
 export async function getExams(): Promise<Exam[]> {
     try {
         const snapshot = await adminDB.collection('exams').orderBy('createdAt', 'desc').get();
+        if (snapshot.empty) {
+            return [];
+        }
         return snapshot.docs.map(doc => {
             const data = doc.data();
             return { 
@@ -50,8 +53,11 @@ export async function getExams(): Promise<Exam[]> {
 
 export async function getStudentSubmissions(studentId: string): Promise<Submission[]> {
     try {
-        const q = query(adminDB.collection('examSubmissions'), where("studentId", "==", studentId));
-        const snapshot = await getDocs(q);
+        const q = adminDB.collection('examSubmissions').where("studentId", "==", studentId);
+        const snapshot = await q.get();
+        if (snapshot.empty) {
+            return [];
+        }
         return snapshot.docs.map(doc => {
             const data = doc.data();
             return {
