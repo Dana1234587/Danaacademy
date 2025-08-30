@@ -4,7 +4,7 @@
 import Link from 'next/link';
 import { Logo } from '@/components/logo';
 import { Button } from '@/components/ui/button';
-import { BookCopy, Home, Info, Phone, User, LogOut, Shield, Book, Menu, ClipboardCheck, Award, BarChart2 } from 'lucide-react';
+import { BookCopy, Home, Info, Phone, User, LogOut, Shield, Book, Menu, ClipboardCheck, Award, BarChart2, Users } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { usePathname, useRouter } from 'next/navigation';
 import { useStore } from '@/store/app-store';
@@ -102,8 +102,14 @@ export function MarketingHeader() {
                    <>
                     <Button asChild variant="outline" className="hidden sm:flex hover:-translate-y-0.5 transition-transform">
                         <Link href="/admin" className="flex items-center gap-2">
-                          <Shield className="h-4 w-4" />
-                          لوحة التحكم
+                          <Users className="h-4 w-4" />
+                          إدارة الطلاب
+                        </Link>
+                    </Button>
+                     <Button asChild variant="outline" className="hidden sm:flex hover:-translate-y-0.5 transition-transform">
+                        <Link href="/admin/exams" className="flex items-center gap-2">
+                          <ClipboardCheck className="h-4 w-4" />
+                          إدارة الاختبارات
                         </Link>
                     </Button>
                    </>
@@ -170,7 +176,7 @@ export function MarketingHeader() {
                                       <SheetClose asChild>
                                         <Button asChild variant="outline" size="lg" className="w-full">
                                             <Link href="/admin" className="flex items-center gap-2">
-                                              <Shield className="h-4 w-4" />
+                                              <Users className="h-4 w-4" />
                                               إدارة الطلاب
                                             </Link>
                                         </Button>
