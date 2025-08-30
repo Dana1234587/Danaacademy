@@ -28,6 +28,7 @@ const examFormSchema = z.object({
   duration: z.coerce.number().min(1, { message: 'يجب أن تكون مدة الامتحان دقيقة واحدة على الأقل.' }),
   courseId: z.string({ required_error: 'الرجاء اختيار الدورة.' }).min(1, { message: 'الرجاء اختيار الدورة.' }),
   startDate: z.date().optional(),
+  endDate: z.date().optional(),
   questions: z.array(
     z.object({
       text: z.string().min(10, { message: 'نص السؤال قصير جدًا.' }),
@@ -37,7 +38,19 @@ const examFormSchema = z.object({
       explanation: z.string().optional(),
     })
   ).min(1, { message: 'يجب إضافة سؤال واحد على الأقل.' }),
+}).refine(data => {
+    if (data.endDate && !data.startDate) {
+        return false;
+    }
+    if (data.startDate && data.endDate && data.endDate <= data.startDate) {
+        return false;
+    }
+    return true;
+}, {
+    message: 'تاريخ الانتهاء يجب أن يكون بعد تاريخ البدء.',
+    path: ['endDate'],
 });
+
 
 export type ExamFormValues = z.infer<typeof examFormSchema>;
 
@@ -152,28 +165,28 @@ export function CreateExamForm() {
                 </FormItem>
               )}
             />
-             <FormField
+            <FormField
               control={form.control}
               name="startDate"
               render={({ field }) => (
-                <FormItem className="flex flex-col">
-                  <FormLabel>تاريخ البدء (اختياري)</FormLabel>
+                <FormItem>
+                  <FormLabel>تاريخ ووقت البدء (اختياري)</FormLabel>
                   <Popover>
                     <PopoverTrigger asChild>
                       <FormControl>
                         <Button
                           variant={"outline"}
                           className={cn(
-                            "w-full pl-3 text-left font-normal",
+                            "w-full justify-start text-left font-normal",
                             !field.value && "text-muted-foreground"
                           )}
                         >
+                          <CalendarIcon className="ms-2 h-4 w-4" />
                           {field.value ? (
-                            format(field.value, "PPP")
+                            format(field.value, "PPP p")
                           ) : (
-                            <span>اختر تاريخًا</span>
+                            <span>اختر تاريخًا ووقتًا</span>
                           )}
-                          <CalendarIcon className="mr-auto h-4 w-4 opacity-50" />
                         </Button>
                       </FormControl>
                     </PopoverTrigger>
@@ -182,11 +195,74 @@ export function CreateExamForm() {
                         mode="single"
                         selected={field.value}
                         onSelect={field.onChange}
-                        disabled={(date) =>
-                          date < new Date(new Date().setHours(0, 0, 0, 0))
-                        }
                         initialFocus
                       />
+                       <div className="p-3 border-t border-border">
+                        <Label className="text-sm">الوقت</Label>
+                        <Input
+                          type="time"
+                          defaultValue={field.value ? format(field.value, "HH:mm") : ""}
+                          onChange={(e) => {
+                            const time = e.target.value;
+                            const [hours, minutes] = time.split(':').map(Number);
+                            const newDate = field.value ? new Date(field.value) : new Date();
+                            newDate.setHours(hours, minutes);
+                            field.onChange(newDate);
+                          }}
+                        />
+                       </div>
+                    </PopoverContent>
+                  </Popover>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="endDate"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>تاريخ ووقت الانتهاء (اختياري)</FormLabel>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <FormControl>
+                        <Button
+                          variant={"outline"}
+                          className={cn(
+                            "w-full justify-start text-left font-normal",
+                            !field.value && "text-muted-foreground"
+                          )}
+                        >
+                          <CalendarIcon className="ms-2 h-4 w-4" />
+                          {field.value ? (
+                            format(field.value, "PPP p")
+                          ) : (
+                            <span>اختر تاريخًا ووقتًا</span>
+                          )}
+                        </Button>
+                      </FormControl>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0" align="start">
+                      <Calendar
+                        mode="single"
+                        selected={field.value}
+                        onSelect={field.onChange}
+                        initialFocus
+                      />
+                       <div className="p-3 border-t border-border">
+                        <Label className="text-sm">الوقت</Label>
+                        <Input
+                          type="time"
+                          defaultValue={field.value ? format(field.value, "HH:mm") : ""}
+                          onChange={(e) => {
+                            const time = e.target.value;
+                            const [hours, minutes] = time.split(':').map(Number);
+                            const newDate = field.value ? new Date(field.value) : new Date();
+                            newDate.setHours(hours, minutes);
+                            field.onChange(newDate);
+                          }}
+                        />
+                       </div>
                     </PopoverContent>
                   </Popover>
                   <FormMessage />
