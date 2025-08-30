@@ -16,10 +16,16 @@ const examFormSchema = z.object({
   questions: z.array(
     z.object({
       text: z.string().min(10, { message: 'نص السؤال قصير جدًا.' }),
-      imageUrl: z.string().url().optional().or(z.literal('')),
-      options: z.array(z.string().min(1, { message: 'لا يمكن ترك الخيار فارغًا.' })).length(4, { message: 'يجب أن يكون هناك 4 خيارات.' }),
+      imageUrl: z.string().url({ message: "الرجاء إدخال رابط صالح أو ترك الحقل فارغًا." }).optional().or(z.literal('')),
+      options: z.array(
+        z.object({
+            text: z.string().min(1, { message: 'لا يمكن ترك الخيار فارغًا.' }),
+            imageUrl: z.string().url({ message: "الرجاء إدخال رابط صالح أو ترك الحقل فارغًا." }).optional().or(z.literal('')),
+        })
+      ).length(4, { message: 'يجب أن يكون هناك 4 خيارات.' }),
       correctAnswerIndex: z.coerce.number().min(0).max(3),
       explanation: z.string().optional(),
+      explanationImageUrl: z.string().url({ message: "الرجاء إدخال رابط صالح أو ترك الحقل فارغًا." }).optional().or(z.literal('')),
     })
   ).min(1, { message: 'يجب إضافة سؤال واحد على الأقل.' }),
 }).refine(data => {
@@ -68,6 +74,8 @@ export type Submission = {
 export async function createExamAction(data: ExamFormValues) {
     const validation = examFormSchema.safeParse(data);
     if (!validation.success) {
+        // For debugging server-side validation errors
+        console.error("Exam validation failed:", validation.error.flatten());
         return { success: false, error: 'بيانات الإدخال غير صالحة.' };
     }
 
@@ -127,7 +135,7 @@ export async function getExams(): Promise<Exam[]> {
 
 export async function getAllSubmissions(): Promise<Submission[]> {
     try {
-        const snapshot = await adminDB.collection('examSubmissions').get();
+        const snapshot = await adminDB.collection('examSubmissions').orderBy('submittedAt', 'desc').get();
         if (snapshot.empty) {
             return [];
         }
@@ -150,10 +158,12 @@ export async function getExamSubmissions(examId: string): Promise<Submission[]> 
     try {
         const q = adminDB.collection('examSubmissions').where("examId", "==", examId);
         const snapshot = await q.get();
+        
         if (snapshot.empty) {
             return [];
         }
-        return snapshot.docs.map(doc => {
+        
+        const submissions = snapshot.docs.map(doc => {
              const data = doc.data();
              return {
                 id: doc.id,
@@ -161,6 +171,10 @@ export async function getExamSubmissions(examId: string): Promise<Submission[]> 
                 submittedAt: (data.submittedAt as Timestamp).toDate(),
              } as Submission;
         });
+
+        // Sort in code to avoid composite indexes for now
+        return submissions.sort((a, b) => b.submittedAt.getTime() - a.submittedAt.getTime());
+
     } catch (error) {
         console.error(`Error fetching submissions for exam ${examId}:`, error);
         throw error;

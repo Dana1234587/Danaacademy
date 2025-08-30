@@ -1,3 +1,4 @@
+
 'use client';
 
 import React from 'react';
@@ -6,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescription } from '@/components/ui/form';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Trash2 } from 'lucide-react';
 
@@ -31,10 +32,11 @@ export function QuestionForm({ form, index, remove }: QuestionFormProps) {
         name={`questions.${index}.text`}
         render={({ field }) => (
           <FormItem>
-            <FormLabel>نص السؤال (يدعم LaTeX)</FormLabel>
+            <FormLabel>نص السؤال</FormLabel>
             <FormControl>
               <Textarea placeholder="اكتب نص السؤال هنا..." {...field} />
             </FormControl>
+            <FormDescription>يمكنك استخدام صيغة LaTeX للمعادلات، مثل: $$\\Delta p = m(v_f - v_i)$$</FormDescription>
             <FormMessage />
           </FormItem>
         )}
@@ -45,7 +47,7 @@ export function QuestionForm({ form, index, remove }: QuestionFormProps) {
         name={`questions.${index}.imageUrl`}
         render={({ field }) => (
           <FormItem>
-            <FormLabel>رابط صورة (اختياري)</FormLabel>
+            <FormLabel>رابط صورة للسؤال (اختياري)</FormLabel>
             <FormControl>
               <Input placeholder="https://example.com/image.png" {...field} />
             </FormControl>
@@ -60,24 +62,39 @@ export function QuestionForm({ form, index, remove }: QuestionFormProps) {
             control={form.control}
             name={`questions.${index}.correctAnswerIndex`}
             render={({ field }) => (
-                <RadioGroup onValueChange={field.onChange} value={field.value.toString()} className="space-y-2">
+                <RadioGroup onValueChange={field.onChange} value={field.value.toString()} className="space-y-4">
                 {[0, 1, 2, 3].map((optionIndex) => (
-                    <FormField
-                    key={optionIndex}
-                    control={form.control}
-                    name={`questions.${index}.options.${optionIndex}`}
-                    render={({ field: optionField }) => (
-                        <FormItem className="flex items-center space-x-3 space-x-reverse space-y-0">
-                        <FormControl>
-                             <RadioGroupItem value={optionIndex.toString()} />
-                        </FormControl>
-                        <div className="flex-1">
-                             <Input placeholder={`الخيار ${optionIndex + 1}`} {...optionField} />
-                             <FormMessage />
-                        </div>
-                        </FormItem>
-                    )}
-                    />
+                    <div key={optionIndex} className="flex items-center space-x-3 space-x-reverse">
+                         <FormControl>
+                            <RadioGroupItem value={optionIndex.toString()} />
+                         </FormControl>
+                         <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-2">
+                             <FormField
+                                control={form.control}
+                                name={`questions.${index}.options.${optionIndex}.text`}
+                                render={({ field: optionField }) => (
+                                    <FormItem>
+                                        <FormControl>
+                                            <Input placeholder={`نص الخيار ${optionIndex + 1}`} {...optionField} />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                             />
+                             <FormField
+                                control={form.control}
+                                name={`questions.${index}.options.${optionIndex}.imageUrl`}
+                                render={({ field: optionImageField }) => (
+                                    <FormItem>
+                                        <FormControl>
+                                            <Input placeholder={`رابط صورة للخيار (اختياري)`} {...optionImageField} />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                             />
+                         </div>
+                    </div>
                 ))}
                 </RadioGroup>
             )}
@@ -92,6 +109,20 @@ export function QuestionForm({ form, index, remove }: QuestionFormProps) {
             <FormLabel>شرح الإجابة (اختياري)</FormLabel>
             <FormControl>
               <Textarea placeholder="اشرح لماذا هذا الخيار هو الصحيح..." {...field} />
+            </FormControl>
+             <FormDescription>يدعم صيغة LaTeX.</FormDescription>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+        <FormField
+        control={form.control}
+        name={`questions.${index}.explanationImageUrl`}
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>رابط صورة للشرح (اختياري)</FormLabel>
+            <FormControl>
+              <Input placeholder="https://example.com/explanation_image.png" {...field} />
             </FormControl>
             <FormMessage />
           </FormItem>

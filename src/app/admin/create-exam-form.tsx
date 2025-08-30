@@ -10,15 +10,15 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescription as FormDescriptionComponent } from '@/components/ui/form';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { cn } from '@/lib/utils';
 import { format } from 'date-fns';
 import { Calendar as CalendarIcon, Loader2, PlusCircle } from 'lucide-react';
-import { QuestionForm } from './question-form';
-import { createExamAction, type ExamFormValues } from '@/app/admin/exams/actions';
+import { QuestionForm } from '@/components/admin/question-form';
+import { createExamAction } from '@/app/admin/exams/actions';
 import { useToast } from '@/hooks/use-toast';
 import { useRouter } from 'next/navigation';
 
@@ -26,6 +26,7 @@ const examFormSchema = z.object({
   title: z.string().min(5, { message: 'يجب أن يكون عنوان الامتحان 5 أحرف على الأقل.' }),
   description: z.string().optional(),
   duration: z.coerce.number().min(1, { message: 'يجب أن تكون مدة الامتحان دقيقة واحدة على الأقل.' }),
+  attemptsAllowed: z.coerce.number().min(1, { message: 'يجب أن يكون عدد المحاولات 1 على الأقل.' }),
   courseId: z.string({ required_error: 'الرجاء اختيار الدورة.' }).min(1, { message: 'الرجاء اختيار الدورة.' }),
   startDate: z.date().optional(),
   endDate: z.date().optional(),
@@ -33,9 +34,15 @@ const examFormSchema = z.object({
     z.object({
       text: z.string().min(10, { message: 'نص السؤال قصير جدًا.' }),
       imageUrl: z.string().url({ message: "الرجاء إدخال رابط صالح أو ترك الحقل فارغًا." }).optional().or(z.literal('')),
-      options: z.array(z.string().min(1, { message: 'لا يمكن ترك الخيار فارغًا.' })).length(4, { message: 'يجب أن يكون هناك 4 خيارات.' }),
+      options: z.array(
+        z.object({
+            text: z.string().min(1, { message: 'لا يمكن ترك الخيار فارغًا.' }),
+            imageUrl: z.string().url({ message: "الرجاء إدخال رابط صالح أو ترك الحقل فارغًا." }).optional().or(z.literal('')),
+        })
+      ).length(4, { message: 'يجب أن يكون هناك 4 خيارات.' }),
       correctAnswerIndex: z.coerce.number().min(0).max(3),
       explanation: z.string().optional(),
+      explanationImageUrl: z.string().url({ message: "الرجاء إدخال رابط صالح أو ترك الحقل فارغًا." }).optional().or(z.literal('')),
     })
   ).min(1, { message: 'يجب إضافة سؤال واحد على الأقل.' }),
 }).refine(data => {
@@ -52,6 +59,8 @@ const examFormSchema = z.object({
 });
 
 
+export type ExamFormValues = z.infer<typeof examFormSchema>;
+
 export function CreateExamForm() {
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
@@ -63,6 +72,7 @@ export function CreateExamForm() {
       title: '',
       description: '',
       duration: 60,
+      attemptsAllowed: 1,
       courseId: '',
       questions: [],
     },
@@ -163,6 +173,24 @@ export function CreateExamForm() {
                 </FormItem>
               )}
             />
+             <FormField
+              control={form.control}
+              name="attemptsAllowed"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>عدد المحاولات المسموح بها</FormLabel>
+                  <FormControl>
+                    <Input type="number" {...field} />
+                  </FormControl>
+                   <FormDescriptionComponent>
+                    كم مرة يمكن للطالب تقديم هذا الامتحان.
+                  </FormDescriptionComponent>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <div/> {/* Empty div for grid layout */}
+
             <FormField
               control={form.control}
               name="startDate"
@@ -287,9 +315,15 @@ export function CreateExamForm() {
                     onClick={() => append({ 
                         text: '', 
                         imageUrl: '', 
-                        options: ['', '', '', ''], 
+                        options: [
+                          { text: '', imageUrl: '' },
+                          { text: '', imageUrl: '' },
+                          { text: '', imageUrl: '' },
+                          { text: '', imageUrl: '' }
+                        ], 
                         correctAnswerIndex: 0, 
-                        explanation: '' 
+                        explanation: '',
+                        explanationImageUrl: '',
                     })}
                     >
                     <PlusCircle className="me-2 h-4 w-4" />
@@ -310,4 +344,3 @@ export function CreateExamForm() {
     </Form>
   );
 }
-

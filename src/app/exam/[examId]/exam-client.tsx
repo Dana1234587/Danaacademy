@@ -9,7 +9,7 @@ import { Button } from '@/components/ui/button';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
 import { Progress } from '@/components/ui/progress';
-import { AlertTriangle, CheckCircle, ChevronLeft, ChevronRight, Redo, XCircle, ListChecks, Info, Rocket, BrainCircuit, BookOpen, Clock, Calculator, Pencil, ClipboardCheck, HelpCircle, Loader2, Eye } from 'lucide-react';
+import { AlertTriangle, CheckCircle, ChevronLeft, ChevronRight, Redo, XCircle, ListChecks, Info, Rocket, BrainCircuit, BookOpen, Clock, Calculator, Pencil, ClipboardCheck, HelpCircle, Loader2, Eye, Image as ImageIcon } from 'lucide-react';
 import Image from 'next/image';
 import type { ExamWithQuestions } from './actions';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
@@ -23,6 +23,7 @@ import { useRouter } from 'next/navigation';
 
 // A robust, universal renderer for bidirectional text
 const SmartTextRenderer = ({ text, as: Wrapper = 'p' }: { text: string; as?: React.ElementType }) => {
+    if (!text) return null;
     const lines = text.split('\n');
 
     const renderPart = (part: string, index: number) => {
@@ -262,7 +263,7 @@ export function ExamClient({ exam, submission }: { exam: ExamWithQuestions, subm
                                             return (
                                                 <div key={optionIndex} className={`flex items-center gap-2 p-2 rounded-md ${isCorrectOption ? 'bg-green-200/50 text-green-800' : ''} ${isSelected && !isCorrectOption ? 'bg-red-200/50 text-red-800' : ''}`}>
                                                     {isCorrectOption ? <CheckCircle className="w-4 h-4 text-green-600"/> : (isSelected ? <XCircle className="w-4 h-4 text-red-600"/> : <span className="w-4 h-4"></span>)}
-                                                    <div className="flex-1"><SmartTextRenderer as="span" text={option} /></div>
+                                                    <div className="flex-1"><SmartTextRenderer as="span" text={option.text} /></div>
                                                     {isSelected && <span className="text-xs font-bold ms-auto">{'(إجابتك)'}</span>}
                                                 </div>
                                             )
@@ -272,6 +273,7 @@ export function ExamClient({ exam, submission }: { exam: ExamWithQuestions, subm
                                         <div className="mt-4 text-sm text-muted-foreground bg-muted p-3 rounded-md" dir="rtl">
                                             <p className="font-bold text-foreground">الشرح:</p>
                                             <SmartTextRenderer as="div" text={question.explanation}/>
+                                             {question.explanationImageUrl && <Image src={question.explanationImageUrl} alt="Explanation" width={250} height={150} className="rounded-md mt-2" />}
                                         </div>
                                     )}
                                     </div>
@@ -326,13 +328,16 @@ export function ExamClient({ exam, submission }: { exam: ExamWithQuestions, subm
                 key={currentQuestion.id}
                 value={answers[currentQuestionIndex]?.toString() ?? ""}
                 onValueChange={handleAnswerChange}
-                className="grid grid-cols-1 gap-4"
+                className="grid grid-cols-1 md:grid-cols-2 gap-4"
                 dir="rtl"
                 >
                 {currentQuestion.options.map((option, index) => (
-                    <Label key={index} htmlFor={`q${currentQuestion.id}-o${index}`} className="flex items-center gap-4 border p-4 rounded-lg cursor-pointer hover:bg-accent has-[:checked]:bg-primary/10 has-[:checked]:border-primary has-[:checked]:ring-2 has-[:checked]:ring-primary/50 transition-all">
-                    <RadioGroupItem value={index.toString()} id={`q${currentQuestion.id}-o${index}`} />
-                    <div className="flex-1 text-base"><SmartTextRenderer as="span" text={option} /></div>
+                    <Label key={index} htmlFor={`q${currentQuestion.id}-o${index}`} className="flex items-start gap-4 border p-4 rounded-lg cursor-pointer hover:bg-accent has-[:checked]:bg-primary/10 has-[:checked]:border-primary has-[:checked]:ring-2 has-[:checked]:ring-primary/50 transition-all">
+                    <RadioGroupItem value={index.toString()} id={`q${currentQuestion.id}-o${index}`} className="mt-1" />
+                     <div className="flex-1 text-base">
+                        <SmartTextRenderer as="span" text={option.text} />
+                        {option.imageUrl && <Image src={option.imageUrl} alt={`Option ${index + 1}`} width={200} height={120} className="rounded-md mt-2" />}
+                    </div>
                     </Label>
                 ))}
                 </RadioGroup>
