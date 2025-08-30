@@ -51,9 +51,9 @@ export function ExamClient({ exam, submission }: { exam: ExamWithQuestions, subm
 
   const [quizState, setQuizState] = useState<'not-started' | 'active' | 'finished'>(isReviewMode ? 'finished' : 'not-started');
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [answers, setAnswers] = useState<(number | null)[]>(isReviewMode ? submission.answers : new Array(exam.questions.length).fill(null));
+  const [answers, setAnswers] = useState<(number | null)[]>(isReviewMode && submission ? submission.answers : new Array(exam.questions.length).fill(null));
   const [timeLeft, setTimeLeft] = useState(exam.duration * 60);
-  const [score, setScore] = useState(isReviewMode ? submission.score : 0);
+  const [score, setScore] = useState(isReviewMode && submission ? submission.score : 0);
   const [showDetails, setShowDetails] = useState(isReviewMode);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { currentUser } = useStore();
@@ -70,6 +70,7 @@ export function ExamClient({ exam, submission }: { exam: ExamWithQuestions, subm
       });
       setScore(calculatedScore);
       setQuizState('finished');
+      setShowDetails(true); // Automatically show details after finishing
       
       // Don't submit if we are in review mode
       if(isReviewMode) return;
@@ -132,6 +133,7 @@ export function ExamClient({ exam, submission }: { exam: ExamWithQuestions, subm
   };
 
   const handleAnswerChange = (value: string) => {
+    if (isReviewMode) return;
     const newAnswers = [...answers];
     newAnswers[currentQuestionIndex] = parseInt(value, 10);
     setAnswers(newAnswers);
@@ -212,7 +214,7 @@ export function ExamClient({ exam, submission }: { exam: ExamWithQuestions, subm
                 <CardHeader className="text-center">
                 <CardTitle>النتيجة النهائية</CardTitle>
                 <CardDescription>
-                    لقد أنهيت الاختبار بنجاح. هذه هي نتيجتك.
+                    {isReviewMode ? "مراجعة إجاباتك." : "لقد أنهيت الاختبار بنجاح. هذه هي نتيجتك."}
                 </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-6">
@@ -243,7 +245,7 @@ export function ExamClient({ exam, submission }: { exam: ExamWithQuestions, subm
                         <div className="space-y-6 pt-6 border-t">
                             <h3 className="text-xl font-bold text-center">مراجعة الإجابات</h3>
                             {exam.questions.map((question, index) => {
-                                const studentAnswerIndex = submission?.answers[index];
+                                const studentAnswerIndex = answers[index];
                                 const isCorrect = studentAnswerIndex === question.correctAnswerIndex;
                                 return (
                                     <div key={question.id} className={`p-4 rounded-lg border ${isCorrect ? 'border-green-500 bg-green-500/10' : 'border-red-500 bg-red-500/10'}`}>

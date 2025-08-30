@@ -15,7 +15,7 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsive
 
 function PerformanceChart({ data }: { data: Submission[] }) {
     const chartData = data.map(sub => ({
-        name: sub.examTitle,
+        name: sub.examTitle.length > 20 ? `${sub.examTitle.substring(0, 20)}...` : sub.examTitle,
         score: sub.score,
         total: sub.totalQuestions,
         percentage: (sub.score / sub.totalQuestions) * 100
@@ -23,17 +23,17 @@ function PerformanceChart({ data }: { data: Submission[] }) {
 
     return (
         <ResponsiveContainer width="100%" height={300}>
-            <BarChart data={chartData} layout="vertical" margin={{ top: 5, right: 20, left: 20, bottom: 5 }}>
+            <BarChart data={chartData} margin={{ top: 5, right: 20, left: 20, bottom: 5 }}>
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis type="number" domain={[0, 100]} tickFormatter={(value) => `${value}%`} />
-                <YAxis dataKey="name" type="category" width={150} tick={{fontSize: 12}} />
+                <XAxis dataKey="name" tick={{fontSize: 10}} angle={-20} textAnchor="end" height={50} />
+                <YAxis tickFormatter={(value) => `${value}%`} />
                 <Tooltip
-                    formatter={(value: number) => [`${value.toFixed(1)}%`, 'النسبة المئوية']}
+                    formatter={(value: number, name: string, props) => [`${props.payload.score}/${props.payload.total} (${value.toFixed(1)}%)`, 'النتيجة']}
                     labelFormatter={(label: string) => `امتحان: ${label}`}
-                    contentStyle={{ borderRadius: '0.5rem' }}
+                    contentStyle={{ borderRadius: '0.5rem', direction: 'rtl' }}
                 />
                 <Legend formatter={() => 'أداؤك في الامتحان'}/>
-                <Bar dataKey="percentage" name="النسبة المئوية" fill="hsl(var(--primary))" radius={[0, 4, 4, 0]} barSize={30} />
+                <Bar dataKey="percentage" name="النسبة المئوية" fill="hsl(var(--primary))" radius={[4, 4, 0, 0]} barSize={40} />
             </BarChart>
         </ResponsiveContainer>
     );
@@ -52,7 +52,7 @@ export default function MyPerformancePage() {
     setError(null);
     try {
       const studentSubmissions = await getStudentSubmissions(currentUser.uid);
-      setSubmissions(studentSubmissions.sort((a,b) => b.submittedAt.getTime() - a.submittedAt.getTime()));
+      setSubmissions(studentSubmissions.sort((a,b) => a.submittedAt.getTime() - b.submittedAt.getTime()));
 
     } catch (error) {
       console.error("Error fetching submissions:", error);
