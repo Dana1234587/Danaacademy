@@ -4,6 +4,22 @@
 import { z } from 'zod';
 import { adminDB } from '@/lib/firebase-admin';
 import { FieldValue, Timestamp } from 'firebase-admin/firestore';
+import { generateExamQuestion, type ExamQuestion as AIGeneratedQuestion } from '@/ai/flows/generate-exam-question';
+
+
+const examQuestionSchema = z.object({
+  text: z.string().min(10, { message: 'نص السؤال قصير جدًا.' }),
+  imageUrl: z.string().url({ message: "الرجاء إدخال رابط صالح أو ترك الحقل فارغًا." }).optional().or(z.literal('')),
+  options: z.array(
+    z.object({
+        text: z.string().min(1, { message: 'لا يمكن ترك الخيار فارغًا.' }),
+        imageUrl: z.string().url({ message: "الرجاء إدخال رابط صالح أو ترك الحقل فارغًا." }).optional().or(z.literal('')),
+    })
+  ).length(4, { message: 'يجب أن يكون هناك 4 خيارات.' }),
+  correctAnswerIndex: z.coerce.number().min(0).max(3),
+  explanation: z.string().optional(),
+  explanationImageUrl: z.string().url({ message: "الرجاء إدخال رابط صالح أو ترك الحقل فارغًا." }).optional().or(z.literal('')),
+});
 
 const examFormSchema = z.object({
   title: z.string().min(5, { message: 'يجب أن يكون عنوان الامتحان 5 أحرف على الأقل.' }),
@@ -13,21 +29,7 @@ const examFormSchema = z.object({
   courseId: z.string({ required_error: 'الرجاء اختيار الدورة.' }),
   startDate: z.date().optional(),
   endDate: z.date().optional(),
-  questions: z.array(
-    z.object({
-      text: z.string().min(10, { message: 'نص السؤال قصير جدًا.' }),
-      imageUrl: z.string().url({ message: "الرجاء إدخال رابط صالح أو ترك الحقل فارغًا." }).optional().or(z.literal('')),
-      options: z.array(
-        z.object({
-            text: z.string().min(1, { message: 'لا يمكن ترك الخيار فارغًا.' }),
-            imageUrl: z.string().url({ message: "الرجاء إدخال رابط صالح أو ترك الحقل فارغًا." }).optional().or(z.literal('')),
-        })
-      ).length(4, { message: 'يجب أن يكون هناك 4 خيارات.' }),
-      correctAnswerIndex: z.coerce.number().min(0).max(3),
-      explanation: z.string().optional(),
-      explanationImageUrl: z.string().url({ message: "الرجاء إدخال رابط صالح أو ترك الحقل فارغًا." }).optional().or(z.literal('')),
-    })
-  ).min(1, { message: 'يجب إضافة سؤال واحد على الأقل.' }),
+  questions: z.array(examQuestionSchema).min(1, { message: 'يجب إضافة سؤال واحد على الأقل.' }),
 }).refine(data => {
     if (data.endDate && !data.startDate) {
         return false;
@@ -43,6 +45,8 @@ const examFormSchema = z.object({
 
 
 export type ExamFormValues = z.infer<typeof examFormSchema>;
+export type ExamQuestion = z.infer<typeof examQuestionSchema>;
+
 
 export type Exam = {
     id: string;
@@ -200,5 +204,26 @@ export async function getExamDetails(examId: string): Promise<Exam | null> {
     } catch (error) {
         console.error(`Error fetching exam details for ${examId}:`, error);
         throw error;
+    }
+}
+
+export async function generateExamQuestionAction(topic: string): Promise<{
+    success: boolean,
+    data?: ExamQuestion,
+    error?: string,
+}> {
+    try {
+        const aiResult: AIGeneratedQuestion = await generateExamQuestion(topic);
+        const question: ExamQuestion = {
+            ...aiResult,
+            imageUrl: '',
+            explanationImageUrl: '',
+            options: aiResult.options.map(opt => ({ text: opt, imageUrl: '' }))
+        };
+        return { success: true, data: question };
+    } catch (e) {
+        console.error(e);
+        const errorMessage = e instanceof Error ? e.message : 'An unknown error occurred.';
+        return { success: false, error: errorMessage };
     }
 }
