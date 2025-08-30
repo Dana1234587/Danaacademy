@@ -1,3 +1,4 @@
+
 'use server';
 
 import { z } from 'zod';
@@ -9,6 +10,7 @@ const examFormSchema = z.object({
   description: z.string().optional(),
   duration: z.coerce.number().min(1, { message: 'يجب أن تكون مدة الامتحان دقيقة واحدة على الأقل.' }),
   courseId: z.string({ required_error: 'الرجاء اختيار الدورة.' }),
+  startDate: z.date().optional(),
   questions: z.array(
     z.object({
       text: z.string().min(10, { message: 'نص السؤال قصير جدًا.' }),
@@ -30,6 +32,7 @@ export type Exam = {
     courseId: string;
     createdAt: Date;
     questionCount: number;
+    startDate?: Date;
 };
 
 
@@ -81,6 +84,8 @@ export async function getExams(): Promise<Exam[]> {
                 ...data,
                 // Firestore timestamp needs to be converted to JS Date
                 createdAt: data.createdAt.toDate(),
+                 // Handle optional startDate
+                startDate: data.startDate ? data.startDate.toDate() : undefined,
             } as Exam;
         });
     } catch (error) {

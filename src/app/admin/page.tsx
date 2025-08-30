@@ -356,8 +356,8 @@ export default function AdminPage() {
                             تحديث البيانات
                         </Button>
                          <Button asChild variant="outline">
-                            <Link href="/admin/exams">
-                                <ClipboardCheck className="me-2 h-4 w-4" /> إدارة الاختبارات
+                            <Link href="/">
+                                <Home className="me-2 h-4 w-4" /> العودة للرئيسية
                             </Link>
                         </Button>
                     </div>
