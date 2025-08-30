@@ -14,13 +14,12 @@ export default function ExamPage({ params }: { params: { examId: string } }) {
   const [exam, setExam] = useState<ExamWithQuestions | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const { examId } = params;
 
   const fetchExamDetails = useCallback(async () => {
     setIsLoading(true);
     setError(null);
     try {
-      const currentExam = await getExamForStudent(examId);
+      const currentExam = await getExamForStudent(params.examId);
       if (currentExam) {
         setExam(currentExam);
       } else {
@@ -32,7 +31,7 @@ export default function ExamPage({ params }: { params: { examId: string } }) {
     } finally {
       setIsLoading(false);
     }
-  }, [examId]);
+  }, [params.examId]);
 
   useEffect(() => {
     fetchExamDetails();
