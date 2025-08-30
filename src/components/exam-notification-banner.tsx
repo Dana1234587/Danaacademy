@@ -7,7 +7,7 @@ import { getExams } from '@/app/my-exams/actions';
 import type { Exam } from '@/app/my-exams/actions';
 import { isBefore } from 'date-fns';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Bell, Timer, HelpCircle, Clock } from 'lucide-react';
+import { X, Bell, Timer, HelpCircle, Clock, Repeat } from 'lucide-react';
 import { Button } from './ui/button';
 import Link from 'next/link';
 import { Card, CardHeader, CardTitle, CardContent, CardFooter, CardDescription } from '@/components/ui/card';
@@ -40,7 +40,14 @@ const CountdownTimer = ({ targetDate }: { targetDate: Date }) => {
     });
 
     const timerComponents = Object.entries(timeLeft)
-        .filter(([interval, value]) => value > 0 || (interval === 'seconds' && Object.keys(timeLeft).length === 1) || Object.keys(timeLeft).length === 0)
+        .filter(([interval, value]) => {
+             const keys = Object.keys(timeLeft);
+             if (value > 0) return true;
+             if(keys.length === 1 && interval === 'seconds') return true;
+             if(keys.length > 1 && interval !== 'seconds' && timeLeft.seconds > 0) return true;
+             const higherIntervals = keys.slice(0, keys.indexOf(interval));
+             return higherIntervals.some(key => timeLeft[key] > 0);
+        })
         .map(([interval, value]) => {
             const unitMap: { [key: string]: string } = {
                 days: 'يوم',
@@ -48,8 +55,6 @@ const CountdownTimer = ({ targetDate }: { targetDate: Date }) => {
                 minutes: 'دقيقة',
                 seconds: 'ثانية',
             };
-            if(value === 0 && Object.values(timeLeft).some(v => v > 0)) return null;
-
             return (
                 <div key={interval} className="flex flex-col items-center p-2 bg-primary/10 rounded-lg min-w-[60px]">
                     <span className="text-3xl font-bold text-primary">{String(value).padStart(2, '0')}</span>
@@ -144,16 +149,21 @@ export function ExamNotificationBanner() {
                            </Button>
                     </CardHeader>
                     <CardContent className="flex flex-col md:flex-row items-center justify-between gap-6">
-                        <div className="flex-1 space-y-2">
-                            <h3 className="text-xl font-bold text-foreground">{upcomingExam.title}</h3>
-                            <div className="flex flex-wrap gap-x-6 gap-y-2 text-muted-foreground">
+                        <div className="flex-1 space-y-3 text-center md:text-start">
+                            <h3 className="text-xl font-bold text-foreground">مستعد يا {currentUser?.username}؟</h3>
+                            <p className="text-lg text-muted-foreground">{upcomingExam.title}</p>
+                            <div className="flex flex-wrap gap-x-6 gap-y-2 text-muted-foreground justify-center md:justify-start pt-2">
                                 <div className="flex items-center gap-2">
-                                    <HelpCircle className="w-4 h-4"/>
+                                    <HelpCircle className="w-4 h-4 text-primary"/>
                                     <span>{upcomingExam.questionCount} سؤال</span>
                                 </div>
                                 <div className="flex items-center gap-2">
-                                    <Clock className="w-4 h-4"/>
+                                    <Clock className="w-4 h-4 text-primary"/>
                                     <span>{upcomingExam.duration} دقيقة</span>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <Repeat className="w-4 h-4 text-primary"/>
+                                    <span>{upcomingExam.attemptsAllowed} محاولة</span>
                                 </div>
                             </div>
                         </div>
