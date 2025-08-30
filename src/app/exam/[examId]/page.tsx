@@ -2,16 +2,16 @@
 'use client';
 
 import { MainLayout } from '@/components/layout/main-layout';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Loader2, ServerCrash, AlertTriangle, ArrowRight } from 'lucide-react';
+import { Loader2, ServerCrash } from 'lucide-react';
 import Link from 'next/link';
-import { getExams, type Exam } from '@/app/admin/exams/actions'; 
+import { getExamForStudent, type ExamWithQuestions } from './actions'; 
 import { useState, useEffect, useCallback } from 'react';
-import { notFound } from 'next/navigation';
+import { ExamClient } from './exam-client';
 
 export default function ExamPage({ params }: { params: { examId: string } }) {
-  const [exam, setExam] = useState<Exam | null>(null);
+  const [exam, setExam] = useState<ExamWithQuestions | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -19,16 +19,12 @@ export default function ExamPage({ params }: { params: { examId: string } }) {
     setIsLoading(true);
     setError(null);
     try {
-        // This is not ideal as it fetches all exams.
-        // In a real scenario, we would have a getExamById function.
-        const allExams = await getExams();
-        const currentExam = allExams.find(e => e.id === params.examId);
-        
-        if (currentExam) {
-            setExam(currentExam);
-        } else {
-            setError("لم يتم العثور على الامتحان المطلوب.");
-        }
+      const currentExam = await getExamForStudent(params.examId);
+      if (currentExam) {
+        setExam(currentExam);
+      } else {
+        setError("لم يتم العثور على الامتحان المطلوب.");
+      }
     } catch (err) {
       console.error("Error fetching exam details:", err);
       setError("حدث خطأ أثناء تحميل تفاصيل الامتحان.");
@@ -46,6 +42,7 @@ export default function ExamPage({ params }: { params: { examId: string } }) {
       <MainLayout>
         <div className="flex justify-center items-center h-screen">
           <Loader2 className="h-16 w-16 animate-spin" />
+          <p className="ms-4 text-muted-foreground">جاري تحميل الامتحان...</p>
         </div>
       </MainLayout>
     );
@@ -75,30 +72,8 @@ export default function ExamPage({ params }: { params: { examId: string } }) {
   }
 
   if (!exam) {
-      notFound();
+      return null;
   }
 
-  return (
-    <MainLayout>
-        <div className="p-4 sm:p-6 lg:p-8">
-            <h1 className="text-3xl font-bold">{exam.title}</h1>
-            <p className="text-muted-foreground mt-2">{exam.description || 'لا يوجد وصف'}</p>
-            
-            <Card className="mt-8">
-                <CardHeader>
-                    <CardTitle>جاهز للبدء؟</CardTitle>
-                    <CardDescription>
-                        سيتم عرض واجهة الامتحان هنا.
-                    </CardDescription>
-                </CardHeader>
-                <CardContent>
-                     <div className="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4" role="alert">
-                        <p className="font-bold flex items-center gap-2"><AlertTriangle/>تحت الإنشاء</p>
-                        <p>واجهة أداء الامتحان الفعلية قيد التطوير حاليًا. شكرًا لصبرك!</p>
-                    </div>
-                </CardContent>
-            </Card>
-        </div>
-    </MainLayout>
-  );
+  return <ExamClient exam={exam} />;
 }
