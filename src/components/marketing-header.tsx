@@ -4,7 +4,7 @@
 import Link from 'next/link';
 import { Logo } from '@/components/logo';
 import { Button } from '@/components/ui/button';
-import { BookCopy, Home, Info, Phone, User, LogOut, Shield, Book, Menu } from 'lucide-react';
+import { BookCopy, Home, Info, Phone, User, LogOut, Shield, Book, Menu, ClipboardCheck } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { usePathname, useRouter } from 'next/navigation';
 import { useStore } from '@/store/app-store';
@@ -99,12 +99,20 @@ export function MarketingHeader() {
             ) : (
                <>
                 {currentUser.role === 'admin' ? (
-                   <Button asChild variant="outline" className="hidden sm:flex hover:-translate-y-0.5 transition-transform">
+                   <>
+                    <Button asChild variant="outline" className="hidden sm:flex hover:-translate-y-0.5 transition-transform">
                         <Link href="/admin" className="flex items-center gap-2">
                           <Shield className="h-4 w-4" />
-                          لوحة التحكم
+                          إدارة الطلاب
                         </Link>
                     </Button>
+                    <Button asChild variant="outline" className="hidden sm:flex hover:-translate-y-0.5 transition-transform">
+                        <Link href="/admin/exams" className="flex items-center gap-2">
+                          <ClipboardCheck className="h-4 w-4" />
+                          إدارة الاختبارات
+                        </Link>
+                    </Button>
+                   </>
                 ) : (
                     <Button asChild variant="outline" className="hidden sm:flex hover:-translate-y-0.5 transition-transform">
                         <Link href={getCoursePageLink()} className="flex items-center gap-2">
@@ -150,14 +158,24 @@ export function MarketingHeader() {
                               ) : (
                                 <>
                                   {currentUser.role === 'admin' ? (
-                                    <SheetClose asChild>
-                                      <Button asChild variant="outline" size="lg" className="w-full">
-                                          <Link href="/admin" className="flex items-center gap-2">
-                                            <Shield className="h-4 w-4" />
-                                            لوحة التحكم
-                                          </Link>
-                                      </Button>
-                                    </SheetClose>
+                                    <>
+                                      <SheetClose asChild>
+                                        <Button asChild variant="outline" size="lg" className="w-full">
+                                            <Link href="/admin" className="flex items-center gap-2">
+                                              <Shield className="h-4 w-4" />
+                                              إدارة الطلاب
+                                            </Link>
+                                        </Button>
+                                      </SheetClose>
+                                       <SheetClose asChild>
+                                        <Button asChild variant="outline" size="lg" className="w-full">
+                                            <Link href="/admin/exams" className="flex items-center gap-2">
+                                              <ClipboardCheck className="h-4 w-4" />
+                                              إدارة الاختبارات
+                                            </Link>
+                                        </Button>
+                                      </SheetClose>
+                                    </>
                                   ) : (
                                     <SheetClose asChild>
                                       <Button asChild variant="outline" size="lg" className="w-full">
@@ -186,5 +204,3 @@ export function MarketingHeader() {
     </header>
   );
 }
-
-    
