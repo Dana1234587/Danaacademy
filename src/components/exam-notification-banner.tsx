@@ -7,9 +7,10 @@ import { getExams } from '@/app/my-exams/actions';
 import type { Exam } from '@/app/my-exams/actions';
 import { isBefore } from 'date-fns';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Bell, Timer } from 'lucide-react';
+import { X, Bell, Timer, HelpCircle, Clock } from 'lucide-react';
 import { Button } from './ui/button';
 import Link from 'next/link';
+import { Card, CardHeader, CardTitle, CardContent, CardFooter, CardDescription } from '@/components/ui/card';
 
 // CountdownTimer component extracted for reuse
 const CountdownTimer = ({ targetDate }: { targetDate: Date }) => {
@@ -50,19 +51,19 @@ const CountdownTimer = ({ targetDate }: { targetDate: Date }) => {
             if(value === 0 && Object.values(timeLeft).some(v => v > 0)) return null;
 
             return (
-                <div key={interval} className="flex flex-col items-center p-2 bg-white/10 rounded-md min-w-[50px]">
-                    <span className="text-2xl font-bold">{String(value).padStart(2, '0')}</span>
-                    <span className="text-xs">{unitMap[interval]}</span>
+                <div key={interval} className="flex flex-col items-center p-2 bg-primary/10 rounded-lg min-w-[60px]">
+                    <span className="text-3xl font-bold text-primary">{String(value).padStart(2, '0')}</span>
+                    <span className="text-xs text-muted-foreground">{unitMap[interval]}</span>
                 </div>
             );
         });
 
     if (!timerComponents.length) {
-        return <span className="text-lg font-semibold animate-pulse">الامتحان متاح الآن!</span>;
+        return <span className="text-lg font-semibold animate-pulse text-green-600">الامتحان متاح الآن!</span>;
     }
 
     return (
-        <div className="flex justify-center gap-2 sm:gap-3" dir="ltr">
+        <div className="flex justify-center gap-2 sm:gap-4" dir="ltr">
             {timerComponents}
         </div>
     );
@@ -127,33 +128,48 @@ export function ExamNotificationBanner() {
                 transition={{ duration: 0.5, ease: "easeInOut" }}
                 className="fixed top-28 sm:top-32 left-1/2 -translate-x-1/2 w-[95%] max-w-4xl z-50"
             >
-                <div className="bg-gradient-to-tr from-primary via-purple-700 to-pink-500 text-primary-foreground p-4 rounded-xl shadow-2xl border-2 border-primary-foreground/30">
-                    <div className="container mx-auto flex items-center justify-between gap-4">
+                <Card className="shadow-2xl border-2 border-primary/20 backdrop-blur-lg bg-background/80">
+                    <CardHeader className="flex flex-row items-center justify-between pb-2">
                         <div className="flex items-center gap-3">
-                            <Timer className="w-8 h-8 hidden sm:block animate-pulse-slow" />
-                            <div>
-                                <p className="font-bold text-base sm:text-lg">امتحان قادم: {upcomingExam.title}</p>
-                                <p className="text-xs sm:text-sm text-primary-foreground/80">الوقت المتبقي للبدء:</p>
-                            </div>
+                            <Bell className="w-6 h-6 text-primary animate-pulse" />
+                            <CardTitle>تنبيه لامتحان قادم</CardTitle>
                         </div>
-                        <CountdownTimer targetDate={upcomingExam.startDate!} />
-                        <div className="flex flex-col gap-2">
-                           <Button asChild size="sm" variant="secondary" className="bg-white/90 text-primary hover:bg-white/100">
-                              <Link href="/my-exams">
-                                كل الامتحانات
-                              </Link>
-                           </Button>
-                           <Button
+                        <Button
                             variant="ghost"
                             size="icon"
-                            className="h-7 w-7 rounded-full hover:bg-white/20 self-center"
+                            className="h-7 w-7 rounded-full"
                             onClick={handleDismiss}
                             >
                             <X className="h-4 w-4" />
                            </Button>
+                    </CardHeader>
+                    <CardContent className="flex flex-col md:flex-row items-center justify-between gap-6">
+                        <div className="flex-1 space-y-2">
+                            <h3 className="text-xl font-bold text-foreground">{upcomingExam.title}</h3>
+                            <div className="flex flex-wrap gap-x-6 gap-y-2 text-muted-foreground">
+                                <div className="flex items-center gap-2">
+                                    <HelpCircle className="w-4 h-4"/>
+                                    <span>{upcomingExam.questionCount} سؤال</span>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <Clock className="w-4 h-4"/>
+                                    <span>{upcomingExam.duration} دقيقة</span>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
+                         <div className="flex-shrink-0">
+                           <p className="text-center text-sm text-muted-foreground mb-2">الوقت المتبقي للبدء:</p>
+                           <CountdownTimer targetDate={upcomingExam.startDate!} />
+                         </div>
+                    </CardContent>
+                    <CardFooter className="bg-muted/50 p-3 flex justify-center">
+                         <Button asChild size="sm" variant="secondary">
+                            <Link href="/my-exams">
+                            الانتقال إلى صفحة الامتحانات
+                            </Link>
+                         </Button>
+                    </CardFooter>
+                </Card>
             </motion.div>
         </AnimatePresence>
     );
