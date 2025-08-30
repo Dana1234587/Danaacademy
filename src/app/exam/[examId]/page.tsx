@@ -10,11 +10,11 @@ import { getExamForStudent, type ExamWithQuestions } from './actions';
 import { useState, useEffect, useCallback } from 'react';
 import { ExamClient } from './exam-client';
 
-export default function ExamPage({ params }: { params: { examId: string } }) {
+export default function ExamPageWrapper({ params }: { params: { examId: string } }) {
   const [exam, setExam] = useState<ExamWithQuestions | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const examId = params.examId;
+  const { examId } = params;
 
   const fetchExamDetails = useCallback(async () => {
     setIsLoading(true);
