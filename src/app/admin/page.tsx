@@ -1,7 +1,7 @@
 
 'use client';
 
-import { MainLayout } from '@/components/layout/main-layout';
+import { MarketingLayout } from '@/components/layout/marketing-layout';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
@@ -9,7 +9,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Checkbox } from "@/components/ui/checkbox"
 import { useToast } from '@/hooks/use-toast';
-import { UserPlus, KeyRound, MonitorCheck, Loader2, Search, Smartphone, Monitor, Fingerprint, Globe, List, Home, Users, Edit, Trash2, Check, Plus, RefreshCw, Info, AlertTriangle } from 'lucide-react';
+import { UserPlus, KeyRound, MonitorCheck, Loader2, Search, Smartphone, Monitor, Fingerprint, Globe, List, Home, Users, Edit, Trash2, Check, Plus, RefreshCw, Info, AlertTriangle, ClipboardCheck } from 'lucide-react';
 import { useState, useEffect, useMemo, useCallback } from 'react';
 import Link from 'next/link';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
@@ -331,24 +331,24 @@ export default function AdminPage() {
     };
 
     if (!currentUser) {
-       return <MainLayout><div className="p-8 text-center">الرجاء تسجيل الدخول للوصول لهذه الصفحة.</div></MainLayout>
+       return <MarketingLayout><div className="p-8 text-center">الرجاء تسجيل الدخول للوصول لهذه الصفحة.</div></MarketingLayout>
     }
     
     if (currentUser.role !== 'admin') {
-        return <MainLayout><div className="p-8 text-center text-destructive">ليس لديك الصلاحيات الكافية للوصول لهذه الصفحة.</div></MainLayout>
+        return <MarketingLayout><div className="p-8 text-center text-destructive">ليس لديك الصلاحيات الكافية للوصول لهذه الصفحة.</div></MarketingLayout>
     }
 
     if (isLoading['page'] && students.length === 0) {
-        return <MainLayout><div className="flex justify-center items-center h-screen"><Loader2 className="h-16 w-16 animate-spin"/></div></MainLayout>
+        return <MarketingLayout><div className="flex justify-center items-center h-screen"><Loader2 className="h-16 w-16 animate-spin"/></div></MarketingLayout>
     }
 
     return (
-        <MainLayout>
+        <MarketingLayout>
             <div className="p-4 sm:p-6 lg:p-8">
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
                     <div>
                         <h1 className="text-3xl font-bold">لوحة تحكم المسؤول</h1>
-                        <p className="text-muted-foreground">مرحباً دكتورة دانا، هنا يمكنك إدارة الأكاديمية.</p>
+                        <p className="text-muted-foreground">مرحباً دكتورة دانا، هنا يمكنك إدارة الطلاب والأجهزة.</p>
                     </div>
                      <div className="flex gap-2">
                         <Button onClick={fetchData} variant="secondary" disabled={isLoading['page']}>
@@ -356,8 +356,8 @@ export default function AdminPage() {
                             تحديث البيانات
                         </Button>
                          <Button asChild variant="outline">
-                            <Link href="/">
-                                <Home className="me-2 h-4 w-4" /> العودة للرئيسية
+                            <Link href="/admin/exams">
+                                <ClipboardCheck className="me-2 h-4 w-4" /> إدارة الاختبارات
                             </Link>
                         </Button>
                     </div>
@@ -731,6 +731,6 @@ export default function AdminPage() {
                     </form>
                 </DialogContent>
             </Dialog>
-        </MainLayout>
+        </MarketingLayout>
     );
 }
