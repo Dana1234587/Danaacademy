@@ -1,6 +1,6 @@
 
 import { MainLayout } from '@/components/layout/main-layout';
-import { CreateExamForm } from '@/components/admin/create-exam-form';
+import { CreateExamForm } from '@/app/admin/create-exam-form';
 import { ChevronLeft } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
