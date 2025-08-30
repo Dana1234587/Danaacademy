@@ -3,12 +3,13 @@
 
 import { z } from 'zod';
 import { adminDB } from '@/lib/firebase-admin';
-import { FieldValue, Timestamp, collection, getDocs } from 'firebase-admin/firestore';
+import { FieldValue, Timestamp } from 'firebase-admin/firestore';
 
 const examFormSchema = z.object({
   title: z.string().min(5, { message: 'يجب أن يكون عنوان الامتحان 5 أحرف على الأقل.' }),
   description: z.string().optional(),
   duration: z.coerce.number().min(1, { message: 'يجب أن تكون مدة الامتحان دقيقة واحدة على الأقل.' }),
+  attemptsAllowed: z.coerce.number().min(1, { message: 'يجب أن يكون عدد المحاولات 1 على الأقل.' }),
   courseId: z.string({ required_error: 'الرجاء اختيار الدورة.' }),
   startDate: z.date().optional(),
   endDate: z.date().optional(),
@@ -42,6 +43,7 @@ export type Exam = {
     title: string;
     description?: string;
     duration: number;
+    attemptsAllowed: number;
     courseId: string;
     createdAt: Date;
     questionCount: number;

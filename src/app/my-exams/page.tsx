@@ -4,7 +4,7 @@
 import { MarketingLayout } from '@/components/layout/marketing-layout';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Award, Loader2, ServerCrash, Clock, Calendar, HelpCircle, Check, PlayCircle, Eye, ChevronLeft } from 'lucide-react';
+import { Award, Loader2, ServerCrash, Clock, Calendar, HelpCircle, Check, PlayCircle, Eye, Repeat } from 'lucide-react';
 import Link from 'next/link';
 import { getExams, type Exam, getStudentSubmissions, type Submission } from './actions'; 
 import { useState, useEffect, useCallback } from 'react';
@@ -12,42 +12,47 @@ import { useStore } from '@/store/app-store';
 import { format, isBefore, isAfter, formatDistanceToNowStrict } from 'date-fns';
 import { ar } from 'date-fns/locale';
 
-function ExamCard({ exam, submission }: { exam: Exam, submission?: Submission }) {
+function ExamCard({ exam, submissions }: { exam: Exam, submissions: Submission[] }) {
     const now = new Date();
+    const studentSubmissions = submissions.filter(s => s.examId === exam.id);
+    const submissionCount = studentSubmissions.length;
+    const attemptsAllowed = exam.attemptsAllowed || 1;
+    const hasAttemptsLeft = submissionCount < attemptsAllowed;
+    const latestSubmission = studentSubmissions.sort((a,b) => b.submittedAt.getTime() - a.submittedAt.getTime())[0];
+
     let status: 'upcoming' | 'active' | 'finished' | 'completed' = 'finished';
     let statusText = 'مكتمل';
-    let statusColor = 'text-gray-500';
     let actionButton = <Button variant="outline" disabled>انتهى</Button>;
     
-    if (submission) {
-        status = 'completed';
-        statusText = `اكتمل - ${submission.score}/${submission.totalQuestions}`;
-        statusColor = 'text-green-600';
-        actionButton = <Button asChild variant="secondary"><Link href={`/exam/${exam.id}?review=true`}><Eye className="me-2"/> مراجعة</Link></Button>;
-    } else if (exam.startDate && isBefore(now, exam.startDate)) {
+    if (exam.startDate && isBefore(now, exam.startDate)) {
         status = 'upcoming';
         statusText = `قادم بعد ${formatDistanceToNowStrict(exam.startDate, { locale: ar, addSuffix: false })}`;
-        statusColor = 'text-blue-500';
         actionButton = <Button variant="secondary" disabled>لم يبدأ بعد</Button>;
     } else if (exam.endDate && isAfter(now, exam.endDate)) {
         status = 'finished';
         statusText = 'منتهي';
-        statusColor = 'text-red-500';
         actionButton = <Button variant="outline" disabled>فاتك الامتحان</Button>;
-    } else if ((!exam.startDate || isAfter(now, exam.startDate)) && (!exam.endDate || isBefore(now, exam.endDate))) {
+    } else if (hasAttemptsLeft) {
         status = 'active';
         statusText = 'متاح الآن';
-        statusColor = 'text-green-500';
         actionButton = <Button asChild><Link href={`/exam/${exam.id}`}><PlayCircle className="me-2"/> ابدأ الامتحان</Link></Button>;
+    } else { // No attempts left
+        status = 'completed';
+        statusText = `اكتمل (${submissionCount}/${attemptsAllowed})`;
+         actionButton = <Button variant="outline" disabled>لا يوجد محاولات متبقية</Button>;
     }
 
-
     return (
-        <Card>
+        <Card className="flex flex-col justify-between">
             <CardHeader>
                 <div className="flex justify-between items-start">
                     <CardTitle className="text-xl">{exam.title}</CardTitle>
-                    <span className={`px-2 py-1 text-xs font-semibold rounded-full ${statusColor} bg-opacity-10`}>
+                     <span className={`px-2 py-1 text-xs font-semibold rounded-full ${
+                        status === 'active' ? 'bg-green-100 text-green-700' : 
+                        status === 'upcoming' ? 'bg-blue-100 text-blue-700' :
+                        status === 'completed' ? 'bg-purple-100 text-purple-700' :
+                        'bg-red-100 text-red-700'
+                     }`}>
                         {statusText}
                     </span>
                 </div>
@@ -62,14 +67,35 @@ function ExamCard({ exam, submission }: { exam: Exam, submission?: Submission })
                     <Clock className="w-4 h-4" />
                     <span>{exam.duration} دقيقة</span>
                 </div>
+                 <div className="flex items-center gap-2">
+                    <Repeat className="w-4 h-4" />
+                    <span>{attemptsAllowed} محاولة</span>
+                </div>
+                 <div className="flex items-center gap-2">
+                    <Check className="w-4 h-4" />
+                    <span>{submissionCount} محاولة مقدمة</span>
+                </div>
                 <div className="flex items-center gap-2 col-span-2">
                      <Calendar className="w-4 h-4" />
                      <span className="font-bold">تاريخ البدء:</span>
                     <span>{exam.startDate ? format(exam.startDate, 'd MMM yyyy, h:mm a', { locale: ar }) : 'متاح دائمًا'}</span>
                 </div>
+                 <div className="flex items-center gap-2 col-span-2">
+                     <Calendar className="w-4 h-4" />
+                     <span className="font-bold">تاريخ الانتهاء:</span>
+                    <span>{exam.endDate ? format(exam.endDate, 'd MMM yyyy, h:mm a', { locale: ar }) : 'لا يوجد'}</span>
+                </div>
             </CardContent>
-            <CardFooter>
+            <CardFooter className="flex justify-between">
                  {actionButton}
+                 {latestSubmission && (
+                    <Button asChild variant="secondary" size="sm">
+                        <Link href={`/exam/${exam.id}?review=true`}>
+                           <Eye className="me-2 h-4 w-4" />
+                           مراجعة آخر محاولة
+                        </Link>
+                    </Button>
+                 )}
             </CardFooter>
         </Card>
     )
@@ -123,13 +149,11 @@ export default function MyExamsPage() {
   return (
     <MarketingLayout>
       <div className="p-4 sm:p-6 lg:p-8">
-        <div className="flex flex-wrap items-center justify-between gap-4 mb-8">
-            <div>
-                <h1 className="text-3xl font-bold flex items-center gap-3"><Award className="w-8 h-8 text-primary"/> امتحاناتي</h1>
-                <p className="text-muted-foreground mt-2">
-                هنا يمكنك عرض جميع الامتحانات المتاحة لك، والبدء في حلها، ومراجعة نتائجك.
-                </p>
-            </div>
+        <div className="mb-8">
+            <h1 className="text-3xl font-bold flex items-center gap-3"><Award className="w-8 h-8 text-primary"/> امتحاناتي</h1>
+            <p className="text-muted-foreground mt-2">
+            هنا يمكنك عرض جميع الامتحانات المتاحة لك، والبدء في حلها، ومراجعة نتائجك.
+            </p>
         </div>
 
         {isLoading ? (
@@ -151,10 +175,9 @@ export default function MyExamsPage() {
             </Card>
         ) : (
              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {exams.map(exam => {
-                    const submission = submissions.find(s => s.examId === exam.id);
-                    return <ExamCard key={exam.id} exam={exam} submission={submission} />
-                })}
+                {exams.map(exam => (
+                    <ExamCard key={exam.id} exam={exam} submissions={submissions} />
+                ))}
             </div>
         )}
       </div>
