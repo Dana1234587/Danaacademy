@@ -1,7 +1,7 @@
 
 'use server';
 
-import { collection, query, where, getDocs, Timestamp } from 'firebase/firestore';
+import { collection, query, where, getDocs, Timestamp, orderBy } from 'firebase/firestore';
 import { adminDB } from '@/lib/firebase-admin';
 
 export type Exam = {
@@ -37,9 +37,9 @@ export async function getExams(): Promise<Exam[]> {
             return { 
                 id: doc.id, 
                 ...data,
-                createdAt: data.createdAt.toDate(),
-                startDate: data.startDate ? data.startDate.toDate() : undefined,
-                endDate: data.endDate ? data.endDate.toDate() : undefined,
+                createdAt: (data.createdAt as Timestamp).toDate(),
+                startDate: data.startDate ? (data.startDate as Timestamp).toDate() : undefined,
+                endDate: data.endDate ? (data.endDate as Timestamp).toDate() : undefined,
             } as Exam;
         });
     } catch (error) {

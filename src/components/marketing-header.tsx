@@ -4,7 +4,7 @@
 import Link from 'next/link';
 import { Logo } from '@/components/logo';
 import { Button } from '@/components/ui/button';
-import { BookCopy, Home, Info, Phone, User, LogOut, Shield, Book, Menu, ClipboardCheck, Award } from 'lucide-react';
+import { BookCopy, Home, Info, Phone, User, LogOut, Shield, Book, Menu, ClipboardCheck, Award, BarChart2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { usePathname, useRouter } from 'next/navigation';
 import { useStore } from '@/store/app-store';
@@ -103,13 +103,7 @@ export function MarketingHeader() {
                     <Button asChild variant="outline" className="hidden sm:flex hover:-translate-y-0.5 transition-transform">
                         <Link href="/admin" className="flex items-center gap-2">
                           <Shield className="h-4 w-4" />
-                          إدارة الطلاب
-                        </Link>
-                    </Button>
-                    <Button asChild variant="outline" className="hidden sm:flex hover:-translate-y-0.5 transition-transform">
-                        <Link href="/admin/exams" className="flex items-center gap-2">
-                          <ClipboardCheck className="h-4 w-4" />
-                          إدارة الاختبارات
+                          لوحة التحكم
                         </Link>
                     </Button>
                    </>
@@ -118,13 +112,19 @@ export function MarketingHeader() {
                         <Button asChild variant="outline" className="hidden sm:flex hover:-translate-y-0.5 transition-transform">
                             <Link href={getCoursePageLink()} className="flex items-center gap-2">
                               <Book className="h-4 w-4" />
-                              الدورة الخاصة بي
+                              دوراتي
                             </Link>
                         </Button>
                          <Button asChild className="hidden sm:flex hover:-translate-y-0.5 transition-transform">
                             <Link href="/my-exams" className="flex items-center gap-2">
                               <Award className="h-4 w-4" />
                               امتحاناتي
+                            </Link>
+                        </Button>
+                         <Button asChild className="hidden sm:flex hover:-translate-y-0.5 transition-transform">
+                            <Link href="/my-performance" className="flex items-center gap-2">
+                              <BarChart2 className="h-4 w-4" />
+                              أدائي
                             </Link>
                         </Button>
                     </>
@@ -190,7 +190,7 @@ export function MarketingHeader() {
                                             <Button asChild variant="outline" size="lg" className="w-full">
                                                 <Link href={getCoursePageLink()} className="flex items-center gap-2">
                                                     <Book className="h-4 w-4" />
-                                                    الدورة الخاصة بي
+                                                    دوراتي
                                                 </Link>
                                             </Button>
                                         </SheetClose>
@@ -199,6 +199,14 @@ export function MarketingHeader() {
                                                 <Link href="/my-exams" className="flex items-center gap-2">
                                                     <Award className="h-4 w-4" />
                                                     امتحاناتي
+                                                </Link>
+                                            </Button>
+                                        </SheetClose>
+                                        <SheetClose asChild>
+                                             <Button asChild size="lg" className="w-full">
+                                                <Link href="/my-performance" className="flex items-center gap-2">
+                                                    <BarChart2 className="h-4 w-4" />
+                                                    أدائي
                                                 </Link>
                                             </Button>
                                         </SheetClose>

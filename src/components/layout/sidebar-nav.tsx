@@ -15,7 +15,8 @@ import {
   Users,
   ClipboardCheck,
   Home,
-  Award
+  Award,
+  BarChart2
 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
@@ -79,14 +80,24 @@ export function SidebarNav() {
                     </SidebarMenuItem>
                 </>
             ) : (
-                 <SidebarMenuItem>
-                    <Link href="/my-exams" className="w-full">
-                        <Button variant="ghost" className="w-full justify-start gap-2">
-                            <Award />
-                            امتحاناتي
-                        </Button>
-                    </Link>
-                </SidebarMenuItem>
+                 <>
+                    <SidebarMenuItem>
+                        <Link href="/my-exams" className="w-full">
+                            <Button variant="ghost" className="w-full justify-start gap-2">
+                                <Award />
+                                امتحاناتي
+                            </Button>
+                        </Link>
+                    </SidebarMenuItem>
+                    <SidebarMenuItem>
+                        <Link href="/my-performance" className="w-full">
+                            <Button variant="ghost" className="w-full justify-start gap-2">
+                                <BarChart2 />
+                                أدائي
+                            </Button>
+                        </Link>
+                    </SidebarMenuItem>
+                 </>
             )}
              <SidebarMenuItem>
                 <Link href="/quiz" className="w-full">
