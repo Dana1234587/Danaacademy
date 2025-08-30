@@ -32,7 +32,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
-import { generateExamQuestionAction } from './actions';
+import { generateExamQuestionAction } from '../actions';
 
 
 const questionSchema = z.object({

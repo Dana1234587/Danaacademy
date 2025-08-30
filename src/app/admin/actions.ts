@@ -2,18 +2,7 @@
 'use server';
 
 import { generateExamQuestion, ExamQuestion as AIGeneratedQuestion } from '@/ai/flows/generate-exam-question';
-
-// This type should align with the form's question schema but without the AI-specific fields
-// We will reuse the one from create-exam-form.tsx by importing it there. For now let's define it here.
-export type ExamQuestion = {
-  text: string;
-  imageUrl?: string;
-  options: { text: string; imageUrl?: string }[];
-  correctAnswerIndex: number;
-  explanation?: string;
-  explanationImageUrl?: string;
-};
-
+import type { ExamQuestion } from './create-exam/page';
 
 export async function generateExamQuestionAction(topic: string): Promise<{
     success: boolean,
