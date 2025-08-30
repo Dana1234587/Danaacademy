@@ -43,9 +43,12 @@ const CountdownTimer = ({ targetDate }: { targetDate: Date }) => {
         .filter(([interval, value]) => {
              const keys = Object.keys(timeLeft);
              if (value > 0) return true;
+             // Ensure seconds are shown when it's the last unit left
              if(keys.length === 1 && interval === 'seconds') return true;
              const higherIntervals = keys.slice(0, keys.indexOf(interval));
-             return higherIntervals.some(key => timeLeft[key as keyof typeof timeLeft] > 0);
+             // Only show if there's a higher unit of time that's non-zero, or if it's the only unit left and non-zero
+             if (higherIntervals.some(key => timeLeft[key as keyof typeof timeLeft] > 0)) return true;
+             return value > 0;
         })
         .map(([interval, value]) => {
             const unitMap: { [key: string]: string } = {
@@ -62,7 +65,7 @@ const CountdownTimer = ({ targetDate }: { targetDate: Date }) => {
             );
         });
 
-    if (!timerComponents.length) {
+    if (!Object.values(timeLeft).some(v => v > 0)) {
         return <span className="text-lg font-semibold animate-pulse text-green-600">الامتحان متاح الآن!</span>;
     }
 
@@ -79,8 +82,10 @@ export function ExamNotificationBanner() {
     const [upcomingExam, setUpcomingExam] = useState<Exam | null>(null);
     const [isVisible, setIsVisible] = useState(false);
 
-    const findNextUpcomingExam = useCallback(async () => {
+    useEffect(() => {
+      const findNextUpcomingExam = async () => {
         if (!currentUser || currentUser.role !== 'student') {
+            setUpcomingExam(null);
             return;
         }
 
@@ -93,23 +98,28 @@ export function ExamNotificationBanner() {
                 .sort((a, b) => a.startDate!.getTime() - b.startDate!.getTime()) // Sort by start date to get the soonest
                 [0]; // Get the very next one
 
-            if (nextExam) {
-                setUpcomingExam(nextExam);
-                setIsVisible(true);
-            }
+            setUpcomingExam(nextExam || null);
         } catch (error) {
             console.error("Failed to fetch upcoming exams for banner:", error);
+            setUpcomingExam(null);
         }
+      };
+
+        findNextUpcomingExam();
     }, [currentUser]);
 
+    // This useEffect controls visibility based on upcomingExam
     useEffect(() => {
-        findNextUpcomingExam();
-    }, [findNextUpcomingExam]);
+        if (upcomingExam) {
+            setIsVisible(true);
+        } else {
+            setIsVisible(false);
+        }
+    }, [upcomingExam]);
 
     const handleDismiss = () => {
         setIsVisible(false);
-    }
-
+    };
 
     if (!isVisible || !upcomingExam) {
         return null;
@@ -121,8 +131,8 @@ export function ExamNotificationBanner() {
                 initial={{ y: "-100%", opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 exit={{ y: "-100%", opacity: 0 }}
-                transition={{ duration: 0.5, ease: "easeInOut" }}
-                className="fixed top-4 left-1/2 -translate-x-1/2 w-[95%] max-w-4xl z-50"
+                transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                className="fixed top-4 left-4 right-4 md:left-1/2 md:-translate-x-1/2 md:w-[95%] md:max-w-4xl z-50"
             >
                 <Card className="shadow-2xl border-2 border-primary/20 backdrop-blur-lg bg-background/80">
                     <CardHeader className="flex flex-row items-center justify-between pb-2">
