@@ -11,6 +11,7 @@ const examFormSchema = z.object({
   duration: z.coerce.number().min(1, { message: 'يجب أن تكون مدة الامتحان دقيقة واحدة على الأقل.' }),
   courseId: z.string({ required_error: 'الرجاء اختيار الدورة.' }),
   startDate: z.date().optional(),
+  endDate: z.date().optional(),
   questions: z.array(
     z.object({
       text: z.string().min(10, { message: 'نص السؤال قصير جدًا.' }),
@@ -20,7 +21,19 @@ const examFormSchema = z.object({
       explanation: z.string().optional(),
     })
   ).min(1, { message: 'يجب إضافة سؤال واحد على الأقل.' }),
+}).refine(data => {
+    if (data.endDate && !data.startDate) {
+        return false;
+    }
+    if (data.startDate && data.endDate && data.endDate <= data.startDate) {
+        return false;
+    }
+    return true;
+}, {
+    message: 'تاريخ الانتهاء يجب أن يكون بعد تاريخ البدء.',
+    path: ['endDate'],
 });
+
 
 export type ExamFormValues = z.infer<typeof examFormSchema>;
 
@@ -33,6 +46,7 @@ export type Exam = {
     createdAt: Date;
     questionCount: number;
     startDate?: Date;
+    endDate?: Date;
 };
 
 
@@ -82,10 +96,9 @@ export async function getExams(): Promise<Exam[]> {
             return { 
                 id: doc.id, 
                 ...data,
-                // Firestore timestamp needs to be converted to JS Date
                 createdAt: data.createdAt.toDate(),
-                 // Handle optional startDate
                 startDate: data.startDate ? data.startDate.toDate() : undefined,
+                endDate: data.endDate ? data.endDate.toDate() : undefined,
             } as Exam;
         });
     } catch (error) {

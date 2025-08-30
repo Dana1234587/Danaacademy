@@ -4,13 +4,15 @@
 import { MarketingLayout } from '@/components/layout/marketing-layout';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Plus, Home, Loader2, RefreshCw, ClipboardList, Clock } from 'lucide-react';
+import { Plus, Home, Loader2, RefreshCw, ClipboardList, Clock, CalendarIcon } from 'lucide-react';
 import Link from 'next/link';
 import { getExams, type Exam } from './actions';
 import { useState, useEffect, useCallback } from 'react';
 import { format } from 'date-fns';
+import { ar } from 'date-fns/locale';
 
 function ExamCard({ exam }: { exam: Exam }) {
+    const formattedStartDate = exam.startDate ? format(exam.startDate, 'd MMMM yyyy, h:mm a', { locale: ar }) : 'غير محدد';
     return (
         <Card>
             <CardHeader>
@@ -26,13 +28,14 @@ function ExamCard({ exam }: { exam: Exam }) {
                     <Clock className="w-4 h-4" />
                     <span>{exam.duration} دقيقة</span>
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 col-span-2">
                     <span className="font-bold">الدورة:</span>
                     <span>{exam.courseId === 'tawjihi-2007-supplementary' ? 'تكميلي 2007' : 'توجيهي 2008'}</span>
                 </div>
-                <div className="flex items-center gap-2">
-                    <span className="font-bold">تاريخ الإنشاء:</span>
-                    <span>{format(new Date(exam.createdAt), 'yyyy/MM/dd')}</span>
+                <div className="flex items-center gap-2 col-span-2">
+                     <CalendarIcon className="w-4 h-4" />
+                     <span className="font-bold">تاريخ البدء:</span>
+                    <span>{formattedStartDate}</span>
                 </div>
             </CardContent>
         </Card>

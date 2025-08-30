@@ -7,7 +7,6 @@ import { Button } from '@/components/ui/button';
 
 export default function CreateExamPage() {
   return (
-    <div className="bg-muted/40 min-h-screen">
       <div className="p-4 sm:p-6 lg:p-8 max-w-4xl mx-auto">
         <div className="flex items-center justify-between mb-8">
           <div>
@@ -26,6 +25,5 @@ export default function CreateExamPage() {
         <CreateExamForm />
         
       </div>
-    </div>
   );
 }
