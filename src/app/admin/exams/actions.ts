@@ -7,15 +7,16 @@ import { FieldValue, Timestamp } from 'firebase-admin/firestore';
 import { generateExamQuestion, type ExamQuestion as AIGeneratedQuestion } from '@/ai/flows/generate-exam-question';
 
 
+const questionOptionSchema = z.object({
+  text: z.string().min(1, { message: 'لا يمكن ترك الخيار فارغًا.' }),
+  imageUrl: z.string().url({ message: "الرجاء إدخال رابط صالح أو ترك الحقل فارغًا." }).optional().or(z.literal('')),
+});
+
+
 const examQuestionSchema = z.object({
   text: z.string().min(10, { message: 'نص السؤال قصير جدًا.' }),
   imageUrl: z.string().url({ message: "الرجاء إدخال رابط صالح أو ترك الحقل فارغًا." }).optional().or(z.literal('')),
-  options: z.array(
-    z.object({
-        text: z.string().min(1, { message: 'لا يمكن ترك الخيار فارغًا.' }),
-        imageUrl: z.string().url({ message: "الرجاء إدخال رابط صالح أو ترك الحقل فارغًا." }).optional().or(z.literal('')),
-    })
-  ).length(4, { message: 'يجب أن يكون هناك 4 خيارات.' }),
+  options: z.array(questionOptionSchema).length(4, { message: 'يجب أن يكون هناك 4 خيارات.' }),
   correctAnswerIndex: z.coerce.number().min(0).max(3),
   explanation: z.string().optional(),
   explanationImageUrl: z.string().url({ message: "الرجاء إدخال رابط صالح أو ترك الحقل فارغًا." }).optional().or(z.literal('')),
@@ -78,7 +79,6 @@ export type Submission = {
 export async function createExamAction(data: ExamFormValues) {
     const validation = examFormSchema.safeParse(data);
     if (!validation.success) {
-        // For debugging server-side validation errors
         console.error("Exam validation failed:", validation.error.flatten());
         return { success: false, error: 'بيانات الإدخال غير صالحة.' };
     }
@@ -110,6 +110,48 @@ export async function createExamAction(data: ExamFormValues) {
 
     } catch (error: any) {
         console.error("Error creating exam: ", error);
+        return { success: false, error: error.message };
+    }
+}
+
+export async function updateExamAction(examId: string, data: ExamFormValues) {
+    const validation = examFormSchema.safeParse(data);
+    if (!validation.success) {
+        console.error("Exam validation failed:", validation.error.flatten());
+        return { success: false, error: 'بيانات الإدخال غير صالحة.' };
+    }
+
+    const { questions, ...examData } = validation.data;
+
+    try {
+        const examDocRef = adminDB.collection('exams').doc(examId);
+
+        const examPayload = {
+            ...examData,
+            questionCount: questions.length,
+            // We don't update createdAt
+        };
+
+        const batch = adminDB.batch();
+        batch.update(examDocRef, examPayload);
+
+        // This is a simple but destructive way to update questions: delete all old ones, then add all new ones.
+        // A more complex implementation would diff the arrays.
+        const questionsCollectionRef = examDocRef.collection('questions');
+        const oldQuestionsSnapshot = await questionsCollectionRef.get();
+        oldQuestionsSnapshot.docs.forEach(doc => batch.delete(doc.ref));
+
+        questions.forEach(question => {
+            const questionDocRef = questionsCollectionRef.doc();
+            batch.set(questionDocRef, question);
+        });
+
+        await batch.commit();
+        
+        return { success: true, examId: examDocRef.id };
+
+    } catch (error: any) {
+        console.error(`Error updating exam ${examId}: `, error);
         return { success: false, error: error.message };
     }
 }

@@ -48,7 +48,12 @@ const SmartTextRenderer = ({ text, as: Wrapper = 'p' }: { text: string; as?: Rea
 
 export function ExamClient({ exam, submission }: { exam: ExamWithQuestions, submission: any | null }) {
   const searchParams = useSearchParams();
+  const { currentUser } = useStore();
+  const router = useRouter();
+  const { toast } = useToast();
+
   const isReviewMode = searchParams.get('review') === 'true' && !!submission;
+  const isAdminPreview = currentUser?.role === 'admin' && !isReviewMode;
 
   const [quizState, setQuizState] = useState<'not-started' | 'active' | 'finished'>(isReviewMode ? 'finished' : 'not-started');
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -57,9 +62,6 @@ export function ExamClient({ exam, submission }: { exam: ExamWithQuestions, subm
   const [score, setScore] = useState(isReviewMode && submission ? submission.score : 0);
   const [showDetails, setShowDetails] = useState(isReviewMode);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { currentUser } = useStore();
-  const { toast } = useToast();
-  const router = useRouter();
 
 
   const finishQuiz = useCallback(async () => {
@@ -71,10 +73,10 @@ export function ExamClient({ exam, submission }: { exam: ExamWithQuestions, subm
       });
       setScore(calculatedScore);
       setQuizState('finished');
-      setShowDetails(true); // Automatically show details after finishing
-      
-      // Don't submit if we are in review mode
-      if(isReviewMode) return;
+      setShowDetails(true);
+
+      // Don't save submission for admins or if in review mode
+      if (isAdminPreview || isReviewMode) return;
 
       setIsSubmitting(true);
 
@@ -93,7 +95,7 @@ export function ExamClient({ exam, submission }: { exam: ExamWithQuestions, subm
           score: calculatedScore,
           totalQuestions: exam.questions.length,
           answers: answers,
-          submittedAt: new Date() // this will be replaced by server timestamp
+          submittedAt: new Date()
       });
 
       setIsSubmitting(false);
@@ -102,7 +104,7 @@ export function ExamClient({ exam, submission }: { exam: ExamWithQuestions, subm
           toast({ variant: 'destructive', title: 'فشل حفظ النتيجة', description: result.error });
       }
 
-  }, [answers, exam, currentUser, toast, isReviewMode]);
+  }, [answers, exam, currentUser, toast, isReviewMode, isAdminPreview]);
 
   useEffect(() => {
     if (quizState !== 'active') return;
@@ -191,7 +193,7 @@ export function ExamClient({ exam, submission }: { exam: ExamWithQuestions, subm
                 <CardFooter className="p-8 flex-col gap-4">
                     <Button onClick={startQuiz} className="w-full text-lg py-6" size="lg">
                         <Rocket className="me-2 w-5 h-5" />
-                        ابدأ الاختبار الآن
+                        {isAdminPreview ? "بدء المعاينة كمسؤول" : "ابدأ الاختبار الآن"}
                     </Button>
                     <Button variant="outline" className="w-full" asChild>
                         <Link href="/my-exams">العودة لقائمة الامتحانات</Link>
@@ -206,7 +208,7 @@ export function ExamClient({ exam, submission }: { exam: ExamWithQuestions, subm
   if (quizState === 'finished') {
     const correctAnswers = score;
     const incorrectAnswers = exam.questions.length - correctAnswers;
-    const finalMark = correctAnswers * 4; // Assuming 4 marks per question
+    const finalMark = correctAnswers * 4;
     const totalMarks = exam.questions.length * 4;
 
     return (
@@ -215,7 +217,7 @@ export function ExamClient({ exam, submission }: { exam: ExamWithQuestions, subm
                 <CardHeader className="text-center">
                 <CardTitle>النتيجة النهائية</CardTitle>
                 <CardDescription>
-                    {isReviewMode ? "مراجعة إجاباتك." : "لقد أنهيت الاختبار بنجاح. هذه هي نتيجتك."}
+                    {isReviewMode ? "مراجعة إجاباتك." : isAdminPreview ? "تمت المعاينة بنجاح. لم يتم حفظ هذه النتيجة." : "لقد أنهيت الاختبار بنجاح. هذه هي نتيجتك."}
                 </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-6">
@@ -287,7 +289,7 @@ export function ExamClient({ exam, submission }: { exam: ExamWithQuestions, subm
                         <Eye className="me-2 h-4 w-4" />
                         {showDetails ? 'إخفاء مراجعة الإجابات' : 'إظهار مراجعة الإجابات'}
                     </Button>
-                    <Button onClick={() => router.push('/my-exams')} variant="default">
+                    <Button onClick={() => router.push(currentUser?.role === 'admin' ? '/admin/exams' : '/my-exams')} variant="default">
                         العودة للامتحانات
                     </Button>
                 </CardFooter>
@@ -352,7 +354,7 @@ export function ExamClient({ exam, submission }: { exam: ExamWithQuestions, subm
                     <AlertDialogTrigger asChild>
                         <Button variant="destructive" disabled={isSubmitting}>
                            {isSubmitting ? <Loader2 className="me-2 h-4 w-4 animate-spin"/> : <CheckCircle className="me-2 h-4 w-4" />}
-                            إنهاء وتسليم
+                           {isAdminPreview ? "إنهاء المعاينة" : "إنهاء وتسليم"}
                         </Button>
                     </AlertDialogTrigger>
                     <AlertDialogContent>

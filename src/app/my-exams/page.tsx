@@ -4,13 +4,67 @@
 import { MarketingLayout } from '@/components/layout/marketing-layout';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Award, Loader2, ServerCrash, Clock, Calendar, HelpCircle, Check, PlayCircle, Eye, Repeat } from 'lucide-react';
+import { Award, Loader2, ServerCrash, Eye, PlayCircle, Repeat, Clock, Calendar, HelpCircle, Check } from 'lucide-react';
 import Link from 'next/link';
 import { getExams, type Exam, getStudentSubmissions, type Submission } from './actions'; 
 import { useState, useEffect, useCallback } from 'react';
 import { useStore } from '@/store/app-store';
 import { format, isBefore, isAfter, formatDistanceToNowStrict } from 'date-fns';
 import { ar } from 'date-fns/locale';
+
+
+const CountdownTimer = ({ targetDate }: { targetDate: Date }) => {
+    const calculateTimeLeft = () => {
+        const difference = +targetDate - +new Date();
+        let timeLeft = {};
+
+        if (difference > 0) {
+            timeLeft = {
+                days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+                hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+                minutes: Math.floor((difference / 1000 / 60) % 60),
+                seconds: Math.floor((difference / 1000) % 60),
+            };
+        }
+        return timeLeft;
+    };
+
+    const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setTimeLeft(calculateTimeLeft());
+        }, 1000);
+
+        return () => clearTimeout(timer);
+    });
+
+    const timerComponents = Object.entries(timeLeft).map(([interval, value]) => {
+        if (value === 0 && interval !== 'seconds' && Object.keys(timeLeft).some(key => ['days', 'hours', 'minutes'].includes(key) && (timeLeft as any)[key] > 0)) {
+           return null;
+        }
+
+        const unitMap: { [key: string]: string } = {
+            days: 'يوم',
+            hours: 'ساعة',
+            minutes: 'دقيقة',
+            seconds: 'ثانية',
+        };
+
+        return (
+            <div key={interval} className="flex flex-col items-center">
+                <span className="text-2xl font-bold text-primary">{String(value).padStart(2, '0')}</span>
+                <span className="text-xs text-muted-foreground">{unitMap[interval]}</span>
+            </div>
+        );
+    });
+
+    return (
+        <div className="flex justify-center gap-4" dir="ltr">
+            {timerComponents.length ? timerComponents : <span>انتهى الوقت!</span>}
+        </div>
+    );
+};
 
 function ExamCard({ exam, submissions }: { exam: Exam, submissions: Submission[] }) {
     const now = new Date();
@@ -20,15 +74,18 @@ function ExamCard({ exam, submissions }: { exam: Exam, submissions: Submission[]
     const hasAttemptsLeft = submissionCount < attemptsAllowed;
     const latestSubmission = studentSubmissions.sort((a,b) => b.submittedAt.getTime() - a.submittedAt.getTime())[0];
 
+    const isUpcoming = exam.startDate && isBefore(now, exam.startDate);
+    const isFinished = exam.endDate && isAfter(now, exam.endDate);
+
     let status: 'upcoming' | 'active' | 'finished' | 'completed' = 'finished';
     let statusText = 'مكتمل';
     let actionButton = <Button variant="outline" disabled>انتهى</Button>;
     
-    if (exam.startDate && isBefore(now, exam.startDate)) {
+    if (isUpcoming) {
         status = 'upcoming';
-        statusText = `قادم بعد ${formatDistanceToNowStrict(exam.startDate, { locale: ar, addSuffix: false })}`;
+        statusText = `قادم`;
         actionButton = <Button variant="secondary" disabled>لم يبدأ بعد</Button>;
-    } else if (exam.endDate && isAfter(now, exam.endDate)) {
+    } else if (isFinished) {
         status = 'finished';
         statusText = 'منتهي';
         actionButton = <Button variant="outline" disabled>فاتك الامتحان</Button>;
@@ -43,7 +100,7 @@ function ExamCard({ exam, submissions }: { exam: Exam, submissions: Submission[]
     }
 
     return (
-        <Card className="flex flex-col justify-between">
+        <Card className="flex flex-col justify-between hover:shadow-lg transition-shadow">
             <CardHeader>
                 <div className="flex justify-between items-start">
                     <CardTitle className="text-xl">{exam.title}</CardTitle>
@@ -58,6 +115,14 @@ function ExamCard({ exam, submissions }: { exam: Exam, submissions: Submission[]
                 </div>
                 <CardDescription>{exam.courseId === 'tawjihi-2007-supplementary' ? 'فيزياء تكميلي 2007' : 'فيزياء توجيهي 2008'}</CardDescription>
             </CardHeader>
+            
+            {isUpcoming && exam.startDate && (
+                 <CardContent>
+                    <p className="text-center text-sm text-muted-foreground mb-4">الوقت المتبقي لبدء الامتحان:</p>
+                    <CountdownTimer targetDate={exam.startDate} />
+                 </CardContent>
+            )}
+
             <CardContent className="grid grid-cols-2 gap-4 text-sm text-muted-foreground">
                 <div className="flex items-center gap-2">
                     <HelpCircle className="w-4 h-4" />
@@ -131,7 +196,7 @@ export default function MyExamsPage() {
   }, [currentUser]);
 
   useEffect(() => {
-    if(currentUser) { // Only fetch if user is logged in
+    if(currentUser) { 
         fetchExams();
     } else {
         setIsLoading(false);

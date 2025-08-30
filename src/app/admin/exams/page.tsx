@@ -1,10 +1,9 @@
 
 'use client';
 
-import { MarketingLayout } from '@/components/layout/marketing-layout';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Plus, Home, Loader2, RefreshCw, ClipboardList, Clock, Calendar as CalendarIcon, Eye, BarChart2 } from 'lucide-react';
+import { Plus, Loader2, RefreshCw, ClipboardList, Clock, Calendar as CalendarIcon, Eye, BarChart2, Edit } from 'lucide-react';
 import Link from 'next/link';
 import { getExams, type Exam } from './actions';
 import { useState, useEffect, useCallback } from 'react';
@@ -15,42 +14,46 @@ function ExamCard({ exam }: { exam: Exam }) {
     const formattedStartDate = exam.startDate ? format(exam.startDate, 'd MMMM yyyy, h:mm a', { locale: ar }) : 'غير محدد';
     return (
         <Card className="flex flex-col hover:shadow-lg transition-shadow">
-            <Link href={`/admin/exams/${exam.id}/results`} className="flex flex-col flex-grow">
-                <CardHeader>
-                    <CardTitle className="text-xl">{exam.title}</CardTitle>
-                    <CardDescription>{exam.description || 'لا يوجد وصف'}</CardDescription>
-                </CardHeader>
-                <CardContent className="grid grid-cols-2 gap-4 text-sm text-muted-foreground flex-grow">
-                    <div className="flex items-center gap-2">
-                        <ClipboardList className="w-4 h-4" />
-                        <span>{exam.questionCount} سؤال</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                        <Clock className="w-4 h-4" />
-                        <span>{exam.duration} دقيقة</span>
-                    </div>
-                    <div className="flex items-center gap-2 col-span-2">
-                        <span className="font-bold">الدورة:</span>
-                        <span>{exam.courseId === 'tawjihi-2007-supplementary' ? 'تكميلي 2007' : 'توجيهي 2008'}</span>
-                    </div>
-                    <div className="flex items-center gap-2 col-span-2">
-                         <CalendarIcon className="w-4 h-4" />
-                         <span className="font-bold">تاريخ البدء:</span>
-                        <span>{formattedStartDate}</span>
-                    </div>
-                </CardContent>
-            </Link>
-            <CardFooter className="border-t pt-4 flex justify-between">
-                 <Button asChild variant="outline" size="sm" onClick={(e) => e.stopPropagation()}>
+            <CardHeader>
+                <CardTitle className="text-xl">{exam.title}</CardTitle>
+                <CardDescription>{exam.description || 'لا يوجد وصف'}</CardDescription>
+            </CardHeader>
+            <CardContent className="grid grid-cols-2 gap-4 text-sm text-muted-foreground flex-grow">
+                <div className="flex items-center gap-2">
+                    <ClipboardList className="w-4 h-4" />
+                    <span>{exam.questionCount} سؤال</span>
+                </div>
+                <div className="flex items-center gap-2">
+                    <Clock className="w-4 h-4" />
+                    <span>{exam.duration} دقيقة</span>
+                </div>
+                <div className="flex items-center gap-2 col-span-2">
+                    <span className="font-bold">الدورة:</span>
+                    <span>{exam.courseId === 'tawjihi-2007-supplementary' ? 'تكميلي 2007' : 'توجيهي 2008'}</span>
+                </div>
+                <div className="flex items-center gap-2 col-span-2">
+                     <CalendarIcon className="w-4 h-4" />
+                     <span className="font-bold">تاريخ البدء:</span>
+                    <span>{formattedStartDate}</span>
+                </div>
+            </CardContent>
+            <CardFooter className="border-t pt-4 flex justify-between flex-wrap gap-2">
+                 <Button asChild variant="outline" size="sm">
                     <Link href={`/admin/exams/${exam.id}/results`}>
                         <BarChart2 className="me-2 h-4 w-4" />
-                        عرض النتائج
+                        النتائج
                     </Link>
                 </Button>
-                 <Button asChild variant="secondary" size="sm" onClick={(e) => e.stopPropagation()}>
+                 <Button asChild variant="secondary" size="sm">
+                    <Link href={`/admin/edit-exam/${exam.id}`}>
+                        <Edit className="me-2 h-4 w-4" />
+                        تعديل
+                    </Link>
+                </Button>
+                 <Button asChild variant="secondary" size="sm">
                     <Link href={`/exam/${exam.id}`}>
                         <Eye className="me-2 h-4 w-4" />
-                        معاينة كطالب
+                        معاينة
                     </Link>
                 </Button>
             </CardFooter>
