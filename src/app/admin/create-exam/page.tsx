@@ -4,9 +4,6 @@ import { CreateExamForm } from '@/components/admin/create-exam-form';
 import { ChevronLeft } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { ExamQuestion as FormQuestion } from '@/components/admin/create-exam-form';
-
-export type ExamQuestion = FormQuestion;
 
 export default function CreateExamPage() {
   return (
