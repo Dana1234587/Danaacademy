@@ -2,7 +2,7 @@
 'use client';
 
 import { MainLayout } from '@/components/layout/main-layout';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Award, Loader2, ServerCrash, Clock, Calendar, HelpCircle, Check, PlayCircle } from 'lucide-react';
 import Link from 'next/link';
