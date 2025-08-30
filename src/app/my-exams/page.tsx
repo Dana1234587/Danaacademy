@@ -4,33 +4,37 @@
 import { MainLayout } from '@/components/layout/main-layout';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Award, Loader2, ServerCrash, Clock, Calendar, HelpCircle, Check, PlayCircle } from 'lucide-react';
+import { Award, Loader2, ServerCrash, Clock, Calendar, HelpCircle, Check, PlayCircle, Eye } from 'lucide-react';
 import Link from 'next/link';
-import { getExams, type Exam } from '@/app/admin/exams/actions'; 
+import { getExams, type Exam, getStudentSubmissions, type Submission } from './actions'; 
 import { useState, useEffect, useCallback } from 'react';
 import { useStore } from '@/store/app-store';
-import { format, isBefore, isAfter } from 'date-fns';
+import { format, isBefore, isAfter, formatDistanceToNowStrict } from 'date-fns';
 import { ar } from 'date-fns/locale';
 
-function ExamCard({ exam }: { exam: Exam }) {
+function ExamCard({ exam, submission }: { exam: Exam, submission?: Submission }) {
     const now = new Date();
-    let status: 'upcoming' | 'active' | 'finished' | 'completed' = 'completed';
+    let status: 'upcoming' | 'active' | 'finished' | 'completed' = 'finished';
     let statusText = 'مكتمل';
     let statusColor = 'text-gray-500';
     let actionButton = <Button variant="outline" disabled>انتهى</Button>;
-
-    if (exam.startDate && isBefore(now, exam.startDate)) {
+    
+    if (submission) {
+        status = 'completed';
+        statusText = `اكتمل - ${submission.score}/${submission.totalQuestions}`;
+        statusColor = 'text-green-600';
+        actionButton = <Button asChild variant="secondary"><Link href={`/exam/${exam.id}?review=true`}><Eye className="me-2"/> مراجعة</Link></Button>;
+    } else if (exam.startDate && isBefore(now, exam.startDate)) {
         status = 'upcoming';
-        statusText = 'قادم';
+        statusText = `قادم بعد ${formatDistanceToNowStrict(exam.startDate, { locale: ar, addSuffix: false })}`;
         statusColor = 'text-blue-500';
         actionButton = <Button variant="secondary" disabled>لم يبدأ بعد</Button>;
     } else if (exam.endDate && isAfter(now, exam.endDate)) {
         status = 'finished';
         statusText = 'منتهي';
         statusColor = 'text-red-500';
-        // Logic to check if student submitted it would go here
-        actionButton = <Button variant="outline" disabled>انتهى</Button>;
-    } else if (exam.startDate && exam.endDate && isAfter(now, exam.startDate) && isBefore(now, exam.endDate)) {
+        actionButton = <Button variant="outline" disabled>فاتك الامتحان</Button>;
+    } else if ((!exam.startDate || isAfter(now, exam.startDate)) && (!exam.endDate || isBefore(now, exam.endDate))) {
         status = 'active';
         statusText = 'متاح الآن';
         statusColor = 'text-green-500';
@@ -61,7 +65,7 @@ function ExamCard({ exam }: { exam: Exam }) {
                 <div className="flex items-center gap-2 col-span-2">
                      <Calendar className="w-4 h-4" />
                      <span className="font-bold">تاريخ البدء:</span>
-                    <span>{exam.startDate ? format(exam.startDate, 'd MMM yyyy, h:mm a', { locale: ar }) : 'غير محدد'}</span>
+                    <span>{exam.startDate ? format(exam.startDate, 'd MMM yyyy, h:mm a', { locale: ar }) : 'متاح دائمًا'}</span>
                 </div>
             </CardContent>
             <CardFooter>
@@ -73,6 +77,7 @@ function ExamCard({ exam }: { exam: Exam }) {
 
 export default function MyExamsPage() {
   const [exams, setExams] = useState<Exam[]>([]);
+  const [submissions, setSubmissions] = useState<Submission[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const { currentUser } = useStore((state) => ({ currentUser: state.currentUser }));
@@ -82,10 +87,15 @@ export default function MyExamsPage() {
     setIsLoading(true);
     setError(null);
     try {
-      const allExams = await getExams();
-      // Filter exams to show only those for the courses the student is enrolled in
+      const [allExams, studentSubmissions] = await Promise.all([
+          getExams(),
+          getStudentSubmissions(currentUser.uid)
+      ]);
+      
       const studentExams = allExams.filter(exam => currentUser.enrolledCourseIds.includes(exam.courseId));
       setExams(studentExams);
+      setSubmissions(studentSubmissions);
+
     } catch (error) {
       console.error("Error fetching exams:", error);
       setError("فشل تحميل قائمة الامتحانات. الرجاء المحاولة مرة أخرى.");
@@ -127,7 +137,10 @@ export default function MyExamsPage() {
             </Card>
         ) : (
              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {exams.map(exam => <ExamCard key={exam.id} exam={exam} />)}
+                {exams.map(exam => {
+                    const submission = submissions.find(s => s.examId === exam.id);
+                    return <ExamCard key={exam.id} exam={exam} submission={submission} />
+                })}
             </div>
         )}
       </div>

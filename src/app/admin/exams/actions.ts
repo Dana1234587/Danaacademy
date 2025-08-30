@@ -3,7 +3,7 @@
 
 import { z } from 'zod';
 import { adminDB } from '@/lib/firebase-admin';
-import { FieldValue } from 'firebase-admin/firestore';
+import { FieldValue, Timestamp } from 'firebase-admin/firestore';
 
 const examFormSchema = z.object({
   title: z.string().min(5, { message: 'يجب أن يكون عنوان الامتحان 5 أحرف على الأقل.' }),
@@ -48,6 +48,19 @@ export type Exam = {
     startDate?: Date;
     endDate?: Date;
 };
+
+export type Submission = {
+    id: string;
+    studentId: string;
+    studentName: string;
+    examId: string;
+    examTitle: string;
+    courseId: string;
+    score: number;
+    totalQuestions: number;
+    submittedAt: Date;
+    answers: (number | null)[];
+}
 
 
 export async function createExamAction(data: ExamFormValues) {
@@ -103,6 +116,27 @@ export async function getExams(): Promise<Exam[]> {
         });
     } catch (error) {
         console.error("Error fetching exams:", error);
+        return [];
+    }
+}
+
+export async function getExamSubmissions(examId: string): Promise<Submission[]> {
+    try {
+        const q = adminDB.collection('examSubmissions').where("examId", "==", examId);
+        const snapshot = await q.get();
+        if (snapshot.empty) {
+            return [];
+        }
+        return snapshot.docs.map(doc => {
+             const data = doc.data();
+             return {
+                id: doc.id,
+                ...data,
+                submittedAt: (data.submittedAt as Timestamp).toDate(),
+             } as Submission;
+        });
+    } catch (error) {
+        console.error(`Error fetching submissions for exam ${examId}:`, error);
         return [];
     }
 }

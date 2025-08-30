@@ -9,7 +9,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Checkbox } from "@/components/ui/checkbox"
 import { useToast } from '@/hooks/use-toast';
-import { UserPlus, KeyRound, MonitorCheck, Loader2, Search, Smartphone, Monitor, Fingerprint, Globe, List, Home, Users, Edit, Trash2, Check, Plus, RefreshCw, Info, AlertTriangle, ClipboardCheck } from 'lucide-react';
+import { UserPlus, KeyRound, MonitorCheck, Loader2, Search, Smartphone, Monitor, Fingerprint, Globe, List, Home, Users, Edit, Trash2, Check, Plus, RefreshCw, Info, AlertTriangle, ClipboardCheck, ClipboardList } from 'lucide-react';
 import { useState, useEffect, useMemo, useCallback } from 'react';
 import Link from 'next/link';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
@@ -343,303 +343,240 @@ export default function AdminPage() {
     }
 
     return (
-        <MarketingLayout>
-            <div className="p-4 sm:p-6 lg:p-8">
-                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
-                    <div>
-                        <h1 className="text-3xl font-bold">لوحة تحكم المسؤول</h1>
-                        <p className="text-muted-foreground">مرحباً دكتورة دانا، هنا يمكنك إدارة الطلاب والأجهزة.</p>
-                    </div>
-                     <div className="flex gap-2">
-                        <Button onClick={fetchData} variant="secondary" disabled={isLoading['page']}>
-                            {isLoading['page'] ? <Loader2 className="me-2 h-4 w-4 animate-spin" /> : <RefreshCw className="me-2 h-4 w-4" />}
-                            تحديث البيانات
-                        </Button>
-                         <Button asChild variant="outline">
-                            <Link href="/">
-                                <Home className="me-2 h-4 w-4" /> العودة للرئيسية
-                            </Link>
-                        </Button>
-                    </div>
+        <>
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
+                <div>
+                    <h1 className="text-3xl font-bold">لوحة تحكم المسؤول</h1>
+                    <p className="text-muted-foreground">مرحباً دكتورة دانا، هنا يمكنك إدارة الطلاب والأجهزة.</p>
                 </div>
+                    <div className="flex gap-2">
+                    <Button onClick={fetchData} variant="secondary" disabled={isLoading['page']}>
+                        {isLoading['page'] ? <Loader2 className="me-2 h-4 w-4 animate-spin" /> : <RefreshCw className="me-2 h-4 w-4" />}
+                        تحديث البيانات
+                    </Button>
+                </div>
+            </div>
 
-                <Tabs defaultValue="create-student">
-                    <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 md:grid-cols-5">
-                        <TabsTrigger value="create-student"><UserPlus className="me-2" /> إنشاء حساب</TabsTrigger>
-                        <TabsTrigger value="student-accounts"><Users className="me-2" /> الطلاب</TabsTrigger>
-                        <TabsTrigger value="approve-devices"><MonitorCheck className="me-2" /> الموافقة</TabsTrigger>
-                        <TabsTrigger value="registered-devices"><List className="me-2" /> الأجهزة</TabsTrigger>
-                        <TabsTrigger value="search-student"><Search className="me-2" /> بحث عن طالب</TabsTrigger>
-                    </TabsList>
+            <Tabs defaultValue="create-student">
+                <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 md:grid-cols-5">
+                    <TabsTrigger value="create-student"><UserPlus className="me-2" /> إنشاء حساب</TabsTrigger>
+                    <TabsTrigger value="student-accounts"><Users className="me-2" /> الطلاب</TabsTrigger>
+                    <TabsTrigger value="approve-devices"><MonitorCheck className="me-2" /> الموافقة</TabsTrigger>
+                    <TabsTrigger value="registered-devices"><List className="me-2" /> الأجهزة</TabsTrigger>
+                    <TabsTrigger value="search-student"><Search className="me-2" /> بحث عن طالب</TabsTrigger>
+                </TabsList>
 
-                    <TabsContent value="create-student">
-                        <Card>
-                            <CardHeader>
-                                <CardTitle>إنشاء حساب طالب جديد</CardTitle>
-                                <CardDescription>أدخلي بيانات الطالب والدورات لإنشاء حسابه في نظام المصادقة وقاعدة البيانات.</CardDescription>
-                            </CardHeader>
-                            <CardContent>
-                                <form onSubmit={handleCreateAccount} className="space-y-4">
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                        <div className="space-y-2">
-                                            <Label htmlFor="student-name">اسم الطالب الكامل</Label>
-                                            <Input id="student-name" value={newStudentName} onChange={(e) => setNewStudentName(e.target.value)} placeholder="مثال: محمد عبدالله" required />
-                                        </div>
-                                        <div className="space-y-2">
-                                            <Label htmlFor="student-username">اسم المستخدم (باللغة الإنجليزية)</Label>
-                                            <Input id="student-username" value={newStudentUsername} onChange={(e) => setNewStudentUsername(e.target.value)} placeholder="مثال: mohammed123" required />
-                                            <p className="text-xs text-muted-foreground">استخدم حروف إنجليزية وأرقام فقط، بدون مسافات أو رموز.</p>
-                                        </div>
-                                        <div className="space-y-2">
-                                            <Label htmlFor="student-password">كلمة المرور</Label>
-                                            <Input id="student-password" type="password" value={newStudentPassword} onChange={(e) => setNewStudentPassword(e.target.value)} placeholder="6 أحرف على الأقل" required />
-                                        </div>
-                                         <div className="space-y-3 md:col-span-2">
-                                            <Label>الدورات المسجل بها</Label>
-                                            <div className="space-y-2 rounded-md border p-4">
-                                                {availableCourses.map(course => (
-                                                    <div key={course.id} className="flex items-center space-x-2 space-x-reverse">
-                                                        <Checkbox
-                                                            id={course.id}
-                                                            checked={selectedCourses.includes(course.id)}
-                                                            onCheckedChange={(checked) => {
-                                                                return checked
-                                                                    ? setSelectedCourses([...selectedCourses, course.id])
-                                                                    : setSelectedCourses(selectedCourses.filter(id => id !== course.id))
-                                                            }}
-                                                        />
-                                                        <label
-                                                          htmlFor={course.id}
-                                                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                                                        >
-                                                          {course.name}
-                                                        </label>
-                                                    </div>
-                                                ))}
-                                            </div>
-                                        </div>
-                                        <div className="space-y-2">
-                                            <Label htmlFor="student-phone1">رقم الهاتف 1 (اختياري)</Label>
-                                            <Input id="student-phone1" type="tel" value={newStudentPhone1} onChange={(e) => setNewStudentPhone1(e.target.value)} placeholder="رقم هاتف الطالب أو ولي الأمر" />
-                                        </div>
-                                        <div className="space-y-2">
-                                            <Label htmlFor="student-phone2">رقم الهاتف 2 (اختياري)</Label>
-                                            <Input id="student-phone2" type="tel" value={newStudentPhone2} onChange={(e) => setNewStudentPhone2(e.target.value)} placeholder="رقم هاتف إضافي" />
+                <TabsContent value="create-student">
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>إنشاء حساب طالب جديد</CardTitle>
+                            <CardDescription>أدخلي بيانات الطالب والدورات لإنشاء حسابه في نظام المصادقة وقاعدة البيانات.</CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                            <form onSubmit={handleCreateAccount} className="space-y-4">
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div className="space-y-2">
+                                        <Label htmlFor="student-name">اسم الطالب الكامل</Label>
+                                        <Input id="student-name" value={newStudentName} onChange={(e) => setNewStudentName(e.target.value)} placeholder="مثال: محمد عبدالله" required />
+                                    </div>
+                                    <div className="space-y-2">
+                                        <Label htmlFor="student-username">اسم المستخدم (باللغة الإنجليزية)</Label>
+                                        <Input id="student-username" value={newStudentUsername} onChange={(e) => setNewStudentUsername(e.target.value)} placeholder="مثال: mohammed123" required />
+                                        <p className="text-xs text-muted-foreground">استخدم حروف إنجليزية وأرقام فقط، بدون مسافات أو رموز.</p>
+                                    </div>
+                                    <div className="space-y-2">
+                                        <Label htmlFor="student-password">كلمة المرور</Label>
+                                        <Input id="student-password" type="password" value={newStudentPassword} onChange={(e) => setNewStudentPassword(e.target.value)} placeholder="6 أحرف على الأقل" required />
+                                    </div>
+                                        <div className="space-y-3 md:col-span-2">
+                                        <Label>الدورات المسجل بها</Label>
+                                        <div className="space-y-2 rounded-md border p-4">
+                                            {availableCourses.map(course => (
+                                                <div key={course.id} className="flex items-center space-x-2 space-x-reverse">
+                                                    <Checkbox
+                                                        id={course.id}
+                                                        checked={selectedCourses.includes(course.id)}
+                                                        onCheckedChange={(checked) => {
+                                                            return checked
+                                                                ? setSelectedCourses([...selectedCourses, course.id])
+                                                                : setSelectedCourses(selectedCourses.filter(id => id !== course.id))
+                                                        }}
+                                                    />
+                                                    <label
+                                                        htmlFor={course.id}
+                                                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                                                    >
+                                                        {course.name}
+                                                    </label>
+                                                </div>
+                                            ))}
                                         </div>
                                     </div>
-                                    <Button type="submit" className="w-full" disabled={isLoading['create']}>
-                                        {isLoading['create'] ? <Loader2 className="me-2 h-4 w-4 animate-spin" /> : <UserPlus className="me-2" />}
-                                        إنشاء الحساب
-                                    </Button>
-                                </form>
-                            </CardContent>
-                        </Card>
-                    </TabsContent>
+                                    <div className="space-y-2">
+                                        <Label htmlFor="student-phone1">رقم الهاتف 1 (اختياري)</Label>
+                                        <Input id="student-phone1" type="tel" value={newStudentPhone1} onChange={(e) => setNewStudentPhone1(e.target.value)} placeholder="رقم هاتف الطالب أو ولي الأمر" />
+                                    </div>
+                                    <div className="space-y-2">
+                                        <Label htmlFor="student-phone2">رقم الهاتف 2 (اختياري)</Label>
+                                        <Input id="student-phone2" type="tel" value={newStudentPhone2} onChange={(e) => setNewStudentPhone2(e.target.value)} placeholder="رقم هاتف إضافي" />
+                                    </div>
+                                </div>
+                                <Button type="submit" className="w-full" disabled={isLoading['create']}>
+                                    {isLoading['create'] ? <Loader2 className="me-2 h-4 w-4 animate-spin" /> : <UserPlus className="me-2" />}
+                                    إنشاء الحساب
+                                </Button>
+                            </form>
+                        </CardContent>
+                    </Card>
+                </TabsContent>
 
-                    <TabsContent value="student-accounts">
-                        <Card>
-                            <CardHeader>
-                                <CardTitle>قائمة حسابات الطلاب</CardTitle>
-                                <CardDescription>هنا يتم عرض جميع حسابات الطلاب المسجلة في قاعدة البيانات.</CardDescription>
-                            </CardHeader>
-                            <CardContent>
-                                <Alert>
-                                    <Info className="h-4 w-4" />
-                                    <AlertTitle>ملاحظة هامة</AlertTitle>
-                                    <AlertDescription>
-                                        حذف الطالب من هنا سيحذف بياناته من قاعدة البيانات وجهازه المسجل وحسابه في نظام المصادقة.
-                                    </AlertDescription>
-                                </Alert>
-                                <div className="mt-4 overflow-x-auto">
-                                    <Table>
-                                        <TableHeader>
-                                            <TableRow>
-                                                <TableHead>اسم الطالب</TableHead>
-                                                <TableHead>اسم المستخدم</TableHead>
-                                                <TableHead>كلمة المرور (للعرض)</TableHead>
-                                                <TableHead>الدورات</TableHead>
-                                                <TableHead>هاتف 1</TableHead>
-                                                <TableHead>هاتف 2</TableHead>
-                                                <TableHead>الإجراءات</TableHead>
-                                            </TableRow>
-                                        </TableHeader>
-                                        <TableBody>
-                                            {students.length > 0 ? (
-                                                students.map((student) => (
-                                                    <TableRow key={student.id}>
-                                                        <TableCell className="font-medium whitespace-nowrap">{student.studentName}</TableCell>
-                                                        <TableCell className="whitespace-nowrap">{student.username}</TableCell>
-                                                        <TableCell>{student.password}</TableCell>
-                                                        <TableCell className="whitespace-nowrap">{student.courses?.join(', ') || 'N/A'}</TableCell>
-                                                        <TableCell>{student.phone1 || '-'}</TableCell>
-                                                        <TableCell>{student.phone2 || '-'}</TableCell>
-                                                        <TableCell className="flex gap-2">
-                                                          <Button variant="outline" size="icon" onClick={() => openEditDialog(student)}><Edit className="w-4 h-4" /></Button>
-                                                          <AlertDialog>
-                                                              <AlertDialogTrigger asChild>
-                                                                  <Button 
-                                                                    variant="destructive" 
-                                                                    size="icon" 
-                                                                    disabled={isLoading[`delete-${student.id}`]}>
-                                                                        {isLoading[`delete-${student.id}`] ? <Loader2 className="w-4 h-4 animate-spin" /> : <Trash2 className="w-4 h-4" />}
-                                                                  </Button>
-                                                              </AlertDialogTrigger>
-                                                              <AlertDialogContent>
-                                                                  <AlertDialogHeader>
-                                                                      <AlertDialogTitle>هل أنت متأكد تمامًا؟</AlertDialogTitle>
-                                                                      <AlertDialogDescription>
-                                                                          هذا الإجراء سيحذف بيانات الطالب "{student.studentName}" وأجهزته المسجلة وحسابه في نظام المصادقة نهائيًا. لا يمكن التراجع عن هذا الإجراء.
-                                                                      </AlertDialogDescription>
-                                                                  </AlertDialogHeader>
-                                                                  <AlertDialogFooter>
-                                                                      <AlertDialogCancel>إلغاء</AlertDialogCancel>
-                                                                      <AlertDialogAction onClick={() => handleDeleteStudent(student.id)} className="bg-destructive hover:bg-destructive/90">
-                                                                          نعم، قم بالحذف
-                                                                      </AlertDialogAction>
-                                                                  </AlertDialogFooter>
-                                                              </AlertDialogContent>
-                                                          </AlertDialog>
-                                                        </TableCell>
-                                                    </TableRow>
-                                                ))
-                                            ) : (
-                                                <TableRow>
-                                                    <TableCell colSpan={7} className="text-center text-muted-foreground h-24">
-                                                        لا يوجد طلاب مسجلون حاليًا.
+                <TabsContent value="student-accounts">
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>قائمة حسابات الطلاب</CardTitle>
+                            <CardDescription>هنا يتم عرض جميع حسابات الطلاب المسجلة في قاعدة البيانات.</CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                            <Alert>
+                                <Info className="h-4 w-4" />
+                                <AlertTitle>ملاحظة هامة</AlertTitle>
+                                <AlertDescription>
+                                    حذف الطالب من هنا سيحذف بياناته من قاعدة البيانات وجهازه المسجل وحسابه في نظام المصادقة.
+                                </AlertDescription>
+                            </Alert>
+                            <div className="mt-4 overflow-x-auto">
+                                <Table>
+                                    <TableHeader>
+                                        <TableRow>
+                                            <TableHead>اسم الطالب</TableHead>
+                                            <TableHead>اسم المستخدم</TableHead>
+                                            <TableHead>كلمة المرور (للعرض)</TableHead>
+                                            <TableHead>الدورات</TableHead>
+                                            <TableHead>هاتف 1</TableHead>
+                                            <TableHead>هاتف 2</TableHead>
+                                            <TableHead>الإجراءات</TableHead>
+                                        </TableRow>
+                                    </TableHeader>
+                                    <TableBody>
+                                        {students.length > 0 ? (
+                                            students.map((student) => (
+                                                <TableRow key={student.id}>
+                                                    <TableCell className="font-medium whitespace-nowrap">{student.studentName}</TableCell>
+                                                    <TableCell className="whitespace-nowrap">{student.username}</TableCell>
+                                                    <TableCell>{student.password}</TableCell>
+                                                    <TableCell className="whitespace-nowrap">{student.courses?.join(', ') || 'N/A'}</TableCell>
+                                                    <TableCell>{student.phone1 || '-'}</TableCell>
+                                                    <TableCell>{student.phone2 || '-'}</TableCell>
+                                                    <TableCell className="flex gap-2">
+                                                        <Button variant="outline" size="icon" onClick={() => openEditDialog(student)}><Edit className="w-4 h-4" /></Button>
+                                                        <AlertDialog>
+                                                            <AlertDialogTrigger asChild>
+                                                                <Button 
+                                                                variant="destructive" 
+                                                                size="icon" 
+                                                                disabled={isLoading[`delete-${student.id}`]}>
+                                                                    {isLoading[`delete-${student.id}`] ? <Loader2 className="w-4 h-4 animate-spin" /> : <Trash2 className="w-4 h-4" />}
+                                                                </Button>
+                                                            </AlertDialogTrigger>
+                                                            <AlertDialogContent>
+                                                                <AlertDialogHeader>
+                                                                    <AlertDialogTitle>هل أنت متأكد تمامًا؟</AlertDialogTitle>
+                                                                    <AlertDialogDescription>
+                                                                        هذا الإجراء سيحذف بيانات الطالب "{student.studentName}" وأجهزته المسجلة وحسابه في نظام المصادقة نهائيًا. لا يمكن التراجع عن هذا الإجراء.
+                                                                    </AlertDialogDescription>
+                                                                </AlertDialogHeader>
+                                                                <AlertDialogFooter>
+                                                                    <AlertDialogCancel>إلغاء</AlertDialogCancel>
+                                                                    <AlertDialogAction onClick={() => handleDeleteStudent(student.id)} className="bg-destructive hover:bg-destructive/90">
+                                                                        نعم، قم بالحذف
+                                                                    </AlertDialogAction>
+                                                                </AlertDialogFooter>
+                                                            </AlertDialogContent>
+                                                        </AlertDialog>
                                                     </TableCell>
                                                 </TableRow>
-                                            )}
-                                        </TableBody>
-                                    </Table>
-                                </div>
-                            </CardContent>
-                        </Card>
-                    </TabsContent>
+                                            ))
+                                        ) : (
+                                            <TableRow>
+                                                <TableCell colSpan={7} className="text-center text-muted-foreground h-24">
+                                                    لا يوجد طلاب مسجلون حاليًا.
+                                                </TableCell>
+                                            </TableRow>
+                                        )}
+                                    </TableBody>
+                                </Table>
+                            </div>
+                        </CardContent>
+                    </Card>
+                </TabsContent>
 
-                    <TabsContent value="approve-devices">
-                        <Card>
-                            <CardHeader>
-                                <CardTitle>طلبات الأجهزة المعلقة</CardTitle>
-                                <CardDescription>الطلاب الذين يحاولون تسجيل الدخول من جهاز جديد.</CardDescription>
-                            </CardHeader>
-                            <CardContent className="space-y-4">
-                                {pendingDevices.length > 0 ? (
-                                    pendingDevices.map(device => (
-                                        <div key={device.id} className="p-4 bg-muted rounded-lg border">
-                                            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between flex-wrap gap-4">
-                                                <div>
-                                                    <p className="font-bold text-lg">{device.studentName}</p>
-                                                    <p className="text-sm text-primary">{device.courses.join(', ')}</p>
-                                                </div>
-                                                <div className="flex flex-col sm:flex-row gap-2 flex-wrap">
-                                                    <Button onClick={() => handleApproveDevice(device.id, device.studentName, 'replace')} disabled={isLoading[`replace-${device.id}`]} variant="secondary">
-                                                        {isLoading[`replace-${device.id}`] ? <Loader2 className="me-2 h-4 w-4 animate-spin" /> : <Check className="me-2" />}
-                                                        موافقة واستبدال
-                                                    </Button>
-                                                    <Button onClick={() => handleApproveDevice(device.id, device.studentName, 'add')} disabled={isLoading[`add-${device.id}`]} variant="outline">
-                                                        {isLoading[`add-${device.id}`] ? <Loader2 className="me-2 h-4 w-4 animate-spin" /> : <Plus className="me-2" />}
-                                                        موافقة وإضافة
-                                                    </Button>
-                                                </div>
+                <TabsContent value="approve-devices">
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>طلبات الأجهزة المعلقة</CardTitle>
+                            <CardDescription>الطلاب الذين يحاولون تسجيل الدخول من جهاز جديد.</CardDescription>
+                        </CardHeader>
+                        <CardContent className="space-y-4">
+                            {pendingDevices.length > 0 ? (
+                                pendingDevices.map(device => (
+                                    <div key={device.id} className="p-4 bg-muted rounded-lg border">
+                                        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between flex-wrap gap-4">
+                                            <div>
+                                                <p className="font-bold text-lg">{device.studentName}</p>
+                                                <p className="text-sm text-primary">{device.courses.join(', ')}</p>
                                             </div>
-                                            <div className="mt-4 space-y-2 text-sm text-muted-foreground border-t pt-4">
-                                                <div className="flex items-center gap-2">
-                                                    {device.deviceType === 'Desktop' ? <Monitor className="w-4 h-4" /> : <Smartphone className="w-4 h-4" />}
-                                                    <span>{device.os}</span>
-                                                </div>
-                                                <div className="flex items-center gap-2">
-                                                    <Globe className="w-4 h-4" />
-                                                    <span dir="ltr">{device.ipAddress}</span>
-                                                </div>
-                                                <div className="flex items-start gap-2">
-                                                    <Fingerprint className="w-4 h-4 mt-1 flex-shrink-0" />
-                                                    <span className="break-all" dir="ltr">{device.deviceId}</span>
-                                                </div>
+                                            <div className="flex flex-col sm:flex-row gap-2 flex-wrap">
+                                                <Button onClick={() => handleApproveDevice(device.id, device.studentName, 'replace')} disabled={isLoading[`replace-${device.id}`]} variant="secondary">
+                                                    {isLoading[`replace-${device.id}`] ? <Loader2 className="me-2 h-4 w-4 animate-spin" /> : <Check className="me-2" />}
+                                                    موافقة واستبدال
+                                                </Button>
+                                                <Button onClick={() => handleApproveDevice(device.id, device.studentName, 'add')} disabled={isLoading[`add-${device.id}`]} variant="outline">
+                                                    {isLoading[`add-${device.id}`] ? <Loader2 className="me-2 h-4 w-4 animate-spin" /> : <Plus className="me-2" />}
+                                                    موافقة وإضافة
+                                                </Button>
                                             </div>
                                         </div>
-                                    ))
-                                ) : (
-                                    <p className="text-muted-foreground text-center py-8">لا توجد طلبات معلقة حاليًا.</p>
-                                )}
-                            </CardContent>
-                        </Card>
-                    </TabsContent>
-                    
-                     <TabsContent value="registered-devices">
-                        <Card>
-                            <CardHeader>
-                                <CardTitle>الأجهزة المسجلة</CardTitle>
-                                <CardDescription>قائمة بجميع الأجهزة المعتمدة حاليًا للطلاب.</CardDescription>
-                            </CardHeader>
-                            <CardContent className="space-y-6">
-                                {Object.keys(groupedRegisteredDevices).length > 0 ? (
-                                    Object.entries(groupedRegisteredDevices).map(([studentId, devices]) => {
-                                        const student = students.find(s => s.id === studentId);
-                                        return (
-                                            <div key={studentId} className="p-4 bg-muted/50 rounded-lg border">
-                                                <div className="pb-4 border-b">
-                                                    <p className="font-bold text-lg">{student?.studentName || 'طالب غير معروف'}</p>
-                                                    <p className="text-sm text-primary">{student?.courses?.join(', ')}</p>
-                                                </div>
-                                                <div className="space-y-4 pt-4">
-                                                    {devices.map(device => (
-                                                        <div key={device.id} className="flex items-start justify-between gap-4">
-                                                            <div className="flex-1 space-y-2 text-sm text-muted-foreground">
-                                                                <div className="flex items-center gap-2">
-                                                                    {device.deviceType === 'Desktop' ? <Monitor className="w-4 h-4" /> : <Smartphone className="w-4 h-4" />}
-                                                                    <span>{device.os}</span>
-                                                                </div>
-                                                                <div className="flex items-center gap-2">
-                                                                    <Globe className="w-4 h-4" />
-                                                                    <span dir="ltr">{device.ipAddress}</span>
-                                                                </div>
-                                                                <div className="flex items-start gap-2">
-                                                                    <Fingerprint className="w-4 h-4 mt-1 flex-shrink-0" />
-                                                                    <span className="break-all" dir="ltr">{device.deviceId}</span>
-                                                                </div>
-                                                            </div>
-                                                            <Button onClick={() => handleDeleteDevice(device.id)} variant="destructive" size="icon" disabled={isLoading[`delete-device-${device.id}`]}>
-                                                                {isLoading[`delete-device-${device.id}`] ? <Loader2 className="w-4 h-4 animate-spin" /> : <Trash2 className="w-4 h-4" />}
-                                                            </Button>
-                                                        </div>
-                                                    ))}
-                                                </div>
+                                        <div className="mt-4 space-y-2 text-sm text-muted-foreground border-t pt-4">
+                                            <div className="flex items-center gap-2">
+                                                {device.deviceType === 'Desktop' ? <Monitor className="w-4 h-4" /> : <Smartphone className="w-4 h-4" />}
+                                                <span>{device.os}</span>
                                             </div>
-                                        )
-                                    })
-                                ) : (
-                                    <p className="text-muted-foreground text-center py-8">لا توجد أجهزة مسجلة حاليًا.</p>
-                                )}
-                            </CardContent>
-                        </Card>
-                    </TabsContent>
-
-                    <TabsContent value="search-student">
-                        <Card>
-                            <CardHeader>
-                                <CardTitle>بحث عن أجهزة طالب</CardTitle>
-                                <CardDescription>ابحثي عن الطالب لعرض جميع أجهزته المسجلة، مع إمكانية إلغاء أي جهاز.</CardDescription>
-                            </CardHeader>
-                            <CardContent className="space-y-4">
-                                 <div className="flex flex-col sm:flex-row gap-2 mt-4">
-                                    <Input 
-                                        placeholder="ابحثي بالاسم أو اسم المستخدم..." 
-                                        value={searchQuery}
-                                        onChange={(e) => setSearchQuery(e.target.value)}
-                                        onKeyDown={(e) => e.key === 'Enter' && handleSearchStudent()}
-                                    />
-                                    <Button onClick={handleSearchStudent}><Search className="me-2"/>بحث</Button>
-                                </div>
-
-                                {searchedStudent && (
-                                     <div className="p-4 bg-muted/50 rounded-lg border mt-6">
-                                        <div className="pb-4 border-b">
-                                            <p className="font-bold text-lg">{searchedStudent?.studentName}</p>
-                                            <p className="text-sm text-primary">{searchedStudent?.courses?.join(', ')}</p>
+                                            <div className="flex items-center gap-2">
+                                                <Globe className="w-4 h-4" />
+                                                <span dir="ltr">{device.ipAddress}</span>
+                                            </div>
+                                            <div className="flex items-start gap-2">
+                                                <Fingerprint className="w-4 h-4 mt-1 flex-shrink-0" />
+                                                <span className="break-all" dir="ltr">{device.deviceId}</span>
+                                            </div>
                                         </div>
-                                        <div className="space-y-4 pt-4">
-                                            {devicesForSearchedStudent.length > 0 ? (
-                                                devicesForSearchedStudent.map(device => (
+                                    </div>
+                                ))
+                            ) : (
+                                <p className="text-muted-foreground text-center py-8">لا توجد طلبات معلقة حاليًا.</p>
+                            )}
+                        </CardContent>
+                    </Card>
+                </TabsContent>
+                
+                    <TabsContent value="registered-devices">
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>الأجهزة المسجلة</CardTitle>
+                            <CardDescription>قائمة بجميع الأجهزة المعتمدة حاليًا للطلاب.</CardDescription>
+                        </CardHeader>
+                        <CardContent className="space-y-6">
+                            {Object.keys(groupedRegisteredDevices).length > 0 ? (
+                                Object.entries(groupedRegisteredDevices).map(([studentId, devices]) => {
+                                    const student = students.find(s => s.id === studentId);
+                                    return (
+                                        <div key={studentId} className="p-4 bg-muted/50 rounded-lg border">
+                                            <div className="pb-4 border-b">
+                                                <p className="font-bold text-lg">{student?.studentName || 'طالب غير معروف'}</p>
+                                                <p className="text-sm text-primary">{student?.courses?.join(', ')}</p>
+                                            </div>
+                                            <div className="space-y-4 pt-4">
+                                                {devices.map(device => (
                                                     <div key={device.id} className="flex items-start justify-between gap-4">
                                                         <div className="flex-1 space-y-2 text-sm text-muted-foreground">
                                                             <div className="flex items-center gap-2">
@@ -659,20 +596,77 @@ export default function AdminPage() {
                                                             {isLoading[`delete-device-${device.id}`] ? <Loader2 className="w-4 h-4 animate-spin" /> : <Trash2 className="w-4 h-4" />}
                                                         </Button>
                                                     </div>
-                                                ))
-                                            ) : (
-                                                <p className="text-muted-foreground text-center py-4">لا توجد أجهزة مسجلة لهذا الطالب.</p>
-                                            )}
+                                                ))}
+                                            </div>
                                         </div>
-                                    </div>
-                                )}
-                            </CardContent>
-                        </Card>
-                    </TabsContent>
+                                    )
+                                })
+                            ) : (
+                                <p className="text-muted-foreground text-center py-8">لا توجد أجهزة مسجلة حاليًا.</p>
+                            )}
+                        </CardContent>
+                    </Card>
+                </TabsContent>
 
-                </Tabs>
-            </div>
-             <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
+                <TabsContent value="search-student">
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>بحث عن أجهزة طالب</CardTitle>
+                            <CardDescription>ابحثي عن الطالب لعرض جميع أجهزته المسجلة، مع إمكانية إلغاء أي جهاز.</CardDescription>
+                        </CardHeader>
+                        <CardContent className="space-y-4">
+                                <div className="flex flex-col sm:flex-row gap-2 mt-4">
+                                <Input 
+                                    placeholder="ابحثي بالاسم أو اسم المستخدم..." 
+                                    value={searchQuery}
+                                    onChange={(e) => setSearchQuery(e.target.value)}
+                                    onKeyDown={(e) => e.key === 'Enter' && handleSearchStudent()}
+                                />
+                                <Button onClick={handleSearchStudent}><Search className="me-2"/>بحث</Button>
+                            </div>
+
+                            {searchedStudent && (
+                                    <div className="p-4 bg-muted/50 rounded-lg border mt-6">
+                                    <div className="pb-4 border-b">
+                                        <p className="font-bold text-lg">{searchedStudent?.studentName}</p>
+                                        <p className="text-sm text-primary">{searchedStudent?.courses?.join(', ')}</p>
+                                    </div>
+                                    <div className="space-y-4 pt-4">
+                                        {devicesForSearchedStudent.length > 0 ? (
+                                            devicesForSearchedStudent.map(device => (
+                                                <div key={device.id} className="flex items-start justify-between gap-4">
+                                                    <div className="flex-1 space-y-2 text-sm text-muted-foreground">
+                                                        <div className="flex items-center gap-2">
+                                                            {device.deviceType === 'Desktop' ? <Monitor className="w-4 h-4" /> : <Smartphone className="w-4 h-4" />}
+                                                            <span>{device.os}</span>
+                                                        </div>
+                                                        <div className="flex items-center gap-2">
+                                                            <Globe className="w-4 h-4" />
+                                                            <span dir="ltr">{device.ipAddress}</span>
+                                                        </div>
+                                                        <div className="flex items-start gap-2">
+                                                            <Fingerprint className="w-4 h-4 mt-1 flex-shrink-0" />
+                                                            <span className="break-all" dir="ltr">{device.deviceId}</span>
+                                                        </div>
+                                                    </div>
+                                                    <Button onClick={() => handleDeleteDevice(device.id)} variant="destructive" size="icon" disabled={isLoading[`delete-device-${device.id}`]}>
+                                                        {isLoading[`delete-device-${device.id}`] ? <Loader2 className="w-4 h-4 animate-spin" /> : <Trash2 className="w-4 h-4" />}
+                                                    </Button>
+                                                </div>
+                                            ))
+                                        ) : (
+                                            <p className="text-muted-foreground text-center py-4">لا توجد أجهزة مسجلة لهذا الطالب.</p>
+                                        )}
+                                    </div>
+                                </div>
+                            )}
+                        </CardContent>
+                    </Card>
+                </TabsContent>
+
+            </Tabs>
+
+            <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
                 <DialogContent>
                     <form onSubmit={handleUpdateStudent}>
                         <DialogHeader>
@@ -686,11 +680,11 @@ export default function AdminPage() {
                                 <Label htmlFor="edit-student-name" className="text-right">الاسم</Label>
                                 <Input id="edit-student-name" value={editStudentName} onChange={(e) => setEditStudentName(e.target.value)} className="col-span-3" />
                             </div>
-                             <div className="grid grid-cols-4 items-center gap-4">
+                                <div className="grid grid-cols-4 items-center gap-4">
                                 <Label htmlFor="edit-phone1" className="text-right">هاتف 1</Label>
                                 <Input id="edit-phone1" value={editPhone1} onChange={(e) => setEditPhone1(e.target.value)} className="col-span-3" />
                             </div>
-                             <div className="grid grid-cols-4 items-center gap-4">
+                                <div className="grid grid-cols-4 items-center gap-4">
                                 <Label htmlFor="edit-phone2" className="text-right">هاتف 2</Label>
                                 <Input id="edit-phone2" value={editPhone2} onChange={(e) => setEditPhone2(e.target.value)} className="col-span-3" />
                             </div>
@@ -731,6 +725,6 @@ export default function AdminPage() {
                     </form>
                 </DialogContent>
             </Dialog>
-        </MarketingLayout>
+        </>
     );
 }

@@ -13,7 +13,9 @@ import {
   Lightbulb,
   LogOut,
   Users,
-  ClipboardCheck
+  ClipboardCheck,
+  Home,
+  Award
 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
@@ -49,7 +51,15 @@ export function SidebarNav() {
       </SidebarHeader>
       <SidebarContent>
         <SidebarMenu>
-            {currentUser?.role === 'admin' && (
+            <SidebarMenuItem>
+                <Link href="/" className="w-full">
+                    <Button variant="ghost" className="w-full justify-start gap-2">
+                        <Home />
+                        الرئيسية
+                    </Button>
+                </Link>
+            </SidebarMenuItem>
+            {currentUser?.role === 'admin' ? (
                 <>
                     <SidebarMenuItem>
                         <Link href="/admin" className="w-full">
@@ -68,7 +78,24 @@ export function SidebarNav() {
                         </Link>
                     </SidebarMenuItem>
                 </>
+            ) : (
+                 <SidebarMenuItem>
+                    <Link href="/my-exams" className="w-full">
+                        <Button variant="ghost" className="w-full justify-start gap-2">
+                            <Award />
+                            امتحاناتي
+                        </Button>
+                    </Link>
+                </SidebarMenuItem>
             )}
+             <SidebarMenuItem>
+                <Link href="/quiz" className="w-full">
+                    <Button variant="ghost" className="w-full justify-start gap-2">
+                        <Lightbulb />
+                        مولد الاختبارات
+                    </Button>
+                </Link>
+            </SidebarMenuItem>
         </SidebarMenu>
       </SidebarContent>
       <SidebarSeparator />
