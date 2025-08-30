@@ -125,7 +125,7 @@ export function ExamNotificationBanner() {
                 animate={{ y: 0, opacity: 1 }}
                 exit={{ y: "-100%", opacity: 0 }}
                 transition={{ duration: 0.5, ease: "easeInOut" }}
-                className="fixed top-28 sm:top-32 left-1/2 -translate-x-1/2 w-[95%] max-w-4xl z-50"
+                className="fixed top-4 left-1/2 -translate-x-1/2 w-[95%] max-w-4xl z-50"
             >
                 <Card className="shadow-2xl border-2 border-primary/20 backdrop-blur-lg bg-background/80">
                     <CardHeader className="flex flex-row items-center justify-between pb-2">
