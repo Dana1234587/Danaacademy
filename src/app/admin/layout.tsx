@@ -1,7 +1,6 @@
 
 'use client';
 
-import { MainLayout } from '@/components/layout/main-layout';
 import { useStore } from '@/store/app-store';
 import { MarketingLayout } from '@/components/layout/marketing-layout';
 
@@ -17,10 +16,12 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   }
 
   return (
-    <MainLayout>
-        <div className="flex-1 space-y-4 p-8 pt-6">
-            {children}
+    <MarketingLayout>
+        <div className="container mx-auto">
+             <div className="flex-1 space-y-4 p-4 sm:p-8 pt-6">
+                {children}
+            </div>
         </div>
-    </MainLayout>
+    </MarketingLayout>
   );
 }
