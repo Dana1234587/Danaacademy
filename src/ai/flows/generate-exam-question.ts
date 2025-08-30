@@ -1,3 +1,4 @@
+
 // This file is machine-generated - edit with care!
 
 'use server';
@@ -16,9 +17,9 @@ import {z} from 'genkit';
 // The front-end will need to handle the conversion to the full form schema.
 const ExamQuestionSchema = z.object({
   text: z.string().describe('The question text. Should be in Arabic and can include LaTeX for formulas, like $\\Delta p = m(v_f - v_i)$.'),
-  options: z.array(z.string()).length(4).describe('An array of four possible answers. Can also include LaTeX.'),
+  options: z.array(z.string()).length(4).describe('An array of four plausible and distinct possible answers. Can also include LaTeX.'),
   correctAnswerIndex: z.number().min(0).max(3).describe('The 0-based index of the correct answer in the options array.'),
-  explanation: z.string().describe('A detailed explanation for the correct answer. Should be in Arabic and can include LaTeX.'),
+  explanation: z.string().describe('A detailed step-by-step explanation for the correct answer. Should be in Arabic and can use LaTeX for formulas.'),
 });
 
 export type ExamQuestion = z.infer<typeof ExamQuestionSchema>;
@@ -32,15 +33,16 @@ const generateQuestionPrompt = ai.definePrompt({
   name: 'generateExamQuestionPrompt',
   input: {schema: z.string()},
   output: {schema: ExamQuestionSchema},
-  prompt: `You are an expert physics teacher specializing in the Tawjihi curriculum.
-  Your task is to generate a single, high-quality multiple-choice question based on the provided topic.
+  prompt: `You are an expert physics teacher specializing in the Jordanian Tawjihi curriculum.
+Your task is to generate a single, high-quality, multiple-choice question based on the provided topic.
 
-  Topic: {{{input}}}
+Topic: {{{input}}}
 
-  The question must be in Arabic.
-  The question and options can and should use LaTeX for formulas where appropriate (e.g., $\\Delta p = m(v_f - v_i)$).
-  Ensure the options are plausible and that there is only one unambiguously correct answer.
-  Provide a clear and detailed explanation for the correct answer.
+The question must be in Arabic.
+The question and all options can and should use LaTeX for formulas where appropriate (e.g., $\\Delta p = m(v_f - v_i)$).
+Ensure the options are plausible and that there is only one unambiguously correct answer.
+Provide a clear and detailed step-by-step explanation for the correct answer, also in Arabic.
+The difficulty should be appropriate for a final high school exam.
   `,
 });
 
