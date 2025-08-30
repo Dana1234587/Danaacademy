@@ -39,7 +39,7 @@ const CountdownTimer = ({ targetDate }: { targetDate: Date }) => {
     });
 
     const timerComponents = Object.entries(timeLeft)
-        .filter(([interval, value]) => value > 0 || (interval === 'seconds' && Object.keys(timeLeft).length === 1))
+        .filter(([interval, value]) => value > 0 || (interval === 'seconds' && Object.keys(timeLeft).length === 1) || Object.keys(timeLeft).length === 0)
         .map(([interval, value]) => {
             const unitMap: { [key: string]: string } = {
                 days: 'يوم',
@@ -50,19 +50,19 @@ const CountdownTimer = ({ targetDate }: { targetDate: Date }) => {
             if(value === 0 && Object.values(timeLeft).some(v => v > 0)) return null;
 
             return (
-                <div key={interval} className="flex flex-col items-center">
-                    <span className="text-xl font-bold">{String(value).padStart(2, '0')}</span>
+                <div key={interval} className="flex flex-col items-center p-2 bg-white/10 rounded-md min-w-[50px]">
+                    <span className="text-2xl font-bold">{String(value).padStart(2, '0')}</span>
                     <span className="text-xs">{unitMap[interval]}</span>
                 </div>
             );
-        }).filter(Boolean);
+        });
 
     if (!timerComponents.length) {
-        return <span className="text-lg font-semibold">الامتحان متاح الآن!</span>;
+        return <span className="text-lg font-semibold animate-pulse">الامتحان متاح الآن!</span>;
     }
 
     return (
-        <div className="flex justify-center gap-3 sm:gap-4" dir="ltr">
+        <div className="flex justify-center gap-2 sm:gap-3" dir="ltr">
             {timerComponents}
         </div>
     );
@@ -127,7 +127,7 @@ export function ExamNotificationBanner() {
                 transition={{ duration: 0.5, ease: "easeInOut" }}
                 className="fixed top-28 sm:top-32 left-1/2 -translate-x-1/2 w-[95%] max-w-4xl z-50"
             >
-                <div className="bg-primary/90 backdrop-blur-sm text-primary-foreground p-4 rounded-lg shadow-2xl border-2 border-primary-foreground/20">
+                <div className="bg-gradient-to-tr from-primary via-purple-700 to-pink-500 text-primary-foreground p-4 rounded-xl shadow-2xl border-2 border-primary-foreground/30">
                     <div className="container mx-auto flex items-center justify-between gap-4">
                         <div className="flex items-center gap-3">
                             <Timer className="w-8 h-8 hidden sm:block animate-pulse-slow" />
@@ -138,7 +138,7 @@ export function ExamNotificationBanner() {
                         </div>
                         <CountdownTimer targetDate={upcomingExam.startDate!} />
                         <div className="flex flex-col gap-2">
-                           <Button asChild size="sm" variant="secondary" className="text-primary hover:bg-white/90">
+                           <Button asChild size="sm" variant="secondary" className="bg-white/90 text-primary hover:bg-white/100">
                               <Link href="/my-exams">
                                 كل الامتحانات
                               </Link>
