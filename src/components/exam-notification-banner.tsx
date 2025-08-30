@@ -95,13 +95,8 @@ export function ExamNotificationBanner() {
                 [0]; // Get the very next one
 
             if (nextExam) {
-                 const sessionStorageKey = `examBannerDismissed_${nextExam.id}`;
-                 const isDismissed = sessionStorage.getItem(sessionStorageKey);
-
-                 if (!isDismissed) {
-                    setUpcomingExam(nextExam);
-                    setIsVisible(true);
-                 }
+                setUpcomingExam(nextExam);
+                setIsVisible(true);
             }
         } catch (error) {
             console.error("Failed to fetch upcoming exams for banner:", error);
@@ -114,9 +109,6 @@ export function ExamNotificationBanner() {
 
     const handleDismiss = () => {
         setIsVisible(false);
-        if (upcomingExam) {
-            sessionStorage.setItem(`examBannerDismissed_${upcomingExam.id}`, 'true');
-        }
     }
 
 
