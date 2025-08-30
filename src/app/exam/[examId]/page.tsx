@@ -1,60 +1,30 @@
 
-'use client';
-
-import { MainLayout } from '@/components/layout/main-layout';
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
+import { Card, CardHeader, CardTitle, CardContent, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Loader2, ServerCrash } from 'lucide-react';
+import { ServerCrash } from 'lucide-react';
 import Link from 'next/link';
 import { getExamForStudent, type ExamWithQuestions } from './actions'; 
-import { useState, useEffect, useCallback } from 'react';
 import { ExamClient } from './exam-client';
 
-export default function ExamPageWrapper({ params }: { params: { examId: string } }) {
-  const [exam, setExam] = useState<ExamWithQuestions | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+export default async function ExamPage({ params }: { params: { examId: string } }) {
   const { examId } = params;
+  let exam: ExamWithQuestions | null = null;
+  let error: string | null = null;
 
-  const fetchExamDetails = useCallback(async () => {
-    setIsLoading(true);
-    setError(null);
-    try {
-      const currentExam = await getExamForStudent(examId);
-      if (currentExam) {
-        setExam(currentExam);
-      } else {
-        setError("لم يتم العثور على الامتحان المطلوب.");
-      }
-    } catch (err) {
-      console.error("Error fetching exam details:", err);
-      setError("حدث خطأ أثناء تحميل تفاصيل الامتحان.");
-    } finally {
-      setIsLoading(false);
+  try {
+    exam = await getExamForStudent(examId);
+    if (!exam) {
+      error = "لم يتم العثور على الامتحان المطلوب.";
     }
-  }, [examId]);
-
-  useEffect(() => {
-    if (examId) {
-        fetchExamDetails();
-    }
-  }, [examId, fetchExamDetails]);
-  
-  if (isLoading) {
-    return (
-      <MainLayout>
-        <div className="flex justify-center items-center h-screen">
-          <Loader2 className="h-16 w-16 animate-spin" />
-          <p className="ms-4 text-muted-foreground">جاري تحميل الامتحان...</p>
-        </div>
-      </MainLayout>
-    );
+  } catch (err) {
+    console.error("Error fetching exam details:", err);
+    error = "حدث خطأ أثناء تحميل تفاصيل الامتحان. يرجى المحاولة مرة أخرى.";
   }
   
-  if (error) {
+  if (error || !exam) {
      return (
-        <MainLayout>
-             <div className="p-4 sm:p-6 lg:p-8 container mx-auto text-center mt-16">
+        <div className="min-h-screen bg-muted/40 flex items-center justify-center p-4">
+             <div className="p-4 sm:p-6 lg:p-8 container mx-auto text-center">
                 <Card className="max-w-md mx-auto border-destructive">
                     <CardHeader>
                         <CardTitle className="flex items-center justify-center gap-2 text-destructive">
@@ -63,19 +33,15 @@ export default function ExamPageWrapper({ params }: { params: { examId: string }
                         </CardTitle>
                     </CardHeader>
                     <CardContent>
-                        <p className="text-lg text-muted-foreground">{error}</p>
+                        <p className="text-lg text-muted-foreground">{error || "لم يتم العثور على الامتحان."}</p>
                         <Button asChild className="mt-6">
                             <Link href="/my-exams">العودة إلى قائمة الامتحانات</Link>
                         </Button>
                     </CardContent>
                 </Card>
             </div>
-        </MainLayout>
+        </div>
      )
-  }
-
-  if (!exam) {
-      return null;
   }
 
   return <ExamClient exam={exam} />;
