@@ -29,7 +29,7 @@ const generateQuestionPrompt = ai.definePrompt({
 
     **CRITICAL INSTRUCTIONS:**
     1.  **Originality is paramount.** DO NOT copy, rephrase, or use any existing questions. You must generate a completely new and unique question based on the provided topic.
-    2.  **Use LaTeX for all formulas and symbols.** All mathematical and physical symbols must be enclosed in LaTeX delimiters, for example: $$\\Delta p = m(v_f - v_i)$$.
+    2.  **Use LaTeX for all formulas and symbols.** ALL mathematical symbols, Latin variables, units, and numbers must be enclosed in single dollar signs. For example, write 'كتلة مقدارها $m_1 = 2 \\text{ kg}$' NOT 'كتلة مقدارها m_1 = 2 kg'. Write '$v_f$' NOT 'vf'. Write '$10 \\text{ m/s}$' NOT '10 m/s'.
     3.  **Language:** All text (question, options, explanation) must be in Arabic.
     4.  **Format:** The output must strictly follow the provided JSON schema. Ensure there are exactly 4 options.`,
 
