@@ -11,19 +11,8 @@
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
+import { ExamQuestionSchema, type AiGeneratedExamQuestion } from './generate-exam-question.types';
 
-// This is the output schema that the AI will be forced to return.
-const ExamQuestionSchema = z.object({
-  text: z.string().describe('The question text. Should be in Arabic and can include LaTeX for formulas, like $\\Delta p = m(v_f - v_i)$.'),
-  options: z.array(z.string()).length(4).describe('An array of four plausible and distinct possible answers. Can also include LaTeX.'),
-  explanation: z.string().describe('A detailed step-by-step explanation for the correct answer. Should be in Arabic and can use LaTeX for formulas.'),
-});
-
-// This is the type that will be returned from the AI flow.
-export type AiGeneratedExamQuestion = z.infer<typeof ExamQuestionSchema>;
-
-// The input is just a raw string from the user's text area.
-export const ExamQuestionInput = z.string();
 
 export async function generateExamQuestion(rawQuestionText: string): Promise<AiGeneratedExamQuestion> {
   return generateExamQuestionFlow(rawQuestionText);

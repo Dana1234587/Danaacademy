@@ -4,7 +4,8 @@
 import { z } from 'zod';
 import { adminDB } from '@/lib/firebase-admin';
 import { FieldValue, Timestamp } from 'firebase-admin/firestore';
-import { generateExamQuestion, type AiGeneratedExamQuestion } from '@/ai/flows/generate-exam-question';
+import { generateExamQuestion } from '@/ai/flows/generate-exam-question';
+import type { AiGeneratedExamQuestion } from '@/ai/flows/generate-exam-question.types';
 
 
 const questionOptionSchema = z.object({
