@@ -119,10 +119,11 @@ function AiQuestionGenerator({ onAppend }: { onAppend: (question: ExamQuestion) 
       <AlertDialogContent className="sm:max-w-2xl">
         <AlertDialogHeader>
           <AlertDialogTitle>مساعد تنسيق الأسئلة بالذكاء الاصطناعي</AlertDialogTitle>
-          <AlertDialogDescription>
-            <p>أدخلي نص السؤال والخيارات والشرح هنا. سيقوم الذكاء الاصطناعي بتحويل الصيغ إلى تنسيق LaTeX وتعبئة الحقول تلقائيًا.</p>
-            <p className="mt-2 text-xs">مثال للتنسيق: (يمكنك فقط كتابة "سؤال:", "خيارات:", "شرح:")</p>
-            <pre className="mt-2 p-2 bg-muted text-xs rounded-md text-start" dir="ltr">{`
+          <AlertDialogDescription asChild>
+            <div>
+              <p>أدخلي نص السؤال والخيارات والشرح هنا. سيقوم الذكاء الاصطناعي بتحويل الصيغ إلى تنسيق LaTeX وتعبئة الحقول تلقائيًا.</p>
+              <p className="mt-2 text-xs">مثال للتنسيق: (يمكنك فقط كتابة "سؤال:", "خيارات:", "شرح:")</p>
+              <pre className="mt-2 p-2 bg-muted text-xs rounded-md text-start" dir="ltr">{`
 السؤال: سيارة كتلتها 1000kg ...
 الخيارات:
 1) 20,000 kg.m/s
@@ -130,7 +131,8 @@ function AiQuestionGenerator({ onAppend }: { onAppend: (question: ExamQuestion) 
 3) ...
 4) ...
 الشرح: الزخم الخطي (p) = الكتلة...
-            `}</pre>
+              `}</pre>
+            </div>
           </AlertDialogDescription>
         </AlertDialogHeader>
         <div className="py-4">
