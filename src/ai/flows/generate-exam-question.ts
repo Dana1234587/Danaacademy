@@ -33,7 +33,7 @@ const generateQuestionPrompt = ai.definePrompt({
   name: 'generateExamQuestionPrompt',
   input: {schema: z.string()},
   output: {schema: ExamQuestionSchema},
-  model: 'gemini-1.5-flash',
+  model: 'gemini-pro',
   prompt: `You are an expert physics teacher and your task is to be a comprehensive physics question creator, able to generate questions about any physics topic provided.
 Your task is to generate a single, high-quality, multiple-choice question based on the provided topic.
 
@@ -61,4 +61,5 @@ const generateExamQuestionFlow = ai.defineFlow(
     return output!;
   }
 );
+
 
