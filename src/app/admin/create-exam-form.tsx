@@ -120,8 +120,8 @@ function AiQuestionGenerator({ onAppend }: { onAppend: (question: ExamQuestion) 
         <AlertDialogHeader>
           <AlertDialogTitle>مساعد تنسيق الأسئلة بالذكاء الاصطناعي</AlertDialogTitle>
           <AlertDialogDescription>
-            <div>أدخلي نص السؤال والخيارات والشرح هنا. سيقوم الذكاء الاصطناعي بتحويل الصيغ إلى تنسيق LaTeX وتعبئة الحقول تلقائيًا.</div>
-            <div className="mt-2 text-xs">مثال للتنسيق: (يمكنك فقط كتابة "سؤال:", "خيارات:", "شرح:")</div>
+            <p>أدخلي نص السؤال والخيارات والشرح هنا. سيقوم الذكاء الاصطناعي بتحويل الصيغ إلى تنسيق LaTeX وتعبئة الحقول تلقائيًا.</p>
+            <p className="mt-2 text-xs">مثال للتنسيق: (يمكنك فقط كتابة "سؤال:", "خيارات:", "شرح:")</p>
             <pre className="mt-2 p-2 bg-muted text-xs rounded-md text-start" dir="ltr">{`
 السؤال: سيارة كتلتها 1000kg ...
 الخيارات:
