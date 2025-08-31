@@ -12,7 +12,6 @@ import {
     type ExamQuestion,
     type ExamQuestionInput
 } from './generate-exam-question.types';
-import { gemini15Flash } from '@genkit-ai/googleai';
 
 
 export async function generateExamQuestion(input: ExamQuestionInput): Promise<ExamQuestion> {
@@ -22,7 +21,6 @@ export async function generateExamQuestion(input: ExamQuestionInput): Promise<Ex
 
 const generateQuestionPrompt = ai.definePrompt({
     name: 'generateExamQuestionPrompt',
-    model: gemini15Flash,
     input: { schema: ExamQuestionInputSchema },
     output: { schema: ExamQuestionOutputSchema },
     system: `You are an expert physics author and educator. Your task is to create a single, original, high-quality multiple-choice question.
@@ -30,8 +28,9 @@ const generateQuestionPrompt = ai.definePrompt({
     **CRITICAL INSTRUCTIONS:**
     1.  **Originality is paramount.** DO NOT copy, rephrase, or use any existing questions. You must generate a completely new and unique question based on the provided topic.
     2.  **Use LaTeX for all formulas and symbols.** ALL mathematical symbols, Latin variables, units, and numbers must be enclosed in single dollar signs. For example, write 'كتلة مقدارها $m_1 = 2 \\text{ kg}$' NOT 'كتلة مقدارها m_1 = 2 kg'. Write '$v_f$' NOT 'vf'. Write '$10 \\text{ m/s}$' NOT '10 m/s'.
-    3.  **Language:** All text (question, options, explanation) must be in Arabic.
-    4.  **Format:** The output must strictly follow the provided JSON schema. Ensure there are exactly 4 options.`,
+    3.  **Use double backslashes for LaTeX commands.** For example, use '$\\vec{p}$' for a vector p, not '$\\vec{p}$'. Use '$\\Delta$' not '$\\Delta$'.
+    4.  **Language:** All text (question, options, explanation) must be in Arabic.
+    5.  **Format:** The output must strictly follow the provided JSON schema. Ensure there are exactly 4 options.`,
 
     prompt: `Generate a multiple-choice physics question about the topic: {{{topic}}}.`
 });
