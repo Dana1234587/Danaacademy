@@ -6,7 +6,6 @@
  *
  * - generateExamQuestion - A function that takes a raw text question and formats it into a structured object with LaTeX.
  * - AiGeneratedExamQuestion - The output type for the generateExamQuestion function.
- * - ExamQuestionInput - The Zod schema for the input.
  */
 
 import {ai} from '@/ai/genkit';
@@ -22,7 +21,7 @@ const generateQuestionPrompt = ai.definePrompt({
   name: 'generateExamQuestionPrompt',
   input: {schema: z.string()},
   output: {schema: ExamQuestionSchema},
-  model: 'gemini-1.5-pro',
+  model: 'gemini-pro',
   prompt: `You are an intelligent text formatting and structuring assistant for a physics education platform.
 Your task is to receive a block of text containing a physics question, four options, and an explanation.
 You must parse this text, convert all physical formulas and variables into proper LaTeX format, and structure the output into the specified JSON format.
