@@ -260,17 +260,22 @@ export async function generateExamQuestionAction(topic: string): Promise<{
     try {
         const aiResult: AIGeneratedQuestion = await generateExamQuestion(topic);
         
-        const question: ExamQuestion = {
-            ...aiResult,
-            imageUrl: '',
-            explanationImageUrl: '',
-            options: aiResult.options.map(opt => ({ text: opt, imageUrl: '' }))
+        // Transform the AI result to match the form schema precisely
+        const questionForForm: ExamQuestion = {
+            text: aiResult.text,
+            imageUrl: '', // Ensure field exists
+            options: aiResult.options.map(opt => ({ text: opt, imageUrl: '' })),
+            correctAnswerIndex: aiResult.correctAnswerIndex,
+            explanation: aiResult.explanation || '', // Ensure field exists
+            explanationImageUrl: '', // Ensure field exists
         };
         
-        return { success: true, data: question };
-    } catch (e) {
+        return { success: true, data: questionForForm };
+
+    } catch (e: any) {
         console.error("Error in generateExamQuestionAction:", e);
-        const errorMessage = e instanceof Error ? e.message : 'An unknown error occurred while generating the question.';
-        return { success: false, error: errorMessage };
+        // Provide a more descriptive error message to the user
+        const errorMessage = e.message || 'An unknown error occurred while generating the question.';
+        return { success: false, error: `فشل في توليد السؤال: ${errorMessage}` };
     }
 }
