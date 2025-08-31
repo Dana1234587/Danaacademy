@@ -1,8 +1,12 @@
+
 'use server';
 
 import { z } from 'zod';
 import { adminDB } from '@/lib/firebase-admin';
 import { FieldValue, Timestamp } from 'firebase-admin/firestore';
+import { generateExamQuestion } from '@/ai/flows/generate-exam-question';
+import type { ExamQuestion as AIExamQuestion } from '@/ai/flows/generate-exam-question.types';
+
 
 const questionOptionSchema = z.object({
   text: z.string().min(1, { message: 'لا يمكن ترك الخيار فارغًا.' }),
@@ -70,6 +74,19 @@ export type Submission = {
     totalQuestions: number;
     submittedAt: Date;
     answers: (number | null)[];
+}
+
+export async function generateQuestionAction(topic: string): Promise<{ success: boolean, question?: AIExamQuestion, error?: string }> {
+    if (!topic || topic.trim().length < 5) {
+        return { success: false, error: 'الرجاء إدخال موضوع واضح ومحدد.' };
+    }
+    try {
+        const question = await generateExamQuestion({ topic });
+        return { success: true, question };
+    } catch (e: any) {
+        console.error("Error in generateQuestionAction:", e);
+        return { success: false, error: e.message || 'فشل إنشاء السؤال بواسطة الذكاء الاصطناعي.' };
+    }
 }
 
 

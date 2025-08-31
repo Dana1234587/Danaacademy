@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState } from 'react';
@@ -15,21 +16,21 @@ import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { cn } from '@/lib/utils';
 import { format } from 'date-fns';
-import { Calendar as CalendarIcon, Loader2, PlusCircle } from 'lucide-react';
+import { Calendar as CalendarIcon, Loader2, PlusCircle, Sparkles } from 'lucide-react';
 import { QuestionForm } from '@/components/admin/question-form';
-import { createExamAction } from '@/app/admin/exams/actions';
+import { createExamAction, generateQuestionAction } from '@/app/admin/exams/actions';
 import { useToast } from '@/hooks/use-toast';
 import { useRouter } from 'next/navigation';
+
+const questionOptionSchema = z.object({
+  text: z.string().min(1, { message: 'لا يمكن ترك الخيار فارغًا.' }),
+  imageUrl: z.string().url({ message: "الرجاء إدخال رابط صالح أو ترك الحقل فارغًا." }).optional().or(z.literal('')),
+});
 
 const questionSchema = z.object({
       text: z.string().min(10, { message: 'نص السؤال قصير جدًا.' }),
       imageUrl: z.string().url({ message: "الرجاء إدخال رابط صالح أو ترك الحقل فارغًا." }).optional().or(z.literal('')),
-      options: z.array(
-        z.object({
-            text: z.string().min(1, { message: 'لا يمكن ترك الخيار فارغًا.' }),
-            imageUrl: z.string().url({ message: "الرجاء إدخال رابط صالح أو ترك الحقل فارغًا." }).optional().or(z.literal('')),
-        })
-      ).length(4, { message: 'يجب أن يكون هناك 4 خيارات.' }),
+      options: z.array(questionOptionSchema).length(4, { message: 'يجب أن يكون هناك 4 خيارات.' }),
       correctAnswerIndex: z.coerce.number().min(0).max(3),
       explanation: z.string().optional(),
       explanationImageUrl: z.string().url({ message: "الرجاء إدخال رابط صالح أو ترك الحقل فارغًا." }).optional().or(z.literal('')),
@@ -60,6 +61,52 @@ const examFormSchema = z.object({
 
 export type ExamFormValues = z.infer<typeof examFormSchema>;
 
+function AiQuestionGenerator({ onQuestionGenerated }: { onQuestionGenerated: (question: any) => void }) {
+    const [topic, setTopic] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
+    const { toast } = useToast();
+
+    const handleGenerate = async () => {
+        if (!topic.trim()) {
+            toast({ variant: 'destructive', title: 'الرجاء إدخال موضوع للسؤال.' });
+            return;
+        }
+        setIsLoading(true);
+        const result = await generateQuestionAction(topic);
+        setIsLoading(false);
+
+        if (result.success && result.question) {
+            const newQuestion = {
+                text: result.question.text,
+                imageUrl: '',
+                options: result.question.options.map(opt => ({ text: opt, imageUrl: '' })),
+                correctAnswerIndex: result.question.correctAnswerIndex,
+                explanation: result.question.explanation,
+                explanationImageUrl: ''
+            };
+            onQuestionGenerated(newQuestion);
+            toast({ title: 'نجاح', description: 'تم إنشاء السؤال وإضافته إلى نهاية القائمة.' });
+        } else {
+            toast({ variant: 'destructive', title: 'فشل إنشاء السؤال', description: result.error });
+        }
+    };
+
+    return (
+        <div className="border border-dashed p-4 rounded-lg bg-primary/5 space-y-4">
+            <p className="font-semibold text-primary flex items-center gap-2"><Sparkles className="w-5 h-5"/> إنشاء سؤال باستخدام الذكاء الاصطناعي</p>
+            <Input
+                placeholder="اكتب موضوع السؤال هنا (مثال: حفظ الزخم في التصادمات المرنة)"
+                value={topic}
+                onChange={(e) => setTopic(e.target.value)}
+                disabled={isLoading}
+            />
+            <Button type="button" onClick={handleGenerate} disabled={isLoading} className="w-full">
+                {isLoading ? <Loader2 className="animate-spin me-2" /> : <Sparkles className="w-4 h-4 me-2" />}
+                إنشاء السؤال
+            </Button>
+        </div>
+    );
+}
 
 export function CreateExamForm() {
   const [isLoading, setIsLoading] = useState(false);
@@ -304,6 +351,7 @@ export function CreateExamForm() {
                 <CardDescription>أضف أسئلة الامتحان وحدد الإجابات الصحيحة.</CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
+                <AiQuestionGenerator onQuestionGenerated={(q) => append(q)} />
                 {fields.map((field, index) => (
                     <QuestionForm key={field.id} form={form} index={index} remove={remove} />
                 ))}
