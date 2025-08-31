@@ -1,11 +1,10 @@
-// This file is machine-generated - edit with care!
 
 'use server';
 
 /**
- * @fileOverview This file defines a Genkit flow for generating a single physics exam question.
+ * @fileOverview This file defines a Genkit flow for parsing and formatting a physics exam question.
  *
- * - generateExamQuestion - A function that generates one question based on a given topic.
+ * - generateExamQuestion - A function that takes a raw text question and formats it into a structured object with LaTeX.
  * - ExamQuestion - The return type for the generateExamQuestion function.
  */
 
@@ -24,29 +23,53 @@ const ExamQuestionSchema = z.object({
 export type ExamQuestion = z.infer<typeof ExamQuestionSchema>;
 
 
-export async function generateExamQuestion(topic: string): Promise<ExamQuestion> {
-  return generateExamQuestionFlow(topic);
+export async function generateExamQuestion(rawQuestionText: string): Promise<ExamQuestion> {
+  return generateExamQuestionFlow(rawQuestionText);
 }
 
 const generateQuestionPrompt = ai.definePrompt({
   name: 'generateExamQuestionPrompt',
   input: {schema: z.string()},
   output: {schema: ExamQuestionSchema},
-  model: 'googleai/gemini-1.5-flash',
-  prompt: `You are an expert physics teacher and your task is to be a comprehensive physics question creator, able to generate questions about any physics topic provided.
-Your task is to generate a single, high-quality, multiple-choice question based on the provided topic.
+  model: 'gemini-1.5-flash',
+  prompt: `You are an intelligent text formatting and structuring assistant for a physics education platform.
+Your task is to receive a block of text containing a physics question, four options, the correct answer index, and an explanation.
+You must parse this text, convert all physical formulas and variables into proper LaTeX format, and structure the output into the specified JSON format.
 
-Very Important: The question you generate must NOT be a copy or a rephrasing of any question present in other project files. It must be a completely original and unique question.
+**CRITICAL INSTRUCTIONS:**
+1.  **Parse the input:** Identify the distinct parts: question text, the four options, the correct answer index, and the explanation. The input format will be clear but unstructured.
+2.  **Format LaTeX:** Convert all physics notations, formulas, variables, and units into proper LaTeX. For example, 'v_f' should become '$v_f$', 'Delta p' should become '$\\Delta p$', '10 m/s' should become '$10 m/s$'.
+3.  **Structure Output:** Populate the JSON object according to the output schema. The 'options' field must be an array of exactly four strings.
 
-Topic: {{{input}}}
+**Example Input Text:**
+---
+السؤال: سيارة كتلتها 1000kg تتحرك بسرعة 20 m/s شرقًا. ما مقدار زخمها الخطي؟
+الخيارات:
+1) 20,000 kg.m/s شرقًا
+2) 50 kg.m/s شرقًا
+3) 20,000 kg/m.s شرقًا
+4) 200,000 kg.m/s شرقًا
+الجواب الصحيح: 1
+الشرح: الزخم الخطي (p) = الكتلة (m) × السرعة (v). إذن، p = 1000 kg * 20 m/s = 20,000 kg.m/s. الاتجاه هو نفس اتجاه السرعة، أي شرقًا.
+---
 
-The question must be in Arabic.
-The question and all options can and should use LaTeX for formulas where appropriate (e.g., $\\Delta p = m(v_f - v_i)$).
-Ensure the options are plausible and that there is only one unambiguously correct answer.
-Provide a clear and detailed step-by-step explanation for the correct answer, also in Arabic.
-Be creative and diverse in your questions.
-The difficulty should be appropriate for a final high school exam.
-  `,
+**Example JSON Output based on the text above:**
+{
+  "text": "سيارة كتلتها $1000 kg$ تتحرك بسرعة $20 m/s$ شرقًا. ما مقدار زخمها الخطي؟",
+  "options": [
+    "$20,000 kg \\cdot m/s$ شرقًا",
+    "$50 kg \\cdot m/s$ شرقًا",
+    "$20,000 kg/m \\cdot s$ شرقًا",
+    "$200,000 kg \\cdot m/s$ شرقًا"
+  ],
+  "correctAnswerIndex": 0,
+  "explanation": "الزخم الخطي (p) = الكتلة (m) × السرعة (v). إذن، $p = 1000 kg \\times 20 m/s = 20,000 kg \\cdot m/s$. الاتجاه هو نفس اتجاه السرعة، أي شرقًا."
+}
+
+
+**User-provided text to process:**
+{{{input}}}
+`,
 });
 
 const generateExamQuestionFlow = ai.defineFlow(
