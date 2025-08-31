@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import { MarketingLayout } from '@/components/layout/marketing-layout';
@@ -69,7 +68,6 @@ export default function AdminPage() {
     const [newStudentGender, setNewStudentGender] = useState<'male' | 'female'>('male');
     const [selectedCourses, setSelectedCourses] = useState<string[]>([]);
     const [searchQuery, setSearchQuery] = useState('');
-    const [searchedStudent, setSearchedStudent] = useState<Student | null>(null);
 
     // Edit Student State
     const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
@@ -83,16 +81,22 @@ export default function AdminPage() {
 
     // Group registered devices by student
     const groupedRegisteredDevices = useMemo(() => {
+        const studentMap = new Map(students.map(s => [s.id, s.studentName]));
         return registeredDevices.reduce((acc, device) => {
-            (acc[device.studentId] = acc[device.studentId] || []).push(device);
+            const studentName = studentMap.get(device.studentId) || device.studentName;
+            (acc[studentName] = acc[studentName] || []).push(device);
             return acc;
         }, {} as Record<string, RegisteredDevice[]>);
-    }, [registeredDevices]);
+    }, [registeredDevices, students]);
 
-    const devicesForSearchedStudent = useMemo(() => {
-        if (!searchedStudent) return [];
-        return registeredDevices.filter(device => device.studentId === searchedStudent.id);
-    }, [searchedStudent, registeredDevices]);
+    const filteredStudents = useMemo(() => {
+        if (!searchQuery) return students;
+        return students.filter(
+            (student) =>
+                student.studentName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                student.username.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+    }, [students, searchQuery]);
 
 
     const fetchData = useCallback(async () => {
@@ -261,19 +265,7 @@ export default function AdminPage() {
             setIsLoading(prev => ({ ...prev, [`delete-device-${deviceId}`]: false }));
         }
     };
-
-    const handleSearchStudent = () => {
-        if (!searchQuery.trim()) {
-            setSearchedStudent(null);
-            return;
-        }
-        const found = students.find(s => s.studentName.includes(searchQuery) || s.username.includes(searchQuery));
-        setSearchedStudent(found || null);
-        if (!found) {
-            toast({ variant: 'destructive', title: 'غير موجود', description: 'لم يتم العثور على طالب بهذا الاسم أو اسم المستخدم.' });
-        }
-    };
-
+    
     const handleResetPassword = async (studentId: string, studentName: string) => {
         const newPassword = Math.random().toString(36).slice(-8);
         setIsLoading(prev => ({ ...prev, [`reset-${studentId}`]: true }));
@@ -344,17 +336,10 @@ export default function AdminPage() {
                     <h1 className="text-3xl font-bold">لوحة تحكم المسؤول</h1>
                     <p className="text-muted-foreground">مرحباً دكتورة دانا، هنا يمكنك إدارة الطلاب والأجهزة.</p>
                 </div>
-                    <div className="flex gap-2">
-                     <Button asChild>
-                        <Link href="/admin/exams">
-                            <ClipboardCheck className="me-2 h-4 w-4" /> إدارة الامتحانات
-                        </Link>
-                    </Button>
-                    <Button onClick={fetchData} variant="secondary" disabled={isLoading['page']}>
-                        {isLoading['page'] ? <Loader2 className="me-2 h-4 w-4 animate-spin" /> : <RefreshCw className="me-2 h-4 w-4" />}
-                        تحديث البيانات
-                    </Button>
-                </div>
+                <Button onClick={fetchData} variant="secondary" disabled={isLoading['page']}>
+                    {isLoading['page'] ? <Loader2 className="me-2 h-4 w-4 animate-spin" /> : <RefreshCw className="me-2 h-4 w-4" />}
+                    تحديث البيانات
+                </Button>
             </div>
 
             <Tabs defaultValue="create-student">
@@ -362,7 +347,7 @@ export default function AdminPage() {
                     <TabsTrigger value="create-student"><UserPlus className="me-2" /> إنشاء حساب</TabsTrigger>
                     <TabsTrigger value="student-accounts"><Users className="me-2" /> الطلاب</TabsTrigger>
                     <TabsTrigger value="approve-devices"><MonitorCheck className="me-2" /> الموافقة</TabsTrigger>
-                    <TabsTrigger value="search-student"><Search className="me-2" /> بحث عن طالب</TabsTrigger>
+                    <TabsTrigger value="registered-devices"><Fingerprint className="me-2" /> الأجهزة المسجلة</TabsTrigger>
                 </TabsList>
 
                 <TabsContent value="create-student">
@@ -444,8 +429,21 @@ export default function AdminPage() {
                 <TabsContent value="student-accounts">
                     <Card>
                         <CardHeader>
-                            <CardTitle>قائمة حسابات الطلاب</CardTitle>
-                            <CardDescription>هنا يتم عرض جميع حسابات الطلاب المسجلة في قاعدة البيانات.</CardDescription>
+                             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                                <div>
+                                    <CardTitle>قائمة حسابات الطلاب</CardTitle>
+                                    <CardDescription>هنا يتم عرض جميع حسابات الطلاب المسجلة في قاعدة البيانات.</CardDescription>
+                                </div>
+                                <div className="relative w-full sm:w-64">
+                                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                    <Input 
+                                        placeholder="بحث بالاسم أو اسم المستخدم..." 
+                                        className="ps-10" 
+                                        value={searchQuery}
+                                        onChange={(e) => setSearchQuery(e.target.value)}
+                                    />
+                                </div>
+                             </div>
                         </CardHeader>
                         <CardContent>
                             <Alert>
@@ -469,8 +467,8 @@ export default function AdminPage() {
                                         </TableRow>
                                     </TableHeader>
                                     <TableBody>
-                                        {students.length > 0 ? (
-                                            students.map((student) => (
+                                        {filteredStudents.length > 0 ? (
+                                            filteredStudents.map((student) => (
                                                 <TableRow key={student.id}>
                                                     <TableCell className="font-medium whitespace-nowrap">{student.studentName}</TableCell>
                                                     <TableCell className="whitespace-nowrap">{student.username}</TableCell>
@@ -510,7 +508,7 @@ export default function AdminPage() {
                                         ) : (
                                             <TableRow>
                                                 <TableCell colSpan={7} className="text-center text-muted-foreground h-24">
-                                                    لا يوجد طلاب مسجلون حاليًا.
+                                                    لا يوجد طلاب يطابقون بحثك.
                                                 </TableCell>
                                             </TableRow>
                                         )}
@@ -570,57 +568,56 @@ export default function AdminPage() {
                     </Card>
                 </TabsContent>
                 
-                    <TabsContent value="search-student">
+                 <TabsContent value="registered-devices">
                     <Card>
                         <CardHeader>
-                            <CardTitle>بحث عن أجهزة طالب</CardTitle>
-                            <CardDescription>ابحثي عن الطالب لعرض جميع أجهزته المسجلة، مع إمكانية إلغاء أي جهاز.</CardDescription>
+                            <CardTitle>الأجهزة المسجلة</CardTitle>
+                            <CardDescription>هنا يتم عرض جميع الأجهزة المسجلة لكل طالب.</CardDescription>
                         </CardHeader>
                         <CardContent className="space-y-4">
-                                <div className="flex flex-col sm:flex-row gap-2 mt-4">
-                                <Input 
-                                    placeholder="ابحثي بالاسم أو اسم المستخدم..." 
-                                    value={searchQuery}
-                                    onChange={(e) => setSearchQuery(e.target.value)}
-                                    onKeyDown={(e) => e.key === 'Enter' && handleSearchStudent()}
-                                />
-                                <Button onClick={handleSearchStudent}><Search className="me-2"/>بحث</Button>
-                            </div>
-
-                            {searchedStudent && (
-                                    <div className="p-4 bg-muted/50 rounded-lg border mt-6">
-                                    <div className="pb-4 border-b">
-                                        <p className="font-bold text-lg">{searchedStudent?.studentName}</p>
-                                        <p className="text-sm text-primary">{searchedStudent?.courses?.join(', ')}</p>
-                                    </div>
-                                    <div className="space-y-4 pt-4">
-                                        {devicesForSearchedStudent.length > 0 ? (
-                                            devicesForSearchedStudent.map(device => (
+                             {Object.keys(groupedRegisteredDevices).length > 0 ? (
+                                Object.entries(groupedRegisteredDevices).map(([studentName, devices]) => (
+                                    <div key={studentName} className="p-4 bg-muted rounded-lg border">
+                                        <h3 className="font-bold text-lg mb-4 pb-2 border-b">{studentName}</h3>
+                                        <div className="space-y-4">
+                                            {devices.map(device => (
                                                 <div key={device.id} className="flex items-start justify-between gap-4">
                                                     <div className="flex-1 space-y-2 text-sm text-muted-foreground">
                                                         <div className="flex items-center gap-2">
                                                             {device.deviceType === 'Desktop' ? <Monitor className="w-4 h-4" /> : <Smartphone className="w-4 h-4" />}
                                                             <span>{device.os}</span>
                                                         </div>
-                                                        <div className="flex items-center gap-2">
-                                                            <Globe className="w-4 h-4" />
-                                                            <span dir="ltr">{device.ipAddress}</span>
-                                                        </div>
                                                         <div className="flex items-start gap-2">
                                                             <Fingerprint className="w-4 h-4 mt-1 flex-shrink-0" />
                                                             <span className="break-all" dir="ltr">{device.deviceId}</span>
                                                         </div>
                                                     </div>
-                                                    <Button onClick={() => handleDeleteDevice(device.id)} variant="destructive" size="icon" disabled={isLoading[`delete-device-${device.id}`]}>
-                                                        {isLoading[`delete-device-${device.id}`] ? <Loader2 className="w-4 h-4 animate-spin" /> : <Trash2 className="w-4 h-4" />}
-                                                    </Button>
+                                                    <AlertDialog>
+                                                        <AlertDialogTrigger asChild>
+                                                            <Button variant="destructive" size="icon" disabled={isLoading[`delete-device-${device.id}`]}>
+                                                                {isLoading[`delete-device-${device.id}`] ? <Loader2 className="w-4 h-4 animate-spin" /> : <Trash2 className="w-4 h-4" />}
+                                                            </Button>
+                                                        </AlertDialogTrigger>
+                                                        <AlertDialogContent>
+                                                          <AlertDialogHeader>
+                                                            <AlertDialogTitle>هل أنت متأكد من حذف الجهاز؟</AlertDialogTitle>
+                                                            <AlertDialogDescription>
+                                                              هذا الإجراء سيحذف الجهاز المسجل نهائيًا. سيضطر الطالب إلى إعادة تسجيله والموافقة عليه مرة أخرى.
+                                                            </AlertDialogDescription>
+                                                          </AlertDialogHeader>
+                                                          <AlertDialogFooter>
+                                                            <AlertDialogCancel>إلغاء</AlertDialogCancel>
+                                                            <AlertDialogAction onClick={() => handleDeleteDevice(device.id)} className="bg-destructive hover:bg-destructive/90">نعم، قم بالحذف</AlertDialogAction>
+                                                          </AlertDialogFooter>
+                                                        </AlertDialogContent>
+                                                      </AlertDialog>
                                                 </div>
-                                            ))
-                                        ) : (
-                                            <p className="text-muted-foreground text-center py-4">لا توجد أجهزة مسجلة لهذا الطالب.</p>
-                                        )}
+                                            ))}
+                                        </div>
                                     </div>
-                                </div>
+                                ))
+                            ) : (
+                                <p className="text-muted-foreground text-center py-8">لا توجد أجهزة مسجلة حاليًا.</p>
                             )}
                         </CardContent>
                     </Card>
@@ -704,3 +701,5 @@ export default function AdminPage() {
         </>
     );
 }
+
+    
