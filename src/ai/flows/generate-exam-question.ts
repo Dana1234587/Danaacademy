@@ -23,7 +23,6 @@ const generateQuestionPrompt = ai.definePrompt({
     name: 'generateExamQuestionPrompt',
     input: { schema: ExamQuestionInputSchema },
     output: { schema: ExamQuestionOutputSchema },
-    model: 'gemini-1.5-flash',
     system: `You are an expert physics author and educator. Your task is to create a single, original, high-quality multiple-choice question.
 
     **CRITICAL INSTRUCTIONS:**
