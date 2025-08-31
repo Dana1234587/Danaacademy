@@ -14,6 +14,7 @@ export type User = {
     email: string;
     role: 'admin' | 'student';
     enrolledCourseIds: string[];
+    gender?: 'male' | 'female';
 }
 
 // Define the state structure
@@ -82,7 +83,8 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
                 username: studentData.studentName,
                 email: firebaseUser.email || '',
                 role: 'student', 
-                enrolledCourseIds: studentData.courseIds || []
+                enrolledCourseIds: studentData.courseIds || [],
+                gender: studentData.gender
             });
         } else {
              console.warn(`User ${firebaseUser.uid} not found in 'admins' or 'students' collection.`);

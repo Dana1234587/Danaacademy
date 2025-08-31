@@ -487,6 +487,10 @@ export default function PhysicsSupplementary2007Page() {
     );
   }
 
+  const welcomeMessage = currentUser?.gender === 'female' 
+      ? `مرحبًا بكِ يا ${currentUser?.username || 'طالبتنا العزيزة'}`
+      : `مرحبًا بك يا ${currentUser?.username || 'طالبنا العزيز'}`;
+
 
   return (
     <SidebarProvider>
@@ -498,7 +502,7 @@ export default function PhysicsSupplementary2007Page() {
               <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                   <div className="flex-1">
                     <h1 className="text-2xl md:text-4xl font-bold text-primary">
-                      مرحبًا بك يا {currentUser?.username || 'طالبنا العزيز'} في دورة فيزياء التكميلي - جيل 2007
+                      {welcomeMessage} في دورة فيزياء التكميلي - جيل 2007
                     </h1>
                     <p className="mt-2 text-base md:text-lg text-muted-foreground">
                         نتمنى لك رحلة تعليمية ممتعة ومفيدة!

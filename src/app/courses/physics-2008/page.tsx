@@ -56,12 +56,16 @@ export default function Physics2008Page() {
     );
   }
 
+  const welcomeMessage = currentUser?.gender === 'female'
+    ? `مرحبًا بكِ يا ${currentUser?.username || 'طالبتنا العزيزة'}`
+    : `مرحبًا بك يا ${currentUser?.username || 'طالبنا العزيز'}`;
+
   return (
     <MainLayout>
       <div className="p-4 sm:p-6 lg:p-8">
         <div className="flex justify-between items-center mb-4">
             <h1 className="text-3xl font-bold">
-                مرحبًا بك يا {currentUser?.username || 'طالبنا العزيز'} في دورة فيزياء - جيل 2008
+                {welcomeMessage} في دورة فيزياء - جيل 2008
             </h1>
             <Button asChild variant="outline">
                 <Link href="/">
