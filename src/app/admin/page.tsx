@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import { MarketingLayout } from '@/components/layout/marketing-layout';
@@ -41,6 +42,7 @@ import { useStore } from '@/store/app-store';
 import { initializeApp, deleteApp } from "firebase/app";
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 import { firebaseConfig } from '@/lib/firebase';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 
 const availableCourses = [
@@ -64,6 +66,7 @@ export default function AdminPage() {
     const [newStudentPassword, setNewStudentPassword] = useState('');
     const [newStudentPhone1, setNewStudentPhone1] = useState('');
     const [newStudentPhone2, setNewStudentPhone2] = useState('');
+    const [newStudentGender, setNewStudentGender] = useState<'male' | 'female'>('male');
     const [selectedCourses, setSelectedCourses] = useState<string[]>([]);
     const [searchQuery, setSearchQuery] = useState('');
     const [searchedStudent, setSearchedStudent] = useState<Student | null>(null);
@@ -75,6 +78,7 @@ export default function AdminPage() {
     const [editPhone1, setEditPhone1] = useState('');
     const [editPhone2, setEditPhone2] = useState('');
     const [editSelectedCourses, setEditSelectedCourses] = useState<string[]>([]);
+    const [editStudentGender, setEditStudentGender] = useState<'male' | 'female'>('male');
 
 
     // Group registered devices by student
@@ -153,6 +157,7 @@ export default function AdminPage() {
                 password: newStudentPassword,
                 phone1: newStudentPhone1,
                 phone2: newStudentPhone2,
+                gender: newStudentGender,
                 courses: coursesDetails.map(c => c.name),
                 courseIds: coursesDetails.map(c => c.id),
             });
@@ -292,6 +297,7 @@ export default function AdminPage() {
         setEditStudentName(student.studentName);
         setEditPhone1(student.phone1 || '');
         setEditPhone2(student.phone2 || '');
+        setEditStudentGender(student.gender || 'male');
         setEditSelectedCourses(student.courseIds || []);
         setIsEditDialogOpen(true);
     };
@@ -306,10 +312,11 @@ export default function AdminPage() {
         setIsLoading(prev => ({ ...prev, [`update-${editingStudent.id}`]: true }));
 
         const coursesDetails = availableCourses.filter(c => editSelectedCourses.includes(c.id));
-        const updatedData = {
+        const updatedData: Partial<Student> = {
             studentName: editStudentName,
             phone1: editPhone1,
             phone2: editPhone2,
+            gender: editStudentGender,
             courses: coursesDetails.map(c => c.name),
             courseIds: coursesDetails.map(c => c.id),
         };
@@ -372,9 +379,29 @@ export default function AdminPage() {
                                         <Input id="student-username" value={newStudentUsername} onChange={(e) => setNewStudentUsername(e.target.value)} placeholder="مثال: mohammed123" required />
                                         <p className="text-xs text-muted-foreground">استخدم حروف إنجليزية وأرقام فقط، بدون مسافات أو رموز.</p>
                                     </div>
-                                    <div className="space-y-2">
+                                     <div className="space-y-2">
                                         <Label htmlFor="student-password">كلمة المرور</Label>
                                         <Input id="student-password" type="password" value={newStudentPassword} onChange={(e) => setNewStudentPassword(e.target.value)} placeholder="6 أحرف على الأقل" required />
+                                    </div>
+                                    <div className="space-y-2">
+                                        <Label>الجنس</Label>
+                                        <Select onValueChange={(value: 'male' | 'female') => setNewStudentGender(value)} defaultValue={newStudentGender}>
+                                            <SelectTrigger>
+                                                <SelectValue placeholder="اختر الجنس" />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                <SelectItem value="male">ذكر</SelectItem>
+                                                <SelectItem value="female">أنثى</SelectItem>
+                                            </SelectContent>
+                                        </Select>
+                                    </div>
+                                    <div className="space-y-2">
+                                        <Label htmlFor="student-phone1">رقم الهاتف 1 (اختياري)</Label>
+                                        <Input id="student-phone1" type="tel" value={newStudentPhone1} onChange={(e) => setNewStudentPhone1(e.target.value)} placeholder="رقم هاتف الطالب أو ولي الأمر" />
+                                    </div>
+                                    <div className="space-y-2">
+                                        <Label htmlFor="student-phone2">رقم الهاتف 2 (اختياري)</Label>
+                                        <Input id="student-phone2" type="tel" value={newStudentPhone2} onChange={(e) => setNewStudentPhone2(e.target.value)} placeholder="رقم هاتف إضافي" />
                                     </div>
                                         <div className="space-y-3 md:col-span-2">
                                         <Label>الدورات المسجل بها</Label>
@@ -399,14 +426,6 @@ export default function AdminPage() {
                                                 </div>
                                             ))}
                                         </div>
-                                    </div>
-                                    <div className="space-y-2">
-                                        <Label htmlFor="student-phone1">رقم الهاتف 1 (اختياري)</Label>
-                                        <Input id="student-phone1" type="tel" value={newStudentPhone1} onChange={(e) => setNewStudentPhone1(e.target.value)} placeholder="رقم هاتف الطالب أو ولي الأمر" />
-                                    </div>
-                                    <div className="space-y-2">
-                                        <Label htmlFor="student-phone2">رقم الهاتف 2 (اختياري)</Label>
-                                        <Input id="student-phone2" type="tel" value={newStudentPhone2} onChange={(e) => setNewStudentPhone2(e.target.value)} placeholder="رقم هاتف إضافي" />
                                     </div>
                                 </div>
                                 <Button type="submit" className="w-full" disabled={isLoading['create']}>
@@ -438,7 +457,7 @@ export default function AdminPage() {
                                         <TableRow>
                                             <TableHead>اسم الطالب</TableHead>
                                             <TableHead>اسم المستخدم</TableHead>
-                                            <TableHead>كلمة المرور (للعرض)</TableHead>
+                                            <TableHead>الجنس</TableHead>
                                             <TableHead>الدورات</TableHead>
                                             <TableHead>هاتف 1</TableHead>
                                             <TableHead>هاتف 2</TableHead>
@@ -451,7 +470,7 @@ export default function AdminPage() {
                                                 <TableRow key={student.id}>
                                                     <TableCell className="font-medium whitespace-nowrap">{student.studentName}</TableCell>
                                                     <TableCell className="whitespace-nowrap">{student.username}</TableCell>
-                                                    <TableCell>{student.password}</TableCell>
+                                                     <TableCell>{student.gender === 'female' ? 'أنثى' : 'ذكر'}</TableCell>
                                                     <TableCell className="whitespace-nowrap">{student.courses?.join(', ') || 'N/A'}</TableCell>
                                                     <TableCell>{student.phone1 || '-'}</TableCell>
                                                     <TableCell>{student.phone2 || '-'}</TableCell>
@@ -676,6 +695,20 @@ export default function AdminPage() {
                                 <Label htmlFor="edit-phone2" className="text-right">هاتف 2</Label>
                                 <Input id="edit-phone2" value={editPhone2} onChange={(e) => setEditPhone2(e.target.value)} className="col-span-3" />
                             </div>
+                             <div className="grid grid-cols-4 items-center gap-4">
+                                <Label htmlFor="edit-gender" className="text-right">الجنس</Label>
+                                <div className="col-span-3">
+                                <Select onValueChange={(value: 'male' | 'female') => setEditStudentGender(value)} value={editStudentGender}>
+                                    <SelectTrigger>
+                                        <SelectValue placeholder="اختر الجنس" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem value="male">ذكر</SelectItem>
+                                        <SelectItem value="female">أنثى</SelectItem>
+                                    </SelectContent>
+                                </Select>
+                                </div>
+                            </div>
                             <div className="col-span-4 space-y-3">
                                 <Label>الدورات المسجل بها</Label>
                                 <div className="space-y-2 rounded-md border p-4">
@@ -716,5 +749,3 @@ export default function AdminPage() {
         </>
     );
 }
-
-    

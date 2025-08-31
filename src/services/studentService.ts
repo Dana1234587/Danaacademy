@@ -1,4 +1,5 @@
 
+
 'use server';
 
 import { collection, getDocs, doc, setDoc, deleteDoc, updateDoc, query, where, writeBatch } from 'firebase/firestore';
@@ -14,6 +15,7 @@ export type Student = {
   courseIds: string[];
   phone1?: string;
   phone2?: string;
+  gender?: 'male' | 'female';
 };
 
 const studentsCol = adminDB.collection('students');
