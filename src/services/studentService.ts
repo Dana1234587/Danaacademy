@@ -26,7 +26,7 @@ export async function getStudents(): Promise<Student[]> {
   return studentList;
 }
 
-export async function addStudent(studentData: Student): Promise<void> {
+export async function addStudent(studentData: Omit<Student, 'id'> & { id: string }): Promise<void> {
     const { id, ...firestoreData } = studentData;
     const studentDocRef = adminDB.collection('students').doc(id);
     await studentDocRef.set(firestoreData);

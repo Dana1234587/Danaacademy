@@ -10,7 +10,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Checkbox } from "@/components/ui/checkbox"
 import { useToast } from '@/hooks/use-toast';
-import { UserPlus, KeyRound, MonitorCheck, Loader2, Search, Smartphone, Monitor, Fingerprint, Globe, List, Home, Users, Edit, Trash2, Check, Plus, RefreshCw, Info, AlertTriangle, ClipboardCheck, ClipboardList, BarChart3 } from 'lucide-react';
+import { UserPlus, KeyRound, MonitorCheck, Loader2, Search, Smartphone, Monitor, Fingerprint, Globe, List, Home, Users, Edit, Trash2, Check, Plus, RefreshCw, Info, AlertTriangle, ClipboardCheck, ClipboardList, BarChart3, BarChart2 } from 'lucide-react';
 import { useState, useEffect, useMemo, useCallback } from 'react';
 import Link from 'next/link';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
@@ -345,6 +345,11 @@ export default function AdminPage() {
                     <p className="text-muted-foreground">مرحباً دكتورة دانا، هنا يمكنك إدارة الطلاب والأجهزة.</p>
                 </div>
                     <div className="flex gap-2">
+                     <Button asChild>
+                        <Link href="/admin/exams">
+                            <ClipboardCheck className="me-2 h-4 w-4" /> إدارة الامتحانات
+                        </Link>
+                    </Button>
                     <Button onClick={fetchData} variant="secondary" disabled={isLoading['page']}>
                         {isLoading['page'] ? <Loader2 className="me-2 h-4 w-4 animate-spin" /> : <RefreshCw className="me-2 h-4 w-4" />}
                         تحديث البيانات
@@ -353,11 +358,10 @@ export default function AdminPage() {
             </div>
 
             <Tabs defaultValue="create-student">
-                <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 md:grid-cols-5">
+                <TabsList className="grid w-full grid-cols-2 sm:grid-cols-4">
                     <TabsTrigger value="create-student"><UserPlus className="me-2" /> إنشاء حساب</TabsTrigger>
                     <TabsTrigger value="student-accounts"><Users className="me-2" /> الطلاب</TabsTrigger>
                     <TabsTrigger value="approve-devices"><MonitorCheck className="me-2" /> الموافقة</TabsTrigger>
-                    <TabsTrigger value="registered-devices"><List className="me-2" /> الأجهزة</TabsTrigger>
                     <TabsTrigger value="search-student"><Search className="me-2" /> بحث عن طالب</TabsTrigger>
                 </TabsList>
 
@@ -566,56 +570,7 @@ export default function AdminPage() {
                     </Card>
                 </TabsContent>
                 
-                    <TabsContent value="registered-devices">
-                    <Card>
-                        <CardHeader>
-                            <CardTitle>الأجهزة المسجلة</CardTitle>
-                            <CardDescription>قائمة بجميع الأجهزة المعتمدة حاليًا للطلاب.</CardDescription>
-                        </CardHeader>
-                        <CardContent className="space-y-6">
-                            {Object.keys(groupedRegisteredDevices).length > 0 ? (
-                                Object.entries(groupedRegisteredDevices).map(([studentId, devices]) => {
-                                    const student = students.find(s => s.id === studentId);
-                                    return (
-                                        <div key={studentId} className="p-4 bg-muted/50 rounded-lg border">
-                                            <div className="pb-4 border-b">
-                                                <p className="font-bold text-lg">{student?.studentName || 'طالب غير معروف'}</p>
-                                                <p className="text-sm text-primary">{student?.courses?.join(', ')}</p>
-                                            </div>
-                                            <div className="space-y-4 pt-4">
-                                                {devices.map(device => (
-                                                    <div key={device.id} className="flex items-start justify-between gap-4">
-                                                        <div className="flex-1 space-y-2 text-sm text-muted-foreground">
-                                                            <div className="flex items-center gap-2">
-                                                                {device.deviceType === 'Desktop' ? <Monitor className="w-4 h-4" /> : <Smartphone className="w-4 h-4" />}
-                                                                <span>{device.os}</span>
-                                                            </div>
-                                                            <div className="flex items-center gap-2">
-                                                                <Globe className="w-4 h-4" />
-                                                                <span dir="ltr">{device.ipAddress}</span>
-                                                            </div>
-                                                            <div className="flex items-start gap-2">
-                                                                <Fingerprint className="w-4 h-4 mt-1 flex-shrink-0" />
-                                                                <span className="break-all" dir="ltr">{device.deviceId}</span>
-                                                            </div>
-                                                        </div>
-                                                        <Button onClick={() => handleDeleteDevice(device.id)} variant="destructive" size="icon" disabled={isLoading[`delete-device-${device.id}`]}>
-                                                            {isLoading[`delete-device-${device.id}`] ? <Loader2 className="w-4 h-4 animate-spin" /> : <Trash2 className="w-4 h-4" />}
-                                                        </Button>
-                                                    </div>
-                                                ))}
-                                            </div>
-                                        </div>
-                                    )
-                                })
-                            ) : (
-                                <p className="text-muted-foreground text-center py-8">لا توجد أجهزة مسجلة حاليًا.</p>
-                            )}
-                        </CardContent>
-                    </Card>
-                </TabsContent>
-
-                <TabsContent value="search-student">
+                    <TabsContent value="search-student">
                     <Card>
                         <CardHeader>
                             <CardTitle>بحث عن أجهزة طالب</CardTitle>
