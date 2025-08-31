@@ -12,6 +12,7 @@
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
+import {googleAI} from '@genkit-ai/googleai';
 
 // Note: This schema is simplified. It only generates text for options, not image URLs.
 // The front-end will need to handle the conversion to the full form schema.
@@ -33,6 +34,7 @@ const generateQuestionPrompt = ai.definePrompt({
   name: 'generateExamQuestionPrompt',
   input: {schema: z.string()},
   output: {schema: ExamQuestionSchema},
+  model: googleAI.model('gemini-1.5-flash'),
   prompt: `You are an expert physics teacher and your task is to be a comprehensive physics question creator, able to generate questions about any physics topic provided.
 Your task is to generate a single, high-quality, multiple-choice question based on the provided topic.
 
