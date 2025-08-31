@@ -3,8 +3,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useStore } from '@/store/app-store';
-import { getExams } from '@/app/my-exams/actions';
-import type { Exam } from '@/app/my-exams/actions';
+import { getExams, type Exam } from '@/app/my-exams/actions';
 import { isBefore } from 'date-fns';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Bell, Timer, HelpCircle, Clock, Repeat } from 'lucide-react';
@@ -49,19 +48,19 @@ const CountdownTimer = ({ targetDate }: { targetDate: Date }) => {
                 seconds: 'ثانية',
             };
             return (
-                <div key={interval} className="flex flex-col items-center p-2 bg-primary/10 rounded-lg min-w-[60px]">
-                    <span className="text-3xl font-bold text-primary">{String(value).padStart(2, '0')}</span>
+                <div key={interval} className="flex flex-col items-center p-1 bg-primary/10 rounded-md min-w-[50px]">
+                    <span className="text-xl font-bold text-primary">{String(value).padStart(2, '0')}</span>
                     <span className="text-xs text-muted-foreground">{unitMap[interval]}</span>
                 </div>
             );
         });
 
     if (!Object.values(timeLeft).some(v => v > 0)) {
-        return <span className="text-lg font-semibold animate-pulse text-green-600">الامتحان متاح الآن!</span>;
+        return <span className="text-md font-semibold animate-pulse text-green-600">الامتحان متاح الآن!</span>;
     }
 
     return (
-        <div className="flex justify-center gap-2 sm:gap-4" dir="ltr">
+        <div className="flex justify-center gap-2" dir="ltr">
             {timerComponents}
         </div>
     );
@@ -108,7 +107,7 @@ export function ExamNotificationBanner() {
     }
 
     return (
-        <div className="fixed top-4 left-4 right-4 md:left-1/2 md:-translate-x-1/2 md:w-[95%] md:max-w-4xl z-50 flex flex-col gap-4">
+        <div className="fixed top-4 left-4 right-4 md:left-1/2 md:-translate-x-1/2 md:w-[95%] md:max-w-xl z-50 flex flex-col gap-2">
              <AnimatePresence>
                 {upcomingExams.map((exam, index) => (
                     <motion.div
@@ -120,47 +119,42 @@ export function ExamNotificationBanner() {
                         layout
                     >
                         <Card className="shadow-2xl border-2 border-primary/20 backdrop-blur-lg bg-background/80">
-                            <CardHeader className="flex flex-row items-center justify-between pb-2">
-                                <div className="flex items-center gap-3">
-                                    <Bell className="w-6 h-6 text-primary animate-pulse" />
-                                    <CardTitle>تنبيه لامتحان قادم</CardTitle>
+                            <CardHeader className="flex flex-row items-center justify-between p-3">
+                                <div className="flex items-center gap-2">
+                                    <Bell className="w-5 h-5 text-primary animate-pulse" />
+                                    <CardTitle className="text-sm font-bold">تنبيه لامتحان قادم</CardTitle>
                                 </div>
                                 <Button
                                     variant="ghost"
                                     size="icon"
-                                    className="h-7 w-7 rounded-full"
+                                    className="h-6 w-6 rounded-full"
                                     onClick={() => handleDismiss(exam.id)}
                                     >
                                     <X className="h-4 w-4" />
                                 </Button>
                             </CardHeader>
-                            <CardContent className="flex flex-col md:flex-row items-center justify-between gap-6">
-                                <div className="flex-1 space-y-3 text-center md:text-start">
-                                    <h3 className="text-xl font-bold text-foreground">{exam.title}</h3>
-                                    <div className="flex flex-wrap gap-x-6 gap-y-2 text-muted-foreground justify-center md:justify-start pt-2">
-                                        <div className="flex items-center gap-2">
-                                            <HelpCircle className="w-4 h-4 text-primary"/>
+                            <CardContent className="p-3 pt-0 flex flex-col sm:flex-row items-center justify-between gap-4">
+                                <div className="flex-1 space-y-1 text-center sm:text-start">
+                                    <h3 className="text-md font-bold text-foreground">{exam.title}</h3>
+                                    <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-muted-foreground justify-center sm:justify-start">
+                                        <div className="flex items-center gap-1.5">
+                                            <HelpCircle className="w-3 h-3 text-primary"/>
                                             <span>{exam.questionCount} سؤال</span>
                                         </div>
-                                        <div className="flex items-center gap-2">
-                                            <Clock className="w-4 h-4 text-primary"/>
+                                        <div className="flex items-center gap-1.5">
+                                            <Clock className="w-3 h-3 text-primary"/>
                                             <span>{exam.duration} دقيقة</span>
-                                        </div>
-                                        <div className="flex items-center gap-2">
-                                            <Repeat className="w-4 h-4 text-primary"/>
-                                            <span>{exam.attemptsAllowed} محاولة</span>
                                         </div>
                                     </div>
                                 </div>
                                 <div className="flex-shrink-0">
-                                <p className="text-center text-sm text-muted-foreground mb-2">الوقت المتبقي للبدء:</p>
-                                <CountdownTimer targetDate={exam.startDate!} />
+                                  <CountdownTimer targetDate={exam.startDate!} />
                                 </div>
                             </CardContent>
-                             <CardFooter className="bg-muted/50 p-3 flex justify-center">
-                                <Button asChild size="sm" variant="secondary">
+                             <CardFooter className="bg-muted/50 p-2 flex justify-center">
+                                <Button asChild size="sm" variant="secondary" className="h-8">
                                     <Link href="/my-exams">
-                                    الانتقال إلى صفحة الامتحانات
+                                      الانتقال للامتحانات
                                     </Link>
                                 </Button>
                             </CardFooter>
