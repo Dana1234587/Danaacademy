@@ -1,12 +1,8 @@
-
 'use server';
 
 import { z } from 'zod';
 import { adminDB } from '@/lib/firebase-admin';
 import { FieldValue, Timestamp } from 'firebase-admin/firestore';
-import { generateExamQuestion } from '@/ai/flows/generate-exam-question';
-import type { AiGeneratedExamQuestion } from '@/ai/flows/generate-exam-question.types';
-
 
 const questionOptionSchema = z.object({
   text: z.string().min(1, { message: 'لا يمكن ترك الخيار فارغًا.' }),
@@ -247,36 +243,5 @@ export async function getExamDetails(examId: string): Promise<Exam | null> {
     } catch (error) {
         console.error(`Error fetching exam details for ${examId}:`, error);
         throw error;
-    }
-}
-
-export async function generateExamQuestionAction(rawQuestionText: string): Promise<{
-    success: boolean,
-    data?: ExamQuestion,
-    error?: string,
-}> {
-    if (!rawQuestionText) {
-        return { success: false, error: 'نص السؤال لا يمكن أن يكون فارغًا.' };
-    }
-    try {
-        const aiResult: AiGeneratedExamQuestion = await generateExamQuestion(rawQuestionText);
-        
-        // Transform the AI result to match the form schema precisely
-        const questionForForm: ExamQuestion = {
-            text: aiResult.text,
-            imageUrl: '', // AI doesn't generate images
-            options: aiResult.options.map(opt => ({ text: opt, imageUrl: '' })),
-            correctAnswerIndex: 0, // Default to the first option, user must change it
-            explanation: aiResult.explanation || '', 
-            explanationImageUrl: '', // AI doesn't generate images
-        };
-        
-        return { success: true, data: questionForForm };
-
-    } catch (e: any) {
-        console.error("Error in generateExamQuestionAction:", e);
-        // Provide a more descriptive error message to the user
-        const errorMessage = e.message || 'An unknown error occurred while generating the question.';
-        return { success: false, error: `فشل في توليد السؤال: ${errorMessage}` };
     }
 }
