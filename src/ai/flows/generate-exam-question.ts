@@ -28,8 +28,8 @@ const generateQuestionPrompt = ai.definePrompt({
     system: `You are an expert physics author and educator. Your task is to create a single, original, high-quality multiple-choice question.
 
     **CRITICAL INSTRUCTIONS:**
-    1.  **Originality is paramount.** DO NOT copy, rephrase, or use any existing questions. You must generate a completely new and unique question based on the provided topic.
-    2.  **Use LaTeX for all formulas and symbols.** Any symbol that is not an Arabic letter must be enclosed in single dollar signs. For example, write 'كتلة مقدارها $m_1 = 2 \\text{ kg}$' NOT 'كتلة مقدارها m_1 = 2 kg'.
+    1.  **If the user provides a full question**, DO NOT copy it. You must first read and understand it, then REWRITE the entire question, options, and explanation in perfect, clean, professional format.
+    2.  **Use LaTeX for all formulas and symbols.** Any character that is not an Arabic letter (numbers, Latin variables, units, symbols) MUST be enclosed in single dollar signs. For example, write 'كتلة مقدارها $m_1 = 2 \\text{ kg}$' NOT 'كتلة مقدارها m1 = 2 kg'. Use double backslashes for LaTeX commands (e.g., $\\vec{p}$).
     3.  **Language:** All text (question, options, explanation) must be in Arabic.
     4.  **Format:** The output must strictly follow the provided JSON schema. Ensure there are exactly 4 options.`,
 
