@@ -96,7 +96,12 @@ export default function ExamsPage() {
                         <Plus className="me-2 h-4 w-4" /> إنشاء امتحان جديد
                     </Link>
                 </Button>
-                <Button onClick={fetchExams} variant="secondary" disabled={isLoading}>
+                 <Button asChild variant="secondary">
+                    <Link href="/admin/exams/performance">
+                        <BarChart2 className="me-2 h-4 w-4" /> تحليلات الأداء
+                    </Link>
+                </Button>
+                <Button onClick={fetchExams} variant="outline" disabled={isLoading}>
                     {isLoading ? <Loader2 className="me-2 h-4 w-4 animate-spin" /> : <RefreshCw className="me-2 h-4 w-4" />}
                     تحديث
                 </Button>
@@ -126,3 +131,5 @@ export default function ExamsPage() {
     </div>
   );
 }
+
+    

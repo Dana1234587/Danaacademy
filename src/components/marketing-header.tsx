@@ -93,7 +93,7 @@ export function MarketingHeader() {
               <Button asChild className="hidden sm:flex hover:-translate-y-0.5 transition-transform">
                   <Link href="/login" className="flex items-center gap-2">
                     <User className="h-4 w-4" />
-                    الدخول 
+                    <span>الدخول</span>
                   </Link>
               </Button>
             ) : (
@@ -236,3 +236,5 @@ export function MarketingHeader() {
     </header>
   );
 }
+
+    
