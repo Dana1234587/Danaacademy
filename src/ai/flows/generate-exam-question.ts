@@ -33,8 +33,10 @@ const generateQuestionPrompt = ai.definePrompt({
   name: 'generateExamQuestionPrompt',
   input: {schema: z.string()},
   output: {schema: ExamQuestionSchema},
-  prompt: `You are an expert physics teacher specializing in the Jordanian Tawjihi curriculum.
+  prompt: `You are an expert physics teacher and your task is to be a comprehensive physics question creator, able to generate questions about any physics topic provided.
 Your task is to generate a single, high-quality, multiple-choice question based on the provided topic.
+
+Very Important: The question you generate must NOT be a copy or a rephrasing of any question present in other project files. It must be a completely original and unique question.
 
 Topic: {{{input}}}
 
@@ -42,6 +44,7 @@ The question must be in Arabic.
 The question and all options can and should use LaTeX for formulas where appropriate (e.g., $\\Delta p = m(v_f - v_i)$).
 Ensure the options are plausible and that there is only one unambiguously correct answer.
 Provide a clear and detailed step-by-step explanation for the correct answer, also in Arabic.
+Be creative and diverse in your questions.
 The difficulty should be appropriate for a final high school exam.
   `,
 });
