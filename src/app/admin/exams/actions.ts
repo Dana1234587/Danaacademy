@@ -4,7 +4,7 @@
 import { z } from 'zod';
 import { adminDB } from '@/lib/firebase-admin';
 import { FieldValue, Timestamp } from 'firebase-admin/firestore';
-import { generateExamQuestion, type ExamQuestion as AIGeneratedQuestion } from '@/ai/flows/generate-exam-question';
+import { generateExamQuestion, type AiGeneratedExamQuestion } from '@/ai/flows/generate-exam-question';
 
 
 const questionOptionSchema = z.object({
@@ -249,25 +249,25 @@ export async function getExamDetails(examId: string): Promise<Exam | null> {
     }
 }
 
-export async function generateExamQuestionAction(topic: string): Promise<{
+export async function generateExamQuestionAction(rawQuestionText: string): Promise<{
     success: boolean,
     data?: ExamQuestion,
     error?: string,
 }> {
-    if (!topic) {
-        return { success: false, error: 'Topic cannot be empty.' };
+    if (!rawQuestionText) {
+        return { success: false, error: 'نص السؤال لا يمكن أن يكون فارغًا.' };
     }
     try {
-        const aiResult: AIGeneratedQuestion = await generateExamQuestion(topic);
+        const aiResult: AiGeneratedExamQuestion = await generateExamQuestion(rawQuestionText);
         
         // Transform the AI result to match the form schema precisely
         const questionForForm: ExamQuestion = {
             text: aiResult.text,
-            imageUrl: '', // Ensure field exists
+            imageUrl: '', // AI doesn't generate images
             options: aiResult.options.map(opt => ({ text: opt, imageUrl: '' })),
-            correctAnswerIndex: aiResult.correctAnswerIndex,
-            explanation: aiResult.explanation || '', // Ensure field exists
-            explanationImageUrl: '', // Ensure field exists
+            correctAnswerIndex: 0, // Default to the first option, user must change it
+            explanation: aiResult.explanation || '', 
+            explanationImageUrl: '', // AI doesn't generate images
         };
         
         return { success: true, data: questionForForm };

@@ -76,31 +76,31 @@ export type ExamQuestion = z.infer<typeof questionSchema>;
 
 function AiQuestionGenerator({ onAppend }: { onAppend: (question: ExamQuestion) => void }) {
   const [isOpen, setIsOpen] = useState(false);
-  const [topic, setTopic] = useState('');
+  const [rawText, setRawText] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
 
   const handleGenerate = async () => {
-    if (!topic.trim()) {
-        toast({ variant: 'destructive', title: 'الرجاء إدخال موضوع للسؤال.' });
+    if (!rawText.trim()) {
+        toast({ variant: 'destructive', title: 'الرجاء إدخال نص السؤال.' });
         return;
     }
     setIsLoading(true);
-    const result = await generateExamQuestionAction(topic);
+    const result = await generateExamQuestionAction(rawText);
     setIsLoading(false);
 
     if (result.success && result.data) {
         onAppend(result.data);
         setIsOpen(false);
-        setTopic('');
+        setRawText('');
          toast({
-            title: 'تم إنشاء السؤال بنجاح!',
-            description: 'تمت إضافة السؤال المولد بواسطة الذكاء الاصطناعي إلى نهاية القائمة.',
+            title: 'تمت إضافة السؤال بنجاح!',
+            description: 'قام الذكاء الاصطناعي بتنسيق السؤال وإضافته إلى نهاية القائمة. الرجاء تحديد الإجابة الصحيحة.',
         });
     } else {
         toast({
             variant: 'destructive',
-            title: 'فشل إنشاء السؤال',
+            title: 'فشل تنسيق السؤال',
             description: result.error || 'حدث خطأ غير متوقع.'
         });
     }
@@ -111,30 +111,42 @@ function AiQuestionGenerator({ onAppend }: { onAppend: (question: ExamQuestion) 
       <AlertDialogTrigger asChild>
         <Button type="button" variant="outline" className="w-full">
           <Sparkles className="me-2 h-4 w-4 text-yellow-500" />
-          إضافة سؤال باستخدام الذكاء الاصطناعي
+           إضافة سؤال بمساعدة الذكاء الاصطناعي (تنسيق LaTeX)
         </Button>
       </AlertDialogTrigger>
-      <AlertDialogContent>
+      <AlertDialogContent className="sm:max-w-2xl">
         <AlertDialogHeader>
-          <AlertDialogTitle>إنشاء سؤال بواسطة الذكاء الاصطناعي</AlertDialogTitle>
+          <AlertDialogTitle>مساعد تنسيق الأسئلة بالذكاء الاصطناعي</AlertDialogTitle>
           <AlertDialogDescription>
-            اكتب الموضوع الذي تريد إنشاء سؤال عنه (مثال: تصادم مرن، قانون أوم، طاقة الربط النووية). سيقوم الذكاء الاصطناعي بتوليد سؤال كامل مع الخيارات والشرح.
+            أدخلي نص السؤال والخيارات والشرح هنا. سيقوم الذكاء الاصطناعي بتحويل الصيغ إلى تنسيق LaTeX وتعبئة الحقول تلقائيًا.
+             <br />
+            مثال للتنسيق: (يمكنك فقط كتابة "سؤال:", "خيارات:", "شرح:")
+            <pre className="mt-2 p-2 bg-muted text-xs rounded-md text-start" dir="ltr">{`
+السؤال: سيارة كتلتها 1000kg ...
+الخيارات:
+1) 20,000 kg.m/s
+2) 50 kg.m/s
+3) ...
+4) ...
+الشرح: الزخم الخطي (p) = الكتلة...
+            `}</pre>
           </AlertDialogDescription>
         </AlertDialogHeader>
         <div className="py-4">
-            <Label htmlFor="ai-topic">موضوع السؤال</Label>
-            <Input 
-                id="ai-topic" 
-                value={topic}
-                onChange={(e) => setTopic(e.target.value)}
-                placeholder="مثال: التصادم عديم المرونة"
+            <Label htmlFor="ai-topic">نص السؤال والخيارات والشرح</Label>
+            <Textarea
+                id="ai-topic"
+                value={rawText}
+                onChange={(e) => setRawText(e.target.value)}
+                placeholder="أدخل النص هنا..."
+                rows={10}
             />
         </div>
         <AlertDialogFooter>
           <AlertDialogCancel>إلغاء</AlertDialogCancel>
           <Button onClick={handleGenerate} disabled={isLoading}>
             {isLoading && <Loader2 className="me-2 h-4 w-4 animate-spin" />}
-            إنشاء السؤال
+            تنسيق وإضافة السؤال
           </Button>
         </AlertDialogFooter>
       </AlertDialogContent>
