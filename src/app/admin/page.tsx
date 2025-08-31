@@ -69,6 +69,7 @@ export default function AdminPage() {
     const [selectedCourses, setSelectedCourses] = useState<string[]>([]);
     const [studentSearchQuery, setStudentSearchQuery] = useState('');
     const [deviceSearchQuery, setDeviceSearchQuery] = useState('');
+    const [pendingDeviceSearchQuery, setPendingDeviceSearchQuery] = useState('');
 
     // Edit Student State
     const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
@@ -105,6 +106,13 @@ export default function AdminPage() {
             studentName.toLowerCase().includes(deviceSearchQuery.toLowerCase())
         );
     }, [groupedRegisteredDevices, deviceSearchQuery]);
+    
+    const filteredPendingDevices = useMemo(() => {
+        if (!pendingDeviceSearchQuery) return pendingDevices;
+        return pendingDevices.filter(device =>
+            device.studentName.toLowerCase().includes(pendingDeviceSearchQuery.toLowerCase())
+        );
+    }, [pendingDevices, pendingDeviceSearchQuery]);
 
 
     const fetchData = useCallback(async () => {
@@ -530,12 +538,25 @@ export default function AdminPage() {
                 <TabsContent value="approve-devices">
                     <Card>
                         <CardHeader>
-                            <CardTitle>طلبات الأجهزة المعلقة</CardTitle>
-                            <CardDescription>الطلاب الذين يحاولون تسجيل الدخول من جهاز جديد.</CardDescription>
+                             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                                <div>
+                                    <CardTitle>طلبات الأجهزة المعلقة</CardTitle>
+                                    <CardDescription>الطلاب الذين يحاولون تسجيل الدخول من جهاز جديد.</CardDescription>
+                                </div>
+                                 <div className="relative w-full sm:w-64">
+                                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                    <Input 
+                                        placeholder="بحث باسم الطالب..." 
+                                        className="ps-10" 
+                                        value={pendingDeviceSearchQuery}
+                                        onChange={(e) => setPendingDeviceSearchQuery(e.target.value)}
+                                    />
+                                </div>
+                             </div>
                         </CardHeader>
                         <CardContent className="space-y-4">
-                            {pendingDevices.length > 0 ? (
-                                pendingDevices.map(device => (
+                            {filteredPendingDevices.length > 0 ? (
+                                filteredPendingDevices.map(device => (
                                     <div key={device.id} className="p-4 bg-muted rounded-lg border">
                                         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between flex-wrap gap-4">
                                             <div>
@@ -724,5 +745,7 @@ export default function AdminPage() {
         </>
     );
 }
+
+    
 
     
