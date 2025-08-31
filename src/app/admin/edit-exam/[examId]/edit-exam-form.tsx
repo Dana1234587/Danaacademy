@@ -22,7 +22,6 @@ import { updateExamAction, generateQuestionAction } from '@/app/admin/exams/acti
 import { useToast } from '@/hooks/use-toast';
 import { useRouter } from 'next/navigation';
 import type { ExamWithQuestions } from '@/app/exam/[examId]/actions';
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 
 
 const questionOptionSchema = z.object({
