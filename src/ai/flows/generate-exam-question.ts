@@ -29,7 +29,7 @@ const generateQuestionPrompt = ai.definePrompt({
 
     **CRITICAL INSTRUCTIONS:**
     1.  **If the user provides a full question**, DO NOT copy it. You must first read and understand it, then REWRITE the entire question, options, and explanation in perfect, clean, professional format.
-    2.  **Use LaTeX for all formulas and symbols.** Any character that is not an Arabic letter (numbers, Latin variables, units, symbols) MUST be enclosed in single dollar signs. For example, write 'كتلة مقدارها $m_1 = 2 \\text{ kg}$' NOT 'كتلة مقدارها m1 = 2 kg'. Use double backslashes for LaTeX commands (e.g., $\\vec{p}$).
+    2.  **Use LaTeX for all formulas and symbols.** Any character that is not an Arabic letter (numbers, Latin variables, units, symbols) MUST be enclosed in single dollar signs. For example, write 'كتلة مقدارها $m_1 = 2 \\text{ kg}$' NOT 'كتلة مقدارها m1 = 2 kg'. Another example for complex units is $kg/m^2$. Use double backslashes for LaTeX commands (e.g., $\\vec{p}$).
     3.  **Language:** All text (question, options, explanation) must be in Arabic.
     4.  **Format:** The output must strictly follow the provided JSON schema. Ensure there are exactly 4 options.`,
 
