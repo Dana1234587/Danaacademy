@@ -67,7 +67,8 @@ export default function AdminPage() {
     const [newStudentPhone2, setNewStudentPhone2] = useState('');
     const [newStudentGender, setNewStudentGender] = useState<'male' | 'female'>('male');
     const [selectedCourses, setSelectedCourses] = useState<string[]>([]);
-    const [searchQuery, setSearchQuery] = useState('');
+    const [studentSearchQuery, setStudentSearchQuery] = useState('');
+    const [deviceSearchQuery, setDeviceSearchQuery] = useState('');
 
     // Edit Student State
     const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
@@ -90,13 +91,20 @@ export default function AdminPage() {
     }, [registeredDevices, students]);
 
     const filteredStudents = useMemo(() => {
-        if (!searchQuery) return students;
+        if (!studentSearchQuery) return students;
         return students.filter(
             (student) =>
-                student.studentName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                student.username.toLowerCase().includes(searchQuery.toLowerCase())
+                student.studentName.toLowerCase().includes(studentSearchQuery.toLowerCase()) ||
+                student.username.toLowerCase().includes(studentSearchQuery.toLowerCase())
         );
-    }, [students, searchQuery]);
+    }, [students, studentSearchQuery]);
+
+    const filteredDeviceEntries = useMemo(() => {
+        if (!deviceSearchQuery) return Object.entries(groupedRegisteredDevices);
+        return Object.entries(groupedRegisteredDevices).filter(([studentName]) => 
+            studentName.toLowerCase().includes(deviceSearchQuery.toLowerCase())
+        );
+    }, [groupedRegisteredDevices, deviceSearchQuery]);
 
 
     const fetchData = useCallback(async () => {
@@ -439,8 +447,8 @@ export default function AdminPage() {
                                     <Input 
                                         placeholder="بحث بالاسم أو اسم المستخدم..." 
                                         className="ps-10" 
-                                        value={searchQuery}
-                                        onChange={(e) => setSearchQuery(e.target.value)}
+                                        value={studentSearchQuery}
+                                        onChange={(e) => setStudentSearchQuery(e.target.value)}
                                     />
                                 </div>
                              </div>
@@ -571,12 +579,25 @@ export default function AdminPage() {
                  <TabsContent value="registered-devices">
                     <Card>
                         <CardHeader>
-                            <CardTitle>الأجهزة المسجلة</CardTitle>
-                            <CardDescription>هنا يتم عرض جميع الأجهزة المسجلة لكل طالب.</CardDescription>
+                             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                                <div>
+                                    <CardTitle>الأجهزة المسجلة</CardTitle>
+                                    <CardDescription>هنا يتم عرض جميع الأجهزة المسجلة لكل طالب.</CardDescription>
+                                </div>
+                                <div className="relative w-full sm:w-64">
+                                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                    <Input 
+                                        placeholder="بحث باسم الطالب..." 
+                                        className="ps-10" 
+                                        value={deviceSearchQuery}
+                                        onChange={(e) => setDeviceSearchQuery(e.target.value)}
+                                    />
+                                </div>
+                             </div>
                         </CardHeader>
                         <CardContent className="space-y-4">
-                             {Object.keys(groupedRegisteredDevices).length > 0 ? (
-                                Object.entries(groupedRegisteredDevices).map(([studentName, devices]) => (
+                             {filteredDeviceEntries.length > 0 ? (
+                                filteredDeviceEntries.map(([studentName, devices]) => (
                                     <div key={studentName} className="p-4 bg-muted rounded-lg border">
                                         <h3 className="font-bold text-lg mb-4 pb-2 border-b">{studentName}</h3>
                                         <div className="space-y-4">
@@ -617,7 +638,9 @@ export default function AdminPage() {
                                     </div>
                                 ))
                             ) : (
-                                <p className="text-muted-foreground text-center py-8">لا توجد أجهزة مسجلة حاليًا.</p>
+                                <p className="text-muted-foreground text-center py-8">
+                                    {deviceSearchQuery ? "لا يوجد طلاب يطابقون بحثك." : "لا توجد أجهزة مسجلة حاليًا."}
+                                </p>
                             )}
                         </CardContent>
                     </Card>
