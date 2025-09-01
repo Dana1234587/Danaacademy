@@ -18,7 +18,7 @@ export default function MomentumConservationSimulationPage() {
             <p className="text-sm text-primary font-medium">الدرس الأول: الزخم الخطي والدفع</p>
             <h1 className="text-3xl font-bold mt-1">حصة رقم (11): حفظ الزخم الخطي (برنامج محاكاة)</h1>
             <p className="text-muted-foreground mt-2 max-w-2xl">
-              في هذه الحصة، سنشاهد مبدأ حفظ الزخم الخطي عمليًا باستخدام برامج المحاكاة التفاعلية.
+              في هذه الحصة، سنشاهد مبدأ حفظ الزخم الخطي عمليًا باستخدام برامج المحاكاة التفاعلية ونتعلم اشتقاق قانونه.
             </p>
           </div>
           <Button asChild variant="outline">
@@ -46,14 +46,14 @@ export default function MomentumConservationSimulationPage() {
             <Card>
                 <CardHeader>
                     <CardTitle>نقاط رئيسية من الحصة</CardTitle>
-                    <CardDescription>أهم الأفكار التي نلاحظها من خلال المحاكاة.</CardDescription>
+                    <CardDescription>أهم الأفكار التي نلاحظها من خلال المحاكاة والشرح.</CardDescription>
                 </CardHeader>
                 <CardContent>
                     <ul className="space-y-3 list-disc list-inside text-muted-foreground">
-                        <li>مشاهدة أنواع التصادمات المختلفة (مرن، غير مرن، عديم المرونة).</li>
-                        <li>التحقق من أن الزخم الخطي الكلي لنظام معزول يبقى ثابتًا قبل وبعد التصادم.</li>
+                        <li>اشتقاق قانون حفظ الزخم الخطي من قانون نيوتن الثالث (الفعل ورد الفعل).</li>
+                        <li>مشاهدة كيف يبقى الزخم الخطي الكلي محفوظًا في التصادمات المختلفة (مرن وغير مرن).</li>
                         <li>ملاحظة كيف تتغير الطاقة الحركية بينما يبقى الزخم محفوظًا في التصادمات غير المرنة.</li>
-                        <li>فهم الحالات الخاصة، مثل تصادم الكرات المتساوية في الكتلة.</li>
+                        <li>تحليل حالات ارتداد الأجسام والتصادمات في بعد واحد باستخدام مبدأ حفظ الزخم.</li>
                     </ul>
                 </CardContent>
             </Card>

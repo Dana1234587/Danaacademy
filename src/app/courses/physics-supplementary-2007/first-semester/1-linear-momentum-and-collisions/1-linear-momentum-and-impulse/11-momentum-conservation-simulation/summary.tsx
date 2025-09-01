@@ -5,18 +5,37 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert';
 import { Info } from 'lucide-react';
 import 'katex/dist/katex.min.css';
-import { BlockMath } from 'react-katex';
+import { BlockMath, InlineMath } from 'react-katex';
+
+// A robust, universal renderer for bidirectional text
+const SmartTextRenderer = ({ text, as: Wrapper = 'p' }: { text: string; as?: React.ElementType }) => {
+    const lines = text.split('\n');
+    const renderPart = (part: string, index: number) => {
+        if (index % 2 === 0) return <span key={index} dir="rtl">{part}</span>;
+        return <span key={index} className="inline-block mx-1"><InlineMath math={part} /></span>;
+    };
+    return (
+        <Wrapper className="leading-relaxed">
+            {lines.map((line, lineIndex) => (
+                <span key={lineIndex} className="block my-1 text-right">
+                    {line.split('$').map(renderPart)}
+                </span>
+            ))}
+        </Wrapper>
+    );
+};
+
 
 const laws = [
     {
-        title: "حفظ الزخم الخطي",
+        title: "مبدأ حفظ الزخم الخطي",
         formula: "\\Sigma \\vec{p}_{initial} = \\Sigma \\vec{p}_{final}",
-        description: "في أي نظام معزول (لا توجد قوى خارجية محصلة)، يكون الزخم الخطي الكلي قبل التصادم مساويًا للزخم الخطي الكلي بعد التصادم. هذا القانون ينطبق على جميع أنواع التصادمات."
+        description: "إذا كانت محصلة القوى الخارجية المؤثرة على نظام تساوي صفرًا (نظام معزول)، فإن الزخم الخطي الكلي للنظام يبقى ثابتًا."
     },
     {
-        title: "حفظ الطاقة الحركية",
-        formula: "\\Sigma K_{initial} = \\Sigma K_{final}",
-        description: "تكون الطاقة الحركية الكلية محفوظة فقط في التصادمات المرنة تمامًا. في التصادمات غير المرنة، جزء من الطاقة الحركية يتحول إلى أشكال أخرى (حرارة، صوت)."
+        title: "الاشتقاق من قانون نيوتن الثالث",
+        formula: "\\vec{F}_{12} = -\\vec{F}_{21} \\implies \\Delta \\vec{p}_1 = -\\Delta \\vec{p}_2",
+        description: "القوة التي يؤثر بها الجسم الأول على الثاني تساوي وتعاكس القوة التي يؤثر بها الثاني على الأول. وبما أن زمن التأثير متساوٍ، فإن الدفع المتبادل متساوٍ ومتعاكس، وبالتالي يكون التغير في زخم الجسم الأول مساويًا في المقدار ومعاكسًا في الاتجاه للتغير في زخم الجسم الثاني."
     },
 ];
 
@@ -34,18 +53,16 @@ export default function SummaryPage() {
                     <BlockMath math={law.formula} />
                 </div>
                 <CardDescription className="text-right">
-                    {law.description}
+                   <SmartTextRenderer text={law.description} />
                 </CardDescription>
             </CardContent>
           </Card>
         ))}
          <Alert>
           <Info className="h-4 w-4" />
-          <AlertTitle className="font-bold">أنواع التصادمات</AlertTitle>
+          <AlertTitle className="font-bold">التصادمات والارتداد</AlertTitle>
           <AlertDescription>
-           - **مرن:** الزخم محفوظ والطاقة الحركية محفوظة. <br/>
-           - **غير مرن:** الزخم محفوظ والطاقة الحركية غير محفوظة. <br/>
-           - **عديم المرونة كليًا:** الزخم محفوظ، والأجسام تلتحم بعد التصادم، والفقد في الطاقة الحركية يكون أكبر ما يمكن.
+           قانون حفظ الزخم هو الأداة الأساسية لتحليل جميع أنواع التصادمات والانفجارات (مثل ارتداد المدفع) في الأنظمة المعزولة.
           </AlertDescription>
         </Alert>
       </div>
