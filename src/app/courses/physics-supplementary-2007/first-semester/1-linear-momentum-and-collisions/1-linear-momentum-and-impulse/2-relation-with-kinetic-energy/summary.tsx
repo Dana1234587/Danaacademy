@@ -1,6 +1,7 @@
 
 'use client';
 
+import * as React from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import 'katex/dist/katex.min.css';
 import { BlockMath, InlineMath } from 'react-katex';
