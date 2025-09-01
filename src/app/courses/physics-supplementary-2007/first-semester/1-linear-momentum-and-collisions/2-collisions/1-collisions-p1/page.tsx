@@ -16,9 +16,9 @@ export default function CollisionsP1Page() {
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
           <div>
             <p className="text-sm text-primary font-medium">الدرس الثاني: التصادمات</p>
-            <h1 className="text-3xl font-bold mt-1">حصة رقم (15): التصادمات (الجزء الأول)</h1>
+            <h1 className="text-3xl font-bold mt-1">حصة رقم (15): التصادمات المرنة</h1>
             <p className="text-muted-foreground mt-2 max-w-2xl">
-              في هذه الحصة، نبدأ رحلتنا في عالم التصادمات، أحد أهم تطبيقات مبدأ حفظ الزخم الخطي.
+              في هذه الحصة، نبدأ رحلتنا في عالم التصادمات، ونركز على النوع الأول وهو التصادم المرن.
             </p>
           </div>
           <Button asChild variant="outline">
@@ -50,9 +50,10 @@ export default function CollisionsP1Page() {
                 </CardHeader>
                 <CardContent>
                     <ul className="space-y-3 list-disc list-inside text-muted-foreground">
-                        <li>تعريف التصادم وأنواعه (مرن، غير مرن، عديم المرونة كليًا).</li>
-                        <li>الفرق بين أنواع التصادمات من حيث حفظ الزخم وحفظ الطاقة الحركية.</li>
-                        <li>تطبيق قانون حفظ الزخم على التصادمات في بعد واحد.</li>
+                        <li>تعريف التصادم (الجاهري والمجهري).</li>
+                        <li>شروط التصادم المرن: حفظ الزخم الخطي وحفظ الطاقة الحركية.</li>
+                        <li>اشتقاق علاقة السرعة النسبية الخاصة بالتصادم المرن.</li>
+                        <li>تطبيق القوانين لحل مسائل على التصادم المرن.</li>
                     </ul>
                 </CardContent>
             </Card>
@@ -76,7 +77,7 @@ export default function CollisionsP1Page() {
                     </DialogTrigger>
                     <DialogContent className="max-w-xl h-auto max-h-[80vh] overflow-y-auto">
                         <DialogHeader>
-                            <DialogTitle>ملخص قوانين: أنواع التصادمات</DialogTitle>
+                            <DialogTitle>ملخص قوانين: التصادم المرن</DialogTitle>
                         </DialogHeader>
                         <SummaryPage />
                     </DialogContent>
@@ -89,7 +90,7 @@ export default function CollisionsP1Page() {
                     </DialogTrigger>
                     <DialogContent className="max-w-4xl h-[90vh] overflow-y-auto">
                         <DialogHeader>
-                            <DialogTitle>اختبار قصير: أنواع التصادمات</DialogTitle>
+                            <DialogTitle>اختبار قصير: التصادم المرن</DialogTitle>
                         </DialogHeader>
                         <QuizPage />
                     </DialogContent>
