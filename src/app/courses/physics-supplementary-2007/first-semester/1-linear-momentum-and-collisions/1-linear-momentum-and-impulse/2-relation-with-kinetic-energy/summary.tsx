@@ -1,7 +1,7 @@
 
 'use client';
 
-import * as React from 'react';
+import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import 'katex/dist/katex.min.css';
 import { BlockMath, InlineMath } from 'react-katex';
@@ -37,7 +37,7 @@ const SmartTextRenderer = ({ text, as: Wrapper = 'p' }: { text: string; as?: Rea
 
 const laws = [
     {
-        title: "العلاقة بين طاقة الحركة K والزخم الخطي p",
+        title: "العلاقة بين الطاقة الحركية K والزخم الخطي p",
         formula: "K = \\frac{p^2}{2m}",
         description: "يمكن اشتقاق هذه العلاقة من قانوني طاقة الحركة $K=\\frac{1}{2}mv^2$ والزخم $p=mv$."
     },
