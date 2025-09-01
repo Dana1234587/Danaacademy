@@ -4,6 +4,24 @@
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { CheckCircle, XCircle } from 'lucide-react';
+import 'katex/dist/katex.min.css';
+import { InlineMath } from 'react-katex';
+
+const SmartTextRenderer = ({ text, as: Wrapper = 'span' }: { text: string; as?: React.ElementType }) => {
+    const parts = text.split('$');
+    return (
+        <Wrapper>
+            {parts.map((part, index) =>
+                index % 2 === 0 ? (
+                    <span key={index}>{part}</span>
+                ) : (
+                    <InlineMath key={index} math={part} />
+                )
+            )}
+        </Wrapper>
+    );
+};
+
 
 export default function SummaryPage() {
   return (
@@ -44,9 +62,9 @@ export default function SummaryPage() {
               </TableRow>
               <TableRow>
                 <TableCell className="font-medium text-right">معادلة إضافية</TableCell>
-                <TableCell className="text-center text-muted-foreground">$v_{1i}+v_{1f}=v_{2i}+v_{2f}$</TableCell>
+                <TableCell className="text-center text-muted-foreground"><SmartTextRenderer text="$v_{1i}+v_{1f}=v_{2i}+v_{2f}$" /></TableCell>
                 <TableCell className="text-center text-muted-foreground">-</TableCell>
-                <TableCell className="text-center text-muted-foreground">$v_{f}$ مشتركة</TableCell>
+                <TableCell className="text-center text-muted-foreground"><SmartTextRenderer text="$v_{f}$ مشتركة" /></TableCell>
               </TableRow>
             </TableBody>
           </Table>
