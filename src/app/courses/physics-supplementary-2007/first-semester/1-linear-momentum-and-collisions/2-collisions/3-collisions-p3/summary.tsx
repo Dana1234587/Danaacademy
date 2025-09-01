@@ -10,7 +10,7 @@ export default function SummaryPage() {
     <div className="p-4 bg-muted/40 rounded-lg">
       <Card>
         <CardHeader>
-          <CardTitle className="text-primary text-xl">مقارنة بين أنواع التصادمات في بعد واحد</CardTitle>
+          <CardTitle className="text-primary text-xl text-right">مقارنة بين أنواع التصادمات في بعد واحد</CardTitle>
           <CardDescription>جدول يلخص الفروقات الأساسية بين أنواع التصادمات الثلاثة.</CardDescription>
         </CardHeader>
         <CardContent>
