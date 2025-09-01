@@ -18,7 +18,7 @@ export default function MomentumConservationP1Page() {
             <p className="text-sm text-primary font-medium">الدرس الأول: الزخم الخطي والدفع</p>
             <h1 className="text-3xl font-bold mt-1">حصة رقم (12): حفظ الزخم الخطي (شرح الجزء الأول)</h1>
             <p className="text-muted-foreground mt-2 max-w-2xl">
-              في هذه الحصة، سنبدأ بشرح مبدأ حفظ الزخم الخطي، أحد أهم المبادئ في الفيزياء.
+              في هذه الحصة، سنبدأ بشرح مبدأ حفظ الزخم الخطي، أحد أهم المبادئ في الفيزياء، ونشتقه من قوانين نيوتن.
             </p>
           </div>
           <Button asChild variant="outline">
@@ -50,9 +50,10 @@ export default function MomentumConservationP1Page() {
                 </CardHeader>
                 <CardContent>
                     <ul className="space-y-3 list-disc list-inside text-muted-foreground">
-                        <li>تعريف النظام المعزول.</li>
-                        <li>نص مبدأ حفظ الزخم الخطي.</li>
-                        <li>اشتقاق القانون من قانون نيوتن الثاني والثالث.</li>
+                        <li>اشتقاق مبدأ حفظ الزخم من قانون نيوتن الثالث.</li>
+                        <li>فهم أن القوة، الدفع، والتغير في الزخم كلها بنفس الاتجاه.</li>
+                        <li>تطبيق المبدأ على التصادمات في بعد واحد.</li>
+                        <li>تحليل أمثلة مثل ارتداد المدفع وحركة الصاروخ.</li>
                     </ul>
                 </CardContent>
             </Card>
