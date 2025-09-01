@@ -9,6 +9,7 @@ import { Label } from '@/components/ui/label';
 import { CheckCircle, XCircle } from 'lucide-react';
 import 'katex/dist/katex.min.css';
 import { InlineMath } from 'react-katex';
+import { TwoForcesDiagram } from './diagram';
 
 // A robust, universal renderer for bidirectional text
 const SmartTextRenderer = ({ text, as: Wrapper = 'p' }: { text: string; as?: React.ElementType }) => {
@@ -55,7 +56,7 @@ const quizQuestions = [
   },
   {
     questionText: 'تؤثر قوتان على جسم كما في الشكل. إذا كان الجسم ساكنًا في البداية، فما زخمه بعد $4$ ثوان؟',
-    diagram: 'Two forces, 10N right and 4N left, acting on a body.',
+    diagram: true,
     options: ['$6 Ns$', '$14 Ns$', '$24 Ns$', '$56 Ns$'],
     correctAnswerIndex: 2,
     explanation: 'القوة المحصلة $\\Sigma F = 10 N - 4 N = 6 N$ (باتجاه اليمين). \n الدفع $I = \\Sigma F \\times \\Delta t = 6 N \\times 4 s = 24 Ns$. \n بما أن الجسم بدأ من السكون، فإن زخمه النهائي يساوي الدفع. $p_f = I = 24 kg \\cdot m/s$.'
@@ -89,7 +90,7 @@ export default function MomentumImpulseQuestionsQuizPage() {
           <Card key={qIndex} className={`border-2 ${isSubmitted ? (selectedAnswers[qIndex] === q.correctAnswerIndex ? 'border-green-500' : 'border-red-500') : 'border-border'} transition-colors duration-300 shadow-lg`}>
             <CardHeader>
               <CardTitle><SmartTextRenderer as="div" text={`السؤال ${qIndex + 1}: ${q.questionText}`} /></CardTitle>
-              {q.diagram && <p className="text-sm text-muted-foreground italic mt-2 text-center bg-slate-100 p-2 rounded-md">{q.diagram}</p>}
+              {q.diagram && <TwoForcesDiagram />}
             </CardHeader>
             <CardContent>
               <RadioGroup onValueChange={(value) => handleAnswerChange(qIndex, parseInt(value))} value={selectedAnswers[qIndex]?.toString()} className="grid grid-cols-1 md:grid-cols-2 gap-4">
