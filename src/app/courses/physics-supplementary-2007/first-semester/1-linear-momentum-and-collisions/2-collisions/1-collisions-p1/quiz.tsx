@@ -54,7 +54,7 @@ const quizQuestions = [
     explanation: 'تعتبر التصادمات بين جزيئات الغاز المثالي مرنة تمامًا، حيث لا يوجد فقدان للطاقة الحركية على شكل حرارة أو تشوه أثناء التصادم.'
   },
   {
-    questionText: 'كرة كتلتها $m_1 = 2 kg$ تتحرك بسرعة $v_{1i} = +4 m/s$ تصطدم تصادمًا مرنًا بكرة أخرى ساكنة $m_2 = 6 kg$. ما سرعة الكرة الأولى بعد التصادم ($v_{1f}$)?',
+    questionText: 'كرة كتلتها $m_1 = 2 kg$ تتحرك بسرعة $\\vec{v}_{1i} = +4 m/s$ تصطدم تصادمًا مرنًا بكرة أخرى ساكنة $m_2 = 6 kg$. ما سرعة الكرة الأولى بعد التصادم ($\\vec{v}_{1f}$)?',
     options: ['$-2 m/s$', '$+2 m/s$', '$-4 m/s$', '$0 m/s$'],
     correctAnswerIndex: 0,
     explanation: 'نستخدم معادلتي حفظ الزخم وعلاقة السرعة النسبية. \n (1) حفظ الزخم: $m_1 v_{1i} = m_1 v_{1f} + m_2 v_{2f} \\Rightarrow (2)(4) = 2v_{1f} + 6v_{2f} \\Rightarrow 8 = 2v_{1f} + 6v_{2f}$. \n (2) السرعة النسبية: $v_{1i} + v_{1f} = v_{2i} + v_{2f} \\Rightarrow 4 + v_{1f} = 0 + v_{2f} \\Rightarrow v_{2f} = 4 + v_{1f}$. \n نعوض (2) في (1): $8 = 2v_{1f} + 6(4 + v_{1f}) \\Rightarrow 8 = 2v_{1f} + 24 + 6v_{1f} \\Rightarrow -16 = 8v_{1f} \\Rightarrow v_{1f} = -2 m/s$.'
@@ -85,15 +85,15 @@ export default function CollisionsP1QuizPage() {
        <div className="max-w-4xl mx-auto">
       <div className="space-y-8">
         {quizQuestions.map((q, qIndex) => (
-          <Card key={qIndex} className={\`border-2 \${isSubmitted ? (selectedAnswers[qIndex] === q.correctAnswerIndex ? 'border-green-500' : 'border-red-500') : 'border-border'} transition-colors duration-300 shadow-lg\`}>
+          <Card key={qIndex} className={`border-2 ${isSubmitted ? (selectedAnswers[qIndex] === q.correctAnswerIndex ? 'border-green-500' : 'border-red-500') : 'border-border'} transition-colors duration-300 shadow-lg`}>
             <CardHeader>
-              <CardTitle><SmartTextRenderer as="div" text={\`السؤال \${qIndex + 1}: \${q.questionText}\`} /></CardTitle>
+              <CardTitle><SmartTextRenderer as="div" text={`السؤال ${qIndex + 1}: ${q.questionText}`} /></CardTitle>
             </CardHeader>
             <CardContent>
               <RadioGroup onValueChange={(value) => handleAnswerChange(qIndex, parseInt(value))} value={selectedAnswers[qIndex]?.toString()} className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {q.options.map((option, oIndex) => (
-                  <Label key={oIndex} htmlFor={\`q\${qIndex}-o\${oIndex}\`} className={\`p-4 rounded-lg border-2 flex items-center gap-4 cursor-pointer transition-all hover:bg-accent \${selectedAnswers[qIndex] === oIndex ? 'bg-primary/10 border-primary' : 'bg-background'}\`}>
-                    <RadioGroupItem value={oIndex.toString()} id={\`q\${qIndex}-o\${oIndex}\`} disabled={isSubmitted} />
+                  <Label key={oIndex} htmlFor={`q${qIndex}-o${oIndex}`} className={`p-4 rounded-lg border-2 flex items-center gap-4 cursor-pointer transition-all hover:bg-accent ${selectedAnswers[qIndex] === oIndex ? 'bg-primary/10 border-primary' : 'bg-background'}`}>
+                    <RadioGroupItem value={oIndex.toString()} id={`q${qIndex}-o${oIndex}`} disabled={isSubmitted} />
                     <SmartTextRenderer as="span" text={option} />
                      {isSubmitted && selectedAnswers[qIndex] === oIndex && selectedAnswers[qIndex] !== q.correctAnswerIndex && <XCircle className="w-5 h-5 text-red-500 ms-auto"/>}
                     {isSubmitted && oIndex === q.correctAnswerIndex && <CheckCircle className="w-5 h-5 text-green-500 ms-auto"/>}
@@ -130,3 +130,4 @@ export default function CollisionsP1QuizPage() {
     </div>
   );
 }
+
