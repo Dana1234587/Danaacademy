@@ -16,9 +16,9 @@ export default function GraphQuestionsPage() {
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
           <div>
             <p className="text-sm text-primary font-medium">الدرس الأول: الزخم الخطي والدفع</p>
-            <h1 className="text-3xl font-bold mt-1">حصة رقم (4): أسئلة الرسم البياني</h1>
+            <h1 className="text-3xl font-bold mt-1">حصة رقم (4): أسئلة الرسم البياني (الزخم-السرعة والزخم-الكتلة)</h1>
             <p className="text-muted-foreground mt-2 max-w-2xl">
-              في هذه الحصة، سنتعلم كيفية قراءة وتحليل الرسوم البيانية المتعلقة بالزخم والقوة والزمن.
+              في هذه الحصة، سنتعلم كيفية قراءة وتحليل الرسوم البيانية التي تربط بين الزخم والسرعة، والزخم والكتلة.
             </p>
           </div>
           <Button asChild variant="outline">
@@ -50,9 +50,10 @@ export default function GraphQuestionsPage() {
                 </CardHeader>
                 <CardContent>
                     <ul className="space-y-3 list-disc list-inside text-muted-foreground">
-                        <li>فهم ما يمثله ميل ومساحة المنحنيات المختلفة.</li>
-                        <li>حل مسائل باستخدام منحنى (القوة-الزمن) و(الزخم-الزمن).</li>
-                        <li>التحويل بين التمثيلات البيانية والرياضية.</li>
+                        <li>فهم ما يمثله ميل منحنى (الزخم-السرعة).</li>
+                        <li>فهم ما يمثله ميل منحنى (الزخم-الكتلة).</li>
+                        <li>استخدام الميل لإيجاد الكتلة أو السرعة.</li>
+                        <li>مقارنة الخصائص الفيزيائية لجسمين باستخدام الرسوم البيانية.</li>
                     </ul>
                 </CardContent>
             </Card>

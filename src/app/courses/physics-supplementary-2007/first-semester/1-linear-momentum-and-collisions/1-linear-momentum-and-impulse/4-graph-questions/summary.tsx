@@ -1,9 +1,12 @@
 
 'use client';
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import 'katex/dist/katex.min.css';
-import { InlineMath } from 'react-katex';
+import { InlineMath, BlockMath } from 'react-katex';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { Info } from 'lucide-react';
+
 
 const SmartTextRenderer = ({ text, as: Wrapper = 'p' }: { text: string; as?: React.ElementType }) => {
     const lines = text.split('\n');
@@ -24,18 +27,15 @@ const SmartTextRenderer = ({ text, as: Wrapper = 'p' }: { text: string; as?: Rea
 
 const laws = [
     {
-        title: "منحنى (القوة - الزمن)",
-        points: [
-            "المساحة تحت المنحنى = الدفع ($I = \\Delta p$)",
-            "ميل الخط = لا يمثل كمية فيزيائية شائعة مباشرة."
-        ]
+        title: "منحنى (الزخم p - السرعة v)",
+        formula: "\\text{الميل} = \\frac{\\Delta p}{\\Delta v} = m",
+        description: "بما أن $p = mv$, فإن العلاقة بين p و v هي علاقة خطية. ميل هذا الخط المستقيم يمثل كتلة الجسم (m). الجسم ذو الميل الأكبر له كتلة أكبر."
+        
     },
     {
-        title: "منحنى (الزخم - الزمن)",
-        points: [
-            "المساحة تحت المنحنى = لا تمثل كمية فيزيائية شائعة مباشرة.",
-            "ميل الخط = القوة المحصلة ($F_{net} = \\frac{\\Delta p}{\\Delta t}$)"
-        ]
+        title: "منحنى (الزخم p - الكتلة m)",
+        formula: "\\text{الميل} = \\frac{\\Delta p}{\\Delta m} = v",
+        description: "إذا تحركت أجسام مختلفة الكتل بنفس السرعة، فإن العلاقة بين زخم كل جسم وكتلته تكون خطية. ميل هذا الخط المستقيم يمثل السرعة الثابتة (v) التي تتحرك بها الأجسام."
     },
 ];
 
@@ -48,15 +48,23 @@ export default function SummaryPage() {
             <CardHeader>
               <CardTitle className="text-primary text-xl text-right">{law.title}</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-2">
-                <ul className="list-disc list-inside text-right text-muted-foreground space-y-2">
-                  {law.points.map((point, pIndex) => (
-                    <li key={pIndex}><SmartTextRenderer as="span" text={point} /></li>
-                  ))}
-                </ul>
+            <CardContent className="space-y-4">
+                <div dir="ltr" className="bg-primary/5 p-4 rounded-lg text-center">
+                    <BlockMath math={law.formula} />
+                </div>
+                <CardDescription className="text-right">
+                   <SmartTextRenderer text={law.description} />
+                </CardDescription>
             </CardContent>
           </Card>
         ))}
+         <Alert>
+          <Info className="h-4 w-4" />
+          <AlertTitle className="font-bold">تبديل المحاور</AlertTitle>
+          <AlertDescription>
+           انتبه جيدًا! إذا تم تبديل المحاور (مثلاً، رسمنا v على المحور الصادي و p على المحور السيني)، فإن الميل سيصبح مقلوب الكمية. في هذه الحالة، ميل منحنى (v-p) سيساوي $1/m$.
+          </AlertDescription>
+        </Alert>
       </div>
     </div>
   );

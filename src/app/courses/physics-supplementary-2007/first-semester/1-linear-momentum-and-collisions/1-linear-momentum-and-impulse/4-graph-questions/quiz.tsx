@@ -9,7 +9,7 @@ import { Label } from '@/components/ui/label';
 import { CheckCircle, XCircle } from 'lucide-react';
 import 'katex/dist/katex.min.css';
 import { InlineMath } from 'react-katex';
-import { ForceTimeGraph } from './diagram';
+import { MomentumMassGraph, MomentumVelocityGraph } from './diagram';
 
 // A robust, universal renderer for bidirectional text
 const SmartTextRenderer = ({ text, as: Wrapper = 'p' }: { text: string; as?: React.ElementType }) => {
@@ -31,36 +31,38 @@ const SmartTextRenderer = ({ text, as: Wrapper = 'p' }: { text: string; as?: Rea
 
 const quizQuestions = [
   {
-    questionText: 'في منحنى (القوة - الزمن)، ماذا تمثل المساحة تحت المنحنى؟',
-    options: ['الشغل المبذول', 'التغير في الزخم الخطي (الدفع)', 'القدرة', 'التسارع'],
-    correctAnswerIndex: 1,
-    explanation: 'المساحة تحت منحنى (القوة - الزمن) تساوي تكامل القوة بالنسبة للزمن، وهو ما يعرف بالدفع (Impulse)، والذي يساوي بدوره التغير في الزخم الخطي ($\\Delta p$).'
-  },
-  {
-    questionText: 'في منحنى (الزخم الخطي - الزمن)، ماذا يمثل ميل الخط المستقيم؟',
-    options: ['القوة المحصلة المؤثرة', 'الطاقة الحركية', 'الكتلة', 'الإزاحة'],
+    questionText: 'يمثل الرسم البياني الأول العلاقة بين الزخم والسرعة لجسمين A و B. أي العبارات التالية صحيحة؟',
+    graph: 'p-v',
+    options: ['كتلة الجسم A أكبر من كتلة الجسم B', 'كتلة الجسم B أكبر من كتلة الجسم A', 'الجسمان لهما نفس الكتلة', 'سرعة الجسم A أكبر من سرعة الجسم B'],
     correctAnswerIndex: 0,
-    explanation: 'ميل المنحنى هو $\\frac{\\Delta p}{\\Delta t}$. وفقًا للصيغة العامة لقانون نيوتن الثاني، فإن القوة المحصلة تساوي المعدل الزمني للتغير في الزخم الخطي.'
+    explanation: 'ميل منحنى (الزخم-السرعة) يمثل الكتلة. بما أن ميل الخط A أكبر من ميل الخط B، فإن كتلة الجسم A أكبر من كتلة الجسم B.'
   },
   {
-    questionText: 'بالاعتماد على الرسم البياني، جسم كتلته $2 kg$ بدأ حركته من السكون. ما سرعته النهائية بعد $4s$؟',
-    graph: true,
-    options: ['$5 m/s$', '$10 m/s$', '$20 m/s$', '$40 m/s$'],
+    questionText: 'في منحنى (الزخم الخطي - الكتلة) لمجموعة أجسام تتحرك بنفس السرعة، ماذا يمثل ميل الخط المستقيم؟',
+    graph: 'p-m',
+    options: ['الكتلة', 'السرعة', 'الطاقة الحركية', 'مقلوب السرعة'],
     correctAnswerIndex: 1,
-    explanation: 'الدفع = المساحة تحت المنحنى = مساحة المثلث = $0.5 \\times \\text{القاعدة} \\times \\text{الارتفاع} = 0.5 \\times 4s \\times 10N = 20 Ns$. الدفع يساوي التغير في الزخم: $\\Delta p = m(v_f - v_i)$. إذن $20 = 2(v_f - 0) \\Rightarrow v_f = 10 m/s$.'
+    explanation: 'الميل هو $\\frac{\\Delta p}{\\Delta m}$. من العلاقة $p=mv$, إذا كانت v ثابتة، فإن $\\Delta p = v \\Delta m$. إذن، الميل = $v$.'
   },
   {
-    questionText: 'إذا كان منحنى (الزخم - الزمن) لجسم خطًا أفقيًا لا يساوي الصفر، فهذا يعني أن...',
-    options: ['الجسم ساكن', 'الجسم يتسارع بانتظام', 'القوة المحصلة على الجسم تساوي صفرًا', 'القوة المحصلة على الجسم ثابتة ولا تساوي صفرًا'],
+    questionText: 'بالاعتماد على الرسم البياني الأول، إذا كانت سرعة الجسم A تساوي 2 م/ث، فما مقدار زخمه؟',
+    graph: 'p-v',
+    options: ['$4 kg \\cdot m/s$', '$6 kg \\cdot m/s$', '$8 kg \\cdot m/s$', '$10 kg \\cdot m/s$'],
     correctAnswerIndex: 2,
-    explanation: 'خط أفقي يعني أن الميل يساوي صفر. بما أن ميل منحنى (الزخم-الزمن) يمثل القوة المحصلة، فإن القوة المحصلة تساوي صفرًا. وهذا يعني أن الجسم يتحرك بسرعة ثابتة (زخم ثابت).'
+    explanation: 'أولاً، نجد كتلة الجسم A من الميل: $m_A = \\frac{\\Delta p}{\\Delta v} = \\frac{12-0}{3-0} = 4 kg$. \n ثانياً، نحسب الزخم عند السرعة المطلوبة: $p = m_A v = 4 kg \\times 2 m/s = 8 kg \\cdot m/s$.'
   },
   {
-    questionText: 'يمثل الرسم البياني علاقة القوة بالزمن لجسم. إذا كان الدفع خلال أول ثانيتين يساوي $I_1$ والدفع خلال الثانيتين التاليتين يساوي $I_2$, فأي علاقة صحيحة؟',
-    graph: true,
-    options: ['$I_1 > I_2$', '$I_1 < I_2$', '$I_1 = I_2$', 'لا يمكن التحديد'],
+    questionText: 'بالاعتماد على الرسم البياني الثاني، ما هي السرعة التي تتحرك بها الأجسام؟',
+    graph: 'p-m',
+    options: ['$2 m/s$', '$3 m/s$', '$4 m/s$', '$6 m/s$'],
     correctAnswerIndex: 1,
-    explanation: 'الدفع هو المساحة تحت المنحنى. المساحة تحت المنحنى للفترة الزمنية [0, 2] هي مساحة شبه منحرف أصغر من مساحة شبه المنحرف للفترة [2, 4]. لذلك $I_2 > I_1$.'
+    explanation: 'ميل منحنى (الزخم-الكتلة) يمثل السرعة. نأخذ أي نقطة لحساب الميل: $v = \\text{الميل} = \\frac{\\Delta p}{\\Delta m} = \\frac{12-0}{4-0} = 3 m/s$.'
+  },
+  {
+    questionText: 'إذا تم رسم العلاقة بين السرعة (v) على المحور الصادي والزخم (p) على المحور السيني، فإن ميل الخط المستقيم يمثل:',
+    options: ['الكتلة (m)', 'مقلوب الكتلة (1/m)', 'الطاقة الحركية (K)', 'السرعة (v)'],
+    correctAnswerIndex: 1,
+    explanation: 'الميل هو $\\frac{\\Delta y}{\\Delta x} = \\frac{\\Delta v}{\\Delta p}$. بما أن $p=mv$, فإن $v = p/m$. إذن، $\\Delta v = (1/m) \\Delta p$. الميل = $1/m$.'
   },
 ];
 
@@ -91,7 +93,8 @@ export default function GraphQuestionsQuizPage() {
           <Card key={qIndex} className={`border-2 ${isSubmitted ? (selectedAnswers[qIndex] === q.correctAnswerIndex ? 'border-green-500' : 'border-red-500') : 'border-border'} transition-colors duration-300 shadow-lg`}>
             <CardHeader>
               <CardTitle><SmartTextRenderer as="div" text={`السؤال ${qIndex + 1}: ${q.questionText}`} /></CardTitle>
-              {q.graph && <ForceTimeGraph />}
+              {q.graph === 'p-v' && <MomentumVelocityGraph />}
+              {q.graph === 'p-m' && <MomentumMassGraph />}
             </CardHeader>
             <CardContent>
               <RadioGroup onValueChange={(value) => handleAnswerChange(qIndex, parseInt(value))} value={selectedAnswers[qIndex]?.toString()} className="grid grid-cols-1 md:grid-cols-2 gap-4">
