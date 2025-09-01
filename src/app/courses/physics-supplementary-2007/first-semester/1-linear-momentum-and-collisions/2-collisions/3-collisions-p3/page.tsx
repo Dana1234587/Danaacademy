@@ -16,9 +16,9 @@ export default function CollisionsP3Page() {
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
           <div>
             <p className="text-sm text-primary font-medium">الدرس الثاني: التصادمات</p>
-            <h1 className="text-3xl font-bold mt-1">حصة رقم (17): التصادمات (الجزء الثالث)</h1>
+            <h1 className="text-3xl font-bold mt-1">حصة رقم (17): مقارنة أنواع التصادمات</h1>
             <p className="text-muted-foreground mt-2 max-w-2xl">
-              في هذه الحصة، نغوص في مسائل أكثر تعقيدًا ونحل أسئلة من امتحانات وزارية سابقة.
+              في هذه الحصة، نقارن بين أنواع التصادمات الثلاثة (المرن، غير المرن، وعديم المرونة) ونحل مسائل شاملة.
             </p>
           </div>
           <Button asChild variant="outline">
@@ -46,13 +46,14 @@ export default function CollisionsP3Page() {
             <Card>
                 <CardHeader>
                     <CardTitle>نقاط رئيسية من الحصة</CardTitle>
-                    <CardDescription>أهم الأفكار والقوانين التي تم تغطيتها في هذا الفيديو.</CardDescription>
+                    <CardDescription>أهم الأفكار التي تم تغطيتها في هذا الفيديو.</CardDescription>
                 </CardHeader>
                 <CardContent>
                     <ul className="space-y-3 list-disc list-inside text-muted-foreground">
-                        <li>حل مسائل تصادمات تتضمن أكثر من جسمين.</li>
-                        <li>مسائل ربط بين التصادمات ومواضيع أخرى مثل المقذوفات.</li>
-                        <li>استراتيجيات حل مسائل التصادمات المعقدة.</li>
+                        <li>مقارنة شاملة بين التصادم المرن، غير المرن، وعديم المرونة.</li>
+                        <li>حل مسائل تتطلب تحديد نوع التصادم.</li>
+                        <li>حساب الطاقة الحركية الضائعة في التصادمات غير المرنة.</li>
+                        <li>استراتيجيات حل مسائل التصادمات ببعد واحد.</li>
                     </ul>
                 </CardContent>
             </Card>
@@ -76,7 +77,7 @@ export default function CollisionsP3Page() {
                     </DialogTrigger>
                     <DialogContent className="max-w-xl h-auto max-h-[80vh] overflow-y-auto">
                         <DialogHeader>
-                            <DialogTitle>ملخص قوانين: التصادمات المتقدمة</DialogTitle>
+                            <DialogTitle>ملخص مقارنة أنواع التصادمات</DialogTitle>
                         </DialogHeader>
                         <SummaryPage />
                     </DialogContent>
@@ -89,7 +90,7 @@ export default function CollisionsP3Page() {
                     </DialogTrigger>
                     <DialogContent className="max-w-4xl h-[90vh] overflow-y-auto">
                         <DialogHeader>
-                            <DialogTitle>اختبار قصير: التصادمات المتقدمة</DialogTitle>
+                            <DialogTitle>اختبار قصير: مقارنة أنواع التصادمات</DialogTitle>
                         </DialogHeader>
                         <QuizPage />
                     </DialogContent>
