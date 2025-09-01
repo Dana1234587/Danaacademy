@@ -46,13 +46,14 @@ export default function MomentumConservationSimulationPage() {
             <Card>
                 <CardHeader>
                     <CardTitle>نقاط رئيسية من الحصة</CardTitle>
-                    <CardDescription>أهم الأفكار والقوانين التي تم تغطيتها في هذا الفيديو.</CardDescription>
+                    <CardDescription>أهم الأفكار التي نلاحظها من خلال المحاكاة.</CardDescription>
                 </CardHeader>
                 <CardContent>
                     <ul className="space-y-3 list-disc list-inside text-muted-foreground">
-                        <li>مشاهدة تصادمات مرنة وغير مرنة.</li>
-                        <li>التحقق من أن الزخم الكلي للنظام المعزول يبقى ثابتًا.</li>
-                        <li>ملاحظة كيف تتغير طاقة الحركة بينما يبقى الزخم محفوظًا.</li>
+                        <li>مشاهدة أنواع التصادمات المختلفة (مرن، غير مرن، عديم المرونة).</li>
+                        <li>التحقق من أن الزخم الخطي الكلي لنظام معزول يبقى ثابتًا قبل وبعد التصادم.</li>
+                        <li>ملاحظة كيف تتغير الطاقة الحركية بينما يبقى الزخم محفوظًا في التصادمات غير المرنة.</li>
+                        <li>فهم الحالات الخاصة، مثل تصادم الكرات المتساوية في الكتلة.</li>
                     </ul>
                 </CardContent>
             </Card>
