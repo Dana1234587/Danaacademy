@@ -8,6 +8,7 @@ import Link from 'next/link';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import QuizPage from './quiz';
 import SummaryPage from './summary';
+import React from 'react';
 
 export default function AdvancedQuestionsPage() {
   return (
@@ -16,9 +17,9 @@ export default function AdvancedQuestionsPage() {
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
           <div>
             <p className="text-sm text-primary font-medium">الدرس الأول: الزخم الخطي والدفع</p>
-            <h1 className="text-3xl font-bold mt-1">حصة رقم (3): حل أسئلة تميز (قدرات عليا)</h1>
+            <h1 className="text-3xl font-bold mt-1">حصة رقم (3): مقارنات بين الزخم وطاقة الحركة</h1>
             <p className="text-muted-foreground mt-2 max-w-2xl">
-              في هذه الحصة، سنتحدى أنفسنا بمجموعة من الأسئلة المتقدمة التي تتطلب فهمًا عميقًا للمادة.
+              في هذه الحصة، نتعمق في العلاقة بين الزخم وطاقة الحركة من خلال حل أسئلة مقارنات وقدرات عليا.
             </p>
           </div>
           <Button asChild variant="outline">
@@ -50,9 +51,10 @@ export default function AdvancedQuestionsPage() {
                 </CardHeader>
                 <CardContent>
                     <ul className="space-y-3 list-disc list-inside text-muted-foreground">
-                        <li>تطبيق مفاهيم الزخم والدفع في سيناريوهات معقدة.</li>
-                        <li>حل مسائل تتطلب الربط بين الزخم والطاقة والمفاهيم الأخرى.</li>
-                        <li>تحليل حالات خاصة وغير نمطية.</li>
+                        <li>تحليل العلاقة بين الزخم وطاقة الحركة في الحالات الخاصة ($K = p^2/2m$).</li>
+                        <li>حل مسائل مقارنة بين جسمين لهما نفس الزخم ولكن طاقة حركية مختلفة.</li>
+                        <li>حل مسائل مقارنة بين جسمين لهما نفس الطاقة الحركية ولكن زخم مختلف.</li>
+                        <li>تطبيق العلاقات الرياضية في سيناريوهات متقدمة.</li>
                     </ul>
                 </CardContent>
             </Card>
@@ -76,7 +78,7 @@ export default function AdvancedQuestionsPage() {
                     </DialogTrigger>
                     <DialogContent className="max-w-xl h-auto max-h-[80vh] overflow-y-auto">
                         <DialogHeader>
-                            <DialogTitle>ملخص قوانين: أسئلة تميز</DialogTitle>
+                            <DialogTitle>ملخص قوانين: مقارنات الزخم والطاقة</DialogTitle>
                         </DialogHeader>
                         <SummaryPage />
                     </DialogContent>
@@ -89,7 +91,7 @@ export default function AdvancedQuestionsPage() {
                     </DialogTrigger>
                     <DialogContent className="max-w-4xl h-[90vh] overflow-y-auto">
                         <DialogHeader>
-                            <DialogTitle>اختبار قصير: أسئلة تميز</DialogTitle>
+                            <DialogTitle>اختبار قصير: مقارنات الزخم والطاقة</DialogTitle>
                         </DialogHeader>
                         <QuizPage />
                     </DialogContent>
