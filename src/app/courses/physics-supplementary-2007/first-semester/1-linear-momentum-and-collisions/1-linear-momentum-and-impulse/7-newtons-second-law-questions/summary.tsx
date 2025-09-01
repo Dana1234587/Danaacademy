@@ -5,18 +5,35 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert';
 import { Info } from 'lucide-react';
 import 'katex/dist/katex.min.css';
-import { BlockMath } from 'react-katex';
+import { BlockMath, InlineMath } from 'react-katex';
+
+const SmartTextRenderer = ({ text, as: Wrapper = 'p' }: { text: string; as?: React.ElementType }) => {
+    const lines = text.split('\n');
+    const renderPart = (part: string, index: number) => {
+        if (index % 2 === 0) return <span key={index} dir="rtl">{part}</span>;
+        return <span key={index} className="inline-block mx-1"><InlineMath math={part} /></span>;
+    };
+    return (
+        <Wrapper className="leading-relaxed">
+            {lines.map((line, lineIndex) => (
+                <span key={lineIndex} className="block my-1 text-right">
+                    {line.split('$').map(renderPart)}
+                </span>
+            ))}
+        </Wrapper>
+    );
+};
 
 const laws = [
     {
         title: "الصيغة العامة لقانون نيوتن الثاني",
         formula: "\\Sigma \\vec{F} = \\frac{\\Delta \\vec{p}}{\\Delta t}",
-        description: "تذكر دائمًا أن هذه هي الصيغة الأشمل، وتستخدم خصوصًا عند تغير الكتلة."
+        description: "تذكر دائمًا أن هذه هي الصيغة الأشمل، وتستخدم لحساب القوة المحصلة من التغير في الزخم خلال فترة زمنية."
     },
     {
-        title: "حفظ الزخم",
-        formula: "\\Sigma \\vec{p}_{before} = \\Sigma \\vec{p}_{after}",
-        description: "في الأنظمة المعزولة (التي تكون فيها محصلة القوى الخارجية صفر)، يكون الزخم الكلي للنظام محفوظًا. هذا المبدأ أساسي في حل مسائل الانفجارات والإلقاء."
+        title: "التغير في الزخم (الدفع)",
+        formula: "\\Delta \\vec{p} = m(\\vec{v}_f - \\vec{v}_i)",
+        description: "يُستخدم لحساب التغير الكلي في الزخم، وهو مهم بشكل خاص في مسائل الارتداد حيث يجب الانتباه جيدًا لإشارات السرعة الابتدائية والنهائية."
     },
 ];
 
@@ -34,7 +51,7 @@ export default function SummaryPage() {
                     <BlockMath math={law.formula} />
                 </div>
                 <CardDescription className="text-right">
-                    {law.description}
+                    <SmartTextRenderer text={law.description} />
                 </CardDescription>
             </CardContent>
           </Card>
@@ -43,7 +60,7 @@ export default function SummaryPage() {
           <Info className="h-4 w-4" />
           <AlertTitle className="font-bold">استراتيجية الحل</AlertTitle>
           <AlertDescription>
-           عند حل أي سؤال، اسأل نفسك أولًا: هل الكتلة ثابتة أم متغيرة؟ هل النظام معزول؟ تحديد هذه النقاط يساعد في اختيار القانون الصحيح للبدء به.
+           عند حل أي سؤال، حدد المعطيات والمطلوب. إذا كان المطلوب هو القوة، فغالبًا ستحتاج لحساب $\\Delta p$ أولًا. إذا كانت المسألة تتعلق بالارتداد، فكن حذرًا جدًا في تحديد اتجاه موجب واعتبار السرعة المرتدة سالبة.
           </AlertDescription>
         </Alert>
       </div>

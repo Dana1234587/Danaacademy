@@ -18,7 +18,7 @@ export default function NewtonsSecondLawQuestionsPage() {
             <p className="text-sm text-primary font-medium">الدرس الأول: الزخم الخطي والدفع</p>
             <h1 className="text-3xl font-bold mt-1">حصة رقم (7): قانون نيوتن الثاني (حل أسئلة)</h1>
             <p className="text-muted-foreground mt-2 max-w-2xl">
-              في هذه الحصة، سنقوم بتطبيق قانون نيوتن الثاني بصيغته العامة لحل مجموعة متنوعة من المسائل.
+              في هذه الحصة، نقوم بتطبيق قانون نيوتن الثاني بصيغته العامة لحل مجموعة متنوعة من المسائل.
             </p>
           </div>
           <Button asChild variant="outline">
@@ -50,9 +50,10 @@ export default function NewtonsSecondLawQuestionsPage() {
                 </CardHeader>
                 <CardContent>
                     <ul className="space-y-3 list-disc list-inside text-muted-foreground">
-                        <li>حل مسائل على أنظمة متغيرة الكتلة.</li>
-                        <li>تطبيق القانون في حالات القوة المتغيرة.</li>
-                        <li>أسئلة من امتحانات وزارية سابقة.</li>
+                        <li>حل مسائل على قانون نيوتن الثاني لجسم كتلته ثابتة.</li>
+                        <li>تطبيقات على حساب التغير في الزخم في حالات الارتداد.</li>
+                        <li>تحليل أمثلة على العلاقة العكسية بين القوة وزمن تأثيرها عند ثبات التغير في الزخم.</li>
+                        <li>حل مسائل من امتحانات وزارية سابقة.</li>
                     </ul>
                 </CardContent>
             </Card>
