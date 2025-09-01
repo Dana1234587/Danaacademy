@@ -9,7 +9,7 @@ export const MomentumVelocityGraph = () => (
       <line x1="30" y1="200" x2="30" y2="20" stroke="black" strokeWidth="2" /> {/* Y-axis */}
       
       {/* X-axis label */}
-      <text x="330" y="218" textAnchor="end" fontSize="14">v (m/s)</text>
+      <text x="280" y="200" textAnchor="end" fontSize="14">v (m/s)</text>
       
       {/* Y-axis label */}
       <text x="12" y="25" textAnchor="middle" fontSize="14">p (kg.m/s)</text>
