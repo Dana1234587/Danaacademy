@@ -9,10 +9,10 @@ export const MomentumVelocityGraph = () => (
       <line x1="30" y1="200" x2="30" y2="20" stroke="black" strokeWidth="2" /> {/* Y-axis */}
       
       {/* X-axis label */}
-      <text x="340" y="215" textAnchor="middle" fontSize="14">v (m/s)</text>
+      <text x="330" y="218" textAnchor="end" fontSize="14">v (m/s)</text>
       
       {/* Y-axis label */}
-      <text x="10" y="25" textAnchor="middle" fontSize="14">p (kg.m/s)</text>
+      <text x="12" y="25" textAnchor="middle" fontSize="14">p (kg.m/s)</text>
 
       {/* Ticks and labels on X-axis */}
       <text x="30" y="215" textAnchor="middle">0</text>
@@ -51,7 +51,7 @@ export const MomentumMassGraph = () => (
         <line x1="30" y1="200" x2="30" y2="20" stroke="black" strokeWidth="2" /> {/* Y-axis */}
         
         {/* X-axis label */}
-        <text x="340" y="215" textAnchor="middle" fontSize="14">m (kg)</text>
+        <text x="330" y="218" textAnchor="end" fontSize="14">m (kg)</text>
         
         {/* Y-axis label */}
        <text x="10" y="25" textAnchor="middle" fontSize="14">p (kg.m/s)</text>
@@ -82,3 +82,5 @@ export const MomentumMassGraph = () => (
       </svg>
     </div>
   );
+
+    
