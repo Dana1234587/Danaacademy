@@ -62,10 +62,11 @@ export default function SummaryPage() {
           <Info className="h-4 w-4" />
           <AlertTitle className="font-bold">تبديل المحاور</AlertTitle>
           <AlertDescription>
-           انتبه جيدًا! إذا تم تبديل المحاور (مثلاً، رسمنا v على المحور الصادي و p على المحور السيني)، فإن الميل سيصبح مقلوب الكمية. في هذه الحالة، ميل منحنى (v-p) سيساوي $1/m$.
+           <SmartTextRenderer as="div" text={'انتبه جيدًا! إذا تم تبديل المحاور (مثلاً، رسمنا v على المحور الصادي و p على المحور السيني)، فإن الميل سيصبح مقلوب الكمية. في هذه الحالة، ميل منحنى (v-p) سيساوي $\\frac{1}{m}$.'} />
           </AlertDescription>
         </Alert>
       </div>
     </div>
   );
 }
+
