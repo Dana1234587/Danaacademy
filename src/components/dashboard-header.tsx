@@ -36,12 +36,6 @@ export function DashboardHeader() {
         {currentUser && <p className="text-sm text-muted-foreground hidden sm:inline-block">أهلاً بك، {currentUser.username}</p>}
       </div>
       <div className="ms-auto flex items-center gap-2">
-        <Button variant="outline" size="icon" asChild>
-          <Link href="/quiz">
-            <Lightbulb className="h-4 w-4" />
-            <span className="sr-only">مولد الاختبارات</span>
-          </Link>
-        </Button>
         <Button variant="outline" size="icon">
           <Languages className="h-4 w-4" />
           <span className="sr-only">تغيير اللغة</span>

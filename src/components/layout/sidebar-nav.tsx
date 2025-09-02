@@ -99,14 +99,6 @@ export function SidebarNav() {
                     </SidebarMenuItem>
                  </>
             )}
-             <SidebarMenuItem>
-                <Link href="/quiz" className="w-full">
-                    <Button variant="ghost" className="w-full justify-start gap-2">
-                        <Lightbulb />
-                        مولد الاختبارات
-                    </Button>
-                </Link>
-            </SidebarMenuItem>
         </SidebarMenu>
       </SidebarContent>
       <SidebarSeparator />
