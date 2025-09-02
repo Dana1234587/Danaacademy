@@ -3,7 +3,7 @@
 
 import { MarketingLayout } from '@/components/layout/marketing-layout';
 import { useStore } from '@/store/app-store';
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Loader2 } from 'lucide-react';
 import { CourseCard } from '@/components/course-card';
 
@@ -65,7 +65,7 @@ export default function MyCoursesPage() {
         {enrolledCourses.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {enrolledCourses.map(course => (
-              <CourseCard key={course.id} course={course} />
+              <CourseCard key={course.id} course={course} isEnrolled={true} />
             ))}
           </div>
         ) : (

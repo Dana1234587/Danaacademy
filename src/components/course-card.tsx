@@ -1,11 +1,11 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ShoppingCart, ArrowLeft } from 'lucide-react';
+import { ShoppingCart, ArrowLeft, Rocket } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -22,28 +22,28 @@ interface CourseCardProps {
     detailsLink?: string;
   };
   className?: string;
+  isEnrolled?: boolean; // New prop
 }
 
-export function CourseCard({ course, className }: CourseCardProps) {
+export function CourseCard({ course, className, isEnrolled = false }: CourseCardProps) {
   const [isFlipped, setIsFlipped] = useState(false);
   const isMobile = useIsMobile();
 
   const handleMouseEnter = () => {
-    if (!isMobile) {
+    if (!isMobile && !isEnrolled) {
       setIsFlipped(true);
     }
   };
   const handleMouseLeave = () => {
-    if (!isMobile) {
+    if (!isMobile && !isEnrolled) {
       setIsFlipped(false);
     }
   };
 
   const handleCardClick = () => {
-    // On mobile, a click should flip the card.
-    // On desktop, the card flips on hover, so a click can be reserved for navigation if needed,
-    // but here we will make it flip for consistency if someone clicks instead of hovers.
-    setIsFlipped(!isFlipped);
+    if (isMobile && !isEnrolled) {
+        setIsFlipped(!isFlipped);
+    }
   };
 
 
@@ -54,6 +54,55 @@ export function CourseCard({ course, className }: CourseCardProps) {
   };
 
   const curriculumColor = course.curriculum ? curriculumColorMap[course.curriculum] || 'bg-gray-500' : 'bg-gray-500';
+
+  if (isEnrolled) {
+    return (
+        <Card className="w-full max-w-sm flex flex-col overflow-hidden rounded-lg shadow-lg border-2 border-primary/20 bg-white/30 backdrop-blur-sm h-96">
+            {course.curriculum && (
+                <div className={cn(
+                "absolute top-2 -right-11 transform rotate-45 text-white text-xs font-bold text-center z-10 w-40 py-1",
+                curriculumColor
+                )}>
+                {course.curriculum}
+                </div>
+            )}
+            <div className="relative aspect-video overflow-hidden">
+                <Image
+                src={course.imageUrl}
+                alt={course.title}
+                fill
+                className="object-cover"
+                data-ai-hint={course.imageHint}
+                />
+            </div>
+            <div className="flex flex-1 flex-col p-4 justify-between">
+                <CardHeader className="p-0">
+                <CardTitle className="text-lg font-bold text-primary leading-tight h-14">
+                    {course.title}
+                </CardTitle>
+                </CardHeader>
+                 <CardContent className="p-0 mt-2 flex-1">
+                    <p className="text-sm text-muted-foreground line-clamp-2">
+                        {course.description}
+                    </p>
+                </CardContent>
+                <CardFooter className="p-0 mt-4 flex flex-col gap-2">
+                    <Button asChild className="w-full" size="lg">
+                      <Link href={course.link || '#'}>
+                        <Rocket className="w-4 h-4 me-2"/>
+                        دخول إلى الدورة
+                      </Link>
+                    </Button>
+                     <Button asChild variant="outline" className="w-full">
+                       <Link href={course.detailsLink || '#'}>
+                         التفاصيل
+                       </Link>
+                    </Button>
+                </CardFooter>
+            </div>
+        </Card>
+    );
+  }
 
 
   return (
