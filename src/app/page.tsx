@@ -1,4 +1,5 @@
 
+
 import { MarketingLayout } from '@/components/layout/marketing-layout';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, Rocket } from 'lucide-react';
@@ -212,9 +213,7 @@ export default function Home() {
                 </div>
                 <div className="mt-12 grid gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 justify-items-center">
                   {courses.map((course, index) => (
-                    <div key={index} className="flex justify-center">
-                      <CourseCard course={course} />
-                    </div>
+                    <CourseCard key={index} course={course} />
                   ))}
                 </div>
             </div>
