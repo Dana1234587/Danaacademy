@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import { MarketingLayout } from '@/components/layout/marketing-layout';
@@ -59,9 +60,13 @@ const CountdownTimer = ({ targetDate }: { targetDate: Date }) => {
         );
     });
 
+    if (!Object.values(timeLeft).some(v => v > 0)) {
+        return <span className="text-md font-semibold animate-pulse text-green-600">الامتحان متاح الآن!</span>;
+    }
+
     return (
         <div className="flex justify-center gap-4" dir="ltr">
-            {timerComponents.length ? timerComponents : <span>انتهى الوقت!</span>}
+            {timerComponents}
         </div>
     );
 };
@@ -183,7 +188,9 @@ export default function MyExamsPage() {
           getStudentSubmissions(currentUser.uid)
       ]);
       
-      const studentExams = allExams.filter(exam => currentUser.enrolledCourseIds.includes(exam.courseId));
+      const studentExams = allExams.filter(exam => 
+        currentUser.enrolledCourseIds.includes(exam.courseId) && exam.status === 'active'
+      );
       setExams(studentExams);
       setSubmissions(studentSubmissions);
 

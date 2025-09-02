@@ -61,6 +61,7 @@ export type Exam = {
     questionCount: number;
     startDate?: Date;
     endDate?: Date;
+    status: 'active' | 'inactive';
 };
 
 export type Submission = {
@@ -107,6 +108,7 @@ export async function createExamAction(data: ExamFormValues) {
             ...examData,
             questionCount: questions.length,
             createdAt: FieldValue.serverTimestamp(),
+            status: 'inactive' as const, // Exams are inactive by default
         };
 
         const batch = adminDB.batch();
@@ -143,14 +145,13 @@ export async function updateExamAction(examId: string, data: ExamFormValues) {
         const examPayload = {
             ...examData,
             questionCount: questions.length,
-            // We don't update createdAt
+            // We don't update createdAt or status here
         };
 
         const batch = adminDB.batch();
         batch.update(examDocRef, examPayload);
 
         // This is a simple but destructive way to update questions: delete all old ones, then add all new ones.
-        // A more complex implementation would diff the arrays.
         const questionsCollectionRef = examDocRef.collection('questions');
         const oldQuestionsSnapshot = await questionsCollectionRef.get();
         oldQuestionsSnapshot.docs.forEach(doc => batch.delete(doc.ref));
@@ -170,6 +171,33 @@ export async function updateExamAction(examId: string, data: ExamFormValues) {
     }
 }
 
+export async function toggleExamStatusAction(examId: string, currentStatus: 'active' | 'inactive'): Promise<{success: boolean, error?: string}> {
+    try {
+        const newStatus = currentStatus === 'active' ? 'inactive' : 'active';
+        await adminDB.collection('exams').doc(examId).update({ status: newStatus });
+        return { success: true };
+    } catch(error: any) {
+        console.error(`Error toggling status for exam ${examId}:`, error);
+        return { success: false, error: "فشل تغيير حالة الامتحان."};
+    }
+}
+
+export async function deleteExamAction(examId: string): Promise<{success: boolean, error?: string}> {
+    try {
+        const examDocRef = adminDB.collection('exams').doc(examId);
+        
+        // It's good practice to delete subcollections if they exist, but for now we delete the main doc
+        // For a more robust solution, a batched write or a Cloud Function would be needed to delete subcollections recursively.
+        await examDocRef.delete();
+
+        return { success: true };
+
+    } catch(error: any) {
+        console.error(`Error deleting exam ${examId}:`, error);
+        return { success: false, error: "فشل حذف الامتحان."};
+    }
+}
+
 
 export async function getExams(): Promise<Exam[]> {
     try {
@@ -185,6 +213,7 @@ export async function getExams(): Promise<Exam[]> {
                 createdAt: (data.createdAt as Timestamp).toDate(),
                 startDate: data.startDate ? (data.startDate as Timestamp).toDate() : undefined,
                 endDate: data.endDate ? (data.endDate as Timestamp).toDate() : undefined,
+                status: data.status || 'inactive', // Default to inactive if not set
             } as Exam;
         });
     } catch (error) {
@@ -255,6 +284,7 @@ export async function getExamDetails(examId: string): Promise<Exam | null> {
             createdAt: (data.createdAt as Timestamp).toDate(),
             startDate: data.startDate ? (data.startDate as Timestamp).toDate() : undefined,
             endDate: data.endDate ? (data.endDate as Timestamp).toDate() : undefined,
+            status: data.status || 'inactive',
         } as Exam;
 
     } catch (error) {
