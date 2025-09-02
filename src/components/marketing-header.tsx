@@ -38,20 +38,6 @@ export function MarketingHeader() {
     }
   }
 
-  const getCoursePageLink = () => {
-    if (!currentUser || currentUser.role !== 'student' || !currentUser.enrolledCourseIds.length) {
-      return '/';
-    }
-    const courseId = currentUser.enrolledCourseIds[0];
-    if (courseId === 'tawjihi-2007-supplementary') {
-      return '/courses/physics-supplementary-2007';
-    }
-    if (courseId === 'tawjihi-2008') {
-      return '/courses/physics-2008';
-    }
-    return '/';
-  }
-
   const NavLinksContent = ({ isMobile = false }: { isMobile?: boolean }) => (
     <nav className={cn(
       isMobile ? 'flex flex-col gap-6 text-lg' : 'hidden md:flex gap-8 items-center'
@@ -116,7 +102,7 @@ export function MarketingHeader() {
                 ) : (
                     <>
                         <Button asChild variant="outline" className="hidden sm:flex hover:-translate-y-0.5 transition-transform">
-                            <Link href={getCoursePageLink()} className="flex items-center gap-2">
+                            <Link href="/courses" className="flex items-center gap-2">
                               <Book className="h-4 w-4" />
                               دوراتي
                             </Link>
@@ -194,7 +180,7 @@ export function MarketingHeader() {
                                     <>
                                         <SheetClose asChild>
                                             <Button asChild variant="outline" size="lg" className="w-full">
-                                                <Link href={getCoursePageLink()} className="flex items-center gap-2">
+                                                <Link href="/courses" className="flex items-center gap-2">
                                                     <Book className="h-4 w-4" />
                                                     دوراتي
                                                 </Link>
@@ -236,5 +222,3 @@ export function MarketingHeader() {
     </header>
   );
 }
-
-    

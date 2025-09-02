@@ -3,16 +3,16 @@ import React from 'react';
 
 export const MomentumVelocityGraph = () => (
   <div className="my-4 p-4 bg-gray-100 rounded-lg flex justify-center items-center">
-    <svg width="300" height="200" viewBox="0 0 350 220" xmlns="http://www.w3.org/2000/svg">
+    <svg width="350" height="250" viewBox="0 0 350 250" xmlns="http://www.w3.org/2000/svg">
       {/* Axes */}
       <line x1="30" y1="200" x2="330" y2="200" stroke="black" strokeWidth="2" /> {/* X-axis */}
       <line x1="30" y1="200" x2="30" y2="20" stroke="black" strokeWidth="2" /> {/* Y-axis */}
       
       {/* X-axis label */}
-      <text x="280" y="200" textAnchor="end" fontSize="14">v (m/s)</text>
+      <text x="310" y="190" textAnchor="end" fontSize="14">v (m/s)</text>
       
       {/* Y-axis label */}
-      <text x="12" y="25" textAnchor="middle" fontSize="14">p (kg.m/s)</text>
+      <text x="70" y="25" textAnchor="middle" fontSize="14">p (kg.m/s)</text>
 
       {/* Ticks and labels on X-axis */}
       <text x="30" y="215" textAnchor="middle">0</text>
@@ -29,32 +29,32 @@ export const MomentumVelocityGraph = () => (
       <line x1="25" y1="80" x2="35" y2="80" stroke="black" strokeWidth="1" />
       <text x="15" y="85" textAnchor="end">8</text>
        <line x1="25" y1="20" x2="35" y2="20" stroke="black" strokeWidth="1" />
-      <text x="15" y="25" textAnchor="end">12</text>
+      <text x="8" y="25" textAnchor="end">12</text>
       
 
       {/* Graph line A */}
       <path d="M 30 200 L 330 80" stroke="hsl(var(--primary))" strokeWidth="3" fill="none" />
-      <text x="290" y="90" fill="hsl(var(--primary))" fontSize="14" fontWeight="bold">A</text>
+      <text x="290" y="88" fill="hsl(var(--primary))" fontSize="14" fontWeight="bold">A</text>
 
        {/* Graph line B */}
        <path d="M 30 200 L 330 140" stroke="hsl(var(--destructive))" strokeWidth="3" fill="none" />
-       <text x="290" y="150" fill="hsl(var(--destructive))" fontSize="14" fontWeight="bold">B</text>
+       <text x="290" y="144" fill="hsl(var(--destructive))" fontSize="14" fontWeight="bold">B</text>
     </svg>
   </div>
 );
 
 export const MomentumMassGraph = () => (
     <div className="my-4 p-4 bg-gray-100 rounded-lg flex justify-center items-center">
-      <svg width="300" height="200" viewBox="0 0 350 220" xmlns="http://www.w3.org/2000/svg">
+      <svg width="370" height="250" viewBox="0 0 390 250" xmlns="http://www.w3.org/2000/svg">
         {/* Axes */}
         <line x1="30" y1="200" x2="330" y2="200" stroke="black" strokeWidth="2" /> {/* X-axis */}
         <line x1="30" y1="200" x2="30" y2="20" stroke="black" strokeWidth="2" /> {/* Y-axis */}
         
         {/* X-axis label */}
-        <text x="330" y="218" textAnchor="end" fontSize="14">m (kg)</text>
+        <text x="340" y="210" textAnchor="end" fontSize="14">m (kg)</text>
         
         {/* Y-axis label */}
-       <text x="10" y="25" textAnchor="middle" fontSize="14">p (kg.m/s)</text>
+       <text x="69" y="25" textAnchor="middle" fontSize="14">p (kg.m/s)</text>
   
         {/* Ticks and labels on X-axis */}
         <text x="30" y="215" textAnchor="middle">0</text>
@@ -75,7 +75,7 @@ export const MomentumMassGraph = () => (
         <line x1="25" y1="65" x2="35" y2="65" stroke="black" strokeWidth="1" />
         <text x="15" y="70" textAnchor="end">9</text>
         <line x1="25" y1="20" x2="35" y2="20" stroke="black" strokeWidth="1" />
-        <text x="15" y="25" textAnchor="end">12</text>
+        <text x="9" y="25" textAnchor="end">12</text>
   
         {/* Graph line */}
         <path d="M 30 200 L 330 20" stroke="hsl(var(--primary))" strokeWidth="3" fill="none" />

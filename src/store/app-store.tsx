@@ -74,7 +74,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
               email: firebaseUser.email || '', 
               role: 'admin',
               // Admins have access to all courses by default in the UI logic
-              enrolledCourseIds: ['tawjihi-2007-supplementary', 'tawjihi-2008'] 
+              enrolledCourseIds: ['tawjihi-2007-supplementary', 'tawjihi-2008-first-semester'] 
           });
         } else if (studentDocSnap.exists()) {
              const studentData = studentDocSnap.data();

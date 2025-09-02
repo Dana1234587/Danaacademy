@@ -8,7 +8,7 @@ import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Lock, Loader2 } from 'lucide-react';
 
-const courseId = 'tawjihi-2008';
+const courseId = 'tawjihi-2008-first-semester'; // Updated to the new specific course ID
 
 export default function Physics2008Page() {
   const { currentUser, isLoading } = useStore((state) => ({ 
@@ -44,7 +44,7 @@ export default function Physics2008Page() {
                             عذرًا، ليس لديك الصلاحية للوصول إلى هذه الدورة.
                         </p>
                         <p className="mt-2 text-sm">
-                            يرجى التأكد من تسجيلك في دورة "فيزياء توجيهي - جيل 2008".
+                            يرجى التأكد من تسجيلك في دورة "فيزياء توجيهي 2008 - فصل أول".
                         </p>
                         <Button asChild className="mt-6">
                             <Link href="/">العودة إلى الصفحة الرئيسية</Link>
@@ -65,7 +65,7 @@ export default function Physics2008Page() {
       <div className="p-4 sm:p-6 lg:p-8">
         <div className="flex justify-between items-center mb-4">
             <h1 className="text-3xl font-bold">
-                {welcomeMessage} في دورة فيزياء - جيل 2008
+                {welcomeMessage} في دورة فيزياء - جيل 2008 (الفصل الأول)
             </h1>
             <Button asChild variant="outline">
                 <Link href="/">
@@ -74,7 +74,7 @@ export default function Physics2008Page() {
             </Button>
         </div>
         <p className="mt-4 text-muted-foreground">
-          استخدم القائمة الجانبية للتنقل بين وحدات ودروس الدورة. نتمنى لك رحلة تعليمية ممتعة ومفيدة!
+          سيتم إضافة محتوى الدورة هنا قريبًا. نتمنى لك رحلة تعليمية ممتعة ومفيدة!
         </p>
       </div>
     </MainLayout>

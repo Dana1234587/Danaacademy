@@ -64,6 +64,7 @@ const testimonials = [
 
 const courses = [
   {
+    id: 'tawjihi-2007-supplementary',
     title: 'فيزياء التكميلي - جيل 2007',
     description: 'تفاصيل الدورة حصص مسجله لمادة الفيزياء التوجيهي كاملا للفصل الاول والفصل الثاني',
     price: '50.00 د.أ',
@@ -74,16 +75,18 @@ const courses = [
     detailsLink: '/courses/physics-supplementary-2007-details',
   },
   {
-    title: 'فيزياء التوجيهي - جيل 2008',
-    description: 'فصل أول',
+    id: 'tawjihi-2008-first-semester',
+    title: 'فيزياء توجيهي 2008 - فصل أول',
+    description: 'دورة شاملة تغطي مادة الفصل الدراسي الأول لجيل 2008، مع شرح مفصل وأسئلة مكثفة.',
     price: '50.00 د.أ',
     imageUrl: 'https://i.ibb.co/HTYrz1mb/image.png',
     imageHint: 'physics textbook 2008',
     curriculum: 'الأردن',
-    link: '/courses/physics-2008',
-    detailsLink: '/courses/physics-2008/details',
+    link: '/courses/physics-2008-first-semester',
+    detailsLink: '/courses/physics-2008-first-semester-details',
   },
     {
+    id: 'tawjihi-2008-foundation',
     title: 'دورة التأسيس توجيهي الأردن لجيل 2008',
     description: 'دورة تأسيسية شاملة لجيل 2008 لمساعدتهم على الاستعداد الأمثل لمادة الفيزياء في التوجيهي.',
     price: '50.00 د.أ',
@@ -93,6 +96,7 @@ const courses = [
     detailsLink: '/courses/physics-2008-foundation/details',
   },
   {
+    id: 'tawjihi-2008-palestine',
     title: 'فيزياء التوجيهي - جيل 2008',
     description: 'فصل أول',
     price: '60.00 د.أ',
@@ -102,6 +106,7 @@ const courses = [
     detailsLink: '/courses/physics-2008-palestine/details',
   },
   {
+    id: 'astrophysics',
     title: 'الفيزياء الفلكية والكون',
     description: 'انطلق في رحلة عبر النجوم والمجرات لاستكشاف أسرار الكون ونشأته وتطوره.',
     price: '80.00 د.أ',
@@ -111,6 +116,7 @@ const courses = [
     detailsLink: '/courses/astrophysics/details',
   },
   {
+    id: 'nuclear-physics',
     title: 'الفيزياء النووية والإشعاع',
     description: 'تعمق في بنية الذرة والظواهر النووية، وتعرف على تطبيقاتها في الطاقة والطب.',
     price: '70.00 د.أ',
@@ -204,7 +210,7 @@ export default function Home() {
                         انضم إلى دوراتنا المصممة بعناية لمساعدتك على إتقان مفاهيم الفيزياء وتحقيق أفضل النتائج.
                     </p>
                 </div>
-                <div className="mt-12 grid gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 justify-center">
+                <div className="mt-12 grid gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 justify-items-center">
                   {courses.map((course, index) => (
                     <div key={index} className="flex justify-center">
                       <CourseCard course={course} />
