@@ -88,17 +88,15 @@ export default function LoginPage() {
         const user = userCredential.user;
 
         if (isAdminLogin) {
-            // It's an admin login attempt
             const adminDocRef = doc(db, 'admins', user.uid);
             const adminDocSnap = await getDoc(adminDocRef);
 
             if (adminDocSnap.exists()) {
                 toast({
                     title: 'أهلاً بعودتك دكتورة دانا',
-                    description: 'يتم توجيهك إلى لوحة التحكم.',
+                    description: 'يتم توجيهك إلى الصفحة الرئيسية.',
                 });
-                // The onAuthStateChanged listener in app-store will handle setting the user.
-                router.push('/admin');
+                router.push('/');
             } else {
                  toast({
                     variant: 'destructive',
@@ -108,7 +106,6 @@ export default function LoginPage() {
                 await auth.signOut();
             }
         } else {
-             // It's a student login attempt
              const studentDocRef = doc(db, 'students', user.uid);
              const studentDocSnap = await getDoc(studentDocRef);
              const student = studentDocSnap.data();
@@ -127,16 +124,6 @@ export default function LoginPage() {
             const deviceId = getDeviceId();
             const os = getOS();
             
-            const redirectToCoursePage = () => {
-                let coursePath = '/';
-                if (student.courseIds?.includes('tawjihi-2007-supplementary')) {
-                    coursePath = '/courses/physics-supplementary-2007';
-                } else if (student.courseIds?.includes('tawjihi-2008')) {
-                    coursePath = '/courses/physics-2008';
-                }
-                router.push(coursePath);
-            };
-
             const registrationInput: RegisterDeviceInput = {
                 studentId: user.uid,
                 studentName: student.studentName,
@@ -150,7 +137,7 @@ export default function LoginPage() {
             const result = await registerDeviceAction(registrationInput);
             
             if (result.status === 'registered' || result.status === 'already-exists') {
-                 redirectToCoursePage();
+                 router.push('/');
             } else if (result.status === 'pending') {
                 toast({
                   variant: 'destructive',
