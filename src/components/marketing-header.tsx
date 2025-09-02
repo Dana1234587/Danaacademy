@@ -11,7 +11,7 @@ import { useStore } from '@/store/app-store';
 import { auth } from '@/lib/firebase';
 import { signOut } from 'firebase/auth';
 import { useState } from 'react';
-import { Sheet, SheetContent, SheetTrigger, SheetClose } from '@/components/ui/sheet';
+import { Sheet, SheetContent, SheetTrigger, SheetClose, SheetHeader, SheetTitle } from '@/components/ui/sheet';
 
 const navLinks = [
   { href: '/', text: 'الرئيسية', icon: Home },
@@ -138,6 +138,9 @@ export function MarketingHeader() {
                         </Button>
                     </SheetTrigger>
                     <SheetContent side="right" className="w-full sm:w-3/4 bg-background p-8">
+                       <SheetHeader>
+                          <SheetTitle className="sr-only">Main Menu</SheetTitle>
+                       </SheetHeader>
                         <div className="flex flex-col h-full">
                            <SheetClose asChild>
                             <Link href="/" className="mb-8">
