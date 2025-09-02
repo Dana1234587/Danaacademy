@@ -30,7 +30,7 @@ function ExamCard({ exam }: { exam: Exam }) {
                 </div>
                 <div className="flex items-center gap-2 col-span-2">
                     <span className="font-bold">الدورة:</span>
-                    <span>{exam.courseId === 'tawjihi-2007-supplementary' ? 'تكميلي 2007' : 'توجيهي 2008'}</span>
+                    <span>{exam.courseId === 'tawjihi-2007-supplementary' ? 'تكميلي 2007' : 'توجيهي 2008 - فصل أول'}</span>
                 </div>
                 <div className="flex items-center gap-2 col-span-2">
                      <CalendarIcon className="w-4 h-4" />

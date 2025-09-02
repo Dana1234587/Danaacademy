@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import { MarketingLayout } from '@/components/layout/marketing-layout';
@@ -28,7 +29,7 @@ const allCourses = [
     imageUrl: 'https://i.ibb.co/HTYrz1mb/image.png',
     imageHint: 'physics textbook 2008',
     curriculum: 'الأردن',
-    link: '/courses/physics-2008-first-semester',
+    link: '/courses/physics-2008/physics-2008-first-semester',
     detailsLink: '/courses/physics-2008-first-semester-details',
   },
 ];

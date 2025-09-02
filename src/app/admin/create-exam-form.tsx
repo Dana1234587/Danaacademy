@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import React, { useState } from 'react';
@@ -200,7 +201,7 @@ export function CreateExamForm() {
                     </FormControl>
                     <SelectContent>
                       <SelectItem value="tawjihi-2007-supplementary">فيزياء تكميلي 2007</SelectItem>
-                      <SelectItem value="tawjihi-2008">فيزياء توجيهي 2008</SelectItem>
+                      <SelectItem value="tawjihi-2008-first-semester">فيزياء توجيهي 2008 - فصل أول</SelectItem>
                     </SelectContent>
                   </Select>
                   <FormMessage />

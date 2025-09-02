@@ -13,7 +13,7 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsive
 
 const availableCourses = [
     { id: 'tawjihi-2007-supplementary', name: 'فيزياء تكميلي 2007' },
-    { id: 'tawjihi-2008', name: 'فيزياء توجيهي 2008' },
+    { id: 'tawjihi-2008-first-semester', name: 'فيزياء توجيهي 2008 - فصل أول' },
 ];
 
 export function AdminPerformance() {
