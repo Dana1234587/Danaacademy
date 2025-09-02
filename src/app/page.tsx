@@ -94,7 +94,8 @@ const courses = [
     imageUrl: 'https://placehold.co/600x400.png',
     imageHint: 'physics foundation',
     curriculum: 'الأردن',
-    detailsLink: '/courses/physics-2008-foundation/details',
+    link: '/courses/physics-2008-foundation',
+    detailsLink: '/courses/physics-2008-foundation-details',
   },
   {
     id: 'tawjihi-2008-palestine',

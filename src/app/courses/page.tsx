@@ -32,6 +32,17 @@ const allCourses = [
     link: '/courses/physics-2008/physics-2008-first-semester',
     detailsLink: '/courses/physics-2008-first-semester-details',
   },
+  {
+    id: 'tawjihi-2008-foundation',
+    title: 'دورة التأسيس توجيهي الأردن لجيل 2008',
+    description: 'دورة تأسيسية شاملة لجيل 2008 لمساعدتهم على الاستعداد الأمثل لمادة الفيزياء في التوجيهي.',
+    price: '50.00 د.أ',
+    imageUrl: 'https://placehold.co/600x400.png',
+    imageHint: 'physics foundation',
+    curriculum: 'الأردن',
+    link: '/courses/physics-2008-foundation',
+    detailsLink: '/courses/physics-2008-foundation-details',
+  },
 ];
 
 export default function MyCoursesPage() {
