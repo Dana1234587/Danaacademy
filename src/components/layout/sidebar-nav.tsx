@@ -10,13 +10,13 @@ import {
   SidebarSeparator,
 } from '@/components/ui/sidebar';
 import {
-  Lightbulb,
   LogOut,
   Users,
   ClipboardCheck,
   Home,
   Award,
-  BarChart2
+  BarChart2,
+  BookCopy
 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
@@ -81,6 +81,14 @@ export function SidebarNav() {
                 </>
             ) : (
                  <>
+                    <SidebarMenuItem>
+                        <Link href="/courses" className="w-full">
+                            <Button variant="ghost" className="w-full justify-start gap-2">
+                                <BookCopy />
+                                دوراتي
+                            </Button>
+                        </Link>
+                    </SidebarMenuItem>
                     <SidebarMenuItem>
                         <Link href="/my-exams" className="w-full">
                             <Button variant="ghost" className="w-full justify-start gap-2">
