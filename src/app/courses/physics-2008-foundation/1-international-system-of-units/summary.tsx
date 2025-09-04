@@ -81,11 +81,11 @@ export default function SummaryPage() {
           <AlertTitle className="font-bold">تجانس الوحدات</AlertTitle>
           <AlertDescription>
              <div className="space-y-2">
-                <p>يجب أن تكون الوحدات على طرفي أي معادلة فيزيائية متجانسة (متطابقة).</p>
-                <p><b>مثال:</b> قانون نيوتن الثاني: $F = ma$.</p>
-                <p>وحدة القوة (F) هي النيوتن (N).</p>
-                <p>وحدة الطرف الأيمن هي وحدة الكتلة (kg) مضروبة في وحدة التسارع (m/s²). إذن، $kg \\cdot m/s^2$.</p>
-                <p>لذلك، نستنتج أن $1 N = 1 kg \\cdot m/s^2$. وهذا يؤكد صحة وتجانس المعادلة.</p>
+                <SmartTextRenderer text={'يجب أن تكون الوحدات على طرفي أي معادلة فيزيائية متجانسة (متطابقة).'}/>
+                <SmartTextRenderer text={'مثال: قانون نيوتن الثاني: $F = ma$.'}/>
+                <SmartTextRenderer text={'وحدة القوة (F) هي النيوتن (N).'}/>
+                <SmartTextRenderer text={'وحدة الطرف الأيمن هي وحدة الكتلة (kg) مضروبة في وحدة التسارع ($m/s^2$). إذن، $kg \\cdot m/s^2$.'}/>
+                <SmartTextRenderer text={'لذلك، نستنتج أن $1 N = 1 kg \\cdot m/s^2$. وهذا يؤكد صحة وتجانس المعادلة.'}/>
              </div>
           </AlertDescription>
         </Alert>
