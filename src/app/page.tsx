@@ -106,7 +106,7 @@ const courses = [
   },
   {
     id: 'astrophysics',
-    title: 'الفيزياء الفلكية والكون',
+    title: 'فيزياء قطر',
     description: 'انطلق في رحلة عبر النجوم والمجرات لاستكشاف أسرار الكون ونشأته وتطوره.',
     price: '80.00 د.أ',
     imageUrl: 'https://placehold.co/600x400.png',
