@@ -10,7 +10,7 @@ export type Device = {
   studentName: string;
   deviceId: string;
   ipAddress: string;
-  deviceType: 'Desktop' | 'Mobile';
+  deviceType: string;
   os: string;
   courses: string[];
 };
