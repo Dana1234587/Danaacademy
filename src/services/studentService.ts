@@ -28,8 +28,13 @@ export async function getStudents(): Promise<Student[]> {
 
 export async function addStudent(studentData: Omit<Student, 'id'> & { id: string }): Promise<void> {
     const { id, ...firestoreData } = studentData;
+    // Ensure password is explicitly included if provided
+    const dataToSet: any = { ...firestoreData };
+    if (studentData.password) {
+        dataToSet.password = studentData.password;
+    }
     const studentDocRef = adminDB.collection('students').doc(id);
-    await studentDocRef.set(firestoreData);
+    await studentDocRef.set(dataToSet);
 }
 
 export async function findStudentByUsername(username: string): Promise<Student | undefined> {
