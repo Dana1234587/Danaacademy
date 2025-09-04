@@ -56,7 +56,10 @@ export default function LinearMomentumConceptPage() {
                 </CardHeader>
                 <CardContent>
                     <ul className="space-y-3 list-disc list-inside text-muted-foreground">
-                        <li>سيتم إضافة النقاط الرئيسية هنا.</li>
+                        <li>تعريف الزخم الخطي وعلاقته بالكتلة والسرعة.</li>
+                        <li>وحدة قياس الزخم الخطي في النظام الدولي.</li>
+                        <li>فهم أن الزخم هو مقياس لصعوبة إيقاف الأجسام.</li>
+                        <li>التأكيد على أن الزخم كمية متجهة.</li>
                     </ul>
                 </CardContent>
             </Card>
