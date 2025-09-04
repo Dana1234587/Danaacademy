@@ -43,7 +43,10 @@ export default function InternationalSystemOfUnitsPage() {
                 </CardHeader>
                 <CardContent>
                     <ul className="space-y-3 list-disc list-inside text-muted-foreground">
-                        <li>سيتم إضافة النقاط الرئيسية هنا.</li>
+                        <li>التعرف على الكميات الأساسية في الميكانيكا (الطول، الكتلة، الزمن) ووحداتها.</li>
+                        <li>فهم مفهوم الكميات المشتقة وكيفية اشتقاق وحداتها (مثل القوة والطاقة).</li>
+                        <li>أهمية تجانس الوحدات للتأكد من صحة المعادلات الفيزيائية.</li>
+                        <li>تحليل وحدات بعض القوانين الهامة مثل قانون نيوتن الثاني.</li>
                     </ul>
                 </CardContent>
             </Card>
