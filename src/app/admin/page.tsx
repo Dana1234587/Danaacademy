@@ -581,7 +581,7 @@ export default function AdminPage() {
                                         <div className="mt-4 space-y-2 text-sm text-muted-foreground border-t pt-4">
                                             <div className="flex items-center gap-2">
                                                 {device.deviceType === 'Desktop' ? <Monitor className="w-4 h-4" /> : <Smartphone className="w-4 h-4" />}
-                                                <span>{device.os}</span>
+                                                <span>{device.os} ({device.deviceType})</span>
                                             </div>
                                             <div className="flex items-center gap-2">
                                                 <Globe className="w-4 h-4" />
@@ -589,7 +589,7 @@ export default function AdminPage() {
                                             </div>
                                             <div className="flex items-start gap-2">
                                                 <Fingerprint className="w-4 h-4 mt-1 flex-shrink-0" />
-                                                <span className="break-all" dir="ltr">{device.deviceId}</span>
+                                                <span className="break-all text-xs" dir="ltr">{device.deviceId}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -631,11 +631,15 @@ export default function AdminPage() {
                                                     <div className="flex-1 space-y-2 text-sm text-muted-foreground">
                                                         <div className="flex items-center gap-2">
                                                             {device.deviceType === 'Desktop' ? <Monitor className="w-4 h-4" /> : <Smartphone className="w-4 h-4" />}
-                                                            <span>{device.os}</span>
+                                                            <span>{device.os} ({device.deviceType})</span>
+                                                        </div>
+                                                        <div className="flex items-center gap-2">
+                                                            <Globe className="w-4 h-4" />
+                                                            <span dir="ltr">{device.ipAddress}</span>
                                                         </div>
                                                         <div className="flex items-start gap-2">
                                                             <Fingerprint className="w-4 h-4 mt-1 flex-shrink-0" />
-                                                            <span className="break-all" dir="ltr">{device.deviceId}</span>
+                                                            <span className="break-all text-xs" dir="ltr">{device.deviceId}</span>
                                                         </div>
                                                     </div>
                                                     <AlertDialog>
@@ -749,8 +753,3 @@ export default function AdminPage() {
         </>
     );
 }
-
-    
-
-    
-

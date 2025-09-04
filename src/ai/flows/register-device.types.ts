@@ -15,7 +15,7 @@ export const RegisterDeviceInputSchema = z.object({
   studentName: z.string().describe('The name of the student.'),
   deviceId: z.string().describe('The unique identifier for the device.'),
   os: z.string().describe('The operating system of the device.'),
-  deviceType: z.enum(['Desktop', 'Mobile']).describe('The type of the device.'),
+  deviceType: z.string().describe('The type of the device (e.g., Mobile, Desktop).'),
   courses: z.array(z.string()).describe('The courses the student is enrolled in.'),
   ipAddress: z.string().describe('The IP address of the device.'),
 });

@@ -13,7 +13,6 @@ import { useRouter } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
 import { Loader2 } from 'lucide-react';
 import { registerDeviceAction } from './actions';
-import type { RegisterDeviceInput } from '@/ai/flows/register-device.types';
 import { auth, db } from '@/lib/firebase';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { useStore } from '@/store/app-store';
@@ -56,14 +55,26 @@ const getDeviceId = (): string => {
 };
 
 
-const getOS = () => {
+const getOSInfo = () => {
     const userAgent = window.navigator.userAgent;
-    if (userAgent.indexOf("Win") != -1) return "Windows";
-    if (userAgent.indexOf("Mac") != -1) return "macOS";
-    if (userAgent.indexOf("Linux") != -1) return "Linux";
-    if (userAgent.indexOf("Android") != -1) return "Android";
-    if (userAgent.indexOf("like Mac") != -1) return "iOS";
-    return "Unknown";
+    let os = "Unknown";
+    let deviceType = "Desktop";
+
+    if (/android/i.test(userAgent)) {
+        os = "Android";
+        deviceType = "Mobile";
+    } else if (/iPad|iPhone|iPod/.test(userAgent)) {
+        os = "iOS";
+        deviceType = "Mobile";
+    } else if (/Win/i.test(userAgent)) {
+        os = "Windows";
+    } else if (/Mac/i.test(userAgent)) {
+        os = "macOS";
+    } else if (/Linux/i.test(userAgent)) {
+        os = "Linux";
+    }
+
+    return { os, deviceType };
 }
 
 
@@ -122,16 +133,15 @@ export default function LoginPage() {
             }
 
             const deviceId = getDeviceId();
-            const os = getOS();
+            const { os, deviceType } = getOSInfo();
             
-            const registrationInput: RegisterDeviceInput = {
+            const registrationInput = {
                 studentId: user.uid,
                 studentName: student.studentName,
                 deviceId: deviceId,
                 os: os,
-                deviceType: os === 'Android' || os === 'iOS' ? 'Mobile' : 'Desktop',
+                deviceType: deviceType,
                 courses: student.courses,
-                ipAddress: 'Fetching...'
             };
             
             const result = await registerDeviceAction(registrationInput);
