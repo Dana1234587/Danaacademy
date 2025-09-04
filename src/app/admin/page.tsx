@@ -477,6 +477,7 @@ export default function AdminPage() {
                                         <TableRow>
                                             <TableHead>اسم الطالب</TableHead>
                                             <TableHead>اسم المستخدم</TableHead>
+                                            <TableHead>كلمة المرور</TableHead>
                                             <TableHead>الجنس</TableHead>
                                             <TableHead>الدورات</TableHead>
                                             <TableHead>هاتف 1</TableHead>
@@ -490,6 +491,7 @@ export default function AdminPage() {
                                                 <TableRow key={student.id}>
                                                     <TableCell className="font-medium whitespace-nowrap">{student.studentName}</TableCell>
                                                     <TableCell className="whitespace-nowrap">{student.username}</TableCell>
+                                                    <TableCell className="whitespace-nowrap">{student.password || 'N/A'}</TableCell>
                                                      <TableCell>{student.gender === 'female' ? 'أنثى' : 'ذكر'}</TableCell>
                                                     <TableCell className="whitespace-nowrap">{student.courses?.join(', ') || 'N/A'}</TableCell>
                                                     <TableCell>{student.phone1 || '-'}</TableCell>
@@ -525,7 +527,7 @@ export default function AdminPage() {
                                             ))
                                         ) : (
                                             <TableRow>
-                                                <TableCell colSpan={7} className="text-center text-muted-foreground h-24">
+                                                <TableCell colSpan={8} className="text-center text-muted-foreground h-24">
                                                     لا يوجد طلاب يطابقون بحثك.
                                                 </TableCell>
                                             </TableRow>
