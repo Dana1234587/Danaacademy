@@ -66,7 +66,7 @@ const quizQuestions = [
     questionText: 'أي من القوانين الآتية يمكن أن يكون صحيحًا لوصف قوة (مثل القوة المركزية) بناءً على تحليل الوحدات؟',
     options: ['$F = mv/r^2$', '$F = mv^2/r$', '$F = m^2v/r$', '$F = vr/m$'],
     correctAnswerIndex: 1,
-    explanation: 'وحدة القوة هي النيوتن، والتي تكافئ $kg \\cdot m/s^2$. بالتحقق من الخيارات: \n الخيار أ: $kg \\cdot (m/s) / m^2 = kg/(m \\cdot s)$ (خاطئ). \n الخيار ب: $kg \\cdot (m/s)^2 / m = kg \\cdot m^2/(s^2 \\cdot m) = kg \\cdot m/s^2$ (صحيح). \n الخيار ج: $kg^2 \\cdot (m/s) / m = kg^2/s$ (خاطئ). \n الخيار د: $(m/s) \\cdot m / kg = m^2/(kg \\cdot s)$ (خاطئ).'
+    explanation: 'وحدة القوة هي النيوتن ($kg \\cdot m/s^2$). بالتحقق من الخيار الصحيح (ب):\nصيغة القانون: $F = \\frac{mv^2}{r}$\nتحليل الوحدات: $\\frac{kg \\cdot (m/s)^2}{m} = \\frac{kg \\cdot m^2/s^2}{m} = kg \\cdot m/s^2$. هذه الوحدة تكافئ النيوتن، إذن هذا هو القانون المحتمل.'
   },
 ];
 
