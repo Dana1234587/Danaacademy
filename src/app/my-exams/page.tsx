@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import { MarketingLayout } from '@/components/layout/marketing-layout';
@@ -82,9 +81,9 @@ function ExamCard({ exam, submissions }: { exam: Exam, submissions: Submission[]
     const isUpcoming = exam.startDate && isBefore(now, exam.startDate);
     const isFinished = exam.endDate && isAfter(now, exam.endDate);
 
-    let status: 'upcoming' | 'active' | 'finished' | 'completed' = 'finished';
-    let statusText = 'مكتمل';
-    let actionButton = <Button variant="outline" disabled>انتهى</Button>;
+    let status: 'upcoming' | 'active' | 'finished' | 'completed' = 'active'; // Default to active
+    let statusText = 'متاح الآن';
+    let actionButton = <Button asChild><Link href={`/exam/${exam.id}`}><PlayCircle className="me-2"/> ابدأ الامتحان</Link></Button>;
     
     if (isUpcoming) {
         status = 'upcoming';
@@ -93,16 +92,13 @@ function ExamCard({ exam, submissions }: { exam: Exam, submissions: Submission[]
     } else if (isFinished) {
         status = 'finished';
         statusText = 'منتهي';
-        actionButton = <Button variant="outline" disabled>فاتك الامتحان</Button>;
-    } else if (hasAttemptsLeft) {
-        status = 'active';
-        statusText = 'متاح الآن';
-        actionButton = <Button asChild><Link href={`/exam/${exam.id}`}><PlayCircle className="me-2"/> ابدأ الامتحان</Link></Button>;
-    } else { // No attempts left
+        actionButton = latestSubmission ? <span/> : <Button variant="outline" disabled>فاتك الامتحان</Button>;
+    } else if (!hasAttemptsLeft) {
         status = 'completed';
         statusText = `اكتمل (${submissionCount}/${attemptsAllowed})`;
-         actionButton = <Button variant="outline" disabled>لا يوجد محاولات متبقية</Button>;
+        actionButton = <Button variant="outline" disabled>لا يوجد محاولات متبقية</Button>;
     }
+
 
     return (
         <Card className="flex flex-col justify-between hover:shadow-lg transition-shadow">

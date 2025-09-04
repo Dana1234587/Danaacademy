@@ -24,11 +24,12 @@ async function getUserSession() {
   }
 }
 
-export default async function ExamPage({ params }: { params: { examId: string } }) {
+export default async function ExamPage({ params, searchParams }: { params: { examId: string }, searchParams: { [key: string]: string | string[] | undefined } }) {
   const { examId } = params;
   let exam: ExamWithQuestions | null = null;
   let error: string | null = null;
   let submission = null;
+  const isReviewMode = searchParams?.review === 'true';
   
   const user = await getUserSession();
 
@@ -37,9 +38,18 @@ export default async function ExamPage({ params }: { params: { examId: string } 
     if (!exam) {
       error = "لم يتم العثور على الامتحان المطلوب.";
     } else if (user) {
-      // Fetch submission only if exam exists and user is logged in
       const submissions = await getStudentSubmissions(user.uid);
       submission = submissions.find(s => s.examId === examId) || null;
+
+      // Security check: if in review mode, a submission must exist.
+      if (isReviewMode && !submission) {
+        error = "ليس لديك تقديم سابق لهذا الامتحان لمراجعته.";
+        exam = null; // Prevent rendering the exam client
+      }
+    } else if (isReviewMode) {
+        // If not logged in, cannot review.
+        error = "يجب تسجيل الدخول لمراجعة الامتحان.";
+        exam = null;
     }
   } catch (err) {
     console.error("Error fetching exam details:", err);
