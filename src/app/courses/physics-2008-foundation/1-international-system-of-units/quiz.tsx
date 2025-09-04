@@ -63,10 +63,10 @@ const quizQuestions = [
     explanation: 'الجول هو وحدة قياس الطاقة أو الشغل في النظام الدولي. وهو يكافئ $N \\cdot m$ أو $kg \\cdot m^2/s^2$.'
   },
   {
-    questionText: 'سلك طوله 200 سنتيمتر. ما هو طوله بوحدة المتر؟',
-    options: ['0.2 m', '2 m', '20 m', '0.02 m'],
+    questionText: 'أي من القوانين الآتية يمكن أن يكون صحيحًا لوصف قوة (مثل القوة المركزية) بناءً على تحليل الوحدات؟',
+    options: ['$F = mv/r^2$', '$F = mv^2/r$', '$F = m^2v/r$', '$F = vr/m$'],
     correctAnswerIndex: 1,
-    explanation: 'للتحويل من سنتيمتر إلى متر، نقسم على 100. إذن، $200 cm / 100 = 2 m$.'
+    explanation: 'وحدة القوة هي النيوتن، والتي تكافئ $kg \\cdot m/s^2$. بالتحقق من الخيارات: \n الخيار أ: $kg \\cdot (m/s) / m^2 = kg/(m \\cdot s)$ (خاطئ). \n الخيار ب: $kg \\cdot (m/s)^2 / m = kg \\cdot m^2/(s^2 \\cdot m) = kg \\cdot m/s^2$ (صحيح). \n الخيار ج: $kg^2 \\cdot (m/s) / m = kg^2/s$ (خاطئ). \n الخيار د: $(m/s) \\cdot m / kg = m^2/(kg \\cdot s)$ (خاطئ).'
   },
 ];
 
