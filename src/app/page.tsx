@@ -33,9 +33,6 @@ const memorableMoments = [
   {
     src: 'https://i.ibb.co/pj5LgGpY/Untitled-design-13.png',
   },
-  {
-    src: 'https://i.ibb.co/pr6pvCpy/Untitled-design-20.png',
-  }
 ];
 
 const studentAchievements = [
