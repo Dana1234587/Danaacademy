@@ -40,10 +40,14 @@ export default function LinearMomentumConceptPage() {
           {/* Main Content Area */}
           <div className="lg:col-span-2 space-y-6">
             
-            <div className="relative w-full rounded-lg overflow-hidden shadow-lg bg-slate-200" style={{ paddingBottom: '56.25%' }}>
-                 <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center">
-                    <p className="text-muted-foreground">سيتم إضافة الفيديو قريبًا</p>
-                </div>
+            <div className="relative w-full rounded-lg overflow-hidden shadow-lg" style={{ paddingBottom: '56.25%' }}>
+                 <iframe
+                    src="https://iframe.mediadelivery.net/embed/490779/809a6ec7-beb3-45fc-bfb5-5fa356ac369e?autoplay=false&loop=false&muted=false&preload=true"
+                    className="absolute top-0 left-0 w-full h-full border-0"
+                    loading="lazy"
+                    allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
+                    allowFullScreen={true}
+                ></iframe>
             </div>
             
             <Card>
