@@ -24,6 +24,13 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 
+const courseIdToNameMap: { [key: string]: string } = {
+    'tawjihi-2007-supplementary': 'فيزياء تكميلي 2007',
+    'tawjihi-2008-first-semester': 'فيزياء توجيهي 2008 - فصل أول',
+    'tawjihi-2008-foundation': 'دورة التأسيس 2008'
+};
+
+
 function ExamCard({ exam, onStatusChange, onDelete }: { exam: Exam, onStatusChange: () => void, onDelete: () => void }) {
     const { toast } = useToast();
     const [isLoadingToggle, setIsLoadingToggle] = useState(false);
@@ -54,6 +61,8 @@ function ExamCard({ exam, onStatusChange, onDelete }: { exam: Exam, onStatusChan
     }
 
     const formattedStartDate = exam.startDate ? format(exam.startDate, 'd MMMM yyyy, h:mm a', { locale: ar }) : 'غير محدد';
+    const courseName = courseIdToNameMap[exam.courseId] || exam.courseId;
+
     return (
         <Card className="flex flex-col hover:shadow-lg transition-shadow relative overflow-hidden">
             <CardHeader>
@@ -76,7 +85,7 @@ function ExamCard({ exam, onStatusChange, onDelete }: { exam: Exam, onStatusChan
                 </div>
                 <div className="flex items-center gap-2 col-span-2">
                     <span className="font-bold">الدورة:</span>
-                    <span>{exam.courseId === 'tawjihi-2007-supplementary' ? 'تكميلي 2007' : 'توجيهي 2008 - فصل أول'}</span>
+                    <span>{courseName}</span>
                 </div>
                 <div className="flex items-center gap-2 col-span-2">
                      <CalendarIcon className="w-4 h-4" />

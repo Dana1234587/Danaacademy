@@ -24,6 +24,11 @@ import { useToast } from '@/hooks/use-toast';
 import { useRouter } from 'next/navigation';
 import type { ExamWithQuestions } from '@/app/exam/[examId]/actions';
 
+const availableCourses = [
+    { id: 'tawjihi-2007-supplementary', name: 'فيزياء تكميلي 2007' },
+    { id: 'tawjihi-2008-first-semester', name: 'فيزياء توجيهي 2008 - فصل أول' },
+    { id: 'tawjihi-2008-foundation', name: 'دورة التأسيس توجيهي الأردن لجيل 2008' },
+];
 
 const questionOptionSchema = z.object({
   text: z.string().min(1, { message: 'لا يمكن ترك الخيار فارغًا.' }),
@@ -204,8 +209,9 @@ export function EditExamForm({ examData }: { examData: ExamWithQuestions }) {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value="tawjihi-2007-supplementary">فيزياء تكميلي 2007</SelectItem>
-                      <SelectItem value="tawjihi-2008-first-semester">فيزياء توجيهي 2008 - فصل أول</SelectItem>
+                       {availableCourses.map(course => (
+                            <SelectItem key={course.id} value={course.id}>{course.name}</SelectItem>
+                        ))}
                     </SelectContent>
                   </Select>
                   <FormMessage />
