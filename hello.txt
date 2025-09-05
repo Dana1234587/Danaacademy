@@ -1,1 +1,1 @@
-New checkpoint before re-evaluating the server error.
+New checkpoint before implementing the smart video tracking system.
