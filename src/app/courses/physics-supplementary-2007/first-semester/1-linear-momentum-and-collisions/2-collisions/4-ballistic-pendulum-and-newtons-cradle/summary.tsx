@@ -5,16 +5,35 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert';
 import { Info } from 'lucide-react';
 import 'katex/dist/katex.min.css';
-import { BlockMath } from 'react-katex';
+import { BlockMath, InlineMath } from 'react-katex';
+
+// A robust, universal renderer for bidirectional text
+const SmartTextRenderer = ({ text, as: Wrapper = 'p' }: { text: string; as?: React.ElementType }) => {
+    const lines = text.split('\n');
+    const renderPart = (part: string, index: number) => {
+        if (index % 2 === 0) return <span key={index} dir="rtl">{part}</span>;
+        return <span key={index} className="inline-block mx-1"><InlineMath math={part} /></span>;
+    };
+    return (
+        <Wrapper className="leading-relaxed">
+            {lines.map((line, lineIndex) => (
+                <span key={lineIndex} className="block my-1 text-right">
+                    {line.split('$').map(renderPart)}
+                </span>
+            ))}
+        </Wrapper>
+    );
+};
+
 
 const laws = [
     {
         title: "تحليل البندول القذفي",
-        formula: "mv = (m+M)V  ->  ½(m+M)V² = (m+M)gh",
+        formula: "mv = (m+M)V  \\quad \\rightarrow \\quad \\frac{1}{2}(m+M)V^2 = (m+M)gh",
         description: "يتم تحليل حركة البندول القذفي على مرحلتين:\n1. **مرحلة التصادم:** تصادم عديم المرونة، نطبق فيه مبدأ **حفظ الزخم الخطي** لإيجاد السرعة المشتركة بعد التصادم.\n2. **مرحلة الارتفاع:** حركة بندول، نطبق فيها مبدأ **حفظ الطاقة الميكانيكية** لربط السرعة بعد التصادم بأقصى ارتفاع يصل إليه النظام."
     },
     {
-        title: "مهد نيوتن",
+        title: "كرات نيوتن",
         formula: "",
         description: "مثال على التصادمات المرنة تقريبًا. عندما تصطدم كرة واحدة، ترتد كرة واحدة من الطرف الآخر بنفس السرعة تقريبًا. هذا هو الحل الوحيد الذي يحقق حفظ الزخم الخطي وحفظ الطاقة الحركية معًا."
     },

@@ -52,7 +52,7 @@ export default function BallisticPendulumPage() {
                     <ul className="space-y-3 list-disc list-inside text-muted-foreground">
                         <li>تحليل حركة البندول القذفي: تصادم غير مرن يتبعه حفظ للطاقة الميكانيكية.</li>
                         <li>اشتقاق العلاقة لحساب سرعة القذيفة.</li>
-                        <li>شرح كيفية عمل مهد نيوتن (كرات نيوتن) وعلاقته بحفظ الزخم والطاقة الحركية.</li>
+                        <li>شرح كيفية عمل كرات نيوتن وعلاقتها بحفظ الزخم والطاقة الحركية.</li>
                         <li>حل مسائل تطبيقية على البندول القذفي.</li>
                     </ul>
                 </CardContent>
