@@ -3,11 +3,9 @@
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ChevronLeft, FileText, BarChart, BrainCircuit } from 'lucide-react';
+import { ChevronLeft, FileText } from 'lucide-react';
 import Link from 'next/link';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import FoundationsQuizPage from './quiz';
-import SummaryPage from './summary';
+import React from 'react';
 
 export default function FoundationsPage() {
   return (
@@ -39,18 +37,6 @@ export default function FoundationsPage() {
                     allowFullScreen={true}
                 ></iframe>
             </div>
-            <Card>
-                <CardHeader>
-                    <CardTitle>نقاط رئيسية من الحصة</CardTitle>
-                </CardHeader>
-                <CardContent>
-                    <ul className="space-y-3 list-disc list-inside text-muted-foreground">
-                        <li>مراجعة تحليل المتجهات.</li>
-                        <li>الضرب القياسي والضرب المتجهي.</li>
-                        <li>أساسيات حساب المثلثات.</li>
-                    </ul>
-                </CardContent>
-            </Card>
           </div>
 
           <div className="lg:col-span-1 space-y-6">
@@ -62,32 +48,6 @@ export default function FoundationsPage() {
                 <Button variant="ghost" className="w-full justify-start">
                   <FileText className="me-3"/> ورقة عمل الدرس (PDF)
                 </Button>
-                <Dialog>
-                    <DialogTrigger asChild>
-                        <Button variant="ghost" className="w-full justify-start">
-                          <BarChart className="me-3"/> ملخص القوانين
-                        </Button>
-                    </DialogTrigger>
-                    <DialogContent className="max-w-xl h-auto max-h-[80vh] overflow-y-auto">
-                        <DialogHeader>
-                            <DialogTitle>ملخص قوانين: تأسيس</DialogTitle>
-                        </DialogHeader>
-                        <SummaryPage />
-                    </DialogContent>
-                 </Dialog>
-                 <Dialog>
-                    <DialogTrigger asChild>
-                        <Button variant="ghost" className="w-full justify-start">
-                          <BrainCircuit className="me-3"/> اختبار قصير للمراجعة
-                        </Button>
-                    </DialogTrigger>
-                    <DialogContent className="max-w-4xl h-[90vh] overflow-y-auto">
-                        <DialogHeader>
-                            <DialogTitle>اختبار قصير: تأسيس</DialogTitle>
-                        </DialogHeader>
-                        <FoundationsQuizPage />
-                    </DialogContent>
-                 </Dialog>
               </CardContent>
             </Card>
           </div>
