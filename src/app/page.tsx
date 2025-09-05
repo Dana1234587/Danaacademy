@@ -87,7 +87,7 @@ const courses = [
     id: 'tawjihi-2008-foundation',
     title: 'دورة التأسيس توجيهي الأردن لجيل 2008',
     description: 'دورة تأسيسية شاملة لجيل 2008 لمساعدتهم على الاستعداد الأمثل لمادة الفيزياء في التوجيهي.',
-    price: '50.00 د.أ',
+    price: 'مجاناً',
     imageUrl: 'https://i.ibb.co/3m20cYgV/1.png',
     imageHint: 'physics foundation',
     curriculum: 'الأردن',
