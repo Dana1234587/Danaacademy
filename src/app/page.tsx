@@ -99,7 +99,7 @@ const courses = [
     title: 'فيزياء التوجيهي - جيل 2008',
     description: 'فصل أول',
     price: '60.00 د.أ',
-    imageUrl: 'https://i.ibb.co/TDd0GqQB/image.jpg',
+    imageUrl: 'https://i.ibb.co/JFSf9rDb/4.png',
     imageHint: 'physics textbook palestine',
     curriculum: 'فلسطين',
     detailsLink: '/courses/physics-2008-palestine/details',
