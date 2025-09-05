@@ -1,17 +1,19 @@
 
 'use client';
 
+import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import 'katex/dist/katex.min.css';
 import { BlockMath, InlineMath } from 'react-katex';
 
+// A robust, universal renderer for bidirectional text
 const SmartTextRenderer = ({ text, as: Wrapper = 'p' }: { text: string; as?: React.ElementType }) => {
     const lines = text.split('\n');
 
     const renderPart = (part: string, index: number) => {
         // Even indices are text, odd are math
         if (index % 2 === 0) {
-            return <span key={index} dir="rtl">{part}</span>;
+            return <span key={index}>{part}</span>;
         } else {
             // This is LaTeX
             return <span key={index} dir="ltr" className="inline-block mx-1"><InlineMath math={part} /></span>;
@@ -19,7 +21,7 @@ const SmartTextRenderer = ({ text, as: Wrapper = 'p' }: { text: string; as?: Rea
     };
     
     return (
-        <Wrapper className="leading-relaxed">
+        <Wrapper className="leading-relaxed" dir="rtl">
             {lines.map((line, lineIndex) => (
                 <React.Fragment key={lineIndex}>
                     {line.split('$').map(renderPart)}
