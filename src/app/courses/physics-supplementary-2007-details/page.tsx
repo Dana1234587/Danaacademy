@@ -25,7 +25,7 @@ const course = {
     imageUrl: 'https://i.ibb.co/SXn1vhJP/NEW-NEW.png',
     imageHint: 'instructor portrait',
   },
-  coverImageUrl: 'https://i.ibb.co/Kck1HBsB/image.png',
+  coverImageUrl: 'https://i.ibb.co/j9H1P345/3.png',
   coverImageHint: 'physics textbook',
   price: '50.00 د.أ',
   curriculum: {

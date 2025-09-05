@@ -15,7 +15,7 @@ const allCourses = [
     title: 'فيزياء التكميلي - جيل 2007',
     description: 'تفاصيل الدورة حصص مسجله لمادة الفيزياء التوجيهي كاملا للفصل الاول والفصل الثاني',
     price: '50.00 د.أ',
-    imageUrl: 'https://i.ibb.co/Kck1HBsB/image.png',
+    imageUrl: 'https://i.ibb.co/j9H1P345/3.png',
     imageHint: 'physics textbook',
     curriculum: 'الأردن',
     link: '/courses/physics-supplementary-2007',
