@@ -14,8 +14,8 @@ export default function CourseDetailsPage() {
       <div className="p-4 sm:p-6 lg:p-8">
         <div className="flex justify-between items-center mb-8">
             <div>
-                <h1 className="text-3xl font-bold">تفاصيل دورة الفيزياء الفلكية والكون</h1>
-                <p className="text-muted-foreground mt-2">انطلق في رحلة عبر النجوم والمجرات.</p>
+                <h1 className="text-3xl font-bold">تفاصيل دورة الفيزياء للثاني عشر علمي وتكنولوجي - الفصل الأول</h1>
+                <p className="text-muted-foreground mt-2">كل ما تحتاج لمعرفته عن دورة الفصل الأول للمنهاج القطري.</p>
             </div>
             <Button asChild variant="outline">
                 <Link href="/" className="flex items-center gap-2">
@@ -35,7 +35,7 @@ export default function CourseDetailsPage() {
                 </CardDescription>
             </CardHeader>
             <CardContent>
-                <p>محتوى تفصيلي لدورة الفيزياء الفلكية سيتم إضافته هنا قريبًا.</p>
+                <p>محتوى تفصيلي لدورة الفيزياء للمنهاج القطري سيتم إضافته هنا قريبًا.</p>
             </CardContent>
         </Card>
       </div>
