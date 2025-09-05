@@ -2,8 +2,6 @@
 'use client';
 
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert';
-import { Info } from 'lucide-react';
 import 'katex/dist/katex.min.css';
 import { BlockMath, InlineMath } from 'react-katex';
 
@@ -56,13 +54,6 @@ export default function SummaryPage() {
             </CardContent>
           </Card>
         ))}
-         <Alert>
-          <Info className="h-4 w-4" />
-          <AlertTitle className="font-bold">استراتيجية حل مسائل الاتزان</AlertTitle>
-          <AlertDescription>
-           <SmartTextRenderer as="div" text={'1. ارسم مخطط الجسم الحر موضحًا جميع القوى. <br/> 2. طبّق شرط الاتزان الانتقالي ($\Sigma F_x = 0$, $\Sigma F_y = 0$). <br/> 3. اختر محور دوران مناسب (يفضل أن يمر بأكبر عدد من القوى المجهولة) وطبّق شرط الاتزان الدوراني ($\Sigma \tau = 0$). <br/> 4. حل المعادلات الناتجة لإيجاد المجاهيل.'} />
-          </AlertDescription>
-        </Alert>
       </div>
     </div>
   );
