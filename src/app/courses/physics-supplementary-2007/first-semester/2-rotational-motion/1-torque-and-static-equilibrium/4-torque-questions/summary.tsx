@@ -2,8 +2,6 @@
 'use client';
 
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert';
-import { Info } from 'lucide-react';
 import 'katex/dist/katex.min.css';
 import { BlockMath, InlineMath } from 'react-katex';
 
@@ -56,13 +54,6 @@ export default function SummaryPage() {
             </CardContent>
           </Card>
         ))}
-         <Alert>
-          <Info className="h-4 w-4" />
-          <AlertTitle className="font-bold">استقلالية عزم الازدواج</AlertTitle>
-          <AlertDescription>
-           من أهم خصائص عزم الازدواج أنه لا يعتمد على موقع محور الدوران، فطالما أن القوتين تحققان شروط الازدواج، سيكون عزمهما ثابتًا بغض النظر عن النقطة التي نحسب العزم حولها.
-          </AlertDescription>
-        </Alert>
       </div>
     </div>
   );
