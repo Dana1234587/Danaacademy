@@ -115,14 +115,14 @@ const courses = [
     detailsLink: '/courses/astrophysics/details',
   },
   {
-    id: 'nuclear-physics',
-    title: 'الفيزياء النووية والإشعاع',
-    description: 'تعمق في بنية الذرة والظواهر النووية، وتعرف على تطبيقاتها في الطاقة والطب.',
-    price: '70.00 د.أ',
+    id: 'physics-101',
+    title: 'فيزياء الجامعه PHYSICS 101',
+    description: 'دورة شاملة لمبادئ الفيزياء العامة 101 لطلاب الجامعات.',
+    price: 'قريباً',
     imageUrl: 'https://placehold.co/600x400.png',
-    imageHint: 'nuclear physics',
-    curriculum: 'فلسطين',
-    detailsLink: '/courses/nuclear-physics/details',
+    imageHint: 'university physics',
+    curriculum: 'جامعات',
+    detailsLink: '/courses/physics-101/details',
   },
 ];
 
