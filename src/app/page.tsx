@@ -119,7 +119,7 @@ const courses = [
     title: 'فيزياء الجامعه PHYSICS 101',
     description: 'دورة شاملة لمبادئ الفيزياء العامة 101 لطلاب الجامعات.',
     price: 'قريباً',
-    imageUrl: 'https://placehold.co/600x400.png',
+    imageUrl: 'https://i.ibb.co/MDhZYQcz/6.png',
     imageHint: 'university physics',
     curriculum: 'جامعات',
     detailsLink: '/courses/physics-101/details',
