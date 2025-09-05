@@ -77,7 +77,7 @@ const courses = [
     title: 'فيزياء توجيهي 2008 - فصل أول',
     description: 'دورة شاملة تغطي مادة الفصل الدراسي الأول لجيل 2008، مع شرح مفصل وأسئلة مكثفة.',
     price: '50.00 د.أ',
-    imageUrl: 'https://i.ibb.co/HTYrz1mb/image.png',
+    imageUrl: 'https://i.ibb.co/Tx4wY4wS/2.png',
     imageHint: 'physics textbook 2008',
     curriculum: 'الأردن',
     link: '/courses/physics-2008/physics-2008-first-semester',
