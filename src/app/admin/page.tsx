@@ -9,7 +9,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Checkbox } from "@/components/ui/checkbox"
 import { useToast } from '@/hooks/use-toast';
-import { UserPlus, KeyRound, MonitorCheck, Loader2, Search, Smartphone, Monitor, Fingerprint, Globe, List, Home, Users, Edit, Trash2, Check, Plus, RefreshCw, Info, AlertTriangle, ClipboardCheck, ClipboardList, BarChart3, BarChart2 } from 'lucide-react';
+import { UserPlus, KeyRound, MonitorCheck, Loader2, Search, Smartphone, Monitor, Fingerprint, Globe, List, Home, Users, Edit, Trash2, Check, Plus, RefreshCw, Info, AlertTriangle, ClipboardCheck, ClipboardList, BarChart3, BarChart2, Laptop } from 'lucide-react';
 import { useState, useEffect, useMemo, useCallback } from 'react';
 import Link from 'next/link';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
@@ -580,8 +580,14 @@ export default function AdminPage() {
                                         <div className="mt-4 space-y-2 text-sm text-muted-foreground border-t pt-4">
                                             <div className="flex items-center gap-2">
                                                 {device.deviceType === 'Desktop' ? <Monitor className="w-4 h-4" /> : <Smartphone className="w-4 h-4" />}
-                                                <span>{device.os} ({device.deviceType})</span>
+                                                <span>{device.os}</span>
                                             </div>
+                                             {device.browser && (
+                                                <div className="flex items-center gap-2">
+                                                    <Laptop className="w-4 h-4" />
+                                                    <span>{device.browser}</span>
+                                                </div>
+                                            )}
                                             <div className="flex items-center gap-2">
                                                 <Globe className="w-4 h-4" />
                                                 <span dir="ltr">{device.ipAddress}</span>
@@ -630,8 +636,14 @@ export default function AdminPage() {
                                                     <div className="flex-1 space-y-2 text-sm text-muted-foreground">
                                                         <div className="flex items-center gap-2">
                                                             {device.deviceType === 'Desktop' ? <Monitor className="w-4 h-4" /> : <Smartphone className="w-4 h-4" />}
-                                                            <span>{device.os} ({device.deviceType})</span>
+                                                            <span>{device.os}</span>
                                                         </div>
+                                                        {device.browser && (
+                                                            <div className="flex items-center gap-2">
+                                                                <Laptop className="w-4 h-4" />
+                                                                <span>{device.browser}</span>
+                                                            </div>
+                                                        )}
                                                         <div className="flex items-center gap-2">
                                                             <Globe className="w-4 h-4" />
                                                             <span dir="ltr">{device.ipAddress}</span>

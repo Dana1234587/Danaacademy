@@ -1,7 +1,7 @@
 
 'use server';
 
-import { collection, query, where, getDocs, addDoc, deleteDoc, doc, writeBatch, getDoc } from 'firebase/firestore';
+import { collection, query, where, getDocs, addDoc, deleteDoc, doc, writeBatch, getDoc, updateDoc } from 'firebase/firestore';
 import { adminDB } from '@/lib/firebase-admin';
 
 export type Device = {
@@ -12,6 +12,7 @@ export type Device = {
   ipAddress: string;
   deviceType: string;
   os: string;
+  browser?: string;
   courses: string[];
 };
 
@@ -100,4 +101,18 @@ export async function deleteRegisteredDeviceByStudentId(studentId: string): Prom
     });
     
     await batch.commit();
+}
+
+export async function updateDeviceBrowserInfo(deviceId: string, studentId: string, browserInfo: string): Promise<void> {
+    try {
+        const q = query(collection(adminDB, 'registeredDevices'), where('deviceId', '==', deviceId), where('studentId', '==', studentId));
+        const querySnapshot = await getDocs(q);
+
+        if (!querySnapshot.empty) {
+            const deviceDocRef = querySnapshot.docs[0].ref;
+            await updateDoc(deviceDocRef, { browser: browserInfo });
+        }
+    } catch (error) {
+        console.error("Error updating device browser info:", error);
+    }
 }

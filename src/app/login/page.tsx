@@ -55,26 +55,37 @@ const getDeviceId = (): string => {
 };
 
 
-const getOSInfo = () => {
+const getOSAndBrowserInfo = () => {
     const userAgent = window.navigator.userAgent;
-    let os = "Unknown";
+    let os = "Unknown OS";
     let deviceType = "Desktop";
+    let browser = "Unknown Browser";
 
-    if (/android/i.test(userAgent)) {
-        os = "Android";
-        deviceType = "Mobile";
-    } else if (/iPad|iPhone|iPod/.test(userAgent)) {
-        os = "iOS";
-        deviceType = "Mobile";
-    } else if (/Win/i.test(userAgent)) {
-        os = "Windows";
-    } else if (/Mac/i.test(userAgent)) {
-        os = "macOS";
-    } else if (/Linux/i.test(userAgent)) {
-        os = "Linux";
+    // OS Detection
+    if (/android/i.test(userAgent)) { os = "Android"; deviceType = "Mobile"; }
+    else if (/iPad|iPhone|iPod/.test(userAgent)) { os = "iOS"; deviceType = "Mobile"; }
+    else if (/Win/i.test(userAgent)) { os = "Windows"; }
+    else if (/Mac/i.test(userAgent)) { os = "macOS"; }
+    else if (/Linux/i.test(userAgent)) { os = "Linux"; }
+
+    // Browser Detection
+    if ((/Chrome|CriOS/i).test(userAgent) && !(/Edge|Edg/i).test(userAgent)) {
+        const match = userAgent.match(/(Chrome|CriOS)\/([0-9\.]+)/);
+        browser = match ? `Chrome ${match[2]}` : "Chrome";
+    } else if ((/Firefox|FxiOS/i).test(userAgent)) {
+        const match = userAgent.match(/(Firefox|FxiOS)\/([0-9\.]+)/);
+        browser = match ? `Firefox ${match[2]}` : "Firefox";
+    } else if ((/Safari/i).test(userAgent) && !(/Chrome|CriOS/i).test(userAgent)) {
+        const match = userAgent.match(/Version\/([0-9\.]+) Safari/);
+        browser = match ? `Safari ${match[1]}` : "Safari";
+    } else if ((/Edge|Edg/i).test(userAgent)) {
+        const match = userAgent.match(/(Edge|Edg)\/([0-9\.]+)/);
+        browser = match ? `Edge ${match[2]}` : "Edge";
+    } else if ((/MSIE|Trident/i).test(userAgent)) {
+        browser = "Internet Explorer";
     }
 
-    return { os, deviceType };
+    return { os, deviceType, browser };
 }
 
 
@@ -133,7 +144,7 @@ export default function LoginPage() {
             }
 
             const deviceId = getDeviceId();
-            const { os, deviceType } = getOSInfo();
+            const { os, deviceType, browser } = getOSAndBrowserInfo();
             
             const registrationInput = {
                 studentId: user.uid,
@@ -141,6 +152,7 @@ export default function LoginPage() {
                 deviceId: deviceId,
                 os: os,
                 deviceType: deviceType,
+                browser: browser,
                 courses: student.courses,
             };
             
