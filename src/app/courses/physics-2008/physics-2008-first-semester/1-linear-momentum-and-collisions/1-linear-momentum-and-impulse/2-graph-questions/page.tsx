@@ -61,8 +61,10 @@ export default function GraphQuestionsPage() {
                 <CardTitle>موارد إضافية</CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
-                <Button variant="ghost" className="w-full justify-start" disabled>
-                  <FileText className="me-3"/> ورقة عمل الدرس (قريبًا)
+                <Button variant="ghost" className="w-full justify-start" asChild>
+                  <Link href="https://drive.google.com/file/d/1VUyLjQVucw2IHay1fiT5_Wd9C1VZpcp-/view?usp=sharing" target="_blank" rel="noopener noreferrer">
+                    <FileText className="me-3"/> ورقة عمل الدرس (PDF)
+                  </Link>
                 </Button>
                  <Dialog>
                     <DialogTrigger asChild>
