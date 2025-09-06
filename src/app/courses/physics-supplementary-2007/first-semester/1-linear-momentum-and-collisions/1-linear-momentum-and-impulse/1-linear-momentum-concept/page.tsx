@@ -14,10 +14,9 @@ import React, { useRef } from 'react';
 
 function WatermarkedVideoPlayer({ src }: { src: string }) {
   const { currentUser } = useStore();
-  const containerRef = useRef<HTMLDivElement>(null); // Changed ref to point to the container
+  const containerRef = useRef<HTMLDivElement>(null); 
 
   const handleFullscreen = () => {
-    // Request fullscreen on the container, not the iframe
     if (containerRef.current) {
       if (containerRef.current.requestFullscreen) {
         containerRef.current.requestFullscreen();
@@ -38,15 +37,15 @@ function WatermarkedVideoPlayer({ src }: { src: string }) {
         <div 
           className="absolute inset-0 flex items-center justify-center pointer-events-none animate-float"
           style={{
-            animationDuration: '15s'
+            animationDuration: '20s'
           }}
         >
-          <span className="text-white/20 text-2xl font-bold select-none transform-gpu">
+          <span className="text-white/10 text-2xl font-bold select-none transform-gpu">
             {currentUser.username}
           </span>
         </div>
       )}
-       <div className="absolute bottom-2 right-2 z-10">
+       <div className="absolute bottom-4 right-4 z-10">
             <Button onClick={handleFullscreen} variant="secondary" size="icon" aria-label="توسيع الشاشة">
                 <Maximize className="w-5 h-5" />
             </Button>
