@@ -72,8 +72,10 @@ export default function LinearMomentumConceptPage() {
                 <CardTitle>موارد إضافية</CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
-                <Button variant="ghost" className="w-full justify-start" disabled>
-                  <FileText className="me-3"/> ورقة عمل الدرس (قريبًا)
+                <Button variant="ghost" className="w-full justify-start" asChild>
+                  <Link href="https://drive.google.com/file/d/1ATc0KPfFhJg4TPJiE-_PlBK1xUhLPwyg/view?usp=drive_link" target="_blank" rel="noopener noreferrer">
+                    <FileText className="me-3"/> ورقة عمل الدرس (PDF)
+                  </Link>
                 </Button>
                 <Dialog>
                     <DialogTrigger asChild>
