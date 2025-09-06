@@ -228,20 +228,20 @@ export function ExamClient({ exam, submission }: { exam: ExamWithQuestions, subm
                         <div>
                             <p className="text-muted-foreground text-lg">علامتك النهائية</p>
                              <div className="text-5xl font-bold text-primary flex items-baseline justify-center gap-1">
-                               <SmartTextRenderer as="span" text={`$${finalMark}$`} />
+                               <SmartTextRenderer as="span" text={`$${submission?.score ?? finalMark}$`} />
                                <span className="text-2xl text-muted-foreground">
-                                 / <SmartTextRenderer as="span" text={`$${totalMarks}$`} />
+                                 / <SmartTextRenderer as="span" text={`$${exam.questions.length * 4}$`} />
                                </span>
                              </div>
                         </div>
                         <div className="space-y-2">
                           <div className="flex items-center gap-2 text-green-600 font-semibold">
                                 <CheckCircle className="w-5 h-5"/>
-                                <SmartTextRenderer as="span" text={`$${correctAnswers}$ إجابات صحيحة`} />
+                                <SmartTextRenderer as="span" text={`$${submission?.score ?? correctAnswers}$ إجابات صحيحة`} />
                           </div>
                           <div className="flex items-center gap-2 text-red-600 font-semibold">
                                 <XCircle className="w-5 h-5"/>
-                                <SmartTextRenderer as="span" text={`$${incorrectAnswers}$ إجابات خاطئة`} />
+                                <SmartTextRenderer as="span" text={`$${exam.questions.length - (submission?.score ?? correctAnswers)}$ إجابات خاطئة`} />
                           </div>
                         </div>
                     </div>
