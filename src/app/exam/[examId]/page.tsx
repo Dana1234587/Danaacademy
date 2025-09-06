@@ -7,7 +7,8 @@ import { useSearchParams } from 'next/navigation';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Loader2, ServerCrash } from 'lucide-react';
-import { getExamForStudent, getStudentSubmissions, type ExamWithQuestions } from './actions'; 
+import { getExamForStudent, type ExamWithQuestions } from './actions'; 
+import { getStudentSubmissions, type Submission } from '@/app/my-exams/actions';
 import { ExamClient } from './exam-client';
 import { useStore } from '@/store/app-store';
 
@@ -17,7 +18,7 @@ export default function ExamPage({ params }: { params: { examId: string } }) {
   const { currentUser, isLoading: isUserLoading } = useStore();
 
   const [exam, setExam] = useState<ExamWithQuestions | null>(null);
-  const [submission, setSubmission] = useState<any | null>(null);
+  const [submission, setSubmission] = useState<Submission | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   
