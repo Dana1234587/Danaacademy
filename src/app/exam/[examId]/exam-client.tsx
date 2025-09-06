@@ -3,12 +3,13 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
+import { useSearchParams, useRouter } from 'next/navigation';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
 import { Progress } from '@/components/ui/progress';
-import { AlertTriangle, CheckCircle, ChevronLeft, ChevronRight, Redo, XCircle, ListChecks, Info, Rocket, BrainCircuit, BookOpen, Clock, Calculator, Pencil, ClipboardCheck, HelpCircle, Loader2, Eye, Image as ImageIcon } from 'lucide-react';
+import { AlertTriangle, CheckCircle, ChevronLeft, ChevronRight, Redo, XCircle, ListChecks, Info, Rocket, BrainCircuit, BookOpen, Clock, Calculator, Pencil, ClipboardCheck, HelpCircle, Loader2, Eye, Image as ImageIcon, ServerCrash } from 'lucide-react';
 import Image from 'next/image';
 import type { ExamWithQuestions } from './actions';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
@@ -18,8 +19,9 @@ import { InlineMath } from 'react-katex';
 import { useStore } from '@/store/app-store';
 import { submitExamAction } from './actions';
 import { useToast } from '@/hooks/use-toast';
-import { useRouter } from 'next/navigation';
-import type { Submission } from '@/app/admin/exams/actions';
+import { getStudentSubmissions, type Submission } from '@/app/my-exams/actions'; 
+import { format, isBefore, isAfter } from 'date-fns';
+import { ar } from 'date-fns/locale';
 
 
 // A robust, universal renderer for bidirectional text
@@ -50,21 +52,76 @@ const SmartTextRenderer = ({ text, as: Wrapper = 'p' }: { text: string; as?: Rea
 };
 
 
-export function ExamClient({ exam, submission }: { exam: ExamWithQuestions, submission: Submission | null }) {
-  const { currentUser } = useStore();
+export function ExamClient({ exam }: { exam: ExamWithQuestions }) {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { toast } = useToast();
-
-  const isReviewMode = !!submission;
+  const { currentUser, isLoading: isUserLoading } = useStore();
+  
+  const isReviewMode = searchParams.get('review') === 'true';
   const isAdminPreview = currentUser?.role === 'admin' && !isReviewMode;
+  
+  const [submission, setSubmission] = useState<Submission | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const [quizState, setQuizState] = useState<'not-started' | 'active' | 'finished'>(isReviewMode ? 'finished' : 'not-started');
+  const [quizState, setQuizState] = useState<'not-started' | 'active' | 'finished'>('not-started');
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [answers, setAnswers] = useState<(number | null)[]>(isReviewMode && submission ? submission.answers : new Array(exam.questions.length).fill(null));
+  const [answers, setAnswers] = useState<(number | null)[]>(new Array(exam.questions.length).fill(null));
   const [timeLeft, setTimeLeft] = useState(exam.duration * 60);
-  const [score, setScore] = useState(isReviewMode && submission ? submission.score : 0);
-  const [showDetails, setShowDetails] = useState(isReviewMode);
+  const [score, setScore] = useState(0);
+  const [showDetails, setShowDetails] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+
+  useEffect(() => {
+    if (isUserLoading) return; // Wait for user info
+
+    if (!currentUser) {
+        setError("الرجاء تسجيل الدخول لعرض هذه الصفحة.");
+        setIsLoading(false);
+        return;
+    }
+    
+    // Check if student is enrolled (or is an admin)
+    if (currentUser.role !== 'admin' && !currentUser.enrolledCourseIds.includes(exam.courseId)) {
+        setError("أنت غير مسجل في الدورة الخاصة بهذا الامتحان.");
+        setIsLoading(false);
+        return;
+    }
+
+    if (isReviewMode) {
+      const fetchSubmission = async () => {
+        setIsLoading(true);
+        try {
+            const submissions = await getStudentSubmissions(currentUser.uid);
+            const latestSubmission = submissions
+                .filter(s => s.examId === exam.id)
+                .sort((a, b) => b.submittedAt.getTime() - a.submittedAt.getTime())[0] || null;
+
+            if (!latestSubmission && currentUser.role !== 'admin') {
+                setError("ليس لديك تقديم سابق لهذا الامتحان لمراجعته.");
+            } else {
+                setSubmission(latestSubmission);
+                if(latestSubmission) {
+                    setAnswers(latestSubmission.answers);
+                    setScore(latestSubmission.score);
+                }
+                setQuizState('finished');
+                setShowDetails(true);
+            }
+        } catch(err) {
+            setError("فشل تحميل بيانات المراجعة.");
+        } finally {
+            setIsLoading(false);
+        }
+      };
+      fetchSubmission();
+    } else {
+        setIsLoading(false);
+        setQuizState('not-started');
+    }
+  }, [isUserLoading, currentUser, isReviewMode, exam.id, exam.courseId]);
 
 
   const finishQuiz = useCallback(async () => {
@@ -78,11 +135,9 @@ export function ExamClient({ exam, submission }: { exam: ExamWithQuestions, subm
       setQuizState('finished');
       setShowDetails(true);
 
-      // Don't save submission for admins or if in review mode
-      if (isAdminPreview || isReviewMode) return;
+      if (isAdminPreview) return;
 
       setIsSubmitting(true);
-
       if (!currentUser) {
           toast({ variant: "destructive", title: "خطأ", description: "يجب تسجيل الدخول لحفظ النتيجة." });
           setIsSubmitting(false);
@@ -100,14 +155,14 @@ export function ExamClient({ exam, submission }: { exam: ExamWithQuestions, subm
           answers: answers,
           submittedAt: new Date()
       });
-
       setIsSubmitting(false);
 
       if (!result.success) {
           toast({ variant: 'destructive', title: 'فشل حفظ النتيجة', description: result.error });
       }
 
-  }, [answers, exam, currentUser, toast, isReviewMode, isAdminPreview]);
+  }, [answers, exam, currentUser, toast, isAdminPreview]);
+
 
   useEffect(() => {
     if (quizState !== 'active') return;
@@ -139,7 +194,7 @@ export function ExamClient({ exam, submission }: { exam: ExamWithQuestions, subm
   };
 
   const handleAnswerChange = (value: string) => {
-    if (isReviewMode || quizState === 'finished') return;
+    if (quizState !== 'active') return;
     const newAnswers = [...answers];
     newAnswers[currentQuestionIndex] = parseInt(value, 10);
     setAnswers(newAnswers);
@@ -159,6 +214,35 @@ export function ExamClient({ exam, submission }: { exam: ExamWithQuestions, subm
   const currentQuestion = exam.questions[currentQuestionIndex];
   const progress = ((currentQuestionIndex + 1) / exam.questions.length) * 100;
   
+   if (isLoading || isUserLoading) {
+    return (
+      <div className="min-h-screen bg-muted/40 flex items-center justify-center">
+        <Loader2 className="h-12 w-12 animate-spin text-primary" />
+      </div>
+    );
+  }
+
+  if (error) {
+     return (
+        <div className="min-h-screen bg-muted/40 flex items-center justify-center p-4">
+            <Card className="max-w-md mx-auto border-destructive">
+                <CardHeader>
+                <CardTitle className="flex items-center justify-center gap-2 text-destructive">
+                    <ServerCrash className="w-8 h-8" />
+                    <span>خطأ</span>
+                </CardTitle>
+                </CardHeader>
+                <CardContent>
+                <p className="text-lg text-center text-muted-foreground">{error}</p>
+                <Button asChild className="mt-6 w-full">
+                    <Link href={currentUser?.role === 'admin' ? '/admin/exams' : '/my-exams'}>العودة</Link>
+                </Button>
+                </CardContent>
+            </Card>
+        </div>
+     );
+  }
+
  if (quizState === 'not-started') {
     return (
         <div className="min-h-screen bg-muted/40 flex items-center justify-center p-4">
@@ -209,9 +293,8 @@ export function ExamClient({ exam, submission }: { exam: ExamWithQuestions, subm
 
 
   if (quizState === 'finished') {
-    const correctAnswers = score;
-    const incorrectAnswers = exam.questions.length - correctAnswers;
-    const finalMark = correctAnswers * 4;
+    const finalScore = submission ? submission.score : score;
+    const finalMark = finalScore * 4;
     const totalMarks = exam.questions.length * 4;
 
     return (
@@ -228,20 +311,20 @@ export function ExamClient({ exam, submission }: { exam: ExamWithQuestions, subm
                         <div>
                             <p className="text-muted-foreground text-lg">علامتك النهائية</p>
                              <div className="text-5xl font-bold text-primary flex items-baseline justify-center gap-1">
-                               <SmartTextRenderer as="span" text={`$${submission?.score ?? finalMark}$`} />
+                               <SmartTextRenderer as="span" text={`$${finalMark}$`} />
                                <span className="text-2xl text-muted-foreground">
-                                 / <SmartTextRenderer as="span" text={`$${exam.questions.length * 4}$`} />
+                                 / <SmartTextRenderer as="span" text={`$${totalMarks}$`} />
                                </span>
                              </div>
                         </div>
                         <div className="space-y-2">
                           <div className="flex items-center gap-2 text-green-600 font-semibold">
                                 <CheckCircle className="w-5 h-5"/>
-                                <SmartTextRenderer as="span" text={`$${submission?.score ?? correctAnswers}$ إجابات صحيحة`} />
+                                <SmartTextRenderer as="span" text={`$${finalScore}$ إجابات صحيحة`} />
                           </div>
                           <div className="flex items-center gap-2 text-red-600 font-semibold">
                                 <XCircle className="w-5 h-5"/>
-                                <SmartTextRenderer as="span" text={`$${exam.questions.length - (submission?.score ?? correctAnswers)}$ إجابات خاطئة`} />
+                                <SmartTextRenderer as="span" text={`$${exam.questions.length - finalScore}$ إجابات خاطئة`} />
                           </div>
                         </div>
                     </div>
@@ -285,7 +368,7 @@ export function ExamClient({ exam, submission }: { exam: ExamWithQuestions, subm
                             })}
                         </div>
                     )}
-                </CardContent>
+                </CardFooter>
                 <CardFooter className="flex-col sm:flex-row gap-2">
                      <Button onClick={() => setShowDetails(!showDetails)} variant="secondary">
                         <Eye className="me-2 h-4 w-4" />
