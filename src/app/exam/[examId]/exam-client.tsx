@@ -226,13 +226,12 @@ export function ExamClient({ exam, submission }: { exam: ExamWithQuestions, subm
                     <div className="p-6 bg-muted rounded-lg border flex flex-col sm:flex-row justify-around items-center text-center gap-6">
                         <div>
                             <p className="text-muted-foreground text-lg">علامتك النهائية</p>
-                            <div className="text-5xl font-bold text-primary">
-                            <SmartTextRenderer as="div" text={`$${finalMark}$`} />
-                            <span className="text-2xl text-muted-foreground">
-                                /
-                                <SmartTextRenderer as="span" text={`$${totalMarks}$`} />
-                            </span>
-                            </div>
+                             <div className="text-5xl font-bold text-primary flex items-baseline justify-center gap-1">
+                               <SmartTextRenderer as="span" text={`$${finalMark}$`} />
+                               <span className="text-2xl text-muted-foreground">
+                                 / <SmartTextRenderer as="span" text={`$${totalMarks}$`} />
+                               </span>
+                             </div>
                         </div>
                         <div className="space-y-2">
                           <div className="flex items-center gap-2 text-green-600 font-semibold">
