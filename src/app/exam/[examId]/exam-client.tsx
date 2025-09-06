@@ -368,7 +368,7 @@ export function ExamClient({ exam }: { exam: ExamWithQuestions }) {
                             })}
                         </div>
                     )}
-                </CardFooter>
+                </CardContent>
                 <CardFooter className="flex-col sm:flex-row gap-2">
                      <Button onClick={() => setShowDetails(!showDetails)} variant="secondary">
                         <Eye className="me-2 h-4 w-4" />
