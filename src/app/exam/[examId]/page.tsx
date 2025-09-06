@@ -1,63 +1,83 @@
 
-import { Card, CardHeader, CardTitle, CardContent, CardDescription } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { ServerCrash } from 'lucide-react';
+'use client';
+
+import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
-import { getExamForStudent, type ExamWithQuestions } from './actions'; 
+import { useSearchParams } from 'next/navigation';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Loader2, ServerCrash } from 'lucide-react';
+import { getExamForStudent, getStudentSubmissions, type ExamWithQuestions } from './actions'; 
 import { ExamClient } from './exam-client';
-import { getStudentSubmissions } from '@/app/my-exams/actions';
-import { cookies } from 'next/headers';
-import { adminAuth } from '@/lib/firebase-admin';
+import { useStore } from '@/store/app-store';
 
-// Helper function to get user session from server-side
-async function getUserSession() {
-  const sessionCookie = cookies().get('session')?.value;
-  if (!sessionCookie) {
-    return null;
-  }
-  try {
-    const decodedToken = await adminAuth.verifySessionCookie(sessionCookie, true);
-    return decodedToken;
-  } catch (error) {
-    console.error("Error verifying session cookie:", error);
-    return null;
-  }
-}
-
-export default async function ExamPage({ params, searchParams }: { params: { examId: string }, searchParams: { [key: string]: string | string[] | undefined } }) {
+export default function ExamPage({ params }: { params: { examId: string } }) {
   const { examId } = params;
-  let exam: ExamWithQuestions | null = null;
-  let error: string | null = null;
-  let submission = null;
-  const isReviewMode = searchParams?.review === 'true';
-  
-  const user = await getUserSession();
+  const searchParams = useSearchParams();
+  const { currentUser, isLoading: isUserLoading } = useStore();
 
-  try {
-    exam = await getExamForStudent(examId);
-    if (!exam) {
-      error = "لم يتم العثور على الامتحان المطلوب.";
-    } else if (user && isReviewMode) {
-        const submissions = await getStudentSubmissions(user.uid);
-        const specificSubmission = submissions.find(s => s.examId === examId);
-        
-        if (specificSubmission) {
-            submission = specificSubmission;
-        } else {
-            error = "ليس لديك تقديم سابق لهذا الامتحان لمراجعته.";
-            exam = null; // Prevent rendering the exam client
-        }
-    } else if (!user && isReviewMode) {
-        // If not logged in, cannot review.
-        error = "يجب تسجيل الدخول لمراجعة الامتحان.";
-        exam = null;
+  const [exam, setExam] = useState<ExamWithQuestions | null>(null);
+  const [submission, setSubmission] = useState<any | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  
+  const isReviewMode = searchParams.get('review') === 'true';
+
+  const fetchData = useCallback(async () => {
+    // Don't fetch data until the user's auth state is resolved.
+    if (isUserLoading) {
+        return;
     }
-  } catch (err) {
-    console.error("Error fetching exam details:", err);
-    error = "حدث خطأ أثناء تحميل تفاصيل الامتحان. يرجى المحاولة مرة أخرى.";
+
+    setIsLoading(true);
+    setError(null);
+
+    if (isReviewMode && !currentUser) {
+        setError("يجب تسجيل الدخول لمراجعة الامتحان.");
+        setIsLoading(false);
+        return;
+    }
+
+    try {
+        const fetchedExam = await getExamForStudent(examId);
+        if (!fetchedExam) {
+            setError("لم يتم العثور على الامتحان المطلوب.");
+            setExam(null);
+        } else {
+            setExam(fetchedExam);
+            if (isReviewMode && currentUser) {
+                const submissions = await getStudentSubmissions(currentUser.uid);
+                const specificSubmission = submissions.find(s => s.examId === examId);
+                
+                if (specificSubmission) {
+                    setSubmission(specificSubmission);
+                } else {
+                    setError("ليس لديك تقديم سابق لهذا الامتحان لمراجعته.");
+                    setExam(null); // Prevent rendering the exam client
+                }
+            }
+        }
+    } catch (err) {
+      console.error("Error fetching exam details:", err);
+      setError("حدث خطأ أثناء تحميل تفاصيل الامتحان. يرجى المحاولة مرة أخرى.");
+    } finally {
+        setIsLoading(false);
+    }
+  }, [examId, isReviewMode, currentUser, isUserLoading]);
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
+
+  if (isLoading || isUserLoading) {
+     return (
+        <div className="min-h-screen bg-muted/40 flex items-center justify-center p-4">
+           <Loader2 className="w-12 h-12 animate-spin text-primary" />
+        </div>
+     )
   }
   
-  if (error || !exam) {
+  if (error) {
      return (
         <div className="min-h-screen bg-muted/40 flex items-center justify-center p-4">
              <div className="p-4 sm:p-6 lg:p-8 container mx-auto text-center">
@@ -69,7 +89,7 @@ export default async function ExamPage({ params, searchParams }: { params: { exa
                         </CardTitle>
                     </CardHeader>
                     <CardContent>
-                        <p className="text-lg text-muted-foreground">{error || "لم يتم العثور على الامتحان."}</p>
+                        <p className="text-lg text-muted-foreground">{error}</p>
                         <Button asChild className="mt-6">
                             <Link href="/my-exams">العودة إلى قائمة الامتحانات</Link>
                         </Button>
@@ -78,6 +98,29 @@ export default async function ExamPage({ params, searchParams }: { params: { exa
             </div>
         </div>
      )
+  }
+
+  if (!exam) {
+    return (
+        <div className="min-h-screen bg-muted/40 flex items-center justify-center p-4">
+             <div className="p-4 sm:p-6 lg:p-8 container mx-auto text-center">
+                <Card className="max-w-md mx-auto">
+                    <CardHeader>
+                        <CardTitle className="flex items-center justify-center gap-2">
+                             <ServerCrash className="w-8 h-8" />
+                            <span>خطأ</span>
+                        </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <p className="text-lg text-muted-foreground">لم يتم العثور على الامتحان المطلوب.</p>
+                         <Button asChild className="mt-6">
+                            <Link href="/my-exams">العودة إلى قائمة الامتحانات</Link>
+                        </Button>
+                    </CardContent>
+                </Card>
+            </div>
+        </div>
+    );
   }
 
   return <ExamClient exam={exam} submission={submission} />;
