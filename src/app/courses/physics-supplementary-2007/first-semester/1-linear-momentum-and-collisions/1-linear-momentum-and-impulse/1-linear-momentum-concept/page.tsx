@@ -3,11 +3,57 @@
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ChevronLeft, FileText, BarChart, BrainCircuit } from 'lucide-react';
+import { ChevronLeft, FileText, BarChart, BrainCircuit, Maximize } from 'lucide-react';
 import Link from 'next/link';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import QuizPage from './quiz';
 import SummaryPage from './summary';
+import { useStore } from '@/store/app-store';
+import React, { useRef } from 'react';
+
+
+function WatermarkedVideoPlayer({ src }: { src: string }) {
+  const { currentUser } = useStore();
+  const iframeRef = useRef<HTMLIFrameElement>(null);
+
+  const handleFullscreen = () => {
+    if (iframeRef.current) {
+      if (iframeRef.current.requestFullscreen) {
+        iframeRef.current.requestFullscreen();
+      }
+    }
+  };
+
+  return (
+    <div className="relative w-full rounded-lg overflow-hidden shadow-lg" style={{ paddingBottom: '56.25%' }}>
+      <iframe
+        ref={iframeRef}
+        src={src}
+        className="absolute top-0 left-0 w-full h-full border-0"
+        loading="lazy"
+        allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
+        allowFullScreen={false} // Disable default fullscreen to use our button
+      ></iframe>
+      {currentUser && (
+        <div 
+          className="absolute inset-0 flex items-center justify-center pointer-events-none animate-float"
+          style={{
+            animationDuration: '15s'
+          }}
+        >
+          <span className="text-white/20 text-2xl font-bold select-none transform-gpu">
+            {currentUser.username}
+          </span>
+        </div>
+      )}
+       <div className="absolute bottom-4 right-4 z-10">
+            <Button onClick={handleFullscreen} variant="secondary" size="icon" aria-label="توسيع الشاشة">
+                <Maximize className="w-5 h-5" />
+            </Button>
+        </div>
+    </div>
+  );
+}
 
 
 export default function LinearMomentumConceptPage() {
@@ -33,16 +79,7 @@ export default function LinearMomentumConceptPage() {
           {/* Main Content Area */}
           <div className="lg:col-span-2 space-y-6">
             
-            {/* عرض الفيديو بطريقة نموذجية */}
-            <div className="relative w-full rounded-lg overflow-hidden shadow-lg" style={{ paddingBottom: '56.25%' }}>
-                <iframe
-                    src="https://iframe.mediadelivery.net/embed/480623/c3383407-52a1-409d-a748-ff5b9ec0b3f6?autoplay=false&loop=false&muted=false&preload=true"
-                    className="absolute top-0 left-0 w-full h-full border-0"
-                    loading="lazy"
-                    allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
-                    allowFullScreen={true}
-                ></iframe>
-            </div>
+            <WatermarkedVideoPlayer src="https://iframe.mediadelivery.net/embed/480623/c3383407-52a1-409d-a748-ff5b9ec0b3f6?autoplay=false&loop=false&muted=false&preload=true&controls=true" />
             
             <Card>
                 <CardHeader>
@@ -70,7 +107,7 @@ export default function LinearMomentumConceptPage() {
                 <Button variant="ghost" className="w-full justify-start">
                   <FileText className="me-3"/> ورقة عمل الدرس (PDF)
                 </Button>
-                <Dialog>
+                 <Dialog>
                     <DialogTrigger asChild>
                         <Button variant="ghost" className="w-full justify-start">
                           <BarChart className="me-3"/> ملخص القوانين
