@@ -103,14 +103,22 @@ export async function deleteRegisteredDeviceByStudentId(studentId: string): Prom
     await batch.commit();
 }
 
-export async function updateDeviceBrowserInfo(deviceId: string, studentId: string, browserInfo: string): Promise<void> {
+export async function updateDeviceBrowserInfo(deviceId: string, studentId: string, browser: string): Promise<void> {
     try {
         const q = query(collection(adminDB, 'registeredDevices'), where('deviceId', '==', deviceId), where('studentId', '==', studentId));
         const querySnapshot = await getDocs(q);
 
         if (!querySnapshot.empty) {
             const deviceDocRef = querySnapshot.docs[0].ref;
-            await updateDoc(deviceDocRef, { browser: browserInfo });
+            await updateDoc(deviceDocRef, { browser });
+        } else {
+             // Also check pending devices
+            const pendingQ = query(collection(adminDB, 'pendingDevices'), where('deviceId', '==', deviceId), where('studentId', '==', studentId));
+            const pendingSnapshot = await getDocs(pendingQ);
+            if(!pendingSnapshot.empty) {
+                 const deviceDocRef = pendingSnapshot.docs[0].ref;
+                 await updateDoc(deviceDocRef, { browser });
+            }
         }
     } catch (error) {
         console.error("Error updating device browser info:", error);

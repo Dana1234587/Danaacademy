@@ -161,7 +161,8 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
           if (user.role === 'student') {
             const deviceId = getDeviceId();
             const { browser } = getOSAndBrowserInfo();
-            await updateDeviceBrowserInfo(deviceId, user.uid, browser);
+            // Fire-and-forget update
+            updateDeviceBrowserInfo(deviceId, user.uid, browser);
           }
         } else {
              console.warn(`User ${firebaseUser.uid} not found in 'admins' or 'students' collection.`);
