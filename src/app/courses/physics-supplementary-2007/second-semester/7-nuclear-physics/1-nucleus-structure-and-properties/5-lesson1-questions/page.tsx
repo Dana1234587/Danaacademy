@@ -5,6 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { ChevronLeft, FileText, BarChart, BrainCircuit } from 'lucide-react';
 import Link from 'next/link';
+import WatermarkedVideoPlayer from '@/components/watermarked-video-player';
 
 export default function Lesson1QuestionsPage() {
   return (
@@ -29,20 +30,12 @@ export default function Lesson1QuestionsPage() {
           {/* Main Content Area */}
           <div className="lg:col-span-2 space-y-6">
             
-            <div className="relative w-full rounded-lg overflow-hidden shadow-lg" style={{ paddingBottom: '56.25%' }}>
-                <iframe
-                    src="https://iframe.mediadelivery.net/embed/480623/3c407d27-2bdd-400d-98f3-d71ffdeae8eb?autoplay=false&loop=false&muted=false&preload=true"
-                    className="absolute top-0 left-0 w-full h-full border-0"
-                    loading="lazy"
-                    allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
-                    allowFullScreen={true}
-                ></iframe>
-            </div>
+            <WatermarkedVideoPlayer src="https://iframe.mediadelivery.net/embed/480623/3c407d27-2bdd-400d-98f3-d71ffdeae8eb?autoplay=false&loop=false&muted=false&preload=true" />
             
             <Card>
                 <CardHeader>
                     <CardTitle>نقاط رئيسية من الحصة</CardTitle>
-                    <CardDescription>أهم الأفكار والقوانين التي سيتم تغطيتها في هذا الفيديو.</CardDescription>
+                    <CardDescription>أهم الأفكار والقوانين التي تم تغطيتها في هذا الفيديو.</CardDescription>
                 </CardHeader>
                 <CardContent>
                     <ul className="space-y-3 list-disc list-inside text-muted-foreground">

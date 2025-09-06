@@ -8,6 +8,7 @@ import Link from 'next/link';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import QuizPage from './quiz';
 import SummaryPage from './summary';
+import WatermarkedVideoPlayer from '@/components/watermarked-video-player';
 
 export default function IntroductoryExperimentPage() {
   return (
@@ -32,12 +33,7 @@ export default function IntroductoryExperimentPage() {
           {/* Main Content Area */}
           <div className="lg:col-span-2 space-y-6">
             
-            {/* Placeholder for video */}
-            <div className="relative w-full rounded-lg overflow-hidden shadow-lg bg-slate-200" style={{ paddingTop: '56.25%' }}>
-                <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center">
-                    <p className="text-muted-foreground">سيتم إضافة الفيديو قريبًا</p>
-                </div>
-            </div>
+            <WatermarkedVideoPlayer src="https://iframe.mediadelivery.net/embed/480623/52f1e141-8e4a-4c2f-a91d-a1c22d4f202c?autoplay=false&loop=false&muted=false&preload=true" />
             
             <Card>
                 <CardHeader>
