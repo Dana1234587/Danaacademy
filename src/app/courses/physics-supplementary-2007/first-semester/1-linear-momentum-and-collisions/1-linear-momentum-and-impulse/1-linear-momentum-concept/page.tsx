@@ -14,20 +14,20 @@ import React, { useRef } from 'react';
 
 function WatermarkedVideoPlayer({ src }: { src: string }) {
   const { currentUser } = useStore();
-  const iframeRef = useRef<HTMLIFrameElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null); // Changed ref to point to the container
 
   const handleFullscreen = () => {
-    if (iframeRef.current) {
-      if (iframeRef.current.requestFullscreen) {
-        iframeRef.current.requestFullscreen();
+    // Request fullscreen on the container, not the iframe
+    if (containerRef.current) {
+      if (containerRef.current.requestFullscreen) {
+        containerRef.current.requestFullscreen();
       }
     }
   };
 
   return (
-    <div className="relative w-full rounded-lg overflow-hidden shadow-lg" style={{ paddingBottom: '56.25%' }}>
+    <div ref={containerRef} className="relative w-full rounded-lg overflow-hidden shadow-lg" style={{ paddingBottom: '56.25%' }}>
       <iframe
-        ref={iframeRef}
         src={src}
         className="absolute top-0 left-0 w-full h-full border-0"
         loading="lazy"
