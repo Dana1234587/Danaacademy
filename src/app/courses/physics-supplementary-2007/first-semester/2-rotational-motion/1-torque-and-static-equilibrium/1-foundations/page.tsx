@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { ChevronLeft, FileText } from 'lucide-react';
 import Link from 'next/link';
 import React from 'react';
+import WatermarkedVideoPlayer from '@/components/watermarked-video-player';
 
 export default function FoundationsPage() {
   return (
@@ -28,15 +29,7 @@ export default function FoundationsPage() {
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2 space-y-6">
-            <div className="relative w-full rounded-lg overflow-hidden shadow-lg" style={{ paddingBottom: '56.25%' }}>
-                <iframe
-                    src="https://iframe.mediadelivery.net/embed/480623/a023d8ce-dedd-4aa4-b2e1-6eb2377fd994?autoplay=false&loop=false&muted=false&preload=true"
-                    className="absolute top-0 left-0 w-full h-full border-0"
-                    loading="lazy"
-                    allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
-                    allowFullScreen={true}
-                ></iframe>
-            </div>
+            <WatermarkedVideoPlayer src="https://iframe.mediadelivery.net/embed/480623/a023d8ce-dedd-4aa4-b2e1-6eb2377fd994?autoplay=false&loop=false&muted=false&preload=true" />
           </div>
 
           <div className="lg:col-span-1 space-y-6">

@@ -8,6 +8,8 @@ import Link from 'next/link';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import QuizPage from './quiz';
 import SummaryPage from './summary';
+import React from 'react';
+import WatermarkedVideoPlayer from '@/components/watermarked-video-player';
 
 export default function ConceptualQuestionsPage() {
   return (
@@ -30,15 +32,7 @@ export default function ConceptualQuestionsPage() {
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2 space-y-6">
-            <div className="relative w-full rounded-lg overflow-hidden shadow-lg" style={{ paddingBottom: '56.25%' }}>
-                <iframe
-                    src="https://iframe.mediadelivery.net/embed/480623/3b4e13f1-77f2-49c5-8df1-5d492e238406?autoplay=false&loop=false&muted=false&preload=true"
-                    className="absolute top-0 left-0 w-full h-full border-0"
-                    loading="lazy"
-                    allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
-                    allowFullScreen={true}
-                ></iframe>
-            </div>
+            <WatermarkedVideoPlayer src="https://iframe.mediadelivery.net/embed/480623/3b4e13f1-77f2-49c5-8df1-5d492e238406?autoplay=false&loop=false&muted=false&preload=true" />
             <Card>
                 <CardHeader>
                     <CardTitle>نقاط رئيسية من الحصة</CardTitle>
