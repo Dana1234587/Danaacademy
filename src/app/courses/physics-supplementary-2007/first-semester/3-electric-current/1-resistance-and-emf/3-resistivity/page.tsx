@@ -8,6 +8,7 @@ import Link from 'next/link';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import QuizPage from './quiz';
 import SummaryPage from './summary';
+import WatermarkedVideoPlayer from '@/components/watermarked-video-player';
 
 export default function ResistivityPage() {
   return (
@@ -32,16 +33,7 @@ export default function ResistivityPage() {
           {/* Main Content Area */}
           <div className="lg:col-span-2 space-y-6">
             
-            {/* عرض الفيديو بطريقة نموذجية */}
-            <div className="relative w-full rounded-lg overflow-hidden shadow-lg" style={{ paddingBottom: '56.25%' }}>
-                <iframe
-                    src="https://iframe.mediadelivery.net/embed/480623/a584b83a-cb42-4de4-8f51-a7c46541e235?autoplay=false&loop=false&muted=false&preload=true"
-                    className="absolute top-0 left-0 w-full h-full border-0"
-                    loading="lazy"
-                    allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
-                    allowFullScreen={true}
-                ></iframe>
-            </div>
+            <WatermarkedVideoPlayer src="https://iframe.mediadelivery.net/embed/480623/a584b83a-cb42-4de4-8f51-a7c46541e235?autoplay=false&loop=false&muted=false&preload=true" />
             
             <Card>
                 <CardHeader>
@@ -68,7 +60,7 @@ export default function ResistivityPage() {
                 <Button variant="ghost" className="w-full justify-start">
                   <FileText className="me-3"/> ورقة عمل الدرس (PDF)
                 </Button>
-                <Dialog>
+                 <Dialog>
                     <DialogTrigger asChild>
                         <Button variant="ghost" className="w-full justify-start">
                           <BarChart className="me-3"/> ملخص القوانين

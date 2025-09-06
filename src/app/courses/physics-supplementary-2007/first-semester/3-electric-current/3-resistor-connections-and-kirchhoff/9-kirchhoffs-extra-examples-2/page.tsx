@@ -8,6 +8,7 @@ import Link from 'next/link';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import QuizPage from './quiz';
 import SummaryPage from './summary';
+import WatermarkedVideoPlayer from '@/components/watermarked-video-player';
 
 export default function KirchhoffsExtraExamples2Page() {
   return (
@@ -32,16 +33,7 @@ export default function KirchhoffsExtraExamples2Page() {
           {/* Main Content Area */}
           <div className="lg:col-span-2 space-y-6">
             
-            {/* عرض الفيديو بطريقة نموذجية */}
-            <div className="relative w-full rounded-lg overflow-hidden shadow-lg" style={{ paddingBottom: '56.25%' }}>
-                <iframe
-                    src="https://iframe.mediadelivery.net/embed/480623/b8999eef-5afd-4843-86ac-74594fb1a903?autoplay=false&loop=false&muted=false&preload=true"
-                    className="absolute top-0 left-0 w-full h-full border-0"
-                    loading="lazy"
-                    allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
-                    allowFullScreen={true}
-                ></iframe>
-            </div>
+            <WatermarkedVideoPlayer src="https://iframe.mediadelivery.net/embed/480623/b8999eef-5afd-4843-86ac-74594fb1a903?autoplay=false&loop=false&muted=false&preload=true" />
             
             <Card>
                 <CardHeader>
@@ -52,7 +44,7 @@ export default function KirchhoffsExtraExamples2Page() {
                     <ul className="space-y-3 list-disc list-inside text-muted-foreground">
                         <li>حل مسائل قدرات عليا.</li>
                         <li>مسائل تتطلب حساب فرق الجهد بين نقطتين في دارة معقدة.</li>
-                        <li>مراجعة سريعة لأهم أفكار الوحدة.</li>
+                        <li>مراجعة شاملة لأهم أفكار الوحدة.</li>
                     </ul>
                 </CardContent>
             </Card>
