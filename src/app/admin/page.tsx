@@ -582,7 +582,7 @@ export default function AdminPage() {
                                                 {device.deviceType === 'Desktop' ? <Monitor className="w-4 h-4" /> : <Smartphone className="w-4 h-4" />}
                                                 <span>{device.os}</span>
                                             </div>
-                                             {device.browser && (
+                                            {device.browser && (
                                                 <div className="flex items-center gap-2">
                                                     <Laptop className="w-4 h-4" />
                                                     <span>{device.browser}</span>
