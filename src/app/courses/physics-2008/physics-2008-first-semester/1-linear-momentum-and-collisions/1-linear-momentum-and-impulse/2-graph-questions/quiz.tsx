@@ -45,7 +45,7 @@ const quizQuestions = [
     explanation: 'الميل هو $\\frac{\\Delta p}{\\Delta m}$. من العلاقة $p=mv$, إذا كانت v ثابتة، فإن $\\Delta p = v \\Delta m$. إذن، الميل = $v$.'
   },
   {
-    questionText: 'بالاعتماد على الرسم البياني الأول، إذا كانت سرعة الجسم A تساوي 2 م/ث، فما مقدار زخمه؟',
+    questionText: 'بالاعتماد على الرسم البياني الأول، إذا كانت سرعة الجسم A تساوي 2 m/s، فما مقدار زخمه؟',
     graph: 'p-v',
     options: ['$4 kg \\cdot m/s$', '$6 kg \\cdot m/s$', '$8 kg \\cdot m/s$', '$10 kg \\cdot m/s$'],
     correctAnswerIndex: 2,
@@ -60,7 +60,7 @@ const quizQuestions = [
   },
   {
     questionText: 'إذا تم رسم العلاقة بين السرعة (v) على المحور الصادي والزخم (p) على المحور السيني، فإن ميل الخط المستقيم يمثل:',
-    options: ['الكتلة (m)', 'مقلوب الكتلة (1/m)', 'الطاقة الحركية (K)', 'السرعة (v)'],
+    options: ['الكتلة (m)', 'مقلوب الكتلة ($\\frac{1}{m}$)', 'الطاقة الحركية (K)', 'السرعة (v)'],
     correctAnswerIndex: 1,
     explanation: 'الميل هو $\\frac{\\Delta y}{\\Delta x} = \\frac{\\Delta v}{\\Delta p}$. بما أن $p=mv$, فإن $v = p/m$. إذن، $\\Delta v = (1/m) \\Delta p$. الميل = $1/m$.'
   },
