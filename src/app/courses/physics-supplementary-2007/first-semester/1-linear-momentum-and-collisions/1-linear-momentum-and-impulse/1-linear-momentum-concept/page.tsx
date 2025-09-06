@@ -32,7 +32,7 @@ function WatermarkedVideoPlayer({ src }: { src: string }) {
         className="absolute top-0 left-0 w-full h-full border-0"
         loading="lazy"
         allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
-        allowFullScreen={false} // Disable default fullscreen to use our button
+        allowFullScreen={true}
       ></iframe>
       {currentUser && (
         <div 
@@ -46,7 +46,7 @@ function WatermarkedVideoPlayer({ src }: { src: string }) {
           </span>
         </div>
       )}
-       <div className="absolute bottom-4 right-4 z-10">
+       <div className="absolute bottom-2 right-2 z-10">
             <Button onClick={handleFullscreen} variant="secondary" size="icon" aria-label="توسيع الشاشة">
                 <Maximize className="w-5 h-5" />
             </Button>
