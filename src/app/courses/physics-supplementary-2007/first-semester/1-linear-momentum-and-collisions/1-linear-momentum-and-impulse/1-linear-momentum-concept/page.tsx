@@ -18,8 +18,12 @@ function WatermarkedVideoPlayer({ src }: { src: string }) {
 
   const handleFullscreen = () => {
     if (containerRef.current) {
-      if (containerRef.current.requestFullscreen) {
-        containerRef.current.requestFullscreen();
+      if (document.fullscreenElement) {
+        document.exitFullscreen();
+      } else {
+        containerRef.current.requestFullscreen().catch(err => {
+          alert(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
+        });
       }
     }
   };
@@ -40,14 +44,14 @@ function WatermarkedVideoPlayer({ src }: { src: string }) {
             animationDuration: '20s'
           }}
         >
-          <span className="text-white/10 text-2xl font-bold select-none transform-gpu">
+          <span className="text-white/10 text-2xl font-bold select-none transform-gpu opacity-[0.07]">
             {currentUser.username}
           </span>
         </div>
       )}
-       <div className="absolute bottom-4 right-4 z-10">
-            <Button onClick={handleFullscreen} variant="secondary" size="icon" aria-label="توسيع الشاشة">
-                <Maximize className="w-5 h-5" />
+       <div className="absolute bottom-2 right-2 z-10">
+            <Button onClick={handleFullscreen} variant="secondary" size="icon" aria-label="توسيع الشاشة" className="w-8 h-8">
+                <Maximize className="w-4 h-4" />
             </Button>
         </div>
     </div>
