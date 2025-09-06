@@ -9,6 +9,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import QuizPage from './quiz';
 import SummaryPage from './summary';
 import React from 'react';
+import WatermarkedVideoPlayer from '@/components/watermarked-video-player';
 
 export default function AdvancedQuestionsPage() {
   return (
@@ -33,16 +34,7 @@ export default function AdvancedQuestionsPage() {
           {/* Main Content Area */}
           <div className="lg:col-span-2 space-y-6">
             
-            {/* عرض الفيديو بطريقة نموذجية */}
-            <div className="relative w-full rounded-lg overflow-hidden shadow-lg" style={{ paddingBottom: '56.25%' }}>
-                <iframe
-                    src="https://iframe.mediadelivery.net/embed/480623/8f4bb455-5928-4f08-abf6-8587a589f742?autoplay=false&loop=false&muted=false&preload=true"
-                    className="absolute top-0 left-0 w-full h-full border-0"
-                    loading="lazy"
-                    allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
-                    allowFullScreen={true}
-                ></iframe>
-            </div>
+            <WatermarkedVideoPlayer src="https://iframe.mediadelivery.net/embed/480623/8f4bb455-5928-4f08-abf6-8587a589f742?autoplay=false&loop=false&muted=false&preload=true" />
             
             <Card>
                 <CardHeader>

@@ -3,58 +3,12 @@
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ChevronLeft, FileText, BarChart, BrainCircuit, Maximize } from 'lucide-react';
+import { ChevronLeft, FileText, BarChart, BrainCircuit } from 'lucide-react';
 import Link from 'next/link';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import QuizPage from './quiz';
 import SummaryPage from './summary';
-import { useStore } from '@/store/app-store';
-import React, { useRef } from 'react';
-
-
-function WatermarkedVideoPlayer({ src }: { src: string }) {
-  const { currentUser } = useStore();
-  const containerRef = useRef<HTMLDivElement>(null); 
-
-  const handleFullscreen = () => {
-    if (containerRef.current) {
-      if (document.fullscreenElement) {
-        document.exitFullscreen();
-      } else {
-        containerRef.current.requestFullscreen().catch(err => {
-          alert(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
-        });
-      }
-    }
-  };
-
-  return (
-    <div ref={containerRef} className="relative w-full rounded-lg overflow-hidden shadow-lg" style={{ paddingBottom: '56.25%' }}>
-      <iframe
-        src={src}
-        className="absolute top-0 left-0 w-full h-full border-0"
-        loading="lazy"
-        allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
-        allowFullScreen={true}
-      ></iframe>
-      {currentUser && (
-        <div 
-          className="absolute inset-0 flex items-center justify-center pointer-events-none animate-float"
-        >
-          <span className="text-white font-bold select-none transform-gpu" style={{ opacity: 0.05, fontSize: 'clamp(1rem, 4vw, 2rem)' }}>
-            {currentUser.username}
-          </span>
-        </div>
-      )}
-       <div className="absolute bottom-4 right-4 z-10">
-            <Button onClick={handleFullscreen} variant="secondary" size="icon" aria-label="توسيع الشاشة" className="w-8 h-8">
-                <Maximize className="w-4 h-4" />
-            </Button>
-        </div>
-    </div>
-  );
-}
-
+import WatermarkedVideoPlayer from '@/components/watermarked-video-player';
 
 export default function LinearMomentumConceptPage() {
   return (
