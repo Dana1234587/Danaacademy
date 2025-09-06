@@ -1,61 +1,82 @@
 
+'use client';
+
+import React, { useState, useEffect, useCallback } from 'react';
+import { useSearchParams } from 'next/navigation';
+import Link from 'next/link';
 import { getExamForStudent, type ExamWithQuestions } from './actions'; 
 import { getStudentSubmissions, type Submission } from '@/app/my-exams/actions';
 import { ExamClient } from './exam-client';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ServerCrash } from 'lucide-react';
-import Link from 'next/link';
-import { headers } from 'next/headers';
-import { adminAuth } from '@/lib/firebase-admin';
+import { Loader2, ServerCrash } from 'lucide-react';
+import { useStore } from '@/store/app-store';
 
-async function getUser() {
-  const headerMap = headers();
-  const sessionCookie = headerMap.get('cookie')?.split('; ').find(c => c.startsWith('session='))?.split('=')[1];
 
-  if (!sessionCookie) return null;
-
-  try {
-    const decodedToken = await adminAuth.verifySessionCookie(sessionCookie, true);
-    return decodedToken;
-  } catch (error) {
-    console.error("Error verifying session cookie:", error);
-    return null;
-  }
-}
-
-export default async function ExamPage({ params, searchParams }: { params: { examId: string }, searchParams: { [key: string]: string | string[] | undefined } }) {
+export default function ExamPage({ params }: { params: { examId: string } }) {
   const { examId } = params;
-  const isReviewMode = searchParams.review === 'true';
-  const user = await getUser();
+  const searchParams = useSearchParams();
+  const { currentUser, isLoading: isUserLoading } = useStore();
 
-  let exam: ExamWithQuestions | null = null;
-  let submission: Submission | null = null;
-  let error: string | null = null;
+  const [exam, setExam] = useState<ExamWithQuestions | null>(null);
+  const [submission, setSubmission] = useState<Submission | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
-  if (isReviewMode && !user) {
-      error = "يجب تسجيل الدخول لمراجعة الامتحان.";
-  } else {
+  const isReviewMode = searchParams.get('review') === 'true';
+
+  const fetchData = useCallback(async () => {
+    if (!currentUser) {
+      if (!isUserLoading) {
+        setError("يجب تسجيل الدخول لعرض هذه الصفحة.");
+        setIsLoading(false);
+      }
+      return;
+    }
+
+    setIsLoading(true);
+    setError(null);
     try {
-        exam = await getExamForStudent(examId);
-        if (!exam) {
-            error = "لم يتم العثور على الامتحان المطلوب.";
-        } else if (isReviewMode && user) {
-            const submissions = await getStudentSubmissions(user.uid);
+        const fetchedExam = await getExamForStudent(examId);
+        if (!fetchedExam) {
+            setError("لم يتم العثور على الامتحان المطلوب.");
+            setIsLoading(false);
+            return;
+        }
+
+        setExam(fetchedExam);
+
+        if (isReviewMode) {
+            const submissions = await getStudentSubmissions(currentUser.uid);
             const specificSubmission = submissions.find(s => s.examId === examId);
             if (specificSubmission) {
-                submission = specificSubmission;
+                setSubmission(specificSubmission);
             } else {
-                error = "ليس لديك تقديم سابق لهذا الامتحان لمراجعته.";
-                exam = null; // Prevent rendering the exam client
+                setError("ليس لديك تقديم سابق لهذا الامتحان لمراجعته.");
             }
         }
     } catch (err) {
-        console.error("Error fetching exam details:", err);
-        error = "حدث خطأ أثناء تحميل تفاصيل الامتحان. يرجى المحاولة مرة أخرى.";
+        console.error("Error fetching exam data:", err);
+        setError("حدث خطأ أثناء تحميل تفاصيل الامتحان. يرجى المحاولة مرة أخرى.");
+    } finally {
+        setIsLoading(false);
     }
-  }
+  }, [examId, isReviewMode, currentUser, isUserLoading]);
 
+  useEffect(() => {
+    // Only fetch data if user loading is finished
+    if (!isUserLoading) {
+      fetchData();
+    }
+  }, [fetchData, isUserLoading]);
+  
+  if (isLoading || isUserLoading) {
+     return (
+        <div className="min-h-screen bg-muted/40 flex items-center justify-center p-4">
+            <Loader2 className="h-12 w-12 animate-spin text-primary" />
+        </div>
+     );
+  }
 
   if (error || !exam) {
      return (
@@ -71,7 +92,7 @@ export default async function ExamPage({ params, searchParams }: { params: { exa
                     <CardContent>
                         <p className="text-lg text-muted-foreground">{error || 'لم يتم العثور على الامتحان.'}</p>
                         <Button asChild className="mt-6">
-                            <Link href="/my-exams">العودة إلى قائمة الامتحانات</Link>
+                            <Link href={currentUser?.role === 'admin' ? '/admin/exams' : '/my-exams'}>العودة إلى قائمة الامتحانات</Link>
                         </Button>
                     </CardContent>
                 </Card>
