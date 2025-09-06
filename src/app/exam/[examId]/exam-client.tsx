@@ -19,6 +19,8 @@ import { useStore } from '@/store/app-store';
 import { submitExamAction } from './actions';
 import { useToast } from '@/hooks/use-toast';
 import { useRouter } from 'next/navigation';
+import type { Submission } from '@/app/admin/exams/actions';
+
 
 // A robust, universal renderer for bidirectional text
 const SmartTextRenderer = ({ text, as: Wrapper = 'p' }: { text: string; as?: React.ElementType }) => {
@@ -48,7 +50,7 @@ const SmartTextRenderer = ({ text, as: Wrapper = 'p' }: { text: string; as?: Rea
 };
 
 
-export function ExamClient({ exam, submission }: { exam: ExamWithQuestions, submission: any | null }) {
+export function ExamClient({ exam, submission }: { exam: ExamWithQuestions, submission: Submission | null }) {
   const { currentUser } = useStore();
   const router = useRouter();
   const { toast } = useToast();
@@ -137,7 +139,7 @@ export function ExamClient({ exam, submission }: { exam: ExamWithQuestions, subm
   };
 
   const handleAnswerChange = (value: string) => {
-    if (isReviewMode) return;
+    if (isReviewMode || quizState === 'finished') return;
     const newAnswers = [...answers];
     newAnswers[currentQuestionIndex] = parseInt(value, 10);
     setAnswers(newAnswers);
