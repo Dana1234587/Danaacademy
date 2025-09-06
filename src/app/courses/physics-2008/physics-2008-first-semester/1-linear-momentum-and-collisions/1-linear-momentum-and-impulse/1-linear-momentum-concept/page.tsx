@@ -8,6 +8,7 @@ import Link from 'next/link';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import QuizPage from './quiz';
 import SummaryPage from './summary';
+import WatermarkedVideoPlayer from '@/components/watermarked-video-player';
 
 const navigation = {
   prev: null, // This is the first lesson
@@ -40,15 +41,7 @@ export default function LinearMomentumConceptPage() {
           {/* Main Content Area */}
           <div className="lg:col-span-2 space-y-6">
             
-            <div className="relative w-full rounded-lg overflow-hidden shadow-lg" style={{ paddingBottom: '56.25%' }}>
-                 <iframe
-                    src="https://iframe.mediadelivery.net/embed/490779/809a6ec7-beb3-45fc-bfb5-5fa356ac369e?autoplay=false&loop=false&muted=false&preload=true"
-                    className="absolute top-0 left-0 w-full h-full border-0"
-                    loading="lazy"
-                    allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
-                    allowFullScreen={true}
-                ></iframe>
-            </div>
+            <WatermarkedVideoPlayer src="https://iframe.mediadelivery.net/embed/490779/809a6ec7-beb3-45fc-bfb5-5fa356ac369e?autoplay=false&loop=false&muted=false&preload=true" />
             
             <Card>
                 <CardHeader>
