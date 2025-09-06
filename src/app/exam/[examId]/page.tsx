@@ -6,20 +6,20 @@ import Link from 'next/link';
 import { getExamForStudent, type ExamWithQuestions } from './actions'; 
 import { ExamClient } from './exam-client';
 import { getStudentSubmissions } from '@/app/my-exams/actions';
-import { headers } from 'next/headers';
+import { cookies } from 'next/headers';
 import { adminAuth } from '@/lib/firebase-admin';
 
 // Helper function to get user session from server-side
 async function getUserSession() {
-  const authHeader = headers().get('Authorization');
-  if (!authHeader) return null;
-  const token = authHeader.split('Bearer ')[1];
-  if (!token) return null;
+  const sessionCookie = cookies().get('session')?.value;
+  if (!sessionCookie) {
+    return null;
+  }
   try {
-    const decodedToken = await adminAuth.verifyIdToken(token);
+    const decodedToken = await adminAuth.verifySessionCookie(sessionCookie, true);
     return decodedToken;
   } catch (error) {
-    console.error("Error verifying auth token:", error);
+    console.error("Error verifying session cookie:", error);
     return null;
   }
 }
@@ -37,16 +37,17 @@ export default async function ExamPage({ params, searchParams }: { params: { exa
     exam = await getExamForStudent(examId);
     if (!exam) {
       error = "لم يتم العثور على الامتحان المطلوب.";
-    } else if (user) {
-      const submissions = await getStudentSubmissions(user.uid);
-      submission = submissions.find(s => s.examId === examId) || null;
-
-      // Security check: if in review mode, a submission must exist.
-      if (isReviewMode && !submission) {
-        error = "ليس لديك تقديم سابق لهذا الامتحان لمراجعته.";
-        exam = null; // Prevent rendering the exam client
-      }
-    } else if (isReviewMode) {
+    } else if (user && isReviewMode) {
+        const submissions = await getStudentSubmissions(user.uid);
+        const specificSubmission = submissions.find(s => s.examId === examId);
+        
+        if (specificSubmission) {
+            submission = specificSubmission;
+        } else {
+            error = "ليس لديك تقديم سابق لهذا الامتحان لمراجعته.";
+            exam = null; // Prevent rendering the exam client
+        }
+    } else if (!user && isReviewMode) {
         // If not logged in, cannot review.
         error = "يجب تسجيل الدخول لمراجعة الامتحان.";
         exam = null;

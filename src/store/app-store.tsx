@@ -56,8 +56,13 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser: FirebaseUser | null) => {
       if (!firebaseUser) {
         store.getState().logout();
+        document.cookie = "session=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;"; // Clear cookie on logout
         return;
       }
+      
+      const token = await firebaseUser.getIdToken();
+      // Set session cookie
+      document.cookie = `session=${token}; path=/; max-age=3600`; // Expires in 1 hour
 
       try {
         // Attempt to fetch from both collections simultaneously
@@ -74,7 +79,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
               email: firebaseUser.email || '', 
               role: 'admin',
               // Admins have access to all courses by default in the UI logic
-              enrolledCourseIds: ['tawjihi-2007-supplementary', 'tawjihi-2008-first-semester'] 
+              enrolledCourseIds: ['tawjihi-2007-supplementary', 'tawjihi-2008-first-semester', 'tawjihi-2008-foundation'] 
           });
         } else if (studentDocSnap.exists()) {
              const studentData = studentDocSnap.data();

@@ -50,12 +50,11 @@ const SmartTextRenderer = ({ text, as: Wrapper = 'p' }: { text: string; as?: Rea
 
 
 export function ExamClient({ exam, submission }: { exam: ExamWithQuestions, submission: any | null }) {
-  const searchParams = useSearchParams();
   const { currentUser } = useStore();
   const router = useRouter();
   const { toast } = useToast();
 
-  const isReviewMode = searchParams.get('review') === 'true' && !!submission;
+  const isReviewMode = !!submission;
   const isAdminPreview = currentUser?.role === 'admin' && !isReviewMode;
 
   const [quizState, setQuizState] = useState<'not-started' | 'active' | 'finished'>(isReviewMode ? 'finished' : 'not-started');
