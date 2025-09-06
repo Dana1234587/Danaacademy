@@ -41,7 +41,7 @@ function WatermarkedVideoPlayer({ src }: { src: string }) {
         <div 
           className="absolute inset-0 flex items-center justify-center pointer-events-none animate-float"
         >
-          <span className="text-white font-bold select-none transform-gpu" style={{ opacity: 0.08, fontSize: 'clamp(1rem, 4vw, 2rem)' }}>
+          <span className="text-white font-bold select-none transform-gpu" style={{ opacity: 0.07, fontSize: 'clamp(1rem, 4vw, 2rem)' }}>
             {currentUser.username}
           </span>
         </div>
