@@ -1,104 +1,102 @@
 
-'use client';
-
-import React, { useState, useEffect, useCallback } from 'react';
-import { useSearchParams } from 'next/navigation';
-import Link from 'next/link';
-import { getExamForStudent, type ExamWithQuestions } from './actions'; 
+import { getExamForStudent, type ExamWithQuestions } from './actions';
 import { getStudentSubmissions, type Submission } from '@/app/my-exams/actions';
 import { ExamClient } from './exam-client';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Loader2, ServerCrash } from 'lucide-react';
-import { useStore } from '@/store/app-store';
+import { ServerCrash } from 'lucide-react';
+import Link from 'next/link';
+import { headers } from 'next/headers';
+import { adminAuth } from '@/lib/firebase-admin';
 
+// Helper function to get user session from cookies
+async function getUser() {
+  const sessionCookie = headers().get('cookie')?.split('; ').find(row => row.startsWith('session='))?.split('=')[1];
+  if (!sessionCookie) return null;
 
-export default function ExamPage({ params }: { params: { examId: string } }) {
+  try {
+    const decodedToken = await adminAuth.verifySessionCookie(sessionCookie, true);
+    return decodedToken;
+  } catch (error) {
+    console.error("Error verifying session cookie:", error);
+    return null;
+  }
+}
+
+export default async function ExamPage({ params, searchParams }: { params: { examId: string }, searchParams: { [key: string]: string | string[] | undefined } }) {
   const { examId } = params;
-  const searchParams = useSearchParams();
-  const { currentUser, isLoading: isUserLoading } = useStore();
+  const isReviewMode = searchParams.review === 'true';
 
-  const [exam, setExam] = useState<ExamWithQuestions | null>(null);
-  const [submission, setSubmission] = useState<Submission | null>(null);
-  const [error, setError] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const user = await getUser();
 
-  const isReviewMode = searchParams.get('review') === 'true';
-
-  const fetchData = useCallback(async () => {
-    if (!currentUser) {
-      if (!isUserLoading) {
-        setError("يجب تسجيل الدخول لعرض هذه الصفحة.");
-        setIsLoading(false);
-      }
-      return;
-    }
-
-    setIsLoading(true);
-    setError(null);
-    try {
-        const fetchedExam = await getExamForStudent(examId);
-        if (!fetchedExam) {
-            setError("لم يتم العثور على الامتحان المطلوب.");
-            setIsLoading(false);
-            return;
-        }
-
-        setExam(fetchedExam);
-
-        if (isReviewMode) {
-            const submissions = await getStudentSubmissions(currentUser.uid);
-            const specificSubmission = submissions.find(s => s.examId === examId);
-            if (specificSubmission) {
-                setSubmission(specificSubmission);
-            } else {
-                setError("ليس لديك تقديم سابق لهذا الامتحان لمراجعته.");
-            }
-        }
-    } catch (err) {
-        console.error("Error fetching exam data:", err);
-        setError("حدث خطأ أثناء تحميل تفاصيل الامتحان. يرجى المحاولة مرة أخرى.");
-    } finally {
-        setIsLoading(false);
-    }
-  }, [examId, isReviewMode, currentUser, isUserLoading]);
-
-  useEffect(() => {
-    // Only fetch data if user loading is finished
-    if (!isUserLoading) {
-      fetchData();
-    }
-  }, [fetchData, isUserLoading]);
-  
-  if (isLoading || isUserLoading) {
-     return (
-        <div className="min-h-screen bg-muted/40 flex items-center justify-center p-4">
-            <Loader2 className="h-12 w-12 animate-spin text-primary" />
-        </div>
-     );
+  if (!user) {
+    return (
+      <div className="min-h-screen bg-muted/40 flex items-center justify-center p-4">
+        <Card className="max-w-md mx-auto border-destructive">
+          <CardHeader>
+            <CardTitle className="flex items-center justify-center gap-2 text-destructive">
+              <ServerCrash className="w-8 h-8" />
+              <span>خطأ في المصادقة</span>
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-lg text-muted-foreground">يجب تسجيل الدخول لعرض هذه الصفحة.</p>
+            <Button asChild className="mt-6 w-full">
+              <Link href="/login">الذهاب إلى صفحة تسجيل الدخول</Link>
+            </Button>
+          </CardContent>
+        </Card>
+      </div>
+    );
   }
 
-  if (error || !exam) {
-     return (
-        <div className="min-h-screen bg-muted/40 flex items-center justify-center p-4">
-             <div className="p-4 sm:p-6 lg:p-8 container mx-auto text-center">
+  const exam = await getExamForStudent(examId);
+
+  if (!exam) {
+    return (
+      <div className="min-h-screen bg-muted/40 flex items-center justify-center p-4">
+        <Card className="max-w-md mx-auto border-destructive">
+          <CardHeader>
+            <CardTitle className="flex items-center justify-center gap-2 text-destructive">
+              <ServerCrash className="w-8 h-8" />
+              <span>خطأ</span>
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-lg text-muted-foreground">لم يتم العثور على الامتحان المطلوب.</p>
+            <Button asChild className="mt-6 w-full">
+              <Link href={user.role === 'admin' ? '/admin/exams' : '/my-exams'}>العودة إلى قائمة الامتحانات</Link>
+            </Button>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+  
+  let submission: Submission | null = null;
+  if (isReviewMode && user.role === 'student') {
+    const submissions = await getStudentSubmissions(user.uid);
+    submission = submissions.find(s => s.examId === examId) || null;
+     if (!submission) {
+         return (
+             <div className="min-h-screen bg-muted/40 flex items-center justify-center p-4">
                 <Card className="max-w-md mx-auto border-destructive">
-                    <CardHeader>
-                        <CardTitle className="flex items-center justify-center gap-2 text-destructive">
-                            <ServerCrash className="w-8 h-8" />
-                            <span>حدث خطأ</span>
-                        </CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                        <p className="text-lg text-muted-foreground">{error || 'لم يتم العثور على الامتحان.'}</p>
-                        <Button asChild className="mt-6">
-                            <Link href={currentUser?.role === 'admin' ? '/admin/exams' : '/my-exams'}>العودة إلى قائمة الامتحانات</Link>
-                        </Button>
-                    </CardContent>
+                  <CardHeader>
+                      <CardTitle className="flex items-center justify-center gap-2 text-destructive">
+                          <ServerCrash className="w-8 h-8" />
+                          <span>خطأ</span>
+                      </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                      <p className="text-lg text-muted-foreground">ليس لديك تقديم سابق لهذا الامتحان لمراجعته.</p>
+                      <Button asChild className="mt-6 w-full">
+                          <Link href="/my-exams">العودة إلى قائمة الامتحانات</Link>
+                      </Button>
+                  </CardContent>
                 </Card>
-            </div>
-        </div>
-     )
+             </div>
+         )
+     }
   }
 
   return <ExamClient exam={exam} submission={submission} />;
