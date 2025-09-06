@@ -32,10 +32,14 @@ export default function GraphQuestionsPage() {
           {/* Main Content Area */}
           <div className="lg:col-span-2 space-y-6">
             
-            <div className="relative w-full rounded-lg overflow-hidden shadow-lg bg-slate-200" style={{ paddingBottom: '56.25%' }}>
-                <div className="absolute inset-0 flex items-center justify-center">
-                    <p className="text-muted-foreground">سيتم إضافة الفيديو قريبًا</p>
-                </div>
+            <div className="relative w-full rounded-lg overflow-hidden shadow-lg" style={{ paddingBottom: '56.25%' }}>
+                <iframe
+                    src="https://iframe.mediadelivery.net/embed/480623/32c55a16-8445-41fa-9e57-e06f367a7b2e?autoplay=false&loop=false&muted=false&preload=true"
+                    className="absolute top-0 left-0 w-full h-full border-0"
+                    loading="lazy"
+                    allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
+                    allowFullScreen={true}
+                ></iframe>
             </div>
             
             <Card>
