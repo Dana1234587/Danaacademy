@@ -40,7 +40,7 @@ function WatermarkedVideoPlayer({ src }: { src: string }) {
           </span>
         </div>
       )}
-       <div className="absolute bottom-2 right-2 z-10">
+       <div className="absolute top-1/2 -translate-y-1/2 right-2 z-10">
             <Button onClick={handleFullscreen} variant="secondary" size="icon" aria-label="توسيع الشاشة" className="w-8 h-8 opacity-70 hover:opacity-100">
                 <Maximize className="w-4 h-4" />
             </Button>
