@@ -36,6 +36,7 @@ const courseStructure = {
               title: 'الدرس الأول: الزخم الخطي والدفع', 
               topics: [
                 { label: 'حصة رقم (1): مفهوم الزخم الخطي', path: '/courses/physics-2008/physics-2008-first-semester/1-linear-momentum-and-collisions/1-linear-momentum-and-impulse/1-linear-momentum-concept' },
+                { label: 'حصة رقم (2): اسئلة الرسم البياني', path: '/courses/physics-2008/physics-2008-first-semester/1-linear-momentum-and-collisions/1-linear-momentum-and-impulse/2-graph-questions' },
               ]
             },
           ]
