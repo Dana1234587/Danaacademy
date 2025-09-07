@@ -15,7 +15,7 @@ import { useState, useEffect, useMemo, useCallback } from 'react';
 import Link from 'next/link';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { getStudents, addStudent, deleteStudent as deleteStudentService, resetStudentPassword as resetStudentPasswordService, updateStudent as updateStudentService, type Student } from '@/services/studentService';
-import { getPendingDevices, getRegisteredDevices, approveDevice as approveDeviceService, rejectPendingDevice as rejectPendingDeviceService, deleteRegisteredDevice, type PendingDevice, type RegisteredDevice } from '@/services/deviceService';
+import { getPendingDevices, getRegisteredDevices, approveDevice as approveDeviceService, rejectPendingDeviceService, deleteRegisteredDevice, type PendingDevice, type RegisteredDevice } from '@/services/deviceService';
 import {
   AlertDialog,
   AlertDialogAction,

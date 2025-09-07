@@ -1,5 +1,4 @@
 
-
 'use server';
 
 import type { RegisterDeviceInput, RegisterDeviceOutput } from '@/ai/flows/register-device.types';
@@ -14,6 +13,7 @@ export async function registerDeviceAction(input: Omit<RegisterDeviceInput, 'ipA
     // Ensure all fields, including the optional browser field, are included.
     const fullInput: RegisterDeviceInput = { 
         ...input, 
+        browser: input.browser || 'Unknown', // Ensure browser is part of the object
         ipAddress 
     };
 
@@ -74,5 +74,3 @@ export async function registerDeviceAction(input: Omit<RegisterDeviceInput, 'ipA
       };
     }
 }
-
-    

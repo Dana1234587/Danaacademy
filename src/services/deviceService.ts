@@ -85,15 +85,9 @@ export async function approveDevice(pendingDeviceId: string, mode: 'replace' | '
     await batch.commit();
 }
 
-export async function rejectPendingDevice(pendingDeviceId: string): Promise<void> {
-    const pendingDeviceRef = adminDB.collection('pendingDevices').doc(pendingDeviceId);
-    const pendingDeviceSnap = await pendingDeviceRef.get();
-
-    if (!pendingDeviceSnap.exists) {
-        throw new Error("Device not found in pending list.");
-    }
-    
-    await pendingDeviceRef.delete();
+export async function rejectPendingDeviceService(pendingDeviceId: string): Promise<void> {
+    const pendingDeviceRef = doc(adminDB, 'pendingDevices', pendingDeviceId);
+    await deleteDoc(pendingDeviceRef);
 }
 
 
@@ -136,5 +130,3 @@ export async function updateDeviceBrowserInfo(deviceId: string, studentId: strin
         console.error("Error updating device browser info:", error);
     }
 }
-
-    
