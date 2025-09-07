@@ -39,3 +39,4 @@ export const RegisterDeviceOutputSchema = z.object({
 });
 export type RegisterDeviceOutput = z.infer<typeof RegisterDeviceOutputSchema>;
 
+

@@ -75,6 +75,7 @@ export async function approveDevice(pendingDeviceId: string, mode: 'replace' | '
         throw new Error("Device not found in pending list.");
     }
     
+    // Correctly copy the full data object, including the nested deviceInfo
     const deviceToApproveData = pendingDeviceSnap.data();
     const studentId = deviceToApproveData.studentId;
 
@@ -89,12 +90,14 @@ export async function approveDevice(pendingDeviceId: string, mode: 'replace' | '
     }
     
     const newRegisteredDeviceRef = doc(registeredDevicesCol);
+    // Use the full data object from the pending device
     batch.set(newRegisteredDeviceRef, deviceToApproveData);
     
     batch.delete(pendingDeviceRef);
 
     await batch.commit();
 }
+
 
 export async function rejectPendingDeviceService(pendingDeviceId: string): Promise<void> {
     await rejectDeviceFlow(pendingDeviceId);
