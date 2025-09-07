@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import { MarketingLayout } from '@/components/layout/marketing-layout';
@@ -19,52 +18,28 @@ import { signInWithEmailAndPassword } from 'firebase/auth';
 import { useStore } from '@/store/app-store';
 import { doc, getDoc } from 'firebase/firestore';
 import UAParser from 'ua-parser-js';
+import FingerprintJS from '@fingerprintjs/fingerprintjs';
 
-
-const getDeviceId = (): string => {
-  const DANA_ACADEMY_DEVICE_ID = 'DANA_ACADEMY_DEVICE_ID';
-  let deviceId = localStorage.getItem(DANA_ACADEMY_DEVICE_ID);
-
-  if (!deviceId) {
-    const canvas = document.createElement('canvas');
-    const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
-    
-    let renderer = '';
-    if (gl && 'getParameter' in gl && 'RENDERER' in gl) {
-        renderer = gl.getParameter(gl.RENDERER);
-    }
-    
-    const userAgent = navigator.userAgent;
-    const platform = navigator.platform;
-    const random = Math.random().toString(36).substring(2);
-    
-    deviceId = `${userAgent}-${platform}-${renderer}-${random}`;
-    let hash = 0;
-    for (let i = 0; i < deviceId.length; i++) {
-        const char = deviceId.charCodeAt(i);
-        hash = ((hash << 5) - hash) + char;
-        hash = hash & hash;
-    }
-    
-    deviceId = `dana-device-${hash.toString(16)}`;
-    localStorage.setItem(DANA_ACADEMY_DEVICE_ID, deviceId);
-  }
-
-  return deviceId;
+const getDeviceId = async (): Promise<string> => {
+  const fp = await FingerprintJS.load();
+  const result = await fp.get();
+  return result.visitorId;
 };
-
 
 const getDeviceInfo = () => {
     const parser = new UAParser();
     const result = parser.getResult();
     
     return {
-        os: result.os.name || 'Unknown OS',
-        browser: result.browser.name ? `${result.browser.name} ${result.browser.version}` : "Unknown Browser",
-        deviceType: result.device.type === 'mobile' || result.device.type === 'tablet' ? "Mobile" : "Desktop",
+        os: result.os.name,
+        osVersion: result.os.version,
+        browser: result.browser.name,
+        browserVersion: result.browser.version,
+        deviceType: result.device.type || 'desktop',
+        deviceVendor: result.device.vendor,
+        deviceModel: result.device.model,
     };
 }
-
 
 export default function LoginPage() {
   const [username, setUsername] = useState('');
@@ -73,7 +48,6 @@ export default function LoginPage() {
   const router = useRouter();
   const { toast } = useToast();
   const { setCurrentUser } = useStore((state) => ({ setCurrentUser: state.setCurrentUser }));
-
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -120,7 +94,7 @@ export default function LoginPage() {
                 return;
             }
 
-            const deviceId = getDeviceId();
+            const deviceId = await getDeviceId();
             const deviceInfo = getDeviceInfo();
             
             const registrationInput = {

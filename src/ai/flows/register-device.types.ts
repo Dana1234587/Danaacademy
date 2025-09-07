@@ -11,8 +11,12 @@ import { z } from 'genkit';
 // Schema for detailed device information
 export const DeviceInfoSchema = z.object({
   os: z.string().optional().describe('Operating System (e.g., Windows, Android)'),
+  osVersion: z.string().optional().describe('Operating System version (e.g., 10, 13)'),
   browser: z.string().optional().describe('Browser name (e.g., Chrome, Safari)'),
-  deviceType: z.string().optional().describe('Device type (e.g., Mobile, Desktop)'),
+  browserVersion: z.string().optional().describe('Browser version'),
+  deviceType: z.string().optional().describe('Device type (e.g., mobile, desktop)'),
+  deviceVendor: z.string().optional().describe('Device vendor (e.g., Apple, Samsung)'),
+  deviceModel: z.string().optional().describe('Device model (e.g., iPhone, SM-G998U)'),
 }).optional();
 
 
