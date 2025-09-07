@@ -136,3 +136,5 @@ export async function updateDeviceBrowserInfo(deviceId: string, studentId: strin
         console.error("Error updating device browser info:", error);
     }
 }
+
+    

@@ -1,4 +1,5 @@
 
+
 'use server';
 
 import type { RegisterDeviceInput, RegisterDeviceOutput } from '@/ai/flows/register-device.types';
@@ -10,7 +11,11 @@ export async function registerDeviceAction(input: Omit<RegisterDeviceInput, 'ipA
     const headerMap = headers();
     const ipAddress = headerMap.get('x-forwarded-for') || 'IP Not Found';
     
-    const fullInput: RegisterDeviceInput = { ...input, ipAddress };
+    // Ensure all fields, including the optional browser field, are included.
+    const fullInput: RegisterDeviceInput = { 
+        ...input, 
+        ipAddress 
+    };
 
     try {
       const registeredDevicesCol = adminDB.collection('registeredDevices');
@@ -69,3 +74,5 @@ export async function registerDeviceAction(input: Omit<RegisterDeviceInput, 'ipA
       };
     }
 }
+
+    
