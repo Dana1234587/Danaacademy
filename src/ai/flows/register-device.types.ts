@@ -19,7 +19,6 @@ export const RegisterDeviceInputSchema = z.object({
   browser: z.string().optional().describe('The browser used by the device.'),
   deviceType: z.string().describe('The type of the device (e.g., Mobile, Desktop).'),
   courses: z.array(z.string()).describe('The courses the student is enrolled in.'),
-  ipAddress: z.string().optional(),
 });
 export type RegisterDeviceInput = z.infer<typeof RegisterDeviceInputSchema>;
 
