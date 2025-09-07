@@ -24,7 +24,7 @@ export type Device = {
   ipAddress: string;
   deviceInfo?: DeviceInfo; 
   courses: string[];
-  registeredAt: Date | string; // Allow for serialized date
+  registeredAt: string; // Changed to string to be serializable
 };
 
 export type PendingDevice = Omit<Device, 'id' | 'registeredAt'> & {
@@ -67,12 +67,9 @@ export async function getRegisteredDevices(): Promise<RegisteredDevice[]> {
     if(snapshot.empty) return [];
     return snapshot.docs.map(doc => {
         const data = doc.data();
-        const studentName = data.studentName || 'طالب محذوف'; // Fallback for deleted students
-
         return { 
             id: doc.id, 
             ...data,
-            studentName,
             registeredAt: (data.registeredAt as Timestamp)?.toDate().toISOString() || new Date().toISOString(),
         } as RegisteredDevice;
     });
@@ -172,3 +169,5 @@ export async function updateDeviceBrowserInfo(deviceId: string, studentId: strin
         console.error("Error updating device browser info:", error);
     }
 }
+
+    
