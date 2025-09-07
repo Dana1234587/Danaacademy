@@ -244,8 +244,8 @@ export default function AdminPage() {
                 description: `تمت الموافقة على الجهاز الجديد للطالب ${studentName} بنجاح.`,
             });
             fetchData();
-        } catch (error) {
-             toast({ variant: 'destructive', title: 'فشلت الموافقة', description: 'حدث خطأ أثناء محاولة الموافقة على الجهاز.' });
+        } catch (error: any) {
+             toast({ variant: 'destructive', title: 'فشلت الموافقة', description: error.message || 'حدث خطأ أثناء محاولة الموافقة على الجهاز.' });
         } finally {
              setIsLoading(prev => ({ ...prev, [loadingKey]: false }));
         }
@@ -261,8 +261,8 @@ export default function AdminPage() {
                 description: `تم رفض الجهاز وحذفه من قائمة الطلبات المعلقة.`,
             });
             fetchData();
-        } catch(error) {
-             toast({ variant: 'destructive', title: 'فشل الرفض', description: 'حدث خطأ أثناء محاولة رفض الجهاز.' });
+        } catch(error: any) {
+             toast({ variant: 'destructive', title: 'فشل الرفض', description: error.message || 'حدث خطأ أثناء محاولة رفض الجهاز.' });
         } finally {
              setIsLoading(prev => ({ ...prev, [loadingKey]: false }));
         }

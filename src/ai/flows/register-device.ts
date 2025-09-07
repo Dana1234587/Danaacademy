@@ -20,6 +20,21 @@ import { headers } from 'next/headers';
 import { findRegisteredDevicesByStudentId, addDeviceToPending, addDeviceToRegistered } from '@/services/deviceService';
 
 
+/**
+ * Registers a device after checking business logic (e.g., if it's the first device,
+ * if it's already registered, or if it needs admin approval).
+ * This is the primary entry point for device registration from the client.
+ * @param input The device and student information.
+ * @returns A status object indicating the result of the registration attempt.
+ */
+export async function registerDevice(
+  input: RegisterDeviceInput
+): Promise<RegisterDeviceOutput> {
+  // All logic is now encapsulated in the Genkit flow.
+  return registerDeviceFlow(input);
+}
+
+
 const registerDeviceFlow = ai.defineFlow(
   {
     name: 'registerDeviceFlow',
@@ -88,16 +103,3 @@ const registerDeviceFlow = ai.defineFlow(
     }
   }
 );
-
-
-/**
- * Registers a device after checking business logic (e.g., if it's the first device,
- * if it's already registered, or if it needs admin approval).
- * @param input The device and student information.
- * @returns A status object indicating the result of the registration attempt.
- */
-export async function registerDevice(
-  input: RegisterDeviceInput
-): Promise<RegisterDeviceOutput> {
-  return registerDeviceFlow(input);
-}

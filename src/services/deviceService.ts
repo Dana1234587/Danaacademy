@@ -83,9 +83,11 @@ export async function approveDevice(pendingDeviceId: string, mode: 'replace' | '
         });
     }
     
+    // Create a new document in the registeredDevices collection with the full data
     const newRegisteredDeviceRef = doc(collection(adminDB, 'registeredDevices'));
     batch.set(newRegisteredDeviceRef, deviceToApproveData);
     
+    // Delete the original document from the pendingDevices collection
     batch.delete(pendingDeviceRef);
 
     await batch.commit();
