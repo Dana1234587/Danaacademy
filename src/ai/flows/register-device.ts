@@ -15,34 +15,7 @@ import {
     type RegisterDeviceOutput
 } from './register-device.types';
 import admin from 'firebase-admin';
-
-// Self-contained Firebase Admin initialization for Vercel/local compatibility
-const getAdminDB = () => {
-    const serviceAccountKey = process.env.SERVICE_ACCOUNT_KEY;
-
-    if (admin.apps.length === 0) {
-        try {
-            // Check if service account key is available (for Vercel)
-            if (serviceAccountKey) {
-                admin.initializeApp({
-                    credential: admin.credential.cert(JSON.parse(serviceAccountKey)),
-                });
-            } else {
-                // Otherwise, use Application Default Credentials (for local development)
-                console.log("Service account key not found, using Application Default Credentials.");
-                admin.initializeApp();
-            }
-        } catch (error: any) {
-             // This can happen in hot-reload environments, it's safe to ignore.
-             if (!/already exists/u.test(error.message)) {
-                console.error('Firebase admin initialization error:', error.stack);
-                throw error; // Re-throw other errors
-            }
-        }
-    }
-    return admin.firestore();
-};
-
+import { z } from 'zod';
 
 const registerDeviceFlow = ai.defineFlow(
   {
@@ -52,7 +25,7 @@ const registerDeviceFlow = ai.defineFlow(
   },
   async (input) => {
     try {
-      const adminDB = getAdminDB();
+      const adminDB = admin.firestore();
       const registeredDevicesCol = adminDB.collection('registeredDevices');
       const pendingDevicesCol = adminDB.collection('pendingDevices');
 
@@ -71,15 +44,7 @@ const registerDeviceFlow = ai.defineFlow(
       
       // If no registered devices, this is the first device.
       if (registeredDevices.length === 0) {
-        await adminDB.collection('registeredDevices').add({
-            studentId: input.studentId,
-            studentName: input.studentName,
-            deviceId: input.deviceId,
-            os: input.os,
-            deviceType: input.deviceType,
-            courses: input.courses,
-            ipAddress: input.ipAddress,
-        });
+        await adminDB.collection('registeredDevices').add(input);
 
         return {
           status: 'registered',
@@ -101,15 +66,7 @@ const registerDeviceFlow = ai.defineFlow(
       }
       
       // If no pending request, create one.
-      await adminDB.collection('pendingDevices').add({
-        studentId: input.studentId,
-        studentName: input.studentName,
-        deviceId: input.deviceId,
-        os: input.os,
-        deviceType: input.deviceType,
-        courses: input.courses,
-        ipAddress: input.ipAddress,
-      });
+      await adminDB.collection('pendingDevices').add(input);
 
       return {
         status: 'pending',
@@ -127,9 +84,31 @@ const registerDeviceFlow = ai.defineFlow(
   }
 );
 
+export const rejectDeviceFlow = ai.defineFlow(
+  {
+    name: 'rejectDeviceFlow',
+    inputSchema: z.string().describe("The ID of the pending device document to reject."),
+    outputSchema: z.object({ success: z.boolean() }),
+  },
+  async (pendingDeviceId) => {
+    try {
+      const adminDB = admin.firestore();
+      await adminDB.collection('pendingDevices').doc(pendingDeviceId).delete();
+      return { success: true };
+    } catch (error: any) {
+      console.error('Error rejecting device:', error);
+      return { success: false };
+    }
+  }
+);
+
 
 export async function registerDevice(
   input: RegisterDeviceInput
 ): Promise<RegisterDeviceOutput> {
   return registerDeviceFlow(input);
+}
+
+export async function rejectDevice(id: string) {
+    return rejectDeviceFlow(id);
 }

@@ -13,11 +13,12 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
 import { Loader2 } from 'lucide-react';
-import { registerDeviceAction } from './actions';
+import { registerDevice } from '@/ai/flows/register-device';
 import { auth, db } from '@/lib/firebase';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { useStore } from '@/store/app-store';
 import { doc, getDoc } from 'firebase/firestore';
+import { headers } from 'next/headers';
 
 
 // This function now generates a stable device ID and stores it in localStorage.
@@ -155,9 +156,10 @@ export default function LoginPage() {
                 deviceType: deviceType,
                 browser: browser,
                 courses: student.courses,
+                ipAddress: 'N/A', // IP address is handled server-side in Genkit
             };
             
-            const result = await registerDeviceAction(registrationInput);
+            const result = await registerDevice(registrationInput);
             
             if (result.status === 'registered' || result.status === 'already-exists') {
                  router.push('/');

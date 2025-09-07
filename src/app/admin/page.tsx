@@ -43,6 +43,7 @@ import { initializeApp, deleteApp } from "firebase/app";
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 import { firebaseConfig } from '@/lib/firebase';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { rejectDevice as rejectDeviceFlow } from '@/ai/flows/register-device';
 
 
 const availableCourses = [
@@ -256,12 +257,16 @@ export default function AdminPage() {
         const loadingKey = `reject-${id}`;
         setIsLoading(prev => ({ ...prev, [loadingKey]: true }));
         try {
-            await rejectPendingDeviceService(id);
-             toast({
-                title: 'تم الرفض',
-                description: `تم رفض الجهاز وحذفه من قائمة الطلبات المعلقة.`,
-            });
-            fetchData();
+            const result = await rejectDeviceFlow(id);
+            if(result.success) {
+                toast({
+                    title: 'تم الرفض',
+                    description: `تم رفض الجهاز وحذفه من قائمة الطلبات المعلقة.`,
+                });
+                fetchData();
+            } else {
+                 toast({ variant: 'destructive', title: 'فشل الرفض', description: 'حدث خطأ أثناء محاولة رفض الجهاز.' });
+            }
         } catch(error) {
              toast({ variant: 'destructive', title: 'فشل الرفض', description: 'حدث خطأ أثناء محاولة رفض الجهاز.' });
         } finally {
