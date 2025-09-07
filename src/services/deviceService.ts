@@ -75,11 +75,11 @@ export async function getAllRegisteredDevices(): Promise<RegisteredDevice[]> {
         const data = doc.data();
         // The Firestore Timestamp object is not serializable for Client Components.
         // We must convert it to a string or a number. toISOString() is standard.
-        const registeredAtTimestamp = data.registeredAt as Timestamp;
+        const registeredAtTimestamp = data.registeredAt as Timestamp | undefined;
         return {
             id: doc.id,
             ...data,
-            registeredAt: registeredAtTimestamp.toDate().toISOString(),
+            registeredAt: registeredAtTimestamp ? registeredAtTimestamp.toDate().toISOString() : new Date().toISOString(),
         } as RegisteredDevice;
     });
 }
@@ -97,7 +97,7 @@ export async function findRegisteredDevicesByStudentId(studentId: string): Promi
         return { 
             id: doc.id, 
             ...data,
-            registeredAt: registeredAtTimestamp.toDate().toISOString(),
+            registeredAt: registeredAtTimestamp ? registeredAtTimestamp.toDate().toISOString() : new Date().toISOString(),
         } as RegisteredDevice
     });
 }
