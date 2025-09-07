@@ -514,7 +514,7 @@ export default function AdminPage() {
                                                     <TableCell className="whitespace-nowrap">{student.courses?.join(', ') || 'N/A'}</TableCell>
                                                     <TableCell>{student.phone1 || '-'}</TableCell>
                                                     <TableCell>{student.phone2 || '-'}</TableCell>
-                                                    <TableCell>{student.browser ? `${student.browser.name} ${student.browser.version}` : 'N/A'}</TableCell>
+                                                    <TableCell>{student.browser ? `${student.browser.name} على ${student.browser.os}` : 'غير معروف'}</TableCell>
                                                     <TableCell className="flex gap-2">
                                                         <Button variant="outline" size="icon" onClick={() => openEditDialog(student)}><Edit className="w-4 h-4" /></Button>
                                                         <AlertDialog>
@@ -622,14 +622,13 @@ export default function AdminPage() {
                                         <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-2 text-sm text-muted-foreground border-t pt-4">
                                             <div className="flex items-center gap-2">
                                                 {device.deviceInfo?.deviceType === 'Desktop' ? <Monitor className="w-4 h-4" /> : <Smartphone className="w-4 h-4" />}
-                                                <span>{device.deviceInfo?.os || 'غير معروف'}</span>
+                                                <span className='font-semibold'>{device.deviceInfo?.deviceType || 'غير معروف'} - </span>
+                                                <span>{device.deviceInfo?.os || 'نظام غير معروف'}</span>
                                             </div>
-                                            {device.deviceInfo?.browser && (
-                                                <div className="flex items-center gap-2">
-                                                    <Laptop className="w-4 h-4" />
-                                                    <span>{device.deviceInfo.browser}</span>
-                                                </div>
-                                            )}
+                                             <div className="flex items-center gap-2">
+                                                <Laptop className="w-4 h-4" />
+                                                <span>{device.deviceInfo?.browser || 'متصفح غير معروف'}</span>
+                                            </div>
                                             <div className="flex items-center gap-2">
                                                 <Globe className="w-4 h-4" />
                                                 <span dir="ltr">{device.ipAddress}</span>
@@ -677,15 +676,14 @@ export default function AdminPage() {
                                                 <div key={device.id} className="flex items-start justify-between gap-4">
                                                     <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-2 text-sm text-muted-foreground">
                                                         <div className="flex items-center gap-2">
-                                                             {device.deviceInfo?.deviceType === 'Desktop' ? <Monitor className="w-4 h-4" /> : <Smartphone className="w-4 h-4" />}
-                                                             <span>{device.deviceInfo?.os || 'غير معروف'}</span>
+                                                            {device.deviceInfo?.deviceType === 'Desktop' ? <Monitor className="w-4 h-4" /> : <Smartphone className="w-4 h-4" />}
+                                                            <span className='font-semibold'>{device.deviceInfo?.deviceType || 'غير معروف'} - </span>
+                                                            <span>{device.deviceInfo?.os || 'نظام غير معروف'}</span>
                                                         </div>
-                                                        {device.deviceInfo?.browser && (
-                                                            <div className="flex items-center gap-2">
-                                                                <Laptop className="w-4 h-4" />
-                                                                <span>{device.deviceInfo.browser}</span>
-                                                            </div>
-                                                        )}
+                                                        <div className="flex items-center gap-2">
+                                                            <Laptop className="w-4 h-4" />
+                                                            <span>{device.deviceInfo?.browser || 'متصفح غير معروف'}</span>
+                                                        </div>
                                                         <div className="flex items-center gap-2">
                                                             <Globe className="w-4 h-4" />
                                                             <span dir="ltr">{device.ipAddress}</span>

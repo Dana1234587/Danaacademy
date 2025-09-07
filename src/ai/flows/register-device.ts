@@ -91,6 +91,13 @@ const registerDeviceFlow = ai.defineFlow(
 
     } catch (error: any) {
       console.error('Error in registerDeviceFlow:', error);
+      // Specific error for database writing issues
+      if (error.code && (error.code.startsWith('firestore/') || error.code.startsWith('permission-denied'))) {
+           return {
+            status: 'error',
+            message: `فشل الكتابة إلى قاعدة البيانات: ${error.message}`,
+           };
+      }
       const errorMessage = error.message || 'An unknown error occurred during device registration.';
       return {
         status: 'error',
