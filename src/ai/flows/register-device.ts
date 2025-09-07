@@ -29,6 +29,7 @@ const registerDeviceFlow = ai.defineFlow(
     try {
       const headerMap = headers();
       const ipAddress = headerMap.get('x-forwarded-for') || 'IP Not Found';
+      // Correctly include all fields from the input, including the optional browser field.
       const fullInput = { ...input, ipAddress };
 
       const registeredDevicesCol = adminDB.collection('registeredDevices');
