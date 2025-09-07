@@ -19,7 +19,7 @@ export type Device = {
   studentName: string;
   deviceId: string;
   ipAddress: string;
-  deviceInfo?: DeviceInfo; // Now a nested object
+  deviceInfo: DeviceInfo; // Ensure this is always an object
   courses: string[];
 };
 
@@ -83,8 +83,18 @@ export async function approveDevice(pendingDeviceId: string, mode: 'replace' | '
         });
     }
 
+    // Correctly build the data object to ensure deviceInfo is a nested object
+    const newDeviceData = {
+        studentId: deviceToApproveData.studentId,
+        studentName: deviceToApproveData.studentName,
+        deviceId: deviceToApproveData.deviceId,
+        courses: deviceToApproveData.courses,
+        ipAddress: deviceToApproveData.ipAddress,
+        deviceInfo: deviceToApproveData.deviceInfo || {}, // Ensure deviceInfo is preserved as an object
+    };
+
     const newRegisteredDeviceRef = doc(registeredDevicesCol);
-    batch.set(newRegisteredDeviceRef, deviceToApproveData);
+    batch.set(newRegisteredDeviceRef, newDeviceData);
     
     batch.delete(pendingDeviceRef);
 
