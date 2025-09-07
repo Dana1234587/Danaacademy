@@ -14,7 +14,7 @@ import { useState, useEffect, useMemo, useCallback } from 'react';
 import Link from 'next/link';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { getStudents, addStudent, deleteStudent as deleteStudentService, resetStudentPassword as resetStudentPasswordService, updateStudent as updateStudentService, type Student } from '@/services/studentService';
-import { getPendingDevices, getRegisteredDevices, approveDevice, rejectPendingDevice, deleteRegisteredDevice, type PendingDevice, type RegisteredDevice } from '@/services/deviceService';
+import { getPendingDevices, getAllRegisteredDevices, approveDevice, rejectPendingDevice, deleteRegisteredDevice, type PendingDevice, type RegisteredDevice } from '@/services/deviceService';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -121,7 +121,7 @@ export default function AdminPage() {
             const [studentsData, pendingDevicesData, registeredDevicesData] = await Promise.all([
                 getStudents(),
                 getPendingDevices(),
-                getRegisteredDevices()
+                getAllRegisteredDevices()
             ]);
             setStudents(studentsData);
             setPendingDevices(pendingDevicesData);
@@ -807,5 +807,3 @@ export default function AdminPage() {
         </>
     );
 }
-
-    
