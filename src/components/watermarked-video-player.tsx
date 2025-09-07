@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useRef, useState, useEffect } from 'react';
@@ -70,7 +71,7 @@ function WatermarkedVideoPlayer({ src }: { src: string }) {
 
       {/* Smart Protection Overlay */}
       <div 
-        className="absolute inset-x-0 top-0 bottom-[50px] z-10" // Leave 50px at the bottom for controls
+        className="absolute inset-x-0 top-0 bottom-[65px] z-10" // Increased bottom margin
         onClick={() => {
             // Captures clicks/taps to prevent iframe interaction
         }}
@@ -89,8 +90,8 @@ function WatermarkedVideoPlayer({ src }: { src: string }) {
       )}
        <div className={cn(
            "absolute z-30 transition-opacity duration-300",
-           isFullscreen ? "top-4 right-4" : "top-1/2 -translate-y-1/2 right-2",
-           (isIdle && isFullscreen) ? "opacity-0" : "opacity-70 group-hover:opacity-100"
+           isFullscreen ? "top-4 right-4" : "top-2 right-2", // Adjusted position for normal view
+           (isIdle && isFullscreen) ? "opacity-0" : "opacity-0 group-hover:opacity-100" // Hide unless hovering
         )}>
             <Button 
                 onClick={handleFullscreenToggle} 
@@ -107,3 +108,4 @@ function WatermarkedVideoPlayer({ src }: { src: string }) {
 }
 
 export default WatermarkedVideoPlayer;
+
