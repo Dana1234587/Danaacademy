@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import { MarketingLayout } from '@/components/layout/marketing-layout';

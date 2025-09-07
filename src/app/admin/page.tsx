@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import { MarketingLayout } from '@/components/layout/marketing-layout';
@@ -499,7 +500,6 @@ export default function AdminPage() {
                                             <TableHead>الدورات</TableHead>
                                             <TableHead>هاتف 1</TableHead>
                                             <TableHead>هاتف 2</TableHead>
-                                            <TableHead>المتصفح</TableHead>
                                             <TableHead>الإجراءات</TableHead>
                                         </TableRow>
                                     </TableHeader>
@@ -514,7 +514,6 @@ export default function AdminPage() {
                                                     <TableCell className="whitespace-nowrap">{student.courses?.join(', ') || 'N/A'}</TableCell>
                                                     <TableCell>{student.phone1 || '-'}</TableCell>
                                                     <TableCell>{student.phone2 || '-'}</TableCell>
-                                                    <TableCell>{student.browser ? `${student.browser.name} على ${student.browser.os}` : 'غير معروف'}</TableCell>
                                                     <TableCell className="flex gap-2">
                                                         <Button variant="outline" size="icon" onClick={() => openEditDialog(student)}><Edit className="w-4 h-4" /></Button>
                                                         <AlertDialog>
@@ -621,13 +620,13 @@ export default function AdminPage() {
                                         </div>
                                         <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-2 text-sm text-muted-foreground border-t pt-4">
                                             <div className="flex items-center gap-2">
-                                                {device.deviceInfo?.deviceType === 'Desktop' ? <Monitor className="w-4 h-4" /> : <Smartphone className="w-4 h-4" />}
-                                                <span className='font-semibold'>{device.deviceInfo?.deviceType || 'غير معروف'} - </span>
-                                                <span>{device.deviceInfo?.os || 'نظام غير معروف'}</span>
+                                                {device.deviceInfo?.deviceType === 'desktop' ? <Monitor className="w-4 h-4" /> : <Smartphone className="w-4 h-4" />}
+                                                <span className='font-semibold'>{device.deviceInfo?.deviceVendor || device.deviceInfo?.deviceType || 'غير معروف'} - </span>
+                                                <span>{device.deviceInfo?.deviceModel || 'غير معروف'}</span>
                                             </div>
                                              <div className="flex items-center gap-2">
                                                 <Laptop className="w-4 h-4" />
-                                                <span>{device.deviceInfo?.browser || 'متصفح غير معروف'}</span>
+                                                <span>{device.deviceInfo?.browser} {device.deviceInfo?.browserVersion}</span>
                                             </div>
                                             <div className="flex items-center gap-2">
                                                 <Globe className="w-4 h-4" />
@@ -676,13 +675,13 @@ export default function AdminPage() {
                                                 <div key={device.id} className="flex items-start justify-between gap-4">
                                                     <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-2 text-sm text-muted-foreground">
                                                         <div className="flex items-center gap-2">
-                                                            {device.deviceInfo?.deviceType === 'Desktop' ? <Monitor className="w-4 h-4" /> : <Smartphone className="w-4 h-4" />}
-                                                            <span className='font-semibold'>{device.deviceInfo?.deviceType || 'غير معروف'} - </span>
-                                                            <span>{device.deviceInfo?.os || 'نظام غير معروف'}</span>
+                                                            {device.deviceInfo?.deviceType === 'desktop' ? <Monitor className="w-4 h-4" /> : <Smartphone className="w-4 h-4" />}
+                                                            <span className='font-semibold'>{device.deviceInfo?.deviceVendor || device.deviceInfo?.deviceType || 'غير معروف'} - </span>
+                                                            <span>{device.deviceInfo?.deviceModel || 'غير معروف'}</span>
                                                         </div>
                                                         <div className="flex items-center gap-2">
                                                             <Laptop className="w-4 h-4" />
-                                                            <span>{device.deviceInfo?.browser || 'متصفح غير معروف'}</span>
+                                                            <span>{device.deviceInfo?.browser} {device.deviceInfo?.browserVersion}</span>
                                                         </div>
                                                         <div className="flex items-center gap-2">
                                                             <Globe className="w-4 h-4" />
