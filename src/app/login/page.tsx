@@ -18,7 +18,6 @@ import { auth, db } from '@/lib/firebase';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { useStore } from '@/store/app-store';
 import { doc, getDoc } from 'firebase/firestore';
-import { headers } from 'next/headers';
 
 
 // This function now generates a stable device ID and stores it in localStorage.
@@ -156,7 +155,6 @@ export default function LoginPage() {
                 deviceType: deviceType,
                 browser: browser,
                 courses: student.courses,
-                ipAddress: 'N/A', // IP address is handled server-side in Genkit
             };
             
             const result = await registerDevice(registrationInput);

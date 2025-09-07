@@ -16,6 +16,7 @@ import {
 } from './register-device.types';
 import { adminDB } from '@/lib/firebase-admin';
 import { z } from 'zod';
+import { headers } from 'next/headers';
 
 
 const registerDeviceFlow = ai.defineFlow(
@@ -26,15 +27,19 @@ const registerDeviceFlow = ai.defineFlow(
   },
   async (input) => {
     try {
+      const headerMap = headers();
+      const ipAddress = headerMap.get('x-forwarded-for') || 'IP Not Found';
+      const fullInput = { ...input, ipAddress };
+
       const registeredDevicesCol = adminDB.collection('registeredDevices');
       const pendingDevicesCol = adminDB.collection('pendingDevices');
 
       // Check for existing registered device
-      const registeredQuery = registeredDevicesCol.where("studentId", "==", input.studentId);
+      const registeredQuery = registeredDevicesCol.where("studentId", "==", fullInput.studentId);
       const registeredSnapshot = await registeredQuery.get();
       const registeredDevices = registeredSnapshot.docs.map(doc => doc.data());
 
-      const isDeviceAlreadyRegistered = registeredDevices.some(d => d.deviceId === input.deviceId);
+      const isDeviceAlreadyRegistered = registeredDevices.some(d => d.deviceId === fullInput.deviceId);
       if (isDeviceAlreadyRegistered) {
         return {
           status: 'already-exists',
@@ -44,7 +49,7 @@ const registerDeviceFlow = ai.defineFlow(
       
       // If no registered devices, this is the first device.
       if (registeredDevices.length === 0) {
-        await adminDB.collection('registeredDevices').add(input);
+        await adminDB.collection('registeredDevices').add(fullInput);
 
         return {
           status: 'registered',
@@ -54,8 +59,8 @@ const registerDeviceFlow = ai.defineFlow(
 
       // If it's a new device and not the first, check if a pending request already exists.
       const pendingQuery = pendingDevicesCol
-        .where("deviceId", "==", input.deviceId)
-        .where("studentId", "==", input.studentId);
+        .where("deviceId", "==", fullInput.deviceId)
+        .where("studentId", "==", fullInput.studentId);
       const existingPendingSnapshot = await pendingQuery.get();
 
       if (!existingPendingSnapshot.empty) {
@@ -66,7 +71,7 @@ const registerDeviceFlow = ai.defineFlow(
       }
       
       // If no pending request, create one.
-      await adminDB.collection('pendingDevices').add(input);
+      await adminDB.collection('pendingDevices').add(fullInput);
 
       return {
         status: 'pending',
@@ -84,31 +89,9 @@ const registerDeviceFlow = ai.defineFlow(
   }
 );
 
-export const rejectDeviceFlow = ai.defineFlow(
-  {
-    name: 'rejectDeviceFlow',
-    inputSchema: z.string().describe("The ID of the pending device document to reject."),
-    outputSchema: z.object({ success: z.boolean(), error: z.string().optional() }),
-  },
-  async (pendingDeviceId) => {
-    try {
-      const adminDB = adminDB;
-      await adminDB.collection('pendingDevices').doc(pendingDeviceId).delete();
-      return { success: true };
-    } catch (error: any) {
-      console.error('Error rejecting device:', error);
-      return { success: false, error: error.message };
-    }
-  }
-);
-
 
 export async function registerDevice(
   input: RegisterDeviceInput
 ): Promise<RegisterDeviceOutput> {
   return registerDeviceFlow(input);
-}
-
-export async function rejectDevice(id: string) {
-    return rejectDeviceFlow(id);
 }
