@@ -26,14 +26,22 @@ export async function getStudents(): Promise<Student[]> {
 }
 
 export async function addStudent(studentData: Omit<Student, 'id'> & { id: string }): Promise<void> {
-    const { id, ...firestoreData } = studentData;
+    const { id, password, ...firestoreData } = studentData; // Exclude password from Firestore data
     const studentDocRef = doc(adminDB, 'students', id);
-    await setDoc(studentDocRef, firestoreData);
+    
+    // Create a new object for Firestore that includes the password if you decide to store it
+    const dataToStore: any = { ...firestoreData };
+    if (password) {
+        dataToStore.password = password; // Only add password if it exists
+    }
+    
+    await setDoc(studentDocRef, dataToStore);
 }
 
+
 export async function findStudentByUsername(username: string): Promise<Student | undefined> {
-    const q = studentsCol.where("username", "==", username);
-    const querySnapshot = await q.get();
+    const q = query(studentsCol, where("username", "==", username));
+    const querySnapshot = await getDocs(q);
     
     if (querySnapshot.empty) {
         return undefined;
@@ -51,7 +59,7 @@ export async function deleteStudent(studentId: string): Promise<void> {
     const studentRef = doc(adminDB, "students", studentId);
     batch.delete(studentRef);
 
-    const registeredDevicesQuery = adminDB.collection("registeredDevices").where("studentId", "==", studentId);
+    const registeredDevicesQuery = query(adminDB.collection("registeredDevices"), where("studentId", "==", studentId));
     const registeredDevicesSnapshot = await getDocs(registeredDevicesQuery);
     registeredDevicesSnapshot.forEach(doc => {
         batch.delete(doc.ref);
@@ -68,8 +76,6 @@ export async function deleteStudent(studentId: string): Promise<void> {
 
 export async function updateStudent(studentId: string, data: Partial<Omit<Student, 'id' | 'password'>>): Promise<void> {
     const studentRef = doc(adminDB, "students", studentId);
-    // The data passed in here should not contain 'password'.
-    // The type definition enforces this.
     await updateDoc(studentRef, data);
 }
 

@@ -17,6 +17,7 @@ import {
 } from './register-device.types';
 import { adminDB } from '@/lib/firebase-admin';
 import { headers } from 'next/headers';
+import { findRegisteredDevicesByStudentId } from '@/services/deviceService';
 
 
 const registerDeviceFlow = ai.defineFlow(
@@ -44,21 +45,19 @@ const registerDeviceFlow = ai.defineFlow(
       const pendingDevicesCol = adminDB.collection('pendingDevices');
 
       // Check for existing registered device
-      const registeredQuery = registeredDevicesCol.where("studentId", "==", fullDeviceData.studentId);
-      const registeredSnapshot = await registeredQuery.get();
-      const registeredDevices = registeredSnapshot.docs.map(doc => doc.data());
+      const registeredDevices = await findRegisteredDevicesByStudentId(fullDeviceData.studentId);
 
       const isDeviceAlreadyRegistered = registeredDevices.some(d => d.deviceId === fullDeviceData.deviceId);
       if (isDeviceAlreadyRegistered) {
         return {
-          status: 'already-exists',
+          status: 'registered',
           message: 'This device is already registered.',
         };
       }
       
       // If no registered devices, this is the first device.
       if (registeredDevices.length === 0) {
-        await adminDB.collection('registeredDevices').add(fullDeviceData);
+        await registeredDevicesCol.add(fullDeviceData);
 
         return {
           status: 'registered',
@@ -80,7 +79,7 @@ const registerDeviceFlow = ai.defineFlow(
       }
       
       // If no pending request, create one.
-      await adminDB.collection('pendingDevices').add(fullDeviceData);
+      await pendingDevicesCol.add(fullDeviceData);
 
       return {
         status: 'pending',
