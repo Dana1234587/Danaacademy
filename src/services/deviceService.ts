@@ -1,7 +1,6 @@
 
 'use server';
 
-import { collection, query, where, getDocs, addDoc, deleteDoc, doc, writeBatch, getDoc, updateDoc } from 'firebase-admin/firestore';
 import { adminDB } from '@/lib/firebase-admin';
 
 // This is the new, more detailed structure for device info.
@@ -29,30 +28,30 @@ export type Device = {
 export type PendingDevice = Omit<Device, 'id'>;
 export type RegisteredDevice = Device;
 
-const pendingDevicesCol = collection(adminDB, 'pendingDevices');
-const registeredDevicesCol = collection(adminDB, 'registeredDevices');
+const pendingDevicesCol = adminDB.collection('pendingDevices');
+const registeredDevicesCol = adminDB.collection('registeredDevices');
 
 export async function addDeviceToPending(deviceData: PendingDevice): Promise<void> {
-    await addDoc(pendingDevicesCol, deviceData);
+    await pendingDevicesCol.add(deviceData);
 }
 
 export async function addDeviceToRegistered(deviceData: PendingDevice): Promise<void> {
-    await addDoc(registeredDevicesCol, deviceData);
+    await registeredDevicesCol.add(deviceData);
 }
 
 export async function getPendingDevices(): Promise<(PendingDevice & {id: string})[]> {
-    const snapshot = await getDocs(pendingDevicesCol);
+    const snapshot = await pendingDevicesCol.get();
     return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as PendingDevice & {id: string}));
 }
 
 export async function getRegisteredDevices(): Promise<RegisteredDevice[]> {
-    const snapshot = await getDocs(registeredDevicesCol);
+    const snapshot = await registeredDevicesCol.get();
     return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as RegisteredDevice));
 }
 
 export async function findRegisteredDevicesByStudentId(studentId: string): Promise<RegisteredDevice[]> {
-    const q = query(registeredDevicesCol, where("studentId", "==", studentId));
-    const snapshot = await getDocs(q);
+    const q = registeredDevicesCol.where("studentId", "==", studentId);
+    const snapshot = await q.get();
     if (snapshot.empty) {
         return [];
     }
@@ -60,10 +59,10 @@ export async function findRegisteredDevicesByStudentId(studentId: string): Promi
 }
 
 export async function approveDevice(pendingDeviceId: string, mode: 'replace' | 'add'): Promise<void> {
-    const pendingDeviceRef = doc(adminDB, 'pendingDevices', pendingDeviceId);
-    const pendingDeviceSnap = await getDoc(pendingDeviceRef);
+    const pendingDeviceRef = pendingDevicesCol.doc(pendingDeviceId);
+    const pendingDeviceSnap = await pendingDeviceRef.get();
     
-    if (!pendingDeviceSnap.exists()) {
+    if (!pendingDeviceSnap.exists) {
         throw new Error("Device not found in pending list.");
     }
     
@@ -73,18 +72,18 @@ export async function approveDevice(pendingDeviceId: string, mode: 'replace' | '
     }
     const studentId = deviceToApproveData.studentId;
 
-    const batch = writeBatch(adminDB);
+    const batch = adminDB.batch();
 
     if (mode === 'replace') {
-        const oldDevicesQuery = query(registeredDevicesCol, where("studentId", "==", studentId));
-        const oldDevicesSnapshot = await getDocs(oldDevicesQuery);
+        const oldDevicesQuery = registeredDevicesCol.where("studentId", "==", studentId);
+        const oldDevicesSnapshot = await oldDevicesQuery.get();
         oldDevicesSnapshot.forEach(doc => {
             batch.delete(doc.ref);
         });
     }
     
     // Create a new document in the registeredDevices collection with the full data
-    const newRegisteredDeviceRef = doc(collection(adminDB, 'registeredDevices'));
+    const newRegisteredDeviceRef = registeredDevicesCol.doc();
     batch.set(newRegisteredDeviceRef, deviceToApproveData);
     
     // Delete the original document from the pendingDevices collection
@@ -95,22 +94,22 @@ export async function approveDevice(pendingDeviceId: string, mode: 'replace' | '
 
 
 export async function rejectPendingDevice(pendingDeviceId: string): Promise<void> {
-    const pendingDeviceRef = doc(adminDB, 'pendingDevices', pendingDeviceId);
-    await deleteDoc(pendingDeviceRef);
+    const pendingDeviceRef = pendingDevicesCol.doc(pendingDeviceId);
+    await pendingDeviceRef.delete();
 }
 
 
 export async function deleteRegisteredDevice(deviceId: string): Promise<void> {
-    await deleteDoc(doc(adminDB, 'registeredDevices', deviceId));
+    await registeredDevicesCol.doc(deviceId).delete();
 }
 
 export async function deleteRegisteredDeviceByStudentId(studentId: string): Promise<void> {
-    const q = query(registeredDevicesCol, where("studentId", "==", studentId));
-    const snapshot = await getDocs(q);
+    const q = registeredDevicesCol.where("studentId", "==", studentId);
+    const snapshot = await q.get();
     
     if (snapshot.empty) return;
 
-    const batch = writeBatch(adminDB);
+    const batch = adminDB.batch();
     snapshot.docs.forEach(doc => {
         batch.delete(doc.ref);
     });
@@ -120,19 +119,19 @@ export async function deleteRegisteredDeviceByStudentId(studentId: string): Prom
 
 export async function updateDeviceBrowserInfo(deviceId: string, studentId: string, browser: string): Promise<void> {
     try {
-        const q = query(registeredDevicesCol, where('deviceId', '==', deviceId), where('studentId', '==', studentId));
-        const querySnapshot = await getDocs(q);
+        const q = registeredDevicesCol.where('deviceId', '==', deviceId).where('studentId', '==', studentId);
+        const querySnapshot = await q.get();
 
         if (!querySnapshot.empty) {
             const deviceDocRef = querySnapshot.docs[0].ref;
-            await updateDoc(deviceDocRef, { 'deviceInfo.browser' : browser }); // Use dot notation for nested fields
+            await deviceDocRef.update({ 'deviceInfo.browser' : browser }); // Use dot notation for nested fields
         } else {
              // Also check pending devices
-            const pendingQ = query(pendingDevicesCol, where('deviceId', '==', deviceId), where('studentId', '==', studentId));
-            const pendingSnapshot = await getDocs(pendingQ);
+            const pendingQ = pendingDevicesCol.where('deviceId', '==', deviceId).where('studentId', '==', studentId);
+            const pendingSnapshot = await pendingQ.get();
             if(!pendingSnapshot.empty) {
                  const deviceDocRef = pendingSnapshot.docs[0].ref;
-                 await updateDoc(deviceDocRef, { 'deviceInfo.browser' : browser });
+                 await deviceDocRef.update({ 'deviceInfo.browser' : browser });
             }
         }
     } catch (error) {
