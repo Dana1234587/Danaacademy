@@ -38,3 +38,4 @@ export const RegisterDeviceOutputSchema = z.object({
   message: z.string().describe('A message describing the result.'),
 });
 export type RegisterDeviceOutput = z.infer<typeof RegisterDeviceOutputSchema>;
+
