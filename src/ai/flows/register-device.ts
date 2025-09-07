@@ -15,7 +15,6 @@ import {
     type RegisterDeviceOutput
 } from './register-device.types';
 import { adminDB } from '@/lib/firebase-admin';
-import { z } from 'zod';
 import { headers } from 'next/headers';
 
 
@@ -30,8 +29,6 @@ const registerDeviceFlow = ai.defineFlow(
       const headerMap = headers();
       const ipAddress = headerMap.get('x-forwarded-for') || 'IP Not Found';
       
-      // Construct the full data object to be stored for the device.
-      // This now correctly preserves the nested deviceInfo object.
       const fullDeviceData = {
         studentId: input.studentId,
         studentName: input.studentName,
@@ -113,15 +110,3 @@ export async function registerDevice(
 ): Promise<RegisterDeviceOutput> {
   return registerDeviceFlow(input);
 }
-
-
-export const rejectDeviceFlow = ai.defineFlow(
-    {
-        name: 'rejectDeviceFlow',
-        inputSchema: z.string(),
-        outputSchema: z.void(),
-    },
-    async (pendingDeviceId) => {
-        await adminDB.collection('pendingDevices').doc(pendingDeviceId).delete();
-    }
-);
