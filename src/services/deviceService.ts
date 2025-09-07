@@ -54,10 +54,11 @@ export async function getPendingDevices(): Promise<(PendingDevice & {id: string}
     if(snapshot.empty) return [];
     return snapshot.docs.map(doc => {
         const data = doc.data();
+        const registeredAtTimestamp = data.registeredAt as Timestamp | undefined;
         return { 
             id: doc.id, 
             ...data,
-            registeredAt: (data.registeredAt as Timestamp)?.toDate().toISOString() || new Date().toISOString(),
+            registeredAt: registeredAtTimestamp ? registeredAtTimestamp.toDate().toISOString() : new Date().toISOString(),
         } as PendingDevice & {id: string};
     });
 }
@@ -71,11 +72,11 @@ export async function getAllRegisteredDevices(): Promise<RegisteredDevice[]> {
     }
     return snapshot.docs.map(doc => {
         const data = doc.data();
-        const registeredAt = (data.registeredAt as Timestamp)?.toDate().toISOString();
+        const registeredAtTimestamp = data.registeredAt as Timestamp | undefined;
         return {
             id: doc.id,
             ...data,
-            registeredAt,
+            registeredAt: registeredAtTimestamp ? registeredAtTimestamp.toDate().toISOString() : new Date().toISOString(),
         } as RegisteredDevice;
     });
 }
@@ -89,10 +90,11 @@ export async function findRegisteredDevicesByStudentId(studentId: string): Promi
     }
     return snapshot.docs.map(doc => {
          const data = doc.data();
+         const registeredAtTimestamp = data.registeredAt as Timestamp | undefined;
         return { 
             id: doc.id, 
             ...data,
-            registeredAt: (data.registeredAt as Timestamp).toDate().toISOString(),
+            registeredAt: registeredAtTimestamp ? registeredAtTimestamp.toDate().toISOString() : new Date().toISOString(),
         } as RegisteredDevice
     });
 }
