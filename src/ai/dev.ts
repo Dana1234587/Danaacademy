@@ -6,3 +6,4 @@ import '@/lib/firebase-admin'; // Ensures admin SDK is initialized early.
 import '@/ai/flows/generate-quiz.ts';
 import '@/ai/flows/register-device.ts';
 import '@/ai/flows/generate-exam-question.ts';
+import '@/ai/flows/track-video-event.ts';
