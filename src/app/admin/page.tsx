@@ -619,22 +619,25 @@ export default function AdminPage() {
                                             </div>
                                         </div>
                                         <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-2 text-sm text-muted-foreground border-t pt-4">
-                                            <div className="flex items-center gap-2">
-                                                {device.deviceInfo?.deviceType === 'desktop' ? <Monitor className="w-4 h-4" /> : <Smartphone className="w-4 h-4" />}
-                                                <span className='font-semibold'>{device.deviceInfo?.deviceVendor || device.deviceInfo?.deviceType || 'غير معروف'} - </span>
-                                                <span>{device.deviceInfo?.deviceModel || 'غير معروف'}</span>
+                                            <div className="flex items-center gap-2 font-mono text-xs">
+                                                <p className="font-sans font-semibold">OS:</p> <span>{device.deviceInfo?.os || 'N/A'} {device.deviceInfo?.osVersion}</span>
                                             </div>
-                                             <div className="flex items-center gap-2">
-                                                <Laptop className="w-4 h-4" />
-                                                <span>{device.deviceInfo?.browser} {device.deviceInfo?.browserVersion}</span>
+                                             <div className="flex items-center gap-2 font-mono text-xs">
+                                                <p className="font-sans font-semibold">Browser:</p> <span>{device.deviceInfo?.browser} {device.deviceInfo?.browserVersion}</span>
                                             </div>
-                                            <div className="flex items-center gap-2">
-                                                <Globe className="w-4 h-4" />
-                                                <span dir="ltr">{device.ipAddress}</span>
+                                            <div className="flex items-center gap-2 font-mono text-xs">
+                                                <p className="font-sans font-semibold">Device:</p> <span>{device.deviceInfo?.deviceVendor || ''} {device.deviceInfo?.deviceModel || device.deviceInfo?.deviceType || 'Unknown'}</span>
                                             </div>
-                                            <div className="flex items-start gap-2 sm:col-span-2">
-                                                <Fingerprint className="w-4 h-4 mt-1 flex-shrink-0" />
-                                                <span className="break-all text-xs" dir="ltr">{device.deviceId}</span>
+                                             <div className="flex items-center gap-2 font-mono text-xs">
+                                                <p className="font-sans font-semibold">IP:</p> <span>{device.ipAddress}</span>
+                                            </div>
+                                            <div className="flex items-start gap-2 sm:col-span-2 font-mono text-xs">
+                                                <p className="font-sans font-semibold flex-shrink-0">ID:</p>
+                                                <span className="break-all">{device.deviceId}</span>
+                                            </div>
+                                            <div className="flex items-start gap-2 sm:col-span-2 font-mono text-xs">
+                                                <p className="font-sans font-semibold flex-shrink-0">UA:</p>
+                                                <span className="break-all">{device.deviceInfo?.ua}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -674,22 +677,25 @@ export default function AdminPage() {
                                             {devices.map(device => (
                                                 <div key={device.id} className="flex items-start justify-between gap-4">
                                                     <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-2 text-sm text-muted-foreground">
-                                                        <div className="flex items-center gap-2">
-                                                            {device.deviceInfo?.deviceType === 'desktop' ? <Monitor className="w-4 h-4" /> : <Smartphone className="w-4 h-4" />}
-                                                            <span className='font-semibold'>{device.deviceInfo?.deviceVendor || device.deviceInfo?.deviceType || 'غير معروف'} - </span>
-                                                            <span>{device.deviceInfo?.deviceModel || 'غير معروف'}</span>
+                                                         <div className="flex items-center gap-2 font-mono text-xs">
+                                                            <p className="font-sans font-semibold">OS:</p> <span>{device.deviceInfo?.os || 'N/A'} {device.deviceInfo?.osVersion}</span>
                                                         </div>
-                                                        <div className="flex items-center gap-2">
-                                                            <Laptop className="w-4 h-4" />
-                                                            <span>{device.deviceInfo?.browser} {device.deviceInfo?.browserVersion}</span>
+                                                        <div className="flex items-center gap-2 font-mono text-xs">
+                                                            <p className="font-sans font-semibold">Browser:</p> <span>{device.deviceInfo?.browser} {device.deviceInfo?.browserVersion}</span>
                                                         </div>
-                                                        <div className="flex items-center gap-2">
-                                                            <Globe className="w-4 h-4" />
-                                                            <span dir="ltr">{device.ipAddress}</span>
+                                                        <div className="flex items-center gap-2 font-mono text-xs">
+                                                            <p className="font-sans font-semibold">Device:</p> <span>{device.deviceInfo?.deviceVendor || ''} {device.deviceInfo?.deviceModel || device.deviceInfo?.deviceType || 'Unknown'}</span>
                                                         </div>
-                                                        <div className="flex items-start gap-2 sm:col-span-2">
-                                                            <Fingerprint className="w-4 h-4 mt-1 flex-shrink-0" />
-                                                            <span className="break-all text-xs" dir="ltr">{device.deviceId}</span>
+                                                        <div className="flex items-center gap-2 font-mono text-xs">
+                                                            <p className="font-sans font-semibold">IP:</p> <span>{device.ipAddress}</span>
+                                                        </div>
+                                                        <div className="flex items-start gap-2 sm:col-span-2 font-mono text-xs">
+                                                            <p className="font-sans font-semibold flex-shrink-0">ID:</p>
+                                                            <span className="break-all">{device.deviceId}</span>
+                                                        </div>
+                                                        <div className="flex items-start gap-2 sm:col-span-2 font-mono text-xs">
+                                                            <p className="font-sans font-semibold flex-shrink-0">UA:</p>
+                                                            <span className="break-all">{device.deviceInfo?.ua}</span>
                                                         </div>
                                                     </div>
                                                     <AlertDialog>

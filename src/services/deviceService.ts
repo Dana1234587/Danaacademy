@@ -24,7 +24,7 @@ export type Device = {
   studentName: string;
   deviceId: string;
   ipAddress: string;
-  deviceInfo: DeviceInfo; // Ensure this is always an object
+  deviceInfo?: DeviceInfo; 
   courses: string[];
 };
 
@@ -87,13 +87,9 @@ export async function approveDevice(pendingDeviceId: string, mode: 'replace' | '
             batch.delete(doc.ref);
         });
     }
-
-    // Correctly build the data object to ensure all deviceInfo fields are preserved.
-    // This copies all fields from the pending device document.
-    const { ...newDeviceData } = deviceToApproveData;
-
+    
     const newRegisteredDeviceRef = doc(registeredDevicesCol);
-    batch.set(newRegisteredDeviceRef, newDeviceData);
+    batch.set(newRegisteredDeviceRef, deviceToApproveData);
     
     batch.delete(pendingDeviceRef);
 
