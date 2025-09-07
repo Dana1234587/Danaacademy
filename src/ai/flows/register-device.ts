@@ -3,6 +3,7 @@
 
 /**
  * @fileOverview A Genkit flow for securely registering a student's device.
+ * This flow is the single point of entry for device registration logic.
  *
  * - registerDevice - A function that handles the device registration logic.
  */
@@ -105,6 +106,12 @@ const registerDeviceFlow = ai.defineFlow(
 );
 
 
+/**
+ * Registers a device after checking business logic (e.g., if it's the first device,
+ * if it's already registered, or if it needs admin approval).
+ * @param input The device and student information.
+ * @returns A status object indicating the result of the registration attempt.
+ */
 export async function registerDevice(
   input: RegisterDeviceInput
 ): Promise<RegisterDeviceOutput> {

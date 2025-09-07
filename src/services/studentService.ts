@@ -1,5 +1,4 @@
 
-
 'use server';
 
 import { collection, getDocs, doc, setDoc, deleteDoc, updateDoc, query, where, writeBatch } from 'firebase/firestore';
@@ -21,20 +20,15 @@ export type Student = {
 const studentsCol = adminDB.collection('students');
 
 export async function getStudents(): Promise<Student[]> {
-  const studentSnapshot = await studentsCol.get();
+  const studentSnapshot = await studentsCol.orderBy('studentName').get();
   const studentList = studentSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Student));
   return studentList;
 }
 
 export async function addStudent(studentData: Omit<Student, 'id'> & { id: string }): Promise<void> {
     const { id, ...firestoreData } = studentData;
-    // Ensure password is explicitly included if provided
-    const dataToSet: any = { ...firestoreData };
-    if (studentData.password) {
-        dataToSet.password = studentData.password;
-    }
     const studentDocRef = doc(adminDB, 'students', id);
-    await setDoc(studentDocRef, dataToSet);
+    await setDoc(studentDocRef, firestoreData);
 }
 
 export async function findStudentByUsername(username: string): Promise<Student | undefined> {
@@ -74,11 +68,15 @@ export async function deleteStudent(studentId: string): Promise<void> {
 
 export async function updateStudent(studentId: string, data: Partial<Omit<Student, 'id' | 'password'>>): Promise<void> {
     const studentRef = doc(adminDB, "students", studentId);
+    // The data passed in here should not contain 'password'.
+    // The type definition enforces this.
     await updateDoc(studentRef, data);
 }
 
+
 export async function resetStudentPassword(studentId: string, newPassword: string):Promise<void> {
     const studentRef = doc(adminDB, "students", studentId);
+    // Only update the password field in firestore if it exists
     await updateDoc(studentRef, {
         password: newPassword
     });
