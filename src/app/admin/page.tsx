@@ -131,7 +131,7 @@ export default function AdminPage() {
             console.error("Error fetching data:", error);
             const errorMessage = error.code === 'permission-denied' 
                 ? 'فشل جلب البيانات. تأكدي من أن قواعد الأمان في Firestore صحيحة وأن حسابك يملك صلاحيات المسؤول.'
-                : `حدث خطأ غير متوقع: ${error.message}`;
+                : `حدث خطأ غير متوقع: ${'error.message'}`;
             toast({ 
                 variant: 'destructive', 
                 title: 'فشل تحميل البيانات', 
