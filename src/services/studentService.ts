@@ -16,17 +16,12 @@ export type Student = {
   phone1?: string;
   phone2?: string;
   gender?: 'male' | 'female';
-  browser?: {
-    name?: string;
-    version?: string;
-    os?: string;
-  }
 };
 
 const studentsCol = adminDB.collection('students');
 
 export async function getStudents(): Promise<Student[]> {
-  const studentSnapshot = await studentsCol.get();
+  const studentSnapshot = await getDocs(studentsCol);
   const studentList = studentSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Student));
   return studentList;
 }
@@ -38,13 +33,13 @@ export async function addStudent(studentData: Omit<Student, 'id'> & { id: string
     if (studentData.password) {
         dataToSet.password = studentData.password;
     }
-    const studentDocRef = adminDB.collection('students').doc(id);
-    await studentDocRef.set(dataToSet);
+    const studentDocRef = doc(adminDB, 'students', id);
+    await setDoc(studentDocRef, dataToSet);
 }
 
 export async function findStudentByUsername(username: string): Promise<Student | undefined> {
-    const q = studentsCol.where("username", "==", username);
-    const querySnapshot = await q.get();
+    const q = query(studentsCol, where("username", "==", username));
+    const querySnapshot = await getDocs(q);
     
     if (querySnapshot.empty) {
         return undefined;
@@ -57,13 +52,13 @@ export async function findStudentByUsername(username: string): Promise<Student |
 export async function deleteStudent(studentId: string): Promise<void> {
     console.warn(`Deleting student ${studentId} from Firestore and Auth.`);
     
-    const batch = adminDB.batch();
+    const batch = writeBatch(adminDB);
 
-    const studentRef = adminDB.collection("students").doc(studentId);
+    const studentRef = doc(adminDB, "students", studentId);
     batch.delete(studentRef);
 
-    const registeredDevicesQuery = adminDB.collection("registeredDevices").where("studentId", "==", studentId);
-    const registeredDevicesSnapshot = await registeredDevicesQuery.get();
+    const registeredDevicesQuery = query(adminDB.collection("registeredDevices"), where("studentId", "==", studentId));
+    const registeredDevicesSnapshot = await getDocs(registeredDevicesQuery);
     registeredDevicesSnapshot.forEach(doc => {
         batch.delete(doc.ref);
     });
@@ -78,18 +73,13 @@ export async function deleteStudent(studentId: string): Promise<void> {
 }
 
 export async function updateStudent(studentId: string, data: Partial<Omit<Student, 'id' | 'password'>>): Promise<void> {
-    const studentRef = adminDB.collection("students").doc(studentId);
-    await studentRef.update(data);
-}
-
-export async function updateStudentBrowserInfo(studentId: string, browserInfo: { name?: string; version?: string; os?: string; }): Promise<void> {
-  const studentRef = adminDB.collection("students").doc(studentId);
-  await studentRef.update({ browser: browserInfo });
+    const studentRef = doc(adminDB, "students", studentId);
+    await updateDoc(studentRef, data);
 }
 
 export async function resetStudentPassword(studentId: string, newPassword: string):Promise<void> {
-    const studentRef = adminDB.collection("students").doc(studentId);
-    await studentRef.update({
+    const studentRef = doc(adminDB, "students", studentId);
+    await updateDoc(studentRef, {
         password: newPassword
     });
 

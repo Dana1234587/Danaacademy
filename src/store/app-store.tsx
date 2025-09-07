@@ -8,7 +8,6 @@ import { auth, db } from '@/lib/firebase';
 import { onAuthStateChanged, type User as FirebaseUser } from 'firebase/auth';
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import UAParser from 'ua-parser-js';
-import { updateStudentBrowserInfo } from '@/services/studentService';
 
 
 // Define types for our data
@@ -96,16 +95,6 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
                 enrolledCourseIds: studentData.courseIds || [],
                 gender: studentData.gender
             };
-
-            // Parse user agent and update student's browser info
-            const parser = new UAParser();
-            const result = parser.getResult();
-            const browserInfo = {
-                name: result.browser.name,
-                version: result.browser.version,
-                os: result.os.name,
-            };
-            updateStudentBrowserInfo(firebaseUser.uid, browserInfo);
 
         }
         
