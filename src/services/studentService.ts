@@ -16,6 +16,11 @@ export type Student = {
   phone1?: string;
   phone2?: string;
   gender?: 'male' | 'female';
+  browser?: {
+    name?: string;
+    version?: string;
+    os?: string;
+  }
 };
 
 const studentsCol = adminDB.collection('students');
@@ -75,6 +80,11 @@ export async function deleteStudent(studentId: string): Promise<void> {
 export async function updateStudent(studentId: string, data: Partial<Omit<Student, 'id' | 'password'>>): Promise<void> {
     const studentRef = adminDB.collection("students").doc(studentId);
     await studentRef.update(data);
+}
+
+export async function updateStudentBrowserInfo(studentId: string, browserInfo: { name?: string; version?: string; os?: string; }): Promise<void> {
+  const studentRef = adminDB.collection("students").doc(studentId);
+  await studentRef.update({ browser: browserInfo });
 }
 
 export async function resetStudentPassword(studentId: string, newPassword: string):Promise<void> {
