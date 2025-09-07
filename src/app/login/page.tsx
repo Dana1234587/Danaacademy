@@ -62,7 +62,7 @@ const getDeviceInfo = () => {
     const result = parser.getResult();
     
     const os = result.os.name || "Unknown OS";
-    const browser = result.browser.name || "Unknown Browser";
+    const browser = result.browser.name ? `${result.browser.name} ${result.browser.version}` : "Unknown Browser";
     
     let deviceType = "Desktop";
     if (result.device.type === 'mobile' || result.device.type === 'tablet') {

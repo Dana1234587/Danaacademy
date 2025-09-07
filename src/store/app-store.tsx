@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import { create, useStore as useZustandStore } from 'zustand';
@@ -6,7 +7,7 @@ import React, { createContext, useContext, useRef, type ReactNode, useEffect } f
 import { auth, db } from '@/lib/firebase';
 import { onAuthStateChanged, type User as FirebaseUser } from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore';
-import { updateDeviceBrowserInfo } from '@/services/deviceService';
+import UAParser from 'ua-parser-js';
 
 
 // Define types for our data
@@ -31,65 +32,6 @@ export interface AppState {
 }
 
 type AppStore = ReturnType<typeof createAppStore>;
-
-// Helper functions to get device info, moved here for broader access
-const getDeviceId = (): string => {
-  const DANA_ACADEMY_DEVICE_ID = 'DANA_ACADEMY_DEVICE_ID';
-  let deviceId = localStorage.getItem(DANA_ACADEMY_DEVICE_ID);
-
-  if (!deviceId) {
-    const canvas = document.createElement('canvas');
-    const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
-    let renderer = '';
-    if (gl && 'getParameter' in gl && 'RENDERER' in gl) {
-        renderer = gl.getParameter(gl.RENDERER);
-    }
-    const userAgent = navigator.userAgent;
-    const platform = navigator.platform;
-    const random = Math.random().toString(36).substring(2);
-    deviceId = `${userAgent}-${platform}-${renderer}-${random}`;
-    let hash = 0;
-    for (let i = 0; i < deviceId.length; i++) {
-        const char = deviceId.charCodeAt(i);
-        hash = ((hash << 5) - hash) + char;
-        hash = hash & hash;
-    }
-    deviceId = `dana-device-${hash.toString(16)}`;
-    localStorage.setItem(DANA_ACADEMY_DEVICE_ID, deviceId);
-  }
-  return deviceId;
-};
-
-const getOSAndBrowserInfo = () => {
-    const userAgent = window.navigator.userAgent;
-    let os = "Unknown OS";
-    let deviceType = "Desktop";
-    let browser = "Unknown Browser";
-
-    if (/android/i.test(userAgent)) { os = "Android"; deviceType = "Mobile"; }
-    else if (/iPad|iPhone|iPod/.test(userAgent)) { os = "iOS"; deviceType = "Mobile"; }
-    else if (/Win/i.test(userAgent)) { os = "Windows"; }
-    else if (/Mac/i.test(userAgent)) { os = "macOS"; }
-    else if (/Linux/i.test(userAgent)) { os = "Linux"; }
-
-    if ((/Chrome|CriOS/i).test(userAgent) && !(/Edge|Edg/i).test(userAgent)) {
-        const match = userAgent.match(/(Chrome|CriOS)\/([0-9\.]+)/);
-        browser = match ? `Chrome ${match[2]}` : "Chrome";
-    } else if ((/Firefox|FxiOS/i).test(userAgent)) {
-        const match = userAgent.match(/(Firefox|FxiOS)\/([0-9\.]+)/);
-        browser = match ? `Firefox ${match[2]}` : "Firefox";
-    } else if ((/Safari/i).test(userAgent) && !(/Chrome|CriOS/i).test(userAgent)) {
-        const match = userAgent.match(/Version\/([0-9\.]+) Safari/);
-        browser = match ? `Safari ${match[1]}` : "Safari";
-    } else if ((/Edge|Edg/i).test(userAgent)) {
-        const match = userAgent.match(/(Edge|Edg)\/([0-9\.]+)/);
-        browser = match ? `Edge ${match[2]}` : "Edge";
-    } else if ((/MSIE|Trident/i).test(userAgent)) {
-        browser = "Internet Explorer";
-    }
-    return { os, deviceType, browser };
-};
-
 
 // Create the store
 const createAppStore = () => create<AppState>((set) => ({
@@ -157,13 +99,6 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         
         if (user) {
           store.getState().setCurrentUser(user);
-          // On every page load for a logged-in student, update their browser info
-          if (user.role === 'student') {
-            const deviceId = getDeviceId();
-            const { browser } = getOSAndBrowserInfo();
-            // Fire-and-forget update
-            updateDeviceBrowserInfo(deviceId, user.uid, browser);
-          }
         } else {
              console.warn(`User ${firebaseUser.uid} not found in 'admins' or 'students' collection.`);
              store.getState().logout();
