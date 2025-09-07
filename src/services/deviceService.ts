@@ -33,9 +33,15 @@ export type PendingDevice = BaseDevice & {
     registeredAt: string; // ISO string format
 };
 
-export type RegisteredDevice = BaseDevice & {
+export type RegisteredDevice = {
     id: string; // Document ID from Firestore
-    registeredAt: string; // ISO string format
+    studentId?: string;
+    studentName?: string;
+    deviceId?: string;
+    courses?: string[];
+    ipAddress?: string;
+    deviceInfo?: DeviceInfo;
+    registeredAt?: string; // ISO string format
 };
 
 
@@ -72,7 +78,8 @@ export async function getPendingDevices(): Promise<PendingDevice[]> {
 
 // Corrected function to reliably get all devices
 export async function getAllRegisteredDevices(): Promise<RegisteredDevice[]> {
-    const snapshot = await registeredDevicesCol.orderBy('registeredAt', 'desc').get();
+    // Removed .orderBy() to prevent indexing errors. Sorting will be done client-side if needed.
+    const snapshot = await registeredDevicesCol.get();
     if (snapshot.empty) {
         return [];
     }
@@ -87,8 +94,8 @@ export async function getAllRegisteredDevices(): Promise<RegisteredDevice[]> {
             courses: data.courses || [],
             ipAddress: data.ipAddress,
             deviceInfo: data.deviceInfo,
-            registeredAt: registeredAtTimestamp ? registeredAtTimestamp.toDate().toISOString() : new Date().toISOString(),
-        } as RegisteredDevice;
+            registeredAt: registeredAtTimestamp ? registeredAtTimestamp.toDate().toISOString() : undefined,
+        };
     });
 }
 
@@ -101,11 +108,11 @@ export async function findRegisteredDevicesByStudentId(studentId: string): Promi
     }
     return snapshot.docs.map(doc => {
          const data = doc.data();
-         const registeredAtTimestamp = data.registeredAt as Timestamp;
+         const registeredAtTimestamp = data.registeredAt as Timestamp | undefined;
         return { 
             id: doc.id, 
             ...data,
-            registeredAt: registeredAtTimestamp.toDate().toISOString(),
+            registeredAt: registeredAtTimestamp ? registeredAtTimestamp.toDate().toISOString() : undefined,
         } as RegisteredDevice
     });
 }

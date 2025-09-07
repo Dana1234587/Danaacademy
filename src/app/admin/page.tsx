@@ -127,7 +127,19 @@ export default function AdminPage() {
             ]);
             setStudents(studentsData);
             setPendingDevices(pendingDevicesData);
-            setRegisteredDevices(registeredDevicesData);
+            // Sort registered devices by student name then by registration date
+            const sortedRegistered = registeredDevicesData.sort((a, b) => {
+                const nameA = a.studentName || '';
+                const nameB = b.studentName || '';
+                if (nameA < nameB) return -1;
+                if (nameA > nameB) return 1;
+                // If names are equal, sort by date (newest first)
+                const dateA = a.registeredAt ? new Date(a.registeredAt) : new Date(0);
+                const dateB = b.registeredAt ? new Date(b.registeredAt) : new Date(0);
+                return dateB.getTime() - dateA.getTime();
+            });
+            setRegisteredDevices(sortedRegistered);
+
         } catch (error: any) {
             console.error("Error fetching data:", error);
             const errorMessage = error.code === 'permission-denied' 
