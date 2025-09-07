@@ -499,6 +499,7 @@ export default function AdminPage() {
                                             <TableHead>الدورات</TableHead>
                                             <TableHead>هاتف 1</TableHead>
                                             <TableHead>هاتف 2</TableHead>
+                                            <TableHead>المتصفح</TableHead>
                                             <TableHead>الإجراءات</TableHead>
                                         </TableRow>
                                     </TableHeader>
@@ -513,6 +514,7 @@ export default function AdminPage() {
                                                     <TableCell className="whitespace-nowrap">{student.courses?.join(', ') || 'N/A'}</TableCell>
                                                     <TableCell>{student.phone1 || '-'}</TableCell>
                                                     <TableCell>{student.phone2 || '-'}</TableCell>
+                                                    <TableCell>{student.browser ? `${student.browser.name} ${student.browser.version}` : 'N/A'}</TableCell>
                                                     <TableCell className="flex gap-2">
                                                         <Button variant="outline" size="icon" onClick={() => openEditDialog(student)}><Edit className="w-4 h-4" /></Button>
                                                         <AlertDialog>
@@ -625,7 +627,7 @@ export default function AdminPage() {
                                             {device.browser && (
                                                 <div className="flex items-center gap-2">
                                                     <Laptop className="w-4 h-4" />
-                                                    <span>{device.browser}</span>
+                                                    <span>{`${device.browser.name} ${device.browser.version}`}</span>
                                                 </div>
                                             )}
                                             <div className="flex items-center gap-2">
@@ -681,7 +683,7 @@ export default function AdminPage() {
                                                         {device.browser && (
                                                             <div className="flex items-center gap-2">
                                                                 <Laptop className="w-4 h-4" />
-                                                                <span>{device.browser}</span>
+                                                                <span>{`${device.browser.name} ${device.browser.version}`}</span>
                                                             </div>
                                                         )}
                                                         <div className="flex items-center gap-2">

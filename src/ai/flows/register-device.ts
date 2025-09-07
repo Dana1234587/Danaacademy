@@ -17,6 +17,8 @@ import {
 import { adminDB } from '@/lib/firebase-admin';
 import { z } from 'zod';
 import { headers } from 'next/headers';
+import { getBrowserInfo } from '@/browser-utils';
+import { updateStudentBrowserInfo } from '@/services/studentService';
 
 
 const registerDeviceFlow = ai.defineFlow(
@@ -29,8 +31,16 @@ const registerDeviceFlow = ai.defineFlow(
     try {
       const headerMap = headers();
       const ipAddress = headerMap.get('x-forwarded-for') || 'IP Not Found';
+      const userAgent = headerMap.get('user-agent') || '';
+      const browserInfo = getBrowserInfo(userAgent);
+
+      // Update student's browser info
+      if (input.studentId) {
+        await updateStudentBrowserInfo(input.studentId, browserInfo);
+      }
+
       // Correctly include all fields from the input, including the optional browser field.
-      const fullInput = { ...input, ipAddress };
+      const fullInput = { ...input, ipAddress, browser: browserInfo };
 
       const registeredDevicesCol = adminDB.collection('registeredDevices');
       const pendingDevicesCol = adminDB.collection('pendingDevices');
