@@ -18,6 +18,7 @@ import { auth, db } from '@/lib/firebase';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { useStore } from '@/store/app-store';
 import { doc, getDoc } from 'firebase/firestore';
+import UAParser from 'ua-parser-js';
 
 
 // This function now generates a stable device ID and stores it in localStorage.
@@ -56,34 +57,16 @@ const getDeviceId = (): string => {
 };
 
 
-const getOSAndBrowserInfo = () => {
-    const userAgent = window.navigator.userAgent;
-    let os = "Unknown OS";
+const getDeviceInfo = () => {
+    const parser = new UAParser();
+    const result = parser.getResult();
+    
+    const os = result.os.name || "Unknown OS";
+    const browser = result.browser.name || "Unknown Browser";
+    
     let deviceType = "Desktop";
-    let browser = "Unknown Browser";
-
-    // OS Detection
-    if (/android/i.test(userAgent)) { os = "Android"; deviceType = "Mobile"; }
-    else if (/iPad|iPhone|iPod/.test(userAgent)) { os = "iOS"; deviceType = "Mobile"; }
-    else if (/Win/i.test(userAgent)) { os = "Windows"; }
-    else if (/Mac/i.test(userAgent)) { os = "macOS"; }
-    else if (/Linux/i.test(userAgent)) { os = "Linux"; }
-
-    // Browser Detection
-    if ((/Chrome|CriOS/i).test(userAgent) && !(/Edge|Edg/i).test(userAgent)) {
-        const match = userAgent.match(/(Chrome|CriOS)\/([0-9\.]+)/);
-        browser = match ? `Chrome ${match[2]}` : "Chrome";
-    } else if ((/Firefox|FxiOS/i).test(userAgent)) {
-        const match = userAgent.match(/(Firefox|FxiOS)\/([0-9\.]+)/);
-        browser = match ? `Firefox ${match[2]}` : "Firefox";
-    } else if ((/Safari/i).test(userAgent) && !(/Chrome|CriOS/i).test(userAgent)) {
-        const match = userAgent.match(/Version\/([0-9\.]+) Safari/);
-        browser = match ? `Safari ${match[1]}` : "Safari";
-    } else if ((/Edge|Edg/i).test(userAgent)) {
-        const match = userAgent.match(/(Edge|Edg)\/([0-9\.]+)/);
-        browser = match ? `Edge ${match[2]}` : "Edge";
-    } else if ((/MSIE|Trident/i).test(userAgent)) {
-        browser = "Internet Explorer";
+    if (result.device.type === 'mobile' || result.device.type === 'tablet') {
+        deviceType = "Mobile";
     }
 
     return { os, deviceType, browser };
@@ -145,7 +128,7 @@ export default function LoginPage() {
             }
 
             const deviceId = getDeviceId();
-            const { os, deviceType, browser } = getOSAndBrowserInfo();
+            const { os, deviceType, browser } = getDeviceInfo();
             
             const registrationInput = {
                 studentId: user.uid,
