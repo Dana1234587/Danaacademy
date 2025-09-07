@@ -17,7 +17,6 @@ import {
 import { adminDB } from '@/lib/firebase-admin';
 import { z } from 'zod';
 import { headers } from 'next/headers';
-import { updateStudentBrowserInfo } from '@/services/studentService';
 
 
 const registerDeviceFlow = ai.defineFlow(
@@ -31,21 +30,14 @@ const registerDeviceFlow = ai.defineFlow(
       const headerMap = headers();
       const ipAddress = headerMap.get('x-forwarded-for') || 'IP Not Found';
       
-      // Update student's browser info in the student document itself.
-      if (input.studentId && input.deviceInfo?.browser) {
-        await updateStudentBrowserInfo(input.studentId, {
-            name: input.deviceInfo.browser,
-            os: input.deviceInfo.os,
-        });
-      }
-
       // Construct the full data object to be stored for the device.
+      // This now correctly preserves the nested deviceInfo object.
       const fullDeviceData = {
         studentId: input.studentId,
         studentName: input.studentName,
         deviceId: input.deviceId,
         courses: input.courses,
-        deviceInfo: input.deviceInfo || {},
+        deviceInfo: input.deviceInfo,
         ipAddress: ipAddress,
       };
 
