@@ -62,18 +62,6 @@ export async function getPendingDevices(): Promise<(PendingDevice & {id: string}
     });
 }
 
-export async function getRegisteredDevices(): Promise<RegisteredDevice[]> {
-    const snapshot = await registeredDevicesCol.orderBy('registeredAt', 'desc').get();
-    if(snapshot.empty) return [];
-    return snapshot.docs.map(doc => {
-        const data = doc.data();
-        return { 
-            id: doc.id, 
-            ...data,
-            registeredAt: (data.registeredAt as Timestamp)?.toDate().toISOString() || new Date().toISOString(),
-        } as RegisteredDevice;
-    });
-}
 
 // New function to reliably get all devices
 export async function getAllRegisteredDevices(): Promise<RegisteredDevice[]> {

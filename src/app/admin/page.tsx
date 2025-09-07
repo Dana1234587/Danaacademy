@@ -85,7 +85,7 @@ export default function AdminPage() {
     // Group registered devices by student
     const groupedRegisteredDevices = useMemo(() => {
         return registeredDevices.reduce((acc, device) => {
-            const studentName = device.studentName || 'طالب محذوف'; // Use stored name or a fallback
+            const studentName = device.studentName || 'طالب محذوف';
             (acc[studentName] = acc[studentName] || []).push(device);
             return acc;
         }, {} as Record<string, RegisteredDevice[]>);
