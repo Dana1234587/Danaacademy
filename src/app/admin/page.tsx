@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import { MarketingLayout } from '@/components/layout/marketing-layout';
@@ -90,6 +91,7 @@ export default function AdminPage() {
             return acc;
         }, {} as Record<string, RegisteredDevice[]>);
     }, [registeredDevices]);
+
 
     const filteredStudents = useMemo(() => {
         if (!studentSearchQuery) return students;
