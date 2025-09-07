@@ -2,6 +2,7 @@
 'use server';
 
 import { adminDB } from '@/lib/firebase-admin';
+import { Timestamp } from 'firebase-admin/firestore';
 
 // This is the new, more detailed structure for device info.
 type DeviceInfo = {
@@ -23,31 +24,60 @@ export type Device = {
   ipAddress: string;
   deviceInfo?: DeviceInfo; 
   courses: string[];
+  registeredAt: Date | string; // Allow for serialized date
 };
 
-export type PendingDevice = Omit<Device, 'id'>;
+export type PendingDevice = Omit<Device, 'id' | 'registeredAt'> & {
+    registeredAt?: Date | string;
+};
 export type RegisteredDevice = Device;
 
 const pendingDevicesCol = adminDB.collection('pendingDevices');
 const registeredDevicesCol = adminDB.collection('registeredDevices');
 
-export async function addDeviceToPending(deviceData: PendingDevice): Promise<void> {
-    await pendingDevicesCol.add(deviceData);
+export async function addDeviceToPending(deviceData: Omit<PendingDevice, 'id' | 'registeredAt'>): Promise<void> {
+    await pendingDevicesCol.add({
+        ...deviceData,
+        registeredAt: Timestamp.now(),
+    });
 }
 
-export async function addDeviceToRegistered(deviceData: PendingDevice): Promise<void> {
-    await registeredDevicesCol.add(deviceData);
+export async function addDeviceToRegistered(deviceData: Omit<RegisteredDevice, 'id' | 'registeredAt'>): Promise<void> {
+    await registeredDevicesCol.add({
+        ...deviceData,
+        registeredAt: Timestamp.now(),
+    });
 }
 
 export async function getPendingDevices(): Promise<(PendingDevice & {id: string})[]> {
-    const snapshot = await pendingDevicesCol.get();
-    return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as PendingDevice & {id: string}));
+    const snapshot = await pendingDevicesCol.orderBy('registeredAt', 'desc').get();
+    if(snapshot.empty) return [];
+    return snapshot.docs.map(doc => {
+        const data = doc.data();
+        return { 
+            id: doc.id, 
+            ...data,
+            registeredAt: (data.registeredAt as Timestamp)?.toDate().toISOString() || new Date().toISOString(),
+        } as PendingDevice & {id: string};
+    });
 }
 
 export async function getRegisteredDevices(): Promise<RegisteredDevice[]> {
-    const snapshot = await registeredDevicesCol.get();
-    return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as RegisteredDevice));
+    const snapshot = await registeredDevicesCol.orderBy('registeredAt', 'desc').get();
+    if(snapshot.empty) return [];
+    return snapshot.docs.map(doc => {
+        const data = doc.data();
+        const studentName = data.studentName || 'طالب محذوف'; // Fallback for deleted students
+
+        return { 
+            id: doc.id, 
+            ...data,
+            studentName,
+            registeredAt: (data.registeredAt as Timestamp)?.toDate().toISOString() || new Date().toISOString(),
+        } as RegisteredDevice;
+    });
 }
+
 
 export async function findRegisteredDevicesByStudentId(studentId: string): Promise<RegisteredDevice[]> {
     const q = registeredDevicesCol.where("studentId", "==", studentId);
@@ -55,7 +85,14 @@ export async function findRegisteredDevicesByStudentId(studentId: string): Promi
     if (snapshot.empty) {
         return [];
     }
-    return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as RegisteredDevice));
+    return snapshot.docs.map(doc => {
+         const data = doc.data();
+        return { 
+            id: doc.id, 
+            ...doc.data(),
+            registeredAt: (data.registeredAt as Timestamp)?.toDate().toISOString() || new Date().toISOString(),
+        } as RegisteredDevice
+    });
 }
 
 export async function approveDevice(pendingDeviceId: string, mode: 'replace' | 'add'): Promise<void> {
@@ -79,7 +116,10 @@ export async function approveDevice(pendingDeviceId: string, mode: 'replace' | '
     }
     
     const newRegisteredDeviceRef = registeredDevicesCol.doc();
-    batch.set(newRegisteredDeviceRef, deviceToApproveData);
+    batch.set(newRegisteredDeviceRef, {
+        ...deviceToApproveData,
+        registeredAt: Timestamp.now() // Set registration time on approval
+    });
     
     batch.delete(pendingDeviceRef);
 

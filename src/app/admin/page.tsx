@@ -84,13 +84,12 @@ export default function AdminPage() {
 
     // Group registered devices by student
     const groupedRegisteredDevices = useMemo(() => {
-        const studentMap = new Map(students.map(s => [s.id, s.studentName]));
         return registeredDevices.reduce((acc, device) => {
-            const studentName = studentMap.get(device.studentId) || device.studentName;
+            const studentName = device.studentName || 'طالب محذوف'; // Use stored name or a fallback
             (acc[studentName] = acc[studentName] || []).push(device);
             return acc;
         }, {} as Record<string, RegisteredDevice[]>);
-    }, [registeredDevices, students]);
+    }, [registeredDevices]);
 
     const filteredStudents = useMemo(() => {
         if (!studentSearchQuery) return students;
