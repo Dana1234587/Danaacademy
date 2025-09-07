@@ -31,6 +31,7 @@ const getDeviceInfo = () => {
     const result = parser.getResult();
     
     return {
+        ua: result.ua,
         os: result.os.name,
         osVersion: result.os.version,
         browser: result.browser.name,

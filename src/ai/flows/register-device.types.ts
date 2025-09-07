@@ -10,6 +10,7 @@ import { z } from 'genkit';
 
 // Schema for detailed device information
 export const DeviceInfoSchema = z.object({
+  ua: z.string().optional().describe('Full User-Agent string'),
   os: z.string().optional().describe('Operating System (e.g., Windows, Android)'),
   osVersion: z.string().optional().describe('Operating System version (e.g., 10, 13)'),
   browser: z.string().optional().describe('Browser name (e.g., Chrome, Safari)'),
