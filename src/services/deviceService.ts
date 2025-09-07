@@ -91,7 +91,6 @@ export async function findRegisteredDevicesByStudentId(studentId: string): Promi
         return { 
             id: doc.id, 
             ...doc.data(),
-            registeredAt: (data.registeredAt as Timestamp)?.toDate().toISOString() || new Date().toISOString(),
         } as RegisteredDevice
     });
 }
