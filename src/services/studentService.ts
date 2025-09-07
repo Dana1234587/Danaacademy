@@ -1,7 +1,6 @@
 
 'use server';
 
-import { collection, getDocs, doc, setDoc, deleteDoc, updateDoc, query, where, writeBatch } from 'firebase/firestore';
 import { adminDB, adminAuth } from '@/lib/firebase-admin';
 
 export type Student = {
@@ -27,21 +26,19 @@ export async function getStudents(): Promise<Student[]> {
 
 export async function addStudent(studentData: Omit<Student, 'id'> & { id: string }): Promise<void> {
     const { id, password, ...firestoreData } = studentData; // Exclude password from Firestore data
-    const studentDocRef = doc(adminDB, 'students', id);
+    const studentDocRef = studentsCol.doc(id);
     
-    // Create a new object for Firestore that includes the password if you decide to store it
     const dataToStore: any = { ...firestoreData };
     if (password) {
-        dataToStore.password = password; // Only add password if it exists
+        dataToStore.password = password;
     }
     
-    await setDoc(studentDocRef, dataToStore);
+    await studentDocRef.set(dataToStore);
 }
 
-
 export async function findStudentByUsername(username: string): Promise<Student | undefined> {
-    const q = query(studentsCol, where("username", "==", username));
-    const querySnapshot = await getDocs(q);
+    const q = studentsCol.where("username", "==", username);
+    const querySnapshot = await q.get();
     
     if (querySnapshot.empty) {
         return undefined;
@@ -54,19 +51,19 @@ export async function findStudentByUsername(username: string): Promise<Student |
 export async function deleteStudent(studentId: string): Promise<void> {
     console.warn(`Deleting student ${studentId} from Firestore and Auth.`);
     
-    const batch = writeBatch(adminDB);
+    const batch = adminDB.batch();
 
-    const studentRef = doc(adminDB, "students", studentId);
+    const studentRef = studentsCol.doc(studentId);
     batch.delete(studentRef);
 
-    const registeredDevicesQuery = query(adminDB.collection("registeredDevices"), where("studentId", "==", studentId));
-    const registeredDevicesSnapshot = await getDocs(registeredDevicesQuery);
+    const registeredDevicesQuery = adminDB.collection("registeredDevices").where("studentId", "==", studentId);
+    const registeredDevicesSnapshot = await registeredDevicesQuery.get();
     registeredDevicesSnapshot.forEach(doc => {
         batch.delete(doc.ref);
     });
     
-    const pendingDevicesQuery = query(adminDB.collection("pendingDevices"), where("studentId", "==", studentId));
-    const pendingDevicesSnapshot = await getDocs(pendingDevicesQuery);
+    const pendingDevicesQuery = adminDB.collection("pendingDevices").where("studentId", "==", studentId);
+    const pendingDevicesSnapshot = await pendingDevicesQuery.get();
     pendingDevicesSnapshot.forEach(doc => {
         batch.delete(doc.ref);
     });
@@ -82,15 +79,13 @@ export async function deleteStudent(studentId: string): Promise<void> {
 }
 
 export async function updateStudent(studentId: string, data: Partial<Omit<Student, 'id' | 'password'>>): Promise<void> {
-    const studentRef = doc(adminDB, "students", studentId);
-    await updateDoc(studentRef, data);
+    const studentRef = studentsCol.doc(studentId);
+    await studentRef.update(data);
 }
 
-
-export async function resetStudentPassword(studentId: string, newPassword: string):Promise<void> {
-    const studentRef = doc(adminDB, "students", studentId);
-    // Only update the password field in firestore if it exists
-    await updateDoc(studentRef, {
+export async function resetStudentPassword(studentId: string, newPassword: string): Promise<void> {
+    const studentRef = studentsCol.doc(studentId);
+    await studentRef.update({
         password: newPassword
     });
 
