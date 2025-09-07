@@ -6,15 +6,20 @@ import { collection, query, where, getDocs, addDoc, deleteDoc, doc, writeBatch, 
 import { adminDB } from '@/lib/firebase-admin';
 import { rejectDeviceFlow } from '@/ai/flows/register-device';
 
+// This is the new, more detailed structure for device info.
+type DeviceInfo = {
+    os?: string;
+    browser?: string;
+    deviceType?: string;
+};
+
 export type Device = {
   id: string;
   studentId: string;
   studentName: string;
   deviceId: string;
   ipAddress: string;
-  deviceType: string;
-  os: string;
-  browser?: string;
+  deviceInfo?: DeviceInfo; // Now a nested object
   courses: string[];
 };
 
@@ -116,14 +121,14 @@ export async function updateDeviceBrowserInfo(deviceId: string, studentId: strin
 
         if (!querySnapshot.empty) {
             const deviceDocRef = querySnapshot.docs[0].ref;
-            await updateDoc(deviceDocRef, { browser });
+            await updateDoc(deviceDocRef, { 'deviceInfo.browser' : browser }); // Use dot notation for nested fields
         } else {
              // Also check pending devices
             const pendingQ = query(collection(adminDB, 'pendingDevices'), where('deviceId', '==', deviceId), where('studentId', '==', studentId));
             const pendingSnapshot = await getDocs(pendingQ);
             if(!pendingSnapshot.empty) {
                  const deviceDocRef = pendingSnapshot.docs[0].ref;
-                 await updateDoc(deviceDocRef, { browser });
+                 await updateDoc(deviceDocRef, { 'deviceInfo.browser' : browser });
             }
         }
     } catch (error) {

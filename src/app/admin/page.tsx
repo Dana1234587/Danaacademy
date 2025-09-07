@@ -621,13 +621,13 @@ export default function AdminPage() {
                                         </div>
                                         <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-2 text-sm text-muted-foreground border-t pt-4">
                                             <div className="flex items-center gap-2">
-                                                {device.deviceType === 'Desktop' ? <Monitor className="w-4 h-4" /> : <Smartphone className="w-4 h-4" />}
-                                                <span>{device.os}</span>
+                                                {device.deviceInfo?.deviceType === 'Desktop' ? <Monitor className="w-4 h-4" /> : <Smartphone className="w-4 h-4" />}
+                                                <span>{device.deviceInfo?.os || 'غير معروف'}</span>
                                             </div>
-                                            {device.browser && (
+                                            {device.deviceInfo?.browser && (
                                                 <div className="flex items-center gap-2">
                                                     <Laptop className="w-4 h-4" />
-                                                    <span>{`${device.browser.name} ${device.browser.version}`}</span>
+                                                    <span>{device.deviceInfo.browser}</span>
                                                 </div>
                                             )}
                                             <div className="flex items-center gap-2">
@@ -677,13 +677,13 @@ export default function AdminPage() {
                                                 <div key={device.id} className="flex items-start justify-between gap-4">
                                                     <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-2 text-sm text-muted-foreground">
                                                         <div className="flex items-center gap-2">
-                                                            {device.deviceType === 'Desktop' ? <Monitor className="w-4 h-4" /> : <Smartphone className="w-4 h-4" />}
-                                                            <span>{device.os}</span>
+                                                             {device.deviceInfo?.deviceType === 'Desktop' ? <Monitor className="w-4 h-4" /> : <Smartphone className="w-4 h-4" />}
+                                                             <span>{device.deviceInfo?.os || 'غير معروف'}</span>
                                                         </div>
-                                                        {device.browser && (
+                                                        {device.deviceInfo?.browser && (
                                                             <div className="flex items-center gap-2">
                                                                 <Laptop className="w-4 h-4" />
-                                                                <span>{`${device.browser.name} ${device.browser.version}`}</span>
+                                                                <span>{device.deviceInfo.browser}</span>
                                                             </div>
                                                         )}
                                                         <div className="flex items-center gap-2">

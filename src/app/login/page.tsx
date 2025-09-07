@@ -21,13 +21,11 @@ import { doc, getDoc } from 'firebase/firestore';
 import UAParser from 'ua-parser-js';
 
 
-// This function now generates a stable device ID and stores it in localStorage.
 const getDeviceId = (): string => {
   const DANA_ACADEMY_DEVICE_ID = 'DANA_ACADEMY_DEVICE_ID';
   let deviceId = localStorage.getItem(DANA_ACADEMY_DEVICE_ID);
 
   if (!deviceId) {
-    // A more robust device ID generation
     const canvas = document.createElement('canvas');
     const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
     
@@ -41,12 +39,11 @@ const getDeviceId = (): string => {
     const random = Math.random().toString(36).substring(2);
     
     deviceId = `${userAgent}-${platform}-${renderer}-${random}`;
-    // Simple hash function to shorten it and make it less identifiable
     let hash = 0;
     for (let i = 0; i < deviceId.length; i++) {
         const char = deviceId.charCodeAt(i);
         hash = ((hash << 5) - hash) + char;
-        hash = hash & hash; // Convert to 32bit integer
+        hash = hash & hash;
     }
     
     deviceId = `dana-device-${hash.toString(16)}`;
@@ -61,15 +58,11 @@ const getDeviceInfo = () => {
     const parser = new UAParser();
     const result = parser.getResult();
     
-    const os = result.os.name || "Unknown OS";
-    const browser = result.browser.name ? `${result.browser.name} ${result.browser.version}` : "Unknown Browser";
-    
-    let deviceType = "Desktop";
-    if (result.device.type === 'mobile' || result.device.type === 'tablet') {
-        deviceType = "Mobile";
-    }
-
-    return { os, deviceType, browser };
+    return {
+        os: result.os.name || 'Unknown OS',
+        browser: result.browser.name ? `${result.browser.name} ${result.browser.version}` : "Unknown Browser",
+        deviceType: result.device.type === 'mobile' || result.device.type === 'tablet' ? "Mobile" : "Desktop",
+    };
 }
 
 
@@ -128,15 +121,13 @@ export default function LoginPage() {
             }
 
             const deviceId = getDeviceId();
-            const { os, deviceType, browser } = getDeviceInfo();
+            const deviceInfo = getDeviceInfo();
             
             const registrationInput = {
                 studentId: user.uid,
                 studentName: student.studentName,
                 deviceId: deviceId,
-                os: os,
-                deviceType: deviceType,
-                browser: browser,
+                deviceInfo: deviceInfo,
                 courses: student.courses,
             };
             

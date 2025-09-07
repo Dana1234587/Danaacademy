@@ -17,7 +17,6 @@ import {
 import { adminDB } from '@/lib/firebase-admin';
 import { z } from 'zod';
 import { headers } from 'next/headers';
-import { getBrowserInfo } from '@/lib/browser-utils';
 import { updateStudentBrowserInfo } from '@/services/studentService';
 
 
@@ -31,26 +30,27 @@ const registerDeviceFlow = ai.defineFlow(
     try {
       const headerMap = headers();
       const ipAddress = headerMap.get('x-forwarded-for') || 'IP Not Found';
-      const userAgent = headerMap.get('user-agent') || '';
-      const browserInfo = getBrowserInfo(userAgent);
-
-      // Update student's browser info
-      if (input.studentId) {
-        await updateStudentBrowserInfo(input.studentId, browserInfo);
+      
+      // Update student's browser info in the student document itself.
+      if (input.studentId && input.deviceInfo?.browser) {
+        await updateStudentBrowserInfo(input.studentId, {
+            name: input.deviceInfo.browser,
+            os: input.deviceInfo.os,
+        });
       }
 
-      // Correctly include all fields from the input, including the optional browser field.
-      const fullInput = { ...input, ipAddress, browser: browserInfo };
+      // Construct the full data object to be stored for the device.
+      const fullDeviceData = { ...input, ipAddress };
 
       const registeredDevicesCol = adminDB.collection('registeredDevices');
       const pendingDevicesCol = adminDB.collection('pendingDevices');
 
       // Check for existing registered device
-      const registeredQuery = registeredDevicesCol.where("studentId", "==", fullInput.studentId);
+      const registeredQuery = registeredDevicesCol.where("studentId", "==", fullDeviceData.studentId);
       const registeredSnapshot = await registeredQuery.get();
       const registeredDevices = registeredSnapshot.docs.map(doc => doc.data());
 
-      const isDeviceAlreadyRegistered = registeredDevices.some(d => d.deviceId === fullInput.deviceId);
+      const isDeviceAlreadyRegistered = registeredDevices.some(d => d.deviceId === fullDeviceData.deviceId);
       if (isDeviceAlreadyRegistered) {
         return {
           status: 'already-exists',
@@ -60,7 +60,7 @@ const registerDeviceFlow = ai.defineFlow(
       
       // If no registered devices, this is the first device.
       if (registeredDevices.length === 0) {
-        await adminDB.collection('registeredDevices').add(fullInput);
+        await adminDB.collection('registeredDevices').add(fullDeviceData);
 
         return {
           status: 'registered',
@@ -70,8 +70,8 @@ const registerDeviceFlow = ai.defineFlow(
 
       // If it's a new device and not the first, check if a pending request already exists.
       const pendingQuery = pendingDevicesCol
-        .where("deviceId", "==", fullInput.deviceId)
-        .where("studentId", "==", fullInput.studentId);
+        .where("deviceId", "==", fullDeviceData.deviceId)
+        .where("studentId", "==", fullDeviceData.studentId);
       const existingPendingSnapshot = await pendingQuery.get();
 
       if (!existingPendingSnapshot.empty) {
@@ -82,7 +82,7 @@ const registerDeviceFlow = ai.defineFlow(
       }
       
       // If no pending request, create one.
-      await adminDB.collection('pendingDevices').add(fullInput);
+      await adminDB.collection('pendingDevices').add(fullDeviceData);
 
       return {
         status: 'pending',
