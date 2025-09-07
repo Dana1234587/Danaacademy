@@ -17,21 +17,27 @@ type DeviceInfo = {
   deviceModel?: string;
 };
 
-export type Device = {
-  id: string;
-  studentId: string;
-  studentName: string;
-  deviceId: string;
-  ipAddress: string;
-  deviceInfo?: DeviceInfo; 
-  courses: string[];
-  registeredAt: string; // Changed to string to be serializable
+// Simplified base device type
+type BaseDevice = {
+    studentId: string;
+    studentName: string;
+    deviceId: string;
+    courses: string[];
+    ipAddress?: string;
+    deviceInfo?: DeviceInfo;
 };
 
-export type PendingDevice = Omit<Device, 'id' | 'registeredAt'> & {
-    registeredAt?: Date | string;
+// Extend base type for Pending and Registered devices
+export type PendingDevice = BaseDevice & {
+    id: string; // Document ID from Firestore
+    registeredAt: string; // ISO string format
 };
-export type RegisteredDevice = Device;
+
+export type RegisteredDevice = BaseDevice & {
+    id: string; // Document ID from Firestore
+    registeredAt: string; // ISO string format
+};
+
 
 const pendingDevicesCol = adminDB.collection('pendingDevices');
 const registeredDevicesCol = adminDB.collection('registeredDevices');
@@ -50,7 +56,7 @@ export async function addDeviceToRegistered(deviceData: Omit<RegisteredDevice, '
     });
 }
 
-export async function getPendingDevices(): Promise<(PendingDevice & {id: string})[]> {
+export async function getPendingDevices(): Promise<PendingDevice[]> {
     const snapshot = await pendingDevicesCol.orderBy('registeredAt', 'desc').get();
     if(snapshot.empty) return [];
     return snapshot.docs.map(doc => {
@@ -60,12 +66,11 @@ export async function getPendingDevices(): Promise<(PendingDevice & {id: string}
             id: doc.id, 
             ...data,
             registeredAt: registeredAtTimestamp ? registeredAtTimestamp.toDate().toISOString() : new Date().toISOString(),
-        } as PendingDevice & {id: string};
+        } as PendingDevice;
     });
 }
 
-
-// New function to reliably get all devices
+// Corrected function to reliably get all devices
 export async function getAllRegisteredDevices(): Promise<RegisteredDevice[]> {
     const snapshot = await registeredDevicesCol.orderBy('registeredAt', 'desc').get();
     if (snapshot.empty) {
@@ -73,12 +78,15 @@ export async function getAllRegisteredDevices(): Promise<RegisteredDevice[]> {
     }
     return snapshot.docs.map(doc => {
         const data = doc.data();
-        // The Firestore Timestamp object is not serializable for Client Components.
-        // We must convert it to a string or a number. toISOString() is standard.
         const registeredAtTimestamp = data.registeredAt as Timestamp | undefined;
         return {
             id: doc.id,
-            ...data,
+            studentId: data.studentId || '',
+            studentName: data.studentName || 'Unknown Student',
+            deviceId: data.deviceId || '',
+            courses: data.courses || [],
+            ipAddress: data.ipAddress,
+            deviceInfo: data.deviceInfo,
             registeredAt: registeredAtTimestamp ? registeredAtTimestamp.toDate().toISOString() : new Date().toISOString(),
         } as RegisteredDevice;
     });
@@ -97,7 +105,7 @@ export async function findRegisteredDevicesByStudentId(studentId: string): Promi
         return { 
             id: doc.id, 
             ...data,
-            registeredAt: registeredAtTimestamp ? registeredAtTimestamp.toDate().toISOString() : new Date().toISOString(),
+            registeredAt: registeredAtTimestamp.toDate().toISOString(),
         } as RegisteredDevice
     });
 }
@@ -110,7 +118,7 @@ export async function approveDevice(pendingDeviceId: string, mode: 'replace' | '
         throw new Error("Device not found in pending list.");
     }
     
-    const deviceToApproveData = pendingDeviceSnap.data() as PendingDevice;
+    const deviceToApproveData = pendingDeviceSnap.data() as Omit<PendingDevice, 'id'>;
 
     const batch = adminDB.batch();
 
