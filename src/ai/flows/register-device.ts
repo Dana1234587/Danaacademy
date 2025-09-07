@@ -17,7 +17,7 @@ import {
 } from './register-device.types';
 import { adminDB } from '@/lib/firebase-admin';
 import { headers } from 'next/headers';
-import { findRegisteredDevicesByStudentId } from '@/services/deviceService';
+import { findRegisteredDevicesByStudentId, addDeviceToPending, addDeviceToRegistered } from '@/services/deviceService';
 
 
 const registerDeviceFlow = ai.defineFlow(
@@ -40,14 +40,10 @@ const registerDeviceFlow = ai.defineFlow(
         ipAddress: ipAddress,
       };
 
-
-      const registeredDevicesCol = adminDB.collection('registeredDevices');
       const pendingDevicesCol = adminDB.collection('pendingDevices');
-
-      // Check for existing registered device
       const registeredDevices = await findRegisteredDevicesByStudentId(fullDeviceData.studentId);
-
       const isDeviceAlreadyRegistered = registeredDevices.some(d => d.deviceId === fullDeviceData.deviceId);
+
       if (isDeviceAlreadyRegistered) {
         return {
           status: 'registered',
@@ -55,17 +51,14 @@ const registerDeviceFlow = ai.defineFlow(
         };
       }
       
-      // If no registered devices, this is the first device.
       if (registeredDevices.length === 0) {
-        await registeredDevicesCol.add(fullDeviceData);
-
+        await addDeviceToRegistered(fullDeviceData);
         return {
           status: 'registered',
           message: 'Device registered successfully as the first device.',
         };
       }
 
-      // If it's a new device and not the first, check if a pending request already exists.
       const pendingQuery = pendingDevicesCol
         .where("deviceId", "==", fullDeviceData.deviceId)
         .where("studentId", "==", fullDeviceData.studentId);
@@ -78,8 +71,7 @@ const registerDeviceFlow = ai.defineFlow(
         };
       }
       
-      // If no pending request, create one.
-      await pendingDevicesCol.add(fullDeviceData);
+      await addDeviceToPending(fullDeviceData);
 
       return {
         status: 'pending',
@@ -88,13 +80,6 @@ const registerDeviceFlow = ai.defineFlow(
 
     } catch (error: any) {
       console.error('Error in registerDeviceFlow:', error);
-      // Specific error for database writing issues
-      if (error.code && (error.code.startsWith('firestore/') || error.code.startsWith('permission-denied'))) {
-           return {
-            status: 'error',
-            message: `فشل الكتابة إلى قاعدة البيانات: ${error.message}`,
-           };
-      }
       const errorMessage = error.message || 'An unknown error occurred during device registration.';
       return {
         status: 'error',

@@ -1,5 +1,4 @@
 
-
 'use server';
 
 import { collection, query, where, getDocs, addDoc, deleteDoc, doc, writeBatch, getDoc, updateDoc } from 'firebase/firestore';
@@ -27,16 +26,23 @@ export type Device = {
   courses: string[];
 };
 
-export type PendingDevice = Device;
+export type PendingDevice = Omit<Device, 'id'>;
 export type RegisteredDevice = Device;
 
 const pendingDevicesCol = adminDB.collection('pendingDevices');
 const registeredDevicesCol = adminDB.collection('registeredDevices');
 
+export async function addDeviceToPending(deviceData: PendingDevice): Promise<void> {
+    await addDoc(pendingDevicesCol, deviceData);
+}
 
-export async function getPendingDevices(): Promise<PendingDevice[]> {
+export async function addDeviceToRegistered(deviceData: PendingDevice): Promise<void> {
+    await addDoc(registeredDevicesCol, deviceData);
+}
+
+export async function getPendingDevices(): Promise<(PendingDevice & {id: string})[]> {
     const snapshot = await pendingDevicesCol.get();
-    return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as PendingDevice));
+    return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as PendingDevice & {id: string}));
 }
 
 export async function getRegisteredDevices(): Promise<RegisteredDevice[]> {
@@ -53,7 +59,6 @@ export async function findRegisteredDevicesByStudentId(studentId: string): Promi
     return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as RegisteredDevice));
 }
 
-
 export async function approveDevice(pendingDeviceId: string, mode: 'replace' | 'add'): Promise<void> {
     const pendingDeviceRef = doc(adminDB, 'pendingDevices', pendingDeviceId);
     const pendingDeviceSnap = await getDoc(pendingDeviceRef);
@@ -62,7 +67,6 @@ export async function approveDevice(pendingDeviceId: string, mode: 'replace' | '
         throw new Error("Device not found in pending list.");
     }
     
-    // Correctly copy the full data object, including the nested deviceInfo
     const deviceToApproveData = pendingDeviceSnap.data();
     if (!deviceToApproveData) {
         throw new Error("Pending device data is empty.");
@@ -80,7 +84,6 @@ export async function approveDevice(pendingDeviceId: string, mode: 'replace' | '
     }
     
     const newRegisteredDeviceRef = doc(collection(adminDB, 'registeredDevices'));
-    // Use the full data object from the pending device
     batch.set(newRegisteredDeviceRef, deviceToApproveData);
     
     batch.delete(pendingDeviceRef);

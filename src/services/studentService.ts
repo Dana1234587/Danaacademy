@@ -65,12 +65,19 @@ export async function deleteStudent(studentId: string): Promise<void> {
         batch.delete(doc.ref);
     });
     
+    const pendingDevicesQuery = query(adminDB.collection("pendingDevices"), where("studentId", "==", studentId));
+    const pendingDevicesSnapshot = await getDocs(pendingDevicesQuery);
+    pendingDevicesSnapshot.forEach(doc => {
+        batch.delete(doc.ref);
+    });
+    
     await batch.commit();
 
     try {
         await adminAuth.deleteUser(studentId);
     } catch(error) {
         console.error(`Failed to delete user ${studentId} from Auth:`, error);
+        // We still proceed even if auth deletion fails, as the user is already removed from our DBs
     }
 }
 

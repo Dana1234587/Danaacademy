@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import { MarketingLayout } from '@/components/layout/marketing-layout';
@@ -15,7 +14,7 @@ import { useState, useEffect, useMemo, useCallback } from 'react';
 import Link from 'next/link';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { getStudents, addStudent, deleteStudent as deleteStudentService, resetStudentPassword as resetStudentPasswordService, updateStudent as updateStudentService, type Student } from '@/services/studentService';
-import { getPendingDevices, getRegisteredDevices, approveDevice as approveDeviceService, rejectPendingDevice as rejectPendingDeviceService, deleteRegisteredDevice, type PendingDevice, type RegisteredDevice } from '@/services/deviceService';
+import { getPendingDevices, getRegisteredDevices, approveDevice, rejectPendingDevice, deleteRegisteredDevice, type PendingDevice, type RegisteredDevice } from '@/services/deviceService';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -59,7 +58,7 @@ export default function AdminPage() {
     
     // State to hold data from services
     const [students, setStudents] = useState<Student[]>([]);
-    const [pendingDevices, setPendingDevices] = useState<PendingDevice[]>([]);
+    const [pendingDevices, setPendingDevices] = useState<(PendingDevice & {id: string})[]>([]);
     const [registeredDevices, setRegisteredDevices] = useState<RegisteredDevice[]>([]);
 
     const [newStudentName, setNewStudentName] = useState('');
@@ -239,7 +238,7 @@ export default function AdminPage() {
         const loadingKey = `${mode}-${id}`;
         setIsLoading(prev => ({ ...prev, [loadingKey]: true }));
         try {
-            await approveDeviceService(id, mode);
+            await approveDevice(id, mode);
             toast({
                 title: 'تمت الموافقة',
                 description: `تمت الموافقة على الجهاز الجديد للطالب ${studentName} بنجاح.`,
@@ -256,7 +255,7 @@ export default function AdminPage() {
         const loadingKey = `reject-${id}`;
         setIsLoading(prev => ({ ...prev, [loadingKey]: true }));
         try {
-            await rejectPendingDeviceService(id);
+            await rejectPendingDevice(id);
             toast({
                 title: 'تم الرفض',
                 description: `تم رفض الجهاز وحذفه من قائمة الطلبات المعلقة.`,
@@ -361,7 +360,7 @@ export default function AdminPage() {
         } catch (error: any) {
             toast({ variant: 'destructive', title: 'فشل التحديث', description: `حدث خطأ: ${error.message}` });
         } finally {
-            setIsLoading(prev => ({ ...prev, [`update-${editingStudent.id}`]: false }));
+            setIsLoading(prev => ({ ...prev, [`update-${editingStudent?.id}`]: false }));
         }
     };
   
@@ -809,4 +808,3 @@ export default function AdminPage() {
         </>
     );
 }
-
