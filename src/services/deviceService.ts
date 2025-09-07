@@ -1,4 +1,5 @@
 
+
 'use server';
 
 import { collection, query, where, getDocs, addDoc, deleteDoc, doc, writeBatch, getDoc, updateDoc } from 'firebase/firestore';
@@ -82,6 +83,17 @@ export async function approveDevice(pendingDeviceId: string, mode: 'replace' | '
     batch.delete(pendingDeviceRef);
 
     await batch.commit();
+}
+
+export async function rejectPendingDevice(pendingDeviceId: string): Promise<void> {
+    const pendingDeviceRef = adminDB.collection('pendingDevices').doc(pendingDeviceId);
+    const pendingDeviceSnap = await pendingDeviceRef.get();
+
+    if (!pendingDeviceSnap.exists) {
+        throw new Error("Device not found in pending list.");
+    }
+    
+    await pendingDeviceRef.delete();
 }
 
 

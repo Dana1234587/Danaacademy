@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import { MarketingLayout } from '@/components/layout/marketing-layout';
@@ -9,12 +10,12 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Checkbox } from "@/components/ui/checkbox"
 import { useToast } from '@/hooks/use-toast';
-import { UserPlus, KeyRound, MonitorCheck, Loader2, Search, Smartphone, Monitor, Fingerprint, Globe, List, Home, Users, Edit, Trash2, Check, Plus, RefreshCw, Info, AlertTriangle, ClipboardCheck, ClipboardList, BarChart3, BarChart2, Laptop } from 'lucide-react';
+import { UserPlus, KeyRound, MonitorCheck, Loader2, Search, Smartphone, Monitor, Fingerprint, Globe, List, Home, Users, Edit, Trash2, Check, Plus, RefreshCw, Info, AlertTriangle, ClipboardCheck, ClipboardList, BarChart3, BarChart2, Laptop, X } from 'lucide-react';
 import { useState, useEffect, useMemo, useCallback } from 'react';
 import Link from 'next/link';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { getStudents, addStudent, deleteStudent as deleteStudentService, resetStudentPassword as resetStudentPasswordService, updateStudent as updateStudentService, type Student } from '@/services/studentService';
-import { getPendingDevices, getRegisteredDevices, approveDevice as approveDeviceService, deleteRegisteredDevice, type PendingDevice, type RegisteredDevice } from '@/services/deviceService';
+import { getPendingDevices, getRegisteredDevices, approveDevice as approveDeviceService, rejectPendingDevice as rejectPendingDeviceService, deleteRegisteredDevice, type PendingDevice, type RegisteredDevice } from '@/services/deviceService';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -250,6 +251,24 @@ export default function AdminPage() {
              setIsLoading(prev => ({ ...prev, [loadingKey]: false }));
         }
     };
+    
+    const handleRejectDevice = async (id: string) => {
+        const loadingKey = `reject-${id}`;
+        setIsLoading(prev => ({ ...prev, [loadingKey]: true }));
+        try {
+            await rejectPendingDeviceService(id);
+             toast({
+                title: 'تم الرفض',
+                description: `تم رفض الجهاز وحذفه من قائمة الطلبات المعلقة.`,
+            });
+            fetchData();
+        } catch(error) {
+             toast({ variant: 'destructive', title: 'فشل الرفض', description: 'حدث خطأ أثناء محاولة رفض الجهاز.' });
+        } finally {
+             setIsLoading(prev => ({ ...prev, [loadingKey]: false }));
+        }
+    }
+
 
     const handleDeleteStudent = async (studentId: string) => {
         setIsLoading(prev => ({ ...prev, [`delete-${studentId}`]: true }));
@@ -566,7 +585,7 @@ export default function AdminPage() {
                                                 <p className="font-bold text-lg">{device.studentName}</p>
                                                 <p className="text-sm text-primary">{device.courses.join(', ')}</p>
                                             </div>
-                                            <div className="flex flex-col sm:flex-row gap-2 flex-wrap">
+                                            <div className="flex flex-row gap-2 flex-wrap">
                                                 <Button onClick={() => handleApproveDevice(device.id, device.studentName, 'replace')} disabled={isLoading[`replace-${device.id}`]} variant="secondary">
                                                     {isLoading[`replace-${device.id}`] ? <Loader2 className="me-2 h-4 w-4 animate-spin" /> : <Check className="me-2" />}
                                                     موافقة واستبدال
@@ -575,6 +594,28 @@ export default function AdminPage() {
                                                     {isLoading[`add-${device.id}`] ? <Loader2 className="me-2 h-4 w-4 animate-spin" /> : <Plus className="me-2" />}
                                                     موافقة وإضافة
                                                 </Button>
+                                                <AlertDialog>
+                                                    <AlertDialogTrigger asChild>
+                                                        <Button variant="destructive" disabled={isLoading[`reject-${device.id}`]}>
+                                                          {isLoading[`reject-${device.id}`] ? <Loader2 className="me-2 h-4 w-4 animate-spin"/> : <X className="me-2" />}
+                                                          رفض
+                                                        </Button>
+                                                    </AlertDialogTrigger>
+                                                    <AlertDialogContent>
+                                                        <AlertDialogHeader>
+                                                            <AlertDialogTitle>هل أنت متأكد من رفض هذا الجهاز؟</AlertDialogTitle>
+                                                            <AlertDialogDescription>
+                                                               سيؤدي هذا الإجراء إلى حذف طلب الموافقة لهذا الجهاز بشكل نهائي.
+                                                            </AlertDialogDescription>
+                                                        </AlertDialogHeader>
+                                                        <AlertDialogFooter>
+                                                            <AlertDialogCancel>إلغاء</AlertDialogCancel>
+                                                            <AlertDialogAction onClick={() => handleRejectDevice(device.id)} className="bg-destructive hover:bg-destructive/90">
+                                                                نعم، قم بالرفض
+                                                            </AlertDialogAction>
+                                                        </AlertDialogFooter>
+                                                    </AlertDialogContent>
+                                                </AlertDialog>
                                             </div>
                                         </div>
                                         <div className="mt-4 space-y-2 text-sm text-muted-foreground border-t pt-4">
