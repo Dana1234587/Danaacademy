@@ -17,7 +17,7 @@ import {
 import { adminDB } from '@/lib/firebase-admin';
 import { z } from 'zod';
 import { headers } from 'next/headers';
-import { getBrowserInfo } from '@/browser-utils';
+import { getBrowserInfo } from '@/lib/browser-utils';
 import { updateStudentBrowserInfo } from '@/services/studentService';
 
 
