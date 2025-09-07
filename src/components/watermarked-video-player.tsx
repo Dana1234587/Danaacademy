@@ -68,16 +68,27 @@ function WatermarkedVideoPlayer({ src }: { src: string }) {
         allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
         allowFullScreen={true}
       ></iframe>
+
+      {/* Smart Protection Overlay */}
+      <div 
+        className="absolute inset-x-0 top-0 bottom-[40px] z-10"
+        onClick={() => {
+            // This captures the click/double-click, preventing the iframe from handling it.
+            // We can add play/pause logic here if needed in the future.
+        }}
+        aria-hidden="true"
+      />
+
       {currentUser && (
         <div 
-          className="absolute inset-0 flex items-center justify-center pointer-events-none animate-float"
+          className="absolute inset-0 flex items-center justify-center pointer-events-none animate-float z-20"
         >
           <span className="text-white font-bold select-none transform-gpu" style={{ opacity: 0.07, fontSize: 'clamp(1rem, 4vw, 2rem)' }}>
             {currentUser.username}
           </span>
         </div>
       )}
-       <div className="absolute top-1/2 -translate-y-1/2 right-2 z-10">
+       <div className="absolute top-1/2 -translate-y-1/2 right-2 z-30">
             <Button 
                 onClick={handleFullscreen} 
                 variant="secondary" 
@@ -96,3 +107,4 @@ function WatermarkedVideoPlayer({ src }: { src: string }) {
 }
 
 export default WatermarkedVideoPlayer;
+
