@@ -805,7 +805,3 @@ export default function AdminPage() {
         </>
     );
 }
-
-    
-
-    

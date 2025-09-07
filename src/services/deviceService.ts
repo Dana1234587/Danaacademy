@@ -4,6 +4,7 @@
 
 import { collection, query, where, getDocs, addDoc, deleteDoc, doc, writeBatch, getDoc, updateDoc } from 'firebase/firestore';
 import { adminDB } from '@/lib/firebase-admin';
+import { rejectDeviceFlow } from '@/ai/flows/register-device';
 
 export type Device = {
   id: string;
@@ -86,8 +87,7 @@ export async function approveDevice(pendingDeviceId: string, mode: 'replace' | '
 }
 
 export async function rejectPendingDeviceService(pendingDeviceId: string): Promise<void> {
-    const pendingDeviceRef = doc(adminDB, 'pendingDevices', pendingDeviceId);
-    await deleteDoc(pendingDeviceRef);
+    await rejectDeviceFlow(pendingDeviceId);
 }
 
 

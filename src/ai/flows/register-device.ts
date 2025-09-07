@@ -95,3 +95,15 @@ export async function registerDevice(
 ): Promise<RegisterDeviceOutput> {
   return registerDeviceFlow(input);
 }
+
+
+export const rejectDeviceFlow = ai.defineFlow(
+    {
+        name: 'rejectDeviceFlow',
+        inputSchema: z.string(),
+        outputSchema: z.void(),
+    },
+    async (pendingDeviceId) => {
+        await adminDB.collection('pendingDevices').doc(pendingDeviceId).delete();
+    }
+);
