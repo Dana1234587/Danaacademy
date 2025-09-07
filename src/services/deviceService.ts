@@ -1,7 +1,7 @@
 
 'use server';
 
-import { collection, query, where, getDocs, addDoc, deleteDoc, doc, writeBatch, getDoc, updateDoc } from 'firebase/firestore';
+import { collection, query, where, getDocs, addDoc, deleteDoc, doc, writeBatch, getDoc, updateDoc } from 'firebase-admin/firestore';
 import { adminDB } from '@/lib/firebase-admin';
 
 // This is the new, more detailed structure for device info.
@@ -29,8 +29,8 @@ export type Device = {
 export type PendingDevice = Omit<Device, 'id'>;
 export type RegisteredDevice = Device;
 
-const pendingDevicesCol = adminDB.collection('pendingDevices');
-const registeredDevicesCol = adminDB.collection('registeredDevices');
+const pendingDevicesCol = collection(adminDB, 'pendingDevices');
+const registeredDevicesCol = collection(adminDB, 'registeredDevices');
 
 export async function addDeviceToPending(deviceData: PendingDevice): Promise<void> {
     await addDoc(pendingDevicesCol, deviceData);
@@ -41,12 +41,12 @@ export async function addDeviceToRegistered(deviceData: PendingDevice): Promise<
 }
 
 export async function getPendingDevices(): Promise<(PendingDevice & {id: string})[]> {
-    const snapshot = await pendingDevicesCol.get();
+    const snapshot = await getDocs(pendingDevicesCol);
     return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as PendingDevice & {id: string}));
 }
 
 export async function getRegisteredDevices(): Promise<RegisteredDevice[]> {
-    const snapshot = await registeredDevicesCol.get();
+    const snapshot = await getDocs(registeredDevicesCol);
     return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as RegisteredDevice));
 }
 
