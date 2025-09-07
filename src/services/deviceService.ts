@@ -71,8 +71,7 @@ export async function getAllRegisteredDevices(): Promise<RegisteredDevice[]> {
     }
     return snapshot.docs.map(doc => {
         const data = doc.data();
-        // The error was here. Correctly check and convert timestamp.
-        const registeredAt = data.registeredAt ? (data.registeredAt as Timestamp).toDate().toISOString() : new Date().toISOString();
+        const registeredAt = (data.registeredAt as Timestamp)?.toDate().toISOString();
         return {
             id: doc.id,
             ...data,
@@ -93,7 +92,7 @@ export async function findRegisteredDevicesByStudentId(studentId: string): Promi
         return { 
             id: doc.id, 
             ...data,
-            registeredAt: (data.registeredAt as Timestamp)?.toDate().toISOString() || new Date().toISOString(),
+            registeredAt: (data.registeredAt as Timestamp).toDate().toISOString(),
         } as RegisteredDevice
     });
 }
