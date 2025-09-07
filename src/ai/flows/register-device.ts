@@ -14,8 +14,9 @@ import {
     type RegisterDeviceInput,
     type RegisterDeviceOutput
 } from './register-device.types';
-import admin from 'firebase-admin';
+import { adminDB } from '@/lib/firebase-admin';
 import { z } from 'zod';
+
 
 const registerDeviceFlow = ai.defineFlow(
   {
@@ -25,7 +26,6 @@ const registerDeviceFlow = ai.defineFlow(
   },
   async (input) => {
     try {
-      const adminDB = admin.firestore();
       const registeredDevicesCol = adminDB.collection('registeredDevices');
       const pendingDevicesCol = adminDB.collection('pendingDevices');
 
@@ -88,16 +88,16 @@ export const rejectDeviceFlow = ai.defineFlow(
   {
     name: 'rejectDeviceFlow',
     inputSchema: z.string().describe("The ID of the pending device document to reject."),
-    outputSchema: z.object({ success: z.boolean() }),
+    outputSchema: z.object({ success: z.boolean(), error: z.string().optional() }),
   },
   async (pendingDeviceId) => {
     try {
-      const adminDB = admin.firestore();
+      const adminDB = adminDB;
       await adminDB.collection('pendingDevices').doc(pendingDeviceId).delete();
       return { success: true };
     } catch (error: any) {
       console.error('Error rejecting device:', error);
-      return { success: false };
+      return { success: false, error: error.message };
     }
   }
 );
