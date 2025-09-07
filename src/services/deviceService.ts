@@ -73,6 +73,8 @@ export async function getAllRegisteredDevices(): Promise<RegisteredDevice[]> {
     }
     return snapshot.docs.map(doc => {
         const data = doc.data();
+        // The Firestore Timestamp object is not serializable for Client Components.
+        // We must convert it to a string or a number. toISOString() is standard.
         const registeredAtTimestamp = data.registeredAt as Timestamp;
         return {
             id: doc.id,
