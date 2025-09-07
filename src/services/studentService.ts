@@ -21,7 +21,7 @@ export type Student = {
 const studentsCol = adminDB.collection('students');
 
 export async function getStudents(): Promise<Student[]> {
-  const studentSnapshot = await getDocs(studentsCol);
+  const studentSnapshot = await studentsCol.get();
   const studentList = studentSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Student));
   return studentList;
 }
@@ -38,8 +38,8 @@ export async function addStudent(studentData: Omit<Student, 'id'> & { id: string
 }
 
 export async function findStudentByUsername(username: string): Promise<Student | undefined> {
-    const q = query(studentsCol, where("username", "==", username));
-    const querySnapshot = await getDocs(q);
+    const q = studentsCol.where("username", "==", username);
+    const querySnapshot = await q.get();
     
     if (querySnapshot.empty) {
         return undefined;
@@ -57,7 +57,7 @@ export async function deleteStudent(studentId: string): Promise<void> {
     const studentRef = doc(adminDB, "students", studentId);
     batch.delete(studentRef);
 
-    const registeredDevicesQuery = query(adminDB.collection("registeredDevices"), where("studentId", "==", studentId));
+    const registeredDevicesQuery = adminDB.collection("registeredDevices").where("studentId", "==", studentId);
     const registeredDevicesSnapshot = await getDocs(registeredDevicesQuery);
     registeredDevicesSnapshot.forEach(doc => {
         batch.delete(doc.ref);
