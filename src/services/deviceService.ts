@@ -1,4 +1,5 @@
 
+
 'use server';
 
 import { adminDB } from '@/lib/firebase-admin';
@@ -72,11 +73,11 @@ export async function getAllRegisteredDevices(): Promise<RegisteredDevice[]> {
     }
     return snapshot.docs.map(doc => {
         const data = doc.data();
-        const registeredAtTimestamp = data.registeredAt as Timestamp | undefined;
+        const registeredAtTimestamp = data.registeredAt as Timestamp;
         return {
             id: doc.id,
             ...data,
-            registeredAt: registeredAtTimestamp ? registeredAtTimestamp.toDate().toISOString() : new Date().toISOString(),
+            registeredAt: registeredAtTimestamp.toDate().toISOString(),
         } as RegisteredDevice;
     });
 }
@@ -90,11 +91,11 @@ export async function findRegisteredDevicesByStudentId(studentId: string): Promi
     }
     return snapshot.docs.map(doc => {
          const data = doc.data();
-         const registeredAtTimestamp = data.registeredAt as Timestamp | undefined;
+         const registeredAtTimestamp = data.registeredAt as Timestamp;
         return { 
             id: doc.id, 
             ...data,
-            registeredAt: registeredAtTimestamp ? registeredAtTimestamp.toDate().toISOString() : new Date().toISOString(),
+            registeredAt: registeredAtTimestamp.toDate().toISOString(),
         } as RegisteredDevice
     });
 }
