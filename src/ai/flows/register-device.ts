@@ -40,7 +40,15 @@ const registerDeviceFlow = ai.defineFlow(
       }
 
       // Construct the full data object to be stored for the device.
-      const fullDeviceData = { ...input, ipAddress };
+      const fullDeviceData = {
+        studentId: input.studentId,
+        studentName: input.studentName,
+        deviceId: input.deviceId,
+        courses: input.courses,
+        deviceInfo: input.deviceInfo || {},
+        ipAddress: ipAddress,
+      };
+
 
       const registeredDevicesCol = adminDB.collection('registeredDevices');
       const pendingDevicesCol = adminDB.collection('pendingDevices');
