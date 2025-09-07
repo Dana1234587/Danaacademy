@@ -66,27 +66,21 @@ export async function approveDevice(pendingDeviceId: string, mode: 'replace' | '
         throw new Error("Device not found in pending list.");
     }
     
-    const deviceToApproveData = pendingDeviceSnap.data();
-    if (!deviceToApproveData) {
-        throw new Error("Pending device data is empty.");
-    }
-    const studentId = deviceToApproveData.studentId;
+    const deviceToApproveData = pendingDeviceSnap.data() as PendingDevice;
 
     const batch = adminDB.batch();
 
     if (mode === 'replace') {
-        const oldDevicesQuery = registeredDevicesCol.where("studentId", "==", studentId);
+        const oldDevicesQuery = registeredDevicesCol.where("studentId", "==", deviceToApproveData.studentId);
         const oldDevicesSnapshot = await oldDevicesQuery.get();
         oldDevicesSnapshot.forEach(doc => {
             batch.delete(doc.ref);
         });
     }
     
-    // Create a new document in the registeredDevices collection with the full data
     const newRegisteredDeviceRef = registeredDevicesCol.doc();
     batch.set(newRegisteredDeviceRef, deviceToApproveData);
     
-    // Delete the original document from the pendingDevices collection
     batch.delete(pendingDeviceRef);
 
     await batch.commit();
