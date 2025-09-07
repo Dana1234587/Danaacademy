@@ -8,9 +8,14 @@ import { rejectDeviceFlow } from '@/ai/flows/register-device';
 
 // This is the new, more detailed structure for device info.
 type DeviceInfo = {
-    os?: string;
-    browser?: string;
-    deviceType?: string;
+  ua?: string;
+  os?: string;
+  osVersion?: string;
+  browser?: string;
+  browserVersion?: string;
+  deviceType?: string;
+  deviceVendor?: string;
+  deviceModel?: string;
 };
 
 export type Device = {
@@ -83,15 +88,9 @@ export async function approveDevice(pendingDeviceId: string, mode: 'replace' | '
         });
     }
 
-    // Correctly build the data object to ensure deviceInfo is a nested object
-    const newDeviceData = {
-        studentId: deviceToApproveData.studentId,
-        studentName: deviceToApproveData.studentName,
-        deviceId: deviceToApproveData.deviceId,
-        courses: deviceToApproveData.courses,
-        ipAddress: deviceToApproveData.ipAddress,
-        deviceInfo: deviceToApproveData.deviceInfo || {}, // Ensure deviceInfo is preserved as an object
-    };
+    // Correctly build the data object to ensure all deviceInfo fields are preserved.
+    // This copies all fields from the pending device document.
+    const { ...newDeviceData } = deviceToApproveData;
 
     const newRegisteredDeviceRef = doc(registeredDevicesCol);
     batch.set(newRegisteredDeviceRef, newDeviceData);
