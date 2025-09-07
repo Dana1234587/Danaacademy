@@ -6,7 +6,7 @@ import { adminDB } from '@/lib/firebase-admin';
 import { Timestamp } from 'firebase-admin/firestore';
 
 // This is the new, more detailed structure for device info.
-type DeviceInfo = {
+export type DeviceInfo = {
   ua?: string;
   os?: string;
   osVersion?: string;
@@ -78,7 +78,6 @@ export async function getPendingDevices(): Promise<PendingDevice[]> {
 
 // Corrected function to reliably get all devices
 export async function getAllRegisteredDevices(): Promise<RegisteredDevice[]> {
-    // Removed .orderBy() to prevent indexing errors. Sorting will be done client-side if needed.
     const snapshot = await registeredDevicesCol.get();
     if (snapshot.empty) {
         return [];
@@ -171,6 +170,14 @@ export async function deleteRegisteredDeviceByStudentId(studentId: string): Prom
     });
     
     await batch.commit();
+}
+
+export async function updateRegisteredDeviceDetails(docId: string, dataToUpdate: { ipAddress: string; deviceInfo?: DeviceInfo }): Promise<void> {
+    const deviceRef = registeredDevicesCol.doc(docId);
+    await deviceRef.update({
+        ...dataToUpdate,
+        lastSeenAt: Timestamp.now() // Add/update a 'lastSeenAt' timestamp
+    });
 }
 
 export async function updateDeviceBrowserInfo(deviceId: string, studentId: string, browser: string): Promise<void> {

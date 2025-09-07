@@ -17,7 +17,7 @@ import {
 } from './register-device.types';
 import { adminDB } from '@/lib/firebase-admin';
 import { headers } from 'next/headers';
-import { findRegisteredDevicesByStudentId, addDeviceToPending, addDeviceToRegistered } from '@/services/deviceService';
+import { findRegisteredDevicesByStudentId, addDeviceToPending, addDeviceToRegistered, updateRegisteredDeviceDetails } from '@/services/deviceService';
 
 
 /**
@@ -57,12 +57,17 @@ const registerDeviceFlow = ai.defineFlow(
 
       const pendingDevicesCol = adminDB.collection('pendingDevices');
       const registeredDevices = await findRegisteredDevicesByStudentId(fullDeviceData.studentId);
-      const isDeviceAlreadyRegistered = registeredDevices.some(d => d.deviceId === fullDeviceData.deviceId);
+      const existingDevice = registeredDevices.find(d => d.deviceId === fullDeviceData.deviceId);
 
-      if (isDeviceAlreadyRegistered) {
+      if (existingDevice) {
+        // Device is already registered, update its details
+        await updateRegisteredDeviceDetails(existingDevice.id, {
+            ipAddress: ipAddress,
+            deviceInfo: input.deviceInfo
+        });
         return {
           status: 'registered',
-          message: 'This device is already registered.',
+          message: 'This device is already registered. Device info updated.',
         };
       }
       
