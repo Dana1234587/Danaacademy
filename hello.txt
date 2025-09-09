@@ -3,3 +3,4 @@ New line added for checkpoint.
 Another line for a no-op change.
 New checkpoint as requested.
 Checkpoint for the user.
+Checkpoint.
