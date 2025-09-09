@@ -8,7 +8,7 @@ import { Maximize, Minimize } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 function WatermarkedVideoPlayer({ src }: { src: string }) {
-  const { currentUser } = useStore();
+  const currentUser = useStore((s) => s.currentUser);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [isIdle, setIsIdle] = useState(false);
   const idleTimer = useRef<NodeJS.Timeout | null>(null);
