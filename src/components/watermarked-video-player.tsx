@@ -71,7 +71,7 @@ function WatermarkedVideoPlayer({ src }: { src: string }) {
 
       {/* Smart Protection Overlay */}
       <div 
-        className="absolute inset-x-0 top-0 bottom-[65px] z-10" // Increased bottom margin
+        className="absolute inset-x-0 top-0 bottom-[230px] z-10" // Increased bottom margin
         onClick={() => {
             // Captures clicks/taps to prevent iframe interaction
         }}
