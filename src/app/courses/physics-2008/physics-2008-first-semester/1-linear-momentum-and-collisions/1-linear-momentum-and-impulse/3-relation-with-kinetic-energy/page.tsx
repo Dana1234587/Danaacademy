@@ -41,7 +41,7 @@ export default function RelationWithKineticEnergyPage() {
           {/* Main Content Area */}
           <div className="lg:col-span-2 space-y-6">
             
-            <WatermarkedVideoPlayer src="https://iframe.mediadelivery.net/embed/480623/8f0be481-b442-4750-a813-4d7e1a88d03f?autoplay=false&loop=false&muted=false&preload=true" />
+            <WatermarkedVideoPlayer src="https://iframe.mediadelivery.net/embed/480623/a4aa0095-0627-4bbb-ad63-9d50f82e4098?autoplay=false&loop=false&muted=false&preload=true" />
             
             <Card>
                 <CardHeader>
