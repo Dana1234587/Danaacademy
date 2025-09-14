@@ -113,7 +113,7 @@ export default function SummaryPage() {
               <AlertDescription>
                 <div className='space-y-2'>
                     <SmartTextRenderer as="div" text={"قمر صناعي يدور حول الأرض في مسار دائري بسرعة ثابتة المقدار:"} />
-                    <SmartTextRenderer as="div" text={"- **طاقته الحركية ($K=\\frac{1}{2}mv^2$) ثابتة** لأن كتلته (m) ومقدار سرعته (v) ثابتان."} />
+                    <SmartTextRenderer as="div" text={"- **طاقته الحركية $K=\\frac{1}{2}mv^2$ ثابتة** لأن كتلته (m) ومقدار سرعته (v) ثابتان."} />
                     <SmartTextRenderer as="div" text={"- **زخمه الخطي ($\\vec{p}=m\\vec{v}$) متغير** لأن اتجاه متجه السرعة ($\\vec{v}$) يتغير باستمرار ليبقى مماسياً للمسار الدائري."} />
                 </div>
               </AlertDescription>

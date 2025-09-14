@@ -1,3 +1,4 @@
+
 'use client';
 
 import React from 'react';
@@ -11,20 +12,16 @@ const SmartTextRenderer = ({ text, as: Wrapper = 'p' }: { text: string; as?: Rea
     const lines = text.split('\n');
 
     const processLine = (line: string) => {
-        // Regex to split by LaTeX ($...$) and bold (**...**) markers, keeping the delimiters
         const parts = line.split(/(\$.*?\$|\*\*.*?\*\*)/g).filter(part => part);
         
         return parts.map((part, index) => {
             if (part.startsWith('$') && part.endsWith('$')) {
-                // LaTeX part - ensure backslashes are not escaped
                 const math = part.substring(1, part.length - 1);
                 return <span key={index} dir="ltr" className="inline-block mx-1"><InlineMath math={math} /></span>;
             } else if (part.startsWith('**') && part.endsWith('**')) {
-                // Bold part
                 const content = part.substring(2, part.length - 2);
                 return <strong key={index} className="font-bold text-foreground">{content}</strong>;
             } else {
-                // Regular text part
                 return <span key={index}>{part}</span>;
             }
         });
@@ -113,8 +110,8 @@ export default function SummaryPage() {
               <AlertDescription>
                 <div className='space-y-2'>
                     <SmartTextRenderer as="div" text={"قمر صناعي يدور حول الأرض في مسار دائري بسرعة ثابتة المقدار:"} />
-                    <SmartTextRenderer as="div" text={"- **طاقته الحركية ($K=\\frac{1}{2}mv^2$) ثابتة** لأن كتلته (m) ومقدار سرعته (v) ثابتان."} />
-                    <SmartTextRenderer as="div" text={"- **زخمه الخطي ($\\vec{p}=m\\vec{v}$) متغير** لأن اتجاه متجه السرعة ($\\vec{v}$) يتغير باستمرار ليبقى مماسياً للمسار الدائري."} />
+                    <SmartTextRenderer as="div" text={"- **طاقته الحركية $K=\\frac{1}{2}mv^2$ ثابتة** لأن كتلته m ومقدار سرعته v ثابتان."} />
+                    <SmartTextRenderer as="div" text={"- **زخمه الخطي $\\vec{p}=m\\vec{v}$ متغير** لأن اتجاه متجه السرعة $\\vec{v}$ يتغير باستمرار ليبقى مماسياً للمسار الدائري."} />
                 </div>
               </AlertDescription>
            </Alert>
@@ -122,3 +119,4 @@ export default function SummaryPage() {
     </div>
   );
 }
+
