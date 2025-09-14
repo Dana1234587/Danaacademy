@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import 'katex/dist/katex.min.css';
 import { BlockMath, InlineMath } from 'react-katex';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { Info } from 'lucide-react';
+import { Info, Satellite } from 'lucide-react';
 
 // A robust, universal renderer for bidirectional text
 const SmartTextRenderer = ({ text, as: Wrapper = 'p' }: { text: string; as?: React.ElementType }) => {
@@ -96,6 +96,17 @@ export default function SummaryPage() {
                     <SmartTextRenderer as="div" text={"من العلاقة $K = \\frac{p^2}{2m}$, نلاحظ أنه عند ثبات الزخم الخطي (p)، فإن الطاقة الحركية (K) تتناسب عكسيًا مع الكتلة (m)."} />
                     <SmartTextRenderer as="div" text={"**أي أن الجسم ذا الكتلة الأكبر يمتلك طاقة حركية أقل.**"} />
                     <p className='text-right pt-2'><b>مثال:</b> شاحنة وسيارة صغيرتان تتحركان بنفس الزخم الخطي. لإيقافهما، تحتاج إلى نفس الدفع (لأن $\\Delta p$ متساوٍ). لكن الشاحنة (ذات الكتلة الأكبر) تمتلك طاقة حركية أقل، وبالتالي فإن الضرر الناتج عنها سيكون أقل من السيارة الأسرع (ذات الكتلة الأصغر) التي تمتلك طاقة حركية أكبر.</p>
+                </div>
+              </AlertDescription>
+           </Alert>
+            <Alert variant="destructive" className="border-yellow-500/50 text-yellow-800 dark:text-yellow-300 [&>svg]:text-yellow-600 dark:[&>svg]:text-yellow-400 bg-yellow-50">
+              <Satellite className="h-4 w-4" />
+              <AlertTitle className="font-bold text-yellow-700 dark:text-yellow-500">مثال تطبيقي: القمر الصناعي</AlertTitle>
+              <AlertDescription>
+                <div className='space-y-2'>
+                    <SmartTextRenderer as="div" text={"قمر صناعي يدور حول الأرض في مسار دائري بسرعة ثابتة المقدار:"} />
+                    <SmartTextRenderer as="div" text={"- **طاقته الحركية ($K=\\frac{1}{2}mv^2$) ثابتة** لأن كتلته (m) ومقدار سرعته (v) ثابتان."} />
+                    <SmartTextRenderer as="div" text={"- **زخمه الخطي ($\\vec{p}=m\\vec{v}$) متغير** لأن اتجاه متجه السرعة ($\\vec{v}$) يتغير باستمرار ليبقى مماسياً للمسار الدائري."} />
                 </div>
               </AlertDescription>
            </Alert>
