@@ -3,12 +3,23 @@
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ChevronLeft, FileText, BarChart, BrainCircuit } from 'lucide-react';
+import { ChevronLeft, ChevronRight, FileText, BarChart, BrainCircuit } from 'lucide-react';
 import Link from 'next/link';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import QuizPage from './quiz';
 import SummaryPage from './summary';
 import WatermarkedVideoPlayer from '@/components/watermarked-video-player';
+
+const navigation = {
+  prev: {
+    label: 'الحصة السابقة: مفهوم الزخم الخطي',
+    path: '/courses/physics-2008/physics-2008-first-semester/1-linear-momentum-and-collisions/1-linear-momentum-and-impulse/1-linear-momentum-concept',
+  },
+  next: {
+    label: 'الحصة التالية: العلاقة مع طاقة الحركة',
+    path: '/courses/physics-2008/physics-2008-first-semester/1-linear-momentum-and-collisions/1-linear-momentum-and-impulse/3-relation-with-kinetic-energy',
+  },
+};
 
 export default function GraphQuestionsPage() {
   return (
@@ -92,6 +103,30 @@ export default function GraphQuestionsPage() {
               </CardContent>
             </Card>
           </div>
+        </div>
+
+        {/* Navigation Buttons */}
+        <div className="flex justify-between mt-8">
+            {navigation.prev ? (
+                <Button asChild variant="outline">
+                    <Link href={navigation.prev.path}>
+                        <ChevronRight className="me-2 h-4 w-4" />
+                        {navigation.prev.label}
+                    </Link>
+                </Button>
+            ) : (
+                <div /> // Placeholder for alignment
+            )}
+            {navigation.next ? (
+                <Button asChild>
+                    <Link href={navigation.next.path}>
+                        {navigation.next.label}
+                        <ChevronLeft className="ms-2 h-4 w-4" />
+                    </Link>
+                </Button>
+            ) : (
+                <div /> // Placeholder for alignment
+            )}
         </div>
       </div>
     </div>
