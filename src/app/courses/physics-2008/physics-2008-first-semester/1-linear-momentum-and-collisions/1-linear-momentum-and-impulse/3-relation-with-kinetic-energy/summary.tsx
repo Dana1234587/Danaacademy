@@ -17,8 +17,8 @@ const SmartTextRenderer = ({ text, as: Wrapper = 'p' }: { text: string; as?: Rea
         
         return parts.map((part, index) => {
             if (part.startsWith('$') && part.endsWith('$')) {
-                // LaTeX part
-                const math = part.substring(1, part.length - 1);
+                // LaTeX part - ensure backslashes are not escaped
+                const math = part.substring(1, part.length - 1).replace(/\\\\/g, '\\');
                 return <span key={index} dir="ltr" className="inline-block mx-1"><InlineMath math={math} /></span>;
             } else if (part.startsWith('**') && part.endsWith('**')) {
                 // Bold part
