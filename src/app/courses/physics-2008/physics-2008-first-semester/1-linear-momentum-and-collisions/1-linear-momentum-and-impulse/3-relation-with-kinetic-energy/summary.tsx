@@ -8,25 +8,34 @@ import { BlockMath, InlineMath } from 'react-katex';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Info, Satellite } from 'lucide-react';
 
-// A robust, universal renderer for bidirectional text
 const SmartTextRenderer = ({ text, as: Wrapper = 'p' }: { text: string; as?: React.ElementType }) => {
     const lines = text.split('\n');
 
-    const renderPart = (part: string, index: number) => {
-        // Even indices are text, odd are math
-        if (index % 2 === 0) {
-            return <span key={index}>{part}</span>;
-        } else {
-            // This is LaTeX, force LTR direction
-            return <span key={index} dir="ltr" className="inline-block mx-1"><InlineMath math={part} /></span>;
-        }
+    const processLine = (line: string) => {
+        // Regex to split by LaTeX ($...$) and bold (**...**) markers, keeping the delimiters
+        const parts = line.split(/(\$.*?\$|\*\*.*?\*\*)/g).filter(part => part);
+        
+        return parts.map((part, index) => {
+            if (part.startsWith('$') && part.endsWith('$')) {
+                // LaTeX part
+                const math = part.substring(1, part.length - 1);
+                return <span key={index} dir="ltr" className="inline-block mx-1"><InlineMath math={math} /></span>;
+            } else if (part.startsWith('**') && part.endsWith('**')) {
+                // Bold part
+                const content = part.substring(2, part.length - 2);
+                return <strong key={index} className="font-bold text-foreground">{content}</strong>;
+            } else {
+                // Regular text part
+                return <span key={index}>{part}</span>;
+            }
+        });
     };
     
     return (
         <Wrapper className="leading-relaxed" dir="rtl">
             {lines.map((line, lineIndex) => (
                 <React.Fragment key={lineIndex}>
-                    {line.split('$').map(renderPart)}
+                    {processLine(line)}
                     {lineIndex < lines.length - 1 && <br />}
                 </React.Fragment>
             ))}
