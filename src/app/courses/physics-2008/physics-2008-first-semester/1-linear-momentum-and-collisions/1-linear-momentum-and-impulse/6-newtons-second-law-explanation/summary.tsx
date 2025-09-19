@@ -10,17 +10,30 @@ import { BlockMath, InlineMath } from 'react-katex';
 // A robust, universal renderer for bidirectional text
 const SmartTextRenderer = ({ text, as: Wrapper = 'p' }: { text: string; as?: React.ElementType }) => {
     const lines = text.split('\n');
-    const renderPart = (part: string, index: number) => {
-        if (index % 2 === 0) return <span key={index} dir="rtl">{part}</span>;
-        // The katex component will handle LTR rendering for the math formula
-        return <span key={index} className="inline-block mx-1"><InlineMath math={part} /></span>;
+
+    const processLine = (line: string) => {
+        // This regex splits the string by LaTeX delimiters ($...$) while keeping them.
+        const parts = line.split(/(\$.*?\$)/g).filter(part => part);
+
+        return parts.map((part, index) => {
+            if (part.startsWith('$') && part.endsWith('$')) {
+                // This is a LaTeX part
+                const math = part.substring(1, part.length - 1).replace(/\\\\/g, '\\');
+                return <span key={index} dir="ltr" className="inline-block mx-1"><InlineMath math={math} /></span>;
+            } else {
+                // This is a regular text part
+                return <span key={index}>{part}</span>;
+            }
+        });
     };
+    
     return (
-        <Wrapper className="leading-relaxed">
+        <Wrapper className="leading-relaxed" dir="rtl">
             {lines.map((line, lineIndex) => (
-                <span key={lineIndex} className="block my-1 text-right">
-                    {line.split('$').map(renderPart)}
-                </span>
+                 <React.Fragment key={lineIndex}>
+                    {processLine(line)}
+                    {lineIndex < lines.length - 1 && <br />}
+                </React.Fragment>
             ))}
         </Wrapper>
     );
