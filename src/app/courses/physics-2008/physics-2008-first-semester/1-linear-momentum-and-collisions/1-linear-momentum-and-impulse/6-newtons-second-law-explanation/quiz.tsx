@@ -51,7 +51,7 @@ const quizQuestions = [
     questionText: 'إذا كانت القوة المحصلة المؤثرة على جسم تساوي صفرًا، فهذا يعني أن...',
     options: ['الجسم يجب أن يكون ساكنًا', 'سرعة الجسم ثابتة', 'زخم الجسم الخطي ثابت', 'تسارع الجسم ثابت ولا يساوي صفر'],
     correctAnswerIndex: 2,
-    explanation: 'إذا كانت $\\Sigma F = 0$, فإن $\\frac{\\Delta p}{\\Delta t} = 0$. هذا يعني أن التغير في الزخم يساوي صفر ($\Delta p = 0$)، وبالتالي فإن الزخم الخطي للجسم يبقى ثابتًا. هذا هو مبدأ حفظ الزخم الخطي.'
+    explanation: 'إذا كانت $\\Sigma F = 0$, فإن $\\frac{\\Delta p}{\\Delta t} = 0$. هذا يعني أن التغير في الزخم يساوي صفر ($\\Delta p = 0$)، وبالتالي فإن الزخم الخطي للجسم يبقى ثابتًا. هذا هو مبدأ حفظ الزخم الخطي.'
   },
   {
     questionText: 'يعمل حزام الأمان في السيارة على زيادة الفترة الزمنية للتصادم. الهدف الرئيسي من ذلك هو:',
@@ -85,15 +85,15 @@ export default function NewtonsSecondLawQuizPage() {
        <div className="max-w-4xl mx-auto">
       <div className="space-y-8">
         {quizQuestions.map((q, qIndex) => (
-          <Card key={qIndex} className={\`border-2 \${isSubmitted ? (selectedAnswers[qIndex] === q.correctAnswerIndex ? 'border-green-500' : 'border-red-500') : 'border-border'} transition-colors duration-300 shadow-lg\`}>
+          <Card key={qIndex} className={`border-2 ${isSubmitted ? (selectedAnswers[qIndex] === q.correctAnswerIndex ? 'border-green-500' : 'border-red-500') : 'border-border'} transition-colors duration-300 shadow-lg`}>
             <CardHeader>
-              <CardTitle><SmartTextRenderer as="div" text={\`السؤال \${qIndex + 1}: \${q.questionText}\`} /></CardTitle>
+              <CardTitle><SmartTextRenderer as="div" text={`السؤال ${qIndex + 1}: ${q.questionText}`} /></CardTitle>
             </CardHeader>
             <CardContent>
               <RadioGroup onValueChange={(value) => handleAnswerChange(qIndex, parseInt(value))} value={selectedAnswers[qIndex]?.toString()} className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {q.options.map((option, oIndex) => (
-                  <Label key={oIndex} htmlFor={\`q\${qIndex}-o\${oIndex}\`} className={\`p-4 rounded-lg border-2 flex items-center gap-4 cursor-pointer transition-all hover:bg-accent \${selectedAnswers[qIndex] === oIndex ? 'bg-primary/10 border-primary' : 'bg-background'}\`}>
-                    <RadioGroupItem value={oIndex.toString()} id={\`q\${qIndex}-o\${oIndex}\`} disabled={isSubmitted} />
+                  <Label key={oIndex} htmlFor={`q${qIndex}-o${oIndex}`} className={`p-4 rounded-lg border-2 flex items-center gap-4 cursor-pointer transition-all hover:bg-accent ${selectedAnswers[qIndex] === oIndex ? 'bg-primary/10 border-primary' : 'bg-background'}`}>
+                    <RadioGroupItem value={oIndex.toString()} id={`q${qIndex}-o${oIndex}`} disabled={isSubmitted} />
                     <SmartTextRenderer as="span" text={option} />
                      {isSubmitted && selectedAnswers[qIndex] === oIndex && selectedAnswers[qIndex] !== q.correctAnswerIndex && <XCircle className="w-5 h-5 text-red-500 ms-auto"/>}
                     {isSubmitted && oIndex === q.correctAnswerIndex && <CheckCircle className="w-5 h-5 text-green-500 ms-auto"/>}
