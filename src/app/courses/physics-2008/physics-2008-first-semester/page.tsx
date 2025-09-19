@@ -39,7 +39,7 @@ const courseStructure = {
                 { label: 'حصة رقم (2): اسئلة الرسم البياني', path: '/courses/physics-2008/physics-2008-first-semester/1-linear-momentum-and-collisions/1-linear-momentum-and-impulse/2-graph-questions' },
                 { label: 'حصة رقم (3): العلاقة بين الزخم الخطي والطاقة الحركية (شرح)', path: '/courses/physics-2008/physics-2008-first-semester/1-linear-momentum-and-collisions/1-linear-momentum-and-impulse/3-relation-with-kinetic-energy' },
                 { label: 'حصة رقم (4): العلاقة بين الزخم والطاقة الحركية (حل اسئلة تميز)', path: '/courses/physics-2008/physics-2008-first-semester/1-linear-momentum-and-collisions/1-linear-momentum-and-impulse/4-relation-with-kinetic-energy-advanced' },
-                { label: 'حصة رقم (5): التغير ومعدل التغير', path: '/courses/physics-2008/physics-2008-first-semester/1-linear-momentum-and-collisions/1-linear-momentum-and-impulse/5-change-and-rate-of-change' },
+                { label: 'حصة رقم (5): التغير ومعدل التغير (حصة تأسيس)', path: '/courses/physics-2008/physics-2008-first-semester/1-linear-momentum-and-collisions/1-linear-momentum-and-impulse/5-change-and-rate-of-change' },
               ]
             },
           ]
