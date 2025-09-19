@@ -61,11 +61,26 @@ const laws = [
 
 const strategy = [
      {
-        title: "استراتيجية الحل (للكتلة الثابتة)",
+        title: "استراتيجية الحل",
         steps: [
             {
                 title: "الخطوة الأولى: حساب التغير في الزخم",
-                description: "إذا كانت كتلة الجسم ثابتة، أوجد التغير في الزخم الخطي عن طريق ضرب الكتلة في التغير في السرعة المتجهة. أما إذا كانت الكتلة متغيرة، فاحسب الزخم النهائي والابتدائي كل على حدة ثم أوجد الفرق بينهما."
+                description: `
+**إذا كانت كتلة الجسم ثابتة:**
+نستخدم العلاقة:
+$\\Delta \\vec{p} = m(\\vec{v}_f - \\vec{v}_i)$
+حيث:
+• $\\Delta \\vec{p}$ هو التغير في الزخم الخطي.
+• $m$ هي كتلة الجسم.
+• $\\vec{v}_f$ هي السرعة النهائية.
+• $\\vec{v}_i$ هي السرعة الابتدائية.
+
+**إذا كانت كتلة الجسم متغيرة:**
+نحسب الزخم الابتدائي والنهائي بشكل منفصل ثم نوجد الفرق.
+$\\vec{p}_i = m_i \\vec{v}_i$
+$\\vec{p}_f = m_f \\vec{v}_f$
+$\\Delta \\vec{p} = \\vec{p}_f - \\vec{p}_i$
+`
             },
             {
                 title: "الخطوة الثانية: حساب محصلة القوة",
@@ -110,7 +125,7 @@ export default function SummaryPage() {
                                   <BlockMath math={step.formula} />
                               </div>
                             )}
-                            <p className="text-sm text-muted-foreground text-right">{step.description}</p>
+                            <div className="text-sm text-muted-foreground text-right"><SmartTextRenderer as="div" text={step.description} /></div>
                         </div>
                     ))}
                     <Alert variant="destructive">
@@ -135,3 +150,4 @@ export default function SummaryPage() {
     </div>
   );
 }
+
