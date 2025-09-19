@@ -41,7 +41,6 @@ export default function RelationWithKineticEnergyAdvancedPage() {
           {/* Main Content Area */}
           <div className="lg:col-span-2 space-y-6">
             
-            <WatermarkedVideoPlayer src="" />
             
             <Card>
                 <CardHeader>
