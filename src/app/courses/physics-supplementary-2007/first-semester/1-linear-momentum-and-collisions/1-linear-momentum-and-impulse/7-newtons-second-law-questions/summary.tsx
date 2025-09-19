@@ -2,7 +2,7 @@
 'use client';
 
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert';
+import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
 import { Info } from 'lucide-react';
 import 'katex/dist/katex.min.css';
 import { BlockMath, InlineMath } from 'react-katex';
@@ -60,7 +60,7 @@ export default function SummaryPage() {
           <Info className="h-4 w-4" />
           <AlertTitle className="font-bold">استراتيجية الحل</AlertTitle>
           <AlertDescription>
-           عند حل أي سؤال، حدد المعطيات والمطلوب. إذا كان المطلوب هو القوة، فغالبًا ستحتاج لحساب $\\Delta p$ أولًا. إذا كانت المسألة تتعلق بالارتداد، فكن حذرًا جدًا في تحديد اتجاه موجب واعتبار السرعة المرتدة سالبة.
+           <SmartTextRenderer as="div" text={'عند حل أي سؤال، حدد المعطيات والمطلوب. إذا كان المطلوب هو القوة، فغالبًا ستحتاج لحساب $\\Delta p$ أولًا. إذا كانت المسألة تتعلق بالارتداد، فكن حذرًا جدًا في تحديد اتجاه موجب واعتبار السرعة المرتدة سالبة.'} />
           </AlertDescription>
         </Alert>
       </div>
