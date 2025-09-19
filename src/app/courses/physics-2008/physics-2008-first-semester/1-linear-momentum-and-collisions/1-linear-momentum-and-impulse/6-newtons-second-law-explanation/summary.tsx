@@ -65,8 +65,7 @@ const strategy = [
         steps: [
             {
                 title: "الخطوة الأولى: حساب التغير في الزخم",
-                formula: "\\Delta\\vec{p} = m(\\vec{v}_f - \\vec{v}_i)",
-                description: "أوجد التغير في الزخم الخطي عن طريق ضرب الكتلة في التغير في السرعة المتجهة."
+                description: "إذا كانت كتلة الجسم ثابتة، أوجد التغير في الزخم الخطي عن طريق ضرب الكتلة في التغير في السرعة المتجهة. أما إذا كانت الكتلة متغيرة، فاحسب الزخم النهائي والابتدائي كل على حدة ثم أوجد الفرق بينهما."
             },
             {
                 title: "الخطوة الثانية: حساب محصلة القوة",
@@ -106,9 +105,11 @@ export default function SummaryPage() {
                     {s.steps.map((step, stepIndex) => (
                         <div key={stepIndex} className="p-4 bg-muted/50 rounded-lg">
                             <h4 className="font-bold text-md text-foreground mb-2">{step.title}</h4>
-                             <div dir="ltr" className="bg-primary/5 p-3 rounded-lg text-center mb-2">
-                                <BlockMath math={step.formula} />
-                            </div>
+                            {step.formula && (
+                               <div dir="ltr" className="bg-primary/5 p-3 rounded-lg text-center mb-2">
+                                  <BlockMath math={step.formula} />
+                              </div>
+                            )}
                             <p className="text-sm text-muted-foreground text-right">{step.description}</p>
                         </div>
                     ))}
