@@ -42,7 +42,7 @@ export default function NewtonsSecondLawPage() {
                 </CardHeader>
                 <CardContent>
                     <ul className="space-y-3 list-disc list-inside text-muted-foreground">
-                        <li>نص قانون نيوتن الثاني بدلالة الزخم الخطي.</li>
+                        <li>هون عدله نص القانون الثاني لنيوتن بدلالة الزخم الخطي</li>
                         <li>إثبات أن الصيغة F=ma هي حالة خاصة.</li>
                     </ul>
                 </CardContent>
