@@ -41,7 +41,9 @@ const courseStructure = {
                 { label: 'حصة رقم (4): العلاقة بين الزخم والطاقة الحركية (حل اسئلة تميز)', path: '/courses/physics-2008/physics-2008-first-semester/1-linear-momentum-and-collisions/1-linear-momentum-and-impulse/4-relation-with-kinetic-energy-advanced' },
                 { label: 'حصة رقم (5): التغير ومعدل التغير (حصة تأسيس)', path: '/courses/physics-2008/physics-2008-first-semester/1-linear-momentum-and-collisions/1-linear-momentum-and-impulse/5-change-and-rate-of-change' },
                 { label: 'حصة رقم (6): القانون الثاني لنيوتن بدلالة الزخم الخطي (شرح)', path: '/courses/physics-2008/physics-2008-first-semester/1-linear-momentum-and-collisions/1-linear-momentum-and-impulse/6-newtons-second-law-explanation' },
-                { label: 'حصة رقم (7): القانون الثاني لنيوتن (حل أسئلة)', path: '/courses/physics-2008/physics-2008-first-semester/1-linear-momentum-and-collisions/1-linear-momentum-and-impulse/7-newtons-second-law-questions' },
+                { label: 'حصة رقم (7): القانون الثاني لنيوتن بدلالة الزخم الخطي (حل أسئلة)', path: '/courses/physics-2008/physics-2008-first-semester/1-linear-momentum-and-collisions/1-linear-momentum-and-impulse/7-newtons-second-law-questions' },
+                { label: 'حصة رقم (8): العلاقة بين الزخم الخطي والدفع (شرح)', path: '/courses/physics-2008/physics-2008-first-semester/1-linear-momentum-and-collisions/1-linear-momentum-and-impulse/8-momentum-impulse-relation-explanation' },
+                { label: 'حصة رقم (9): العلاقة بين الزخم الخطي والدفع (حل أسئلة)', path: '/courses/physics-2008/physics-2008-first-semester/1-linear-momentum-and-collisions/1-linear-momentum-and-impulse/9-momentum-impulse-relation-questions' },
               ]
             },
           ]
