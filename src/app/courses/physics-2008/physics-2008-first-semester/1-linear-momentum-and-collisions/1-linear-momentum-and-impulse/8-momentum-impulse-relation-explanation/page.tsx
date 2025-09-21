@@ -33,7 +33,11 @@ export default function MomentumImpulseRelationPage() {
           {/* Main Content Area */}
           <div className="lg:col-span-2 space-y-6">
             
-            <WatermarkedVideoPlayer src="https://iframe.mediadelivery.net/embed/480623/86873eba-f26f-4a8d-8e29-4f2054e4e498?autoplay=false&loop=false&muted=false&preload=true" />
+            <Card className="aspect-video w-full flex items-center justify-center bg-muted">
+                <CardContent className="text-center p-4">
+                    <p className="text-muted-foreground">سيتم إضافة الفيديو قريبًا، سأزودك بالرابط.</p>
+                </CardContent>
+            </Card>
             
             <Card>
                 <CardHeader>
