@@ -41,7 +41,11 @@ export default function RelationWithKineticEnergyAdvancedPage() {
           {/* Main Content Area */}
           <div className="lg:col-span-2 space-y-6">
             
-            <WatermarkedVideoPlayer src="https://iframe.mediadelivery.net/embed/480623/a4aa0095-0627-4bbb-ad63-9d50f82e4098?autoplay=false" />
+            <Card className="aspect-video w-full flex items-center justify-center bg-muted">
+                <CardContent className="text-center p-4">
+                    <p className="text-muted-foreground">سيتم إضافة الفيديو قريبًا.</p>
+                </CardContent>
+            </Card>
             
             <Card>
                 <CardHeader>
