@@ -32,6 +32,10 @@ const laws = [
         description: "إذا كانت محصلة القوى الخارجية المؤثرة على نظام تساوي صفرًا (نظام معزول)، فإن الزخم الخطي الكلي للنظام يبقى ثابتًا."
     },
     {
+        title: "النظام المعزول",
+        description: "هو النظام الذي تكون فيه محصلة القوى الخارجية تساوي صفرًا أو تكون القوى الخارجية مهملة مقارنة بالقوى الداخلية (مثل قوى التصادم أو الانفجار)."
+    },
+    {
         title: "الاشتقاق من قانون نيوتن الثالث",
         formula: "\\vec{F}_{12} = -\\vec{F}_{21} \\implies \\Delta \\vec{p}_1 = -\\Delta \\vec{p}_2",
         description: "القوة التي يؤثر بها الجسم الأول على الثاني تساوي وتعاكس القوة التي يؤثر بها الثاني على الأول. وبما أن زمن التأثير متساوٍ، فإن الدفع المتبادل متساوٍ ومتعاكس، وبالتالي يكون التغير في زخم الجسم الأول مساويًا في المقدار ومعاكسًا في الاتجاه للتغير في زخم الجسم الثاني."
@@ -48,9 +52,11 @@ export default function SummaryPage() {
               <CardTitle className="text-primary text-xl text-right">{law.title}</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-                <div dir="ltr" className="bg-primary/5 p-4 rounded-lg text-center">
-                    <BlockMath math={law.formula} />
-                </div>
+                {law.formula && (
+                    <div dir="ltr" className="bg-primary/5 p-4 rounded-lg text-center">
+                        <BlockMath math={law.formula} />
+                    </div>
+                )}
                 <CardDescription className="text-right">
                    <SmartTextRenderer text={law.description} />
                 </CardDescription>
