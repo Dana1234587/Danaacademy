@@ -41,7 +41,7 @@ export default function MomentumConservationExplanationPage() {
           {/* Main Content Area */}
           <div className="lg:col-span-2 space-y-6">
             
-            <WatermarkedVideoPlayer src="https://vz-2adfd2e0-f8c.b-cdn.net/51567010-b192-47e0-9aa1-e06550efe756/playlist.m3u8" />
+            <WatermarkedVideoPlayer src="https://iframe.mediadelivery.net/embed/480623/51567010-b192-47e0-9aa1-e06550efe756?autoplay=false&loop=false&muted=false&preload=true" />
             
             <Card>
                 <CardHeader>
