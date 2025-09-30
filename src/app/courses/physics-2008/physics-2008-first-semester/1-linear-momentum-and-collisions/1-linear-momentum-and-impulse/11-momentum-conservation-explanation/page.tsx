@@ -8,7 +8,6 @@ import Link from 'next/link';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import QuizPage from './quiz';
 import SummaryPage from './summary';
-import WatermarkedVideoPlayer from '@/components/watermarked-video-player';
 
 const navigation = {
   prev: {
@@ -41,7 +40,13 @@ export default function MomentumConservationExplanationPage() {
           {/* Main Content Area */}
           <div className="lg:col-span-2 space-y-6">
             
-            <WatermarkedVideoPlayer src="https://vz-2adfd2e0-f8c.b-cdn.net/51567010-b192-47e0-9aa1-e06550efe756/playlist.m3u8" />
+            <div className="aspect-video w-full rounded-lg overflow-hidden shadow-lg bg-black">
+                <video
+                    src="https://vz-2adfd2e0-f8c.b-cdn.net/51567010-b192-47e0-9aa1-e06550efe756/playlist.m3u8"
+                    controls
+                    className="w-full h-full"
+                />
+            </div>
             
             <Card>
                 <CardHeader>
