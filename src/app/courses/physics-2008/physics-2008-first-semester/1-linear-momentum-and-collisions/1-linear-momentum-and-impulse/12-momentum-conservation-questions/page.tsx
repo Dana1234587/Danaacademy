@@ -27,7 +27,7 @@ export default function MomentumConservationQuestionsPage() {
             <p className="text-sm text-primary font-medium">الدرس الأول: الزخم الخطي والدفع</p>
             <h1 className="text-3xl font-bold mt-1">حصة رقم (12): حفظ الزخم الخطي (حل أسئلة)</h1>
             <p className="text-muted-foreground mt-2 max-w-2xl">
-              في هذه الحصة، سنشاهد مبدأ حفظ الزخم الخطي عمليًا باستخدام برامج المحاكاة التفاعلية ونحل مسائل عليه.
+              في هذه الحصة، سنشاهد مبدأ حفظ الزخم الخطي عمليًا باستخدام برامج المحاكاة ونحل مسائل عليه.
             </p>
           </div>
           <Button asChild variant="outline">
@@ -41,7 +41,7 @@ export default function MomentumConservationQuestionsPage() {
           {/* Main Content Area */}
           <div className="lg:col-span-2 space-y-6">
             
-            <WatermarkedVideoPlayer src="https://iframe.mediadelivery.net/embed/480623/37f196c4-b179-4c3f-b866-a0b606dcc2f7?autoplay=false&loop=false&muted=false&preload=true" />
+            <WatermarkedVideoPlayer src="https://iframe.mediadelivery.net/embed/480623/f6884b5e-72ef-49ea-b290-8269940aa03f?autoplay=false&loop=false&muted=false&preload=true" />
             
             <Card>
                 <CardHeader>
