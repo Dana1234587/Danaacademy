@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { useState } from 'react';
@@ -42,16 +41,16 @@ const quizQuestions = [
     explanation: 'نطبق حفظ الزخم، مع اعتبار الاتجاه الابتدائي موجبًا: $\\Sigma p_i = \\Sigma p_f$. \n $m_1 v_{1i} + m_2 v_{2i} = m_1 v_{1f} + m_2 v_{2f}$. \n $(2)(+6) + (4)(0) = (2)(-2) + (4)v_{2f}$. \n $12 = -4 + 4v_{2f}$. \n $16 = 4v_{2f} \\Rightarrow v_{2f} = 4 m/s$.'
   },
   {
-    questionText: 'جسمان A و B لهما نفس الكتلة $m$. يتحرك A بسرعة $v$ ويصطدم بـ B الساكن. بعد التصادم، أصبحت سرعة A هي $v/3$ بنفس الاتجاه. ما هي سرعة الجسم B ($v_B$) بعد التصادم؟',
-    options: ['$v_B = v/3$', '$v_B = 2v/3$', '$v_B = v$', '$v_B = 4v/3$'],
+    questionText: 'جسمان A و B لهما نفس الكتلة $m$. يتحرك A بسرعة $v$ ويصطدم بـ B الساكن. بعد التصادم، أصبحت سرعة A هي $\\frac{v}{3}$ بنفس الاتجاه. ما هي سرعة الجسم B ($v_B$) بعد التصادم؟',
+    options: ['$v_B = \\frac{v}{3}$', '$v_B = \\frac{2v}{3}$', '$v_B = v$', '$v_B = \\frac{4v}{3}$'],
     correctAnswerIndex: 1,
-    explanation: 'من حفظ الزخم: $p_i = p_f$. \n $m_A v_{Ai} + m_B v_{Bi} = m_A v_{Af} + m_B v_{Bf}$. \n بما أن $m_A=m_B=m$ و $v_{Bi}=0$: \n $m v = m(v/3) + m v_{Bf}$. \n بقسمة المعادلة على $m$: $v = v/3 + v_{Bf}$. \n $v_{Bf} = v - v/3 = 2v/3$.'
+    explanation: 'من حفظ الزخم: $p_i = p_f$. \n $m_A v_{Ai} + m_B v_{Bi} = m_A v_{Af} + m_B v_{Bf}$. \n بما أن $m_A=m_B=m$ و $v_{Bi}=0$: \n $m v = m(\\frac{v}{3}) + m v_{Bf}$. \n بقسمة المعادلة على $m$: $v = \\frac{v}{3} + v_{Bf}$. \n $v_{Bf} = v - \\frac{v}{3} = \\frac{2v}{3}$.'
   },
   {
-    questionText: 'مدفع ساكن كتلته $1000 kg$ يطلق قذيفة كتلتها $5 kg$ بسرعة أفقية $400 m/s$. ما هي سرعة ارتداد المدفع؟',
-    options: ['$1 m/s$', '$2 m/s$', '$4 m/s$', '$5 m/s$'],
-    correctAnswerIndex: 1,
-    explanation: 'باستخدام حفظ الزخم، الزخم الابتدائي للنظام = 0. \n $p_i = p_f \\Rightarrow 0 = m_{cannon} v_{cannon} + m_{shell} v_{shell}$. \n $0 = (1000) v_{cannon} + (5)(400)$. \n $1000 v_{cannon} = -2000 \\Rightarrow v_{cannon} = -2 m/s$. المقدار هو 2 m/s.'
+    questionText: 'جسم كتلته $2 kg$ يتحرك بسرعة $3 m/s$ يصطدم بجسم آخر كتلته $4 kg$ يتحرك بالاتجاه المعاكس بسرعة $1.5 m/s$. ما هو مقدار التغير في الزخم الخطي للنظام بأكمله بعد التصادم؟',
+    options: ['$0 \\text{ kg} \\cdot \\text{m/s}$', '$6 \\text{ kg} \\cdot \\text{m/s}$', '$12 \\text{ kg} \\cdot \\text{m/s}$', 'لا يمكن تحديده بدون معرفة سرعات ما بعد التصادم'],
+    correctAnswerIndex: 0,
+    explanation: 'بما أن التصادم يحدث في نظام معزول (لا توجد قوى خارجية مؤثرة)، فإن الزخم الخطي الكلي للنظام يكون محفوظًا. حفظ الزخم يعني أن الزخم الكلي قبل التصادم يساوي الزخم الكلي بعد التصادم. وبالتالي، فإن التغير في الزخم الكلي للنظام يساوي صفرًا دائمًا. $\\Delta p_{system} = p_{final} - p_{initial} = 0$.'
   },
   {
     questionText: 'عربة رمل كتلتها $450 kg$ تتحرك بسرعة $20 m/s$ على سطح أفقي أملس. إذا بدأ الرمل يتسرب منها بمعدل ثابت حتى أصبحت كتلتها $400 kg$ وسرعتها $22 m/s$. ما مقدار التغير في زخمها الخطي؟',
@@ -130,4 +129,3 @@ export default function MomentumConservationQuestionsQuizPage() {
     </div>
   );
 }
-
