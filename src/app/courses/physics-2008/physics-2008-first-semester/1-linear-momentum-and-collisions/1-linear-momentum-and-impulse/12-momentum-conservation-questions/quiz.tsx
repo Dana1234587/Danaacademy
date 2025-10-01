@@ -30,22 +30,10 @@ const SmartTextRenderer = ({ text, as: Wrapper = 'p' }: { text: string; as?: Rea
 
 const quizQuestions = [
   {
-    questionText: 'في نظام معزول يتكون من جسمين متصادمين، أي كمية فيزيائية تبقى محفوظة دائمًا؟',
-    options: ['الطاقة الحركية الكلية', 'الزخم الخطي الكلي', 'سرعة كل جسم', 'طاقة كل جسم الحركية'],
-    correctAnswerIndex: 1,
-    explanation: 'الزخم الخطي الكلي لنظام معزول (لا تؤثر عليه قوى خارجية محصلة) يبقى محفوظًا دائمًا، بغض النظر عن نوع التصادم (مرن أو غير مرن).'
-  },
-  {
-    questionText: 'عربة كتلتها $4 kg$ تتحرك بسرعة $5 m/s$ شرقًا، فتصطدم بعربة أخرى ساكنة كتلتها $6 kg$ وتلتحمان معًا. ما سرعتهما المشتركة بعد التصادم؟',
-    options: ['$2 m/s$ شرقًا', '$3 m/s$ شرقًا', '$4 m/s$ شرقًا', '$5 m/s$ شرقًا'],
-    correctAnswerIndex: 0,
-    explanation: 'هذا تصادم عديم المرونة. نطبق حفظ الزخم: $\\Sigma p_i = \\Sigma p_f$. \n $m_1 v_{1i} + m_2 v_{2i} = (m_1+m_2)v_f$. \n $(4)(+5) + (6)(0) = (4+6)v_f$. \n $20 = 10v_f \\Rightarrow v_f = 2 m/s$ شرقًا.'
-  },
-  {
-    questionText: 'مدفع ساكن كتلته $1000 kg$ يطلق قذيفة كتلتها $5 kg$ بسرعة أفقية $400 m/s$. ما هي سرعة ارتداد المدفع؟',
-    options: ['$1 m/s$', '$2 m/s$', '$4 m/s$', '$5 m/s$'],
-    correctAnswerIndex: 1,
-    explanation: 'باستخدام حفظ الزخم، الزخم الابتدائي للنظام = 0. \n $p_i = p_f \\Rightarrow 0 = m_{cannon} v_{cannon} + m_{shell} v_{shell}$. \n $0 = (1000) v_{cannon} + (5)(400)$. \n $1000 v_{cannon} = -2000 \\Rightarrow v_{cannon} = -2 m/s$. المقدار هو 2 m/s.'
+    questionText: 'في نظام معزول، إذا كان التغير في الزخم الخطي لجسم A يساوي $+40 \\text{ kg} \\cdot \\text{m/s}$، وكان الجسم B الذي كتلته $5 kg$ قد بدأ حركته من السكون، فما سرعته النهائية؟',
+    options: ['$-4 m/s$', '$+4 m/s$', '$+8 m/s$', '$-8 m/s$'],
+    correctAnswerIndex: 3,
+    explanation: 'في نظام معزول، $\\Delta p_A + \\Delta p_B = 0$, إذن $\\Delta p_B = -\\Delta p_A = -40 \\text{ kg} \\cdot \\text{m/s}$.\n ولدينا $\\Delta p_B = m_B(v_{Bf} - v_{Bi})$.\n $-40 = 5(v_{Bf} - 0) \\implies v_{Bf} = -8 m/s$.'
   },
   {
     questionText: 'كرة كتلتها $2 kg$ تتحرك بسرعة $6 m/s$ تصطدم بكرة أخرى ساكنة كتلتها $4 kg$. إذا ارتدت الكرة الأولى بسرعة $2 m/s$ في الاتجاه المعاكس، فما سرعة الكرة الثانية بعد التصادم؟',
@@ -54,10 +42,22 @@ const quizQuestions = [
     explanation: 'نطبق حفظ الزخم، مع اعتبار الاتجاه الابتدائي موجبًا: $\\Sigma p_i = \\Sigma p_f$. \n $m_1 v_{1i} + m_2 v_{2i} = m_1 v_{1f} + m_2 v_{2f}$. \n $(2)(+6) + (4)(0) = (2)(-2) + (4)v_{2f}$. \n $12 = -4 + 4v_{2f}$. \n $16 = 4v_{2f} \\Rightarrow v_{2f} = 4 m/s$.'
   },
   {
-    questionText: 'اصطدمت سيارة كتلتها $1500 kg$ تسير بسرعة $20 m/s$ بسيارة أخرى كتلتها $2500 kg$ تسير بنفس الاتجاه بسرعة $10 m/s$. إذا التحمتا معًا، فما سرعتهما النهائية؟',
-    options: ['$13.75 m/s$', '$15 m/s$', '$16.25 m/s$', '$17.5 m/s$'],
+    questionText: 'جسمان A و B لهما نفس الكتلة $m$. يتحرك A بسرعة $v$ ويصطدم بـ B الساكن. بعد التصادم، أصبحت سرعة A هي $v/3$ بنفس الاتجاه. ما هي سرعة الجسم B ($v_B$) بعد التصادم؟',
+    options: ['$v_B = v/3$', '$v_B = 2v/3$', '$v_B = v$', '$v_B = 4v/3$'],
+    correctAnswerIndex: 1,
+    explanation: 'من حفظ الزخم: $p_i = p_f$. \n $m_A v_{Ai} + m_B v_{Bi} = m_A v_{Af} + m_B v_{Bf}$. \n بما أن $m_A=m_B=m$ و $v_{Bi}=0$: \n $m v = m(v/3) + m v_{Bf}$. \n بقسمة المعادلة على $m$: $v = v/3 + v_{Bf}$. \n $v_{Bf} = v - v/3 = 2v/3$.'
+  },
+  {
+    questionText: 'مدفع ساكن كتلته $1000 kg$ يطلق قذيفة كتلتها $5 kg$ بسرعة أفقية $400 m/s$. ما هي سرعة ارتداد المدفع؟',
+    options: ['$1 m/s$', '$2 m/s$', '$4 m/s$', '$5 m/s$'],
+    correctAnswerIndex: 1,
+    explanation: 'باستخدام حفظ الزخم، الزخم الابتدائي للنظام = 0. \n $p_i = p_f \\Rightarrow 0 = m_{cannon} v_{cannon} + m_{shell} v_{shell}$. \n $0 = (1000) v_{cannon} + (5)(400)$. \n $1000 v_{cannon} = -2000 \\Rightarrow v_{cannon} = -2 m/s$. المقدار هو 2 m/s.'
+  },
+  {
+    questionText: 'عربة رمل كتلتها $450 kg$ تتحرك بسرعة $20 m/s$ على سطح أفقي أملس. إذا بدأ الرمل يتسرب منها بمعدل ثابت حتى أصبحت كتلتها $400 kg$ وسرعتها $22 m/s$. ما مقدار التغير في زخمها الخطي؟',
+    options: ['$-200 kg \\cdot m/s$', '$200 kg \\cdot m/s$', '$17800 kg \\cdot m/s$', '$-8800 kg \\cdot m/s$'],
     correctAnswerIndex: 0,
-    explanation: 'نطبق حفظ الزخم: $\\Sigma p_i = \\Sigma p_f$. \n $m_1 v_{1i} + m_2 v_{2i} = (m_1+m_2)v_f$. \n $(1500)(20) + (2500)(10) = (1500+2500)v_f$. \n $30000 + 25000 = 4000v_f$. \n $55000 = 4000v_f \\Rightarrow v_f = 55000 / 4000 = 13.75 m/s$.'
+    explanation: 'الزخم الابتدائي $p_i = m_i v_i = 450 \\times 20 = 9000 kg \\cdot m/s$. \nالزخم النهائي $p_f = m_f v_f = 400 \\times 22 = 8800 kg \\cdot m/s$. \nالتغير في الزخم $\\Delta p = p_f - p_i = 8800 - 9000 = -200 kg \\cdot m/s$.'
   },
 ];
 
@@ -130,3 +130,4 @@ export default function MomentumConservationQuestionsQuizPage() {
     </div>
   );
 }
+
