@@ -65,8 +65,10 @@ export default function ProjectileMotionPage() {
                 <CardTitle>موارد إضافية</CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
-                <Button variant="ghost" className="w-full justify-start">
-                  <FileText className="me-3"/> ورقة عمل الدرس (PDF)
+                <Button variant="ghost" className="w-full justify-start" asChild>
+                  <Link href="https://drive.google.com/file/d/16cTtk7HMvfNbsHVAGNltS86iF2l8Ss8X/view?usp=sharing" target="_blank" rel="noopener noreferrer">
+                    <FileText className="me-3"/> ورقة عمل الدرس (PDF)
+                  </Link>
                 </Button>
                  <Dialog>
                     <DialogTrigger asChild>
