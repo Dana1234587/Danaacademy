@@ -41,7 +41,7 @@ export default function ProjectileMotionPage() {
           {/* Main Content Area */}
           <div className="lg:col-span-2 space-y-6">
             
-            <WatermarkedVideoPlayer src="https://iframe.mediadelivery.net/embed/480623/f6884b5e-72ef-49ea-b290-8269940aa03f?autoplay=false&loop=false&muted=false&preload=true" />
+            <WatermarkedVideoPlayer src="https://iframe.mediadelivery.net/embed/480623/3bf7be9b-25aa-4c8e-8856-0fb5823fe292?autoplay=false&loop=false&muted=false&preload=true" />
             
             <Card>
                 <CardHeader>
@@ -50,10 +50,9 @@ export default function ProjectileMotionPage() {
                 </CardHeader>
                 <CardContent>
                     <ul className="space-y-3 list-disc list-inside text-muted-foreground">
-                        <li>اشتقاق قانون حفظ الزخم الخطي من قانون نيوتن الثالث (الفعل ورد الفعل).</li>
-                        <li>مشاهدة كيف يبقى الزخم الخطي الكلي محفوظًا في التصادمات المختلفة (مرن وغير مرن).</li>
-                        <li>ملاحظة كيف تتغير الطاقة الحركية بينما يبقى الزخم محفوظًا في التصادمات غير المرنة.</li>
-                        <li>تحليل حالات ارتداد الأجسام والتصادمات في بعد واحد باستخدام مبدأ حفظ الزخم.</li>
+                        <li>تطبيق قانون حفظ الزخم على الانفجارات والارتداد.</li>
+                        <li>حل مسائل تصادمات باستخدام مبدأ حفظ الزخم.</li>
+                        <li>مقارنة بين حفظ الزخم وحفظ الطاقة الميكانيكية.</li>
                     </ul>
                 </CardContent>
             </Card>
