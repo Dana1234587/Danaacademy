@@ -41,7 +41,7 @@ export default function ProjectileMotionPage() {
           {/* Main Content Area */}
           <div className="lg:col-span-2 space-y-6">
             
-            <WatermarkedVideoPlayer src="https://vz-2adfd2e0-f8c.b-cdn.net/3bf7be9b-25aa-4c8e-8856-0fb5823fe292/playlist.m3u8" />
+            <WatermarkedVideoPlayer src="https://iframe.mediadelivery.net/embed/480623/f6884b5e-72ef-49ea-b290-8269940aa03f?autoplay=false&loop=false&muted=false&preload=true" />
             
             <Card>
                 <CardHeader>
