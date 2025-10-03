@@ -3,7 +3,7 @@
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ChevronLeft, FileText, BarChart, BrainCircuit } from 'lucide-react';
+import { ChevronLeft, ChevronRight, FileText, BarChart, BrainCircuit } from 'lucide-react';
 import Link from 'next/link';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import QuizPage from './quiz';
