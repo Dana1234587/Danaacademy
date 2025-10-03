@@ -5,38 +5,19 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert';
 import { Info } from 'lucide-react';
 import 'katex/dist/katex.min.css';
-import { BlockMath, InlineMath } from 'react-katex';
-
-// A robust, universal renderer for bidirectional text
-const SmartTextRenderer = ({ text, as: Wrapper = 'p' }: { text: string; as?: React.ElementType }) => {
-    const lines = text.split('\n');
-    const renderPart = (part: string, index: number) => {
-        if (index % 2 === 0) return <span key={index} dir="rtl">{part}</span>;
-        return <span key={index} className="inline-block mx-1"><InlineMath math={part} /></span>;
-    };
-    return (
-        <Wrapper className="leading-relaxed">
-            {lines.map((line, lineIndex) => (
-                <span key={lineIndex} className="block my-1 text-right">
-                    {line.split('$').map(renderPart)}
-                </span>
-            ))}
-        </Wrapper>
-    );
-};
-
+import { BlockMath } from 'react-katex';
 
 const laws = [
     {
-        title: "مبدأ حفظ الزخم الخطي",
-        formula: "\\Sigma \\vec{p}_{initial} = \\Sigma \\vec{p}_{final}",
-        description: "إذا كانت محصلة القوى الخارجية المؤثرة على نظام تساوي صفرًا (نظام معزول)، فإن الزخم الخطي الكلي للنظام يبقى ثابتًا."
+        title: "حفظ الزخم في بعد واحد",
+        formula: "m_1 \\vec{v}_{1i} + m_2 \\vec{v}_{2i} = m_1 \\vec{v}_{1f} + m_2 \\vec{v}_{2f}",
+        description: "الصيغة الأساسية لحل مسائل التصادمات والانفجارات في بعد واحد. تذكر أن السرعة كمية متجهة، لذا يجب الانتباه للإشارات."
     },
     {
-        title: "الاشتقاق من قانون نيوتن الثالث",
-        formula: "\\vec{F}_{12} = -\\vec{F}_{21} \\implies \\Delta \\vec{p}_1 = -\\Delta \\vec{p}_2",
-        description: "القوة التي يؤثر بها الجسم الأول على الثاني تساوي وتعاكس القوة التي يؤثر بها الثاني على الأول. وبما أن زمن التأثير متساوٍ، فإن الدفع المتبادل متساوٍ ومتعاكس، وبالتالي يكون التغير في زخم الجسم الأول مساويًا في المقدار ومعاكسًا في الاتجاه للتغير في زخم الجسم الثاني."
-    },
+        title: "حالة خاصة: الانفجار من السكون",
+        formula: "\\vec{p}_{1f} + \\vec{p}_{2f} = 0 \\implies \\vec{p}_{1f} = -\\vec{p}_{2f}",
+        description: "إذا كان الجسم ساكنًا في البداية ثم انفجر، فإن الزخم الكلي للأجزاء الناتجة يساوي صفرًا. أي أن زخم كل جزء يساوي سالب زخم الجزء الآخر."
+    }
 ];
 
 export default function SummaryPage() {
@@ -49,22 +30,20 @@ export default function SummaryPage() {
               <CardTitle className="text-primary text-xl text-right">{law.title}</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-                {law.formula && (
-                    <div dir="ltr" className="bg-primary/5 p-4 rounded-lg text-center">
-                        <BlockMath math={law.formula} />
-                    </div>
-                )}
+                <div dir="ltr" className="bg-primary/5 p-4 rounded-lg text-center">
+                    <BlockMath math={law.formula} />
+                </div>
                 <CardDescription className="text-right">
-                   <SmartTextRenderer text={law.description} />
+                    {law.description}
                 </CardDescription>
             </CardContent>
           </Card>
         ))}
          <Alert>
           <Info className="h-4 w-4" />
-          <AlertTitle className="font-bold">التصادمات والارتداد</AlertTitle>
+          <AlertTitle className="font-bold">الطاقة الحركية</AlertTitle>
           <AlertDescription>
-           قانون حفظ الزخم هو الأداة الأساسية لتحليل جميع أنواع التصادمات والانفجارات (مثل ارتداد المدفع) في الأنظمة المعزولة.
+           لا تنسَ أن الزخم محفوظ دائمًا في النظام المعزول، لكن الطاقة الحركية ليست كذلك. تزداد الطاقة الحركية في الانفجارات وتقل في التصادمات غير المرنة.
           </AlertDescription>
         </Alert>
       </div>

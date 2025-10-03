@@ -27,7 +27,7 @@ export default function ProjectileMotionPage() {
             <p className="text-sm text-primary font-medium">الدرس الثاني: تطبيقات على حفظ الزخم الخطي</p>
             <h1 className="text-3xl font-bold mt-1">حصة رقم (14): حفظ الزخم الخطي عند اطلاق قذيفة</h1>
             <p className="text-muted-foreground mt-2 max-w-2xl">
-              في هذه الحصة، سنطبق مبدأ حفظ الزخم على ارتداد المدفع عند إطلاق قذيفة.
+              في هذه الحصة، نواصل شرح مبدأ حفظ الزخم الخطي مع التركيز على التطبيقات والمسائل.
             </p>
           </div>
           <Button asChild variant="outline">
@@ -41,18 +41,18 @@ export default function ProjectileMotionPage() {
           {/* Main Content Area */}
           <div className="lg:col-span-2 space-y-6">
             
-            <WatermarkedVideoPlayer src="https://iframe.mediadelivery.net/embed/480623/f6884b5e-72ef-49ea-b290-8269940aa03f?autoplay=false&loop=false&muted=false&preload=true" />
+            <WatermarkedVideoPlayer src="https://iframe.mediadelivery.net/embed/480623/f86cf281-5973-494b-b0e0-6e6f0fca7508?autoplay=false&loop=false&muted=false&preload=true" />
             
             <Card>
                 <CardHeader>
                     <CardTitle>نقاط رئيسية من الحصة</CardTitle>
+                    <CardDescription>أهم الأفكار والقوانين التي تم تغطيتها في هذا الفيديو.</CardDescription>
                 </CardHeader>
                 <CardContent>
                     <ul className="space-y-3 list-disc list-inside text-muted-foreground">
-                        <li>تطبيق حفظ الزخم الخطي على نظام (مدفع + قذيفة).</li>
-                        <li>فهم أن الزخم الابتدائي للنظام يساوي صفر.</li>
-                        <li>حساب سرعة ارتداد المدفع.</li>
-                        <li>تحليل الطاقة في عملية إطلاق القذيفة.</li>
+                        <li>تطبيق قانون حفظ الزخم على الانفجارات والارتداد.</li>
+                        <li>حل مسائل تصادمات باستخدام مبدأ حفظ الزخم.</li>
+                        <li>مقارنة بين حفظ الزخم وحفظ الطاقة الميكانيكية.</li>
                     </ul>
                 </CardContent>
             </Card>
@@ -76,7 +76,7 @@ export default function ProjectileMotionPage() {
                     </DialogTrigger>
                     <DialogContent className="max-w-xl h-auto max-h-[80vh] overflow-y-auto">
                         <DialogHeader>
-                            <DialogTitle>ملخص قوانين: إطلاق قذيفة</DialogTitle>
+                            <DialogTitle>ملخص قوانين: تطبيقات حفظ الزخم</DialogTitle>
                         </DialogHeader>
                         <SummaryPage />
                     </DialogContent>
@@ -89,7 +89,7 @@ export default function ProjectileMotionPage() {
                     </DialogTrigger>
                     <DialogContent className="max-w-4xl h-[90vh] overflow-y-auto">
                         <DialogHeader>
-                            <DialogTitle>اختبار قصير: إطلاق قذيفة</DialogTitle>
+                            <DialogTitle>اختبار قصير: تطبيقات حفظ الزخم</DialogTitle>
                         </DialogHeader>
                         <QuizPage />
                     </DialogContent>
@@ -98,7 +98,7 @@ export default function ProjectileMotionPage() {
             </Card>
           </div>
         </div>
-
+        
         {/* Navigation Buttons */}
         <div className="flex justify-between mt-8">
             {navigation.prev ? (
