@@ -49,6 +49,12 @@ const courseStructure = {
                 { label: 'حصة رقم (12): حفظ الزخم الخطي (حل أسئلة)', path: '/courses/physics-2008/physics-2008-first-semester/1-linear-momentum-and-collisions/1-linear-momentum-and-impulse/12-momentum-conservation-questions' },
               ]
             },
+            {
+              title: 'الدرس الثاني: تطبيقات على حفظ الزخم الخطي',
+              topics: [
+                  { label: 'حصة رقم (14): حفظ الزخم الخطي عند اطلاق قذيفة', path: '/courses/physics-2008/physics-2008-first-semester/1-linear-momentum-and-collisions/2-applications-of-momentum-conservation/1-projectile-motion' },
+              ]
+            },
           ]
         },
       ]
