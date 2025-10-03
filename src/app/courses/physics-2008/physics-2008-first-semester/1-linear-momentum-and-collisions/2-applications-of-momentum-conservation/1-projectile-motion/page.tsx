@@ -46,13 +46,14 @@ export default function ProjectileMotionPage() {
             <Card>
                 <CardHeader>
                     <CardTitle>نقاط رئيسية من الحصة</CardTitle>
-                    <CardDescription>أهم الأفكار والقوانين التي تم تغطيتها في هذا الفيديو.</CardDescription>
+                    <CardDescription>أهم الأفكار التي نلاحظها من خلال المحاكاة والشرح.</CardDescription>
                 </CardHeader>
                 <CardContent>
                     <ul className="space-y-3 list-disc list-inside text-muted-foreground">
-                        <li>تطبيق قانون حفظ الزخم على الانفجارات والارتداد.</li>
-                        <li>حل مسائل تصادمات باستخدام مبدأ حفظ الزخم.</li>
-                        <li>مقارنة بين حفظ الزخم وحفظ الطاقة الميكانيكية.</li>
+                        <li>اشتقاق قانون حفظ الزخم الخطي من قانون نيوتن الثالث (الفعل ورد الفعل).</li>
+                        <li>مشاهدة كيف يبقى الزخم الخطي الكلي محفوظًا في التصادمات المختلفة (مرن وغير مرن).</li>
+                        <li>ملاحظة كيف تتغير الطاقة الحركية بينما يبقى الزخم محفوظًا في التصادمات غير المرنة.</li>
+                        <li>تحليل حالات ارتداد الأجسام والتصادمات في بعد واحد باستخدام مبدأ حفظ الزخم.</li>
                     </ul>
                 </CardContent>
             </Card>
