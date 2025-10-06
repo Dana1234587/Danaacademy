@@ -53,6 +53,7 @@ const courseStructure = {
               title: 'الدرس الثاني: تطبيقات على حفظ الزخم الخطي',
               topics: [
                   { label: 'حصة رقم (14): حفظ الزخم الخطي عند اطلاق قذيفة', path: '/courses/physics-2008/physics-2008-first-semester/1-linear-momentum-and-collisions/2-applications-of-momentum-conservation/1-projectile-motion' },
+                  { label: 'حصة رقم (15): التصادمات (الجزء الأول)', path: '/courses/physics-2008/physics-2008-first-semester/1-linear-momentum-and-collisions/2-applications-of-momentum-conservation/2-collisions-p1' },
               ]
             },
           ]
