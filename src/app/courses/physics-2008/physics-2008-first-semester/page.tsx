@@ -55,6 +55,8 @@ const courseStructure = {
                   { label: 'حصة رقم (14): حفظ الزخم الخطي عند اطلاق قذيفة', path: '/courses/physics-2008/physics-2008-first-semester/1-linear-momentum-and-collisions/2-applications-of-momentum-conservation/1-projectile-motion' },
                   { label: 'حصة رقم (15): التصادمات (الجزء الأول)', path: '/courses/physics-2008/physics-2008-first-semester/1-linear-momentum-and-collisions/2-applications-of-momentum-conservation/2-collisions-p1' },
                   { label: 'حصة رقم (16): التصادمات (الجزء الثاني)', path: '/courses/physics-2008/physics-2008-first-semester/1-linear-momentum-and-collisions/2-applications-of-momentum-conservation/3-collisions-p2' },
+                  { label: 'حصة رقم (17): التصادمات (الجزء الثالث)', path: '/courses/physics-2008/physics-2008-first-semester/1-linear-momentum-and-collisions/2-applications-of-momentum-conservation/4-collisions-p3' },
+                  { label: 'حصة رقم (18): البندول القذفي وكرات نيوتن', path: '/courses/physics-2008/physics-2008-first-semester/1-linear-momentum-and-collisions/2-applications-of-momentum-conservation/5-ballistic-pendulum' },
               ]
             },
           ]
@@ -233,3 +235,5 @@ export default function Physics2008FirstSemesterPage() {
     </SidebarProvider>
   );
 }
+
+    
