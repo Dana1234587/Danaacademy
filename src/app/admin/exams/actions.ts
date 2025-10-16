@@ -6,6 +6,9 @@ import { adminDB } from '@/lib/firebase-admin';
 import { FieldValue, Timestamp } from 'firebase-admin/firestore';
 import { generateExamQuestion } from '@/ai/flows/generate-exam-question';
 import type { ExamQuestion as AIExamQuestion } from '@/ai/flows/generate-exam-question.types';
+import { unit1QuizQuestions as u1q } from '@/app/courses/physics-supplementary-2007/first-semester/1-linear-momentum-and-collisions/3-unit-quiz/quiz-data';
+import { unit2QuizQuestions as u2q } from '@/app/courses/physics-supplementary-2007/first-semester/2-rotational-motion/4-unit-quiz/quiz-data';
+import { unit3QuizQuestions as u3q } from '@/app/courses/physics-supplementary-2007/first-semester/3-electric-current/4-unit-quiz/quiz-data';
 
 
 const questionOptionSchema = z.object({
@@ -76,6 +79,44 @@ export type Submission = {
     submittedAt: Date;
     answers: (number | null)[];
 }
+
+const templateMap = {
+    'unit1': { questions: u1q, courseId: 'tawjihi-2007-supplementary' },
+    'unit2': { questions: u2q, courseId: 'tawjihi-2007-supplementary' },
+    'unit3': { questions: u3q, courseId: 'tawjihi-2007-supplementary' },
+};
+
+
+export async function createExamFromTemplateAction(templateId: keyof typeof templateMap) {
+    const template = templateMap[templateId];
+    if (!template) {
+        return { success: false, error: 'قالب الامتحان غير موجود.' };
+    }
+
+    const questions = template.questions.map(q => ({
+        text: q.questionText,
+        imageUrl: q.image,
+        options: q.options.map(opt => ({
+            text: typeof opt === 'string' ? opt : opt.text,
+            imageUrl: typeof opt === 'string' ? '' : opt.image,
+        })),
+        correctAnswerIndex: q.correctAnswerIndex,
+        explanation: q.explanation,
+        explanationImageUrl: '',
+    }));
+
+    const examData: ExamFormValues = {
+        title: `امتحان من قالب: ${templateId}`,
+        description: `امتحان تم إنشاؤه تلقائيًا من قالب ${templateId}`,
+        duration: 60,
+        attemptsAllowed: 1,
+        courseId: template.courseId,
+        questions: questions,
+    };
+    
+    return createExamAction(examData);
+}
+
 
 export async function generateQuestionAction(topic: string): Promise<{ success: boolean, question?: AIExamQuestion, error?: string }> {
     if (!topic || topic.trim().length < 5) {

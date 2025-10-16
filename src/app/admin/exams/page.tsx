@@ -1,10 +1,9 @@
 
-
 'use client';
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Plus, Loader2, RefreshCw, ClipboardList, Clock, Calendar as CalendarIcon, Eye, BarChart2, Edit, Trash2, ToggleLeft, ToggleRight, AlertTriangle } from 'lucide-react';
+import { Plus, Loader2, RefreshCw, ClipboardList, Clock, Calendar as CalendarIcon, Eye, BarChart2, Edit, Trash2, ToggleLeft, ToggleRight, AlertTriangle, LayoutTemplate } from 'lucide-react';
 import Link from 'next/link';
 import { getExams, type Exam, toggleExamStatusAction, deleteExamAction } from './actions';
 import { useState, useEffect, useCallback } from 'react';
@@ -178,6 +177,11 @@ export default function ExamsPage() {
                 <Button asChild>
                     <Link href="/admin/create-exam">
                         <Plus className="me-2 h-4 w-4" /> إنشاء امتحان جديد
+                    </Link>
+                </Button>
+                 <Button asChild variant="outline">
+                    <Link href="/admin/create-from-template">
+                        <LayoutTemplate className="me-2 h-4 w-4" /> إنشاء من قالب
                     </Link>
                 </Button>
                  <Button asChild variant="secondary">
