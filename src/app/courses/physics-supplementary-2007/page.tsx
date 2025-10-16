@@ -247,7 +247,6 @@ const courseStructure = {
                 { label: 'حصة رقم (22): الاشابة', path: '/courses/physics-supplementary-2007/second-semester/5-electromagnetic-induction-and-semiconductors/3-semiconductors/1-doping' },
                 { label: 'حصة رقم (23): الثنائي والترانزستور', path: '/courses/physics-supplementary-2007/second-semester/5-electromagnetic-induction-and-semiconductors/3-semiconductors/2-diode-and-transistor' },
                 { label: 'حصة رقم (24): التطبيقات التكنولوجية', path: '/courses/physics-supplementary-2007/second-semester/5-electromagnetic-induction-and-semiconductors/3-semiconductors/3-technological-applications' },
-                { label: 'حصة رقم (25): التجربة الاستهلالية', path: '/courses/physics-supplementary-2007/second-semester/5-electromagnetic-induction-and-semiconductors/3-semiconductors/4-introductory-experiment' },
               ]
             },
             {
