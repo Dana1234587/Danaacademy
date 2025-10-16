@@ -81,9 +81,9 @@ export type Submission = {
 }
 
 const templateMap = {
-    'unit1': { questions: u1q, courseId: 'tawjihi-2007-supplementary' },
-    'unit2': { questions: u2q, courseId: 'tawjihi-2007-supplementary' },
-    'unit3': { questions: u3q, courseId: 'tawjihi-2007-supplementary' },
+    'unit1': { name: 'امتحان الوحدة الأولى: الزخم الخطي والتصادمات', questions: u1q, courseId: 'tawjihi-2007-supplementary' },
+    'unit2': { name: 'امتحان الوحدة الثانية: الحركة الدورانية', questions: u2q, courseId: 'tawjihi-2007-supplementary' },
+    'unit3': { name: 'امتحان الوحدة الثالثة: التيار الكهربائي', questions: u3q, courseId: 'tawjihi-2007-supplementary' },
 };
 
 
@@ -95,19 +95,19 @@ export async function createExamFromTemplateAction(templateId: keyof typeof temp
 
     const questions = template.questions.map(q => ({
         text: q.questionText,
-        imageUrl: q.image,
+        imageUrl: q.image || '', // Ensure imageUrl is always a string
         options: q.options.map(opt => ({
-            text: typeof opt === 'string' ? opt : opt.text,
-            imageUrl: typeof opt === 'string' ? '' : opt.image,
+            text: typeof opt === 'string' ? opt : opt.text || '',
+            imageUrl: (typeof opt !== 'string' && opt.image) ? opt.image : '',
         })),
         correctAnswerIndex: q.correctAnswerIndex,
-        explanation: q.explanation,
+        explanation: q.explanation || '',
         explanationImageUrl: '',
     }));
 
     const examData: ExamFormValues = {
-        title: `امتحان من قالب: ${templateId}`,
-        description: `امتحان تم إنشاؤه تلقائيًا من قالب ${templateId}`,
+        title: template.name,
+        description: `امتحان تم إنشاؤه تلقائيًا من قالب ${template.name}`,
         duration: 60,
         attemptsAllowed: 1,
         courseId: template.courseId,
