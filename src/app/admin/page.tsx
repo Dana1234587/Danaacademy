@@ -1,5 +1,3 @@
-
-
 'use client';
 
 import { MarketingLayout } from '@/components/layout/marketing-layout';
@@ -10,7 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Checkbox } from "@/components/ui/checkbox"
 import { useToast } from '@/hooks/use-toast';
-import { UserPlus, KeyRound, MonitorCheck, Loader2, Search, Smartphone, Monitor, Fingerprint, Globe, List, Home, Users, Edit, Trash2, Check, Plus, RefreshCw, Info, AlertTriangle, ClipboardCheck, ClipboardList, BarChart3, BarChart2, Laptop, X } from 'lucide-react';
+import { UserPlus, KeyRound, MonitorCheck, Loader2, Search, Smartphone, Monitor, Fingerprint, Globe, List, Home, Users, Edit, Trash2, Check, Plus, RefreshCw, Info, AlertTriangle, ClipboardCheck, ClipboardList, BarChart3, BarChart2, Laptop, X, PieChart } from 'lucide-react';
 import { useState, useEffect, useMemo, useCallback } from 'react';
 import Link from 'next/link';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
@@ -115,6 +113,14 @@ export default function AdminPage() {
             device.studentName.toLowerCase().includes(pendingDeviceSearchQuery.toLowerCase())
         );
     }, [pendingDevices, pendingDeviceSearchQuery]);
+    
+    const courseEnrollmentStats = useMemo(() => {
+        const stats = availableCourses.map(course => ({
+            ...course,
+            count: students.filter(student => student.courseIds?.includes(course.id)).length
+        }));
+        return stats;
+    }, [students]);
 
 
     const fetchData = useCallback(async () => {
@@ -387,11 +393,12 @@ export default function AdminPage() {
             </div>
 
             <Tabs defaultValue="create-student">
-                <TabsList className="grid w-full grid-cols-2 sm:grid-cols-4">
+                <TabsList className="grid w-full grid-cols-2 md:grid-cols-5">
                     <TabsTrigger value="create-student"><UserPlus className="me-2" /> إنشاء حساب</TabsTrigger>
                     <TabsTrigger value="student-accounts"><Users className="me-2" /> الطلاب</TabsTrigger>
                     <TabsTrigger value="approve-devices"><MonitorCheck className="me-2" /> الموافقة</TabsTrigger>
                     <TabsTrigger value="registered-devices"><Fingerprint className="me-2" /> الأجهزة المسجلة</TabsTrigger>
+                    <TabsTrigger value="enrollment-stats"><PieChart className="me-2" /> إحصائيات التسجيل</TabsTrigger>
                 </TabsList>
 
                 <TabsContent value="create-student">
@@ -475,7 +482,7 @@ export default function AdminPage() {
                         <CardHeader>
                              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                                 <div>
-                                    <CardTitle>قائمة حسابات الطلاب</CardTitle>
+                                    <CardTitle>قائمة حسابات الطلاب ({students.length})</CardTitle>
                                     <CardDescription>هنا يتم عرض جميع حسابات الطلاب المسجلة في قاعدة البيانات.</CardDescription>
                                 </div>
                                 <div className="relative w-full sm:w-64">
@@ -733,6 +740,33 @@ export default function AdminPage() {
                             ) : (
                                 <p className="text-muted-foreground text-center py-8">
                                     {deviceSearchQuery ? "لا يوجد طلاب يطابقون بحثك." : "لا توجد أجهزة مسجلة حاليًا."}
+                                </p>
+                            )}
+                        </CardContent>
+                    </Card>
+                </TabsContent>
+                
+                 <TabsContent value="enrollment-stats">
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>إحصائيات التسجيل في الدورات</CardTitle>
+                            <CardDescription>عرض سريع لعدد الطلاب المسجلين في كل دورة.</CardDescription>
+                        </CardHeader>
+                        <CardContent className="space-y-4">
+                            {courseEnrollmentStats.length > 0 ? (
+                                courseEnrollmentStats.map(course => (
+                                    <div key={course.id} className="flex items-center justify-between p-4 border rounded-lg bg-muted/50">
+                                        <p className="font-semibold text-primary">{course.name}</p>
+                                        <div className="flex items-center gap-2">
+                                            <Users className="w-5 h-5 text-muted-foreground"/>
+                                            <span className="text-xl font-bold">{course.count}</span>
+                                            <span className="text-sm text-muted-foreground">طالب/طالبة</span>
+                                        </div>
+                                    </div>
+                                ))
+                            ) : (
+                                <p className="text-muted-foreground text-center py-8">
+                                    لا توجد بيانات لعرضها.
                                 </p>
                             )}
                         </CardContent>
