@@ -33,7 +33,7 @@ export default function DopingPage() {
           {/* Main Content Area */}
           <div className="lg:col-span-2 space-y-6">
             
-            <WatermarkedVideoPlayer src="https://iframe.mediadelivery.net/embed/480623/5d15a975-01e4-4458-912c-350ce66f3630?autoplay=false&loop=false&muted=false&preload=true" />
+            <WatermarkedVideoPlayer src="https://vz-2adfd2e0-f8c.b-cdn.net/04da01c4-e007-4534-a457-c1174e001c31/playlist.m3u8" />
             
             <Card>
                 <CardHeader>
