@@ -12,7 +12,6 @@ import {
     type ExamQuestion,
     type ExamQuestionInput
 } from './generate-exam-question.types';
-import { gemini15Flash } from '@genkit-ai/google-genai';
 
 
 export async function generateExamQuestion(input: ExamQuestionInput): Promise<ExamQuestion> {
@@ -22,7 +21,7 @@ export async function generateExamQuestion(input: ExamQuestionInput): Promise<Ex
 
 const generateQuestionPrompt = ai.definePrompt({
     name: 'generateExamQuestionPrompt',
-    model: gemini15Flash,
+    model: 'googleai/gemini-1.5-flash-latest',
     input: { schema: ExamQuestionInputSchema },
     output: { schema: ExamQuestionOutputSchema },
     system: `You are an expert physics author and educator. Your task is to create a single, original, high-quality multiple-choice question.
