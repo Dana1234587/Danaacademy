@@ -12,7 +12,7 @@ import {
     type ExamQuestion,
     type ExamQuestionInput
 } from './generate-exam-question.types';
-import { gemini15Flash } from '@genkit-ai/googleai';
+import { gemini15Flash } from '@genkit-ai/google-genai';
 
 
 export async function generateExamQuestion(input: ExamQuestionInput): Promise<ExamQuestion> {
