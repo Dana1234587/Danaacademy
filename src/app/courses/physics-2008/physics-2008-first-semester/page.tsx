@@ -69,8 +69,9 @@ const courseStructure = {
             { 
               title: 'الدرس الأول: العزم والاتزان السكوني', 
               topics: [
-                { label: 'حصة رقم (1): تأسيس', path: '/courses/physics-supplementary-2007/first-semester/2-rotational-motion/1-torque-and-static-equilibrium/1-foundations' },
-                { label: 'حصة رقم (2): العزم (شرح وأسئلة مفاهيمية)', path: '/courses/physics-supplementary-2007/first-semester/2-rotational-motion/1-torque-and-static-equilibrium/2-torque' },
+                { label: 'حصة رقم (1): تأسيس', path: '/courses/physics-2008/physics-2008-first-semester/2-rotational-motion/1-torque-and-static-equilibrium/1-foundations' },
+                { label: 'حصة رقم (2): العزم (شرح وأسئلة مفاهيمية)', path: '/courses/physics-2008/physics-2008-first-semester/2-rotational-motion/1-torque-and-static-equilibrium/2-torque' },
+                { label: 'حصة رقم (3): العزم (حل أسئلة)', path: '/courses/physics-2008/physics-2008-first-semester/2-rotational-motion/1-torque-and-static-equilibrium/3-conceptual-questions' },
               ]
             }
           ]
