@@ -61,6 +61,20 @@ const courseStructure = {
             },
           ]
         },
+        { 
+          label: 'الوحدة الثانية: الحركة الدورانية', 
+          icon: Folder, 
+          path: '/courses/physics-2008/physics-2008-first-semester/2-rotational-motion', 
+          lessons: [
+            { 
+              title: 'الدرس الأول: العزم والاتزان السكوني', 
+              topics: [
+                { label: 'حصة رقم (1): تأسيس', path: '/courses/physics-supplementary-2007/first-semester/2-rotational-motion/1-torque-and-static-equilibrium/1-foundations' },
+                { label: 'حصة رقم (2): العزم (شرح وأسئلة مفاهيمية)', path: '/courses/physics-supplementary-2007/first-semester/2-rotational-motion/1-torque-and-static-equilibrium/2-torque' },
+              ]
+            }
+          ]
+        }
       ]
     },
   ]
@@ -235,5 +249,7 @@ export default function Physics2008FirstSemesterPage() {
     </SidebarProvider>
   );
 }
+
+    
 
     
