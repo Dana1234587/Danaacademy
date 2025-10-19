@@ -2,8 +2,6 @@
 'use client';
 
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert';
-import { Info } from 'lucide-react';
 import 'katex/dist/katex.min.css';
 import { BlockMath, InlineMath } from 'react-katex';
 
@@ -61,13 +59,6 @@ export default function SummaryPage() {
             </CardContent>
           </Card>
         ))}
-         <Alert>
-          <Info className="h-4 w-4" />
-          <AlertTitle className="font-bold">قاعدة اليد اليمنى</AlertTitle>
-          <AlertDescription>
-           <SmartTextRenderer as="div" text={'لتحديد اتجاه متجه العزم، وجّه أصابع يدك اليمنى باتجاه متجه الموضع ($r$) ثم قم بلفها باتجاه متجه القوة ($F$) عبر الزاوية الأصغر. سيشير إبهامك إلى اتجاه العزم. (عكس عقارب الساعة موجب، مع عقارب الساعة سالب).'} />
-          </AlertDescription>
-        </Alert>
       </div>
     </div>
   );
