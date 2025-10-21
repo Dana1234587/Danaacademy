@@ -9,6 +9,8 @@ import { Label } from '@/components/ui/label';
 import { CheckCircle, XCircle } from 'lucide-react';
 import 'katex/dist/katex.min.css';
 import { InlineMath } from 'react-katex';
+import { SteeringWheelDiagram, RodWithForcesDiagram } from './diagram';
+
 
 // A robust, universal renderer for bidirectional text
 const SmartTextRenderer = ({ text, as: Wrapper = 'p' }: { text: string; as?: React.ElementType }) => {
@@ -36,7 +38,8 @@ const quizQuestions = [
     explanation: 'الازدواج يتكون من قوتين متساويتين مقدارًا ومتعاكستين اتجاهًا، وشرط أساسي أن يكون خطا عملهما غير متطابقين، مما يسبب دورانًا صافيًا.'
   },
   {
-    questionText: 'قوتان مقدار كل منهما 20 نيوتن تؤثران على طرفي عجلة قيادة قطرها 40 سم لتكوين ازدواج. ما مقدار عزم الازدواج؟',
+    questionText: 'قوتان مقدار كل منهما 20 نيوتن تؤثران على طرفي عجلة قيادة قطرها 40 سم لتكوين ازدواج، كما في الشكل. ما مقدار عزم الازدواج؟',
+    diagram: 'steering-wheel',
     options: ['$4 N \\cdot m$', '$8 N \\cdot m$', '$16 N \\cdot m$', '$800 N \\cdot m$'],
     correctAnswerIndex: 1,
     explanation: 'عزم الازدواج = (مقدار إحدى القوتين) × (المسافة العمودية بينهما). \n المسافة العمودية هي قطر العجلة = 40 سم = 0.4 متر. \n $τ = 20 N \\times 0.4 m = 8 N \\cdot m$.'
@@ -54,10 +57,11 @@ const quizQuestions = [
     explanation: 'من خصائص عزم الازدواج أنه لا يعتمد على موضع محور الدوران، فطالما أن القوتين تحققان شروط الازدواج، سيكون عزمهما ثابتًا بغض النظر عن النقطة التي نحسب العزم حولها.'
   },
   {
-    questionText: 'تؤثر قوتان مقدار كل منهما F على قضيب مهمل الكتلة طوله L كما في الشكل (عند الطرفين وبزاوية 30 درجة مع العمودي). ما مقدار عزم الازدواج؟',
+    questionText: 'تؤثر قوتان مقدار كل منهما F على قضيب مهمل الكتلة طوله L كما في الشكل الموضح. ما مقدار عزم الازدواج؟',
+    diagram: 'rod-with-forces',
     options: ['$FL$', '$FL\\sin(30)$', '$FL\\cos(30)$', '$2FL$'],
-    correctAnswerIndex: 1,
-    explanation: 'عزم الازدواج يساوي إحدى القوتين مضروبة في المسافة العمودية بينهما. المسافة العمودية هنا هي $d = L\\sin(30)$. إذن $τ = F \\times (L\\sin(30))$.'
+    correctAnswerIndex: 2, // Corrected from 1
+    explanation: 'عزم الازدواج يساوي إحدى القوتين مضروبة في المسافة العمودية بينهما. المسافة العمودية هنا هي $d = L\\cos(30)$. إذن $τ = F \\times (L\\cos(30))$.'
   },
 ];
 
@@ -88,6 +92,8 @@ export default function CoupleTorqueQuizPage() {
           <Card key={qIndex} className={`border-2 ${isSubmitted ? (selectedAnswers[qIndex] === q.correctAnswerIndex ? 'border-green-500' : 'border-red-500') : 'border-border'} transition-colors duration-300 shadow-lg`}>
             <CardHeader>
               <CardTitle><SmartTextRenderer as="div" text={`السؤال ${qIndex + 1}: ${q.questionText}`} /></CardTitle>
+              {q.diagram === 'steering-wheel' && <SteeringWheelDiagram />}
+              {q.diagram === 'rod-with-forces' && <RodWithForcesDiagram />}
             </CardHeader>
             <CardContent>
               <RadioGroup onValueChange={(value) => handleAnswerChange(qIndex, parseInt(value))} value={selectedAnswers[qIndex]?.toString()} className="grid grid-cols-1 md:grid-cols-2 gap-4">
