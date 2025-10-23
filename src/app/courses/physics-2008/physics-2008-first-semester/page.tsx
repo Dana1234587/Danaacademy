@@ -74,6 +74,7 @@ const courseStructure = {
                 { label: 'حصة رقم (3): العزم (حل أسئلة)', path: '/courses/physics-2008/physics-2008-first-semester/2-rotational-motion/1-torque-and-static-equilibrium/3-conceptual-questions' },
                 { label: 'حصة رقم (4): عزم الازدواج', path: '/courses/physics-2008/physics-2008-first-semester/2-rotational-motion/1-torque-and-static-equilibrium/4-torque-questions' },
                 { label: 'حصة رقم (5): مركز الكتلة', path: '/courses/physics-2008/physics-2008-first-semester/2-rotational-motion/1-torque-and-static-equilibrium/5-couple-torque' },
+                { label: 'حصة رقم (6): الاتزان (شرح وحل أسئلة)', path: '/courses/physics-2008/physics-2008-first-semester/2-rotational-motion/1-torque-and-static-equilibrium/6-equilibrium' },
               ]
             }
           ]
