@@ -9,7 +9,7 @@ import { Label } from '@/components/ui/label';
 import { CheckCircle, XCircle } from 'lucide-react';
 import 'katex/dist/katex.min.css';
 import { InlineMath } from 'react-katex';
-import { SeesawBalanced, BeamOnTwoSupports, HangingSign, Ladder, BeamWithWeight } from './diagram';
+import { UniformBeam, SeesawBalanced, HangingSign, SeesawFindDistance } from './diagram';
 
 // A robust, universal renderer for bidirectional text
 const SmartTextRenderer = ({ text, as: Wrapper = 'p' }: { text: string; as?: React.ElementType }) => {
@@ -31,39 +31,32 @@ const SmartTextRenderer = ({ text, as: Wrapper = 'p' }: { text: string; as?: Rea
 
 const quizQuestions = [
   {
-    questionText: 'لوح خشبي متزن أفقيًا كما في الشكل. ما مقدار القوة F اللازمة لتحقيق الاتزان؟ (أهمل وزن اللوح)',
-    diagram: 'seesaw',
-    options: ['428.6 N', '600 N', '840 N', '300 N'],
-    correctAnswerIndex: 0,
-    explanation: 'للاتزان الدوراني، مجموع العزوم حول نقطة الارتكاز يساوي صفرًا. \n عزم القوة الأولى (عكس عقارب الساعة) = $600 N \\times 2.0 m = 1200 N \\cdot m$. \n عزم القوة الثانية (مع عقارب الساعة) = $-F \\times 1.4 m$. \n $\\Sigma\\tau = 1200 - 1.4F = 0 \\implies 1.4F = 1200 \\implies F = 1200 / 1.4 \\approx 428.6 N$.'
+    questionText: 'لوح خشبي منتظم طوله 5 متر ووزنه 200 نيوتن، يرتكز على حاملين عند طرفيه. إذا جلس طفل وزنه 300 نيوتن على بعد 2 متر من الطرف الأيسر، فما مقدار قوة رد الفعل من الحامل الأيمن ($F_R$)?',
+    diagram: 'uniform-beam',
+    options: ['190 نيوتن', '220 نيوتن', '250 نيوتن', '500 نيوتن'],
+    correctAnswerIndex: 1,
+    explanation: 'لتحقيق الاتزان الدوراني، نختار محور الدوران عند الحامل الأيسر ($F_L$) ونطبق $\\Sigma\\tau = 0$. (عكس عقارب الساعة موجب).\nعزم وزن اللوح (يؤثر في المنتصف على بعد 2.5 متر) = $-(200 N)(2.5 m) = -500 N \\cdot m$.\nعزم وزن الطفل = $-(300 N)(2 m) = -600 N \\cdot m$.\nعزم رد فعل الحامل الأيمن ($F_R$) على بعد 5 متر = $+(F_R)(5 m)$.\n$\\Sigma\\tau = 5F_R - 600 - 500 = 0 \\implies 5F_R = 1100 \\implies F_R = 220 N$.'
   },
   {
-    questionText: 'لوح منتظم طوله 8 م ووزنه 400 نيوتن، يرتكز على حاملين. إذا وُضع جسم وزنه 800 نيوتن على بعد 1.5 متر من الحامل الأيمن، فما مقدار قوة رد الفعل عند الحامل الأول F1؟',
+    questionText: 'لوح منتظم طوله 8 م ووزنه 400 نيوتن، يرتكز على حاملين يبعدان 1م عن كل طرف. إذا وُضع جسم وزنه 800 نيوتن على بعد 1.5 متر من الحامل الأيمن، فما مقدار قوة رد الفعل عند الحامل الأول F1؟',
     diagram: 'beam',
     options: ['600 N', '800 N', '1200 N', '371 N'],
     correctAnswerIndex: 3,
-    explanation: 'نأخذ العزوم حول الحامل الثاني (F2). طول اللوح 8م ووزنه يؤثر في المنتصف (على بعد 3م من F2). الجسم 800N على بعد 1.5م من F2. المسافة بين الحاملين هي 7م. \n $\\Sigma \\tau_{F2} = (F_1 \\times 7) - (400 \\times 3) - (800 \\times 1.5) = 0$. \n $7F_1 - 1200 - 1200 = 0 \\implies 7F_1 = 2400 \\implies F_1 \\approx 371.4 N$.'
+    explanation: 'المسافة بين الحاملين هي $8 - 1 - 1 = 6$ متر. نأخذ العزوم حول الحامل الثاني (F2). \nوزن اللوح يؤثر في المنتصف (على بعد 3م من F2). الجسم 800N على بعد 1.5م من F2. قوة F1 تبعد 6م عن F2.\n$\\Sigma \\tau_{F2} = (F_1 \\times 6) - (400 \\times 3) - (800 \\times 1.5) = 0$. \n $6F_1 - 1200 - 1200 = 0 \\implies 6F_1 = 2400 \\implies F_1 \\approx 371.4 N$. الخيار الأقرب هو 371 نيوتن.'
   },
-   {
-    questionText: 'لوح خشبي مهمل الوزن طوله L، يرتكز على حامل في منتصفه. إذا وُضع جسم وزنه W على بعد L/4 من الطرف الأيسر، فأين يجب وضع جسم آخر وزنه 2W لتحقيق الاتزان؟',
+  {
+    questionText: 'لوح خشبي مهمل الوزن طوله L، يرتكز على حامل في منتصفه. إذا وُضع جسم وزنه W على بعد L/4 يسار المركز، فأين يجب وضع جسم آخر وزنه 2W لتحقيق الاتزان؟',
     diagram: 'seesaw_symbolic',
-    options: ['على بعد L/8 من الطرف الأيمن', 'على بعد L/4 من الطرف الأيمن', 'على بعد L/8 من المركز', 'على بعد L/4 من المركز'],
-    correctAnswerIndex: 2,
-    explanation: 'للاتزان، يجب أن يكون العزم الذي يحدثه الجسم الأول مساوياً للعزم الذي يحدثه الجسم الثاني حول نقطة الارتكاز (المركز). \n $\\tau_1 = \\tau_2 \\implies F_1 d_1 = F_2 d_2$. \n الجسم الأول وزنه W ومسافته عن المركز هي L/4. \n $W \\times (L/4) = (2W) \\times d_2$. \n بقسمة الطرفين على W: $L/4 = 2d_2 \\implies d_2 = L/8$. \n يجب وضع الجسم الثاني على بعد L/8 من المركز على الجهة المقابلة.'
-  },
-  {
-    questionText: 'سلم منتظم وزنه 300 نيوتن يستند على حائط رأسي أملس وأرض أفقية خشنة كما في الشكل. ما مقدار قوة الاحتكاك السكوني اللازمة لمنع السلم من الانزلاق؟',
-    diagram: 'ladder',
-    options: ['300 N', '150 N', '86.6 N', '173.2 N'],
-    correctAnswerIndex: 2,
-    explanation: 'للاتزان، نأخذ العزوم حول نقطة استناد السلم على الأرض. القوى التي تسبب العزم هي وزن السلم (مع عقارب الساعة) ورد فعل الحائط $N_2$ (عكس عقارب الساعة). وزن السلم يؤثر في المنتصف. \n $\\Sigma\\tau = N_2(L\\sin60) - W(L/2 \\cos60) = 0$. \n $N_2 (L \\times 0.866) = 300(L/2 \\times 0.5) \\implies 0.866 N_2 = 75 \\implies N_2 \\approx 86.6 N$. \n من الاتزان الأفقي، قوة الاحتكاك $f_s$ يجب أن تساوي رد فعل الحائط $N_2$. إذن $f_s \\approx 86.6 N$.'
-  },
-  {
-    questionText: 'قضيب مهمل الوزن متزن أفقيًا. ما مقدار القوة F اللازمة لتحقيق هذا الاتزان؟',
-    diagram: 'beam_with_weight',
-    options: ['35.7 N', '50 N', '100 N', '28 N'],
+    options: ['على بعد L/8 يمين المركز', 'على بعد L/4 يمين المركز', 'على بعد L/2 يمين المركز', 'على بعد L/8 يسار المركز'],
     correctAnswerIndex: 0,
-    explanation: 'للاتزان الدوراني حول نقطة الارتكاز (المحور): مجموع العزوم مع عقارب الساعة = مجموع العزوم عكس عقارب الساعة. \n عزم الوزن (مع عقارب الساعة) = $100 N \\times 1.0 m = 100 N \\cdot m$. \n عزم القوة F (عكس عقارب الساعة) = $F \\times 2.8 m$. \n $F \\times 2.8 = 100 \\implies F = 100 / 2.8 \\approx 35.7 N$.'
+    explanation: 'للاتزان، عزم القوة الأولى (عكس عقارب الساعة) يجب أن يساوي عزم القوة الثانية (مع عقارب الساعة) حول نقطة الارتكاز (المركز). \n $\\tau_1 = \\tau_2 \\implies F_1 d_1 = F_2 d_2$. \n $W \\times (L/4) = (2W) \\times d_2$. \n بقسمة الطرفين على W: $L/4 = 2d_2 \\implies d_2 = L/8$. \n يجب وضع الجسم الثاني على بعد L/8 من المركز على الجهة المقابلة (اليمين).'
+  },
+  {
+    questionText: 'في لعبة التوازن الموضحة، يجلس طفل وزنه 400 نيوتن على بعد 1.5 متر من نقطة الارتكاز. على أي بعد (d) من نقطة الارتكاز يجب أن يجلس طفل آخر وزنه 300 نيوتن ليحدث اتزان؟',
+    diagram: 'seesaw_find_d',
+    options: ['1.5 متر', '2.0 متر', '2.5 متر', '1.125 متر'],
+    correctAnswerIndex: 1,
+    explanation: 'لتحقيق الاتزان الدوراني، يجب أن يكون عزم الطفل الأول مساويًا لعزم الطفل الثاني. \n $\\tau_1 = \\tau_2 \\implies F_1 d_1 = F_2 d$. \n $(400 N)(1.5 m) = (300 N) d$. \n $600 = 300 d \\implies d = 600 / 300 = 2.0$ متر.'
   },
 ];
 
@@ -95,11 +88,10 @@ export default function EquilibriumQuestionsQuizPage() {
           <Card key={qIndex} className={`border-2 ${isSubmitted ? (selectedAnswers[qIndex] === q.correctAnswerIndex ? 'border-green-500' : 'border-red-500') : 'border-border'} transition-colors duration-300 shadow-lg`}>
             <CardHeader>
               <CardTitle><SmartTextRenderer as="div" text={`السؤال ${qIndex + 1}: ${q.questionText}`} /></CardTitle>
-                {q.diagram === 'seesaw' && <SeesawBalanced />}
+                {q.diagram === 'uniform-beam' && <UniformBeam />}
                 {q.diagram === 'beam' && <BeamOnTwoSupports />}
                 {q.diagram === 'seesaw_symbolic' && <HangingSign />}
-                {q.diagram === 'ladder' && <Ladder />}
-                {q.diagram === 'beam_with_weight' && <BeamWithWeight />}
+                {q.diagram === 'seesaw_find_d' && <SeesawFindDistance />}
             </CardHeader>
             <CardContent>
               <RadioGroup onValueChange={(value) => handleAnswerChange(qIndex, parseInt(value))} value={selectedAnswers[qIndex]?.toString()} className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -142,4 +134,3 @@ export default function EquilibriumQuestionsQuizPage() {
     </div>
   );
 }
-
