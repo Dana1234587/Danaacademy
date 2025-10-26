@@ -26,7 +26,7 @@ export const BeamOnTwoSupports = () => (
         <svg width="400" height="150" viewBox="0 0 400 150">
             <rect x="20" y="50" width="360" height="10" fill="hsl(var(--primary))" stroke="black"/>
             <path d="M 50 60 L 60 80 L 40 80 Z" fill="hsl(var(--secondary))" stroke="black"/>
-            <text x="50" y="95" fontSize="12" textAnchor="middle">F1 = ?</text>
+            <text x="50" y="95" fontSize="12" textAnchor="middle">F1</text>
             <path d="M 350 60 L 360 80 L 340 80 Z" fill="hsl(var(--secondary))" stroke="black"/>
             <text x="350" y="95" fontSize="12" textAnchor="middle">F2</text>
             <line x1="200" y1="50" x2="200" y2="70" stroke="hsl(var(--destructive))" strokeWidth="2"/>
@@ -35,6 +35,8 @@ export const BeamOnTwoSupports = () => (
             <line x1="280" y1="50" x2="280" y2="70" stroke="hsl(var(--destructive))" strokeWidth="2"/>
             <polygon points="275,70 285,70 280,80" fill="hsl(var(--destructive))"/>
             <text x="280" y="95" fontSize="12" textAnchor="middle">800 N</text>
+             <line x1="280" y1="110" x2="350" y2="110" stroke="black" strokeDasharray="2,2"/>
+             <text x="315" y="125" fontSize="12" textAnchor="middle">1.5 m</text>
         </svg>
     </div>
 );
@@ -42,13 +44,22 @@ export const BeamOnTwoSupports = () => (
 export const HangingSign = () => (
     <div className="my-4 p-4 bg-muted/50 rounded-lg flex justify-center items-center">
         <svg width="250" height="150" viewBox="0 0 250 150">
-            <line x1="20" y1="20" x2="20" y2="130" stroke="black" strokeWidth="4"/>
-            <rect x="20" y="60" width="150" height="8" fill="hsl(var(--primary))" stroke="black"/>
-            <line x1="100" y1="68" x2="100" y2="88" stroke="hsl(var(--destructive))" strokeWidth="2"/>
-            <polygon points="95,88 105,88 100,98" fill="hsl(var(--destructive))"/>
-            <text x="100" y="110" fontSize="12" textAnchor="middle">200 N</text>
-            <line x1="170" y1="64" x2="20" y2="20" stroke="hsl(var(--secondary))" strokeWidth="2"/>
-            <text x="100" y="35" fontSize="12" textAnchor="middle">T = ?</text>
+            <rect x="20" y="70" width="210" height="10" fill="hsl(var(--primary))" stroke="black" />
+            <path d="M 125 80 L 135 110 L 115 110 Z" fill="hsl(var(--secondary))" stroke="black"/>
+
+            {/* Weight W */}
+            <line x1="75" y1="80" x2="75" y2="100" stroke="hsl(var(--destructive))" strokeWidth="2"/>
+            <polygon points="70,100 80,100 75,110" fill="hsl(var(--destructive))"/>
+            <text x="75" y="125" fontSize="12" textAnchor="middle">W</text>
+             <line x1="75" y1="65" x2="125" y2="65" stroke="black" strokeDasharray="2,2"/>
+            <text x="100" y="60" fontSize="12" textAnchor="middle">L/4</text>
+
+            {/* Weight 2W */}
+            <line x1="200" y1="80" x2="200" y2="100" stroke="hsl(var(--destructive))" strokeWidth="2"/>
+            <polygon points="195,100 205,100 200,110" fill="hsl(var(--destructive))"/>
+            <text x="200" y="125" fontSize="12" textAnchor="middle">2W</text>
+             <line x1="125" y1="65" x2="200" y2="65" stroke="black" strokeDasharray="2,2"/>
+            <text x="162.5" y="60" fontSize="12" textAnchor="middle">d = ?</text>
         </svg>
     </div>
 );
@@ -86,3 +97,4 @@ export const BeamWithWeight = () => (
         </svg>
     </div>
 );
+

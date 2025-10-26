@@ -9,6 +9,7 @@ import { Label } from '@/components/ui/label';
 import { CheckCircle, XCircle } from 'lucide-react';
 import 'katex/dist/katex.min.css';
 import { InlineMath } from 'react-katex';
+import { SeesawBalanced, BeamOnTwoSupports, HangingSign, Ladder, BeamWithWeight } from './diagram';
 
 // A robust, universal renderer for bidirectional text
 const SmartTextRenderer = ({ text, as: Wrapper = 'p' }: { text: string; as?: React.ElementType }) => {
@@ -30,36 +31,42 @@ const SmartTextRenderer = ({ text, as: Wrapper = 'p' }: { text: string; as?: Rea
 
 const quizQuestions = [
   {
-    questionText: 'قضيب منتظم طوله L ووزنه W، معلق أفقيًا بحبلين. الحبل الأول عند الطرف الأيسر، والحبل الثاني على بعد L/4 من الطرف الأيمن. ما مقدار قوة الشد في الحبل الثاني؟',
-    options: ['W/2', '2W/3', '3W/4', 'W'],
-    correctAnswerIndex: 1,
-    explanation: 'نختار المحور عند الحبل الأول. وزن القضيب يؤثر عند المنتصف (L/2). شد الحبل الثاني ($T_2$) يؤثر على بعد $3L/4$. بتطبيق شرط الاتزان الدوراني: $T_2(3L/4) - W(L/2) = 0$. إذن، $T_2 = (W/2) \times (4/3) = 2W/3$.'
-  },
-  {
-    questionText: 'لماذا يكون من الأسهل موازنة المكنسة على إصبعك عندما تكون الفرشاة الثقيلة أقرب إلى إصبعك؟',
-    options: ['لأن مركز الكتلة يكون أعلى', 'لأن القصور الذاتي الدوراني يكون أكبر، مما يقاوم التغير في الدوران', 'لأن وزنها يكون أقل', 'لأنها تبدو أجمل'],
-    correctAnswerIndex: 1,
-    explanation: 'عندما تكون الكتلة الأكبر (الفرشاة) قريبة من نقطة الارتكاز، يكون القصور الذاتي الدوراني للمكنسة كبيرًا. الجسم ذو القصور الذاتي الكبير يقاوم التغيرات في حركته الدورانية، مما يمنحك وقتًا أطول لتصحيح التوازن.'
-  },
-  {
-    questionText: 'أي العبارات التالية تصف بشكل أفضل سبب اختيارنا لمحور الدوران عند نقطة تؤثر فيها قوة مجهولة عند حل مسائل الاتزان؟',
-    options: ['لأن العزم يكون أكبر ما يمكن عند هذه النقطة', 'لتبسيط المعادلات بجعل عزم القوة المجهولة يساوي صفرًا', 'لأن هذه هي النقطة الوحيدة التي يكون فيها الجسم متزنًا', 'لأنها أسهل نقطة في الرسم'],
-    correctAnswerIndex: 1,
-    explanation: 'عند اختيار محور الدوران بحيث يمر بقوة مجهولة، يصبح ذراع هذه القوة صفرًا، وبالتالي يكون عزمها صفرًا. هذا يزيل القوة المجهولة من معادلة العزوم، مما يبسط الحل ويسمح لنا بإيجاد المجاهيل الأخرى أولاً.'
-  },
-  {
-    questionText: 'رجل إطفاء كتلته 80 كجم يتسلق سلمًا طوله 10 م ووزنه 200 نيوتن. يستند السلم على حائط أملس بزاوية 53 درجة مع الأفقي. إذا كان رجل الإطفاء قد صعد مسافة 8 م على طول السلم، فما مقدار قوة الاحتكاك التي تمنع السلم من الانزلاق؟ (اعتبر $g=10 m/s^2$)',
-    options: ['315 نيوتن', '450 نيوتن', '600 نيوتن', '750 نيوتن'],
+    questionText: 'لوح خشبي متزن أفقيًا كما في الشكل. ما مقدار القوة F اللازمة لتحقيق الاتزان؟ (أهمل وزن اللوح)',
+    diagram: 'seesaw',
+    options: ['428.6 N', '600 N', '840 N', '300 N'],
     correctAnswerIndex: 0,
-    explanation: 'نطبق شرطي الاتزان. من الاتزان الانتقالي: القوة العمودية من الأرض $N_1 = W_{سلم} + W_{رجل} = 200 + 800 = 1000$ نيوتن. القوة الأفقية من الحائط $N_2$ تساوي قوة الاحتكاك $f_s$. من الاتزان الدوراني حول نقطة الأرض: $N_2(10\sin53) - 200(5\cos53) - 800(8\cos53) = 0$. $N_2(8) - 200(3) - 800(4.8) = 0 \\Rightarrow 8N_2 = 600 + 3840 = 4440 \\Rightarrow N_2 = 555$ نيوتن. إذن $f_s = N_2 = 555$ نيوتن. الأرقام في الخيارات لا تتطابق. سأعيد الحساب باستخدام cos53=0.6, sin53=0.8.  $N_2(10 \times 0.8) - 200(5 \times 0.6) - 800(8 \times 0.6) = 0 \Rightarrow 8N_2 - 600 - 3840 = 0 \Rightarrow 8N_2 = 4440 \Rightarrow N_2=555$. هناك خطأ في الخيارات. بالبحث عن قيم أكثر دقة: $f_s=450N$.'
+    explanation: 'للاتزان الدوراني، مجموع العزوم حول نقطة الارتكاز يساوي صفرًا. \n عزم القوة الأولى (عكس عقارب الساعة) = $600 N \\times 2.0 m = 1200 N \\cdot m$. \n عزم القوة الثانية (مع عقارب الساعة) = $-F \\times 1.4 m$. \n $\\Sigma\\tau = 1200 - 1.4F = 0 \\implies 1.4F = 1200 \\implies F = 1200 / 1.4 \\approx 428.6 N$.'
   },
   {
-    questionText: 'بوابة متجانسة وزنها W وعرضها L معلقة بمفصلين رأسيين A (علوي) و B (سفلي) تفصل بينهما مسافة d. ما اتجاه القوة الأفقية التي يؤثر بها المفصل العلوي (A) على البوابة؟',
-    options: ['إلى اليمين (بعيدًا عن البوابة)', 'إلى اليسار (نحو البوابة)', 'للأعلى', 'للأسفل'],
-    correctAnswerIndex: 1,
-    explanation: 'مركز ثقل البوابة يؤثر لأسفل في منتصفها، مما يخلق عزمًا يحاول تدوير البوابة مع عقارب الساعة حول المفصل السفلي B. لمقاومة هذا الدوران، يجب أن يؤثر المفصل العلوي A بقوة أفقية نحو اليسار (نحو البوابة)، مما يخلق عزمًا مضادًا عكس عقارب الساعة.'
+    questionText: 'لوح منتظم طوله 8 م ووزنه 400 نيوتن، يرتكز على حاملين. إذا وُضع جسم وزنه 800 نيوتن على بعد 1.5 متر من الحامل الأيمن، فما مقدار قوة رد الفعل عند الحامل الأول F1؟',
+    diagram: 'beam',
+    options: ['600 N', '800 N', '1200 N', '371 N'],
+    correctAnswerIndex: 3,
+    explanation: 'نأخذ العزوم حول الحامل الثاني (F2). طول اللوح 8م ووزنه يؤثر في المنتصف (على بعد 3م من F2). الجسم 800N على بعد 1.5م من F2. المسافة بين الحاملين هي 7م. \n $\\Sigma \\tau_{F2} = (F_1 \\times 7) - (400 \\times 3) - (800 \\times 1.5) = 0$. \n $7F_1 - 1200 - 1200 = 0 \\implies 7F_1 = 2400 \\implies F_1 \\approx 371.4 N$.'
+  },
+   {
+    questionText: 'لوح خشبي مهمل الوزن طوله L، يرتكز على حامل في منتصفه. إذا وُضع جسم وزنه W على بعد L/4 من الطرف الأيسر، فأين يجب وضع جسم آخر وزنه 2W لتحقيق الاتزان؟',
+    diagram: 'seesaw_symbolic',
+    options: ['على بعد L/8 من الطرف الأيمن', 'على بعد L/4 من الطرف الأيمن', 'على بعد L/8 من المركز', 'على بعد L/4 من المركز'],
+    correctAnswerIndex: 2,
+    explanation: 'للاتزان، يجب أن يكون العزم الذي يحدثه الجسم الأول مساوياً للعزم الذي يحدثه الجسم الثاني حول نقطة الارتكاز (المركز). \n $\\tau_1 = \\tau_2 \\implies F_1 d_1 = F_2 d_2$. \n الجسم الأول وزنه W ومسافته عن المركز هي L/4. \n $W \\times (L/4) = (2W) \\times d_2$. \n بقسمة الطرفين على W: $L/4 = 2d_2 \\implies d_2 = L/8$. \n يجب وضع الجسم الثاني على بعد L/8 من المركز على الجهة المقابلة.'
+  },
+  {
+    questionText: 'سلم منتظم وزنه 300 نيوتن يستند على حائط رأسي أملس وأرض أفقية خشنة كما في الشكل. ما مقدار قوة الاحتكاك السكوني اللازمة لمنع السلم من الانزلاق؟',
+    diagram: 'ladder',
+    options: ['300 N', '150 N', '86.6 N', '173.2 N'],
+    correctAnswerIndex: 2,
+    explanation: 'للاتزان، نأخذ العزوم حول نقطة استناد السلم على الأرض. القوى التي تسبب العزم هي وزن السلم (مع عقارب الساعة) ورد فعل الحائط $N_2$ (عكس عقارب الساعة). وزن السلم يؤثر في المنتصف. \n $\\Sigma\\tau = N_2(L\\sin60) - W(L/2 \\cos60) = 0$. \n $N_2 (L \\times 0.866) = 300(L/2 \\times 0.5) \\implies 0.866 N_2 = 75 \\implies N_2 \\approx 86.6 N$. \n من الاتزان الأفقي، قوة الاحتكاك $f_s$ يجب أن تساوي رد فعل الحائط $N_2$. إذن $f_s \\approx 86.6 N$.'
+  },
+  {
+    questionText: 'قضيب مهمل الوزن متزن أفقيًا. ما مقدار القوة F اللازمة لتحقيق هذا الاتزان؟',
+    diagram: 'beam_with_weight',
+    options: ['35.7 N', '50 N', '100 N', '28 N'],
+    correctAnswerIndex: 0,
+    explanation: 'للاتزان الدوراني حول نقطة الارتكاز (المحور): مجموع العزوم مع عقارب الساعة = مجموع العزوم عكس عقارب الساعة. \n عزم الوزن (مع عقارب الساعة) = $100 N \\times 1.0 m = 100 N \\cdot m$. \n عزم القوة F (عكس عقارب الساعة) = $F \\times 2.8 m$. \n $F \\times 2.8 = 100 \\implies F = 100 / 2.8 \\approx 35.7 N$.'
   },
 ];
+
 
 export default function EquilibriumQuestionsQuizPage() {
   const [selectedAnswers, setSelectedAnswers] = useState<(number | null)[]>(new Array(quizQuestions.length).fill(null));
@@ -88,6 +95,11 @@ export default function EquilibriumQuestionsQuizPage() {
           <Card key={qIndex} className={`border-2 ${isSubmitted ? (selectedAnswers[qIndex] === q.correctAnswerIndex ? 'border-green-500' : 'border-red-500') : 'border-border'} transition-colors duration-300 shadow-lg`}>
             <CardHeader>
               <CardTitle><SmartTextRenderer as="div" text={`السؤال ${qIndex + 1}: ${q.questionText}`} /></CardTitle>
+                {q.diagram === 'seesaw' && <SeesawBalanced />}
+                {q.diagram === 'beam' && <BeamOnTwoSupports />}
+                {q.diagram === 'seesaw_symbolic' && <HangingSign />}
+                {q.diagram === 'ladder' && <Ladder />}
+                {q.diagram === 'beam_with_weight' && <BeamWithWeight />}
             </CardHeader>
             <CardContent>
               <RadioGroup onValueChange={(value) => handleAnswerChange(qIndex, parseInt(value))} value={selectedAnswers[qIndex]?.toString()} className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -130,3 +142,4 @@ export default function EquilibriumQuestionsQuizPage() {
     </div>
   );
 }
+
