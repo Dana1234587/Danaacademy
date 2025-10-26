@@ -31,6 +31,7 @@ const courseStructure = {
           label: 'الوحدة الأولى: الزخم الخطي والتصادمات', 
           icon: Folder, 
           path: '/courses/physics-2008/physics-2008-first-semester/1-linear-momentum-and-collisions', 
+          dossierUrl: 'https://drive.google.com/file/d/1T5ugO6wI0y6f2PCt-mxD03JYwqZzBEEQ/view?usp=sharing',
           lessons: [
             { 
               title: 'الدرس الأول: الزخم الخطي والدفع', 
