@@ -65,7 +65,7 @@ const courseStructure = {
           label: 'الوحدة الثانية: الحركة الدورانية', 
           icon: Folder, 
           path: '/courses/physics-2008/physics-2008-first-semester/2-rotational-motion',
-          dossierUrl: '#', // Placeholder URL
+          dossierUrl: 'https://drive.google.com/file/d/1Wr7G9xCmcuTWizaor2jMjxMoOinrhU2u/view?usp=sharing',
           lessons: [
             { 
               title: 'الدرس الأول: العزم والاتزان السكوني', 
