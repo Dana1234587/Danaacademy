@@ -64,7 +64,8 @@ const courseStructure = {
         { 
           label: 'الوحدة الثانية: الحركة الدورانية', 
           icon: Folder, 
-          path: '/courses/physics-2008/physics-2008-first-semester/2-rotational-motion', 
+          path: '/courses/physics-2008/physics-2008-first-semester/2-rotational-motion',
+          dossierUrl: '#', // Placeholder URL
           lessons: [
             { 
               title: 'الدرس الأول: العزم والاتزان السكوني', 
@@ -236,7 +237,17 @@ export default function Physics2008FirstSemesterPage() {
                         <div className="space-y-8">
                             {semester.subItems.map((unit, unitIndex) => (
                                 <div key={unitIndex}>
-                                    <h3 className="text-2xl font-bold mb-4 text-primary">{unit.label}</h3>
+                                    <div className="flex justify-between items-center mb-4">
+                                      <h3 className="text-2xl font-bold text-primary">{unit.label}</h3>
+                                      {unit.dossierUrl && (
+                                        <Button asChild variant="outline">
+                                          <Link href={unit.dossierUrl} target="_blank">
+                                            <FileText className="me-2 h-4 w-4" />
+                                            تحميل دوسية الوحدة
+                                          </Link>
+                                        </Button>
+                                      )}
+                                    </div>
                                     <div className="space-y-4">
                                         {unit.lessons.map((lesson, lessonIndex) => (
                                             <LessonContent key={lessonIndex} lesson={lesson} />
