@@ -79,6 +79,13 @@ const courseStructure = {
                 { label: 'حصة رقم (6): الاتزان (شرح وحل أسئلة)', path: '/courses/physics-2008/physics-2008-first-semester/2-rotational-motion/1-torque-and-static-equilibrium/6-equilibrium' },
                 { label: 'حصة رقم (7): الاتزان (حل أسئلة)', path: '/courses/physics-2008/physics-2008-first-semester/2-rotational-motion/1-torque-and-static-equilibrium/7-equilibrium-explanation-and-questions' },
               ]
+            },
+            {
+              title: 'الدرس الثاني: ديناميكا الحركة الدورانية',
+              topics: [
+                { label: 'حصة رقم (8): التجربة الاستهلالية', path: '/courses/physics-2008/physics-2008-first-semester/2-rotational-motion/2-rotational-dynamics/1-introductory-experiment' },
+                { label: 'حصة رقم (9): ديناميكا الحركة الدورانية (شرح)', path: '/courses/physics-2008/physics-2008-first-semester/2-rotational-motion/2-rotational-dynamics/2-rotational-dynamics-explanation' },
+              ]
             }
           ]
         }
