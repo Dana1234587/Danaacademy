@@ -83,7 +83,7 @@ const courseStructure = {
             {
               title: 'الدرس الثاني: ديناميكا الحركة الدورانية',
               topics: [
-                { label: 'حصة رقم (8): التجربة الاستهلالية', path: '/courses/physics-2008/physics-2008-first-semester/2-rotational-motion/2-rotational-dynamics/1-introductory-experiment' },
+                { label: 'حصة رقم (8): حصة تأسيس', path: '/courses/physics-2008/physics-2008-first-semester/2-rotational-motion/2-rotational-dynamics/1-introductory-experiment' },
                 { label: 'حصة رقم (9): ديناميكا الحركة الدورانية (شرح)', path: '/courses/physics-2008/physics-2008-first-semester/2-rotational-motion/2-rotational-dynamics/2-rotational-dynamics-explanation' },
               ]
             }
