@@ -28,17 +28,21 @@ const SmartTextRenderer = ({ text, as: Wrapper = 'p' }: { text: string; as?: Rea
 const laws = [
     {
         title: "السرعة الزاوية (ω)",
-        formula: "\\omega_{avg} = \\frac{\\Delta \\theta}{\\Delta t} \\quad , \\quad \\omega_{inst} = \\frac{d\\theta}{dt}",
+        formulas: ["\\omega_{avg} = \\frac{\\Delta \\theta}{\\Delta t}", "\\omega_{inst} = \\frac{d\\theta}{dt}"],
         description: "هي المعدل الزمني للتغير في الإزاحة الزاوية. تقاس بوحدة rad/s."
     },
     {
         title: "التسارع الزاوي (α)",
-        formula: "\\alpha_{avg} = \\frac{\\Delta \\omega}{\\Delta t} \\quad , \\quad \\alpha_{inst} = \\frac{d\\omega}{dt}",
+        formulas: ["\\alpha_{avg} = \\frac{\\Delta \\omega}{\\Delta t}", "\\alpha_{inst} = \\frac{d\\omega}{dt}"],
         description: "هو المعدل الزمني للتغير في السرعة الزاوية. يقاس بوحدة rad/s²."
     },
      {
         title: "معادلات الحركة الدورانية (بتسارع ثابت)",
-        formula: "1. \\ \\omega_f = \\omega_i + \\alpha t \n 2. \\ \\Delta\\theta = \\omega_i t + \\frac{1}{2}\\alpha t^2 \n 3. \\ \\omega_f^2 = \\omega_i^2 + 2\\alpha \\Delta\\theta",
+        formulas: [
+            "\\omega_f = \\omega_i + \\alpha t",
+            "\\Delta\\theta = \\omega_i t + \\frac{1}{2}\\alpha t^2",
+            "\\omega_f^2 = \\omega_i^2 + 2\\alpha \\Delta\\theta"
+        ],
         description: "هذه المعادلات تماثل تمامًا معادلات الحركة الخطية، ولكن باستخدام الكميات الزاوية."
     }
 ];
@@ -53,9 +57,9 @@ export default function SummaryPage() {
               <CardTitle className="text-primary text-xl text-right">{law.title}</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-                {law.formula && 
-                    <div dir="ltr" className="bg-primary/5 p-4 rounded-lg text-center">
-                        <SmartTextRenderer as="div" text={law.formula.split('\n').map(l => `$$${l}$$`).join('\n')} />
+                {law.formulas && 
+                    <div dir="ltr" className="bg-primary/5 p-4 rounded-lg text-center space-y-4">
+                        {law.formulas.map((formula, i) => <BlockMath key={i} math={formula} />)}
                     </div>
                 }
                 <CardDescription className="text-right">
