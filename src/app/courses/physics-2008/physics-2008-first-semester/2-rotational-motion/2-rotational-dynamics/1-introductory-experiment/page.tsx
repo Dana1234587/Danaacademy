@@ -17,7 +17,7 @@ export default function IntroductoryExperimentPage() {
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
           <div>
             <p className="text-sm text-primary font-medium">الدرس الثاني: ديناميكا الحركة الدورانية</p>
-            <h1 className="text-3xl font-bold mt-1">حصة رقم (8): التجربة الاستهلالية</h1>
+            <h1 className="text-3xl font-bold mt-1">حصة رقم (8): حصة تأسيس</h1>
             <p className="text-muted-foreground mt-2 max-w-2xl">
               نبدأ الدرس بتجربة استهلالية بسيطة توضح مفاهيم القصور الذاتي الدوراني.
             </p>
