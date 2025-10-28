@@ -27,14 +27,19 @@ const SmartTextRenderer = ({ text, as: Wrapper = 'p' }: { text: string; as?: Rea
 
 const laws = [
     {
-        title: "عزم القصور الذاتي لنظام من الجسيمات",
-        formula: "I = \\sum m_i r_i^2 = m_1 r_1^2 + m_2 r_2^2 + \\dots",
-        description: "عزم القصور الذاتي لنظام هو المجموع الجبري لعزوم القصور الذاتي لكل جسيم في النظام. وهو كمية قياسية."
+        title: "السرعة الزاوية (ω)",
+        formula: "\\omega_{avg} = \\frac{\\Delta \\theta}{\\Delta t} \\quad , \\quad \\omega_{inst} = \\frac{d\\theta}{dt}",
+        description: "هي المعدل الزمني للتغير في الإزاحة الزاوية. تقاس بوحدة rad/s."
     },
     {
-        title: "نظرية المحور الموازي",
-        formula: "I = I_{cm} + Md^2",
-        description: "تُستخدم هذه النظرية لحساب عزم القصور الذاتي (I) حول أي محور، إذا كان عزم القصور الذاتي حول محور موازٍ له ويمر بمركز الكتلة ($I_{cm}$) معروفًا. حيث M هي كتلة الجسم و d هي المسافة العمودية بين المحورين."
+        title: "التسارع الزاوي (α)",
+        formula: "\\alpha_{avg} = \\frac{\\Delta \\omega}{\\Delta t} \\quad , \\quad \\alpha_{inst} = \\frac{d\\omega}{dt}",
+        description: "هو المعدل الزمني للتغير في السرعة الزاوية. يقاس بوحدة rad/s²."
+    },
+     {
+        title: "معادلات الحركة الدورانية (بتسارع ثابت)",
+        formula: "1. \\ \\omega_f = \\omega_i + \\alpha t \n 2. \\ \\Delta\\theta = \\omega_i t + \\frac{1}{2}\\alpha t^2 \n 3. \\ \\omega_f^2 = \\omega_i^2 + 2\\alpha \\Delta\\theta",
+        description: "هذه المعادلات تماثل تمامًا معادلات الحركة الخطية، ولكن باستخدام الكميات الزاوية."
     }
 ];
 
@@ -48,9 +53,11 @@ export default function SummaryPage() {
               <CardTitle className="text-primary text-xl text-right">{law.title}</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-                <div dir="ltr" className="bg-primary/5 p-4 rounded-lg text-center">
-                    <BlockMath math={law.formula} />
-                </div>
+                {law.formula && 
+                    <div dir="ltr" className="bg-primary/5 p-4 rounded-lg text-center">
+                        <SmartTextRenderer as="div" text={law.formula.split('\n').map(l => `$$${l}$$`).join('\n')} />
+                    </div>
+                }
                 <CardDescription className="text-right">
                     <SmartTextRenderer text={law.description} />
                 </CardDescription>
@@ -61,7 +68,7 @@ export default function SummaryPage() {
           <Info className="h-4 w-4" />
           <AlertTitle className="font-bold">ملاحظة هامة</AlertTitle>
           <AlertDescription>
-           <SmartTextRenderer as="div" text={'عزم القصور الذاتي يعتمد بشكل كبير على توزيع الكتلة. كلما ابتعدت الكتلة عن محور الدوران، زادت قيمة عزم القصور الذاتي بشكل كبير (لأنه يعتمد على $r^2$).'} />
+           <SmartTextRenderer as="div" text={'تذكر دائمًا أن الدورة الكاملة تساوي $2\\pi$ راديان. هذا التحويل أساسي في حل العديد من المسائل.'} />
           </AlertDescription>
         </Alert>
       </div>

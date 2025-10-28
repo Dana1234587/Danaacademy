@@ -17,9 +17,9 @@ export default function RotationalDynamicsExplanationPage() {
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
           <div>
             <p className="text-sm text-primary font-medium">الدرس الثاني: ديناميكا الحركة الدورانية</p>
-            <h1 className="text-3xl font-bold mt-1">حصة رقم (9): ديناميكا الحركة الدورانية (شرح)</h1>
+            <h1 className="text-3xl font-bold mt-1">حصة رقم (9): الكميات الفيزيائية في الحركة الدورانية</h1>
             <p className="text-muted-foreground mt-2 max-w-2xl">
-              شرح مفصل لمفهوم عزم القصور الذاتي وكيفية حسابه لأشكال مختلفة.
+              نتعرف على الكميات الأساسية لوصف الحركة الدورانية: الإزاحة، السرعة، والتسارع الزاوي، بالإضافة إلى معادلات الحركة.
             </p>
           </div>
           <Button asChild variant="outline">
@@ -38,9 +38,10 @@ export default function RotationalDynamicsExplanationPage() {
                 </CardHeader>
                 <CardContent>
                     <ul className="space-y-3 list-disc list-inside text-muted-foreground">
-                        <li>تعريف عزم القصور الذاتي.</li>
-                        <li>قانون عزم القصور الذاتي لجسيم نقطي ونظام من الجسيمات.</li>
-                        <li>نظرية المحور الموازي.</li>
+                        <li>الإزاحة الزاوية (Angular Displacement).</li>
+                        <li>السرعة الزاوية المتوسطة واللحظية.</li>
+                        <li>التسارع الزاوي المتوسط واللحظي.</li>
+                        <li>معادلات الحركة الدورانية بتسارع زاوي ثابت.</li>
                     </ul>
                 </CardContent>
             </Card>
