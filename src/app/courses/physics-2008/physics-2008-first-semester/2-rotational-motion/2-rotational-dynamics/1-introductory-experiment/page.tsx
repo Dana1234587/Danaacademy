@@ -14,8 +14,8 @@ export default function FoundationsPage() {
       <div className="p-4 sm:p-6 lg:p-8">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
           <div>
-            <p className="text-sm text-primary font-medium">الدرس الأول: العزم والاتزان السكوني</p>
-            <h1 className="text-3xl font-bold mt-1">حصة رقم (1): تأسيس</h1>
+            <p className="text-sm text-primary font-medium">الدرس الثاني: ديناميكا الحركة الدورانية</p>
+            <h1 className="text-3xl font-bold mt-1">حصة رقم (1): حصة تأسيس</h1>
             <p className="text-muted-foreground mt-2 max-w-2xl">
               نضع الأساسات الرياضية والفيزيائية اللازمة لفهم وحدة الحركة الدورانية.
             </p>
@@ -29,7 +29,7 @@ export default function FoundationsPage() {
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2 space-y-6">
-            <WatermarkedVideoPlayer src="https://iframe.mediadelivery.net/embed/480623/a023d8ce-dedd-4aa4-b2e1-6eb2377fd994?autoplay=false&loop=false&muted=false&preload=true" />
+            <WatermarkedVideoPlayer src="https://iframe.mediadelivery.net/embed/480623/f21a008d-e252-46cd-8939-83eb6fd39530?autoplay=false&loop=false&muted=false&preload=true" />
           </div>
 
           <div className="lg:col-span-1 space-y-6">
