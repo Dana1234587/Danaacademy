@@ -84,7 +84,7 @@ const courseStructure = {
               title: 'الدرس الثاني: ديناميكا الحركة الدورانية',
               topics: [
                 { label: 'حصة رقم (8): حصة تأسيس', path: '/courses/physics-2008/physics-2008-first-semester/2-rotational-motion/2-rotational-dynamics/1-introductory-experiment' },
-                { label: 'حصة رقم (9): الكميات الفيزيائية في الحركة الدورانية', path: '/courses/physics-2008/physics-2008-first-semester/2-rotational-motion/2-rotational-dynamics/2-rotational-dynamics-explanation' },
+                { label: 'حصة رقم (9): ديناميكا الحركة الدورانية (شرح)', path: '/courses/physics-2008/physics-2008-first-semester/2-rotational-motion/2-rotational-dynamics/2-rotational-dynamics-explanation' },
                 { label: 'حصة رقم (10): ديناميكا الحركة الدورانية (حل أسئلة)', path: '/courses/physics-2008/physics-2008-first-semester/2-rotational-motion/2-rotational-dynamics/3-rotational-dynamics-questions' },
                 { label: 'حصة رقم (11): القانون الثاني لنيوتن في الحركة الدورانية', path: '/courses/physics-2008/physics-2008-first-semester/2-rotational-motion/2-rotational-dynamics/4-newtons-second-law-for-rotation' },
               ]
