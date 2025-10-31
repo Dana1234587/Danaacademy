@@ -29,39 +29,39 @@ const SmartTextRenderer = ({ text, as: Wrapper = 'p' }: { text: string; as?: Rea
 };
 
 const quizQuestions = [
-  {
-    questionText: 'أربع جسيمات نقطية متطابقة كتلة كل منها m موضوعة عند رؤوس مربع طول ضلعه L. ما هو عزم القصور الذاتي للنظام حول محور يمر بمركزه وعمودي على مستواه؟',
-    options: ['$mL^2$', '$2mL^2$', '$3mL^2$', '$4mL^2$'],
-    correctAnswerIndex: 1,
-    explanation: 'المسافة من المركز إلى أي رأس هي $d = \\sqrt{(L/2)^2 + (L/2)^2} = \\sqrt{L^2/2} = L/\\sqrt{2}$. عزم القصور لكل جسيم هو $m d^2 = m(L/\\sqrt{2})^2 = mL^2/2$. العزم الكلي هو $4 \\times (mL^2/2) = 2mL^2$.'
-  },
-  {
-    questionText: 'ما النسبة بين عزم القصور الذاتي لكرة مصمتة وعزم القصور الذاتي لأسطوانة مصمتة لهما نفس الكتلة M ونفس نصف القطر R، ويدوران حول محور يمر بمركزهما؟ $I_{كرة} = \\frac{2}{5}MR^2$, $I_{اسطوانة} = \\frac{1}{2}MR^2$.',
-    options: ['4/5', '5/4', '2/5', '1'],
-    correctAnswerIndex: 0,
-    explanation: 'النسبة المطلوبة هي $\\frac{I_{كرة}}{I_{اسطوانة}} = \\frac{\\frac{2}{5}MR^2}{\\frac{1}{2}MR^2} = \\frac{2/5}{1/2} = \\frac{4}{5}$.'
-  },
-  {
-    questionText: 'قضيب رفيع كتلته M وطوله L. إذا كان عزم قصوره الذاتي حول أحد طرفيه هو $I_1$ وحول منتصفه هو $I_2$. ما العلاقة بينهما؟',
-    options: ['$I_1 = I_2$', '$I_1 = 2I_2$', '$I_1 = 4I_2$', '$I_2 = 4I_1$'],
-    correctAnswerIndex: 2,
-    explanation: '$I_1 = \\frac{1}{3}ML^2$ و $I_2 = \\frac{1}{12}ML^2$. النسبة $\\frac{I_1}{I_2} = \\frac{1/3}{1/12} = 4$. إذن، $I_1 = 4I_2$.'
-  },
-  {
-    questionText: 'يدور إطار سيارة حول محوره. إذا أضيفت قطعة من الطين إلى حافة الإطار الخارجية، فإن عزم قصوره الذاتي...',
-    options: ['يزداد', 'يقل', 'يبقى كما هو', 'يصبح صفرًا'],
-    correctAnswerIndex: 0,
-    explanation: 'إضافة كتلة جديدة إلى النظام، وخصوصًا عند أبعد نقطة عن محور الدوران (الحافة الخارجية)، يزيد من القيمة الإجمالية لـ $\\sum mr^2$, وبالتالي يزداد عزم القصور الذاتي.'
-  },
-  {
-    questionText: 'إذا كان لديك قرص مصمت وحلقة لهما نفس الكتلة ونفس نصف القطر الخارجي. أي منهما سيتدحرج إلى أسفل منحدر مائل بشكل أبطأ إذا بدءا من السكون معًا؟',
-    options: ['القرص المصمت', 'الحلقة', 'سيصلان في نفس الوقت', 'لا يمكن التحديد'],
-    correctAnswerIndex: 1,
-    explanation: 'الجسم ذو عزم القصور الذاتي الأكبر سيقاوم التغير في حركته الدورانية أكثر، وبالتالي سيكون تسارعه الزاوي أقل، وسيصل إلى أسفل المنحدر أبطأ. الحلقة لها عزم قصور ذاتي ($MR^2$) أكبر من القرص المصمت ($\frac{1}{2}MR^2$)، لذا ستكون أبطأ.'
-  },
+    {
+        questionText: 'عجلة دوارة تبدأ من السكون وتتسارع بتسارع زاوي ثابت مقداره $3 rad/s^2$. ما هي سرعتها الزاوية بعد 5 ثوانٍ؟',
+        options: ['$15 rad/s$', '$7.5 rad/s$', '$1.5 rad/s$', '$37.5 rad/s$'],
+        correctAnswerIndex: 0,
+        explanation: 'باستخدام معادلة الحركة الأولى: $\\omega_f = \\omega_i + \\alpha t$. \n بما أنها بدأت من السكون، $\\omega_i = 0$. \n $\\omega_f = 0 + (3 rad/s^2)(5 s) = 15 rad/s$.'
+    },
+    {
+        questionText: 'مروحة تدور بسرعة زاوية ابتدائية $20 rad/s$ ثم تتباطأ بتسارع زاوي ثابت حتى تتوقف خلال 4 ثوانٍ. ما مقدار الإزاحة الزاوية التي قطعتها خلال هذه الفترة؟',
+        options: ['$80 rad$', '$20 rad$', '$40 rad$', '$160 rad$'],
+        correctAnswerIndex: 2,
+        explanation: 'يمكن استخدام المعادلة $\\Delta\\theta = \\frac{1}{2}(\\omega_i + \\omega_f)t$. \n $\\Delta\\theta = \\frac{1}{2}(20 rad/s + 0 rad/s)(4 s) = \\frac{1}{2}(20)(4) = 40 rad$.'
+    },
+    {
+        questionText: 'قرص دوار يتسارع من السكون ويقطع إزاحة زاوية مقدارها $12.5 rad$ في 5 ثوانٍ. ما مقدار تسارعه الزاوي الثابت؟',
+        options: ['$1 rad/s^2$', '$2.5 rad/s^2$', '$5 rad/s^2$', '$0.5 rad/s^2$'],
+        correctAnswerIndex: 0,
+        explanation: 'نستخدم معادلة الحركة الثانية: $\\Delta\\theta = \\omega_i t + \\frac{1}{2}\\alpha t^2$. \n $12.5 = (0)(5) + \\frac{1}{2}\\alpha (5)^2$. \n $12.5 = \\frac{1}{2}\\alpha (25) \\implies 25 = 25\\alpha \\implies \\alpha = 1 rad/s^2$.'
+    },
+    {
+        questionText: 'عجلة تدور بسرعة $10 rad/s$ وتتسارع بمقدار $2 rad/s^2$. ما سرعتها الزاوية بعد أن تكون قد قطعت إزاحة زاوية مقدارها 21 راديان؟',
+        options: ['$14 rad/s$', '$184 rad/s$', '$12 rad/s$', '$13.6 rad/s$'],
+        correctAnswerIndex: 0,
+        explanation: 'نستخدم معادلة الحركة الثالثة: $\\omega_f^2 = \\omega_i^2 + 2\\alpha \\Delta\\theta$. \n $\\omega_f^2 = (10)^2 + 2(2)(21) = 100 + 84 = 184$. \n $\\omega_f = \\sqrt{184} \\approx 13.56 rad/s$. الخيار الأقرب هو 14 rad/s.'
+    },
+    {
+        questionText: 'ما هي الإزاحة الزاوية لعجلة دارت 5 دورات كاملة؟',
+        options: ['5 rad', '5$\\pi$ rad', '10$\\pi$ rad', '2.5 rad'],
+        correctAnswerIndex: 2,
+        explanation: 'كل دورة كاملة تعادل $2\\pi$ راديان. \n الإزاحة الزاوية = عدد الدورات × $2\\pi = 5 \\times 2\\pi = 10\\pi$ راديان.'
+    },
 ];
 
-export default function RotationalDynamicsQuestionsQuizPage() {
+export default function QuizPage() {
   const [selectedAnswers, setSelectedAnswers] = useState<(number | null)[]>(new Array(quizQuestions.length).fill(null));
   const [isSubmitted, setIsSubmitted] = useState(false);
 
@@ -130,5 +130,3 @@ export default function RotationalDynamicsQuestionsQuizPage() {
     </div>
   );
 }
-
-    
