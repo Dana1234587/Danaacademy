@@ -84,7 +84,15 @@ const courseStructure = {
               title: 'الدرس الثاني: ديناميكا الحركة الدورانية',
               topics: [
                 { label: 'حصة رقم (8): حصة تأسيس', path: '/courses/physics-2008/physics-2008-first-semester/2-rotational-motion/2-rotational-dynamics/1-introductory-experiment' },
-                { label: 'حصة رقم (9): ديناميكا الحركة الدورانية (شرح)', path: '/courses/physics-2008/physics-2008-first-semester/2-rotational-motion/2-rotational-dynamics/2-rotational-dynamics-explanation' },
+                { label: 'حصة رقم (9): الكميات الفيزيائية في الحركة الدورانية', path: '/courses/physics-2008/physics-2008-first-semester/2-rotational-motion/2-rotational-dynamics/2-rotational-dynamics-explanation' },
+                { label: 'حصة رقم (10): ديناميكا الحركة الدورانية (حل أسئلة)', path: '/courses/physics-2008/physics-2008-first-semester/2-rotational-motion/2-rotational-dynamics/3-rotational-dynamics-questions' },
+                { label: 'حصة رقم (11): القانون الثاني لنيوتن في الحركة الدورانية', path: '/courses/physics-2008/physics-2008-first-semester/2-rotational-motion/2-rotational-dynamics/4-newtons-second-law-for-rotation' },
+              ]
+            },
+             {
+              title: 'الدرس الثالث: الزخم الزاوي',
+              topics: [
+                { label: 'حصة رقم (13): الزخم الزاوي', path: '/courses/physics-2008/physics-2008-first-semester/2-rotational-motion/3-angular-momentum/2-angular-momentum' },
               ]
             }
           ]
@@ -231,7 +239,7 @@ export default function Physics2008FirstSemesterPage() {
                   </div>
                    <Button asChild variant="outline" className="flex-shrink-0">
                       <Link href="/" className="flex items-center gap-2">
-                          <Home className="h-4 w-4" />
+                          <Home className="h-4 h-4" />
                           العودة للرئيسية
                       </Link>
                   </Button>
@@ -273,3 +281,5 @@ export default function Physics2008FirstSemesterPage() {
     </SidebarProvider>
   );
 }
+
+    
