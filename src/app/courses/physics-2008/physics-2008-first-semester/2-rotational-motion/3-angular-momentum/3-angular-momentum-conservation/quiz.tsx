@@ -55,9 +55,9 @@ const quizQuestions = [
   },
   {
     questionText: 'قرص دوار عزم قصوره الذاتي $20 kg \\cdot m^2$ ويدور بسرعة $5 rad/s$. أُلقيت عليه حلقة كتلتها $2 kg$ ونصف قطرها $0.5 m$ بشكل محوري. ما السرعة الزاوية النهائية للنظام؟ (عزم قصور الحلقة $I = mR^2$)',
-    options: ['4.9 rad/s', '5 rad/s', '4.76 rad/s', '2.5 rad/s'],
+    options: ['$4.9 rad/s$', '$5 rad/s$', '$4.88 rad/s$', '$2.5 rad/s$'],
     correctAnswerIndex: 2,
-    explanation: 'أولاً، نحسب عزم القصور الذاتي للحلقة: $I_{حلقة} = mR^2 = 2 \\times (0.5)^2 = 0.5 kg \\cdot m^2$. \n عزم القصور الذاتي الابتدائي للنظام هو عزم القرص فقط: $I_i = 20$. \n عزم القصور الذاتي النهائي هو مجموع عزمي القرص والحلقة: $I_f = 20 + 0.5 = 20.5$. \n نطبق حفظ الزخم الزاوي: $L_i = L_f \\Rightarrow I_i \\omega_i = I_f \\omega_f$. \n $20 \\times 5 = 20.5 \\times \\omega_f$. \n $\\omega_f = 100 / 20.5 \\approx 4.88$ rad/s. أقرب إجابة هي 4.76 rad/s.'
+    explanation: 'أولاً، نحسب عزم القصور الذاتي للحلقة: $I_{حلقة} = mR^2 = 2 \\times (0.5)^2 = 0.5 kg \\cdot m^2$. \n عزم القصور الذاتي الابتدائي للنظام هو عزم القرص فقط: $I_i = 20$. \n عزم القصور الذاتي النهائي هو مجموع عزمي القرص والحلقة: $I_f = 20 + 0.5 = 20.5$. \n نطبق حفظ الزخم الزاوي: $L_i = L_f \\Rightarrow I_i \\omega_i = I_f \\omega_f$. \n $20 \\times 5 = 20.5 \\times \\omega_f$. \n $\\omega_f = 100 / 20.5 \\approx 4.88$ rad/s.'
   },
 ];
 
@@ -130,3 +130,4 @@ export default function AngularMomentumConservationQuizPage() {
     </div>
   );
 }
+
