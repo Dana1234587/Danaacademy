@@ -26,11 +26,6 @@ const SmartTextRenderer = ({ text, as: Wrapper = 'p' }: { text: string; as?: Rea
 
 const laws = [
     {
-        title: "الزخم الزاوي لجسيم نقطي",
-        formula: "\\vec{L} = \\vec{r} \\times \\vec{p}",
-        description: "الزخم الزاوي (L) لجسيم نقطي هو حاصل الضرب المتجهي لمتجه الموضع (r) في متجه الزخم الخطي (p). مقداره هو $L = rp\\sin\\theta = mvr\\sin\\theta$."
-    },
-    {
         title: "الزخم الزاوي لجسم جاسئ",
         formula: "\\vec{L} = I \\vec{\\omega}",
         description: "لجسم جاسئ يدور حول محور ثابت، يُحسب الزخم الزاوي بضرب عزم قصوره الذاتي (I) حول ذلك المحور في سرعته الزاوية (ω)."
