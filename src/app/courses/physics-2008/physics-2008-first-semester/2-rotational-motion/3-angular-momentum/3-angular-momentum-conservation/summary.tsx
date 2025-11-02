@@ -7,11 +7,24 @@ import { Info } from 'lucide-react';
 import 'katex/dist/katex.min.css';
 import { BlockMath, InlineMath } from 'react-katex';
 
+const laws = [
+    {
+        title: "مبدأ حفظ الزخم الزاوي",
+        formula: "\\text{If } \\Sigma \\vec{\\tau}_{ext} = 0, \\text{ then } \\vec{L}_{initial} = \\vec{L}_{final}",
+        description: "إذا كانت محصلة العزوم الخارجية المؤثرة على نظام تساوي صفرًا، فإن الزخم الزاوي الكلي للنظام يبقى ثابتًا (محفوظًا)."
+    },
+    {
+        title: "تطبيق على الأنظمة المتغيرة",
+        formula: "I_i \\omega_i = I_f \\omega_f",
+        description: "هذه هي الصيغة العملية لحفظ الزخم الزاوي. إذا تغير عزم القصور الذاتي للنظام (بسبب تغير توزيع الكتلة)، فيجب أن تتغير السرعة الزاوية بشكل عكسي للحفاظ على الزخم الزاوي ثابتًا."
+    }
+];
+
 const SmartTextRenderer = ({ text, as: Wrapper = 'p' }: { text: string; as?: React.ElementType }) => {
     const lines = text.split('\n');
     const renderPart = (part: string, index: number) => {
         if (index % 2 === 0) return <span key={index} dir="rtl">{part}</span>;
-        return <span key={index} className="inline-block mx-1"><InlineMath math={part} /></span>;
+        return <span key={index} dir="ltr" className="inline-block mx-1"><InlineMath math={part} /></span>;
     };
     return (
         <Wrapper className="leading-relaxed">
@@ -24,23 +37,6 @@ const SmartTextRenderer = ({ text, as: Wrapper = 'p' }: { text: string; as?: Rea
     );
 };
 
-const laws = [
-    {
-        title: "الزخم الزاوي لجسيم نقطي",
-        formula: "\\vec{L} = \\vec{r} \\times \\vec{p}",
-        description: "الزخم الزاوي (L) لجسيم نقطي هو حاصل الضرب المتجهي لمتجه الموضع (r) في متجه الزخم الخطي (p). مقداره هو $L = rp\\sin\\theta = mvr\\sin\\theta$."
-    },
-    {
-        title: "الزخم الزاوي لجسم جاسئ",
-        formula: "\\vec{L} = I \\vec{\\omega}",
-        description: "لجسم جاسئ يدور حول محور ثابت، يُحسب الزخم الزاوي بضرب عزم قصوره الذاتي (I) حول ذلك المحور في سرعته الزاوية (ω)."
-    },
-    {
-        title: "قانون نيوتن الثاني بدلالة الزخم الزاوي",
-        formula: "\\Sigma \\vec{\\tau} = \\frac{d\\vec{L}}{dt}",
-        description: "ينص على أن محصلة العزوم الخارجية المؤثرة على جسم تساوي المعدل الزمني للتغير في زخمه الزاوي. هذه هي الصيغة الأشمل لديناميكا الحركة الدورانية."
-    }
-];
 
 export default function SummaryPage() {
   return (
@@ -56,16 +52,16 @@ export default function SummaryPage() {
                     <BlockMath math={law.formula} />
                 </div>
                 <CardDescription className="text-right">
-                    <SmartTextRenderer text={law.description} />
+                    {law.description}
                 </CardDescription>
             </CardContent>
           </Card>
         ))}
          <Alert>
           <Info className="h-4 w-4" />
-          <AlertTitle className="font-bold">تشابه المفاهيم</AlertTitle>
+          <AlertTitle className="font-bold">حفظ الطاقة مقابل حفظ الزخم الزاوي</AlertTitle>
           <AlertDescription>
-           <SmartTextRenderer as="div" text={'لاحظ كيف أن الزخم الزاوي ($L$) يماثل الزخم الخطي ($p$)، والسرعة الزاوية ($\\omega$) تماثل السرعة الخطية ($v$)، وعزم القصور الذاتي ($I$) يماثل الكتلة ($m$).'} />
+            <SmartTextRenderer as="div" text={'في الأنظمة التي يتم فيها حفظ الزخم الزاوي (مثل المتزلج الذي يضم ذراعيه)، لا تكون الطاقة الحركية الدورانية محفوظة بالضرورة. في الواقع، هي تزداد لأن $K = L^2 / (2I)$، وعندما يقل $I$، تزداد $K$.'} />
           </AlertDescription>
         </Alert>
       </div>

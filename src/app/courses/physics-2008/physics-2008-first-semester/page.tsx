@@ -93,6 +93,8 @@ const courseStructure = {
               title: 'الدرس الثالث: الزخم الزاوي',
               topics: [
                 { label: 'حصة رقم (12): الطاقة الحركية الدورانية', path: '/courses/physics-2008/physics-2008-first-semester/2-rotational-motion/3-angular-momentum/1-rotational-kinetic-energy' },
+                { label: 'حصة رقم (13): الزخم الزاوي', path: '/courses/physics-2008/physics-2008-first-semester/2-rotational-motion/3-angular-momentum/2-angular-momentum' },
+                { label: 'حصة رقم (14): حفظ الزخم الزاوي', path: '/courses/physics-2008/physics-2008-first-semester/2-rotational-motion/3-angular-momentum/3-angular-momentum-conservation' },
               ]
             }
           ]
