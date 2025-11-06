@@ -45,7 +45,7 @@ const courseStructure = {
                 { label: 'حصة رقم (7): القانون الثاني لنيوتن بدلالة الزخم الخطي (حل أسئلة)', path: '/courses/physics-2008/physics-2008-first-semester/1-linear-momentum-and-collisions/1-linear-momentum-and-impulse/7-newtons-second-law-questions' },
                 { label: 'حصة رقم (8): العلاقة بين الزخم الخطي والدفع (شرح)', path: '/courses/physics-2008/physics-2008-first-semester/1-linear-momentum-and-collisions/1-linear-momentum-and-impulse/8-momentum-impulse-relation-explanation' },
                 { label: 'حصة رقم (9): العلاقة بين الزخم الخطي والدفع (حل أسئلة)', path: '/courses/physics-2008/physics-2008-first-semester/1-linear-momentum-and-collisions/1-linear-momentum-and-impulse/9-momentum-impulse-relation-questions' },
-                { label: 'حصة رقم (10): منحنى (القوة - الزمن) شرح وحل أسئلة', path: '/courses/physics-2008/physics-2008-first-semester/1-linear-momentum-and-collisions/1-linear-momentum-and-impulse/10-force-time-curve' },
+                { label: 'حصة رقم (10): منحنى (القوة - الزمن)', path: '/courses/physics-2008/physics-2008-first-semester/1-linear-momentum-and-collisions/1-linear-momentum-and-impulse/10-force-time-curve' },
                 { label: 'حصة رقم (11): حفظ الزخم الخطي (شرح)', path: '/courses/physics-2008/physics-2008-first-semester/1-linear-momentum-and-collisions/1-linear-momentum-and-impulse/11-momentum-conservation-explanation' },
                 { label: 'حصة رقم (12): حفظ الزخم الخطي (حل أسئلة)', path: '/courses/physics-2008/physics-2008-first-semester/1-linear-momentum-and-collisions/1-linear-momentum-and-impulse/12-momentum-conservation-questions' },
               ]
@@ -93,8 +93,8 @@ const courseStructure = {
               title: 'الدرس الثالث: الزخم الزاوي',
               topics: [
                 { label: 'حصة رقم (12): الطاقة الحركية الدورانية', path: '/courses/physics-2008/physics-2008-first-semester/2-rotational-motion/3-angular-momentum/1-rotational-kinetic-energy' },
-                { label: 'حصة رقم (13): الزخم الزاوي', path: '/courses/physics-2008/physics-2008-first-semester/2-rotational-motion/3-angular-momentum/2-angular-momentum' },
                 { label: 'حصة رقم (14): حفظ الزخم الزاوي', path: '/courses/physics-2008/physics-2008-first-semester/2-rotational-motion/3-angular-momentum/3-angular-momentum-conservation' },
+                { label: 'حصة رقم (15): أسئلة تميز', path: '/courses/physics-2008/physics-2008-first-semester/2-rotational-motion/3-angular-momentum/4-advanced-questions' }
               ]
             }
           ]
@@ -283,7 +283,3 @@ export default function Physics2008FirstSemesterPage() {
     </SidebarProvider>
   );
 }
-
-    
-
-    
