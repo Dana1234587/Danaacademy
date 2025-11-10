@@ -19,7 +19,7 @@ export default function ElectricFieldLinesPage() {
             <p className="text-sm text-primary font-medium">الدرس الأول: المجال الكهربائي</p>
             <h1 className="text-3xl font-bold mt-1">حصة رقم (1): خطوط المجال الكهربائي (حصة تأسيس)</h1>
             <p className="text-muted-foreground mt-2 max-w-2xl">
-              نبدأ وحدة الكهرباء السكونية بحصة تأسيسية حول مفهوم وخصائص خطوط المجال الكهربائي.
+              في هذه الحصة، نبدأ وحدة الكهرباء السكونية بحصة تأسيسية حول مفهوم وخصائص خطوط المجال الكهربائي.
             </p>
           </div>
           <Button asChild variant="outline">
@@ -33,7 +33,7 @@ export default function ElectricFieldLinesPage() {
           {/* Main Content Area */}
           <div className="lg:col-span-2 space-y-6">
             
-            <WatermarkedVideoPlayer src="" />
+            <WatermarkedVideoPlayer src="https://vz-2adfd2e0-f8c.b-cdn.net/c4272291-1e01-4c15-8e3c-980b0c98c2bb/playlist.m3u8" />
             
             <Card>
                 <CardHeader>
@@ -94,3 +94,4 @@ export default function ElectricFieldLinesPage() {
     </div>
   );
 }
+
