@@ -69,7 +69,7 @@ function WatermarkedVideoPlayer({ src }: { src: string }) {
             "relative w-full rounded-lg overflow-hidden shadow-lg bg-black group",
             isFullscreen 
                 ? "fixed inset-0 z-50 !rounded-none" 
-                : "aspect-[4/3]" // Changed from aspect-video to 4/3
+                : "aspect-video"
         )}
     >
       <iframe
