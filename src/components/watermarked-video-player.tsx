@@ -6,6 +6,7 @@ import { useStore } from '@/store/app-store';
 import { Button } from '@/components/ui/button';
 import { Maximize, Minimize } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { Card, CardContent } from '@/components/ui/card';
 
 function WatermarkedVideoPlayer({ src }: { src: string }) {
   const currentUser = useStore((s) => s.currentUser);
@@ -51,6 +52,16 @@ function WatermarkedVideoPlayer({ src }: { src: string }) {
   const handleFullscreenToggle = () => {
     setIsFullscreen(!isFullscreen);
   };
+
+  if (!src) {
+    return (
+        <Card className="aspect-video w-full flex items-center justify-center bg-muted">
+            <CardContent className="text-center p-4">
+                <p className="text-muted-foreground">سيتم إضافة الفيديو قريبًا.</p>
+            </CardContent>
+        </Card>
+    );
+  }
 
   return (
     <div 
@@ -108,4 +119,3 @@ function WatermarkedVideoPlayer({ src }: { src: string }) {
 }
 
 export default WatermarkedVideoPlayer;
-
