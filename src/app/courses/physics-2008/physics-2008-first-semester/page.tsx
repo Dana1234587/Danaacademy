@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import { useStore } from '@/store/app-store';
@@ -93,8 +94,22 @@ const courseStructure = {
               title: 'الدرس الثالث: الزخم الزاوي',
               topics: [
                 { label: 'حصة رقم (12): الطاقة الحركية الدورانية', path: '/courses/physics-2008/physics-2008-first-semester/2-rotational-motion/3-angular-momentum/1-rotational-kinetic-energy' },
+                { label: 'حصة رقم (13): الزخم الزاوي', path: '/courses/physics-2008/physics-2008-first-semester/2-rotational-motion/3-angular-momentum/2-angular-momentum' },
                 { label: 'حصة رقم (14): حفظ الزخم الزاوي', path: '/courses/physics-2008/physics-2008-first-semester/2-rotational-motion/3-angular-momentum/3-angular-momentum-conservation' },
                 { label: 'حصة رقم (15): أسئلة تميز', path: '/courses/physics-2008/physics-2008-first-semester/2-rotational-motion/3-angular-momentum/4-advanced-questions' }
+              ]
+            }
+          ]
+        },
+        { 
+          label: 'الوحدة الثالثة: الكهرباء السكونية', 
+          icon: Folder, 
+          path: '/courses/physics-2008/physics-2008-first-semester/3-static-electricity', 
+          lessons: [
+            { 
+              title: 'الدرس الأول: المجال الكهربائي', 
+              topics: [
+                { label: 'حصة رقم (1): خطوط المجال الكهربائي (حصة تأسيس)', path: '/courses/physics-2008/physics-2008-first-semester/3-static-electricity/1-electric-field/1-electric-field-lines' },
               ]
             }
           ]
@@ -203,7 +218,7 @@ export default function Physics2008FirstSemesterPage() {
                     </CardHeader>
                     <CardContent>
                         <p className="text-lg text-muted-foreground">
-                            عذرًا، ليس لديك الصلاحية للوصول إلى هذه الدورة.
+                            عذرًا، ليس لديك الصلاحية للوصول إلى محتوى هذه الدورة.
                         </p>
                         <p className="mt-2 text-sm">
                             يرجى التأكد من تسجيلك في دورة "فيزياء توجيهي 2008 - فصل أول".
