@@ -66,10 +66,10 @@ function WatermarkedVideoPlayer({ src }: { src: string }) {
   return (
     <div 
         className={cn(
-            "relative w-full rounded-lg overflow-hidden shadow-lg bg-black group",
+            "relative w-full rounded-lg overflow-hidden shadow-lg bg-black group aspect-video",
             isFullscreen 
                 ? "fixed inset-0 z-50 !rounded-none" 
-                : "aspect-video"
+                : ""
         )}
     >
       <iframe
