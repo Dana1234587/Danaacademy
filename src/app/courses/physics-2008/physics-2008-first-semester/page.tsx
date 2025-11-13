@@ -111,6 +111,7 @@ const courseStructure = {
               topics: [
                 { label: 'حصة رقم (1): خطوط المجال الكهربائي (حصة تأسيس)', path: '/courses/physics-2008/physics-2008-first-semester/3-static-electricity/1-electric-field/1-electric-field-lines' },
                 { label: 'حصة رقم (2): التدفق الكهربائي (شرح)', path: '/courses/physics-2008/physics-2008-first-semester/3-static-electricity/1-electric-field/2-electric-flux' },
+                { label: 'حصة رقم (3): التدفق الكهربائي (حل أسئلة)', path: '/courses/physics-2008/physics-2008-first-semester/3-static-electricity/1-electric-field/3-electric-flux-questions' },
               ]
             }
           ]
@@ -301,3 +302,4 @@ export default function Physics2008FirstSemesterPage() {
 }
 
     
+
