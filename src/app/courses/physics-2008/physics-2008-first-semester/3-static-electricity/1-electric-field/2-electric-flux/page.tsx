@@ -17,7 +17,7 @@ export default function ElectricFluxPage() {
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
           <div>
             <p className="text-sm text-primary font-medium">الدرس الأول: المجال الكهربائي</p>
-            <h1 className="text-3xl font-bold mt-1">حصة رقم (2): التدفق الكهربائي</h1>
+            <h1 className="text-3xl font-bold mt-1">حصة رقم (2): التدفق الكهربائي (شرح)</h1>
             <p className="text-muted-foreground mt-2 max-w-2xl">
               في هذه الحصة، سنتعرف على مفهوم التدفق الكهربائي وكيفية حسابه.
             </p>
@@ -33,7 +33,7 @@ export default function ElectricFluxPage() {
           {/* Main Content Area */}
           <div className="lg:col-span-2 space-y-6">
             
-             <WatermarkedVideoPlayer src="" />
+             <WatermarkedVideoPlayer src="https://vz-2adfd2e0-f8c.b-cdn.net/90df972d-c29c-45a7-a1d4-5c59bc720035/playlist.m3u8" />
             
             <Card>
                 <CardHeader>
@@ -94,5 +94,3 @@ export default function ElectricFluxPage() {
     </div>
   );
 }
-
-    
