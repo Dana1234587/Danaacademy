@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -34,7 +33,7 @@ export default function ElectricFluxQuestionsPage() {
           {/* Main Content Area */}
           <div className="lg:col-span-2 space-y-6">
             
-            <WatermarkedVideoPlayer src="" />
+            <WatermarkedVideoPlayer src="https://vz-2adfd2e0-f8c.b-cdn.net/0e511b62-54a0-49aa-96ef-6ad6cdd9262d/playlist.m3u8" />
             
             <Card>
                 <CardHeader>
@@ -59,7 +58,7 @@ export default function ElectricFluxQuestionsPage() {
               <CardContent className="space-y-3">
                 <Button variant="ghost" className="w-full justify-start" asChild>
                    <Link href="https://drive.google.com/file/d/1L9uBQVjp_CnF_Tz1fv7ngHEAIGGmSuji/view?usp=sharing" target="_blank" rel="noopener noreferrer">
-                    <FileText className="me-3"/> ورقة عمل الدرس (PDF)
+                    <FileText className="me-2 h-4 w-4" /> ورقة عمل الدرس (PDF)
                   </Link>
                 </Button>
                  <Dialog>
