@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -34,7 +33,7 @@ export default function GaussLawPage() {
           {/* Main Content Area */}
           <div className="lg:col-span-2 space-y-6">
             
-            <WatermarkedVideoPlayer src="" />
+            <WatermarkedVideoPlayer src="https://vz-2adfd2e0-f8c.b-cdn.net/68cc8c59-a2d0-4309-9c76-aefed6570144/playlist.m3u8" />
             
             <Card>
                 <CardHeader>
