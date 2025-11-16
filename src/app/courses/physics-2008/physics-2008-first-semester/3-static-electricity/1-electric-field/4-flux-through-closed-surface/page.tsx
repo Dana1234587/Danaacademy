@@ -33,7 +33,7 @@ export default function FluxThroughClosedSurfacePage() {
           {/* Main Content Area */}
           <div className="lg:col-span-2 space-y-6">
             
-            <WatermarkedVideoPlayer src="" />
+            <WatermarkedVideoPlayer src="https://vz-2adfd2e0-f8c.b-cdn.net/276b52fd-91b8-46cd-a4f0-8d1b3b8117a3/playlist.m3u8" />
             
             <Card>
                 <CardHeader>
