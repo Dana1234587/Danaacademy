@@ -11,7 +11,7 @@ const SmartTextRenderer = ({ text, as: Wrapper = 'p' }: { text: string; as?: Rea
     const lines = text.split('\n');
     const renderPart = (part: string, index: number) => {
         if (index % 2 === 0) return <span key={index} dir="rtl">{part}</span>;
-        return <span key={index} className="inline-block mx-1"><InlineMath math={part} /></span>;
+        return <span key={index} dir="ltr" className="inline-block mx-1"><InlineMath math={part} /></span>;
     };
     return (
         <Wrapper className="leading-relaxed">
@@ -61,10 +61,11 @@ export default function SummaryPage() {
           <Info className="h-4 w-4" />
           <AlertTitle className="font-bold">استراتيجية الحل</AlertTitle>
           <AlertDescription>
-           <SmartTextRenderer as="div" text={"لحساب التدفق عبر وجه واحد من سطح مغلق، يمكننا استخدام حقيقة أن التدفق الكلي صفر. \n $\\Phi_{total} = \\Phi_{face1} + \\Phi_{face2} + ... = 0$. \n إذا تمكنا من حساب التدفق عبر جميع الأوجه الأخرى (لأنها قد تكون صفرًا أو سهلة الحساب)، يمكننا بسهولة إيجاد تدفق الوجه المجهول."} />
+           <SmartTextRenderer as="div" text={'لحساب التدفق عبر وجه واحد من سطح مغلق (مثل السطح المنحني لأسطوانة أو الوجه المائل لموشور)، نستخدم حقيقة أن التدفق الكلي صفر:\n\n$\\Phi_{\\text{total}} = \\Phi_{\\text{face1}} + \\Phi_{\\text{face2}} + ... = 0$\n\nإذا تمكنا من حساب التدفق عبر جميع الأوجه الأخرى (لأنها قد تكون صفرًا أو سهلة الحساب)، يمكننا بسهولة إيجاد تدفق الوجه المجهول.'} />
           </AlertDescription>
         </Alert>
       </div>
     </div>
   );
 }
+
