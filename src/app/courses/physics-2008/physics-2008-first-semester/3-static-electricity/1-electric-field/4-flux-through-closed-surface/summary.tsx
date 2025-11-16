@@ -1,6 +1,7 @@
 
 'use client';
 
+import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
 import { Info } from 'lucide-react';
@@ -14,11 +15,12 @@ const SmartTextRenderer = ({ text, as: Wrapper = 'p' }: { text: string; as?: Rea
         return <span key={index} dir="ltr" className="inline-block mx-1"><InlineMath math={part} /></span>;
     };
     return (
-        <Wrapper className="leading-relaxed">
+        <Wrapper className="leading-relaxed" dir="rtl">
             {lines.map((line, lineIndex) => (
-                <span key={lineIndex} className="block my-1 text-right">
+                <React.Fragment key={lineIndex}>
                     {line.split('$').map(renderPart)}
-                </span>
+                    {lineIndex < lines.length - 1 && <br />}
+                </React.Fragment>
             ))}
         </Wrapper>
     );
@@ -26,11 +28,6 @@ const SmartTextRenderer = ({ text, as: Wrapper = 'p' }: { text: string; as?: Rea
 
 
 const laws = [
-    {
-        title: "التدفق عبر سطح مغلق (قانون غاوس)",
-        formula: "\\Phi_{total} = \\oint \\vec{E} \\cdot d\\vec{A} = \\frac{Q_{enc}}{\\epsilon_0}",
-        description: "التدفق الكهربائي الكلي عبر أي سطح مغلق يساوي مجموع الشحنات الكهربائية المحصورة داخل السطح ($Q_{enc}$) مقسومًا على سماحية الفراغ الكهربائية ($\\epsilon_0$)."
-    },
     {
         title: "حالة خاصة: لا توجد شحنة محصورة",
         formula: "\\Phi_{total} = 0",
@@ -61,11 +58,10 @@ export default function SummaryPage() {
           <Info className="h-4 w-4" />
           <AlertTitle className="font-bold">استراتيجية الحل</AlertTitle>
           <AlertDescription>
-           <SmartTextRenderer as="div" text={'لحساب التدفق عبر وجه واحد من سطح مغلق (مثل السطح المنحني لأسطوانة أو الوجه المائل لموشور)، نستخدم حقيقة أن التدفق الكلي صفر:\n\n$\\Phi_{\\text{total}} = \\Phi_{\\text{face1}} + \\Phi_{\\text{face2}} + ... = 0$\n\nإذا تمكنا من حساب التدفق عبر جميع الأوجه الأخرى (لأنها قد تكون صفرًا أو سهلة الحساب)، يمكننا بسهولة إيجاد تدفق الوجه المجهول.'} />
+           <SmartTextRenderer as="div" text={'لحساب التدفق عبر وجه واحد من سطح مغلق، نستخدم حقيقة أن التدفق الكلي صفر:\n$\\Phi_{total} = \\Phi_{face1} + \\Phi_{face2} + ... = 0$\n\nإذا تمكنا من حساب التدفق عبر جميع الأوجه الأخرى (لأنها قد تكون صفرًا أو سهلة الحساب)، يمكننا بسهولة إيجاد تدفق الوجه المجهول.'} />
           </AlertDescription>
         </Alert>
       </div>
     </div>
   );
 }
-
