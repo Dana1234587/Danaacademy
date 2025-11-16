@@ -1,13 +1,38 @@
 
+'use client';
 import React from 'react';
 
-const DiagramPage = () => {
-  return (
-    <div>
-      <h1>الرسومات والمحاكاة</h1>
-      <p>هذا الملف سيحتوي على الرسومات والصور التوضيحية والمحاكاة.</p>
-    </div>
-  );
-};
+export const CylinderInField = () => (
+  <div className="my-4 p-4 bg-muted rounded-lg flex justify-center items-center">
+    <svg width="250" height="150" viewBox="0 0 250 150">
+      {/* Electric Field Lines */}
+      {[...Array(5)].map((_, i) => (
+        <line key={i} x1="10" y1={30 + i * 20} x2="240" y2={30 + i * 20} stroke="hsl(var(--primary))" strokeWidth="1" />
+      ))}
+      <polygon points="235,25 245,30 235,35" fill="hsl(var(--primary))" />
+      <text x="230" y="20" fontSize="12" fill="hsl(var(--primary))">E</text>
 
-export default DiagramPage;
+      {/* Cylinder */}
+      <ellipse cx="180" cy="80" rx="30" ry="50" stroke="black" strokeWidth="1.5" fill="none" fillOpacity="0.1" />
+      <ellipse cx="70" cy="80" rx="30" ry="50" stroke="black" strokeWidth="1.5" fill="hsl(var(--primary-foreground))" fillOpacity="0.5" />
+      <line x1="70" y1="30" x2="180" y2="30" stroke="black" strokeWidth="1.5" />
+      <line x1="70" y1="130" x2="180" y2="130" stroke="black" strokeWidth="1.5" />
+    </svg>
+  </div>
+);
+
+export const PrismInField = () => (
+     <div className="my-4 p-4 bg-muted rounded-lg flex justify-center items-center">
+        <svg width="250" height="150" viewBox="0 0 250 150">
+            {/* Electric Field Lines */}
+            {[...Array(7)].map((_, i) => (
+                <line key={i} x1={10 + i*35} y1="10" x2={10 + i*35} y2="140" stroke="hsl(var(--primary))" strokeWidth="1" />
+            ))}
+            <polygon points="5,135 10,145 15,135" fill="hsl(var(--primary))" />
+            <text x="20" y="135" fontSize="12" fill="hsl(var(--primary))">E</text>
+            
+            {/* Prism */}
+            <polygon points="50,50 200,50 125,120" stroke="black" fill="hsl(var(--primary-foreground))" strokeWidth="1.5" fillOpacity="0.5" />
+        </svg>
+    </div>
+);
