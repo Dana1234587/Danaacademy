@@ -36,3 +36,21 @@ export const PrismInField = () => (
         </svg>
     </div>
 );
+
+export const HemisphereInField = () => (
+    <div className="my-4 p-4 bg-muted rounded-lg flex justify-center items-center">
+        <svg width="200" height="150" viewBox="0 0 200 150">
+            {/* Electric Field Lines */}
+            {[...Array(5)].map((_, i) => (
+                <line key={i} x1={20 + i*40} y1="10" x2={20 + i*40} y2="140" stroke="hsl(var(--primary))" strokeWidth="1" />
+            ))}
+            <polygon points="15,135 20,145 25,135" fill="hsl(var(--primary))" />
+            <text x="30" y="135" fontSize="12" fill="hsl(var(--primary))">E</text>
+
+            {/* Hemisphere */}
+            <path d="M 50 100 A 50 50 0 0 1 150 100" stroke="black" fill="hsl(var(--primary-foreground))" fillOpacity="0.5" strokeWidth="1.5" />
+            <line x1="50" y1="100" x2="150" y2="100" stroke="black" strokeWidth="1.5" />
+        </svg>
+    </div>
+);
+

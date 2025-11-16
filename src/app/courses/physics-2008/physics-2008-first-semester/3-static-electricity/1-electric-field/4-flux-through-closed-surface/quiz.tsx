@@ -9,7 +9,7 @@ import { Label } from '@/components/ui/label';
 import { CheckCircle, XCircle } from 'lucide-react';
 import 'katex/dist/katex.min.css';
 import { InlineMath } from 'react-katex';
-import { CylinderInField, PrismInField } from './diagram';
+import { CylinderInField, PrismInField, HemisphereInField } from './diagram';
 
 // A robust, universal renderer for bidirectional text
 const SmartTextRenderer = ({ text, as: Wrapper = 'p' }: { text: string; as?: React.ElementType }) => {
@@ -51,18 +51,19 @@ const quizQuestions = [
     explanation: 'التدفق الكلي عبر السطح المغلق هو صفر. $\\Phi_{total} = \\Phi_{left} + \\Phi_{right} + \\Phi_{curved} = 0$. بما أن التدفق عبر السطح المنحني صفر، فإن $\\Phi_{left} + \\Phi_{right} = 0$. إذن، $\\Phi_{right} = -\\Phi_{left} = -(-5) = +5 N \\cdot m^2/C$.'
   },
   {
+    questionText: 'نصف كرة مغلق نصف قطره $r=0.5m$ موضوع في مجال كهربائي منتظم $E=100 N/C$ يتجه رأسيًا للأسفل كما في الشكل. ما مقدار التدفق الكهربائي عبر السطح الجانبي (المنحني) لنصف الكرة؟',
+    diagram: 'hemisphere',
+    options: ['$+25\\pi \\text{ N} \\cdot \\text{m}^2/C$', '$-25\\pi \\text{ N} \\cdot \\text{m}^2/C$', '$+50\\pi \\text{ N} \\cdot \\text{m}^2/C$', 'صفر'],
+    correctAnswerIndex: 0,
+    explanation: 'بما أن نصف الكرة سطح مغلق ولا توجد شحنة بداخله، فإن التدفق الكلي صفر: $\\Phi_{total} = \\Phi_{base} + \\Phi_{curved} = 0$. \nأولاً، نحسب التدفق عبر القاعدة الدائرية. متجه مساحة القاعدة يتجه للخارج (للأعلى)، بينما المجال يتجه للأسفل، فالزاوية بينهما $\\theta = 180^\\circ$. \n$\\Phi_{base} = EA \\cos(180^\\circ) = E (\\pi r^2) (-1) = -100 \\times \\pi (0.5)^2 = -25\\pi \\text{ N} \\cdot \\text{m}^2/C$. \nإذن، التدفق عبر السطح المنحني: $\\Phi_{curved} = -\\Phi_{base} = -(-25\\pi) = +25\\pi \\text{ N} \\cdot \\text{m}^2/C$.'
+  },
+  {
     questionText: 'موشور ثلاثي قائم موضوع في مجال كهربائي منتظم E يتجه رأسيًا للأسفل كما في الشكل. ما هو التدفق الكهربائي عبر الوجه المائل للموشور؟ (علمًا بأن التدفق عبر القاعدة السفلية هو $\\Phi_{base}$)',
     diagram: 'prism',
     options: ['صفر', '$\\Phi_{base}$', '$-\\Phi_{base}$', 'لا يمكن تحديده'],
     correctAnswerIndex: 2,
     explanation: 'لا يوجد شحنة داخل الموشور، لذا فالتدفق الكلي صفر. الأوجه الجانبية (الرأسية) موازية للمجال، فالتدفق عبرها صفر. إذن، $\\Phi_{total} = \\Phi_{base} + \\Phi_{top} + \\Phi_{sides} = 0$. $\\Phi_{base} + \\Phi_{top} + 0 = 0$. \n $\\Phi_{top} = -\\Phi_{base}$. التدفق الداخل (عبر الوجه المائل) يساوي سالب التدفق الخارج (عبر القاعدة).'
-  },
-  {
-    questionText: 'نصف كرة مغلق موضوع في مجال كهربائي منتظم. إذا كان التدفق عبر القاعدة الدائرية هو $\\Phi_0$, فما هو التدفق عبر السطح الكروي؟',
-    options: ['$\\Phi_0$', '$-\\Phi_0$', '$2\\Phi_0$', 'صفر'],
-    correctAnswerIndex: 1,
-    explanation: 'بما أن السطح مغلق ولا توجد شحنة بداخله، فإن التدفق الكلي صفر. $\\Phi_{total} = \\Phi_{base} + \\Phi_{hemisphere} = 0$. إذن، $\\Phi_{hemisphere} = -\\Phi_{base} = -\\Phi_0$.'
-  },
+  }
 ];
 
 export default function FluxThroughClosedSurfaceQuizPage() {
@@ -94,6 +95,7 @@ export default function FluxThroughClosedSurfaceQuizPage() {
               <CardTitle><SmartTextRenderer as="div" text={`السؤال ${qIndex + 1}: ${q.questionText}`} /></CardTitle>
               {q.diagram === 'cylinder' && <CylinderInField />}
               {q.diagram === 'prism' && <PrismInField />}
+              {q.diagram === 'hemisphere' && <HemisphereInField />}
             </CardHeader>
             <CardContent>
               <RadioGroup onValueChange={(value) => handleAnswerChange(qIndex, parseInt(value))} value={selectedAnswers[qIndex]?.toString()} className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -136,3 +138,4 @@ export default function FluxThroughClosedSurfaceQuizPage() {
     </div>
   );
 }
+
