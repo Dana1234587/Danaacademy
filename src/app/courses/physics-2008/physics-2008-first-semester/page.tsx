@@ -112,7 +112,8 @@ const courseStructure = {
                 { label: 'حصة رقم (1): خطوط المجال الكهربائي (حصة تأسيس)', path: '/courses/physics-2008/physics-2008-first-semester/3-static-electricity/1-electric-field/1-electric-field-lines' },
                 { label: 'حصة رقم (2): التدفق الكهربائي (شرح)', path: '/courses/physics-2008/physics-2008-first-semester/3-static-electricity/1-electric-field/2-electric-flux' },
                 { label: 'حصة رقم (3): التدفق الكهربائي (حل أسئلة)', path: '/courses/physics-2008/physics-2008-first-semester/3-static-electricity/1-electric-field/3-electric-flux-questions' },
-                { label: 'حصة رقم (4): قانون غاوس', path: '/courses/physics-2008/physics-2008-first-semester/3-static-electricity/1-electric-field/4-gauss-law' },
+                { label: 'حصة رقم (4): التدفق الكهربائي عبر سطح مغلق', path: '/courses/physics-2008/physics-2008-first-semester/3-static-electricity/1-electric-field/4-flux-through-closed-surface' },
+                { label: 'حصة رقم (5): قانون غاوس', path: '/courses/physics-2008/physics-2008-first-semester/3-static-electricity/1-electric-field/5-gauss-law' },
               ]
             }
           ]
@@ -303,5 +304,6 @@ export default function Physics2008FirstSemesterPage() {
 }
 
     
+
 
 

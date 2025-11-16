@@ -10,16 +10,16 @@ import QuizPage from './quiz';
 import SummaryPage from './summary';
 import WatermarkedVideoPlayer from '@/components/watermarked-video-player';
 
-export default function GaussLawPage() {
+export default function FluxThroughClosedSurfacePage() {
   return (
     <div className="min-h-screen bg-muted/40">
       <div className="p-4 sm:p-6 lg:p-8">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
           <div>
             <p className="text-sm text-primary font-medium">الدرس الأول: المجال الكهربائي</p>
-            <h1 className="text-3xl font-bold mt-1">حصة رقم (4): قانون غاوس</h1>
+            <h1 className="text-3xl font-bold mt-1">حصة رقم (4): التدفق الكهربائي عبر سطح مغلق</h1>
             <p className="text-muted-foreground mt-2 max-w-2xl">
-              في هذه الحصة، سنتعرف على قانون غاوس وكيفية استخدامه لحساب المجال الكهربائي.
+              في هذه الحصة، نطبق مفهوم التدفق الكهربائي على الأسطح المغلقة.
             </p>
           </div>
           <Button asChild variant="outline">
@@ -41,9 +41,10 @@ export default function GaussLawPage() {
                 </CardHeader>
                 <CardContent>
                     <ul className="space-y-3 list-disc list-inside text-muted-foreground">
-                        <li>نص قانون غاوس.</li>
-                        <li>مفهوم سطح غاوس.</li>
-                        <li>تطبيقات قانون غاوس لحساب المجال الكهربائي لأجسام متماثلة.</li>
+                        <li>تعريف التدفق عبر سطح مغلق.</li>
+                        <li>إشارة التدفق (موجب للخارج، سالب للداخل).</li>
+                        <li>العلاقة بين التدفق الكلي والشحنة المحصورة.</li>
+                        <li>التمهيد لقانون غاوس.</li>
                     </ul>
                 </CardContent>
             </Card>
@@ -67,7 +68,7 @@ export default function GaussLawPage() {
                     </DialogTrigger>
                     <DialogContent className="max-w-xl h-auto max-h-[80vh] overflow-y-auto">
                         <DialogHeader>
-                            <DialogTitle>ملخص قوانين: قانون غاوس</DialogTitle>
+                            <DialogTitle>ملخص قوانين: التدفق عبر سطح مغلق</DialogTitle>
                         </DialogHeader>
                         <SummaryPage />
                     </DialogContent>
@@ -80,7 +81,7 @@ export default function GaussLawPage() {
                     </DialogTrigger>
                     <DialogContent className="max-w-4xl h-[90vh] overflow-y-auto">
                         <DialogHeader>
-                            <DialogTitle>اختبار قصير: قانون غاوس</DialogTitle>
+                            <DialogTitle>اختبار قصير: التدفق عبر سطح مغلق</DialogTitle>
                         </DialogHeader>
                         <QuizPage />
                     </DialogContent>
