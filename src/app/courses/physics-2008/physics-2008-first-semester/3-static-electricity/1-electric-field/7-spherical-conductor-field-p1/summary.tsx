@@ -7,7 +7,6 @@ import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
 import { Info } from 'lucide-react';
 import 'katex/dist/katex.min.css';
 import { BlockMath, InlineMath } from 'react-katex';
-import { ElectricFieldGraph } from './diagram';
 
 const SmartTextRenderer = ({ text, as: Wrapper = 'p' }: { text: string; as?: React.ElementType }) => {
     const lines = text.split('\n');
@@ -89,17 +88,6 @@ export default function SummaryPage() {
             </CardContent>
         </Card>
         
-        <Card className="shadow-md">
-            <CardHeader>
-              <CardTitle className="text-primary text-xl text-right">الرسم البياني للمجال الكهربائي</CardTitle>
-            </CardHeader>
-            <CardContent>
-               <ElectricFieldGraph />
-                 <CardDescription className="text-right mt-4">
-                    يوضح الرسم البياني كيف أن المجال (E) يساوي صفر داخل الكرة، ثم يقفز إلى قيمته العظمى على السطح (عند r=R)، ثم يتناقص عكسيًا مع مربع المسافة ($1/r^2$) خارج الكرة.
-                </CardDescription>
-            </CardContent>
-        </Card>
       </div>
     </div>
   );
