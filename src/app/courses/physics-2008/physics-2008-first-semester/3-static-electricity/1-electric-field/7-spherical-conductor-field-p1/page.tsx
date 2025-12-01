@@ -33,11 +33,7 @@ export default function SphericalConductorFieldP1Page() {
           {/* Main Content Area */}
           <div className="lg:col-span-2 space-y-6">
             
-            <Card className="aspect-video w-full flex items-center justify-center bg-muted">
-                <CardContent className="text-center p-4">
-                    <p className="text-muted-foreground">سيتم إضافة الفيديو قريبًا.</p>
-                </CardContent>
-            </Card>
+            <WatermarkedVideoPlayer src="https://vz-2adfd2e0-f8c.b-cdn.net/3de7f993-08a3-4aba-8af0-3ecd9348e6ae/playlist.m3u8" />
             
             <Card>
                 <CardHeader>
