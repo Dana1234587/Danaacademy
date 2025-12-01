@@ -32,6 +32,7 @@ export default function SphericalConductorFieldP1Page() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Main Content Area */}
           <div className="lg:col-span-2 space-y-6">
+            
             <WatermarkedVideoPlayer src="https://vz-2adfd2e0-f8c.b-cdn.net/3de7f993-08a3-4aba-8af0-3ecd9348e6ae/playlist.m3u8" />
             
             <Card>
