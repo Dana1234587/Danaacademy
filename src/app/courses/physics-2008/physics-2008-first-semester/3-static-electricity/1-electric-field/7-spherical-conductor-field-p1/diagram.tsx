@@ -32,8 +32,8 @@ export const ElectricFieldGraph = () => (
       <line x1="120" y1="180" x2="120" y2="40" stroke="hsl(var(--primary))" strokeWidth="2" strokeDasharray="2,2" />
       <circle cx="120" cy="40" r="3" fill="hsl(var(--primary))" />
       
-      {/* E decreases outside */}
-      <path d="M 120 40 Q 180 30, 300 15" stroke="hsl(var(--primary))" strokeWidth="3" fill="none" />
+      {/* E decreases outside as 1/r^2 */}
+      <path d="M 120 40 C 180 20, 250 15, 300 12" stroke="hsl(var(--primary))" strokeWidth="3" fill="none" />
     </svg>
   </div>
 );
