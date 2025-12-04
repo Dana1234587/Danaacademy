@@ -33,7 +33,7 @@ export default function InfinitePlaneFieldPage() {
           {/* Main Content Area */}
           <div className="lg:col-span-2 space-y-6">
             
-            <WatermarkedVideoPlayer src="" />
+            <WatermarkedVideoPlayer src="https://vz-2adfd2e0-f8c.b-cdn.net/a9492512-0bc3-4b16-8c89-af8370ea9541/playlist.m3u8" />
             
             <Card>
                 <CardHeader>
