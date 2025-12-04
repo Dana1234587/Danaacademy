@@ -33,7 +33,7 @@ export default function SphericalConductorFieldP2Page() {
           {/* Main Content Area */}
           <div className="lg:col-span-2 space-y-6">
             
-            <WatermarkedVideoPlayer src="" />
+            <WatermarkedVideoPlayer src="https://vz-2adfd2e0-f8c.b-cdn.net/bc4826e3-9aa9-4806-a66d-baac88a04729/playlist.m3u8" />
             
             <Card>
                 <CardHeader>
@@ -93,5 +93,3 @@ export default function SphericalConductorFieldP2Page() {
     </div>
   );
 }
-
-    
