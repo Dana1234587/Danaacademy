@@ -108,7 +108,7 @@ const courseStructure = {
           lessons: [
             { 
               title: 'الدرس الأول: المجال الكهربائي',
-              dossierUrl: 'https://placeholder.com/dossier-link', // Placeholder link
+              dossierUrl: 'https://drive.google.com/file/d/1Xfx63bp6T9jn3Nus2jcBxwYfaPeILCIP/view?usp=sharing',
               topics: [
                 { label: 'حصة رقم (1): خطوط المجال الكهربائي (حصة تأسيس)', path: '/courses/physics-2008/physics-2008-first-semester/3-static-electricity/1-electric-field/1-electric-field-lines' },
                 { label: 'حصة رقم (2): التدفق الكهربائي (شرح)', path: '/courses/physics-2008/physics-2008-first-semester/3-static-electricity/1-electric-field/2-electric-flux' },
@@ -322,4 +322,5 @@ export default function Physics2008FirstSemesterPage() {
 
 
     
+
 
