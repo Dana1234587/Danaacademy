@@ -116,6 +116,7 @@ const courseStructure = {
                 { label: 'حصة رقم (5): قانون غاوس', path: '/courses/physics-2008/physics-2008-first-semester/3-static-electricity/1-electric-field/5-gauss-law' },
                 { label: 'حصة رقم (6): الكثافة السطحية للشحنة', path: '/courses/physics-2008/physics-2008-first-semester/3-static-electricity/1-electric-field/6-surface-charge-density' },
                 { label: 'حصة رقم (7): المجال الكهربائي لكرة موصلة مشحونة (الجزء الأول)', path: '/courses/physics-2008/physics-2008-first-semester/3-static-electricity/1-electric-field/7-spherical-conductor-field-p1' },
+                { label: 'حصة رقم (8): المجال الكهربائي لكرة موصلة مشحونة (الجزء الثاني)', path: '/courses/physics-2008/physics-2008-first-semester/3-static-electricity/1-electric-field/8-spherical-conductor-field-p2' },
               ]
             }
           ]
@@ -304,5 +305,8 @@ export default function Physics2008FirstSemesterPage() {
     </SidebarProvider>
   );
 }
+
+    
+
 
     
