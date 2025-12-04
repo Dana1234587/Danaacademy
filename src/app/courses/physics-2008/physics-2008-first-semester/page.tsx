@@ -107,7 +107,8 @@ const courseStructure = {
           path: '/courses/physics-2008/physics-2008-first-semester/3-static-electricity', 
           lessons: [
             { 
-              title: 'الدرس الأول: المجال الكهربائي', 
+              title: 'الدرس الأول: المجال الكهربائي',
+              dossierUrl: 'https://placeholder.com/dossier-link', // Placeholder link
               topics: [
                 { label: 'حصة رقم (1): خطوط المجال الكهربائي (حصة تأسيس)', path: '/courses/physics-2008/physics-2008-first-semester/3-static-electricity/1-electric-field/1-electric-field-lines' },
                 { label: 'حصة رقم (2): التدفق الكهربائي (شرح)', path: '/courses/physics-2008/physics-2008-first-semester/3-static-electricity/1-electric-field/2-electric-flux' },
@@ -167,8 +168,18 @@ function LessonContent({ lesson }: { lesson: any }) {
             <Card className="border-primary/20">
                 <CollapsibleTrigger className="w-full text-start group">
                     <CardHeader className="flex flex-row items-center justify-between p-4 bg-muted/60 hover:bg-muted/80 transition-colors rounded-t-lg">
-                        <div className="flex flex-col items-start gap-2 flex-1">
-                            <CardTitle className="text-lg font-semibold text-foreground">{lesson.title}</CardTitle>
+                        <div className="flex items-center gap-4 flex-1">
+                            <div className="flex flex-col items-start gap-2 flex-1">
+                                <CardTitle className="text-lg font-semibold text-foreground">{lesson.title}</CardTitle>
+                            </div>
+                            {lesson.dossierUrl && (
+                                <Button asChild variant="outline" size="sm" onClick={(e) => e.stopPropagation()}>
+                                  <Link href={lesson.dossierUrl} target="_blank">
+                                    <FileText className="me-2 h-4 w-4" />
+                                    دوسية الدرس
+                                  </Link>
+                                </Button>
+                              )}
                         </div>
                         <Settings2 className="w-5 h-5 text-muted-foreground transition-transform duration-300 group-data-[state=open]:rotate-90" />
                     </CardHeader>
@@ -311,3 +322,4 @@ export default function Physics2008FirstSemesterPage() {
 
 
     
+
