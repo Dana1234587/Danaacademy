@@ -506,8 +506,8 @@ export default function AdminPage() {
                                         <TableRow>
                                             <TableHead>اسم الطالب</TableHead>
                                             <TableHead>اسم المستخدم</TableHead>
-                                            <TableHead>كلمة المرور</TableHead>
                                             <TableHead>الدورات</TableHead>
+                                            <TableHead>الأجهزة المسجلة</TableHead>
                                             <TableHead>الإجراءات</TableHead>
                                         </TableRow>
                                     </TableHeader>
@@ -517,8 +517,8 @@ export default function AdminPage() {
                                                 <TableRow key={student.id}>
                                                     <TableCell className="font-medium whitespace-nowrap">{student.studentName}</TableCell>
                                                     <TableCell className="whitespace-nowrap">{student.username}</TableCell>
-                                                    <TableCell className="whitespace-nowrap">{student.password || 'N/A'}</TableCell>
                                                     <TableCell className="whitespace-nowrap">{student.courses?.join(', ') || 'N/A'}</TableCell>
+                                                    <TableCell>{registeredDevices.filter(d => d.studentId === student.id).length}</TableCell>
                                                     <TableCell className="flex gap-2">
                                                         <Button variant="outline" size="icon" onClick={() => openEditDialog(student)}><Edit className="w-4 h-4" /></Button>
                                                         <AlertDialog>
@@ -567,7 +567,7 @@ export default function AdminPage() {
                         <CardHeader>
                              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                                 <div>
-                                    <CardTitle>طلبات الأجهزة المعلقة</CardTitle>
+                                    <CardTitle>طلبات الأجهزة المعلقة ({pendingDevices.length})</CardTitle>
                                     <CardDescription>الطلاب الذين يحاولون تسجيل الدخول من جهاز جديد.</CardDescription>
                                 </div>
                                  <div className="relative w-full sm:w-64">
@@ -659,7 +659,7 @@ export default function AdminPage() {
                         <CardHeader>
                              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                                 <div>
-                                    <CardTitle>الأجهزة المسجلة</CardTitle>
+                                    <CardTitle>الأجهزة المسجلة ({registeredDevices.length})</CardTitle>
                                     <CardDescription>هنا يتم عرض جميع الأجهزة المسجلة لكل طالب. الأجهزة مرتبة حسب آخر ظهور.</CardDescription>
                                 </div>
                                 <div className="relative w-full sm:w-64">
