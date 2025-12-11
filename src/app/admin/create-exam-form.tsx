@@ -74,10 +74,6 @@ function AiQuestionGenerator({ onQuestionGenerated }: { onQuestionGenerated: (qu
     const { toast } = useToast();
 
     const handleGenerate = async () => {
-        if (!topic.trim()) {
-            toast({ variant: 'destructive', title: 'الرجاء إدخال موضوع للسؤال.' });
-            return;
-        }
         setIsLoading(true);
         const result = await generateQuestionAction(topic);
         setIsLoading(false);
