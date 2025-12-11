@@ -44,6 +44,7 @@ import { initializeApp, deleteApp } from "firebase/app";
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 import { firebaseConfig } from '@/lib/firebase';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 
 const availableCourses = [
@@ -139,7 +140,7 @@ export default function AdminPage() {
             console.error("Error fetching data:", error);
             const errorMessage = error.code === 'permission-denied' 
                 ? 'فشل جلب البيانات. تأكدي من أن قواعد الأمان في Firestore صحيحة وأن حسابك يملك صلاحيات المسؤول.'
-                : `حدث خطأ غير متوقع: ${error.message}`;
+                : `حدث خطأ غير متوقع: ${'\'\'\''}${error.message}${'\'\'\''}`;
             toast({ 
                 variant: 'destructive', 
                 title: 'فشل تحميل البيانات', 
@@ -849,7 +850,7 @@ export default function AdminPage() {
                      <DialogHeader>
                         <DialogTitle>الأجهزة المسجلة للطالب: {devicesModalStudent?.studentName}</DialogTitle>
                      </DialogHeader>
-                     <div className="mt-4">
+                     <ScrollArea className="mt-4 max-h-[60vh] h-auto">
                         <Table>
                             <TableHeader>
                                 <TableRow>
@@ -902,12 +903,14 @@ export default function AdminPage() {
                          {registeredDevices.filter(d => d.studentId === devicesModalStudent?.id).length === 0 && (
                             <p className="text-center py-8 text-muted-foreground">لا توجد أجهزة مسجلة لهذا الطالب.</p>
                         )}
-                     </div>
+                     </ScrollArea>
                 </DialogContent>
             </Dialog>
         </>
     );
 }
+
+    
 
     
 
