@@ -86,6 +86,9 @@ export default function AdminPage() {
     const [editPhone2, setEditPhone2] = useState('');
     const [editSelectedCourses, setEditSelectedCourses] = useState<string[]>([]);
     const [editStudentGender, setEditStudentGender] = useState<'male' | 'female'>('male');
+    
+    // Devices Modal State
+    const [devicesModalStudent, setDevicesModalStudent] = useState<Student | null>(null);
 
 
     const filteredStudents = useMemo(() => {
@@ -298,7 +301,12 @@ export default function AdminPage() {
                 title: 'تم الحذف',
                 description: `تم حذف الجهاز المسجل بنجاح.`,
             });
-            fetchData();
+            fetchData(); // Refetch all data to update the UI
+            // If the modal is open, we might want to close it or update its content
+            if (devicesModalStudent) {
+                // To refresh the modal content, we re-set the student, which will trigger a re-render of the modal
+                 setDevicesModalStudent(prev => prev ? { ...prev } : null);
+            }
         } catch (error) {
             toast({ variant: 'destructive', title: 'فشل الحذف', description: 'لم نتمكن من حذف الجهاز.' });
         } finally {
@@ -535,7 +543,11 @@ export default function AdminPage() {
                                                     <TableCell className="font-medium whitespace-nowrap">{student.studentName}</TableCell>
                                                     <TableCell className="whitespace-nowrap">{student.username}</TableCell>
                                                     <TableCell className="whitespace-nowrap">{student.courses?.join(', ') || 'N/A'}</TableCell>
-                                                    <TableCell>{registeredDevices.filter(d => d.studentId === student.id).length}</TableCell>
+                                                    <TableCell>
+                                                        <Button variant="link" className="p-0 h-auto" onClick={() => setDevicesModalStudent(student)}>
+                                                            {registeredDevices.filter(d => d.studentId === student.id).length}
+                                                        </Button>
+                                                    </TableCell>
                                                     <TableCell className="flex gap-2">
                                                         <Button variant="outline" size="icon" onClick={() => openEditDialog(student)}><Edit className="w-4 h-4" /></Button>
                                                         <AlertDialog>
@@ -831,8 +843,72 @@ export default function AdminPage() {
                     </form>
                 </DialogContent>
             </Dialog>
+            
+            <Dialog open={!!devicesModalStudent} onOpenChange={(isOpen) => !isOpen && setDevicesModalStudent(null)}>
+                <DialogContent className="max-w-3xl">
+                     <DialogHeader>
+                        <DialogTitle>الأجهزة المسجلة للطالب: {devicesModalStudent?.studentName}</DialogTitle>
+                     </DialogHeader>
+                     <div className="mt-4">
+                        <Table>
+                            <TableHeader>
+                                <TableRow>
+                                    <TableHead>الجهاز</TableHead>
+                                    <TableHead>آخر ظهور</TableHead>
+                                    <TableHead>الإجراء</TableHead>
+                                </TableRow>
+                            </TableHeader>
+                            <TableBody>
+                                {registeredDevices.filter(d => d.studentId === devicesModalStudent?.id).map(device => (
+                                    <TableRow key={device.id}>
+                                         <TableCell>
+                                            <div className="flex items-center gap-2 text-xs">
+                                                <span>{device.deviceInfo?.os || 'OS'} / {device.deviceInfo?.browser || 'Browser'}</span>
+                                            </div>
+                                            <div className="font-mono text-xs text-muted-foreground break-all">{device.deviceId}</div>
+                                        </TableCell>
+                                        <TableCell>
+                                            {device.lastSeenAt ? (
+                                                <span className="text-xs">{formatDistanceToNow(new Date(device.lastSeenAt), { addSuffix: true, locale: ar })}</span>
+                                            ) : (
+                                                <span>غير معروف</span>
+                                            )}
+                                        </TableCell>
+                                         <TableCell>
+                                            <AlertDialog>
+                                                <AlertDialogTrigger asChild>
+                                                    <Button variant="destructive" size="icon" disabled={isLoading[`delete-device-${device.id}`]}>
+                                                        {isLoading[`delete-device-${device.id}`] ? <Loader2 className="w-4 h-4 animate-spin" /> : <Trash2 className="w-4 h-4" />}
+                                                    </Button>
+                                                </AlertDialogTrigger>
+                                                <AlertDialogContent>
+                                                    <AlertDialogHeader>
+                                                        <AlertDialogTitle>هل أنت متأكد من حذف الجهاز؟</AlertDialogTitle>
+                                                        <AlertDialogDescription>
+                                                        هذا الإجراء سيحذف الجهاز المسجل للطالب {devicesModalStudent?.studentName} نهائيًا. سيضطر الطالب إلى إعادة تسجيله والموافقة عليه مرة أخرى.
+                                                        </AlertDialogDescription>
+                                                    </AlertDialogHeader>
+                                                    <AlertDialogFooter>
+                                                        <AlertDialogCancel>إلغاء</AlertDialogCancel>
+                                                        <AlertDialogAction onClick={() => handleDeleteDevice(device.id)} className="bg-destructive hover:bg-destructive/90">نعم، قم بالحذف</AlertDialogAction>
+                                                    </AlertDialogFooter>
+                                                </AlertDialogContent>
+                                            </AlertDialog>
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                         {registeredDevices.filter(d => d.studentId === devicesModalStudent?.id).length === 0 && (
+                            <p className="text-center py-8 text-muted-foreground">لا توجد أجهزة مسجلة لهذا الطالب.</p>
+                        )}
+                     </div>
+                </DialogContent>
+            </Dialog>
         </>
     );
 }
+
+    
 
     
