@@ -70,9 +70,13 @@ export default function AdminPage() {
     const [newStudentPhone2, setNewStudentPhone2] = useState('');
     const [newStudentGender, setNewStudentGender] = useState<'male' | 'female'>('male');
     const [selectedCourses, setSelectedCourses] = useState<string[]>([]);
+    
+    // Filters and Search
     const [studentSearchQuery, setStudentSearchQuery] = useState('');
     const [deviceSearchQuery, setDeviceSearchQuery] = useState('');
     const [pendingDeviceSearchQuery, setPendingDeviceSearchQuery] = useState('');
+    const [studentCourseFilter, setStudentCourseFilter] = useState('all');
+
 
     // Edit Student State
     const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
@@ -85,13 +89,13 @@ export default function AdminPage() {
 
 
     const filteredStudents = useMemo(() => {
-        if (!studentSearchQuery) return students;
-        return students.filter(
-            (student) =>
-                student.studentName.toLowerCase().includes(studentSearchQuery.toLowerCase()) ||
-                student.username.toLowerCase().includes(studentSearchQuery.toLowerCase())
-        );
-    }, [students, studentSearchQuery]);
+        return students.filter((student) => {
+            const matchesSearch = student.studentName.toLowerCase().includes(studentSearchQuery.toLowerCase()) ||
+                                  student.username.toLowerCase().includes(studentSearchQuery.toLowerCase());
+            const matchesCourse = studentCourseFilter === 'all' || student.courseIds?.includes(studentCourseFilter);
+            return matchesSearch && matchesCourse;
+        });
+    }, [students, studentSearchQuery, studentCourseFilter]);
 
     const filteredRegisteredDevices = useMemo(() => {
         if (!deviceSearchQuery) return registeredDevices;
@@ -467,17 +471,30 @@ export default function AdminPage() {
                         <CardHeader>
                              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                                 <div>
-                                    <CardTitle>قائمة حسابات الطلاب ({students.length})</CardTitle>
+                                    <CardTitle>قائمة حسابات الطلاب ({filteredStudents.length} / {students.length})</CardTitle>
                                     <CardDescription>هنا يتم عرض جميع حسابات الطلاب المسجلة في قاعدة البيانات.</CardDescription>
                                 </div>
-                                <div className="relative w-full sm:w-64">
-                                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                    <Input 
-                                        placeholder="بحث بالاسم أو اسم المستخدم..." 
-                                        className="ps-10" 
-                                        value={studentSearchQuery}
-                                        onChange={(e) => setStudentSearchQuery(e.target.value)}
-                                    />
+                                <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
+                                   <Select value={studentCourseFilter} onValueChange={setStudentCourseFilter}>
+                                        <SelectTrigger className="w-full sm:w-[220px]">
+                                            <SelectValue placeholder="فلترة حسب الدورة" />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            <SelectItem value="all">جميع الدورات</SelectItem>
+                                            {availableCourses.map(course => (
+                                                <SelectItem key={course.id} value={course.id}>{course.name}</SelectItem>
+                                            ))}
+                                        </SelectContent>
+                                    </Select>
+                                    <div className="relative w-full sm:w-64">
+                                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                        <Input 
+                                            placeholder="بحث بالاسم أو اسم المستخدم..." 
+                                            className="ps-10" 
+                                            value={studentSearchQuery}
+                                            onChange={(e) => setStudentSearchQuery(e.target.value)}
+                                        />
+                                    </div>
                                 </div>
                              </div>
                         </CardHeader>
@@ -489,7 +506,7 @@ export default function AdminPage() {
                                     حذف الطالب من هنا سيحذف بياناته من قاعدة البيانات وأجهزته المسجلة وحسابه في نظام المصادقة.
                                 </AlertDescription>
                             </Alert>
-                             <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+                            <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
                                 {courseEnrollmentStats.map(course => (
                                 <div key={course.id} className="p-4 border rounded-lg bg-muted/50 flex items-center justify-between">
                                     <p className="font-semibold text-primary text-sm">{course.name}</p>
@@ -551,7 +568,7 @@ export default function AdminPage() {
                                         ) : (
                                             <TableRow>
                                                 <TableCell colSpan={5} className="text-center text-muted-foreground h-24">
-                                                    لا يوجد طلاب يطابقون بحثك.
+                                                    لا يوجد طلاب يطابقون بحثك أو الفلتر المطبق.
                                                 </TableCell>
                                             </TableRow>
                                         )}
