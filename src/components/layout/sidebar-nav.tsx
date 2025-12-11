@@ -17,7 +17,8 @@ import {
   Award,
   BarChart2,
   BookCopy,
-  Video
+  Video,
+  LayoutDashboard
 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
@@ -66,8 +67,8 @@ export function SidebarNav() {
                     <SidebarMenuItem>
                         <Link href="/admin" className="w-full">
                            <Button variant="ghost" className="w-full justify-start gap-2">
-                             <Users />
-                             إدارة الطلاب
+                             <LayoutDashboard />
+                             لوحة التحكم
                            </Button>
                         </Link>
                     </SidebarMenuItem>
@@ -82,7 +83,7 @@ export function SidebarNav() {
                     <SidebarMenuItem>
                         <Link href="/admin/analytics/videos" className="w-full">
                            <Button variant="ghost" className="w-full justify-start gap-2">
-                             <BarChart2 />
+                             <Video />
                              تحليلات الفيديو
                            </Button>
                         </Link>

@@ -42,6 +42,7 @@ export type RegisteredDevice = {
     ipAddress?: string;
     deviceInfo?: DeviceInfo;
     registeredAt?: string; // ISO string format
+    lastSeenAt?: string; // ISO string format
 };
 
 
@@ -59,6 +60,7 @@ export async function addDeviceToRegistered(deviceData: Omit<RegisteredDevice, '
     await registeredDevicesCol.add({
         ...deviceData,
         registeredAt: Timestamp.now(),
+        lastSeenAt: Timestamp.now(), // Also set lastSeenAt on initial registration
     });
 }
 
@@ -78,13 +80,14 @@ export async function getPendingDevices(): Promise<PendingDevice[]> {
 
 // Corrected function to reliably get all devices
 export async function getAllRegisteredDevices(): Promise<RegisteredDevice[]> {
-    const snapshot = await registeredDevicesCol.get();
+    const snapshot = await registeredDevicesCol.orderBy('lastSeenAt', 'desc').get();
     if (snapshot.empty) {
         return [];
     }
     return snapshot.docs.map(doc => {
         const data = doc.data();
         const registeredAtTimestamp = data.registeredAt as Timestamp | undefined;
+        const lastSeenAtTimestamp = data.lastSeenAt as Timestamp | undefined;
         return {
             id: doc.id,
             studentId: data.studentId || '',
@@ -94,6 +97,7 @@ export async function getAllRegisteredDevices(): Promise<RegisteredDevice[]> {
             ipAddress: data.ipAddress,
             deviceInfo: data.deviceInfo,
             registeredAt: registeredAtTimestamp ? registeredAtTimestamp.toDate().toISOString() : undefined,
+            lastSeenAt: lastSeenAtTimestamp ? lastSeenAtTimestamp.toDate().toISOString() : undefined,
         };
     });
 }
@@ -108,10 +112,12 @@ export async function findRegisteredDevicesByStudentId(studentId: string): Promi
     return snapshot.docs.map(doc => {
          const data = doc.data();
          const registeredAtTimestamp = data.registeredAt as Timestamp | undefined;
+         const lastSeenAtTimestamp = data.lastSeenAt as Timestamp | undefined;
         return { 
             id: doc.id, 
             ...data,
             registeredAt: registeredAtTimestamp ? registeredAtTimestamp.toDate().toISOString() : undefined,
+            lastSeenAt: lastSeenAtTimestamp ? lastSeenAtTimestamp.toDate().toISOString() : undefined,
         } as RegisteredDevice
     });
 }
@@ -139,7 +145,8 @@ export async function approveDevice(pendingDeviceId: string, mode: 'replace' | '
     const newRegisteredDeviceRef = registeredDevicesCol.doc();
     batch.set(newRegisteredDeviceRef, {
         ...deviceToApproveData,
-        registeredAt: Timestamp.now() // Set registration time on approval
+        registeredAt: Timestamp.now(), // Set registration time on approval
+        lastSeenAt: Timestamp.now()
     });
     
     batch.delete(pendingDeviceRef);
