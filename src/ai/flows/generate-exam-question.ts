@@ -21,7 +21,7 @@ export async function generateExamQuestion(input: ExamQuestionInput): Promise<Ex
 
 const generateQuestionPrompt = ai.definePrompt({
     name: 'generateExamQuestionPrompt',
-    model: 'gemini-1.5-flash',
+    model: 'gemini-2.5-flash',
     input: { schema: ExamQuestionInputSchema },
     output: { schema: ExamQuestionOutputSchema },
     system: `You are an expert physics author and educator. Your task is to create a single, original, high-quality multiple-choice question.

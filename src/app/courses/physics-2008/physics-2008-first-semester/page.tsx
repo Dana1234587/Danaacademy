@@ -119,6 +119,7 @@ const courseStructure = {
                 { label: 'حصة رقم (7): المجال الكهربائي لكرة موصلة مشحونة (الجزء الأول)', path: '/courses/physics-2008/physics-2008-first-semester/3-static-electricity/1-electric-field/7-spherical-conductor-field-p1' },
                 { label: 'حصة رقم (8): المجال الكهربائي لكرة موصلة مشحونة (الجزء الثاني)', path: '/courses/physics-2008/physics-2008-first-semester/3-static-electricity/1-electric-field/8-spherical-conductor-field-p2' },
                 { label: 'حصة رقم (9): المجال الكهربائي لشحنة موزعة على قشرة مستوية لا نهائية الأبعاد', path: '/courses/physics-2008/physics-2008-first-semester/3-static-electricity/1-electric-field/9-infinite-plane-field' },
+                { label: 'حصة رقم (10): المجال الكهربائي المنتظم', path: '/courses/physics-2008/physics-2008-first-semester/3-static-electricity/1-electric-field/10-uniform-electric-field' },
               ]
             }
           ]
@@ -322,5 +323,6 @@ export default function Physics2008FirstSemesterPage() {
 
 
     
+
 
 
