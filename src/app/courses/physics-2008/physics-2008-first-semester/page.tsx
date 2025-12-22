@@ -122,6 +122,12 @@ const courseStructure = {
                 { label: 'حصة رقم (10): المجال الكهربائي المنتظم', path: '/courses/physics-2008/physics-2008-first-semester/3-static-electricity/1-electric-field/10-uniform-electric-field' },
                 { label: 'حصة رقم (11): حركة جسيم مشحون في مجال كهربائي منتظم', path: '/courses/physics-2008/physics-2008-first-semester/3-static-electricity/1-electric-field/11-charged-particle-motion' },
               ]
+            },
+            {
+              title: 'الدرس الثاني: الجهد الكهربائي',
+              topics: [
+                { label: 'حصة رقم (12): مفهوم الشغل وطاقة الوضع ( حصة تأسيس)', path: '/courses/physics-2008/physics-2008-first-semester/3-static-electricity/2-electric-potential/1-work-and-potential-energy-concept' },
+              ]
             }
           ]
         }
@@ -324,6 +330,7 @@ export default function Physics2008FirstSemesterPage() {
 
 
     
+
 
 
 
