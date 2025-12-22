@@ -125,6 +125,7 @@ const courseStructure = {
             },
             {
               title: 'الدرس الثاني: الجهد الكهربائي',
+              dossierUrl: 'https://drive.google.com/file/d/1ypf1l09u1prfaR097Uh1_yUXrEpv1CZS/view?usp=sharing',
               topics: [
                 { label: 'حصة رقم (12): مفهوم الشغل وطاقة الوضع ( حصة تأسيس)', path: '/courses/physics-2008/physics-2008-first-semester/3-static-electricity/2-electric-potential/1-work-and-potential-energy-concept' },
                 { label: 'حصة رقم (13): الجهد الكهربائي وطاقة الوضع', path: '/courses/physics-2008/physics-2008-first-semester/3-static-electricity/2-electric-potential/2-potential-and-potential-energy' },
@@ -332,6 +333,7 @@ export default function Physics2008FirstSemesterPage() {
 
 
     
+
 
 
 

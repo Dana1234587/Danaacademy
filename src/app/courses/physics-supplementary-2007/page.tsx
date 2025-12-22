@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import { useStore } from '@/store/app-store';
@@ -541,3 +542,4 @@ export default function PhysicsSupplementary2007Page() {
     </SidebarProvider>
   );
 }
+
