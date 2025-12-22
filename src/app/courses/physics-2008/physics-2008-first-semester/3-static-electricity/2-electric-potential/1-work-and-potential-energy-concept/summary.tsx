@@ -19,7 +19,7 @@ const SmartTextRenderer = ({ text, as: Wrapper = 'p' }: { text: string; as?: Rea
         return parts.map((part, index) => {
             if (part.startsWith('$') && part.endsWith('$')) {
                 // This is a LaTeX part
-                const math = part.substring(1, part.length - 1);
+                const math = part.substring(1, part.length - 1).replace(/\\\\/g, '\\');
                 return <span key={index} dir="ltr" className="inline-block mx-1"><InlineMath math={math} /></span>;
             } else {
                 // This is a regular text part
@@ -49,12 +49,12 @@ const laws = [
     },
     {
         title: "شغل القوة الكهربائية وعلاقته بالطاقة",
-        formula: "W_{elec} = -\\Delta U_E = \\Delta K",
-        description: "عندما تتحرك شحنة تحت تأثير القوة الكهربائية فقط:\n• **يقلل** من طاقة الوضع الكهربائية ($\\Delta U_E$ سالب).\n• **يزيد** من طاقتها الحركية ($\\Delta K$ موجب)."
+        formula: "W_{elec} = -\\Delta PE = \\Delta KE",
+        description: "عندما تتحرك شحنة تحت تأثير القوة الكهربائية فقط:\n• **يقلل** من طاقة الوضع الكهربائية ($\\Delta PE$ سالب).\n• **يزيد** من طاقتها الحركية ($\\Delta KE$ موجب)."
     },
     {
         title: "شغل القوة الخارجية (بسرعة ثابتة)",
-        formula: "W_{ext} = \\Delta U_E \\quad (\\text{if } \\Delta K = 0)",
+        formula: "W_{ext} = \\Delta PE \\quad (\\text{if } \\Delta KE = 0)",
         description: "لتحريك شحنة بسرعة ثابتة، يجب تطبيق قوة خارجية ($F_{ext}$) تساوي القوة الكهربائية وتعاكسها. هذا الشغل المبذول بواسطة القوة الخارجية يتحول بالكامل إلى طاقة وضع كهربائية، بينما يبقى التغير في الطاقة الحركية صفرًا. الشغل الكلي على الشحنة يكون صفرًا."
     }
 ];
@@ -91,7 +91,7 @@ export default function SummaryPage() {
           <Info className="h-4 w-4" />
           <AlertTitle className="font-bold">مبرهنة الشغل-الطاقة الحركية</AlertTitle>
           <AlertDescription>
-           <SmartTextRenderer as="div" text={'تذكر دائمًا أن الشغل الكلي المبذول على جسم يساوي التغير في طاقته الحركية: $W_{total} = \\Delta K$.'} />
+           <SmartTextRenderer as="div" text={'تذكر دائمًا أن الشغل الكلي المبذول على جسم يساوي التغير في طاقته الحركية: $W_{total} = \\Delta KE$.'} />
           </AlertDescription>
         </Alert>
       </div>
