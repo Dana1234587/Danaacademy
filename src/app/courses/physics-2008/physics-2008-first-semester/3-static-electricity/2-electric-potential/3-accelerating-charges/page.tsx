@@ -33,11 +33,7 @@ export default function AcceleratingChargesPage() {
           {/* Main Content Area */}
           <div className="lg:col-span-2 space-y-6">
             
-            <Card className="aspect-video w-full flex items-center justify-center bg-muted">
-                <CardContent className="text-center p-4">
-                    <p className="text-muted-foreground">سيتم إضافة الفيديو قريبًا.</p>
-                </CardContent>
-            </Card>
+            <WatermarkedVideoPlayer src="https://vz-2adfd2e0-f8c.b-cdn.net/e1e29d2f-f431-40d4-bf94-c3a4b13cba6d/playlist.m3u8" />
             
             <Card>
                 <CardHeader>
