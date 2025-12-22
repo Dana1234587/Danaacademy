@@ -33,7 +33,7 @@ export default function WorkAndPotentialEnergyConceptPage() {
           {/* Main Content Area */}
           <div className="lg:col-span-2 space-y-6">
             
-            <WatermarkedVideoPlayer src="" />
+            <WatermarkedVideoPlayer src="https://vz-2adfd2e0-f8c.b-cdn.net/1d5bc941-5139-4395-a1c9-3d33eff6311a/playlist.m3u8" />
             
             <Card>
                 <CardHeader>
