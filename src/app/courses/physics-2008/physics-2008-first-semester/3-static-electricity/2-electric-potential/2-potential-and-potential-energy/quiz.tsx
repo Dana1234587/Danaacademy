@@ -9,7 +9,7 @@ import { Label } from '@/components/ui/label';
 import { CheckCircle, XCircle } from 'lucide-react';
 import 'katex/dist/katex.min.css';
 import { InlineMath } from 'react-katex';
-import { UniformFieldDiagram, NegativeChargeAgainstField } from './diagram';
+import { NegativeChargeAgainstField, NegativeChargeWithField } from './diagram';
 
 // A robust, universal renderer for bidirectional text
 const SmartTextRenderer = ({ text, as: Wrapper = 'p' }: { text: string; as?: React.ElementType }) => {
@@ -58,10 +58,11 @@ const quizQuestions = [
     explanation: 'خطوط المجال الكهربائي تشير دائمًا من منطقة الجهد المرتفع إلى منطقة الجهد المنخفض. لذلك، عند التحرك مع اتجاه المجال، فإن الجهد الكهربائي يقل.'
   },
   {
-    questionText: 'الجهد الكهربائي عند نقطة تبعد مسافة (r) عن شحنة مصدر نقطية (Q) يعتمد على:',
-    options: ['مقدار شحنة المصدر Q فقط', 'مقدار شحنة اختبار موضوعة عند النقطة', 'كل من شحنة المصدر وشحنة الاختبار', 'لا يعتمد على أي شحنة'],
-    correctAnswerIndex: 0,
-    explanation: 'الجهد الكهربائي $V = kQ/r$ هو خاصية للمكان، ويتأثر فقط بالشحنة التي تولد المجال (شحنة المصدر Q). هو لا يعتمد على مقدار أو نوع الشحنة التي قد توضع عند تلك النقطة لاحقًا.'
+    questionText: 'في الشكل، تتحرك شحنة سالبة بفعل قوة خارجية مع اتجاه المجال بسرعة ثابتة. إشارة شغل القوة الخارجية وما يحدث لطاقة وضع الشحنة هما:',
+    diagram: 'negative-charge-with-field',
+    options: ['شغل موجب، طاقة الوضع تقل', 'شغل سالب، طاقة الوضع تزداد', 'شغل موجب، طاقة الوضع تزداد', 'شغل سالب، طاقة الوضع تقل'],
+    correctAnswerIndex: 2,
+    explanation: '1. القوة الكهربائية ($F_e$) على الشحنة السالبة تكون عكس اتجاه المجال (لليسار). \n2. بما أن الشحنة تتحرك مع المجال (لليمين) بفعل قوة خارجية، فإن القوة الخارجية تبذل شغلاً **موجبًا** لأنها بنفس اتجاه الحركة. \n3. بما أن السرعة ثابتة، فإن شغل القوة الخارجية يتحول بالكامل إلى زيادة في طاقة الوضع الكهربائية للشحنة ($W_{ext} = \\Delta PE$). لذلك، طاقة الوضع **تزداد**.'
   },
   {
     questionText: 'في الشكل، تتحرك شحنة سالبة بفعل القوة الكهربائية في مجال كهربائي منتظم. إشارة شغل القوة الكهربائية وما يحدث لطاقة الوضع للشحنة هما:',
@@ -99,7 +100,7 @@ export default function QuizPage() {
           <Card key={qIndex} className={`border-2 ${isSubmitted ? (selectedAnswers[qIndex] === q.correctAnswerIndex ? 'border-green-500' : 'border-red-500') : 'border-border'} transition-colors duration-300 shadow-lg`}>
             <CardHeader>
               <CardTitle><SmartTextRenderer as="div" text={`السؤال ${qIndex + 1}: ${q.questionText}`} /></CardTitle>
-              {q.diagram === 'uniform-field' && <UniformFieldDiagram />}
+              {q.diagram === 'negative-charge-with-field' && <NegativeChargeWithField />}
               {q.diagram === 'negative-charge-against-field' && <NegativeChargeAgainstField />}
             </CardHeader>
             <CardContent>
