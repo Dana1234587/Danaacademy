@@ -17,7 +17,7 @@ export default function PotentialAndPotentialEnergyPage() {
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
           <div>
             <p className="text-sm text-primary font-medium">الدرس الثاني: الجهد الكهربائي</p>
-            <h1 className="text-3xl font-bold mt-1">حصة رقم (13): الجهد الكهربائي وطاقة الوضع</h1>
+            <h1 className="text-3xl font-bold mt-1">حصة رقم (13): الجهد الكهربائي وطاقة الوضع (شرح)</h1>
             <p className="text-muted-foreground mt-2 max-w-2xl">
               في هذه الحصة، نفرق بين مفهومي الجهد الكهربائي وطاقة الوضع الكهربائية، وندرس العلاقة بين الجهد والمجال.
             </p>
@@ -33,11 +33,7 @@ export default function PotentialAndPotentialEnergyPage() {
           {/* Main Content Area */}
           <div className="lg:col-span-2 space-y-6">
             
-            <Card className="aspect-video w-full flex items-center justify-center bg-muted">
-                <CardContent className="text-center p-4">
-                    <p className="text-muted-foreground">سيتم إضافة الفيديو قريبًا.</p>
-                </CardContent>
-            </Card>
+            <WatermarkedVideoPlayer src="https://vz-2adfd2e0-f8c.b-cdn.net/9bcbafcd-b997-4887-881a-c049f4126653/playlist.m3u8" />
             
             <Card>
                 <CardHeader>

@@ -113,7 +113,7 @@ const courseStructure = {
                 { label: 'حصة رقم (1): خطوط المجال الكهربائي (حصة تأسيس)', path: '/courses/physics-2008/physics-2008-first-semester/3-static-electricity/1-electric-field/1-electric-field-lines' },
                 { label: 'حصة رقم (2): التدفق الكهربائي (شرح)', path: '/courses/physics-2008/physics-2008-first-semester/3-static-electricity/1-electric-field/2-electric-flux' },
                 { label: 'حصة رقم (3): التدفق الكهربائي (حل أسئلة)', path: '/courses/physics-2008/physics-2008-first-semester/3-static-electricity/1-electric-field/3-electric-flux-questions' },
-                { label: 'حصة رقم (4): التدفق الكهربائي عبر سطح مغلق', path: '/courses/physics-2008/physics-2008-first-semester/3-static-electricity/1-electric-field/4-gauss-law' },
+                { label: 'حصة رقم (4): التدفق الكهربائي عبر سطح مغلق', path: '/courses/physics-2008/physics-2008-first-semester/3-static-electricity/1-electric-field/4-flux-through-closed-surface' },
                 { label: 'حصة رقم (5): قانون غاوس', path: '/courses/physics-2008/physics-2008-first-semester/3-static-electricity/1-electric-field/5-gauss-law' },
                 { label: 'حصة رقم (6): الكثافة السطحية للشحنة', path: '/courses/physics-2008/physics-2008-first-semester/3-static-electricity/1-electric-field/6-surface-charge-density' },
                 { label: 'حصة رقم (7): المجال الكهربائي لكرة موصلة مشحونة (الجزء الأول)', path: '/courses/physics-2008/physics-2008-first-semester/3-static-electricity/1-electric-field/7-spherical-conductor-field-p1' },
@@ -128,7 +128,7 @@ const courseStructure = {
               dossierUrl: 'https://drive.google.com/file/d/1ypf1l09u1prfaR097Uh1_yUXrEpv1CZS/view?usp=sharing',
               topics: [
                 { label: 'حصة رقم (12): مفهوم الشغل وطاقة الوضع ( حصة تأسيس)', path: '/courses/physics-2008/physics-2008-first-semester/3-static-electricity/2-electric-potential/1-work-and-potential-energy-concept' },
-                { label: 'حصة رقم (13): الجهد الكهربائي وطاقة الوضع', path: '/courses/physics-2008/physics-2008-first-semester/3-static-electricity/2-electric-potential/2-potential-and-potential-energy' },
+                { label: 'حصة رقم (13): الجهد الكهربائي وطاقة الوضع (شرح)', path: '/courses/physics-2008/physics-2008-first-semester/3-static-electricity/2-electric-potential/2-potential-and-potential-energy' },
                 { label: 'حصة رقم (14): تسريع شحنات في مجال كهربائي منتظم (شغل القوة الكهربائية)', path: '/courses/physics-2008/physics-2008-first-semester/3-static-electricity/2-electric-potential/3-accelerating-charges' },
               ]
             }
@@ -333,6 +333,7 @@ export default function Physics2008FirstSemesterPage() {
 
 
     
+
 
 
 
