@@ -33,7 +33,7 @@ export default function PotentialAndPotentialEnergyQuestionsPage() {
           {/* Main Content Area */}
           <div className="lg:col-span-2 space-y-6">
             
-            <WatermarkedVideoPlayer src="" />
+            <WatermarkedVideoPlayer src="https://vz-2adfd2e0-f8c.b-cdn.net/b41f5ba8-7064-4a98-885a-9fa15bad3ba9/playlist.m3u8" />
             
             <Card>
                 <CardHeader>
@@ -93,5 +93,3 @@ export default function PotentialAndPotentialEnergyQuestionsPage() {
     </div>
   );
 }
-
-    
