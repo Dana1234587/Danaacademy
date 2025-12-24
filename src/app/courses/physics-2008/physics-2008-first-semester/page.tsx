@@ -129,7 +129,8 @@ const courseStructure = {
               topics: [
                 { label: 'حصة رقم (12): مفهوم الشغل وطاقة الوضع ( حصة تأسيس)', path: '/courses/physics-2008/physics-2008-first-semester/3-static-electricity/2-electric-potential/1-work-and-potential-energy-concept' },
                 { label: 'حصة رقم (13): الجهد الكهربائي وطاقة الوضع (شرح)', path: '/courses/physics-2008/physics-2008-first-semester/3-static-electricity/2-electric-potential/2-potential-and-potential-energy' },
-                { label: 'حصة رقم (14): تسريع شحنات في مجال كهربائي منتظم (شغل القوة الكهربائية)', path: '/courses/physics-2008/physics-2008-first-semester/3-static-electricity/2-electric-potential/3-accelerating-charges' },
+                { label: 'حصة رقم (14): الجهد الكهربائي وطاقة الوضع (حل أسئلة)', path: '/courses/physics-2008/physics-2008-first-semester/3-static-electricity/2-electric-potential/4-potential-and-potential-energy-questions' },
+                { label: 'حصة رقم (15): تسريع شحنات في مجال كهربائي منتظم ( شغل القوة الكهربائية)', path: '/courses/physics-2008/physics-2008-first-semester/3-static-electricity/2-electric-potential/3-accelerating-charges' },
               ]
             }
           ]
@@ -342,3 +343,6 @@ export default function Physics2008FirstSemesterPage() {
 
 
 
+
+
+    
