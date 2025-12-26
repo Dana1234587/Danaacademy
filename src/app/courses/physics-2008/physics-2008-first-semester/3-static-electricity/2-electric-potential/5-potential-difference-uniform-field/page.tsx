@@ -9,6 +9,8 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import QuizPage from './quiz';
 import SummaryPage from './summary';
 import WatermarkedVideoPlayer from '@/components/watermarked-video-player';
+import 'katex/dist/katex.min.css';
+import { InlineMath } from 'react-katex';
 
 export default function PotentialDifferenceUniformFieldPage() {
   return (
@@ -41,9 +43,9 @@ export default function PotentialDifferenceUniformFieldPage() {
                 </CardHeader>
                 <CardContent>
                     <ul className="space-y-3 list-disc list-inside text-muted-foreground">
-                        <li>قانون فرق الجهد في مجال منتظم ($V_{ab} = Ed \cos\theta$).</li>
+                        <li>قانون فرق الجهد في مجال منتظم (<InlineMath math="V_{ab} = Ed \cos\theta" />).</li>
                         <li>مفهوم سطوح تساوي الجهد.</li>
-                        <li>حالات خاصة للزاوية $\theta$.</li>
+                        <li>حالات خاصة للزاوية <InlineMath math="\theta" />.</li>
                         <li>حل مسائل تطبيقية.</li>
                     </ul>
                 </CardContent>
