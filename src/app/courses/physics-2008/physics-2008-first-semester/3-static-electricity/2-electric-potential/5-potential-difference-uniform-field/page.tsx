@@ -35,7 +35,7 @@ export default function PotentialDifferenceUniformFieldPage() {
           {/* Main Content Area */}
           <div className="lg:col-span-2 space-y-6">
             
-            <WatermarkedVideoPlayer src="" />
+            <WatermarkedVideoPlayer src="https://vz-2adfd2e0-f8c.b-cdn.net/4a2e0482-3475-4899-ba04-dc13269b00bc/playlist.m3u8" />
             
             <Card>
                 <CardHeader>
@@ -45,7 +45,7 @@ export default function PotentialDifferenceUniformFieldPage() {
                     <ul className="space-y-3 list-disc list-inside text-muted-foreground">
                         <li>قانون فرق الجهد في مجال منتظم (<InlineMath math="V_{ab} = Ed \cos\theta" />).</li>
                         <li>مفهوم سطوح تساوي الجهد.</li>
-                        <li>حالات خاصة للزاوية <InlineMath math="\theta" />.</li>
+                        <li>حالات خاصة للزاوية $\theta$.</li>
                         <li>حل مسائل تطبيقية.</li>
                     </ul>
                 </CardContent>
