@@ -43,12 +43,12 @@ const SmartTextRenderer = ({ text, as: Wrapper = 'p' }: { text: string; as?: Rea
 const laws = [
     {
         title: "فرق الجهد في مجال منتظم",
-        formula: "\\Delta V_{ab} = V_a - V_b = -Ed\\cos(\\theta)",
+        formula: "V_a - V_b = -Ed\\cos(\\theta)",
         description: "لحساب فرق الجهد بين نقطتين a و b. حيث E هو شدة المجال المنتظم، d هي مقدار الإزاحة من النقطة a إلى النقطة b، و $\\theta$ هي الزاوية بين اتجاه المجال (E) واتجاه الإزاحة (d)."
     },
     {
         title: "سطوح تساوي الجهد",
-        description: "هي سطوح تكون جميع نقاطها لها نفس الجهد الكهربائي. تكون خطوط المجال الكهربائي عمودية دائمًا على سطوح تساوي الجهد. لا يلزم بذل أي شغل لنقل شحنة على سطح تساوي الجهد لأن فرق الجهد عليه يساوي صفر."
+        description: "هي سطوح تكون جميع نقاطها لها نفس الجهد الكهربائي. تكون خطوط المجال الكهربائي عمودية دائمًا على سطوح تساوي الجهد. لا يلزم بذل أي شغل لنقل شحنة على سطح تساوي الجهد لأن فرق الجهد عليه يساوي صفرًا."
     }
 ];
 
@@ -75,9 +75,9 @@ export default function SummaryPage() {
         ))}
          <Alert>
           <Info className="h-4 w-4" />
-          <AlertTitle className="font-bold">ملاحظة على الإزاحة</AlertTitle>
+          <AlertTitle className="font-bold">استراتيجية الحل</AlertTitle>
           <AlertDescription>
-           <SmartTextRenderer as="div" text={'عند حساب $V_a - V_b$, فإن الإزاحة (d) تكون من النقطة a إلى النقطة b.'} />
+           <SmartTextRenderer as="div" text={'لحساب $V_{ab} = V_a - V_b$, فإن الإزاحة (d) تكون من النقطة a إلى النقطة b.'} />
           </AlertDescription>
         </Alert>
         <Alert>
