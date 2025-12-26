@@ -44,7 +44,7 @@ const laws = [
     {
         title: "فرق الجهد في مجال منتظم",
         formula: "V_a - V_b = -Ed\\cos(\\theta)",
-        description: "لحساب فرق الجهد بين نقطتين a و b. حيث E هو شدة المجال المنتظم، d هي مقدار الإزاحة من النقطة a إلى النقطة b، و $\\theta$ هي الزاوية بين اتجاه المجال (E) واتجاه الإزاحة (d)."
+        description: "لحساب فرق الجهد بين نقطتين a و b. حيث E هو شدة المجال المنتظم، d هي مقدار الإزاحة من النقطة b إلى النقطة a، و $\\theta$ هي الزاوية بين اتجاه المجال (E) واتجاه الإزاحة (d)."
     },
     {
         title: "سطوح تساوي الجهد",
@@ -73,13 +73,6 @@ export default function SummaryPage() {
             </CardContent>
           </Card>
         ))}
-         <Alert>
-          <Info className="h-4 w-4" />
-          <AlertTitle className="font-bold">استراتيجية الحل</AlertTitle>
-          <AlertDescription>
-           <SmartTextRenderer as="div" text={'لحساب $V_{ab} = V_a - V_b$, فإن الإزاحة (d) تكون من النقطة a إلى النقطة b.'} />
-          </AlertDescription>
-        </Alert>
         <Alert>
           <Info className="h-4 w-4" />
           <AlertTitle className="font-bold">الاتجاه هو المفتاح</AlertTitle>
