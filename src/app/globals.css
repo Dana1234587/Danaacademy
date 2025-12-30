@@ -160,10 +160,33 @@ body {
   }
 }
 
+/* Video Protection Styles */
+@layer utilities {
+  .video-protected {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
+  }
+}
+
+/* Watermark Float Animation - تحريك عشوائي للـ watermark */
 @keyframes float {
-  0% { transform: translate(0vw, 0vh) scale(0.95); }
-  25% { transform: translate(35vw, 15vh) scale(1); }
-  50% { transform: translate(-20vw, -10vh) scale(1.05); }
-  75% { transform: translate(10vw, -25vh) scale(1); }
-  100% { transform: translate(0vw, 0vh) scale(0.95); }
+  0% { transform: translate(0vw, 0vh) scale(0.95); opacity: 0.06; }
+  20% { transform: translate(25vw, 10vh) scale(1); opacity: 0.09; }
+  40% { transform: translate(-15vw, -8vh) scale(1.02); opacity: 0.07; }
+  60% { transform: translate(20vw, -15vh) scale(0.98); opacity: 0.1; }
+  80% { transform: translate(-10vw, 12vh) scale(1.01); opacity: 0.06; }
+  100% { transform: translate(0vw, 0vh) scale(0.95); opacity: 0.08; }
+}
+
+.animate-float {
+  animation: float 30s ease-in-out infinite;
+}
+
+/* Pulse animation للتحذير */
+@keyframes pulse-warning {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.8; transform: scale(1.02); }
 }
