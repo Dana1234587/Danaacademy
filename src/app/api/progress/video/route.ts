@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { updateVideoProgress } from '@/services/progressService';
 
+// Force dynamic to prevent static pre-rendering during build
+export const dynamic = 'force-dynamic';
+
 export async function POST(request: NextRequest) {
     try {
         const body = await request.json();
