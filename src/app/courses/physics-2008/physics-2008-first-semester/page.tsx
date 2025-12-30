@@ -133,6 +133,7 @@ const courseStructure = {
                 { label: 'حصة رقم (15): تسريع شحنات في مجال كهربائي منتظم ( شغل القوة الكهربائية)', path: '/courses/physics-2008/physics-2008-first-semester/3-static-electricity/2-electric-potential/3-accelerating-charges' },
                 { label: 'حصة رقم (16): فرق الجهد بين نقطتين في مجال كهربائي منتظم', path: '/courses/physics-2008/physics-2008-first-semester/3-static-electricity/2-electric-potential/5-potential-difference-uniform-field' },
                 { label: 'حصة رقم (17): المجال الكهربائي المنتظم بين صفيحتين', path: '/courses/physics-2008/physics-2008-first-semester/3-static-electricity/2-electric-potential/6-uniform-field-between-plates' },
+                { label: 'حصة رقم (18): الجهد الكهربائي لموصل مشحون', path: '/courses/physics-2008/physics-2008-first-semester/3-static-electricity/2-electric-potential/7-potential-of-charged-conductor' },
               ]
             }
           ]
@@ -348,3 +349,4 @@ export default function Physics2008FirstSemesterPage() {
 
 
     
+
