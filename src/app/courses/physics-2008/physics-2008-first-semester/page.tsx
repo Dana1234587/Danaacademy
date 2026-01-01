@@ -4,7 +4,7 @@
 
 import { useStore } from '@/store/app-store';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Folder, FileText, Settings2, Lock, ClipboardCheck, Award } from 'lucide-react';
+import { Folder, FileText, Settings2, Lock, ClipboardCheck, Award, ChevronDown } from 'lucide-react';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { Progress } from '@/components/ui/progress';
 import Link from 'next/link';
@@ -14,6 +14,7 @@ import { Button } from '@/components/ui/button';
 import { Home } from 'lucide-react';
 import { MainLayout } from '@/components/layout/main-layout';
 import { Loader2 } from 'lucide-react';
+import { TopicProgressItem, LessonProgressSummary } from '@/components/topic-progress-item';
 
 const courseId = 'tawjihi-2008-first-semester';
 
@@ -178,14 +179,18 @@ function LessonContent({ lesson }: { lesson: any }) {
     )
   }
 
+  const topicPaths = lesson.topics?.map((t: any) => t.path) || [];
+
   return (
     <Collapsible defaultOpen={true} className="mb-4">
-      <Card className="border-primary/20">
+      <Card className="border-primary/20 overflow-hidden">
         <CollapsibleTrigger className="w-full text-start group">
-          <CardHeader className="flex flex-row items-center justify-between p-4 bg-muted/60 hover:bg-muted/80 transition-colors rounded-t-lg">
+          <CardHeader className="flex flex-row items-center justify-between p-4 bg-gradient-to-r from-muted/80 to-muted/40 hover:from-muted hover:to-muted/60 transition-all rounded-t-lg">
             <div className="flex items-center gap-4 flex-1">
               <div className="flex flex-col items-start gap-2 flex-1">
-                <CardTitle className="text-lg font-semibold text-foreground">{lesson.title}</CardTitle>
+                <CardTitle className="text-lg font-bold text-foreground">{lesson.title}</CardTitle>
+                {/* Progress summary */}
+                <LessonProgressSummary topicPaths={topicPaths} />
               </div>
               {lesson.dossierUrl && (
                 <Button asChild variant="outline" size="sm" onClick={(e) => e.stopPropagation()}>
@@ -196,30 +201,27 @@ function LessonContent({ lesson }: { lesson: any }) {
                 </Button>
               )}
             </div>
-            <Settings2 className="w-5 h-5 text-muted-foreground transition-transform duration-300 group-data-[state=open]:rotate-90" />
+            <ChevronDown className="w-5 h-5 text-muted-foreground transition-transform duration-300 group-data-[state=open]:rotate-180 ms-2" />
           </CardHeader>
         </CollapsibleTrigger>
         <CollapsibleContent>
-          <CardContent className="p-4 md:p-6">
-            <ul className="space-y-3">
-              {lesson.topics.map((topic: any, topicIndex: number) => (
-                <li key={topicIndex}>
-                  <Link
-                    href={`${topic.path}`}
-                    className="text-muted-foreground hover:text-primary transition-colors flex items-center gap-2"
-                  >
-                    <FileText className="w-4 h-4 text-primary/50" />
-                    <span>{topic.label}</span>
-                  </Link>
-                </li>
+          <CardContent className="p-4 md:p-6 bg-card">
+            <div className="space-y-2">
+              {lesson.topics?.map((topic: any, topicIndex: number) => (
+                <TopicProgressItem
+                  key={topicIndex}
+                  topic={topic}
+                  index={topicIndex}
+                />
               ))}
-            </ul>
+            </div>
           </CardContent>
         </CollapsibleContent>
       </Card>
     </Collapsible>
   );
 }
+
 
 export default function Physics2008FirstSemesterPage() {
   const { currentUser, isLoading } = useStore((state) => ({
