@@ -153,7 +153,23 @@ function WatermarkedVideoPlayer({ src, lessonId: propLessonId, courseId: propCou
   const lastSaveTimeRef = useRef(0);
 
   useEffect(() => {
-    if (!isPlaying || !currentUser || !lessonId || !courseId) return;
+    // Debug: log current state
+    console.log('🎬 Progress tracking effect:', {
+      isPlaying,
+      hasUser: !!currentUser,
+      userId: currentUser?.uid,
+      lessonId,
+      courseId
+    });
+
+    if (!isPlaying || !currentUser || !lessonId || !courseId) {
+      console.log('⏭️ Skipping progress tracking:', {
+        reason: !isPlaying ? 'not playing' : !currentUser ? 'no user' : !lessonId ? 'no lessonId' : 'no courseId'
+      });
+      return;
+    }
+
+    console.log('✅ Starting progress tracking interval');
 
     const interval = setInterval(() => {
       watchedSecondsRef.current += 1;
