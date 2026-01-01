@@ -15,11 +15,11 @@ import { getCourseProgress, getCourseSummary, type LessonProgress } from '@/serv
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from 'framer-motion';
 
-// قائمة الدورات المتاحة
+// قائمة الدورات المتاحة - يجب أن تتطابق مع courseId المحفوظ في Firestore
 const courses = [
     {
-        id: 'physics-2008',
-        name: 'فيزياء 2008',
+        id: 'physics-2008', // courseId from video player
+        name: 'فيزياء 2008 - الفصل الأول',
         gradient: 'from-blue-600 via-blue-500 to-cyan-400',
         icon: '⚡',
         totalLessons: 50
