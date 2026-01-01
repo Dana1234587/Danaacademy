@@ -126,6 +126,17 @@ export default function LoginPage() {
         const result = await registerDevice(registrationInput);
 
         if (result.status === 'registered' || result.status === 'already-exists') {
+          // تسجيل الدخول في سجل الأنشطة
+          fetch('/api/activity/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              studentId: user.uid,
+              studentName: student.studentName,
+              studentEmail: email
+            })
+          }).catch(console.error);
+
           router.push('/');
         } else if (result.status === 'pending') {
           toast({
