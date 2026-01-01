@@ -253,22 +253,42 @@ export async function getCourseProgress(
     try {
         console.log('🔍 getCourseProgress query:', { studentId, courseId });
 
-        const snapshot = await adminDB.collection('studentProgress')
+        // First try exact courseId match
+        let snapshot = await adminDB.collection('studentProgress')
             .where('studentId', '==', studentId)
             .where('courseId', '==', courseId)
             .get();
 
-        console.log('🔍 getCourseProgress found:', snapshot.size, 'documents');
+        console.log('🔍 getCourseProgress found:', snapshot.size, 'documents with exact courseId');
 
-        // Log first doc courseId to compare
+        // If no results, try to find by lessonId prefix (lessonId starts with courseId/)
         if (snapshot.size === 0) {
-            // Check if there are ANY docs for this student
+            // Get all docs for this student
             const allDocs = await adminDB.collection('studentProgress')
                 .where('studentId', '==', studentId)
-                .limit(5)
                 .get();
-            console.log('🔍 Student has', allDocs.size, 'total docs. First courseIds:',
-                allDocs.docs.map(d => d.data().courseId));
+
+            console.log('🔍 Student has', allDocs.size, 'total docs');
+
+            // Filter locally by lessonId starting with courseId
+            const matchingDocs = allDocs.docs.filter(doc => {
+                const data = doc.data();
+                const lessonId = data.lessonId || '';
+                // Check if lessonId starts with courseId (e.g., 'physics-2008/...')
+                return lessonId.startsWith(courseId + '/') || lessonId.startsWith(courseId);
+            });
+
+            console.log('🔍 Found', matchingDocs.length, 'docs matching lessonId prefix');
+
+            if (matchingDocs.length > 0) {
+                return matchingDocs.map(doc => {
+                    const data = doc.data();
+                    return {
+                        ...data,
+                        updatedAt: data?.updatedAt?.toDate() || new Date(),
+                    } as LessonProgress;
+                });
+            }
         }
 
         return snapshot.docs.map(doc => {
