@@ -11,7 +11,7 @@ import {
 import Link from 'next/link';
 import { useState, useEffect, useCallback } from 'react';
 import { useStore } from '@/store/app-store';
-import { getCourseProgress, getCourseSummary, type LessonProgress } from '@/services/progressService';
+import { type LessonProgress } from '@/services/progressService';
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -409,21 +409,54 @@ export default function MyProgressPage() {
         try {
             const summaries: CourseSummary[] = [];
 
+            // استخدام fetch بدلاً من server actions
             for (const course of courses) {
-                const [summary, lessons] = await Promise.all([
-                    getCourseSummary(currentUser.uid, course.id),
-                    getCourseProgress(currentUser.uid, course.id),
-                ]);
+                try {
+                    const res = await fetch(
+                        `/api/progress/course?studentId=${encodeURIComponent(currentUser.uid)}&courseId=${encodeURIComponent(course.id)}`
+                    );
+                    const data = await res.json();
 
-                summaries.push({
-                    courseId: course.id,
-                    courseName: course.name,
-                    gradient: course.gradient,
-                    icon: course.icon,
-                    ...summary,
-                    totalLessons: summary.totalLessons || course.totalLessons,
-                    lessons,
-                });
+                    if (data.success) {
+                        summaries.push({
+                            courseId: course.id,
+                            courseName: course.name,
+                            gradient: course.gradient,
+                            icon: course.icon,
+                            ...data.summary,
+                            totalLessons: data.summary.totalLessons || course.totalLessons,
+                            lessons: data.lessons || [],
+                        });
+                    } else {
+                        // Fallback with default values
+                        summaries.push({
+                            courseId: course.id,
+                            courseName: course.name,
+                            gradient: course.gradient,
+                            icon: course.icon,
+                            totalLessons: course.totalLessons,
+                            completedLessons: 0,
+                            averageProgress: 0,
+                            videoAverage: 0,
+                            quizAverage: 0,
+                            lessons: [],
+                        });
+                    }
+                } catch (err) {
+                    console.error(`Error fetching ${course.id}:`, err);
+                    summaries.push({
+                        courseId: course.id,
+                        courseName: course.name,
+                        gradient: course.gradient,
+                        icon: course.icon,
+                        totalLessons: course.totalLessons,
+                        completedLessons: 0,
+                        averageProgress: 0,
+                        videoAverage: 0,
+                        quizAverage: 0,
+                        lessons: [],
+                    });
+                }
             }
 
             setCourseSummaries(summaries);
