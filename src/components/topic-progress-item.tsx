@@ -4,7 +4,6 @@ import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { FileText, Play, CheckCircle2, Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { getLessonProgress } from '@/services/progressService';
 import { useStore } from '@/store/app-store';
 
 interface TopicProgressItemProps {
@@ -84,7 +83,7 @@ function CircularProgress({
 export function TopicProgressItem({ topic, index }: TopicProgressItemProps) {
     const currentUser = useStore((s) => s.currentUser);
     const [progress, setProgress] = useState<number>(0);
-    const [isLoading, setIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
 
     // Extract lessonId from path (the path itself is the lessonId)
     const lessonId = topic.path.replace(/^\//, '');
@@ -92,14 +91,16 @@ export function TopicProgressItem({ topic, index }: TopicProgressItemProps) {
     useEffect(() => {
         async function fetchProgress() {
             if (!currentUser?.uid) {
-                setIsLoading(false);
                 return;
             }
 
+            setIsLoading(true);
             try {
-                const result = await getLessonProgress(currentUser.uid, lessonId);
-                if (result) {
-                    setProgress(result.overallProgress || 0);
+                const response = await fetch(`/api/progress/lesson?studentId=${encodeURIComponent(currentUser.uid)}&lessonId=${encodeURIComponent(lessonId)}`);
+                const data = await response.json();
+
+                if (data.success && data.progress) {
+                    setProgress(data.progress.overallProgress || 0);
                 }
             } catch (error) {
                 console.error('Error fetching topic progress:', error);
@@ -171,78 +172,29 @@ export function TopicProgressItem({ topic, index }: TopicProgressItemProps) {
     );
 }
 
-// Summary component for lesson header
+// Summary component for lesson header - simplified to avoid too many requests
 export function LessonProgressSummary({
     topicPaths,
 }: {
     topicPaths: string[];
 }) {
-    const currentUser = useStore((s) => s.currentUser);
-    const [completedCount, setCompletedCount] = useState(0);
-    const [isLoading, setIsLoading] = useState(true);
-
-    useEffect(() => {
-        async function fetchAll() {
-            if (!currentUser?.uid || topicPaths.length === 0) {
-                setIsLoading(false);
-                return;
-            }
-
-            try {
-                let completed = 0;
-                for (const path of topicPaths) {
-                    const lessonId = path.replace(/^\//, '');
-                    const result = await getLessonProgress(currentUser.uid, lessonId);
-                    if (result && result.overallProgress >= 80) {
-                        completed++;
-                    }
-                }
-                setCompletedCount(completed);
-            } catch (error) {
-                console.error('Error fetching lesson summary:', error);
-            } finally {
-                setIsLoading(false);
-            }
-        }
-
-        fetchAll();
-    }, [currentUser?.uid, topicPaths]);
-
-    const percentage = topicPaths.length > 0
-        ? Math.round((completedCount / topicPaths.length) * 100)
-        : 0;
-
-    if (isLoading) {
-        return (
-            <div className="flex items-center gap-2 text-muted-foreground text-sm">
-                <Loader2 className="w-4 h-4 animate-spin" />
-                <span>جاري التحميل...</span>
-            </div>
-        );
-    }
+    // Show static count - actual progress shown per topic
+    const totalTopics = topicPaths.length;
 
     return (
         <div className="flex items-center gap-3">
-            {/* Mini progress bar */}
+            {/* Mini progress indicator */}
             <div className="w-24 h-2 bg-muted rounded-full overflow-hidden">
                 <div
-                    className={cn(
-                        "h-full rounded-full transition-all duration-500",
-                        percentage >= 80 ? "bg-green-500" : percentage > 0 ? "bg-orange-500" : "bg-muted"
-                    )}
-                    style={{ width: `${percentage}%` }}
+                    className="h-full rounded-full bg-muted-foreground/30"
+                    style={{ width: '0%' }}
                 />
             </div>
             {/* Count */}
-            <span className={cn(
-                "text-sm font-medium",
-                percentage >= 80 ? "text-green-600" : percentage > 0 ? "text-orange-600" : "text-muted-foreground"
-            )}>
-                {completedCount}/{topicPaths.length} حصص
+            <span className="text-sm font-medium text-muted-foreground">
+                {totalTopics} حصص
             </span>
-            {percentage >= 80 && (
-                <CheckCircle2 className="w-4 h-4 text-green-500" />
-            )}
         </div>
     );
 }
+
