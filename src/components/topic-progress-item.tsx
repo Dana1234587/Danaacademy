@@ -174,29 +174,97 @@ export function TopicProgressItem({ topic, index }: TopicProgressItemProps) {
     );
 }
 
-// Summary component for lesson header - simplified to avoid too many requests
+// Summary component for lesson header - calculates from topic progress
 export function LessonProgressSummary({
     topicPaths,
 }: {
     topicPaths: string[];
 }) {
-    // Show static count - actual progress shown per topic
+    const currentUser = useStore((s) => s.currentUser);
+    const [averageProgress, setAverageProgress] = useState(0);
+    const [completedCount, setCompletedCount] = useState(0);
+    const [isLoading, setIsLoading] = useState(true);
+
     const totalTopics = topicPaths.length;
+
+    useEffect(() => {
+        async function fetchAllProgress() {
+            if (!currentUser?.uid || topicPaths.length === 0) {
+                setIsLoading(false);
+                return;
+            }
+
+            try {
+                let totalProgress = 0;
+                let completed = 0;
+
+                // Fetch progress for all topics in parallel
+                const promises = topicPaths.map(async (path) => {
+                    const lessonId = path.replace(/^\/courses\//, '').replace(/^\//, '');
+                    const res = await fetch(
+                        `/api/progress/lesson?studentId=${encodeURIComponent(currentUser.uid)}&lessonId=${encodeURIComponent(lessonId)}`
+                    );
+                    const data = await res.json();
+                    return data.success && data.progress ? data.progress.overallProgress || 0 : 0;
+                });
+
+                const results = await Promise.all(promises);
+
+                results.forEach((progress) => {
+                    totalProgress += progress;
+                    if (progress >= 80) completed++;
+                });
+
+                const avg = totalTopics > 0 ? Math.round(totalProgress / totalTopics) : 0;
+                setAverageProgress(avg);
+                setCompletedCount(completed);
+            } catch (error) {
+                console.error('Error fetching lesson progress:', error);
+            } finally {
+                setIsLoading(false);
+            }
+        }
+
+        fetchAllProgress();
+    }, [currentUser?.uid, topicPaths, totalTopics]);
+
+    const getProgressColor = () => {
+        if (averageProgress >= 80) return 'bg-green-500';
+        if (averageProgress >= 50) return 'bg-blue-500';
+        if (averageProgress > 0) return 'bg-orange-500';
+        return 'bg-muted-foreground/30';
+    };
 
     return (
         <div className="flex items-center gap-3">
-            {/* Mini progress indicator */}
-            <div className="w-24 h-2 bg-muted rounded-full overflow-hidden">
-                <div
-                    className="h-full rounded-full bg-muted-foreground/30"
-                    style={{ width: '0%' }}
-                />
-            </div>
-            {/* Count */}
-            <span className="text-sm font-medium text-muted-foreground">
-                {totalTopics} حصص
-            </span>
+            {isLoading ? (
+                <Loader2 className="w-4 h-4 animate-spin text-muted-foreground" />
+            ) : (
+                <>
+                    {/* Progress bar */}
+                    <div className="w-24 h-2 bg-muted rounded-full overflow-hidden">
+                        <div
+                            className={cn("h-full rounded-full transition-all duration-500", getProgressColor())}
+                            style={{ width: `${averageProgress}%` }}
+                        />
+                    </div>
+                    {/* Progress text */}
+                    <span className="text-sm font-medium text-muted-foreground">
+                        {averageProgress > 0 ? (
+                            <span className={cn(
+                                averageProgress >= 80 ? 'text-green-600' :
+                                    averageProgress >= 50 ? 'text-blue-600' : 'text-orange-600'
+                            )}>
+                                {averageProgress}%
+                            </span>
+                        ) : null}
+                        {' '}
+                        {completedCount > 0 ? `(${completedCount}/${totalTopics})` : `${totalTopics} حصص`}
+                    </span>
+                </>
+            )}
         </div>
     );
 }
+
 
