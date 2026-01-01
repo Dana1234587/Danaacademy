@@ -85,8 +85,10 @@ export function TopicProgressItem({ topic, index }: TopicProgressItemProps) {
     const [progress, setProgress] = useState<number>(0);
     const [isLoading, setIsLoading] = useState(false);
 
-    // Extract lessonId from path (the path itself is the lessonId)
-    const lessonId = topic.path.replace(/^\//, '');
+    // Extract lessonId from path - must match video player format
+    // Video player uses: parts.slice(coursesIndex + 1).join('/')
+    // Example: /courses/physics-2008/physics-2008-first-semester/... -> physics-2008/physics-2008-first-semester/...
+    const lessonId = topic.path.replace(/^\/courses\//, '').replace(/^\//, '');
 
     useEffect(() => {
         async function fetchProgress() {
