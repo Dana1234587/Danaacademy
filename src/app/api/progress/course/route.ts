@@ -16,10 +16,18 @@ export async function GET(request: NextRequest) {
             );
         }
 
+        console.log('📊 Course progress API called:', { studentId, courseId });
+
         const [summary, lessons] = await Promise.all([
             getCourseSummary(studentId, courseId),
             getCourseProgress(studentId, courseId),
         ]);
+
+        console.log('📊 Course progress result:', {
+            courseId,
+            lessonsCount: lessons.length,
+            summaryProgress: summary?.averageProgress || 0
+        });
 
         return NextResponse.json({
             success: true,

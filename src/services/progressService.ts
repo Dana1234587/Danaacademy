@@ -251,10 +251,25 @@ export async function getCourseProgress(
     courseId: string
 ): Promise<LessonProgress[]> {
     try {
+        console.log('🔍 getCourseProgress query:', { studentId, courseId });
+
         const snapshot = await adminDB.collection('studentProgress')
             .where('studentId', '==', studentId)
             .where('courseId', '==', courseId)
             .get();
+
+        console.log('🔍 getCourseProgress found:', snapshot.size, 'documents');
+
+        // Log first doc courseId to compare
+        if (snapshot.size === 0) {
+            // Check if there are ANY docs for this student
+            const allDocs = await adminDB.collection('studentProgress')
+                .where('studentId', '==', studentId)
+                .limit(5)
+                .get();
+            console.log('🔍 Student has', allDocs.size, 'total docs. First courseIds:',
+                allDocs.docs.map(d => d.data().courseId));
+        }
 
         return snapshot.docs.map(doc => {
             const data = doc.data();
