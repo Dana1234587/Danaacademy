@@ -12,7 +12,7 @@ import {
 import { cn } from '@/lib/utils';
 import { Card, CardContent } from '@/components/ui/card';
 import { Slider } from '@/components/ui/slider';
-import { updateVideoProgress } from '@/services/progressService';
+
 
 // التاريخ والوقت بالعربي
 const formatArabicDateTime = () => {
@@ -162,25 +162,25 @@ function WatermarkedVideoPlayer({ src, lessonId: propLessonId, courseId: propCou
       if (watchedSecondsRef.current - lastSaveTimeRef.current >= 30) {
         lastSaveTimeRef.current = watchedSecondsRef.current;
 
-        console.log('📊 Saving progress:', {
+        const progressData = {
           studentId: currentUser.uid,
           lessonId,
           courseId,
           watchedSeconds: watchedSecondsRef.current,
-          duration,
-          currentVideoTime,
+          totalSeconds: duration,
+          currentPosition: currentVideoTime,
           unitId
-        });
+        };
 
-        updateVideoProgress(
-          currentUser.uid,
-          lessonId,
-          courseId,
-          watchedSecondsRef.current,
-          duration,
-          currentVideoTime,
-          unitId
-        )
+        console.log('📊 Saving progress:', progressData);
+
+        // استخدام API بدلاً من server action
+        fetch('/api/progress/video', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(progressData)
+        })
+          .then(res => res.json())
           .then(result => console.log('✅ Progress saved:', result))
           .catch(err => console.error('❌ Progress save error:', err));
       }
