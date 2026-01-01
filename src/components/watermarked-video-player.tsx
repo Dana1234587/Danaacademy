@@ -151,14 +151,25 @@ function WatermarkedVideoPlayer({ src, lessonId: propLessonId, courseId: propCou
   // تتبع وقت المشاهدة وإرسال التقدم كل 30 ثانية
   const watchedSecondsRef = useRef(0);
   const lastSaveTimeRef = useRef(0);
+  const durationRef = useRef(duration);
+  const currentVideoTimeRef = useRef(currentVideoTime);
+
+  // تحديث الـ refs عند تغيير القيم
+  useEffect(() => {
+    durationRef.current = duration;
+  }, [duration]);
 
   useEffect(() => {
-    // Debug: log current state
+    currentVideoTimeRef.current = currentVideoTime;
+  }, [currentVideoTime]);
+
+  useEffect(() => {
+    // Debug: log current state (only on start/stop)
     console.log('🎬 Progress tracking effect:', {
       isPlaying,
       hasUser: !!currentUser,
-      userId: currentUser?.uid,
-      lessonId,
+      userId: currentUser?.uid?.substring(0, 8) + '...',
+      lessonId: lessonId?.substring(0, 30) + '...',
       courseId
     });
 
@@ -169,7 +180,7 @@ function WatermarkedVideoPlayer({ src, lessonId: propLessonId, courseId: propCou
       return;
     }
 
-    console.log('✅ Starting progress tracking interval');
+    console.log('✅ Starting progress tracking interval (saves every 30s)');
 
     const interval = setInterval(() => {
       watchedSecondsRef.current += 1;
@@ -183,8 +194,8 @@ function WatermarkedVideoPlayer({ src, lessonId: propLessonId, courseId: propCou
           lessonId,
           courseId,
           watchedSeconds: watchedSecondsRef.current,
-          totalSeconds: duration,
-          currentPosition: currentVideoTime,
+          totalSeconds: durationRef.current,
+          currentPosition: currentVideoTimeRef.current,
           unitId
         };
 
@@ -202,8 +213,12 @@ function WatermarkedVideoPlayer({ src, lessonId: propLessonId, courseId: propCou
       }
     }, 1000);
 
-    return () => clearInterval(interval);
-  }, [isPlaying, currentUser, lessonId, courseId, duration, currentVideoTime, unitId]);
+    return () => {
+      console.log('🛑 Stopping progress tracking interval');
+      clearInterval(interval);
+    };
+  }, [isPlaying, currentUser, lessonId, courseId, unitId]); // Removed duration and currentVideoTime
+
 
   // إرسال التقدم عند مغادرة الصفحة
   useEffect(() => {
