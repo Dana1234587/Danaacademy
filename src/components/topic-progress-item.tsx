@@ -84,11 +84,24 @@ export function TopicProgressItem({ topic, index }: TopicProgressItemProps) {
     const currentUser = useStore((s) => s.currentUser);
     const [progress, setProgress] = useState<number>(0);
     const [isLoading, setIsLoading] = useState(false);
+    const [refreshKey, setRefreshKey] = useState(0);
 
     // Extract lessonId from path - must match video player format
     // Video player uses: parts.slice(coursesIndex + 1).join('/')
     // Example: /courses/physics-2008/physics-2008-first-semester/... -> physics-2008/physics-2008-first-semester/...
     const lessonId = topic.path.replace(/^\/courses\//, '').replace(/^\//, '');
+
+    // Refresh on page visibility change (when user comes back to page)
+    useEffect(() => {
+        const handleVisibilityChange = () => {
+            if (document.visibilityState === 'visible') {
+                setRefreshKey(prev => prev + 1);
+            }
+        };
+
+        document.addEventListener('visibilitychange', handleVisibilityChange);
+        return () => document.removeEventListener('visibilitychange', handleVisibilityChange);
+    }, []);
 
     useEffect(() => {
         async function fetchProgress() {
@@ -98,7 +111,10 @@ export function TopicProgressItem({ topic, index }: TopicProgressItemProps) {
 
             setIsLoading(true);
             try {
-                const response = await fetch(`/api/progress/lesson?studentId=${encodeURIComponent(currentUser.uid)}&lessonId=${encodeURIComponent(lessonId)}`);
+                // Add cache buster to force fresh data
+                const response = await fetch(
+                    `/api/progress/lesson?studentId=${encodeURIComponent(currentUser.uid)}&lessonId=${encodeURIComponent(lessonId)}&t=${Date.now()}`
+                );
                 const data = await response.json();
 
                 if (data.success && data.progress) {
@@ -112,7 +128,7 @@ export function TopicProgressItem({ topic, index }: TopicProgressItemProps) {
         }
 
         fetchProgress();
-    }, [currentUser?.uid, lessonId]);
+    }, [currentUser?.uid, lessonId, refreshKey]);
 
     const isCompleted = progress >= 80;
     const inProgress = progress > 0 && progress < 80;
