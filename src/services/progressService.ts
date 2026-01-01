@@ -305,3 +305,62 @@ export async function getCourseSummary(
         };
     }
 }
+
+// ============ دوال للأدمن ============
+
+export interface StudentProgressSummary {
+    studentId: string;
+    studentName: string;
+    courses: string[];
+    totalLessons: number;
+    completedLessons: number;
+    videoAverage: number;
+    quizAverage: number;
+    overallAverage: number;
+    lastActivity: Date | null;
+}
+
+/**
+ * الحصول على تقدم جميع الطلاب (للأدمن)
+ */
+export async function getAllStudentsProgress(): Promise<LessonProgress[]> {
+    try {
+        const snapshot = await adminDB.collection('studentProgress')
+            .orderBy('updatedAt', 'desc')
+            .get();
+
+        return snapshot.docs.map(doc => {
+            const data = doc.data();
+            return {
+                ...data,
+                updatedAt: data?.updatedAt?.toDate() || new Date(),
+            } as LessonProgress;
+        });
+    } catch (error) {
+        console.error('Error getting all students progress:', error);
+        return [];
+    }
+}
+
+/**
+ * الحصول على تقدم طالب معين في جميع الدروس
+ */
+export async function getStudentFullProgress(studentId: string): Promise<LessonProgress[]> {
+    try {
+        const snapshot = await adminDB.collection('studentProgress')
+            .where('studentId', '==', studentId)
+            .orderBy('updatedAt', 'desc')
+            .get();
+
+        return snapshot.docs.map(doc => {
+            const data = doc.data();
+            return {
+                ...data,
+                updatedAt: data?.updatedAt?.toDate() || new Date(),
+            } as LessonProgress;
+        });
+    } catch (error) {
+        console.error('Error getting student full progress:', error);
+        return [];
+    }
+}

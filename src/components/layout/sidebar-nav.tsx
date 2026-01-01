@@ -54,78 +54,86 @@ export function SidebarNav() {
       </SidebarHeader>
       <SidebarContent>
         <SidebarMenu>
-            <SidebarMenuItem>
-                <Link href="/" className="w-full">
-                    <Button variant="ghost" className="w-full justify-start gap-2">
-                        <Home />
-                        الرئيسية
-                    </Button>
+          <SidebarMenuItem>
+            <Link href="/" className="w-full">
+              <Button variant="ghost" className="w-full justify-start gap-2">
+                <Home />
+                الرئيسية
+              </Button>
+            </Link>
+          </SidebarMenuItem>
+          {currentUser?.role === 'admin' ? (
+            <>
+              <SidebarMenuItem>
+                <Link href="/admin" className="w-full">
+                  <Button variant="ghost" className="w-full justify-start gap-2">
+                    <LayoutDashboard />
+                    لوحة التحكم
+                  </Button>
                 </Link>
-            </SidebarMenuItem>
-            {currentUser?.role === 'admin' ? (
-                <>
-                    <SidebarMenuItem>
-                        <Link href="/admin" className="w-full">
-                           <Button variant="ghost" className="w-full justify-start gap-2">
-                             <LayoutDashboard />
-                             لوحة التحكم
-                           </Button>
-                        </Link>
-                    </SidebarMenuItem>
-                    <SidebarMenuItem>
-                        <Link href="/admin/exams" className="w-full">
-                           <Button variant="ghost" className="w-full justify-start gap-2">
-                             <ClipboardCheck />
-                             إدارة الاختبارات
-                           </Button>
-                        </Link>
-                    </SidebarMenuItem>
-                    <SidebarMenuItem>
-                        <Link href="/admin/analytics/videos" className="w-full">
-                           <Button variant="ghost" className="w-full justify-start gap-2">
-                             <Video />
-                             تحليلات الفيديو
-                           </Button>
-                        </Link>
-                    </SidebarMenuItem>
-                </>
-            ) : (
-                 <>
-                    <SidebarMenuItem>
-                        <Link href="/courses" className="w-full">
-                            <Button variant="ghost" className="w-full justify-start gap-2">
-                                <BookCopy />
-                                دوراتي
-                            </Button>
-                        </Link>
-                    </SidebarMenuItem>
-                    <SidebarMenuItem>
-                        <Link href="/my-exams" className="w-full">
-                            <Button variant="ghost" className="w-full justify-start gap-2">
-                                <Award />
-                                امتحاناتي
-                            </Button>
-                        </Link>
-                    </SidebarMenuItem>
-                    <SidebarMenuItem>
-                        <Link href="/my-performance" className="w-full">
-                            <Button variant="ghost" className="w-full justify-start gap-2">
-                                <BarChart2 />
-                                أدائي
-                            </Button>
-                        </Link>
-                    </SidebarMenuItem>
-                 </>
-            )}
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <Link href="/admin/exams" className="w-full">
+                  <Button variant="ghost" className="w-full justify-start gap-2">
+                    <ClipboardCheck />
+                    إدارة الاختبارات
+                  </Button>
+                </Link>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <Link href="/admin/analytics/videos" className="w-full">
+                  <Button variant="ghost" className="w-full justify-start gap-2">
+                    <Video />
+                    تحليلات الفيديو
+                  </Button>
+                </Link>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <Link href="/courses" className="w-full">
+                  <Button variant="ghost" className="w-full justify-start gap-2">
+                    <BookCopy />
+                    الدورات المسجلة
+                  </Button>
+                </Link>
+              </SidebarMenuItem>
+            </>
+          ) : (
+            <>
+              <SidebarMenuItem>
+                <Link href="/courses" className="w-full">
+                  <Button variant="ghost" className="w-full justify-start gap-2">
+                    <BookCopy />
+                    دوراتي
+                  </Button>
+                </Link>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <Link href="/my-exams" className="w-full">
+                  <Button variant="ghost" className="w-full justify-start gap-2">
+                    <Award />
+                    امتحاناتي
+                  </Button>
+                </Link>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <Link href="/my-performance" className="w-full">
+                  <Button variant="ghost" className="w-full justify-start gap-2">
+                    <BarChart2 />
+                    أدائي
+                  </Button>
+                </Link>
+              </SidebarMenuItem>
+            </>
+          )}
         </SidebarMenu>
       </SidebarContent>
       <SidebarSeparator />
       <SidebarFooter>
         <SidebarMenu>
-           <SidebarMenuItem>
+          <SidebarMenuItem>
             <Button onClick={handleLogout} variant="ghost" className="w-full justify-start gap-2">
-                <LogOut />
-                تسجيل الخروج
+              <LogOut />
+              تسجيل الخروج
             </Button>
           </SidebarMenuItem>
         </SidebarMenu>

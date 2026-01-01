@@ -4,7 +4,7 @@
 import Link from 'next/link';
 import { Logo } from '@/components/logo';
 import { Button } from '@/components/ui/button';
-import { BookCopy, Home, Info, Phone, User, LogOut, Shield, Book, Menu, ClipboardCheck, Award, BarChart2, Users, TrendingUp } from 'lucide-react';
+import { BookCopy, Home, Info, Phone, User, LogOut, Shield, Book, Menu, ClipboardCheck, Award, BarChart2, Users, TrendingUp, GraduationCap } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { usePathname, useRouter } from 'next/navigation';
 import { useStore } from '@/store/app-store';
@@ -16,6 +16,7 @@ import { ThemeToggle } from '@/components/theme-toggle';
 
 const navLinks = [
   { href: '/', text: 'الرئيسية', icon: Home },
+  { href: '/learn', text: 'تعلّم مجاناً', icon: GraduationCap, highlight: true },
   { href: '/#courses-section', text: 'الدورات', icon: BookCopy },
   { href: '/#about-us', text: 'عن الاكاديمية', icon: Info },
   { href: '/#contact-us', text: 'تواصل معنا', icon: Phone },
@@ -79,6 +80,8 @@ export function MarketingHeader() {
           {/* Theme Toggle Button */}
           <ThemeToggle />
 
+
+
           {!currentUser ? (
             <Button asChild className="hidden sm:flex hover:-translate-y-0.5 transition-transform">
               <Link href="/login" className="flex items-center gap-2">
@@ -100,6 +103,21 @@ export function MarketingHeader() {
                     <Link href="/admin/exams" className="flex items-center gap-2">
                       <ClipboardCheck className="h-4 w-4" />
                       إدارة الاختبارات
+                    </Link>
+                  </Button>
+                  <Button asChild className="hidden sm:flex hover:-translate-y-0.5 transition-transform bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white border-0">
+                    <Link href="/courses" className="flex items-center gap-2">
+                      <Book className="h-4 w-4" />
+                      محتوى الدورات
+                    </Link>
+                  </Button>
+                </>
+              ) : currentUser.role === 'free_member' ? (
+                <>
+                  <Button asChild variant="outline" className="hidden sm:flex hover:-translate-y-0.5 transition-transform">
+                    <Link href="/learn" className="flex items-center gap-2">
+                      <GraduationCap className="h-4 w-4" />
+                      تعلّم مجاناً
                     </Link>
                   </Button>
                 </>
@@ -185,6 +203,25 @@ export function MarketingHeader() {
                                 <Link href="/admin/exams" className="flex items-center gap-2">
                                   <ClipboardCheck className="h-4 w-4" />
                                   إدارة الاختبارات
+                                </Link>
+                              </Button>
+                            </SheetClose>
+                            <SheetClose asChild>
+                              <Button asChild size="lg" className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white border-0">
+                                <Link href="/courses" className="flex items-center gap-2">
+                                  <Book className="h-4 w-4" />
+                                  محتوى الدورات
+                                </Link>
+                              </Button>
+                            </SheetClose>
+                          </>
+                        ) : currentUser.role === 'free_member' ? (
+                          <>
+                            <SheetClose asChild>
+                              <Button asChild variant="outline" size="lg" className="w-full">
+                                <Link href="/learn" className="flex items-center gap-2">
+                                  <GraduationCap className="h-4 w-4" />
+                                  تعلّم مجاناً
                                 </Link>
                               </Button>
                             </SheetClose>

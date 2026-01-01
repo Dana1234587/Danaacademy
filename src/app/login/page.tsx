@@ -28,19 +28,19 @@ const getDeviceId = async (): Promise<string> => {
 };
 
 const getDeviceInfo = () => {
-    const parser = new UAParser();
-    const result = parser.getResult();
-    
-    return {
-        ua: result.ua,
-        os: result.os.name,
-        osVersion: result.os.version,
-        browser: result.browser.name,
-        browserVersion: result.browser.version,
-        deviceType: result.device.type || 'desktop',
-        deviceVendor: result.device.vendor,
-        deviceModel: result.device.model,
-    };
+  const parser = new UAParser();
+  const result = parser.getResult();
+
+  return {
+    ua: result.ua,
+    os: result.os.name,
+    osVersion: result.os.version,
+    browser: result.browser.name,
+    browserVersion: result.browser.version,
+    deviceType: result.device.type || 'desktop',
+    deviceVendor: result.device.vendor,
+    deviceModel: result.device.model,
+  };
 }
 
 export default function LoginPage() {
@@ -59,91 +59,107 @@ export default function LoginPage() {
     const email = isAdminLogin ? username : `${username}@dana-academy.com`;
 
     try {
-        const userCredential = await signInWithEmailAndPassword(auth, email, password);
-        const user = userCredential.user;
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
 
-        if (isAdminLogin) {
-            const adminDocRef = doc(db, 'admins', user.uid);
-            const adminDocSnap = await getDoc(adminDocRef);
+      if (isAdminLogin) {
+        const adminDocRef = doc(db, 'admins', user.uid);
+        const adminDocSnap = await getDoc(adminDocRef);
 
-            if (adminDocSnap.exists()) {
-                toast({
-                    title: 'أهلاً بعودتك دكتورة دانا',
-                    description: 'يتم توجيهك إلى الصفحة الرئيسية.',
-                });
-                router.push('/');
-            } else {
-                 toast({
-                    variant: 'destructive',
-                    title: 'فشل تسجيل الدخول',
-                    description: 'بيانات الاعتماد للمسؤول غير صحيحة.',
-                });
-                await auth.signOut();
-            }
+        if (adminDocSnap.exists()) {
+          // Manually set the user in state to ensure immediate UI update
+          setCurrentUser({
+            uid: user.uid,
+            username: 'Admin',
+            email: user.email || '',
+            role: 'admin',
+            enrolledCourseIds: [
+              'tawjihi-2007-supplementary',
+              'tawjihi-2008-first-semester',
+              'tawjihi-2008-foundation',
+              'tawjihi-2008-palestine',
+              'astrophysics',
+              'physics-101'
+            ]
+          });
+
+          toast({
+            title: 'أهلاً بعودتك دكتورة دانا',
+            description: 'يتم توجيهك إلى الصفحة الرئيسية.',
+          });
+          router.push('/');
         } else {
-             const studentDocRef = doc(db, 'students', user.uid);
-             const studentDocSnap = await getDoc(studentDocRef);
-             const student = studentDocSnap.data();
-
-             if (!student) {
-                toast({
-                    variant: 'destructive',
-                    title: 'فشل تسجيل الدخول',
-                    description: 'بيانات الطالب غير موجودة في قاعدة البيانات.',
-                });
-                await auth.signOut();
-                setIsLoading(false);
-                return;
-            }
-
-            const deviceId = await getDeviceId();
-            const deviceInfo = getDeviceInfo();
-            
-            const registrationInput = {
-                studentId: user.uid,
-                studentName: student.studentName,
-                deviceId: deviceId,
-                deviceInfo: deviceInfo,
-                courses: student.courses,
-            };
-            
-            const result = await registerDevice(registrationInput);
-            
-            if (result.status === 'registered' || result.status === 'already-exists') {
-                 router.push('/');
-            } else if (result.status === 'pending') {
-                toast({
-                  variant: 'destructive',
-                  title: 'جهاز جديد مكتشف',
-                  description: result.message,
-                  duration: 5000,
-                });
-                await auth.signOut();
-            } else {
-                 toast({
-                  variant: 'destructive',
-                  title: 'حدث خطأ',
-                  description: result.message,
-                  duration: 5000,
-                });
-                await auth.signOut();
-            }
+          toast({
+            variant: 'destructive',
+            title: 'فشل تسجيل الدخول',
+            description: 'بيانات الاعتماد للمسؤول غير صحيحة.',
+          });
+          await auth.signOut();
         }
+      } else {
+        const studentDocRef = doc(db, 'students', user.uid);
+        const studentDocSnap = await getDoc(studentDocRef);
+        const student = studentDocSnap.data();
+
+        if (!student) {
+          toast({
+            variant: 'destructive',
+            title: 'فشل تسجيل الدخول',
+            description: 'بيانات الطالب غير موجودة في قاعدة البيانات.',
+          });
+          await auth.signOut();
+          setIsLoading(false);
+          return;
+        }
+
+        const deviceId = await getDeviceId();
+        const deviceInfo = getDeviceInfo();
+
+        const registrationInput = {
+          studentId: user.uid,
+          studentName: student.studentName,
+          deviceId: deviceId,
+          deviceInfo: deviceInfo,
+          courses: student.courses,
+        };
+
+        const result = await registerDevice(registrationInput);
+
+        if (result.status === 'registered' || result.status === 'already-exists') {
+          router.push('/');
+        } else if (result.status === 'pending') {
+          toast({
+            variant: 'destructive',
+            title: 'جهاز جديد مكتشف',
+            description: result.message,
+            duration: 5000,
+          });
+          await auth.signOut();
+        } else {
+          toast({
+            variant: 'destructive',
+            title: 'حدث خطأ',
+            description: result.message,
+            duration: 5000,
+          });
+          await auth.signOut();
+        }
+      }
     } catch (error: any) {
-        let description = 'حدث خطأ غير متوقع. الرجاء المحاولة مرة أخرى.';
-        if (error.code === 'auth/invalid-credential') {
-            description = 'بيانات الاعتماد التي أدخلتها غير صالحة. يرجى التحقق من اسم المستخدم وكلمة المرور.';
-        } else if (error.message) {
-            description = error.message;
-        }
-         toast({
-              variant: 'destructive',
-              title: 'فشل تسجيل الدخول',
-              description: description,
-              duration: 9000,
-        });
+      let description = 'حدث خطأ غير متوقع. الرجاء المحاولة مرة أخرى.';
+      if (error.code === 'auth/invalid-credential') {
+        description = 'بيانات الاعتماد التي أدخلتها غير صالحة. يرجى التحقق من اسم المستخدم وكلمة المرور.';
+      } else if (error.message) {
+        description = error.message;
+      }
+      toast({
+        variant: 'destructive',
+        title: 'فشل تسجيل الدخول',
+        description: description,
+        duration: 9000,
+      });
     } finally {
-        setIsLoading(false);
+      setIsLoading(false);
     }
   };
 
@@ -165,12 +181,12 @@ export default function LoginPage() {
               <form className="space-y-6" onSubmit={handleLogin}>
                 <div className="space-y-2">
                   <Label htmlFor="username">اسم المستخدم أو البريد الإلكتروني</Label>
-                  <Input 
-                    id="username" 
-                    type="text" 
-                    placeholder="example@domain.com or student_username" 
-                    required 
-                    className="bg-background/80" 
+                  <Input
+                    id="username"
+                    type="text"
+                    placeholder="example@domain.com or student_username"
+                    required
+                    className="bg-background/80"
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                   />
@@ -182,11 +198,11 @@ export default function LoginPage() {
                       هل نسيت كلمة المرور؟ تواصل معنا
                     </span>
                   </div>
-                  <Input 
-                    id="password" 
-                    type="password" 
-                    required  
-                    className="bg-background/80" 
+                  <Input
+                    id="password"
+                    type="password"
+                    required
+                    className="bg-background/80"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                   />

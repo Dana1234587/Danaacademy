@@ -28,13 +28,13 @@ const courseStructure = {
       icon: Folder,
       path: '/courses/physics-supplementary-2007/first-semester',
       subItems: [
-        { 
-          label: 'الوحدة الأولى: الزخم الخطي والتصادمات', 
-          icon: Folder, 
-          path: '/courses/physics-supplementary-2007/first-semester/1-linear-momentum-and-collisions', 
+        {
+          label: 'الوحدة الأولى: الزخم الخطي والتصادمات',
+          icon: Folder,
+          path: '/courses/physics-supplementary-2007/first-semester/1-linear-momentum-and-collisions',
           lessons: [
-            { 
-              title: 'الدرس الأول: الزخم الخطي والدفع', 
+            {
+              title: 'الدرس الأول: الزخم الخطي والدفع',
               topics: [
                 { label: 'حصة رقم (1): مفهوم الزخم الخطي', path: '/courses/physics-supplementary-2007/first-semester/1-linear-momentum-and-collisions/1-linear-momentum-and-impulse/1-linear-momentum-concept' },
                 { label: 'حصة رقم (2): العلاقة مع طاقة الحركة', path: '/courses/physics-supplementary-2007/first-semester/1-linear-momentum-and-collisions/1-linear-momentum-and-impulse/2-relation-with-kinetic-energy' },
@@ -52,8 +52,8 @@ const courseStructure = {
                 { label: 'حصة رقم (14): حل ورقة عمل حفظ الزخم الخطي', path: '/courses/physics-supplementary-2007/first-semester/1-linear-momentum-and-collisions/1-linear-momentum-and-impulse/14-momentum-conservation-worksheet' },
               ]
             },
-            { 
-              title: 'الدرس الثاني: التصادمات', 
+            {
+              title: 'الدرس الثاني: التصادمات',
               topics: [
                 { label: 'حصة رقم (15): التصادمات (الجزء الأول)', path: '/courses/physics-supplementary-2007/first-semester/1-linear-momentum-and-collisions/2-collisions/1-collisions-p1' },
                 { label: 'حصة رقم (16): التصادمات (الجزء الثاني)', path: '/courses/physics-supplementary-2007/first-semester/1-linear-momentum-and-collisions/2-collisions/2-collisions-p2' },
@@ -61,8 +61,8 @@ const courseStructure = {
                 { label: 'حصة رقم (18): البندول القذفي وكرات نيوتن', path: '/courses/physics-supplementary-2007/first-semester/1-linear-momentum-and-collisions/2-collisions/4-ballistic-pendulum-and-newtons-cradle' },
               ]
             },
-            { 
-              title: 'اختبار الوحدة الأولى', 
+            {
+              title: 'اختبار الوحدة الأولى',
               isQuiz: true,
               topics: [
                 { label: 'أسئلة اختبار الوحدة', path: '/courses/physics-supplementary-2007/first-semester/1-linear-momentum-and-collisions/3-unit-quiz' },
@@ -105,8 +105,8 @@ const courseStructure = {
                 { label: 'حصة رقم (15): أسئلة تميز', path: '/courses/physics-supplementary-2007/first-semester/2-rotational-motion/3-angular-momentum/4-advanced-questions' },
               ]
             },
-            { 
-              title: 'اختبار الوحدة الثانية', 
+            {
+              title: 'اختبار الوحدة الثانية',
               isQuiz: true,
               topics: [
                 { label: 'أسئلة اختبار الوحدة', path: '/courses/physics-supplementary-2007/first-semester/2-rotational-motion/4-unit-quiz' },
@@ -114,13 +114,13 @@ const courseStructure = {
             }
           ]
         },
-        { 
-          label: 'الوحدة الثالثة: التيار الكهربائي', 
-          icon: Folder, 
-          path: '/courses/physics-supplementary-2007/first-semester/3-electric-current', 
+        {
+          label: 'الوحدة الثالثة: التيار الكهربائي',
+          icon: Folder,
+          path: '/courses/physics-supplementary-2007/first-semester/3-electric-current',
           lessons: [
-            { 
-              title: 'الدرس الأول: المقاومة والقوة الدافعة الكهربائية', 
+            {
+              title: 'الدرس الأول: المقاومة والقوة الدافعة الكهربائية',
               topics: [
                 { label: 'حصة رقم (1): مفهوم التيار الكهربائي (شرح وحل أسئلة)', path: '/courses/physics-supplementary-2007/first-semester/3-electric-current/1-resistance-and-emf/1-current-concept' },
                 { label: 'حصة رقم (2): المقاومة الكهربائية', path: '/courses/physics-supplementary-2007/first-semester/3-electric-current/1-resistance-and-emf/2-electrical-resistance' },
@@ -132,8 +132,8 @@ const courseStructure = {
                 { label: 'حصة رقم (8): تغيرات الجهد الكهربائي (الجزء الثاني)', path: '/courses/physics-supplementary-2007/first-semester/3-electric-current/1-resistance-and-emf/8-voltage-changes-p2' },
               ]
             },
-            { 
-              title: 'الدرس الثاني: القدرة والدارات البسيطة', 
+            {
+              title: 'الدرس الثاني: القدرة والدارات البسيطة',
               topics: [
                 { label: 'حصة رقم (9): القدرة', path: '/courses/physics-supplementary-2007/first-semester/3-electric-current/2-power-and-simple-circuits/1-power' },
                 { label: 'حصة رقم (10): القدرة والطاقة (حصة إضافية معادة)', path: '/courses/physics-supplementary-2007/first-semester/3-electric-current/2-power-and-simple-circuits/2-power-energy-redo' },
@@ -141,8 +141,8 @@ const courseStructure = {
                 { label: 'حصة رقم (12): القدرة والطاقة (حل أسئلة إضافية - فلسطين)', path: '/courses/physics-supplementary-2007/first-semester/3-electric-current/2-power-and-simple-circuits/4-power-energy-palestine-questions' },
               ]
             },
-            { 
-              title: 'الدرس الثالث: توصيل المقاومات وقاعدتا كيرشوف', 
+            {
+              title: 'الدرس الثالث: توصيل المقاومات وقاعدتا كيرشوف',
               topics: [
                 { label: 'حصة رقم (13): توصيل المقاومات (شرح وحل أسئلة)', path: '/courses/physics-supplementary-2007/first-semester/3-electric-current/3-resistor-connections-and-kirchhoff/1-resistor-connections' },
                 { label: 'حصة رقم (14): أسئلة تميز على توصيل المقاومات', path: '/courses/physics-supplementary-2007/first-semester/3-electric-current/3-resistor-connections-and-kirchhoff/2-resistor-connections-advanced' },
@@ -155,8 +155,8 @@ const courseStructure = {
                 { label: 'حصة رقم (21): كيرشوف (حل أمثلة إضافية 2)', path: '/courses/physics-supplementary-2007/first-semester/3-electric-current/3-resistor-connections-and-kirchhoff/9-kirchhoffs-extra-examples-2' },
               ]
             },
-            { 
-              title: 'اختبار الوحدة الثالثة', 
+            {
+              title: 'اختبار الوحدة الثالثة',
               isQuiz: true,
               topics: [
                 { label: 'أسئلة اختبار الوحدة', path: '/courses/physics-supplementary-2007/first-semester/3-electric-current/4-unit-quiz' },
@@ -190,8 +190,8 @@ const courseStructure = {
                 { label: 'حصة رقم (11): عزم الازدواج وتطبيقات تكنولوجية', path: '/courses/physics-supplementary-2007/first-semester/4-magnetic-field/2-magnetic-force/5-couple-torque-and-applications' },
               ]
             },
-            { 
-              title: 'اختبار الوحدة الرابعة', 
+            {
+              title: 'اختبار الوحدة الرابعة',
               isQuiz: true,
               topics: [
                 { label: 'أسئلة اختبار الوحدة', path: '/courses/physics-supplementary-2007/first-semester/4-magnetic-field/3-unit-quiz' },
@@ -257,7 +257,7 @@ const courseStructure = {
                 { label: 'مواضيع متقدمة', path: '/courses/physics-supplementary-2007/second-semester/5-electromagnetic-induction-and-semiconductors/4-enrichment-and-expansion' }
               ]
             },
-            { 
+            {
               title: 'امتحان الوحدة الخامسة',
               isQuiz: true,
               topics: [
@@ -285,9 +285,9 @@ const courseStructure = {
             {
               title: 'الدرس الثاني: التركيب الذري',
               topics: [
-                  { label: 'حصة رقم (7): فرضيات بور', path: '/courses/physics-supplementary-2007/second-semester/6-modern-physics/2-atomic-structure/1-bohr-hypotheses' },
-                  { label: 'حصة رقم (8): الاطياف الذرية', path: '/courses/physics-supplementary-2007/second-semester/6-modern-physics/2-atomic-structure/2-atomic-spectra' },
-                  { label: 'حصة رقم (9): دي بروي', path: '/courses/physics-supplementary-2007/second-semester/6-modern-physics/2-atomic-structure/3-de-broglie' },
+                { label: 'حصة رقم (7): فرضيات بور', path: '/courses/physics-supplementary-2007/second-semester/6-modern-physics/2-atomic-structure/1-bohr-hypotheses' },
+                { label: 'حصة رقم (8): الاطياف الذرية', path: '/courses/physics-supplementary-2007/second-semester/6-modern-physics/2-atomic-structure/2-atomic-spectra' },
+                { label: 'حصة رقم (9): دي بروي', path: '/courses/physics-supplementary-2007/second-semester/6-modern-physics/2-atomic-structure/3-de-broglie' },
               ]
             },
             {
@@ -303,7 +303,7 @@ const courseStructure = {
                 { label: 'مواضيع متقدمة', path: '/courses/physics-supplementary-2007/second-semester/6-modern-physics/4-enrichment-and-expansion' }
               ]
             },
-            { 
+            {
               title: 'اختبار وحدة الفيزياء الحديثة',
               isQuiz: true,
               topics: [
@@ -354,7 +354,7 @@ const courseStructure = {
                 { label: 'مواضيع متقدمة', path: '/courses/physics-supplementary-2007/second-semester/7-nuclear-physics/5-enrichment-and-expansion' }
               ]
             },
-            { 
+            {
               title: 'امتحان الوحدة السابعة',
               isQuiz: true,
               topics: [
@@ -369,82 +369,82 @@ const courseStructure = {
 };
 
 function LessonContent({ lesson }: { lesson: any }) {
-    const Icon = lesson.icon || FileText;
+  const Icon = lesson.icon || FileText;
 
-    if (lesson.isQuiz) {
-        return (
-             <Card className="border-primary/20 bg-primary/5">
-                 <Link 
-                    href={lesson.topics[0].path}
-                    className="flex items-center justify-between p-4 text-lg font-semibold text-primary hover:bg-primary/10 transition-colors rounded-lg"
-                 >
-                    <div className="flex items-center gap-3">
-                        <ClipboardCheck className="w-6 h-6"/>
-                        <span>{lesson.title}</span>
-                    </div>
-                 </Link>
-             </Card>
-        )
-    }
-
-    if (lesson.icon) { // This is for "الإثراء والتوسع"
-        return (
-             <Card className="border-yellow-500/30 bg-yellow-500/5">
-                 <Link 
-                    href={lesson.topics[0].path}
-                    className="flex items-center justify-between p-4 text-lg font-semibold text-yellow-600 hover:bg-yellow-500/10 transition-colors rounded-lg"
-                 >
-                    <div className="flex items-center gap-3">
-                        <Icon className="w-6 h-6"/>
-                        <span>{lesson.title}</span>
-                    </div>
-                 </Link>
-             </Card>
-        )
-    }
-    
+  if (lesson.isQuiz) {
     return (
-        <Collapsible defaultOpen={false} className="mb-4">
-            <Card className="border-primary/20">
-                <CollapsibleTrigger className="w-full text-start group">
-                    <CardHeader className="flex flex-row items-center justify-between p-4 bg-muted/60 hover:bg-muted/80 transition-colors rounded-t-lg">
-                        <div className="flex flex-col items-start gap-2 flex-1">
-                            <CardTitle className="text-lg font-semibold text-foreground">{lesson.title}</CardTitle>
-                            <div className="flex items-center w-full gap-2 text-xs text-muted-foreground">
-                                <Progress value={0} className="w-1/3 h-2" />
-                                <span>0% مكتمل</span>
-                            </div>
-                        </div>
-                        <Settings2 className="w-5 h-5 text-muted-foreground transition-transform duration-300 group-data-[state=open]:rotate-90" />
-                    </CardHeader>
-                </CollapsibleTrigger>
-                <CollapsibleContent>
-                    <CardContent className="p-4 md:p-6">
-                        <ul className="space-y-3">
-                            {lesson.topics.map((topic: any, topicIndex: number) => (
-                                <li key={topicIndex}>
-                                    <Link 
-                                      href={`${topic.path}`} 
-                                      className="text-muted-foreground hover:text-primary transition-colors flex items-center gap-2"
-                                    >
-                                        <FileText className="w-4 h-4 text-primary/50" />
-                                        <span>{topic.label}</span>
-                                    </Link>
-                                </li>
-                            ))}
-                        </ul>
-                    </CardContent>
-                </CollapsibleContent>
-            </Card>
-        </Collapsible>
-    );
+      <Card className="border-primary/20 bg-primary/5">
+        <Link
+          href={lesson.topics[0].path}
+          className="flex items-center justify-between p-4 text-lg font-semibold text-primary hover:bg-primary/10 transition-colors rounded-lg"
+        >
+          <div className="flex items-center gap-3">
+            <ClipboardCheck className="w-6 h-6" />
+            <span>{lesson.title}</span>
+          </div>
+        </Link>
+      </Card>
+    )
+  }
+
+  if (lesson.icon) { // This is for "الإثراء والتوسع"
+    return (
+      <Card className="border-yellow-500/30 bg-yellow-500/5">
+        <Link
+          href={lesson.topics[0].path}
+          className="flex items-center justify-between p-4 text-lg font-semibold text-yellow-600 hover:bg-yellow-500/10 transition-colors rounded-lg"
+        >
+          <div className="flex items-center gap-3">
+            <Icon className="w-6 h-6" />
+            <span>{lesson.title}</span>
+          </div>
+        </Link>
+      </Card>
+    )
+  }
+
+  return (
+    <Collapsible defaultOpen={false} className="mb-4">
+      <Card className="border-primary/20">
+        <CollapsibleTrigger className="w-full text-start group">
+          <CardHeader className="flex flex-row items-center justify-between p-4 bg-muted/60 hover:bg-muted/80 transition-colors rounded-t-lg">
+            <div className="flex flex-col items-start gap-2 flex-1">
+              <CardTitle className="text-lg font-semibold text-foreground">{lesson.title}</CardTitle>
+              <div className="flex items-center w-full gap-2 text-xs text-muted-foreground">
+                <Progress value={0} className="w-1/3 h-2" />
+                <span>0% مكتمل</span>
+              </div>
+            </div>
+            <Settings2 className="w-5 h-5 text-muted-foreground transition-transform duration-300 group-data-[state=open]:rotate-90" />
+          </CardHeader>
+        </CollapsibleTrigger>
+        <CollapsibleContent>
+          <CardContent className="p-4 md:p-6">
+            <ul className="space-y-3">
+              {lesson.topics.map((topic: any, topicIndex: number) => (
+                <li key={topicIndex}>
+                  <Link
+                    href={`${topic.path}`}
+                    className="text-muted-foreground hover:text-primary transition-colors flex items-center gap-2"
+                  >
+                    <FileText className="w-4 h-4 text-primary/50" />
+                    <span>{topic.label}</span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </CardContent>
+        </CollapsibleContent>
+      </Card>
+    </Collapsible>
+  );
 }
 
 
 export default function PhysicsSupplementary2007Page() {
-  const { currentUser, isLoading } = useStore((state) => ({ 
+  const { currentUser, isLoading } = useStore((state) => ({
     currentUser: state.currentUser,
-    isLoading: state.isLoading 
+    isLoading: state.isLoading
   }));
 
   if (isLoading) {
@@ -457,39 +457,43 @@ export default function PhysicsSupplementary2007Page() {
     );
   }
 
-  const isAuthorized = currentUser?.role === 'admin' || (currentUser?.role === 'student' && currentUser.enrolledCourseIds.includes(courseId));
+  // Admin has full access to all courses
+  // Students need to be enrolled in the specific course
+  const isAdmin = currentUser?.role === 'admin';
+  const isEnrolledStudent = currentUser?.role === 'student' && currentUser.enrolledCourseIds?.includes(courseId);
+  const isAuthorized = isAdmin || isEnrolledStudent;
 
   if (!isAuthorized) {
     return (
-        <MainLayout>
-            <div className="p-4 sm:p-6 lg:p-8 container mx-auto text-center">
-                <Card className="max-w-md mx-auto mt-10">
-                    <CardHeader>
-                        <CardTitle className="flex items-center justify-center gap-2">
-                            <Lock className="w-8 h-8 text-destructive" />
-                            <span>محتوى مقيد</span>
-                        </CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                        <p className="text-lg text-muted-foreground">
-                            عذرًا، ليس لديك الصلاحية للوصول إلى هذه الدورة.
-                        </p>
-                        <p className="mt-2 text-sm">
-                            يرجى التأكد من تسجيلك في دورة "فيزياء التكميلي - جيل 2007".
-                        </p>
-                        <Button asChild className="mt-6">
-                            <Link href="/">العودة إلى الصفحة الرئيسية</Link>
-                        </Button>
-                    </CardContent>
-                </Card>
-            </div>
-        </MainLayout>
+      <MainLayout>
+        <div className="p-4 sm:p-6 lg:p-8 container mx-auto text-center">
+          <Card className="max-w-md mx-auto mt-10">
+            <CardHeader>
+              <CardTitle className="flex items-center justify-center gap-2">
+                <Lock className="w-8 h-8 text-destructive" />
+                <span>محتوى مقيد</span>
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-lg text-muted-foreground">
+                عذرًا، ليس لديك الصلاحية للوصول إلى هذه الدورة.
+              </p>
+              <p className="mt-2 text-sm">
+                يرجى التأكد من تسجيلك في دورة "فيزياء التكميلي - جيل 2007".
+              </p>
+              <Button asChild className="mt-6">
+                <Link href="/">العودة إلى الصفحة الرئيسية</Link>
+              </Button>
+            </CardContent>
+          </Card>
+        </div>
+      </MainLayout>
     );
   }
 
-  const welcomeMessage = currentUser?.gender === 'female' 
-      ? `مرحبًا بكِ يا ${currentUser?.username || 'طالبتنا العزيزة'}`
-      : `مرحبًا بك يا ${currentUser?.username || 'طالبنا العزيز'}`;
+  const welcomeMessage = currentUser?.gender === 'female'
+    ? `مرحبًا بكِ يا ${currentUser?.username || 'طالبتنا العزيزة'}`
+    : `مرحبًا بك يا ${currentUser?.username || 'طالبنا العزيز'}`;
 
 
   return (
@@ -500,42 +504,42 @@ export default function PhysicsSupplementary2007Page() {
           <div className="p-4 sm:p-6 lg:p-8 container mx-auto">
             <div className="bg-primary/5 p-6 md:p-8 rounded-xl border border-primary/10 shadow-sm mb-8">
               <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-                  <div className="flex-1">
-                    <h1 className="text-2xl md:text-4xl font-bold text-primary">
-                      {welcomeMessage} في دورة فيزياء التكميلي - جيل 2007
-                    </h1>
-                    <p className="mt-2 text-base md:text-lg text-muted-foreground">
-                        نتمنى لك رحلة تعليمية ممتعة ومفيدة!
-                    </p>
-                  </div>
-                   <Button asChild variant="outline" className="flex-shrink-0">
-                      <Link href="/" className="flex items-center gap-2">
-                          <Home className="h-4 w-4" />
-                          العودة للرئيسية
-                      </Link>
-                  </Button>
+                <div className="flex-1">
+                  <h1 className="text-2xl md:text-4xl font-bold text-primary">
+                    {welcomeMessage} في دورة فيزياء التكميلي - جيل 2007
+                  </h1>
+                  <p className="mt-2 text-base md:text-lg text-muted-foreground">
+                    نتمنى لك رحلة تعليمية ممتعة ومفيدة!
+                  </p>
+                </div>
+                <Button asChild variant="outline" className="flex-shrink-0">
+                  <Link href="/" className="flex items-center gap-2">
+                    <Home className="h-4 w-4" />
+                    العودة للرئيسية
+                  </Link>
+                </Button>
               </div>
             </div>
-              
-              <div className="space-y-12">
-                  {courseStructure.subItems.map((semester, semIndex) => (
-                      <div key={semIndex}>
-                          <h2 className="text-3xl font-bold mb-6 text-center text-foreground/80 border-b-2 border-primary/20 pb-4">{semester.label}</h2>
-                          <div className="space-y-8">
-                              {semester.subItems.map((unit, unitIndex) => (
-                                  <div key={unitIndex}>
-                                      <h3 className="text-2xl font-bold mb-4 text-primary">{unit.label}</h3>
-                                      <div className="space-y-4">
-                                          {unit.lessons.map((lesson, lessonIndex) => (
-                                              <LessonContent key={lessonIndex} lesson={lesson} />
-                                          ))}
-                                      </div>
-                                  </div>
-                              ))}
-                          </div>
+
+            <div className="space-y-12">
+              {courseStructure.subItems.map((semester, semIndex) => (
+                <div key={semIndex}>
+                  <h2 className="text-3xl font-bold mb-6 text-center text-foreground/80 border-b-2 border-primary/20 pb-4">{semester.label}</h2>
+                  <div className="space-y-8">
+                    {semester.subItems.map((unit, unitIndex) => (
+                      <div key={unitIndex}>
+                        <h3 className="text-2xl font-bold mb-4 text-primary">{unit.label}</h3>
+                        <div className="space-y-4">
+                          {unit.lessons.map((lesson, lessonIndex) => (
+                            <LessonContent key={lessonIndex} lesson={lesson} />
+                          ))}
+                        </div>
                       </div>
-                  ))}
-              </div>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </main>
       </div>

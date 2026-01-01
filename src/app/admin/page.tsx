@@ -9,34 +9,36 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Checkbox } from "@/components/ui/checkbox"
 import { useToast } from '@/hooks/use-toast';
-import { UserPlus, KeyRound, MonitorCheck, Loader2, Search, Smartphone, Monitor, Fingerprint, Globe, List, Home, Users, Edit, Trash2, Check, Plus, RefreshCw, Info, AlertTriangle, ClipboardCheck, ClipboardList, BarChart3, BarChart2, Laptop, X, PieChart, Clock } from 'lucide-react';
+import { UserPlus, KeyRound, MonitorCheck, Loader2, Search, Smartphone, Monitor, Fingerprint, Globe, List, Home, Users, Edit, Trash2, Check, Plus, RefreshCw, Info, AlertTriangle, ClipboardCheck, ClipboardList, BarChart3, BarChart2, Laptop, X, PieChart, Clock, TrendingUp, Video, HelpCircle, Eye } from 'lucide-react';
 import { useState, useEffect, useMemo, useCallback } from 'react';
 import Link from 'next/link';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { getStudents, addStudent, deleteStudent as deleteStudentService, resetStudentPassword as resetStudentPasswordService, updateStudent as updateStudentService, type Student } from '@/services/studentService';
 import { getPendingDevices, getAllRegisteredDevices, approveDevice, rejectPendingDevice, deleteRegisteredDevice, type PendingDevice, type RegisteredDevice } from '@/services/deviceService';
+import { getAllStudentsProgress, getStudentFullProgress, type LessonProgress } from '@/services/progressService';
 import { format, formatDistanceToNow } from 'date-fns';
 import { ar } from 'date-fns/locale';
+
 import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-  DialogClose
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+    DialogClose
 } from "@/components/ui/dialog"
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { useStore } from '@/store/app-store';
@@ -51,17 +53,21 @@ const availableCourses = [
     { id: 'tawjihi-2007-supplementary', name: 'فيزياء تكميلي 2007' },
     { id: 'tawjihi-2008-first-semester', name: 'فيزياء توجيهي 2008 - فصل أول' },
     { id: 'tawjihi-2008-foundation', name: 'دورة التأسيس توجيهي 2008' },
+    { id: 'tawjihi-2008-palestine', name: 'فيزياء التوجيهي - فلسطين 2008' },
+    { id: 'astrophysics', name: 'فيزياء الثاني عشر - قطر' },
+    { id: 'physics-101', name: 'فيزياء الجامعة 101' },
 ];
+
 
 
 export default function AdminPage() {
     const { toast } = useToast();
     const { currentUser } = useStore((state) => ({ currentUser: state.currentUser }));
     const [isLoading, setIsLoading] = useState<Record<string, boolean>>({});
-    
+
     // State to hold data from services
     const [students, setStudents] = useState<Student[]>([]);
-    const [pendingDevices, setPendingDevices] = useState<(PendingDevice & {id: string})[]>([]);
+    const [pendingDevices, setPendingDevices] = useState<(PendingDevice & { id: string })[]>([]);
     const [registeredDevices, setRegisteredDevices] = useState<RegisteredDevice[]>([]);
 
     const [newStudentName, setNewStudentName] = useState('');
@@ -71,7 +77,7 @@ export default function AdminPage() {
     const [newStudentPhone2, setNewStudentPhone2] = useState('');
     const [newStudentGender, setNewStudentGender] = useState<'male' | 'female'>('male');
     const [selectedCourses, setSelectedCourses] = useState<string[]>([]);
-    
+
     // Filters and Search
     const [studentSearchQuery, setStudentSearchQuery] = useState('');
     const [deviceSearchQuery, setDeviceSearchQuery] = useState('');
@@ -87,15 +93,22 @@ export default function AdminPage() {
     const [editPhone2, setEditPhone2] = useState('');
     const [editSelectedCourses, setEditSelectedCourses] = useState<string[]>([]);
     const [editStudentGender, setEditStudentGender] = useState<'male' | 'female'>('male');
-    
+
     // Devices Modal State
     const [devicesModalStudent, setDevicesModalStudent] = useState<Student | null>(null);
+
+    // Progress Tracking State
+    const [allProgress, setAllProgress] = useState<LessonProgress[]>([]);
+    const [progressSearchQuery, setProgressSearchQuery] = useState('');
+    const [progressModalStudent, setProgressModalStudent] = useState<Student | null>(null);
+    const [studentDetailProgress, setStudentDetailProgress] = useState<LessonProgress[]>([]);
+    const [isLoadingStudentProgress, setIsLoadingStudentProgress] = useState(false);
 
 
     const filteredStudents = useMemo(() => {
         return students.filter((student) => {
             const matchesSearch = student.studentName.toLowerCase().includes(studentSearchQuery.toLowerCase()) ||
-                                  student.username.toLowerCase().includes(studentSearchQuery.toLowerCase());
+                student.username.toLowerCase().includes(studentSearchQuery.toLowerCase());
             const matchesCourse = studentCourseFilter === 'all' || student.courseIds?.includes(studentCourseFilter);
             return matchesSearch && matchesCourse;
         });
@@ -103,18 +116,18 @@ export default function AdminPage() {
 
     const filteredRegisteredDevices = useMemo(() => {
         if (!deviceSearchQuery) return registeredDevices;
-        return registeredDevices.filter(device => 
+        return registeredDevices.filter(device =>
             device.studentName?.toLowerCase().includes(deviceSearchQuery.toLowerCase())
         );
     }, [registeredDevices, deviceSearchQuery]);
-    
+
     const filteredPendingDevices = useMemo(() => {
         if (!pendingDeviceSearchQuery) return pendingDevices;
         return pendingDevices.filter(device =>
             device.studentName.toLowerCase().includes(pendingDeviceSearchQuery.toLowerCase())
         );
     }, [pendingDevices, pendingDeviceSearchQuery]);
-    
+
     const courseEnrollmentStats = useMemo(() => {
         const stats = availableCourses.map(course => ({
             ...course,
@@ -127,23 +140,25 @@ export default function AdminPage() {
     const fetchData = useCallback(async () => {
         setIsLoading(prev => ({ ...prev, page: true }));
         try {
-            const [studentsData, pendingDevicesData, registeredDevicesData] = await Promise.all([
+            const [studentsData, pendingDevicesData, registeredDevicesData, progressData] = await Promise.all([
                 getStudents(),
                 getPendingDevices(),
-                getAllRegisteredDevices()
+                getAllRegisteredDevices(),
+                getAllStudentsProgress()
             ]);
             setStudents(studentsData);
             setPendingDevices(pendingDevicesData);
             setRegisteredDevices(registeredDevicesData);
+            setAllProgress(progressData);
 
         } catch (error: any) {
             console.error("Error fetching data:", error);
-            const errorMessage = error.code === 'permission-denied' 
+            const errorMessage = error.code === 'permission-denied'
                 ? 'فشل جلب البيانات. تأكدي من أن قواعد الأمان في Firestore صحيحة وأن حسابك يملك صلاحيات المسؤول.'
                 : `حدث خطأ غير متوقع: ${'\'\'\''}${error.message}${'\'\'\''}`;
-            toast({ 
-                variant: 'destructive', 
-                title: 'فشل تحميل البيانات', 
+            toast({
+                variant: 'destructive',
+                title: 'فشل تحميل البيانات',
                 description: errorMessage,
                 duration: 9000,
             });
@@ -157,7 +172,7 @@ export default function AdminPage() {
             fetchData();
         }
     }, [fetchData, currentUser]);
-    
+
     const handleCreateAccount = async (e: React.FormEvent) => {
         e.preventDefault();
         if (selectedCourses.length === 0) {
@@ -176,9 +191,9 @@ export default function AdminPage() {
         try {
             const userCredential = await createUserWithEmailAndPassword(secondaryAuth, studentEmail, newStudentPassword);
             const user = userCredential.user;
-            
+
             const coursesDetails = availableCourses.filter(c => selectedCourses.includes(c.id));
-            
+
             await addStudent({
                 id: user.uid,
                 studentName: newStudentName,
@@ -191,12 +206,12 @@ export default function AdminPage() {
                 courses: coursesDetails.map(c => c.name),
                 courseIds: coursesDetails.map(c => c.id),
             });
-            
+
             toast({
                 title: 'تم إنشاء الحساب بنجاح',
                 description: `تم إنشاء حساب للطالب ${newStudentName}.`,
             });
-            
+
             // Clear form and refetch data
             setNewStudentName('');
             setNewStudentUsername('');
@@ -208,7 +223,7 @@ export default function AdminPage() {
 
         } catch (error: any) {
             let description = 'حدث خطأ غير متوقع. الرجاء المحاولة مرة أخرى.';
-             if (error.code) {
+            if (error.code) {
                 switch (error.code) {
                     case 'auth/email-already-in-use':
                         description = 'اسم المستخدم هذا موجود بالفعل. الرجاء اختيار اسم آخر.';
@@ -223,13 +238,13 @@ export default function AdminPage() {
                         description = `Firebase Error: ${error.message}`;
                 }
             } else if (error.message) {
-                 description = error.message;
+                description = error.message;
             }
-            toast({ 
-                variant: 'destructive', 
-                title: 'فشل إنشاء الحساب', 
-                description, 
-                duration: 9000 
+            toast({
+                variant: 'destructive',
+                title: 'فشل إنشاء الحساب',
+                description,
+                duration: 9000
             });
         } finally {
             setIsLoading(prev => ({ ...prev, create: false }));
@@ -254,12 +269,12 @@ export default function AdminPage() {
             });
             fetchData();
         } catch (error: any) {
-             toast({ variant: 'destructive', title: 'فشلت الموافقة', description: error.message || 'حدث خطأ أثناء محاولة الموافقة على الجهاز.' });
+            toast({ variant: 'destructive', title: 'فشلت الموافقة', description: error.message || 'حدث خطأ أثناء محاولة الموافقة على الجهاز.' });
         } finally {
-             setIsLoading(prev => ({ ...prev, [loadingKey]: false }));
+            setIsLoading(prev => ({ ...prev, [loadingKey]: false }));
         }
     };
-    
+
     const handleRejectDevice = async (id: string) => {
         const loadingKey = `reject-${id}`;
         setIsLoading(prev => ({ ...prev, [loadingKey]: true }));
@@ -270,10 +285,10 @@ export default function AdminPage() {
                 description: `تم رفض الجهاز وحذفه من قائمة الطلبات المعلقة.`,
             });
             fetchData();
-        } catch(error: any) {
-             toast({ variant: 'destructive', title: 'فشل الرفض', description: error.message || 'حدث خطأ أثناء محاولة رفض الجهاز.' });
+        } catch (error: any) {
+            toast({ variant: 'destructive', title: 'فشل الرفض', description: error.message || 'حدث خطأ أثناء محاولة رفض الجهاز.' });
         } finally {
-             setIsLoading(prev => ({ ...prev, [loadingKey]: false }));
+            setIsLoading(prev => ({ ...prev, [loadingKey]: false }));
         }
     }
 
@@ -293,9 +308,9 @@ export default function AdminPage() {
             setIsLoading(prev => ({ ...prev, [`delete-${studentId}`]: false }));
         }
     };
-    
+
     const handleDeleteDevice = async (deviceId: string) => {
-         setIsLoading(prev => ({ ...prev, [`delete-device-${deviceId}`]: true }));
+        setIsLoading(prev => ({ ...prev, [`delete-device-${deviceId}`]: true }));
         try {
             await deleteRegisteredDevice(deviceId);
             toast({
@@ -306,7 +321,7 @@ export default function AdminPage() {
             // If the modal is open, we might want to close it or update its content
             if (devicesModalStudent) {
                 // To refresh the modal content, we re-set the student, which will trigger a re-render of the modal
-                 setDevicesModalStudent(prev => prev ? { ...prev } : null);
+                setDevicesModalStudent(prev => prev ? { ...prev } : null);
             }
         } catch (error) {
             toast({ variant: 'destructive', title: 'فشل الحذف', description: 'لم نتمكن من حذف الجهاز.' });
@@ -314,7 +329,7 @@ export default function AdminPage() {
             setIsLoading(prev => ({ ...prev, [`delete-device-${deviceId}`]: false }));
         }
     };
-    
+
     const handleResetPassword = async (studentId: string, studentName: string) => {
         const newPassword = Math.random().toString(36).slice(-8);
         setIsLoading(prev => ({ ...prev, [`reset-${studentId}`]: true }));
@@ -326,13 +341,13 @@ export default function AdminPage() {
                 duration: 15000
             });
             fetchData();
-        } catch(error) {
+        } catch (error) {
             toast({ variant: 'destructive', title: 'فشل إعادة التعيين', description: 'لم نتمكن من إعادة تعيين كلمة المرور.' });
         } finally {
             setIsLoading(prev => ({ ...prev, [`reset-${studentId}`]: false }));
         }
     };
-    
+
     const openEditDialog = (student: Student) => {
         setEditingStudent(student);
         setEditStudentName(student.studentName);
@@ -377,7 +392,92 @@ export default function AdminPage() {
             setIsLoading(prev => ({ ...prev, [`update-${editingStudent?.id}`]: false }));
         }
     };
-  
+
+    // Calculate student progress summary for display
+    const studentProgressSummary = useMemo(() => {
+        const summaryMap = new Map<string, {
+            studentId: string;
+            studentName: string;
+            courses: string[];
+            totalLessons: number;
+            completedLessons: number;
+            videoAverage: number;
+            quizAverage: number;
+            overallAverage: number;
+            lastActivity: Date | null;
+        }>();
+
+        // Group progress by studentId
+        allProgress.forEach(progress => {
+            const student = students.find(s => s.id === progress.studentId);
+            if (!student) return;
+
+            const existing = summaryMap.get(progress.studentId);
+            if (existing) {
+                existing.totalLessons += 1;
+                existing.completedLessons += progress.isCompleted ? 1 : 0;
+                existing.videoAverage += progress.videoProgress?.percentage || 0;
+                existing.quizAverage += progress.quizProgress?.percentage || 0;
+                existing.overallAverage += progress.overallProgress || 0;
+                if (progress.updatedAt && (!existing.lastActivity || progress.updatedAt > existing.lastActivity)) {
+                    existing.lastActivity = progress.updatedAt;
+                }
+            } else {
+                summaryMap.set(progress.studentId, {
+                    studentId: progress.studentId,
+                    studentName: student.studentName,
+                    courses: student.courses || [],
+                    totalLessons: 1,
+                    completedLessons: progress.isCompleted ? 1 : 0,
+                    videoAverage: progress.videoProgress?.percentage || 0,
+                    quizAverage: progress.quizProgress?.percentage || 0,
+                    overallAverage: progress.overallProgress || 0,
+                    lastActivity: progress.updatedAt,
+                });
+            }
+        });
+
+        // Calculate averages
+        const result = Array.from(summaryMap.values()).map(summary => ({
+            ...summary,
+            videoAverage: summary.totalLessons > 0 ? Math.round(summary.videoAverage / summary.totalLessons) : 0,
+            quizAverage: summary.totalLessons > 0 ? Math.round(summary.quizAverage / summary.totalLessons) : 0,
+            overallAverage: summary.totalLessons > 0 ? Math.round(summary.overallAverage / summary.totalLessons) : 0,
+        }));
+
+        // Sort by last activity
+        result.sort((a, b) => {
+            if (!a.lastActivity) return 1;
+            if (!b.lastActivity) return -1;
+            return b.lastActivity.getTime() - a.lastActivity.getTime();
+        });
+
+        return result;
+    }, [allProgress, students]);
+
+    // Filter progress summary by search
+    const filteredProgressSummary = useMemo(() => {
+        if (!progressSearchQuery) return studentProgressSummary;
+        return studentProgressSummary.filter(s =>
+            s.studentName.toLowerCase().includes(progressSearchQuery.toLowerCase())
+        );
+    }, [studentProgressSummary, progressSearchQuery]);
+
+    // View student progress details
+    const viewStudentProgress = async (student: Student) => {
+        setProgressModalStudent(student);
+        setIsLoadingStudentProgress(true);
+        try {
+            const progress = await getStudentFullProgress(student.id);
+            setStudentDetailProgress(progress);
+        } catch (error) {
+            console.error('Error loading student progress:', error);
+            toast({ variant: 'destructive', title: 'خطأ', description: 'فشل تحميل تقدم الطالب' });
+        } finally {
+            setIsLoadingStudentProgress(false);
+        }
+    };
+
     return (
         <>
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
@@ -392,12 +492,14 @@ export default function AdminPage() {
             </div>
 
             <Tabs defaultValue="create-student">
-                <TabsList className="grid w-full grid-cols-2 md:grid-cols-4">
+                <TabsList className="grid w-full grid-cols-2 md:grid-cols-5">
                     <TabsTrigger value="create-student"><UserPlus className="me-2" /> إنشاء حساب</TabsTrigger>
                     <TabsTrigger value="student-accounts"><Users className="me-2" /> الطلاب</TabsTrigger>
+                    <TabsTrigger value="student-progress"><TrendingUp className="me-2" /> تقدم الطلاب</TabsTrigger>
                     <TabsTrigger value="approve-devices"><MonitorCheck className="me-2" /> الموافقة</TabsTrigger>
                     <TabsTrigger value="registered-devices"><Fingerprint className="me-2" /> الأجهزة المسجلة</TabsTrigger>
                 </TabsList>
+
 
                 <TabsContent value="create-student">
                     <Card>
@@ -417,7 +519,7 @@ export default function AdminPage() {
                                         <Input id="student-username" value={newStudentUsername} onChange={(e) => setNewStudentUsername(e.target.value)} placeholder="مثال: mohammed123" required />
                                         <p className="text-xs text-muted-foreground">استخدم حروف إنجليزية وأرقام فقط، بدون مسافات أو رموز.</p>
                                     </div>
-                                     <div className="space-y-2">
+                                    <div className="space-y-2">
                                         <Label htmlFor="student-password">كلمة المرور</Label>
                                         <Input id="student-password" type="password" value={newStudentPassword} onChange={(e) => setNewStudentPassword(e.target.value)} placeholder="6 أحرف على الأقل" required />
                                     </div>
@@ -441,7 +543,7 @@ export default function AdminPage() {
                                         <Label htmlFor="student-phone2">رقم الهاتف 2 (اختياري)</Label>
                                         <Input id="student-phone2" type="tel" value={newStudentPhone2} onChange={(e) => setNewStudentPhone2(e.target.value)} placeholder="رقم هاتف إضافي" />
                                     </div>
-                                        <div className="space-y-3 md:col-span-2">
+                                    <div className="space-y-3 md:col-span-2">
                                         <Label>الدورات المسجل بها</Label>
                                         <div className="space-y-2 rounded-md border p-4">
                                             {availableCourses.map(course => (
@@ -478,13 +580,13 @@ export default function AdminPage() {
                 <TabsContent value="student-accounts">
                     <Card>
                         <CardHeader>
-                             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                                 <div>
                                     <CardTitle>قائمة حسابات الطلاب ({filteredStudents.length} / {students.length})</CardTitle>
                                     <CardDescription>هنا يتم عرض جميع حسابات الطلاب المسجلة في قاعدة البيانات.</CardDescription>
                                 </div>
                                 <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
-                                   <Select value={studentCourseFilter} onValueChange={setStudentCourseFilter}>
+                                    <Select value={studentCourseFilter} onValueChange={setStudentCourseFilter}>
                                         <SelectTrigger className="w-full sm:w-[220px]">
                                             <SelectValue placeholder="فلترة حسب الدورة" />
                                         </SelectTrigger>
@@ -497,15 +599,15 @@ export default function AdminPage() {
                                     </Select>
                                     <div className="relative w-full sm:w-64">
                                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                        <Input 
-                                            placeholder="بحث بالاسم أو اسم المستخدم..." 
-                                            className="ps-10" 
+                                        <Input
+                                            placeholder="بحث بالاسم أو اسم المستخدم..."
+                                            className="ps-10"
                                             value={studentSearchQuery}
                                             onChange={(e) => setStudentSearchQuery(e.target.value)}
                                         />
                                     </div>
                                 </div>
-                             </div>
+                            </div>
                         </CardHeader>
                         <CardContent>
                             <Alert>
@@ -517,13 +619,13 @@ export default function AdminPage() {
                             </Alert>
                             <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
                                 {courseEnrollmentStats.map(course => (
-                                <div key={course.id} className="p-4 border rounded-lg bg-muted/50 flex items-center justify-between">
-                                    <p className="font-semibold text-primary text-sm">{course.name}</p>
-                                    <div className="flex items-center gap-2">
-                                        <Users className="w-4 h-4 text-muted-foreground"/>
-                                        <span className="text-lg font-bold">{course.count}</span>
+                                    <div key={course.id} className="p-4 border rounded-lg bg-muted/50 flex items-center justify-between">
+                                        <p className="font-semibold text-primary text-sm">{course.name}</p>
+                                        <div className="flex items-center gap-2">
+                                            <Users className="w-4 h-4 text-muted-foreground" />
+                                            <span className="text-lg font-bold">{course.count}</span>
+                                        </div>
                                     </div>
-                                </div>
                                 ))}
                             </div>
                             <div className="mt-4 overflow-x-auto">
@@ -553,10 +655,10 @@ export default function AdminPage() {
                                                         <Button variant="outline" size="icon" onClick={() => openEditDialog(student)}><Edit className="w-4 h-4" /></Button>
                                                         <AlertDialog>
                                                             <AlertDialogTrigger asChild>
-                                                                <Button 
-                                                                variant="destructive" 
-                                                                size="icon" 
-                                                                disabled={isLoading[`delete-${student.id}`]}>
+                                                                <Button
+                                                                    variant="destructive"
+                                                                    size="icon"
+                                                                    disabled={isLoading[`delete-${student.id}`]}>
                                                                     {isLoading[`delete-${student.id}`] ? <Loader2 className="w-4 h-4 animate-spin" /> : <Trash2 className="w-4 h-4" />}
                                                                 </Button>
                                                             </AlertDialogTrigger>
@@ -592,24 +694,153 @@ export default function AdminPage() {
                     </Card>
                 </TabsContent>
 
+                <TabsContent value="student-progress">
+                    <Card>
+                        <CardHeader>
+                            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                                <div>
+                                    <CardTitle>تقدم الطلاب ({filteredProgressSummary.length})</CardTitle>
+                                    <CardDescription>متابعة تقدم الطلاب في مشاهدة الفيديوهات وحل الأسئلة</CardDescription>
+                                </div>
+                                <div className="relative w-full sm:w-64">
+                                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                    <Input
+                                        placeholder="بحث باسم الطالب..."
+                                        className="ps-10"
+                                        value={progressSearchQuery}
+                                        onChange={(e) => setProgressSearchQuery(e.target.value)}
+                                    />
+                                </div>
+                            </div>
+                        </CardHeader>
+                        <CardContent>
+                            {filteredProgressSummary.length > 0 ? (
+                                <div className="overflow-x-auto">
+                                    <Table>
+                                        <TableHeader>
+                                            <TableRow>
+                                                <TableHead>اسم الطالب</TableHead>
+                                                <TableHead>الدورات</TableHead>
+                                                <TableHead className="text-center">
+                                                    <div className="flex items-center justify-center gap-1">
+                                                        <Video className="w-4 h-4" />
+                                                        الفيديو
+                                                    </div>
+                                                </TableHead>
+                                                <TableHead className="text-center">
+                                                    <div className="flex items-center justify-center gap-1">
+                                                        <HelpCircle className="w-4 h-4" />
+                                                        الأسئلة
+                                                    </div>
+                                                </TableHead>
+                                                <TableHead className="text-center">التقدم الكلي</TableHead>
+                                                <TableHead>الدروس المكتملة</TableHead>
+                                                <TableHead>آخر نشاط</TableHead>
+                                                <TableHead>تفاصيل</TableHead>
+                                            </TableRow>
+                                        </TableHeader>
+                                        <TableBody>
+                                            {filteredProgressSummary.map((summary) => (
+                                                <TableRow key={summary.studentId}>
+                                                    <TableCell className="font-medium">{summary.studentName}</TableCell>
+                                                    <TableCell className="text-sm text-muted-foreground max-w-[150px] truncate">
+                                                        {summary.courses.join(', ') || 'N/A'}
+                                                    </TableCell>
+                                                    <TableCell className="text-center">
+                                                        <div className="flex items-center justify-center gap-2">
+                                                            <div className="w-16 h-2 bg-muted rounded-full overflow-hidden">
+                                                                <div
+                                                                    className="h-full bg-blue-500 rounded-full transition-all"
+                                                                    style={{ width: `${summary.videoAverage}%` }}
+                                                                />
+                                                            </div>
+                                                            <span className="text-sm font-medium">{summary.videoAverage}%</span>
+                                                        </div>
+                                                    </TableCell>
+                                                    <TableCell className="text-center">
+                                                        <div className="flex items-center justify-center gap-2">
+                                                            <div className="w-16 h-2 bg-muted rounded-full overflow-hidden">
+                                                                <div
+                                                                    className="h-full bg-green-500 rounded-full transition-all"
+                                                                    style={{ width: `${summary.quizAverage}%` }}
+                                                                />
+                                                            </div>
+                                                            <span className="text-sm font-medium">{summary.quizAverage}%</span>
+                                                        </div>
+                                                    </TableCell>
+                                                    <TableCell className="text-center">
+                                                        <div className="flex items-center justify-center gap-2">
+                                                            <div className="w-16 h-2 bg-muted rounded-full overflow-hidden">
+                                                                <div
+                                                                    className={`h-full rounded-full transition-all ${summary.overallAverage >= 80 ? 'bg-emerald-500' :
+                                                                        summary.overallAverage >= 50 ? 'bg-amber-500' : 'bg-red-500'
+                                                                        }`}
+                                                                    style={{ width: `${summary.overallAverage}%` }}
+                                                                />
+                                                            </div>
+                                                            <span className="text-sm font-bold">{summary.overallAverage}%</span>
+                                                        </div>
+                                                    </TableCell>
+                                                    <TableCell className="text-center">
+                                                        <span className="font-medium">{summary.completedLessons}</span>
+                                                        <span className="text-muted-foreground">/{summary.totalLessons}</span>
+                                                    </TableCell>
+                                                    <TableCell>
+                                                        {summary.lastActivity ? (
+                                                            <span className="flex items-center gap-2 text-xs text-muted-foreground">
+                                                                <Clock className="w-3 h-3" />
+                                                                {formatDistanceToNow(summary.lastActivity, { addSuffix: true, locale: ar })}
+                                                            </span>
+                                                        ) : (
+                                                            <span className="text-muted-foreground">-</span>
+                                                        )}
+                                                    </TableCell>
+                                                    <TableCell>
+                                                        <Button
+                                                            variant="outline"
+                                                            size="icon"
+                                                            onClick={() => {
+                                                                const student = students.find(s => s.id === summary.studentId);
+                                                                if (student) viewStudentProgress(student);
+                                                            }}
+                                                        >
+                                                            <Eye className="w-4 h-4" />
+                                                        </Button>
+                                                    </TableCell>
+                                                </TableRow>
+                                            ))}
+                                        </TableBody>
+                                    </Table>
+                                </div>
+                            ) : (
+                                <div className="text-center py-12 text-muted-foreground">
+                                    <TrendingUp className="w-12 h-12 mx-auto mb-4 opacity-50" />
+                                    <p>لا يوجد تقدم مسجل للطلاب بعد.</p>
+                                    <p className="text-sm mt-2">سيظهر التقدم هنا عندما يبدأ الطلاب بمشاهدة الفيديوهات وحل الأسئلة.</p>
+                                </div>
+                            )}
+                        </CardContent>
+                    </Card>
+                </TabsContent>
+
                 <TabsContent value="approve-devices">
                     <Card>
                         <CardHeader>
-                             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                                 <div>
                                     <CardTitle>طلبات الأجهزة المعلقة ({pendingDevices.length})</CardTitle>
                                     <CardDescription>الطلاب الذين يحاولون تسجيل الدخول من جهاز جديد.</CardDescription>
                                 </div>
-                                 <div className="relative w-full sm:w-64">
+                                <div className="relative w-full sm:w-64">
                                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                    <Input 
-                                        placeholder="بحث باسم الطالب..." 
-                                        className="ps-10" 
+                                    <Input
+                                        placeholder="بحث باسم الطالب..."
+                                        className="ps-10"
                                         value={pendingDeviceSearchQuery}
                                         onChange={(e) => setPendingDeviceSearchQuery(e.target.value)}
                                     />
                                 </div>
-                             </div>
+                            </div>
                         </CardHeader>
                         <CardContent className="space-y-4">
                             {filteredPendingDevices.length > 0 ? (
@@ -632,15 +863,15 @@ export default function AdminPage() {
                                                 <AlertDialog>
                                                     <AlertDialogTrigger asChild>
                                                         <Button variant="destructive" disabled={isLoading[`reject-${device.id}`]}>
-                                                          {isLoading[`reject-${device.id}`] ? <Loader2 className="me-2 h-4 w-4 animate-spin"/> : <X className="me-2" />}
-                                                          رفض
+                                                            {isLoading[`reject-${device.id}`] ? <Loader2 className="me-2 h-4 w-4 animate-spin" /> : <X className="me-2" />}
+                                                            رفض
                                                         </Button>
                                                     </AlertDialogTrigger>
                                                     <AlertDialogContent>
                                                         <AlertDialogHeader>
                                                             <AlertDialogTitle>هل أنت متأكد من رفض هذا الجهاز؟</AlertDialogTitle>
                                                             <AlertDialogDescription>
-                                                               سيؤدي هذا الإجراء إلى حذف طلب الموافقة لهذا الجهاز بشكل نهائي.
+                                                                سيؤدي هذا الإجراء إلى حذف طلب الموافقة لهذا الجهاز بشكل نهائي.
                                                             </AlertDialogDescription>
                                                         </AlertDialogHeader>
                                                         <AlertDialogFooter>
@@ -657,13 +888,13 @@ export default function AdminPage() {
                                             <div className="flex items-center gap-2 font-mono text-xs">
                                                 <p className="font-sans font-semibold">OS:</p> <span>{device.deviceInfo?.os || 'N/A'} {device.deviceInfo?.osVersion}</span>
                                             </div>
-                                             <div className="flex items-center gap-2 font-mono text-xs">
+                                            <div className="flex items-center gap-2 font-mono text-xs">
                                                 <p className="font-sans font-semibold">Browser:</p> <span>{device.deviceInfo?.browser} {device.deviceInfo?.browserVersion}</span>
                                             </div>
                                             <div className="flex items-center gap-2 font-mono text-xs">
                                                 <p className="font-sans font-semibold">Device:</p> <span>{device.deviceInfo?.deviceVendor || ''} {device.deviceInfo?.deviceModel || device.deviceInfo?.deviceType || 'Unknown'}</span>
                                             </div>
-                                             <div className="flex items-center gap-2 font-mono text-xs">
+                                            <div className="flex items-center gap-2 font-mono text-xs">
                                                 <p className="font-sans font-semibold">IP:</p> <span>{device.ipAddress}</span>
                                             </div>
                                             <div className="flex items-start gap-2 sm:col-span-2 font-mono text-xs">
@@ -683,83 +914,83 @@ export default function AdminPage() {
                         </CardContent>
                     </Card>
                 </TabsContent>
-                
-                 <TabsContent value="registered-devices">
+
+                <TabsContent value="registered-devices">
                     <Card>
                         <CardHeader>
-                             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                                 <div>
                                     <CardTitle>الأجهزة المسجلة ({registeredDevices.length})</CardTitle>
                                     <CardDescription>هنا يتم عرض جميع الأجهزة المسجلة لكل طالب. الأجهزة مرتبة حسب آخر ظهور.</CardDescription>
                                 </div>
                                 <div className="relative w-full sm:w-64">
                                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                    <Input 
-                                        placeholder="بحث باسم الطالب..." 
-                                        className="ps-10" 
+                                    <Input
+                                        placeholder="بحث باسم الطالب..."
+                                        className="ps-10"
                                         value={deviceSearchQuery}
                                         onChange={(e) => setDeviceSearchQuery(e.target.value)}
                                     />
                                 </div>
-                             </div>
+                            </div>
                         </CardHeader>
                         <CardContent className="space-y-4">
-                             {filteredRegisteredDevices.length > 0 ? (
-                               <div className="overflow-x-auto">
-                                <Table>
-                                    <TableHeader>
-                                        <TableRow>
-                                            <TableHead>اسم الطالب</TableHead>
-                                            <TableHead>الجهاز</TableHead>
-                                            <TableHead>آخر ظهور</TableHead>
-                                            <TableHead>الإجراءات</TableHead>
-                                        </TableRow>
-                                    </TableHeader>
-                                    <TableBody>
-                                        {filteredRegisteredDevices.map(device => (
-                                            <TableRow key={device.id}>
-                                                <TableCell className="font-medium">{device.studentName}</TableCell>
-                                                <TableCell>
-                                                    <div className="flex items-center gap-2 text-xs">
-                                                        <span>{device.deviceInfo?.os || 'OS'} / {device.deviceInfo?.browser || 'Browser'}</span>
-                                                    </div>
-                                                    <div className="font-mono text-xs text-muted-foreground break-all">{device.deviceId}</div>
-                                                </TableCell>
-                                                <TableCell>
-                                                  {device.lastSeenAt ? (
-                                                    <span className="flex items-center gap-2 text-xs">
-                                                        <Clock className="w-3 h-3"/>
-                                                        {formatDistanceToNow(new Date(device.lastSeenAt), { addSuffix: true, locale: ar })}
-                                                    </span>
-                                                  ) : (
-                                                    <span>غير معروف</span>
-                                                  )}
-                                                </TableCell>
-                                                <TableCell>
-                                                      <AlertDialog>
-                                                        <AlertDialogTrigger asChild>
-                                                            <Button variant="destructive" size="icon" disabled={isLoading[`delete-device-${device.id}`]}>
-                                                                {isLoading[`delete-device-${device.id}`] ? <Loader2 className="w-4 h-4 animate-spin" /> : <Trash2 className="w-4 h-4" />}
-                                                            </Button>
-                                                        </AlertDialogTrigger>
-                                                        <AlertDialogContent>
-                                                          <AlertDialogHeader>
-                                                            <AlertDialogTitle>هل أنت متأكد من حذف الجهاز؟</AlertDialogTitle>
-                                                            <AlertDialogDescription>
-                                                              هذا الإجراء سيحذف الجهاز المسجل نهائيًا. سيضطر الطالب إلى إعادة تسجيله والموافقة عليه مرة أخرى.
-                                                            </AlertDialogDescription>
-                                                          </AlertDialogHeader>
-                                                          <AlertDialogFooter>
-                                                            <AlertDialogCancel>إلغاء</AlertDialogCancel>
-                                                            <AlertDialogAction onClick={() => handleDeleteDevice(device.id)} className="bg-destructive hover:bg-destructive/90">نعم، قم بالحذف</AlertDialogAction>
-                                                          </AlertDialogFooter>
-                                                        </AlertDialogContent>
-                                                      </AlertDialog>
-                                                </TableCell>
+                            {filteredRegisteredDevices.length > 0 ? (
+                                <div className="overflow-x-auto">
+                                    <Table>
+                                        <TableHeader>
+                                            <TableRow>
+                                                <TableHead>اسم الطالب</TableHead>
+                                                <TableHead>الجهاز</TableHead>
+                                                <TableHead>آخر ظهور</TableHead>
+                                                <TableHead>الإجراءات</TableHead>
                                             </TableRow>
-                                        ))}
-                                    </TableBody>
-                                </Table>
+                                        </TableHeader>
+                                        <TableBody>
+                                            {filteredRegisteredDevices.map(device => (
+                                                <TableRow key={device.id}>
+                                                    <TableCell className="font-medium">{device.studentName}</TableCell>
+                                                    <TableCell>
+                                                        <div className="flex items-center gap-2 text-xs">
+                                                            <span>{device.deviceInfo?.os || 'OS'} / {device.deviceInfo?.browser || 'Browser'}</span>
+                                                        </div>
+                                                        <div className="font-mono text-xs text-muted-foreground break-all">{device.deviceId}</div>
+                                                    </TableCell>
+                                                    <TableCell>
+                                                        {device.lastSeenAt ? (
+                                                            <span className="flex items-center gap-2 text-xs">
+                                                                <Clock className="w-3 h-3" />
+                                                                {formatDistanceToNow(new Date(device.lastSeenAt), { addSuffix: true, locale: ar })}
+                                                            </span>
+                                                        ) : (
+                                                            <span>غير معروف</span>
+                                                        )}
+                                                    </TableCell>
+                                                    <TableCell>
+                                                        <AlertDialog>
+                                                            <AlertDialogTrigger asChild>
+                                                                <Button variant="destructive" size="icon" disabled={isLoading[`delete-device-${device.id}`]}>
+                                                                    {isLoading[`delete-device-${device.id}`] ? <Loader2 className="w-4 h-4 animate-spin" /> : <Trash2 className="w-4 h-4" />}
+                                                                </Button>
+                                                            </AlertDialogTrigger>
+                                                            <AlertDialogContent>
+                                                                <AlertDialogHeader>
+                                                                    <AlertDialogTitle>هل أنت متأكد من حذف الجهاز؟</AlertDialogTitle>
+                                                                    <AlertDialogDescription>
+                                                                        هذا الإجراء سيحذف الجهاز المسجل نهائيًا. سيضطر الطالب إلى إعادة تسجيله والموافقة عليه مرة أخرى.
+                                                                    </AlertDialogDescription>
+                                                                </AlertDialogHeader>
+                                                                <AlertDialogFooter>
+                                                                    <AlertDialogCancel>إلغاء</AlertDialogCancel>
+                                                                    <AlertDialogAction onClick={() => handleDeleteDevice(device.id)} className="bg-destructive hover:bg-destructive/90">نعم، قم بالحذف</AlertDialogAction>
+                                                                </AlertDialogFooter>
+                                                            </AlertDialogContent>
+                                                        </AlertDialog>
+                                                    </TableCell>
+                                                </TableRow>
+                                            ))}
+                                        </TableBody>
+                                    </Table>
                                 </div>
                             ) : (
                                 <p className="text-muted-foreground text-center py-8">
@@ -785,26 +1016,26 @@ export default function AdminPage() {
                                 <Label htmlFor="edit-student-name" className="text-right">الاسم</Label>
                                 <Input id="edit-student-name" value={editStudentName} onChange={(e) => setEditStudentName(e.target.value)} className="col-span-3" />
                             </div>
-                                <div className="grid grid-cols-4 items-center gap-4">
+                            <div className="grid grid-cols-4 items-center gap-4">
                                 <Label htmlFor="edit-phone1" className="text-right">هاتف 1</Label>
                                 <Input id="edit-phone1" value={editPhone1} onChange={(e) => setEditPhone1(e.target.value)} className="col-span-3" />
                             </div>
-                                <div className="grid grid-cols-4 items-center gap-4">
+                            <div className="grid grid-cols-4 items-center gap-4">
                                 <Label htmlFor="edit-phone2" className="text-right">هاتف 2</Label>
                                 <Input id="edit-phone2" value={editPhone2} onChange={(e) => setEditPhone2(e.target.value)} className="col-span-3" />
                             </div>
-                             <div className="grid grid-cols-4 items-center gap-4">
+                            <div className="grid grid-cols-4 items-center gap-4">
                                 <Label htmlFor="edit-gender" className="text-right">الجنس</Label>
                                 <div className="col-span-3">
-                                <Select onValueChange={(value: 'male' | 'female') => setEditStudentGender(value)} value={editStudentGender}>
-                                    <SelectTrigger>
-                                        <SelectValue placeholder="اختر الجنس" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectItem value="male">ذكر</SelectItem>
-                                        <SelectItem value="female">أنثى</SelectItem>
-                                    </SelectContent>
-                                </Select>
+                                    <Select onValueChange={(value: 'male' | 'female') => setEditStudentGender(value)} value={editStudentGender}>
+                                        <SelectTrigger>
+                                            <SelectValue placeholder="اختر الجنس" />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            <SelectItem value="male">ذكر</SelectItem>
+                                            <SelectItem value="female">أنثى</SelectItem>
+                                        </SelectContent>
+                                    </Select>
                                 </div>
                             </div>
                             <div className="col-span-4 space-y-3">
@@ -844,13 +1075,13 @@ export default function AdminPage() {
                     </form>
                 </DialogContent>
             </Dialog>
-            
+
             <Dialog open={!!devicesModalStudent} onOpenChange={(isOpen) => !isOpen && setDevicesModalStudent(null)}>
                 <DialogContent className="max-w-3xl">
-                     <DialogHeader>
+                    <DialogHeader>
                         <DialogTitle>الأجهزة المسجلة للطالب: {devicesModalStudent?.studentName}</DialogTitle>
-                     </DialogHeader>
-                     <ScrollArea className="mt-4 max-h-[60vh] h-auto">
+                    </DialogHeader>
+                    <ScrollArea className="mt-4 max-h-[60vh] h-auto">
                         <Table>
                             <TableHeader>
                                 <TableRow>
@@ -862,7 +1093,7 @@ export default function AdminPage() {
                             <TableBody>
                                 {registeredDevices.filter(d => d.studentId === devicesModalStudent?.id).map(device => (
                                     <TableRow key={device.id}>
-                                         <TableCell>
+                                        <TableCell>
                                             <div className="flex items-center gap-2 text-xs">
                                                 <span>{device.deviceInfo?.os || 'OS'} / {device.deviceInfo?.browser || 'Browser'}</span>
                                             </div>
@@ -875,7 +1106,7 @@ export default function AdminPage() {
                                                 <span>غير معروف</span>
                                             )}
                                         </TableCell>
-                                         <TableCell>
+                                        <TableCell>
                                             <AlertDialog>
                                                 <AlertDialogTrigger asChild>
                                                     <Button variant="destructive" size="icon" disabled={isLoading[`delete-device-${device.id}`]}>
@@ -886,7 +1117,7 @@ export default function AdminPage() {
                                                     <AlertDialogHeader>
                                                         <AlertDialogTitle>هل أنت متأكد من حذف الجهاز؟</AlertDialogTitle>
                                                         <AlertDialogDescription>
-                                                        هذا الإجراء سيحذف الجهاز المسجل للطالب {devicesModalStudent?.studentName} نهائيًا. سيضطر الطالب إلى إعادة تسجيله والموافقة عليه مرة أخرى.
+                                                            هذا الإجراء سيحذف الجهاز المسجل للطالب {devicesModalStudent?.studentName} نهائيًا. سيضطر الطالب إلى إعادة تسجيله والموافقة عليه مرة أخرى.
                                                         </AlertDialogDescription>
                                                     </AlertDialogHeader>
                                                     <AlertDialogFooter>
@@ -900,18 +1131,140 @@ export default function AdminPage() {
                                 ))}
                             </TableBody>
                         </Table>
-                         {registeredDevices.filter(d => d.studentId === devicesModalStudent?.id).length === 0 && (
+                        {registeredDevices.filter(d => d.studentId === devicesModalStudent?.id).length === 0 && (
                             <p className="text-center py-8 text-muted-foreground">لا توجد أجهزة مسجلة لهذا الطالب.</p>
                         )}
-                     </ScrollArea>
+                    </ScrollArea>
+                </DialogContent>
+            </Dialog>
+
+            {/* Student Progress Details Modal */}
+            <Dialog open={!!progressModalStudent} onOpenChange={(isOpen) => !isOpen && setProgressModalStudent(null)}>
+                <DialogContent className="max-w-4xl">
+                    <DialogHeader>
+                        <DialogTitle>تفاصيل تقدم الطالب: {progressModalStudent?.studentName}</DialogTitle>
+                        <DialogDescription>
+                            عرض تفصيلي لتقدم الطالب في كل درس
+                        </DialogDescription>
+                    </DialogHeader>
+                    <ScrollArea className="mt-4 max-h-[60vh] h-auto">
+                        {isLoadingStudentProgress ? (
+                            <div className="flex items-center justify-center py-12">
+                                <Loader2 className="w-8 h-8 animate-spin text-primary" />
+                            </div>
+                        ) : studentDetailProgress.length > 0 ? (
+                            <Table>
+                                <TableHeader>
+                                    <TableRow>
+                                        <TableHead>الدرس</TableHead>
+                                        <TableHead>الدورة</TableHead>
+                                        <TableHead className="text-center">
+                                            <div className="flex items-center justify-center gap-1">
+                                                <Video className="w-4 h-4" />
+                                                مشاهدة الفيديو
+                                            </div>
+                                        </TableHead>
+                                        <TableHead className="text-center">
+                                            <div className="flex items-center justify-center gap-1">
+                                                <HelpCircle className="w-4 h-4" />
+                                                حل الأسئلة
+                                            </div>
+                                        </TableHead>
+                                        <TableHead className="text-center">التقدم الكلي</TableHead>
+                                        <TableHead>الحالة</TableHead>
+                                        <TableHead>آخر تحديث</TableHead>
+                                    </TableRow>
+                                </TableHeader>
+                                <TableBody>
+                                    {studentDetailProgress.map((progress, idx) => (
+                                        <TableRow key={idx}>
+                                            <TableCell className="font-medium">{progress.lessonId}</TableCell>
+                                            <TableCell className="text-sm text-muted-foreground">
+                                                {availableCourses.find(c => c.id === progress.courseId)?.name || progress.courseId}
+                                            </TableCell>
+                                            <TableCell className="text-center">
+                                                <div className="flex flex-col items-center gap-1">
+                                                    <div className="flex items-center gap-2">
+                                                        <div className="w-20 h-2 bg-muted rounded-full overflow-hidden">
+                                                            <div
+                                                                className="h-full bg-blue-500 rounded-full"
+                                                                style={{ width: `${progress.videoProgress?.percentage || 0}%` }}
+                                                            />
+                                                        </div>
+                                                        <span className="text-sm font-medium w-12">{progress.videoProgress?.percentage || 0}%</span>
+                                                    </div>
+                                                    <span className="text-xs text-muted-foreground">
+                                                        {Math.round((progress.videoProgress?.watchedSeconds || 0) / 60)}د / {Math.round((progress.videoProgress?.totalSeconds || 0) / 60)}د
+                                                    </span>
+                                                </div>
+                                            </TableCell>
+                                            <TableCell className="text-center">
+                                                <div className="flex flex-col items-center gap-1">
+                                                    <div className="flex items-center gap-2">
+                                                        <div className="w-20 h-2 bg-muted rounded-full overflow-hidden">
+                                                            <div
+                                                                className="h-full bg-green-500 rounded-full"
+                                                                style={{ width: `${progress.quizProgress?.percentage || 0}%` }}
+                                                            />
+                                                        </div>
+                                                        <span className="text-sm font-medium w-12">{progress.quizProgress?.percentage || 0}%</span>
+                                                    </div>
+                                                    <span className="text-xs text-muted-foreground">
+                                                        {progress.quizProgress?.correctAnswers || 0} / {progress.quizProgress?.totalQuestions || 0} صحيح
+                                                    </span>
+                                                </div>
+                                            </TableCell>
+                                            <TableCell className="text-center">
+                                                <div className="flex items-center justify-center gap-2">
+                                                    <div className="w-16 h-2 bg-muted rounded-full overflow-hidden">
+                                                        <div
+                                                            className={`h-full rounded-full ${progress.overallProgress >= 80 ? 'bg-emerald-500' :
+                                                                    progress.overallProgress >= 50 ? 'bg-amber-500' : 'bg-red-500'
+                                                                }`}
+                                                            style={{ width: `${progress.overallProgress}%` }}
+                                                        />
+                                                    </div>
+                                                    <span className="text-sm font-bold">{progress.overallProgress}%</span>
+                                                </div>
+                                            </TableCell>
+                                            <TableCell>
+                                                {progress.isCompleted ? (
+                                                    <span className="inline-flex items-center gap-1 text-xs bg-emerald-100 text-emerald-700 dark:bg-emerald-900 dark:text-emerald-300 px-2 py-1 rounded-full">
+                                                        <Check className="w-3 h-3" />
+                                                        مكتمل
+                                                    </span>
+                                                ) : (
+                                                    <span className="inline-flex items-center gap-1 text-xs bg-amber-100 text-amber-700 dark:bg-amber-900 dark:text-amber-300 px-2 py-1 rounded-full">
+                                                        <Clock className="w-3 h-3" />
+                                                        قيد التقدم
+                                                    </span>
+                                                )}
+                                            </TableCell>
+                                            <TableCell>
+                                                {progress.updatedAt ? (
+                                                    <span className="text-xs text-muted-foreground">
+                                                        {formatDistanceToNow(progress.updatedAt, { addSuffix: true, locale: ar })}
+                                                    </span>
+                                                ) : '-'}
+                                            </TableCell>
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        ) : (
+                            <div className="text-center py-12 text-muted-foreground">
+                                <TrendingUp className="w-12 h-12 mx-auto mb-4 opacity-50" />
+                                <p>لا يوجد تقدم مسجل لهذا الطالب بعد.</p>
+                            </div>
+                        )}
+                    </ScrollArea>
                 </DialogContent>
             </Dialog>
         </>
     );
 }
 
-    
 
-    
 
-    
+
+
