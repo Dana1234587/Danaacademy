@@ -162,6 +162,16 @@ function WatermarkedVideoPlayer({ src, lessonId: propLessonId, courseId: propCou
       if (watchedSecondsRef.current - lastSaveTimeRef.current >= 30) {
         lastSaveTimeRef.current = watchedSecondsRef.current;
 
+        console.log('📊 Saving progress:', {
+          studentId: currentUser.uid,
+          lessonId,
+          courseId,
+          watchedSeconds: watchedSecondsRef.current,
+          duration,
+          currentVideoTime,
+          unitId
+        });
+
         updateVideoProgress(
           currentUser.uid,
           lessonId,
@@ -170,7 +180,9 @@ function WatermarkedVideoPlayer({ src, lessonId: propLessonId, courseId: propCou
           duration,
           currentVideoTime,
           unitId
-        ).catch(console.error);
+        )
+          .then(result => console.log('✅ Progress saved:', result))
+          .catch(err => console.error('❌ Progress save error:', err));
       }
     }, 1000);
 
