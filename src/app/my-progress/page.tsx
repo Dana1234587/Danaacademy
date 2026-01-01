@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import {
     BookOpen, Loader2, Trophy, Flame, Target,
     Video, CheckCircle, TrendingUp, Sparkles, Crown,
-    Zap, Award, Star, ChevronLeft, Play
+    Zap, Award, Star, ChevronLeft, Play, Clock, History
 } from 'lucide-react';
 import Link from 'next/link';
 import { useState, useEffect, useCallback } from 'react';
@@ -328,10 +328,78 @@ function LessonItem({ lesson }: { lesson: LessonProgress }) {
     );
 }
 
+// Activity Log Item
+function ActivityItem({ activity }: { activity: any }) {
+    const getIcon = () => {
+        switch (activity.type) {
+            case 'video_watch': return <Video className="w-4 h-4" />;
+            case 'quiz_attempt': return <CheckCircle className="w-4 h-4" />;
+            case 'lesson_complete': return <Trophy className="w-4 h-4" />;
+            case 'login': return <Zap className="w-4 h-4" />;
+            default: return <Clock className="w-4 h-4" />;
+        }
+    };
+
+    const getColor = () => {
+        switch (activity.type) {
+            case 'video_watch': return 'bg-blue-500';
+            case 'quiz_attempt': return 'bg-green-500';
+            case 'lesson_complete': return 'bg-yellow-500';
+            case 'login': return 'bg-purple-500';
+            default: return 'bg-gray-500';
+        }
+    };
+
+    const getMessage = () => {
+        switch (activity.type) {
+            case 'video_watch':
+                return `شاهدت ${activity.details?.watchedSeconds || 30} ثانية`;
+            case 'quiz_attempt':
+                return `أجبت ${activity.details?.correctAnswers || 0}/${activity.details?.totalQuestions || 0}`;
+            case 'lesson_complete':
+                return 'أكملت الدرس ✨';
+            case 'login':
+                return 'سجلت دخول';
+            default:
+                return 'نشاط';
+        }
+    };
+
+    const formatTime = (timestamp: any) => {
+        if (!timestamp) return 'الآن';
+        const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
+        const now = new Date();
+        const diff = now.getTime() - date.getTime();
+        const minutes = Math.floor(diff / 60000);
+        if (minutes < 1) return 'الآن';
+        if (minutes < 60) return `منذ ${minutes} دقيقة`;
+        const hours = Math.floor(minutes / 60);
+        if (hours < 24) return `منذ ${hours} ساعة`;
+        return `منذ ${Math.floor(hours / 24)} يوم`;
+    };
+
+    return (
+        <div className="flex items-center gap-3 p-3 rounded-lg bg-muted/50 hover:bg-muted transition-colors">
+            <div className={cn("p-2 rounded-full text-white", getColor())}>
+                {getIcon()}
+            </div>
+            <div className="flex-1 min-w-0">
+                <p className="text-sm font-medium truncate">
+                    {activity.details?.lessonId?.split('/').pop()?.replace(/-/g, ' ') || 'نشاط'}
+                </p>
+                <p className="text-xs text-muted-foreground">{getMessage()}</p>
+            </div>
+            <span className="text-xs text-muted-foreground">{formatTime(activity.createdAt)}</span>
+        </div>
+    );
+}
+
 export default function MyProgressPage() {
     const [courseSummaries, setCourseSummaries] = useState<CourseSummary[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [selectedCourse, setSelectedCourse] = useState<string | null>(null);
+    const [activities, setActivities] = useState<any[]>([]);
+    const [activityStats, setActivityStats] = useState<any>(null);
     const { currentUser } = useStore((state) => ({ currentUser: state.currentUser }));
 
     const fetchData = useCallback(async () => {
@@ -359,6 +427,18 @@ export default function MyProgressPage() {
             }
 
             setCourseSummaries(summaries);
+
+            // Fetch activities
+            try {
+                const actRes = await fetch(`/api/admin/students/${currentUser.uid}/activities?limit=10&includeStats=true`);
+                const actData = await actRes.json();
+                if (actData.success) {
+                    setActivities(actData.activities || []);
+                    setActivityStats(actData.stats || null);
+                }
+            } catch (e) {
+                console.error('Error fetching activities:', e);
+            }
         } catch (error) {
             console.error('Error fetching progress:', error);
         } finally {
@@ -400,7 +480,8 @@ export default function MyProgressPage() {
         : 0;
 
     const totalCompleted = courseSummaries.reduce((sum, c) => sum + c.completedLessons, 0);
-    const streak = 7; // TODO: Calculate actual streak
+    const streak = activityStats?.lessonsCompleted || 0;
+    const totalHours = activityStats?.totalVideoTime ? Math.round(activityStats.totalVideoTime / 3600) : 0;
 
     return (
         <MarketingLayout>
@@ -461,9 +542,9 @@ export default function MyProgressPage() {
                                         color="bg-gradient-to-br from-red-500 to-pink-500"
                                     />
                                     <AchievementBadge
-                                        icon={Zap}
+                                        icon={Clock}
                                         title="ساعات التعلم"
-                                        value="12+"
+                                        value={totalHours > 0 ? `${totalHours}+` : '0'}
                                         color="bg-gradient-to-br from-purple-600 to-indigo-500"
                                     />
                                 </motion.div>
@@ -486,6 +567,42 @@ export default function MyProgressPage() {
                                         />
                                     ))}
                                 </motion.div>
+
+                                {/* Activity Log */}
+                                {activities.length > 0 && (
+                                    <motion.div
+                                        initial={{ opacity: 0, y: 20 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{ delay: 0.4 }}
+                                        className="mb-8"
+                                    >
+                                        <Card className="overflow-hidden">
+                                            <CardHeader className="bg-muted/50">
+                                                <CardTitle className="flex items-center gap-2">
+                                                    <History className="w-5 h-5" />
+                                                    آخر النشاطات
+                                                </CardTitle>
+                                                <CardDescription>
+                                                    سجل نشاطك الأخير في المنصة
+                                                </CardDescription>
+                                            </CardHeader>
+                                            <CardContent className="p-4">
+                                                <div className="space-y-2">
+                                                    {activities.slice(0, 5).map((activity, index) => (
+                                                        <motion.div
+                                                            key={activity.id || index}
+                                                            initial={{ opacity: 0, x: -20 }}
+                                                            animate={{ opacity: 1, x: 0 }}
+                                                            transition={{ delay: index * 0.05 }}
+                                                        >
+                                                            <ActivityItem activity={activity} />
+                                                        </motion.div>
+                                                    ))}
+                                                </div>
+                                            </CardContent>
+                                        </Card>
+                                    </motion.div>
+                                )}
                             </>
                         )}
                     </div>

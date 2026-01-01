@@ -208,7 +208,27 @@ function WatermarkedVideoPlayer({ src, lessonId: propLessonId, courseId: propCou
           body: JSON.stringify(progressData)
         })
           .then(res => res.json())
-          .then(result => console.log('✅ Progress saved:', result))
+          .then(result => {
+            console.log('✅ Progress saved:', result);
+
+            // تسجيل نشاط المشاهدة
+            fetch('/api/activity/log', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                studentId: currentUser.uid,
+                type: 'video_watch',
+                details: {
+                  lessonId,
+                  courseId,
+                  unitId,
+                  watchedSeconds: 30, // آخر 30 ثانية
+                  totalSeconds: durationRef.current,
+                  videoPercentage: result.progress || 0
+                }
+              })
+            }).catch(console.error);
+          })
           .catch(err => console.error('❌ Progress save error:', err));
       }
     }, 1000);
