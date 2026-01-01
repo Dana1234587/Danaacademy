@@ -77,9 +77,22 @@ export async function updateVideoProgress(
         if (doc.exists) {
             const existing = doc.data() as LessonProgress;
 
-            // نحدث فقط إذا كان التقدم أعلى
-            const newWatchedSeconds = Math.max(existing.videoProgress?.watchedSeconds || 0, watchedSeconds);
-            const newPercentage = Math.max(existing.videoProgress?.percentage || 0, videoPercentage);
+            // نجمع الثواني الجديدة على القديمة (watchedSeconds من الجلسة الحالية)
+            // لكن نتجنب الإضافة المزدوجة - نضيف فقط إذا كان الموقع الحالي أكبر من الأخير
+            const previousWatchedSeconds = existing.videoProgress?.watchedSeconds || 0;
+            const lastPosition = existing.videoProgress?.lastPosition || 0;
+
+            // نحسب الثواني المشاهدة في هذه الجلسة بشكل صحيح
+            // إذا كان الموقع الحالي أكبر من الأخير، نضيف الفرق
+            let additionalSeconds = 0;
+            if (currentPosition > lastPosition) {
+                additionalSeconds = Math.min(currentPosition - lastPosition, 35); // نحدد بـ 35 ثانية لتجنب القفزات
+            }
+
+            const newWatchedSeconds = Math.min(totalSeconds, previousWatchedSeconds + additionalSeconds);
+            const newPercentage = totalSeconds > 0
+                ? Math.min(100, Math.round((newWatchedSeconds / totalSeconds) * 100))
+                : 0;
 
             const overallProgress = calculateOverallProgress(
                 newPercentage,
