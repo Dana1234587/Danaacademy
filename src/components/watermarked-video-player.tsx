@@ -763,26 +763,8 @@ function WatermarkedVideoPlayer({ src, lessonId: propLessonId, courseId: propCou
         }}
       />
 
-      {/* زر تشغيل كبير في الوسط - فوق طبقة الحماية */}
-      {!isPlaying && isPlayerReady && (
-        <div
-          className="absolute inset-0 flex items-center justify-center pointer-events-none"
-          style={{ zIndex: 15, bottom: '55px' }}
-        >
-          <div
-            className="bg-black/60 hover:bg-black/80 rounded-full p-6 transition-all cursor-pointer pointer-events-auto"
-            onClick={(e) => {
-              e.stopPropagation();
-              if (playerRef.current) {
-                playerRef.current.play();
-                setIsPlaying(true);
-              }
-            }}
-          >
-            <Play className="w-16 h-16 text-white fill-white" />
-          </div>
-        </div>
-      )}
+
+      {/* تم إزالة زر التشغيل المخصص - نستخدم زر Bunny الأصلي */}
 
       {/* تم إزالة طبقة الحماية السفلية - شريط التحكم مكشوف بالكامل للإعدادات والسرعة والصوت */}
       {/* شريط التحكم المخصص محذوف - نستخدم شريط Bunny الأصلي الذي يحتوي على السرعة والجودة */}
