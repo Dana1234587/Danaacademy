@@ -711,12 +711,13 @@ function WatermarkedVideoPlayer({ src, lessonId: propLessonId, courseId: propCou
         </>
       )}
 
-      {/* طبقة حماية علوية - تغطي الفيديو ماعدا شريط التحكم السفلي */}
+      {/* طبقة حماية علوية - تغطي الفيديو ماعدا 20% من اليمين وشريط التحكم السفلي */}
       <div
-        className="absolute inset-x-0 top-0"
+        className="absolute top-0 left-0"
         style={{
           zIndex: 12,
-          bottom: '55px', // نترك الأزرار فقط
+          bottom: '55px', // نترك الأزرار السفلية
+          right: '20%',   // نترك 20% من اليمين للإعدادات والسرعة
           pointerEvents: 'auto',
           cursor: 'pointer',
         }}

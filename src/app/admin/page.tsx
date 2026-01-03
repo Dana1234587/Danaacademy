@@ -466,12 +466,23 @@ export default function AdminPage() {
     }, [studentProgressSummary, progressSearchQuery]);
 
     // View student progress details
-    const viewStudentProgress = async (student: Student) => {
+    const viewStudentProgress = async (student: Student, studentIdFromSummary?: string) => {
         setProgressModalStudent(student);
         setIsLoadingStudentProgress(true);
         try {
-            const progress = await getStudentFullProgress(student.id);
-            setStudentDetailProgress(progress);
+            // استخدام الـ studentId من الـ summary إذا كان متاحاً
+            const targetStudentId = studentIdFromSummary || student.id;
+
+            // فلترة البيانات المحلية أولاً (أسرع)
+            const localProgress = allProgress.filter(p => p.studentId === targetStudentId);
+
+            if (localProgress.length > 0) {
+                setStudentDetailProgress(localProgress);
+            } else {
+                // إذا لم توجد بيانات محلية، نجرب الـ API
+                const progress = await getStudentFullProgress(targetStudentId);
+                setStudentDetailProgress(progress);
+            }
         } catch (error) {
             console.error('Error loading student progress:', error);
             toast({ variant: 'destructive', title: 'خطأ', description: 'فشل تحميل تقدم الطالب' });
@@ -803,7 +814,7 @@ export default function AdminPage() {
                                                             size="icon"
                                                             onClick={() => {
                                                                 const student = students.find(s => s.id === summary.studentId);
-                                                                if (student) viewStudentProgress(student);
+                                                                if (student) viewStudentProgress(student, summary.studentId);
                                                             }}
                                                         >
                                                             <Eye className="w-4 h-4" />
