@@ -1160,110 +1160,124 @@ export default function AdminPage() {
                             عرض تفصيلي لتقدم الطالب في كل درس
                         </DialogDescription>
                     </DialogHeader>
-                    <ScrollArea className="mt-4 max-h-[60vh] h-auto">
+                    <div className="mt-4 max-h-[60vh] overflow-auto">
                         {isLoadingStudentProgress ? (
                             <div className="flex items-center justify-center py-12">
                                 <Loader2 className="w-8 h-8 animate-spin text-primary" />
                             </div>
                         ) : studentDetailProgress.length > 0 ? (
-                            <Table>
-                                <TableHeader>
-                                    <TableRow>
-                                        <TableHead>الدرس</TableHead>
-                                        <TableHead>الدورة</TableHead>
-                                        <TableHead className="text-center">
-                                            <div className="flex items-center justify-center gap-1">
-                                                <Video className="w-4 h-4" />
-                                                مشاهدة الفيديو
-                                            </div>
-                                        </TableHead>
-                                        <TableHead className="text-center">
-                                            <div className="flex items-center justify-center gap-1">
-                                                <HelpCircle className="w-4 h-4" />
-                                                حل الأسئلة
-                                            </div>
-                                        </TableHead>
-                                        <TableHead className="text-center">التقدم الكلي</TableHead>
-                                        <TableHead>الحالة</TableHead>
-                                        <TableHead>آخر تحديث</TableHead>
-                                    </TableRow>
-                                </TableHeader>
-                                <TableBody>
-                                    {studentDetailProgress.map((progress, idx) => (
-                                        <TableRow key={idx}>
-                                            <TableCell className="font-medium">{progress.lessonId}</TableCell>
-                                            <TableCell className="text-sm text-muted-foreground">
-                                                {availableCourses.find(c => c.id === progress.courseId)?.name || progress.courseId}
-                                            </TableCell>
-                                            <TableCell className="text-center">
-                                                <div className="flex flex-col items-center gap-1">
-                                                    <div className="flex items-center gap-2">
-                                                        <div className="w-20 h-2 bg-muted rounded-full overflow-hidden">
-                                                            <div
-                                                                className="h-full bg-blue-500 rounded-full"
-                                                                style={{ width: `${progress.videoProgress?.percentage || 0}%` }}
-                                                            />
-                                                        </div>
-                                                        <span className="text-sm font-medium w-12">{progress.videoProgress?.percentage || 0}%</span>
-                                                    </div>
-                                                    <span className="text-xs text-muted-foreground">
-                                                        {Math.round((progress.videoProgress?.watchedSeconds || 0) / 60)}د / {Math.round((progress.videoProgress?.totalSeconds || 0) / 60)}د
-                                                    </span>
+                            <div className="overflow-x-auto min-w-full">
+                                <Table>
+                                    <TableHeader>
+                                        <TableRow>
+                                            <TableHead className="min-w-[200px]">اسم الدرس</TableHead>
+                                            <TableHead className="min-w-[120px]">الدورة</TableHead>
+                                            <TableHead className="text-center min-w-[120px]">
+                                                <div className="flex items-center justify-center gap-1">
+                                                    <Video className="w-4 h-4" />
+                                                    الفيديو
                                                 </div>
-                                            </TableCell>
-                                            <TableCell className="text-center">
-                                                <div className="flex flex-col items-center gap-1">
-                                                    <div className="flex items-center gap-2">
-                                                        <div className="w-20 h-2 bg-muted rounded-full overflow-hidden">
-                                                            <div
-                                                                className="h-full bg-green-500 rounded-full"
-                                                                style={{ width: `${progress.quizProgress?.percentage || 0}%` }}
-                                                            />
-                                                        </div>
-                                                        <span className="text-sm font-medium w-12">{progress.quizProgress?.percentage || 0}%</span>
-                                                    </div>
-                                                    <span className="text-xs text-muted-foreground">
-                                                        {progress.quizProgress?.correctAnswers || 0} / {progress.quizProgress?.totalQuestions || 0} صحيح
-                                                    </span>
+                                            </TableHead>
+                                            <TableHead className="text-center min-w-[100px]">
+                                                <div className="flex items-center justify-center gap-1">
+                                                    <HelpCircle className="w-4 h-4" />
+                                                    الأسئلة
                                                 </div>
-                                            </TableCell>
-                                            <TableCell className="text-center">
-                                                <div className="flex items-center justify-center gap-2">
-                                                    <div className="w-16 h-2 bg-muted rounded-full overflow-hidden">
-                                                        <div
-                                                            className={`h-full rounded-full ${progress.overallProgress >= 80 ? 'bg-emerald-500' :
-                                                                progress.overallProgress >= 50 ? 'bg-amber-500' : 'bg-red-500'
-                                                                }`}
-                                                            style={{ width: `${progress.overallProgress}%` }}
-                                                        />
-                                                    </div>
-                                                    <span className="text-sm font-bold">{progress.overallProgress}%</span>
-                                                </div>
-                                            </TableCell>
-                                            <TableCell>
-                                                {progress.isCompleted ? (
-                                                    <span className="inline-flex items-center gap-1 text-xs bg-emerald-100 text-emerald-700 dark:bg-emerald-900 dark:text-emerald-300 px-2 py-1 rounded-full">
-                                                        <Check className="w-3 h-3" />
-                                                        مكتمل
-                                                    </span>
-                                                ) : (
-                                                    <span className="inline-flex items-center gap-1 text-xs bg-amber-100 text-amber-700 dark:bg-amber-900 dark:text-amber-300 px-2 py-1 rounded-full">
-                                                        <Clock className="w-3 h-3" />
-                                                        قيد التقدم
-                                                    </span>
-                                                )}
-                                            </TableCell>
-                                            <TableCell>
-                                                {progress.updatedAt ? (
-                                                    <span className="text-xs text-muted-foreground">
-                                                        {formatDistanceToNow(progress.updatedAt, { addSuffix: true, locale: ar })}
-                                                    </span>
-                                                ) : '-'}
-                                            </TableCell>
+                                            </TableHead>
+                                            <TableHead className="text-center min-w-[100px]">التقدم الكلي</TableHead>
+                                            <TableHead className="min-w-[80px]">الحالة</TableHead>
+                                            <TableHead className="min-w-[100px]">آخر تحديث</TableHead>
                                         </TableRow>
-                                    ))}
-                                </TableBody>
-                            </Table>
+                                    </TableHeader>
+                                    <TableBody>
+                                        {studentDetailProgress.map((progress, idx) => {
+                                            // استخراج اسم الدرس بشكل مقروء من المسار
+                                            const pathParts = progress.lessonId?.split('/') || [];
+                                            const lessonName = pathParts[pathParts.length - 1]?.replace(/-/g, ' ') || progress.lessonId;
+                                            const unitName = pathParts.length > 1 ? pathParts[pathParts.length - 2]?.replace(/-/g, ' ') : '';
+
+                                            return (
+                                                <TableRow key={idx}>
+                                                    <TableCell className="font-medium">
+                                                        <div className="flex flex-col">
+                                                            <span className="text-sm font-semibold capitalize">{lessonName}</span>
+                                                            {unitName && <span className="text-xs text-muted-foreground capitalize">{unitName}</span>}
+                                                        </div>
+                                                    </TableCell>
+                                                    <TableCell className="text-sm text-muted-foreground">
+                                                        {availableCourses.find(c => c.id === progress.courseId)?.name || progress.courseId}
+                                                    </TableCell>
+                                                    <TableCell className="text-center">
+                                                        <div className="flex flex-col items-center gap-1">
+                                                            <div className="flex items-center gap-2">
+                                                                <div className="w-20 h-2 bg-muted rounded-full overflow-hidden">
+                                                                    <div
+                                                                        className="h-full bg-blue-500 rounded-full"
+                                                                        style={{ width: `${progress.videoProgress?.percentage || 0}%` }}
+                                                                    />
+                                                                </div>
+                                                                <span className="text-sm font-medium w-12">{progress.videoProgress?.percentage || 0}%</span>
+                                                            </div>
+                                                            <span className="text-xs text-muted-foreground">
+                                                                {Math.round((progress.videoProgress?.watchedSeconds || 0) / 60)}د / {Math.round((progress.videoProgress?.totalSeconds || 0) / 60)}د
+                                                            </span>
+                                                        </div>
+                                                    </TableCell>
+                                                    <TableCell className="text-center">
+                                                        <div className="flex flex-col items-center gap-1">
+                                                            <div className="flex items-center gap-2">
+                                                                <div className="w-20 h-2 bg-muted rounded-full overflow-hidden">
+                                                                    <div
+                                                                        className="h-full bg-green-500 rounded-full"
+                                                                        style={{ width: `${progress.quizProgress?.percentage || 0}%` }}
+                                                                    />
+                                                                </div>
+                                                                <span className="text-sm font-medium w-12">{progress.quizProgress?.percentage || 0}%</span>
+                                                            </div>
+                                                            <span className="text-xs text-muted-foreground">
+                                                                {progress.quizProgress?.correctAnswers || 0} / {progress.quizProgress?.totalQuestions || 0} صحيح
+                                                            </span>
+                                                        </div>
+                                                    </TableCell>
+                                                    <TableCell className="text-center">
+                                                        <div className="flex items-center justify-center gap-2">
+                                                            <div className="w-16 h-2 bg-muted rounded-full overflow-hidden">
+                                                                <div
+                                                                    className={`h-full rounded-full ${progress.overallProgress >= 80 ? 'bg-emerald-500' :
+                                                                        progress.overallProgress >= 50 ? 'bg-amber-500' : 'bg-red-500'
+                                                                        }`}
+                                                                    style={{ width: `${progress.overallProgress}%` }}
+                                                                />
+                                                            </div>
+                                                            <span className="text-sm font-bold">{progress.overallProgress}%</span>
+                                                        </div>
+                                                    </TableCell>
+                                                    <TableCell>
+                                                        {progress.isCompleted ? (
+                                                            <span className="inline-flex items-center gap-1 text-xs bg-emerald-100 text-emerald-700 dark:bg-emerald-900 dark:text-emerald-300 px-2 py-1 rounded-full">
+                                                                <Check className="w-3 h-3" />
+                                                                مكتمل
+                                                            </span>
+                                                        ) : (
+                                                            <span className="inline-flex items-center gap-1 text-xs bg-amber-100 text-amber-700 dark:bg-amber-900 dark:text-amber-300 px-2 py-1 rounded-full">
+                                                                <Clock className="w-3 h-3" />
+                                                                قيد التقدم
+                                                            </span>
+                                                        )}
+                                                    </TableCell>
+                                                    <TableCell>
+                                                        {progress.updatedAt ? (
+                                                            <span className="text-xs text-muted-foreground">
+                                                                {formatDistanceToNow(progress.updatedAt, { addSuffix: true, locale: ar })}
+                                                            </span>
+                                                        ) : '-'}
+                                                    </TableCell>
+                                                </TableRow>
+                                            );
+                                        })}
+                                    </TableBody>
+                                </Table>
+                            </div>
                         ) : (
                             <div className="text-center py-12 text-muted-foreground">
                                 <TrendingUp className="w-12 h-12 mx-auto mb-4 opacity-50" />
