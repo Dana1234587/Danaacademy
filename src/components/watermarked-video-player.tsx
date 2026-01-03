@@ -722,14 +722,29 @@ function WatermarkedVideoPlayer({ src, lessonId: propLessonId, courseId: propCou
         }}
         onClick={(e) => {
           // ضغطة واحدة = تشغيل/إيقاف
-          if (playerRef.current) {
+          e.preventDefault();
+          if (playerRef.current && typeof playerRef.current.getPaused === 'function') {
             playerRef.current.getPaused().then((paused: boolean) => {
               if (paused) {
                 playerRef.current?.play();
+                setIsPlaying(true);
               } else {
                 playerRef.current?.pause();
+                setIsPlaying(false);
+              }
+            }).catch((err: any) => {
+              console.error('Error toggling play:', err);
+              // محاولة بديلة
+              if (isPlaying) {
+                playerRef.current?.pause();
+                setIsPlaying(false);
+              } else {
+                playerRef.current?.play();
+                setIsPlaying(true);
               }
             });
+          } else {
+            console.log('Player not ready yet');
           }
         }}
         onDoubleClick={(e) => {
@@ -747,50 +762,28 @@ function WatermarkedVideoPlayer({ src, lessonId: propLessonId, courseId: propCou
         }}
       />
 
-      {/* طبقة حماية سفلية - بين شريط التقدم والأزرار */}
-      <div
-        className="absolute inset-x-0"
-        style={{
-          zIndex: 12,
-          bottom: '35px', // فوق الأزرار
-          height: '18px', // تغطي منطقة التوقيت والشريط
-          pointerEvents: 'auto',
-        }}
-        onClick={(e) => {
-          // ضغطة يسار = تشغيل/إيقاف
-          if (playerRef.current) {
-            playerRef.current.getPaused().then((paused: boolean) => {
-              if (paused) {
-                playerRef.current?.play();
-              } else {
-                playerRef.current?.pause();
-              }
-            });
-          }
-        }}
-        onContextMenu={(e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          setProtectionWarning(true);
-          setTimeout(() => setProtectionWarning(false), 2000);
-          return false;
-        }}
-      />
-
-      {/* زر تكبير الشاشة */}
-      <div
-        className="absolute bottom-1 right-1"
-        style={{ zIndex: 20, pointerEvents: 'auto' }}
-      >
-        <Button
-          onClick={() => setIsFullscreen(!isFullscreen)}
-          variant="ghost"
-          size="icon"
-          className="bg-black/50 hover:bg-black/70 text-white h-8 w-8"
+      {/* زر تشغيل كبير في الوسط - فوق طبقة الحماية */}
+      {!isPlaying && isPlayerReady && (
+        <div
+          className="absolute inset-0 flex items-center justify-center pointer-events-none"
+          style={{ zIndex: 15, bottom: '55px' }}
         >
-          <Maximize className="w-4 h-4" />
-        </Button>
-      </div>
+          <div
+            className="bg-black/60 hover:bg-black/80 rounded-full p-6 transition-all cursor-pointer pointer-events-auto"
+            onClick={(e) => {
+              e.stopPropagation();
+              if (playerRef.current) {
+                playerRef.current.play();
+                setIsPlaying(true);
+              }
+            }}
+          >
+            <Play className="w-16 h-16 text-white fill-white" />
+          </div>
+        </div>
+      )}
+
+      {/* تم إزالة طبقة الحماية السفلية - شريط التحكم مكشوف بالكامل للإعدادات والسرعة والصوت */}
       {/* شريط التحكم المخصص محذوف - نستخدم شريط Bunny الأصلي الذي يحتوي على السرعة والجودة */}
 
       {/* زر الخروج الكبير في fullscreen */}
