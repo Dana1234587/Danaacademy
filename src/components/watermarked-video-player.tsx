@@ -747,14 +747,26 @@ function WatermarkedVideoPlayer({ src, lessonId: propLessonId, courseId: propCou
         }}
       />
 
-      {/* طبقة حماية سفلية - تغطي منطقة التوقيت/النص لكن ليس الأزرار */}
+      {/* طبقة حماية سفلية - بين شريط التقدم والأزرار */}
       <div
         className="absolute inset-x-0"
         style={{
           zIndex: 12,
-          bottom: '0px',
-          height: '20px', // نغطي فقط التوقيت، نترك الأزرار (35px فوق)
+          bottom: '35px', // فوق الأزرار
+          height: '18px', // تغطي منطقة التوقيت والشريط
           pointerEvents: 'auto',
+        }}
+        onClick={(e) => {
+          // ضغطة يسار = تشغيل/إيقاف
+          if (playerRef.current) {
+            playerRef.current.getPaused().then((paused: boolean) => {
+              if (paused) {
+                playerRef.current?.play();
+              } else {
+                playerRef.current?.pause();
+              }
+            });
+          }
         }}
         onContextMenu={(e) => {
           e.preventDefault();
