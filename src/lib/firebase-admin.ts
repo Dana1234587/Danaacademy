@@ -1,35 +1,61 @@
 import admin from 'firebase-admin';
 
-function initializeFirebaseAdmin() {
+let initialized = false;
+
+function ensureInitialized() {
+  if (initialized) return;
+
   const serviceAccountKey = process.env.SERVICE_ACCOUNT_KEY;
 
   if (!serviceAccountKey) {
-    // This will stop execution if the key is not found, which is what we want.
-    // The key should be present in Vercel's env variables and in the local .env file.
     throw new Error('SERVICE_ACCOUNT_KEY is not defined in environment variables. Please add it to your .env file.');
   }
 
-  // Prevent re-initialization in hot-reload environments
   if (admin.apps.length === 0) {
     try {
+      const parsedKey = JSON.parse(serviceAccountKey);
+      // Fix escaped newlines in private_key (common .env issue)
+      if (parsedKey.private_key) {
+        parsedKey.private_key = parsedKey.private_key.replace(/\\n/g, '\n');
+      }
       admin.initializeApp({
-        credential: admin.credential.cert(JSON.parse(serviceAccountKey)),
+        credential: admin.credential.cert(parsedKey),
       });
+
       console.log("Firebase Admin SDK initialized successfully.");
     } catch (error: any) {
-      // This catch block is for safety, though the length check should prevent it.
       if (!/already exists/u.test(error.message)) {
         console.error('Firebase admin initialization error:', error.stack);
+        throw error; // Re-throw to prevent using uninitialized SDK
       }
     }
   }
+
+  initialized = true;
 }
 
-// Initialize immediately when this module is imported.
-initializeFirebaseAdmin();
+// Lazy getters - initialize only when first accessed
+function getAdminDB() {
+  ensureInitialized();
+  return admin.firestore();
+}
 
-const adminDB = admin.firestore();
-const adminAuth = admin.auth();
+function getAdminAuth() {
+  ensureInitialized();
+  return admin.auth();
+}
 
-export { adminDB, adminAuth };
+// For backward compatibility, export getters as proxies
+const adminDB = new Proxy({} as FirebaseFirestore.Firestore, {
+  get(_, prop) {
+    return (getAdminDB() as any)[prop];
+  }
+});
 
+const adminAuth = new Proxy({} as admin.auth.Auth, {
+  get(_, prop) {
+    return (getAdminAuth() as any)[prop];
+  }
+});
+
+export { adminDB, adminAuth, getAdminDB, getAdminAuth };

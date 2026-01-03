@@ -21,10 +21,10 @@ export async function GET(request: NextRequest) {
                 phone1: data.phone1 || '',
                 phone2: data.phone2 || '',
                 totalTimeSpent: data.totalTimeSpent || 0,
-                lastLoginAt: data.lastLoginAt?.toDate?.() || null,
-                lastActivityAt: data.lastActivityAt?.toDate?.() || null,
+                lastLoginAt: data.lastLoginAt?.toDate?.()?.toISOString?.() || null,
+                lastActivityAt: data.lastActivityAt?.toDate?.()?.toISOString?.() || null,
                 loginCount: data.loginCount || 0,
-                createdAt: data.createdAt?.toDate?.() || null,
+                createdAt: data.createdAt?.toDate?.()?.toISOString?.() || null,
             };
         });
 

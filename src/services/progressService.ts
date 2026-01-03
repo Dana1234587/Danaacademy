@@ -381,8 +381,8 @@ export async function getAllStudentsProgress(): Promise<LessonProgress[]> {
             const data = doc.data();
             return {
                 ...data,
-                updatedAt: data?.updatedAt?.toDate() || new Date(),
-            } as LessonProgress;
+                updatedAt: data?.updatedAt?.toDate?.()?.toISOString?.() || new Date().toISOString(),
+            } as unknown as LessonProgress;
         });
     } catch (error) {
         console.error('Error getting all students progress:', error);
@@ -404,8 +404,8 @@ export async function getStudentFullProgress(studentId: string): Promise<LessonP
             const data = doc.data();
             return {
                 ...data,
-                updatedAt: data?.updatedAt?.toDate() || new Date(),
-            } as LessonProgress;
+                updatedAt: data?.updatedAt?.toDate?.()?.toISOString?.() || new Date().toISOString(),
+            } as unknown as LessonProgress;
         });
     } catch (error) {
         console.error('Error getting student full progress:', error);

@@ -16,6 +16,45 @@ export type Student = {
     gender?: 'male' | 'female';
 };
 
+// Helper function to serialize Firestore data for client components
+// Converts Timestamp objects to ISO strings and removes any non-serializable fields
+function serializeFirestoreData(data: any): any {
+    if (data === null || data === undefined) {
+        return data;
+    }
+
+    // Handle Firestore Timestamp
+    if (data._seconds !== undefined && data._nanoseconds !== undefined) {
+        return new Date(data._seconds * 1000).toISOString();
+    }
+
+    // Handle Firestore Timestamp with toDate method
+    if (typeof data.toDate === 'function') {
+        return data.toDate().toISOString();
+    }
+
+    // Handle Date objects
+    if (data instanceof Date) {
+        return data.toISOString();
+    }
+
+    // Handle arrays
+    if (Array.isArray(data)) {
+        return data.map(item => serializeFirestoreData(item));
+    }
+
+    // Handle objects
+    if (typeof data === 'object') {
+        const serialized: any = {};
+        for (const key of Object.keys(data)) {
+            serialized[key] = serializeFirestoreData(data[key]);
+        }
+        return serialized;
+    }
+
+    return data;
+}
+
 // Lazy accessor to avoid initialization at module load time
 function getStudentsCol() {
     return adminDB.collection('students');
@@ -23,7 +62,12 @@ function getStudentsCol() {
 
 export async function getStudents(): Promise<Student[]> {
     const studentSnapshot = await getStudentsCol().orderBy('studentName').get();
-    const studentList = studentSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Student));
+    const studentList = studentSnapshot.docs.map(doc => {
+        const data = doc.data();
+        // Serialize data to remove any Timestamp objects
+        const serializedData = serializeFirestoreData(data);
+        return { id: doc.id, ...serializedData } as Student;
+    });
     return studentList;
 }
 
