@@ -711,12 +711,49 @@ function WatermarkedVideoPlayer({ src, lessonId: propLessonId, courseId: propCou
         </>
       )}
 
-      {/* طبقة حماية علوية فقط - لا تغطي الأزرار */}
+      {/* طبقة حماية علوية - تغطي الفيديو ماعدا شريط التحكم السفلي */}
       <div
         className="absolute inset-x-0 top-0"
         style={{
           zIndex: 12,
-          bottom: '60px', // نترك شريط التحكم بالكامل
+          bottom: '55px', // نترك الأزرار فقط
+          pointerEvents: 'auto',
+          cursor: 'pointer',
+        }}
+        onClick={(e) => {
+          // ضغطة واحدة = تشغيل/إيقاف
+          if (playerRef.current) {
+            playerRef.current.getPaused().then((paused: boolean) => {
+              if (paused) {
+                playerRef.current?.play();
+              } else {
+                playerRef.current?.pause();
+              }
+            });
+          }
+        }}
+        onDoubleClick={(e) => {
+          // ضغطتين = ملء الشاشة
+          e.preventDefault();
+          e.stopPropagation();
+          setIsFullscreen(!isFullscreen);
+        }}
+        onContextMenu={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          setProtectionWarning(true);
+          setTimeout(() => setProtectionWarning(false), 2000);
+          return false;
+        }}
+      />
+
+      {/* طبقة حماية سفلية - تغطي منطقة التوقيت/النص لكن ليس الأزرار */}
+      <div
+        className="absolute inset-x-0"
+        style={{
+          zIndex: 12,
+          bottom: '0px',
+          height: '20px', // نغطي فقط التوقيت، نترك الأزرار (35px فوق)
           pointerEvents: 'auto',
         }}
         onContextMenu={(e) => {
@@ -727,6 +764,21 @@ function WatermarkedVideoPlayer({ src, lessonId: propLessonId, courseId: propCou
           return false;
         }}
       />
+
+      {/* زر تكبير الشاشة */}
+      <div
+        className="absolute bottom-1 right-1"
+        style={{ zIndex: 20, pointerEvents: 'auto' }}
+      >
+        <Button
+          onClick={() => setIsFullscreen(!isFullscreen)}
+          variant="ghost"
+          size="icon"
+          className="bg-black/50 hover:bg-black/70 text-white h-8 w-8"
+        >
+          <Maximize className="w-4 h-4" />
+        </Button>
+      </div>
       {/* شريط التحكم المخصص محذوف - نستخدم شريط Bunny الأصلي الذي يحتوي على السرعة والجودة */}
 
       {/* زر الخروج الكبير في fullscreen */}
