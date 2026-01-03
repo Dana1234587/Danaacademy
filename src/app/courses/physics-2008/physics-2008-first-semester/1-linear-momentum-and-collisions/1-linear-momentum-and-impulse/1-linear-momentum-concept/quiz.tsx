@@ -9,6 +9,7 @@ import { Badge } from '@/components/ui/badge';
 import { CheckCircle, XCircle, Filter, Trophy, Target, Zap, Star } from 'lucide-react';
 import 'katex/dist/katex.min.css';
 import { InlineMath } from 'react-katex';
+import { useQuizProgress } from '@/hooks/useQuizProgress';
 
 // A robust, universal renderer for bidirectional text
 const SmartTextRenderer = ({ text, as: Wrapper = 'p' }: { text: string; as?: React.ElementType }) => {
@@ -164,6 +165,7 @@ export default function QuizPage() {
   const [selectedAnswers, setSelectedAnswers] = useState<(number | null)[]>(new Array(quizQuestions.length).fill(null));
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [difficultyFilter, setDifficultyFilter] = useState<Difficulty>('all');
+  const { submitQuizResult } = useQuizProgress();
 
   const filteredQuestions = difficultyFilter === 'all'
     ? quizQuestions
@@ -177,8 +179,18 @@ export default function QuizPage() {
     setSelectedAnswers(newAnswers);
   };
 
+  const calculateScore = () => {
+    return filteredQuestions.filter((q, index) => {
+      const actualIndex = quizQuestions.indexOf(q);
+      return selectedAnswers[actualIndex] === q.correctAnswerIndex;
+    }).length;
+  };
+
   const handleSubmit = () => {
     setIsSubmitted(true);
+    // إرسال نتائج الاختبار لنظام التتبع
+    const score = calculateScore();
+    submitQuizResult(score, filteredQuestions.length);
   };
 
   const handleReset = () => {
@@ -186,12 +198,7 @@ export default function QuizPage() {
     setSelectedAnswers(new Array(quizQuestions.length).fill(null));
   };
 
-  const calculateScore = () => {
-    return filteredQuestions.filter((q, index) => {
-      const actualIndex = quizQuestions.indexOf(q);
-      return selectedAnswers[actualIndex] === q.correctAnswerIndex;
-    }).length;
-  };
+
 
   const getFilteredAnswer = (questionIndex: number) => {
     const actualIndex = quizQuestions.indexOf(filteredQuestions[questionIndex]);

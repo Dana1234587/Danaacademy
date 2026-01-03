@@ -71,7 +71,6 @@ function WatermarkedVideoPlayer({ src, lessonId: propLessonId, courseId: propCou
   const [protectionWarning, setProtectionWarning] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
 
-  // حالة الفيديو
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
   const [volume, setVolume] = useState(100);
@@ -80,12 +79,18 @@ function WatermarkedVideoPlayer({ src, lessonId: propLessonId, courseId: propCou
   const [currentVideoTime, setCurrentVideoTime] = useState(0);
   const [isPlayerReady, setIsPlayerReady] = useState(false);
   const [showControls, setShowControls] = useState(true);
+  const [playbackSpeed, setPlaybackSpeed] = useState(1);
+  const [showSettingsMenu, setShowSettingsMenu] = useState(false);
+  const [showSpeedMenu, setShowSpeedMenu] = useState(false);
+
+  const SPEED_OPTIONS = [0.5, 0.75, 1, 1.25, 1.5, 1.75, 2];
 
   const idleTimer = useRef<NodeJS.Timeout | null>(null);
   const controlsTimer = useRef<NodeJS.Timeout | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const playerRef = useRef<any>(null);
+  const protectionLayerRef = useRef<HTMLDivElement>(null);
 
   // اكتشاف الموبايل
   useEffect(() => {
@@ -329,6 +334,38 @@ function WatermarkedVideoPlayer({ src, lessonId: propLessonId, courseId: propCou
     playerRef.current.setCurrentTime(newTime);
   }, [currentVideoTime, duration, isPlayerReady]);
 
+  // تغيير سرعة التشغيل
+  const handleSpeedChange = useCallback((speed: number) => {
+    if (!playerRef.current || !isPlayerReady) return;
+
+    try {
+      // جرب الـ API المعياري
+      if (typeof playerRef.current.setPlaybackRate === 'function') {
+        playerRef.current.setPlaybackRate(speed);
+      } else if (typeof playerRef.current.setSpeed === 'function') {
+        playerRef.current.setSpeed(speed);
+      } else {
+        // جرب إرسال رسالة للـ iframe مباشرة
+        const iframe = iframeRef.current;
+        if (iframe && iframe.contentWindow) {
+          iframe.contentWindow.postMessage(JSON.stringify({
+            method: 'setPlaybackRate',
+            value: speed
+          }), '*');
+        }
+      }
+      setPlaybackSpeed(speed);
+      setShowSpeedMenu(false);
+      setShowSettingsMenu(false);
+      console.log('🎬 Speed changed to:', speed);
+    } catch (e) {
+      console.log('Speed change not supported:', e);
+      // حتى لو فشل, نحتفظ بالقيمة للعرض
+      setPlaybackSpeed(speed);
+      setShowSpeedMenu(false);
+    }
+  }, [isPlayerReady]);
+
   // إخفاء/إظهار controls
   useEffect(() => {
     const resetControlsTimer = () => {
@@ -545,35 +582,35 @@ function WatermarkedVideoPlayer({ src, lessonId: propLessonId, courseId: propCou
         aspectRatio: isFullscreen ? undefined : '16/9',
       }}
     >
-      {/* iframe الفيديو - مع معاملات لإخفاء controls الأصلية */}
+      {/* iframe الفيديو - مع شريط التحكم الأصلي من Bunny */}
       <iframe
         ref={iframeRef}
-        src={`${src}${src.includes('?') ? '&' : '?'}controls=false&autoplay=false`}
+        src={`${src}${src.includes('?') ? '&' : '?'}autoplay=false&showSpeed=true`}
         className="absolute top-0 left-0 w-full h-full border-0"
         loading="lazy"
         allow="accelerometer; gyroscope; autoplay; encrypted-media; fullscreen"
         allowFullScreen={false}
         style={{
-          pointerEvents: 'none', // نمنع التفاعل المباشر
           position: 'absolute',
           zIndex: 1,
         }}
       />
 
-      {/* طبقة الحماية + النقر للتشغيل */}
+      {/* طبقة الحماية - تسمح بالتفاعل مع الفيديو */}
       <div
-        className="absolute inset-0 flex items-center justify-center"
+        className="absolute inset-0 flex items-center justify-center pointer-events-none"
         style={{
           zIndex: 10,
           background: 'transparent',
-          cursor: 'pointer'
         }}
-        onClick={handlePlayerClick}
         onContextMenu={handleContextMenu}
       >
         {/* زر التشغيل الكبير - يظهر عند الإيقاف */}
         {!isPlaying && isPlayerReady && (
-          <div className="bg-black/50 hover:bg-black/70 transition-colors rounded-full p-4 sm:p-6">
+          <div
+            className="bg-black/50 hover:bg-black/70 transition-colors rounded-full p-4 sm:p-6 pointer-events-auto cursor-pointer"
+            onClick={handlePlayerClick}
+          >
             <Play className="w-12 h-12 sm:w-16 sm:h-16 text-white fill-white" />
           </div>
         )}
@@ -586,144 +623,139 @@ function WatermarkedVideoPlayer({ src, lessonId: propLessonId, courseId: propCou
         )}
       </div>
 
-      {/* Watermarks */}
+      {/* Watermarks متحركة لمنع التسجيل */}
       {currentUser && (
         <>
-          {/* Watermark مركزية */}
+          {/* Watermark متحركة رئيسية - تتحرك عبر الشاشة */}
           <div
-            className="absolute inset-0 flex items-center justify-center pointer-events-none animate-float"
+            className="absolute inset-0 pointer-events-none overflow-hidden"
             style={{ zIndex: 15 }}
           >
-            <div className="text-center select-none" style={{ opacity: 0.07 }}>
-              <span className="text-white font-bold block"
-                style={{ fontSize: isFullscreen ? 'clamp(1.5rem, 5vw, 3rem)' : 'clamp(1rem, 4vw, 2rem)' }}>
-                {currentUser.username}
+            {/* Watermark متحركة أفقياً */}
+            <div
+              className="absolute select-none whitespace-nowrap"
+              style={{
+                animation: 'moveHorizontal 15s linear infinite',
+                opacity: 0.04,
+                top: '20%',
+              }}
+            >
+              <span className="text-white font-bold" style={{ fontSize: 'clamp(1rem, 3vw, 1.5rem)' }}>
+                {currentUser.username} • {currentUser.username} • {currentUser.username}
               </span>
-              <span className="text-white block mt-1"
-                style={{ fontSize: isFullscreen ? 'clamp(0.6rem, 2vw, 1rem)' : 'clamp(0.5rem, 1.5vw, 0.8rem)' }}>
-                {currentTime}
+            </div>
+
+            {/* Watermark متحركة قطرية */}
+            <div
+              className="absolute select-none whitespace-nowrap"
+              style={{
+                animation: 'moveDiagonal 20s linear infinite',
+                opacity: 0.05,
+              }}
+            >
+              <span className="text-white font-bold" style={{ fontSize: 'clamp(0.8rem, 2.5vw, 1.2rem)' }}>
+                {currentUser.username} • Dana Academy
               </span>
+            </div>
+
+            {/* Watermark متحركة عكسية */}
+            <div
+              className="absolute select-none whitespace-nowrap"
+              style={{
+                animation: 'moveHorizontalReverse 18s linear infinite',
+                opacity: 0.04,
+                top: '70%',
+              }}
+            >
+              <span className="text-white font-bold" style={{ fontSize: 'clamp(0.9rem, 2.5vw, 1.3rem)' }}>
+                {currentUser.username} • {currentUser.username}
+              </span>
+            </div>
+
+            {/* Watermark مركزية ثابتة (خفيفة جداً) */}
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="text-center select-none" style={{ opacity: 0.03 }}>
+                <span className="text-white font-bold block"
+                  style={{ fontSize: isFullscreen ? 'clamp(2rem, 6vw, 4rem)' : 'clamp(1.5rem, 5vw, 3rem)' }}>
+                  {currentUser.username}
+                </span>
+              </div>
             </div>
           </div>
 
-          {/* Watermark زاوية */}
-          <div className={cn("absolute pointer-events-none select-none", isFullscreen ? "top-4 left-4" : "top-2 left-2")}
+          {/* Watermark زاوية علوية */}
+          <div className={cn("absolute pointer-events-none select-none", isFullscreen ? "top-4 right-4" : "top-2 right-2")}
             style={{ zIndex: 15 }}>
             <span className="text-white font-medium px-2 py-1 rounded"
-              style={{ opacity: 0.4, backgroundColor: 'rgba(0,0,0,0.3)', fontSize: isFullscreen ? '0.8rem' : '0.65rem' }}>
+              style={{ opacity: 0.3, backgroundColor: 'rgba(0,0,0,0.3)', fontSize: isFullscreen ? '0.7rem' : '0.6rem' }}>
               {currentUser.username}
             </span>
           </div>
+
+          {/* CSS للحركة */}
+          <style jsx>{`
+            @keyframes moveHorizontal {
+              0% { left: -50%; }
+              100% { left: 100%; }
+            }
+            @keyframes moveHorizontalReverse {
+              0% { right: -50%; }
+              100% { right: 100%; }
+            }
+            @keyframes moveDiagonal {
+              0% { left: -30%; top: 80%; }
+              50% { left: 70%; top: 20%; }
+              100% { left: -30%; top: 80%; }
+            }
+          `}</style>
         </>
       )}
 
-      {/* شريط التحكم السفلي */}
+      {/* طبقة حماية علوية - تغطي الفيديو ماعدا شريط التحكم السفلي */}
       <div
-        className={cn(
-          "absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent transition-opacity duration-300",
-          showControls || !isPlaying ? "opacity-100" : "opacity-0"
-        )}
-        style={{ zIndex: 20, padding: isFullscreen ? '20px' : '12px' }}
-      >
-        {/* شريط التقدم */}
-        <div className="px-2 mb-2">
-          <Slider
-            value={[progress]}
-            onValueChange={handleSeek}
-            max={100}
-            step={0.1}
-            className="cursor-pointer"
-          />
-        </div>
+        className="absolute inset-x-0 top-0"
+        style={{
+          zIndex: 12,
+          bottom: '50px', // نترك فقط الأزرار
+          pointerEvents: 'auto',
+        }}
+        onContextMenu={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          setProtectionWarning(true);
+          setTimeout(() => setProtectionWarning(false), 2000);
+          return false;
+        }}
+      />
 
-        {/* أزرار التحكم */}
-        <div className="flex items-center justify-between px-2">
-          <div className="flex items-center gap-1 sm:gap-2">
-            {/* تشغيل/إيقاف */}
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={handlePlayPause}
-              className={cn("text-white hover:bg-white/20", isFullscreen ? "w-12 h-12" : "w-9 h-9")}
-            >
-              {isPlaying
-                ? <Pause className={isFullscreen ? "w-6 h-6" : "w-5 h-5"} />
-                : <Play className={cn(isFullscreen ? "w-6 h-6" : "w-5 h-5", "fill-white")} />
-              }
-            </Button>
-
-            {/* تأخير 10 ثواني */}
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => handleSkip(-10)}
-              className={cn("text-white hover:bg-white/20 hidden sm:flex", isFullscreen ? "w-10 h-10" : "w-8 h-8")}
-            >
-              <SkipBack className={isFullscreen ? "w-5 h-5" : "w-4 h-4"} />
-            </Button>
-
-            {/* تقديم 10 ثواني */}
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => handleSkip(10)}
-              className={cn("text-white hover:bg-white/20 hidden sm:flex", isFullscreen ? "w-10 h-10" : "w-8 h-8")}
-            >
-              <SkipForward className={isFullscreen ? "w-5 h-5" : "w-4 h-4"} />
-            </Button>
-
-            {/* الصوت */}
-            <div className="flex items-center gap-1">
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={handleMuteToggle}
-                className={cn("text-white hover:bg-white/20", isFullscreen ? "w-10 h-10" : "w-8 h-8")}
-              >
-                {isMuted || volume === 0
-                  ? <VolumeX className={isFullscreen ? "w-5 h-5" : "w-4 h-4"} />
-                  : <Volume2 className={isFullscreen ? "w-5 h-5" : "w-4 h-4"} />
-                }
-              </Button>
-              <div className="w-16 sm:w-20 hidden sm:block" dir="ltr">
-                <Slider
-                  value={[isMuted ? 0 : volume]}
-                  onValueChange={handleVolumeChange}
-                  max={100}
-                  step={1}
-                  className="cursor-pointer"
-                />
-              </div>
-            </div>
-
-            {/* الوقت */}
-            <span className={cn("text-white/80 text-xs sm:text-sm font-mono", isFullscreen && "text-sm sm:text-base")}>
-              {formatTime(currentVideoTime)} / {formatTime(duration)}
-            </span>
-          </div>
-
-          <div className="flex items-center gap-1">
-            {/* شارة الحماية */}
-            <div className="flex items-center gap-1 text-white/60 text-xs px-2 py-1">
-              <Shield className="w-3 h-3" />
-              <span className="hidden sm:inline">محمي</span>
-            </div>
-
-            {/* Fullscreen */}
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={handleFullscreenToggle}
-              className={cn("text-white hover:bg-white/20", isFullscreen ? "w-12 h-12" : "w-9 h-9")}
-            >
-              {isFullscreen
-                ? <Minimize className={isFullscreen ? "w-6 h-6" : "w-5 h-5"} />
-                : <Maximize className={isFullscreen ? "w-6 h-6" : "w-5 h-5"} />
-              }
-            </Button>
-          </div>
-        </div>
-      </div>
+      {/* طبقة حماية على النص/التوقيت - بين خط التقدم والأزرار */}
+      <div
+        className="absolute inset-x-0"
+        style={{
+          zIndex: 12,
+          bottom: '0px',
+          height: '50px',
+          pointerEvents: 'auto',
+        }}
+        onContextMenu={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          setProtectionWarning(true);
+          setTimeout(() => setProtectionWarning(false), 2000);
+          return false;
+        }}
+        onClick={(e) => {
+          // نمرر النقر للأزرار
+          const target = e.currentTarget;
+          target.style.pointerEvents = 'none';
+          const elem = document.elementFromPoint(e.clientX, e.clientY);
+          if (elem) (elem as HTMLElement).click();
+          requestAnimationFrame(() => {
+            target.style.pointerEvents = 'auto';
+          });
+        }}
+      />
+      {/* شريط التحكم المخصص محذوف - نستخدم شريط Bunny الأصلي الذي يحتوي على السرعة والجودة */}
 
       {/* زر الخروج الكبير في fullscreen */}
       {isFullscreen && showControls && (

@@ -40,9 +40,11 @@ const QUIZ_WEIGHT = 0.4;  // 40%
 
 /**
  * إنشاء معرف فريد للتقدم
+ * نستبدل الـ slashes بـ underscores لأن Firestore document IDs لا تدعم slashes
  */
 function getProgressId(studentId: string, lessonId: string): string {
-    return `${lessonId}_${studentId}`;
+    const sanitizedLessonId = lessonId.replace(/\//g, '_');
+    return `${sanitizedLessonId}_${studentId}`;
 }
 
 /**
