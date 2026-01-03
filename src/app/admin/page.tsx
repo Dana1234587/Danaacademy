@@ -449,7 +449,9 @@ export default function AdminPage() {
         result.sort((a, b) => {
             if (!a.lastActivity) return 1;
             if (!b.lastActivity) return -1;
-            return b.lastActivity.getTime() - a.lastActivity.getTime();
+            const aTime = a.lastActivity instanceof Date ? a.lastActivity.getTime() : new Date(a.lastActivity).getTime();
+            const bTime = b.lastActivity instanceof Date ? b.lastActivity.getTime() : new Date(b.lastActivity).getTime();
+            return bTime - aTime;
         });
 
         return result;
@@ -1219,7 +1221,7 @@ export default function AdminPage() {
                                                     <div className="w-16 h-2 bg-muted rounded-full overflow-hidden">
                                                         <div
                                                             className={`h-full rounded-full ${progress.overallProgress >= 80 ? 'bg-emerald-500' :
-                                                                    progress.overallProgress >= 50 ? 'bg-amber-500' : 'bg-red-500'
+                                                                progress.overallProgress >= 50 ? 'bg-amber-500' : 'bg-red-500'
                                                                 }`}
                                                             style={{ width: `${progress.overallProgress}%` }}
                                                         />

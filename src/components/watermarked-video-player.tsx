@@ -711,12 +711,12 @@ function WatermarkedVideoPlayer({ src, lessonId: propLessonId, courseId: propCou
         </>
       )}
 
-      {/* طبقة حماية علوية - تغطي الفيديو ماعدا شريط التحكم السفلي */}
+      {/* طبقة حماية علوية فقط - لا تغطي الأزرار */}
       <div
         className="absolute inset-x-0 top-0"
         style={{
           zIndex: 12,
-          bottom: '50px', // نترك فقط الأزرار
+          bottom: '60px', // نترك شريط التحكم بالكامل
           pointerEvents: 'auto',
         }}
         onContextMenu={(e) => {
@@ -725,34 +725,6 @@ function WatermarkedVideoPlayer({ src, lessonId: propLessonId, courseId: propCou
           setProtectionWarning(true);
           setTimeout(() => setProtectionWarning(false), 2000);
           return false;
-        }}
-      />
-
-      {/* طبقة حماية على النص/التوقيت - بين خط التقدم والأزرار */}
-      <div
-        className="absolute inset-x-0"
-        style={{
-          zIndex: 12,
-          bottom: '0px',
-          height: '50px',
-          pointerEvents: 'auto',
-        }}
-        onContextMenu={(e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          setProtectionWarning(true);
-          setTimeout(() => setProtectionWarning(false), 2000);
-          return false;
-        }}
-        onClick={(e) => {
-          // نمرر النقر للأزرار
-          const target = e.currentTarget;
-          target.style.pointerEvents = 'none';
-          const elem = document.elementFromPoint(e.clientX, e.clientY);
-          if (elem) (elem as HTMLElement).click();
-          requestAnimationFrame(() => {
-            target.style.pointerEvents = 'auto';
-          });
         }}
       />
       {/* شريط التحكم المخصص محذوف - نستخدم شريط Bunny الأصلي الذي يحتوي على السرعة والجودة */}
