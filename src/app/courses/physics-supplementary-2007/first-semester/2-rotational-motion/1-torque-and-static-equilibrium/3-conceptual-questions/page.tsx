@@ -10,6 +10,7 @@ import QuizPage from './quiz';
 import SummaryPage from './summary';
 import React from 'react';
 import WatermarkedVideoPlayer from '@/components/watermarked-video-player';
+import { LessonVideoPlayer } from '@/components/lesson-video-player';
 
 export default function ConceptualQuestionsPage() {
   return (

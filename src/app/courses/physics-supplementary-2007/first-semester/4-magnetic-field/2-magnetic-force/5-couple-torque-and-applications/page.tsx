@@ -9,6 +9,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import QuizPage from './quiz';
 import SummaryPage from './summary';
 import WatermarkedVideoPlayer from '@/components/watermarked-video-player';
+import { LessonVideoPlayer } from '@/components/lesson-video-player';
 
 export default function CoupleTorqueAndApplicationsPage() {
   return (

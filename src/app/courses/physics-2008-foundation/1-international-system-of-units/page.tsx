@@ -9,6 +9,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import QuizPage from './quiz';
 import SummaryPage from './summary';
 import WatermarkedVideoPlayer from '@/components/watermarked-video-player';
+import { LessonVideoPlayer } from '@/components/lesson-video-player';
 
 export default function InternationalSystemOfUnitsPage() {
   return (
@@ -31,21 +32,25 @@ export default function InternationalSystemOfUnitsPage() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Main Content Area */}
           <div className="lg:col-span-2 space-y-6">
-            
-            <WatermarkedVideoPlayer src="https://iframe.mediadelivery.net/embed/490791/ab0a9867-57a2-4a6b-b585-e88055faa967?autoplay=false&loop=false&muted=false&preload=true" />
-            
+
+            <LessonVideoPlayer
+              src="https://iframe.mediadelivery.net/embed/490791/ab0a9867-57a2-4a6b-b585-e88055faa967?autoplay=false&loop=false&muted=false&preload=true"
+              lessonId="foundation-1-international-system-of-units"
+              courseId="physics-2008-foundation"
+            />
+
             <Card>
-                <CardHeader>
-                    <CardTitle>نقاط رئيسية من الحصة</CardTitle>
-                </CardHeader>
-                <CardContent>
-                    <ul className="space-y-3 list-disc list-inside text-muted-foreground">
-                        <li>التعرف على الكميات الأساسية في الميكانيكا (الطول، الكتلة، الزمن) ووحداتها.</li>
-                        <li>فهم مفهوم الكميات المشتقة وكيفية اشتقاق وحداتها (مثل القوة والطاقة).</li>
-                        <li>أهمية تجانس الوحدات للتأكد من صحة المعادلات الفيزيائية.</li>
-                        <li>تحليل وحدات بعض القوانين الهامة مثل قانون نيوتن الثاني.</li>
-                    </ul>
-                </CardContent>
+              <CardHeader>
+                <CardTitle>نقاط رئيسية من الحصة</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <ul className="space-y-3 list-disc list-inside text-muted-foreground">
+                  <li>التعرف على الكميات الأساسية في الميكانيكا (الطول، الكتلة، الزمن) ووحداتها.</li>
+                  <li>فهم مفهوم الكميات المشتقة وكيفية اشتقاق وحداتها (مثل القوة والطاقة).</li>
+                  <li>أهمية تجانس الوحدات للتأكد من صحة المعادلات الفيزيائية.</li>
+                  <li>تحليل وحدات بعض القوانين الهامة مثل قانون نيوتن الثاني.</li>
+                </ul>
+              </CardContent>
             </Card>
           </div>
 
@@ -58,35 +63,35 @@ export default function InternationalSystemOfUnitsPage() {
               <CardContent className="space-y-3">
                 <Button variant="ghost" className="w-full justify-start" asChild>
                   <Link href="https://drive.google.com/file/d/1Qye8JJ8vCQlyigMpGlwLG-TqHtJPjx-v/view?usp=sharing" target="_blank" rel="noopener noreferrer">
-                    <FileText className="me-3"/> ورقة عمل الدرس (PDF)
+                    <FileText className="me-3" /> ورقة عمل الدرس (PDF)
                   </Link>
                 </Button>
                 <Dialog>
-                    <DialogTrigger asChild>
-                        <Button variant="ghost" className="w-full justify-start">
-                          <BarChart className="me-3"/> ملخص القوانين
-                        </Button>
-                    </DialogTrigger>
-                    <DialogContent className="max-w-xl h-auto max-h-[80vh] overflow-y-auto">
-                        <DialogHeader>
-                            <DialogTitle>ملخص: النظام الدولي للوحدات</DialogTitle>
-                        </DialogHeader>
-                        <SummaryPage />
-                    </DialogContent>
-                 </Dialog>
-                 <Dialog>
-                    <DialogTrigger asChild>
-                        <Button variant="ghost" className="w-full justify-start">
-                          <BrainCircuit className="me-3"/> اختبار قصير للمراجعة
-                        </Button>
-                    </DialogTrigger>
-                    <DialogContent className="max-w-4xl h-[90vh] overflow-y-auto">
-                        <DialogHeader>
-                            <DialogTitle>اختبار قصير: النظام الدولي للوحدات</DialogTitle>
-                        </DialogHeader>
-                        <QuizPage />
-                    </DialogContent>
-                 </Dialog>
+                  <DialogTrigger asChild>
+                    <Button variant="ghost" className="w-full justify-start">
+                      <BarChart className="me-3" /> ملخص القوانين
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent className="max-w-xl h-auto max-h-[80vh] overflow-y-auto">
+                    <DialogHeader>
+                      <DialogTitle>ملخص: النظام الدولي للوحدات</DialogTitle>
+                    </DialogHeader>
+                    <SummaryPage />
+                  </DialogContent>
+                </Dialog>
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <Button variant="ghost" className="w-full justify-start">
+                      <BrainCircuit className="me-3" /> اختبار قصير للمراجعة
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent className="max-w-4xl h-[90vh] overflow-y-auto">
+                    <DialogHeader>
+                      <DialogTitle>اختبار قصير: النظام الدولي للوحدات</DialogTitle>
+                    </DialogHeader>
+                    <QuizPage />
+                  </DialogContent>
+                </Dialog>
               </CardContent>
             </Card>
           </div>

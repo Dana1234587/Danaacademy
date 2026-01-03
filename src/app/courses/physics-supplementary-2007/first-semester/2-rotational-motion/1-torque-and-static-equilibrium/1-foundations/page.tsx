@@ -7,6 +7,7 @@ import { ChevronLeft, FileText } from 'lucide-react';
 import Link from 'next/link';
 import React from 'react';
 import WatermarkedVideoPlayer from '@/components/watermarked-video-player';
+import { LessonVideoPlayer } from '@/components/lesson-video-player';
 
 export default function FoundationsPage() {
   return (

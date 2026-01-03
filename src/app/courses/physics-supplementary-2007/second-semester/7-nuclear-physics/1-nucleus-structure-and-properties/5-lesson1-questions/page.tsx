@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { ChevronLeft, FileText, BarChart, BrainCircuit } from 'lucide-react';
 import Link from 'next/link';
 import WatermarkedVideoPlayer from '@/components/watermarked-video-player';
+import { LessonVideoPlayer } from '@/components/lesson-video-player';
 
 export default function Lesson1QuestionsPage() {
   return (
