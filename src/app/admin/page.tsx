@@ -1284,7 +1284,7 @@ export default function AdminPage() {
                                 <p>لا يوجد تقدم مسجل لهذا الطالب بعد.</p>
                             </div>
                         )}
-                    </ScrollArea>
+                    </div>
                 </DialogContent>
             </Dialog>
         </>
