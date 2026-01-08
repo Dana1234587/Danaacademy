@@ -16,10 +16,13 @@ import { type LessonProgress } from '@/services/progressService';
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from 'framer-motion';
 
-// قائمة الدورات المتاحة - IDs يجب أن تتطابق مع folder names في /courses/
+// قائمة الدورات المتاحة
+// id = folder name في /courses/ (يستخدم لجلب التقدم)
+// aliases = IDs القديمة المحفوظة في enrollment الطلاب
 const allCourses = [
     {
         id: 'physics-2008',
+        aliases: ['tawjihi-2008-first-semester', 'physics-2008'],
         name: 'فيزياء 2008 - الفصل الأول',
         gradient: 'from-blue-600 via-blue-500 to-cyan-400',
         icon: '⚡',
@@ -27,6 +30,7 @@ const allCourses = [
     },
     {
         id: 'physics-supplementary-2007',
+        aliases: ['tawjihi-2007-supplementary', 'physics-supplementary-2007'],
         name: 'فيزياء تكميلي 2007',
         gradient: 'from-emerald-600 via-emerald-500 to-teal-400',
         icon: '🧪',
@@ -34,6 +38,7 @@ const allCourses = [
     },
     {
         id: 'physics-2008-foundation',
+        aliases: ['tawjihi-2008-foundation', 'physics-2008-foundation'],
         name: 'أساسيات فيزياء 2008',
         gradient: 'from-purple-600 via-purple-500 to-pink-400',
         icon: '📐',
@@ -41,6 +46,7 @@ const allCourses = [
     },
     {
         id: 'physics-2008-palestine',
+        aliases: ['tawjihi-2008-palestine', 'physics-2008-palestine'],
         name: 'فيزياء التوجيهي - فلسطين 2008',
         gradient: 'from-red-600 via-red-500 to-orange-400',
         icon: '🔥',
@@ -48,6 +54,7 @@ const allCourses = [
     },
     {
         id: 'astrophysics',
+        aliases: ['astrophysics'],
         name: 'فيزياء الثاني عشر - قطر',
         gradient: 'from-indigo-600 via-indigo-500 to-blue-400',
         icon: '🌌',
@@ -55,6 +62,7 @@ const allCourses = [
     },
     {
         id: 'physics-101',
+        aliases: ['physics-101'],
         name: 'فيزياء الجامعة 101',
         gradient: 'from-teal-600 via-teal-500 to-cyan-400',
         icon: '🎓',
@@ -452,7 +460,10 @@ function MyProgressContent() {
                     if (infoData.success && infoData.student) {
                         setViewingStudentName(infoData.student.studentName);
                         const studentCourseIds = infoData.student.courseIds || [];
-                        coursesToFetch = allCourses.filter(c => studentCourseIds.includes(c.id));
+                        // استخدام aliases للمطابقة مع IDs القديمة والجديدة
+                        coursesToFetch = allCourses.filter(c =>
+                            c.aliases.some(alias => studentCourseIds.includes(alias))
+                        );
                     } else {
                         // fallback: كل الدورات
                         coursesToFetch = allCourses;
@@ -462,8 +473,10 @@ function MyProgressContent() {
                     coursesToFetch = allCourses;
                 }
             } else {
-                // للطالب العادي: دوراته المسجل فيها
-                coursesToFetch = allCourses.filter(c => enrolledCourseIds.includes(c.id));
+                // للطالب العادي: دوراته المسجل فيها (باستخدام aliases)
+                coursesToFetch = allCourses.filter(c =>
+                    c.aliases.some(alias => enrolledCourseIds.includes(alias))
+                );
             }
 
             const summaries: CourseSummary[] = [];
