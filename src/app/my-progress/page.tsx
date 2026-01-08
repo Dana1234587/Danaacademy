@@ -495,8 +495,11 @@ function MyProgressContent() {
                             courseName: course.name,
                             gradient: course.gradient,
                             icon: course.icon,
-                            ...data.summary,
-                            totalLessons: data.summary.totalLessons || course.totalLessons,
+                            totalLessons: course.totalLessons, // دائماً من course definition
+                            completedLessons: data.summary.completedLessons || 0,
+                            averageProgress: data.summary.averageProgress || 0,
+                            videoAverage: data.summary.videoAverage || 0,
+                            quizAverage: data.summary.quizAverage || 0,
                             lessons: data.lessons || [],
                         });
                     } else {
