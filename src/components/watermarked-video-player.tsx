@@ -796,15 +796,15 @@ function WatermarkedVideoPlayer({ src, lessonId: propLessonId, courseId: propCou
         </div>
       )}
 
-      {/* زر ملء الشاشة للموبايل والآيباد - يظهر دائماً في الزاوية السفلية */}
+      {/* زر ملء الشاشة للموبايل والآيباد - يظهر في الزاوية العلوية اليمين بعيداً عن شريط Bunny */}
       {!isFullscreen && (
         <Button
           onClick={handleFullscreenToggle}
           variant="secondary"
-          className="absolute bottom-2 right-2 bg-black/60 hover:bg-black/80 text-white border-0 shadow-lg p-2 sm:p-3"
-          style={{ zIndex: 25 }}
+          className="absolute top-3 right-3 bg-black/70 hover:bg-black/90 text-white border-0 shadow-xl p-3 rounded-lg"
+          style={{ zIndex: 50 }}
         >
-          <Maximize className="w-5 h-5 sm:w-6 sm:h-6" />
+          <Maximize className="w-6 h-6" />
         </Button>
       )}
 
