@@ -17,27 +17,48 @@ import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from 'framer-motion';
 
 // قائمة الدورات المتاحة - يجب أن تتطابق مع courseId المحفوظ في Firestore
-const courses = [
+const allCourses = [
     {
-        id: 'physics-2008', // courseId from video player
+        id: 'tawjihi-2008-first-semester',
         name: 'فيزياء 2008 - الفصل الأول',
         gradient: 'from-blue-600 via-blue-500 to-cyan-400',
         icon: '⚡',
         totalLessons: 50
     },
     {
-        id: 'physics-supplementary-2007',
+        id: 'tawjihi-2007-supplementary',
         name: 'فيزياء تكميلي 2007',
         gradient: 'from-emerald-600 via-emerald-500 to-teal-400',
         icon: '🧪',
         totalLessons: 40
     },
     {
-        id: 'physics-2008-foundation',
+        id: 'tawjihi-2008-foundation',
         name: 'أساسيات فيزياء 2008',
         gradient: 'from-purple-600 via-purple-500 to-pink-400',
         icon: '📐',
         totalLessons: 20
+    },
+    {
+        id: 'tawjihi-2008-palestine',
+        name: 'فيزياء التوجيهي - فلسطين 2008',
+        gradient: 'from-red-600 via-red-500 to-orange-400',
+        icon: '🔥',
+        totalLessons: 45
+    },
+    {
+        id: 'astrophysics',
+        name: 'فيزياء الثاني عشر - قطر',
+        gradient: 'from-indigo-600 via-indigo-500 to-blue-400',
+        icon: '🌌',
+        totalLessons: 30
+    },
+    {
+        id: 'physics-101',
+        name: 'فيزياء الجامعة 101',
+        gradient: 'from-teal-600 via-teal-500 to-cyan-400',
+        icon: '🎓',
+        totalLessons: 25
     },
 ];
 
@@ -402,6 +423,7 @@ function MyProgressContent() {
     const [activities, setActivities] = useState<any[]>([]);
     const [activityStats, setActivityStats] = useState<any>(null);
     const [viewingStudentName, setViewingStudentName] = useState<string | null>(null);
+    const [viewingStudentCourses, setViewingStudentCourses] = useState<string[]>([]);
     const { currentUser } = useStore((state) => ({ currentUser: state.currentUser }));
     const searchParams = useSearchParams();
 
@@ -410,15 +432,46 @@ function MyProgressContent() {
     const isAdminViewingStudent = currentUser?.role === 'admin' && viewingStudentId;
     const targetStudentId = isAdminViewingStudent ? viewingStudentId : currentUser?.uid;
 
+    // فلترة الدورات بناءً على الدورات المسجل فيها الطالب
+    const enrolledCourseIds = currentUser?.enrolledCourseIds || [];
+
+    // جلب دورات الطالب للـ Admin
+    useEffect(() => {
+        if (isAdminViewingStudent && viewingStudentId) {
+            // جلب بيانات الطالب للحصول على الدورات المسجل فيها
+            fetch(`/api/admin/students/${viewingStudentId}`)
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success && data.student?.courseIds) {
+                        setViewingStudentCourses(data.student.courseIds);
+                    } else {
+                        // fallback: عرض كل الدورات
+                        setViewingStudentCourses(allCourses.map(c => c.id));
+                    }
+                })
+                .catch(() => {
+                    setViewingStudentCourses(allCourses.map(c => c.id));
+                });
+        }
+    }, [isAdminViewingStudent, viewingStudentId]);
+
+    // تحديد الدورات للعرض
+    const studentCourses = isAdminViewingStudent
+        ? allCourses.filter(c => viewingStudentCourses.includes(c.id))
+        : allCourses.filter(c => enrolledCourseIds.includes(c.id));
+
     const fetchData = useCallback(async () => {
         if (!targetStudentId) return;
+        // للـ Admin: انتظر حتى يتم جلب دورات الطالب
+        if (isAdminViewingStudent && viewingStudentCourses.length === 0) return;
+
         setIsLoading(true);
 
         try {
             const summaries: CourseSummary[] = [];
 
             // استخدام fetch بدلاً من server actions
-            for (const course of courses) {
+            for (const course of studentCourses) {
                 try {
                     const res = await fetch(
                         `/api/progress/course?studentId=${encodeURIComponent(targetStudentId)}&courseId=${encodeURIComponent(course.id)}`
@@ -489,15 +542,25 @@ function MyProgressContent() {
         } finally {
             setIsLoading(false);
         }
-    }, [targetStudentId, isAdminViewingStudent]);
+    }, [targetStudentId, isAdminViewingStudent, studentCourses, viewingStudentCourses]);
 
     useEffect(() => {
+        // للطالب العادي: جلب البيانات مباشرة
+        // للـ Admin: انتظر حتى يتم جلب دورات الطالب
         if (targetStudentId) {
-            fetchData();
+            if (isAdminViewingStudent) {
+                if (viewingStudentCourses.length > 0) {
+                    fetchData();
+                }
+            } else if (enrolledCourseIds.length > 0) {
+                fetchData();
+            } else {
+                setIsLoading(false);
+            }
         } else {
             setIsLoading(false);
         }
-    }, [fetchData, targetStudentId]);
+    }, [fetchData, targetStudentId, isAdminViewingStudent, viewingStudentCourses, enrolledCourseIds]);
 
     if (!currentUser && !isLoading) {
         return (
