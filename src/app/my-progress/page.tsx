@@ -433,8 +433,11 @@ function MyProgressContent() {
     const targetStudentId = isAdminViewingStudent ? viewingStudentId : currentUser?.uid;
 
     // جلب دورات الطالب للـ Admin
+    const [studentInfoLoaded, setStudentInfoLoaded] = useState(false);
+
     useEffect(() => {
         if (isAdminViewingStudent && viewingStudentId) {
+            setStudentInfoLoaded(false);
             fetch(`/api/students/${viewingStudentId}/info`)
                 .then(res => res.json())
                 .then(data => {
@@ -443,7 +446,10 @@ function MyProgressContent() {
                         setViewingStudentCourseIds(data.student.courseIds || []);
                     }
                 })
-                .catch(err => console.error('Error fetching student info:', err));
+                .catch(err => console.error('Error fetching student info:', err))
+                .finally(() => setStudentInfoLoaded(true));
+        } else {
+            setStudentInfoLoaded(true); // ليس Admin أو لا يوجد studentId
         }
     }, [isAdminViewingStudent, viewingStudentId]);
 
@@ -537,15 +543,15 @@ function MyProgressContent() {
     }, [targetStudentId, isAdminViewingStudent, studentCourses]);
 
     useEffect(() => {
-        // للـ Admin: انتظر حتى يتم جلب دورات الطالب
+        // للـ Admin: انتظر حتى يتم جلب بيانات الطالب
         if (isAdminViewingStudent) {
-            if (viewingStudentCourseIds.length > 0) {
+            if (studentInfoLoaded) {
                 fetchData();
             }
         } else if (targetStudentId) {
             fetchData();
         }
-    }, [fetchData, isAdminViewingStudent, viewingStudentCourseIds, targetStudentId]);
+    }, [fetchData, isAdminViewingStudent, studentInfoLoaded, targetStudentId]);
 
     if (!currentUser && !isLoading) {
         return (
