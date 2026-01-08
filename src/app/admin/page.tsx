@@ -47,6 +47,8 @@ import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 import { firebaseConfig } from '@/lib/firebase';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { SubscriptionManager } from './components/SubscriptionManager';
+import { Lock } from 'lucide-react';
 
 
 const availableCourses = [
@@ -505,9 +507,10 @@ export default function AdminPage() {
             </div>
 
             <Tabs defaultValue="create-student">
-                <TabsList className="grid w-full grid-cols-2 md:grid-cols-5">
+                <TabsList className="grid w-full grid-cols-2 md:grid-cols-6">
                     <TabsTrigger value="create-student"><UserPlus className="me-2" /> إنشاء حساب</TabsTrigger>
                     <TabsTrigger value="student-accounts"><Users className="me-2" /> الطلاب</TabsTrigger>
+                    <TabsTrigger value="subscriptions"><Lock className="me-2" /> الاشتراكات</TabsTrigger>
                     <TabsTrigger value="student-progress"><TrendingUp className="me-2" /> تقدم الطلاب</TabsTrigger>
                     <TabsTrigger value="approve-devices"><MonitorCheck className="me-2" /> الموافقة</TabsTrigger>
                     <TabsTrigger value="registered-devices"><Fingerprint className="me-2" /> الأجهزة المسجلة</TabsTrigger>
@@ -705,6 +708,10 @@ export default function AdminPage() {
                             </div>
                         </CardContent>
                     </Card>
+                </TabsContent>
+
+                <TabsContent value="subscriptions">
+                    <SubscriptionManager />
                 </TabsContent>
 
                 <TabsContent value="student-progress">

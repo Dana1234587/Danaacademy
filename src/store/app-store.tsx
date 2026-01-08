@@ -17,6 +17,7 @@ export type User = {
   email: string;
   role: 'admin' | 'student' | 'free_member';
   enrolledCourseIds: string[];
+  blockedCourses?: string[];  // الكورسات المحظورة عن الطالب
   gender?: 'male' | 'female';
   photoURL?: string;
 }
@@ -102,6 +103,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
             email: firebaseUser.email || '',
             role: 'student',
             enrolledCourseIds: studentData.courseIds || [],
+            blockedCourses: studentData.blockedCourses || [],
             gender: studentData.gender
           };
         } else if (freeMemberDocSnap.exists()) {

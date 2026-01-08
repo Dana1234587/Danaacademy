@@ -11,6 +11,7 @@ export type Student = {
     email: string;
     courses: string[];
     courseIds: string[];
+    blockedCourses?: string[];  // الكورسات المحظورة عن الطالب
     phone1?: string;
     phone2?: string;
     gender?: 'male' | 'female';
@@ -139,4 +140,67 @@ export async function resetStudentPassword(studentId: string, newPassword: strin
     await adminAuth.updateUser(studentId, {
         password: newPassword
     });
+}
+
+// حظر كورس عن كل طلابه
+export async function blockCourseForAllStudents(courseId: string): Promise<{ blockedCount: number }> {
+    const studentsWithCourse = await getStudentsCol()
+        .where('courseIds', 'array-contains', courseId)
+        .get();
+
+    const batch = adminDB.batch();
+    let blockedCount = 0;
+
+    studentsWithCourse.forEach(doc => {
+        const data = doc.data();
+        const currentBlocked = data.blockedCourses || [];
+        // نضيف الكورس لقائمة المحظورة إذا مش موجود
+        if (!currentBlocked.includes(courseId)) {
+            batch.update(doc.ref, {
+                blockedCourses: [...currentBlocked, courseId]
+            });
+            blockedCount++;
+        }
+    });
+
+    await batch.commit();
+    return { blockedCount };
+}
+
+// إلغاء حظر كورس عن كل طلابه
+export async function unblockCourseForAllStudents(courseId: string): Promise<{ unblockedCount: number }> {
+    const studentsWithBlockedCourse = await getStudentsCol()
+        .where('blockedCourses', 'array-contains', courseId)
+        .get();
+
+    const batch = adminDB.batch();
+    let unblockedCount = 0;
+
+    studentsWithBlockedCourse.forEach(doc => {
+        const data = doc.data();
+        const currentBlocked = data.blockedCourses || [];
+        batch.update(doc.ref, {
+            blockedCourses: currentBlocked.filter((c: string) => c !== courseId)
+        });
+        unblockedCount++;
+    });
+
+    await batch.commit();
+    return { unblockedCount };
+}
+
+// عدد الطلاب المحظورين لكل كورس
+export async function getBlockedCountPerCourse(): Promise<Record<string, number>> {
+    const allStudents = await getStudentsCol().get();
+    const counts: Record<string, number> = {};
+
+    allStudents.forEach(doc => {
+        const data = doc.data();
+        const blocked = data.blockedCourses || [];
+        blocked.forEach((courseId: string) => {
+            counts[courseId] = (counts[courseId] || 0) + 1;
+        });
+    });
+
+    return counts;
 }
