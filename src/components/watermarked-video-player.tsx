@@ -82,8 +82,21 @@ function WatermarkedVideoPlayer({ src, lessonId: propLessonId, courseId: propCou
   const [playbackSpeed, setPlaybackSpeed] = useState(1);
   const [showSettingsMenu, setShowSettingsMenu] = useState(false);
   const [showSpeedMenu, setShowSpeedMenu] = useState(false);
+  const [loadingTimedOut, setLoadingTimedOut] = useState(false);
 
   const SPEED_OPTIONS = [0.5, 0.75, 1, 1.25, 1.5, 1.75, 2];
+
+  // Timeout for loading spinner - hide after 5 seconds even if player doesn't report ready
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      if (!isPlayerReady) {
+        console.log('⏰ Loading timeout - forcing player ready state');
+        setLoadingTimedOut(true);
+      }
+    }, 5000);
+
+    return () => clearTimeout(timeout);
+  }, [isPlayerReady]);
 
   const idleTimer = useRef<NodeJS.Timeout | null>(null);
   const controlsTimer = useRef<NodeJS.Timeout | null>(null);
@@ -606,7 +619,7 @@ function WatermarkedVideoPlayer({ src, lessonId: propLessonId, courseId: propCou
         onContextMenu={handleContextMenu}
       >
         {/* زر التشغيل الكبير - يظهر عند الإيقاف */}
-        {!isPlaying && isPlayerReady && (
+        {!isPlaying && (isPlayerReady || loadingTimedOut) && (
           <div
             className="bg-black/50 hover:bg-black/70 transition-colors rounded-full p-4 sm:p-6 pointer-events-auto cursor-pointer"
             onClick={handlePlayerClick}
@@ -615,8 +628,8 @@ function WatermarkedVideoPlayer({ src, lessonId: propLessonId, courseId: propCou
           </div>
         )}
 
-        {/* Loading */}
-        {!isPlayerReady && (
+        {/* Loading - يختفي بعد 5 ثواني حتى لو ما جهز */}
+        {!isPlayerReady && !loadingTimedOut && (
           <div className="bg-black/50 rounded-full p-4">
             <div className="w-12 h-12 border-4 border-white/30 border-t-white rounded-full animate-spin" />
           </div>
@@ -781,6 +794,18 @@ function WatermarkedVideoPlayer({ src, lessonId: propLessonId, courseId: propCou
             خروج
           </Button>
         </div>
+      )}
+
+      {/* زر ملء الشاشة للموبايل والآيباد - يظهر دائماً في الزاوية السفلية */}
+      {!isFullscreen && (
+        <Button
+          onClick={handleFullscreenToggle}
+          variant="secondary"
+          className="absolute bottom-2 right-2 bg-black/60 hover:bg-black/80 text-white border-0 shadow-lg p-2 sm:p-3"
+          style={{ zIndex: 25 }}
+        >
+          <Maximize className="w-5 h-5 sm:w-6 sm:h-6" />
+        </Button>
       )}
 
       {/* تحذير الحماية */}
