@@ -423,6 +423,7 @@ function MyProgressContent() {
     const [activities, setActivities] = useState<any[]>([]);
     const [activityStats, setActivityStats] = useState<any>(null);
     const [viewingStudentName, setViewingStudentName] = useState<string | null>(null);
+    const [viewingStudentCourseIds, setViewingStudentCourseIds] = useState<string[]>([]);
     const { currentUser } = useStore((state) => ({ currentUser: state.currentUser }));
     const searchParams = useSearchParams();
 
@@ -431,10 +432,25 @@ function MyProgressContent() {
     const isAdminViewingStudent = currentUser?.role === 'admin' && viewingStudentId;
     const targetStudentId = isAdminViewingStudent ? viewingStudentId : currentUser?.uid;
 
-    // فلترة الدورات - Admin يشوف كل الدورات، الطالب يشوف دوراته فقط
+    // جلب دورات الطالب للـ Admin
+    useEffect(() => {
+        if (isAdminViewingStudent && viewingStudentId) {
+            fetch(`/api/students/${viewingStudentId}/info`)
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success && data.student) {
+                        setViewingStudentName(data.student.studentName);
+                        setViewingStudentCourseIds(data.student.courseIds || []);
+                    }
+                })
+                .catch(err => console.error('Error fetching student info:', err));
+        }
+    }, [isAdminViewingStudent, viewingStudentId]);
+
+    // فلترة الدورات - Admin يشوف دورات الطالب المحدد فقط
     const enrolledCourseIds = currentUser?.enrolledCourseIds || [];
     const studentCourses = isAdminViewingStudent
-        ? allCourses
+        ? allCourses.filter(c => viewingStudentCourseIds.includes(c.id))
         : allCourses.filter(c => enrolledCourseIds.includes(c.id));
 
     const fetchData = useCallback(async () => {
@@ -521,8 +537,15 @@ function MyProgressContent() {
     }, [targetStudentId, isAdminViewingStudent, studentCourses]);
 
     useEffect(() => {
-        fetchData();
-    }, [fetchData]);
+        // للـ Admin: انتظر حتى يتم جلب دورات الطالب
+        if (isAdminViewingStudent) {
+            if (viewingStudentCourseIds.length > 0) {
+                fetchData();
+            }
+        } else if (targetStudentId) {
+            fetchData();
+        }
+    }, [fetchData, isAdminViewingStudent, viewingStudentCourseIds, targetStudentId]);
 
     if (!currentUser && !isLoading) {
         return (
@@ -551,7 +574,17 @@ function MyProgressContent() {
 
     const totalCompleted = courseSummaries.reduce((sum, c) => sum + c.completedLessons, 0);
     const streak = activityStats?.consecutiveDays || 0;
-    const totalHours = activityStats?.totalVideoTime ? Math.round(activityStats.totalVideoTime / 3600) : 0;
+
+    // تحويل الثواني لصيغة دقيقة "1 ساعة و 23 دقيقة"
+    const formatLearningTime = (seconds: number): string => {
+        if (!seconds || seconds === 0) return '0';
+        const hours = Math.floor(seconds / 3600);
+        const minutes = Math.floor((seconds % 3600) / 60);
+        if (hours > 0 && minutes > 0) return `${hours}س ${minutes}د`;
+        if (hours > 0) return `${hours} ساعة`;
+        return `${minutes} دقيقة`;
+    };
+    const totalTimeDisplay = formatLearningTime(activityStats?.totalVideoTime || 0);
 
     return (
         <MarketingLayout>
@@ -634,8 +667,8 @@ function MyProgressContent() {
                                     />
                                     <AchievementBadge
                                         icon={Clock}
-                                        title="ساعات التعلم"
-                                        value={totalHours > 0 ? `${totalHours}+` : '0'}
+                                        title="وقت التعلم"
+                                        value={totalTimeDisplay}
                                         color="bg-gradient-to-br from-purple-600 to-indigo-500"
                                     />
                                 </motion.div>
