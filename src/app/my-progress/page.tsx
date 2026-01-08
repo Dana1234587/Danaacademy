@@ -423,7 +423,6 @@ function MyProgressContent() {
     const [activities, setActivities] = useState<any[]>([]);
     const [activityStats, setActivityStats] = useState<any>(null);
     const [viewingStudentName, setViewingStudentName] = useState<string | null>(null);
-    const [viewingStudentCourseIds, setViewingStudentCourseIds] = useState<string[]>([]);
     const { currentUser } = useStore((state) => ({ currentUser: state.currentUser }));
     const searchParams = useSearchParams();
 
@@ -431,33 +430,7 @@ function MyProgressContent() {
     const viewingStudentId = searchParams.get('studentId');
     const isAdminViewingStudent = currentUser?.role === 'admin' && viewingStudentId;
     const targetStudentId = isAdminViewingStudent ? viewingStudentId : currentUser?.uid;
-
-    // جلب دورات الطالب للـ Admin
-    const [studentInfoLoaded, setStudentInfoLoaded] = useState(false);
-
-    useEffect(() => {
-        if (isAdminViewingStudent && viewingStudentId) {
-            setStudentInfoLoaded(false);
-            fetch(`/api/students/${viewingStudentId}/info`)
-                .then(res => res.json())
-                .then(data => {
-                    if (data.success && data.student) {
-                        setViewingStudentName(data.student.studentName);
-                        setViewingStudentCourseIds(data.student.courseIds || []);
-                    }
-                })
-                .catch(err => console.error('Error fetching student info:', err))
-                .finally(() => setStudentInfoLoaded(true));
-        } else {
-            setStudentInfoLoaded(true); // ليس Admin أو لا يوجد studentId
-        }
-    }, [isAdminViewingStudent, viewingStudentId]);
-
-    // فلترة الدورات - Admin يشوف دورات الطالب المحدد فقط
     const enrolledCourseIds = currentUser?.enrolledCourseIds || [];
-    const studentCourses = isAdminViewingStudent
-        ? allCourses.filter(c => viewingStudentCourseIds.includes(c.id))
-        : allCourses.filter(c => enrolledCourseIds.includes(c.id));
 
     const fetchData = useCallback(async () => {
         if (!targetStudentId) {
@@ -468,10 +441,35 @@ function MyProgressContent() {
         setIsLoading(true);
 
         try {
+            // تحديد الدورات للجلب
+            let coursesToFetch: typeof allCourses = [];
+
+            if (isAdminViewingStudent && viewingStudentId) {
+                // للـ Admin: جلب بيانات الطالب أولاً ثم تحديد دوراته
+                try {
+                    const infoRes = await fetch(`/api/students/${viewingStudentId}/info`);
+                    const infoData = await infoRes.json();
+                    if (infoData.success && infoData.student) {
+                        setViewingStudentName(infoData.student.studentName);
+                        const studentCourseIds = infoData.student.courseIds || [];
+                        coursesToFetch = allCourses.filter(c => studentCourseIds.includes(c.id));
+                    } else {
+                        // fallback: كل الدورات
+                        coursesToFetch = allCourses;
+                    }
+                } catch (err) {
+                    console.error('Error fetching student info:', err);
+                    coursesToFetch = allCourses;
+                }
+            } else {
+                // للطالب العادي: دوراته المسجل فيها
+                coursesToFetch = allCourses.filter(c => enrolledCourseIds.includes(c.id));
+            }
+
             const summaries: CourseSummary[] = [];
 
             // جلب التقدم لكل دورة
-            for (const course of studentCourses) {
+            for (const course of coursesToFetch) {
                 try {
                     const res = await fetch(
                         `/api/progress/course?studentId=${encodeURIComponent(targetStudentId)}&courseId=${encodeURIComponent(course.id)}`
@@ -528,9 +526,6 @@ function MyProgressContent() {
                 if (actData.success) {
                     setActivities(actData.activities || []);
                     setActivityStats(actData.stats || null);
-                    if (isAdminViewingStudent && actData.studentName) {
-                        setViewingStudentName(actData.studentName);
-                    }
                 }
             } catch (e) {
                 console.error('Error fetching activities:', e);
@@ -540,18 +535,11 @@ function MyProgressContent() {
         } finally {
             setIsLoading(false);
         }
-    }, [targetStudentId, isAdminViewingStudent, studentCourses]);
+    }, [targetStudentId, viewingStudentId, isAdminViewingStudent, enrolledCourseIds]);
 
     useEffect(() => {
-        // للـ Admin: انتظر حتى يتم جلب بيانات الطالب
-        if (isAdminViewingStudent) {
-            if (studentInfoLoaded) {
-                fetchData();
-            }
-        } else if (targetStudentId) {
-            fetchData();
-        }
-    }, [fetchData, isAdminViewingStudent, studentInfoLoaded, targetStudentId]);
+        fetchData();
+    }, [fetchData]);
 
     if (!currentUser && !isLoading) {
         return (
