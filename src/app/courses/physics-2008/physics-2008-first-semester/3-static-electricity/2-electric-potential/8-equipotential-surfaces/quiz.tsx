@@ -1,0 +1,137 @@
+
+'use client';
+
+import React, { useState } from 'react';
+import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { Label } from '@/components/ui/label';
+import { CheckCircle, XCircle } from 'lucide-react';
+import 'katex/dist/katex.min.css';
+import { InlineMath } from 'react-katex';
+
+// A robust, universal renderer for bidirectional text
+const SmartTextRenderer = ({ text, as: Wrapper = 'p' }: { text: string; as?: React.ElementType }) => {
+    const lines = text.split('\n');
+    const renderPart = (part: string, index: number) => {
+        if (index % 2 === 0) return <span key={index} dir="rtl">{part}</span>;
+        return <span key={index} dir="ltr" className="inline-block mx-1"><InlineMath math={part} /></span>;
+    };
+    return (
+        <Wrapper className="leading-relaxed">
+            {lines.map((line, lineIndex) => (
+                <span key={lineIndex} className="block my-1 text-right">
+                    {line.split('$').map(renderPart)}
+                </span>
+            ))}
+        </Wrapper>
+    );
+};
+
+const quizQuestions = [
+    // Conceptual Question 1
+    {
+        questionText: 'سطوح تساوي الجهد لشحنة نقطية معزولة تكون على شكل...',
+        options: ['مستويات مستوية متوازية', 'أسطح كروية متمركزة حول الشحنة', 'خطوط مستقيمة', 'أسطح أسطوانية'],
+        correctAnswerIndex: 1,
+        explanation: 'سطوح تساوي الجهد لشحنة نقطية أو موصل كروي تكون على شكل أسطح كروية متمركزة حول الشحنة أو مركز الموصل، وذلك لأن الجهد يعتمد فقط على البعد عن الشحنة.'
+    },
+    // Conceptual Question 2
+    {
+        questionText: 'ما العلاقة بين سطوح تساوي الجهد وخطوط المجال الكهربائي؟',
+        options: ['متوازية دائمًا', 'متعامدة دائمًا', 'تتقاطع بزاوية 45°', 'لا توجد علاقة بينهما'],
+        correctAnswerIndex: 1,
+        explanation: 'سطوح تساوي الجهد تكون دائمًا عمودية (متعامدة) على خطوط المجال الكهربائي. هذا لأنه لا توجد مركبة للمجال الكهربائي على طول سطح تساوي الجهد.'
+    },
+    // Calculation Question 1
+    {
+        questionText: 'شحنة مقدارها $+4 \\mu C$ تنتقل من سطح تساوي جهد قيمته $100 V$ إلى سطح تساوي جهد قيمته $60 V$. ما مقدار الشغل الذي تبذله القوة الكهربائية؟',
+        options: ['$-160 \\mu J$', '$+160 \\mu J$', '$+240 \\mu J$', 'صفر'],
+        correctAnswerIndex: 1,
+        explanation: 'الشغل الذي تبذله القوة الكهربائية: \n$W_{كهربائية} = -q(V_2 - V_1) = -(4 \\times 10^{-6})(60 - 100) = -(4 \\times 10^{-6})(-40)$ \n$= +160 \\times 10^{-6} J = +160 \\mu J$ \nالشغل موجب لأن الشحنة الموجبة تتحرك من جهد أعلى إلى جهد أقل (مع اتجاه القوة الكهربائية).'
+    },
+    // Calculation Question 2
+    {
+        questionText: 'شحنة مقدارها $+3 \\mu C$ تنتقل من سطح تساوي جهد قيمته $20 V$ إلى سطح تساوي جهد قيمته $80 V$. ما مقدار الشغل الذي تبذله القوة الكهربائية؟',
+        options: ['$+180 \\mu J$', '$-180 \\mu J$', '$+60 \\mu J$', 'صفر'],
+        correctAnswerIndex: 1,
+        explanation: 'الشغل الذي تبذله القوة الكهربائية: \n$W_{كهربائية} = -q(V_2 - V_1) = -(3 \\times 10^{-6})(80 - 20) = -(3 \\times 10^{-6})(60)$ \n$= -180 \\times 10^{-6} J = -180 \\mu J$ \nالشغل سالب لأن الشحنة الموجبة تتحرك من جهد أقل إلى جهد أعلى (عكس اتجاه القوة الكهربائية).'
+    },
+    // Calculation Question 3
+    {
+        questionText: 'في منطقة مجال كهربائي منتظم بين صفيحتين، سطوح تساوي الجهد المتتالية تبعد $2 cm$ عن بعضها وفرق الجهد بين كل سطحين متتاليين $10 V$. شحنة $+2 \\mu C$ تنتقل مسافة $6 cm$ عموديًا على السطوح من جهد أعلى ($V_1 = 90V$) لجهد أقل ($V_2 = 60V$). ما الشغل الذي تبذله القوة الكهربائية؟',
+        options: ['$20 \\mu J$', '$30 \\mu J$', '$60 \\mu J$', '$6 \\mu J$'],
+        correctAnswerIndex: 2,
+        explanation: 'عدد الفترات بين سطوح تساوي الجهد = $6 cm / 2 cm = 3$ فترات \nفرق الجهد الكلي: $V_2 - V_1 = 60 - 90 = -30 V$ \nالشغل الكهربائي: \n$W_{كهربائية} = -q(V_2 - V_1) = -(2 \\times 10^{-6})(-30) = +60 \\times 10^{-6} J = +60 \\mu J$'
+    },
+];
+
+export default function QuizPage() {
+    const [selectedAnswers, setSelectedAnswers] = useState<(number | null)[]>(new Array(quizQuestions.length).fill(null));
+    const [isSubmitted, setIsSubmitted] = useState(false);
+
+    const handleAnswerChange = (questionIndex: number, optionIndex: number) => {
+        if (isSubmitted) return;
+        const newAnswers = [...selectedAnswers];
+        newAnswers[questionIndex] = optionIndex;
+        setSelectedAnswers(newAnswers);
+    };
+
+    const handleSubmit = () => {
+        setIsSubmitted(true);
+    };
+
+    const calculateScore = () => {
+        return selectedAnswers.filter((answer, index) => answer === quizQuestions[index].correctAnswerIndex).length;
+    }
+
+    return (
+        <div className="p-4 bg-muted/40">
+            <div className="max-w-4xl mx-auto">
+                <div className="space-y-8">
+                    {quizQuestions.map((q, qIndex) => (
+                        <Card key={qIndex} className={`border-2 ${isSubmitted ? (selectedAnswers[qIndex] === q.correctAnswerIndex ? 'border-green-500' : 'border-red-500') : 'border-border'} transition-colors duration-300 shadow-lg`}>
+                            <CardHeader>
+                                <CardTitle><SmartTextRenderer as="div" text={`السؤال ${qIndex + 1}: ${q.questionText}`} /></CardTitle>
+                            </CardHeader>
+                            <CardContent>
+                                <RadioGroup onValueChange={(value) => handleAnswerChange(qIndex, parseInt(value))} value={selectedAnswers[qIndex]?.toString()} className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    {q.options.map((option, oIndex) => (
+                                        <Label key={oIndex} htmlFor={`q${qIndex}-o${oIndex}`} className={`p-4 rounded-lg border-2 flex items-center gap-4 cursor-pointer transition-all hover:bg-accent ${selectedAnswers[qIndex] === oIndex ? 'bg-primary/10 border-primary' : 'bg-background'}`}>
+                                            <RadioGroupItem value={oIndex.toString()} id={`q${qIndex}-o${oIndex}`} disabled={isSubmitted} />
+                                            <SmartTextRenderer as="span" text={option} />
+                                            {isSubmitted && selectedAnswers[qIndex] === oIndex && selectedAnswers[qIndex] !== q.correctAnswerIndex && <XCircle className="w-5 h-5 text-red-500 ms-auto" />}
+                                            {isSubmitted && oIndex === q.correctAnswerIndex && <CheckCircle className="w-5 h-5 text-green-500 ms-auto" />}
+                                        </Label>
+                                    ))}
+                                </RadioGroup>
+                            </CardContent>
+                            {isSubmitted && (
+                                <CardFooter className="flex flex-col items-start bg-muted/50 p-4 mt-4 rounded-b-lg">
+                                    <p className="font-bold text-foreground">الشرح:</p>
+                                    <SmartTextRenderer as="p" text={q.explanation} />
+                                </CardFooter>
+                            )}
+                        </Card>
+                    ))}
+                </div>
+
+                <div className="mt-8 text-center">
+                    {!isSubmitted ? (
+                        <Button onClick={handleSubmit} size="lg" className="w-full max-w-xs mx-auto">إظهار النتائج</Button>
+                    ) : (
+                        <Card className="max-w-sm mx-auto p-6">
+                            <CardTitle className="text-2xl mb-4">نتيجتك النهائية</CardTitle>
+                            <p className="text-3xl font-bold text-primary">
+                                {calculateScore()} / {quizQuestions.length}
+                            </p>
+                            <Button onClick={() => { setIsSubmitted(false); setSelectedAnswers(new Array(quizQuestions.length).fill(null)); }} variant="outline" className="mt-6">
+                                إعادة الاختبار
+                            </Button>
+                        </Card>
+                    )}
+                </div>
+            </div>
+        </div>
+    );
+}

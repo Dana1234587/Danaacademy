@@ -135,6 +135,15 @@ const courseStructure = {
                 { label: 'حصة رقم (16): فرق الجهد بين نقطتين في مجال كهربائي منتظم', path: '/courses/physics-2008/physics-2008-first-semester/3-static-electricity/2-electric-potential/5-potential-difference-uniform-field' },
                 { label: 'حصة رقم (17): المجال الكهربائي المنتظم بين صفيحتين', path: '/courses/physics-2008/physics-2008-first-semester/3-static-electricity/2-electric-potential/6-uniform-field-between-plates' },
                 { label: 'حصة رقم (18): الجهد الكهربائي لموصل مشحون', path: '/courses/physics-2008/physics-2008-first-semester/3-static-electricity/2-electric-potential/7-potential-of-charged-conductor' },
+                { label: 'حصة رقم (19): سطوح تساوي الجهد', path: '/courses/physics-2008/physics-2008-first-semester/3-static-electricity/2-electric-potential/8-equipotential-surfaces' },
+              ]
+            },
+            {
+              title: 'الدرس الثالث: المواسعة الكهربائية',
+              dossierUrl: 'https://drive.google.com/file/d/1oH2Zpc8MMbfX_6o7gk4IC47Jfu91q0sK/view?usp=sharing',
+              topics: [
+                { label: 'حصة رقم (1): المواسع الكهربائي', path: '/courses/physics-2008/physics-2008-first-semester/3-static-electricity/3-capacitance/1-electric-capacitor' },
+                { label: 'حصة رقم (2): المواسع ذو صفيحتين متوازيتين', path: '/courses/physics-2008/physics-2008-first-semester/3-static-electricity/3-capacitance/2-parallel-plate-capacitor' },
               ]
             }
           ]
