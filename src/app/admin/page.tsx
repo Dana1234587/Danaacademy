@@ -819,21 +819,11 @@ export default function AdminPage() {
                                                         <Button
                                                             variant="outline"
                                                             size="icon"
-                                                            onClick={() => {
-                                                                const student = students.find(s => s.id === summary.studentId);
-                                                                // إذا لم يوجد الطالب في القائمة، ننشئ كائن مؤقت
-                                                                const studentData = student || {
-                                                                    id: summary.studentId,
-                                                                    studentName: summary.studentName,
-                                                                    username: '',
-                                                                    email: '',
-                                                                    courses: summary.courses,
-                                                                    courseIds: []
-                                                                };
-                                                                viewStudentProgress(studentData as Student, summary.studentId);
-                                                            }}
+                                                            asChild
                                                         >
-                                                            <Eye className="w-4 h-4" />
+                                                            <Link href={`/my-progress?studentId=${summary.studentId}`}>
+                                                                <Eye className="w-4 h-4" />
+                                                            </Link>
                                                         </Button>
                                                     </TableCell>
                                                 </TableRow>

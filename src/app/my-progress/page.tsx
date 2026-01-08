@@ -6,10 +6,11 @@ import { Button } from '@/components/ui/button';
 import {
     BookOpen, Loader2, Trophy, Flame, Target,
     Video, CheckCircle, TrendingUp, Sparkles, Crown,
-    Zap, Award, Star, ChevronLeft, Play, Clock, History
+    Zap, Award, Star, ChevronLeft, Play, Clock, History, ArrowRight
 } from 'lucide-react';
 import Link from 'next/link';
 import { useState, useEffect, useCallback } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { useStore } from '@/store/app-store';
 import { type LessonProgress } from '@/services/progressService';
 import { cn } from '@/lib/utils';
@@ -400,10 +401,17 @@ export default function MyProgressPage() {
     const [selectedCourse, setSelectedCourse] = useState<string | null>(null);
     const [activities, setActivities] = useState<any[]>([]);
     const [activityStats, setActivityStats] = useState<any>(null);
+    const [viewingStudentName, setViewingStudentName] = useState<string | null>(null);
     const { currentUser } = useStore((state) => ({ currentUser: state.currentUser }));
+    const searchParams = useSearchParams();
+
+    // للـ Admin: إمكانية عرض تقدم طالب معين باستخدام ?studentId=xxx
+    const viewingStudentId = searchParams.get('studentId');
+    const isAdminViewingStudent = currentUser?.role === 'admin' && viewingStudentId;
+    const targetStudentId = isAdminViewingStudent ? viewingStudentId : currentUser?.uid;
 
     const fetchData = useCallback(async () => {
-        if (!currentUser) return;
+        if (!targetStudentId) return;
         setIsLoading(true);
 
         try {
@@ -413,7 +421,7 @@ export default function MyProgressPage() {
             for (const course of courses) {
                 try {
                     const res = await fetch(
-                        `/api/progress/course?studentId=${encodeURIComponent(currentUser.uid)}&courseId=${encodeURIComponent(course.id)}`
+                        `/api/progress/course?studentId=${encodeURIComponent(targetStudentId)}&courseId=${encodeURIComponent(course.id)}`
                     );
                     const data = await res.json();
 
@@ -463,11 +471,15 @@ export default function MyProgressPage() {
 
             // Fetch activities
             try {
-                const actRes = await fetch(`/api/admin/students/${currentUser.uid}/activities?limit=10&includeStats=true`);
+                const actRes = await fetch(`/api/admin/students/${targetStudentId}/activities?limit=10&includeStats=true`);
                 const actData = await actRes.json();
                 if (actData.success) {
                     setActivities(actData.activities || []);
                     setActivityStats(actData.stats || null);
+                    // اسم الطالب للـ Admin
+                    if (isAdminViewingStudent && actData.studentName) {
+                        setViewingStudentName(actData.studentName);
+                    }
                 }
             } catch (e) {
                 console.error('Error fetching activities:', e);
@@ -477,15 +489,15 @@ export default function MyProgressPage() {
         } finally {
             setIsLoading(false);
         }
-    }, [currentUser]);
+    }, [targetStudentId, isAdminViewingStudent]);
 
     useEffect(() => {
-        if (currentUser) {
+        if (targetStudentId) {
             fetchData();
         } else {
             setIsLoading(false);
         }
-    }, [fetchData, currentUser]);
+    }, [fetchData, targetStudentId]);
 
     if (!currentUser && !isLoading) {
         return (
@@ -526,6 +538,18 @@ export default function MyProgressPage() {
                     <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl" />
 
                     <div className="relative container mx-auto">
+                        {/* زر العودة للـ Admin */}
+                        {isAdminViewingStudent && (
+                            <div className="mb-6">
+                                <Button asChild variant="outline" size="sm">
+                                    <Link href="/admin" className="gap-2">
+                                        <ArrowRight className="w-4 h-4" />
+                                        العودة للوحة التحكم
+                                    </Link>
+                                </Button>
+                            </div>
+                        )}
+
                         <motion.div
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
@@ -533,13 +557,22 @@ export default function MyProgressPage() {
                         >
                             <div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-full mb-4">
                                 <Sparkles className="w-4 h-4" />
-                                <span className="text-sm font-medium">لوحة التقدم الخاصة بك</span>
+                                <span className="text-sm font-medium">
+                                    {isAdminViewingStudent ? 'تفاصيل تقدم الطالب' : 'لوحة التقدم الخاصة بك'}
+                                </span>
                             </div>
                             <h1 className="text-4xl md:text-5xl font-bold mb-4">
-                                مرحباً، <span className="text-primary">{currentUser?.username || 'طالب'}</span>! 👋
+                                {isAdminViewingStudent ? (
+                                    <>تقدم <span className="text-primary">{viewingStudentName || 'الطالب'}</span> 📊</>
+                                ) : (
+                                    <>مرحباً، <span className="text-primary">{currentUser?.username || 'طالب'}</span>! 👋</>
+                                )}
                             </h1>
                             <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-                                تابع تقدمك في الدورات واستمر في رحلة التعلم
+                                {isAdminViewingStudent
+                                    ? 'عرض تفصيلي لتقدم الطالب في جميع الدورات'
+                                    : 'تابع تقدمك في الدورات واستمر في رحلة التعلم'
+                                }
                             </p>
                         </motion.div>
 
