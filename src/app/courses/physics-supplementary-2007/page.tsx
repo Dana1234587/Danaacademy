@@ -459,7 +459,37 @@ export default function PhysicsSupplementary2007Page() {
   // Students need to be enrolled in the specific course
   const isAdmin = currentUser?.role === 'admin';
   const isEnrolledStudent = currentUser?.role === 'student' && currentUser.enrolledCourseIds?.includes(courseId);
-  const isAuthorized = isAdmin || isEnrolledStudent;
+  const isBlocked = currentUser?.blockedCourses?.includes(courseId);
+  const isAuthorized = isAdmin || (isEnrolledStudent && !isBlocked);
+
+  // Check if blocked (show subscription expired message)
+  if (isEnrolledStudent && isBlocked) {
+    return (
+      <MainLayout>
+        <div className="p-4 sm:p-6 lg:p-8 container mx-auto text-center">
+          <Card className="max-w-md mx-auto mt-10 border-destructive/50 bg-destructive/5">
+            <CardHeader>
+              <CardTitle className="flex items-center justify-center gap-2 text-destructive">
+                <Lock className="w-8 h-8" />
+                <span>انتهت صلاحية التسجيل</span>
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-lg text-muted-foreground">
+                عذراً، انتهت صلاحية تسجيلك في هذه الدورة.
+              </p>
+              <p className="mt-2 text-sm">
+                للتجديد أو الاستفسار، تواصل معنا.
+              </p>
+              <Button asChild className="mt-6">
+                <Link href="/">العودة إلى الصفحة الرئيسية</Link>
+              </Button>
+            </CardContent>
+          </Card>
+        </div>
+      </MainLayout>
+    );
+  }
 
   if (!isAuthorized) {
     return (
