@@ -61,14 +61,14 @@ export function LessonVideoPlayer({
 
     // جلب تقدم الطالب للحصة
     useEffect(() => {
-        if (!currentUser?.id || !lessonId) {
+        if (!currentUser?.uid || !lessonId) {
             setIsLoading(false);
             return;
         }
 
         async function fetchProgress() {
             try {
-                const response = await fetch(`/api/progress/${encodeURIComponent(lessonId)}?studentId=${currentUser?.id}`);
+                const response = await fetch(`/api/progress/${encodeURIComponent(lessonId)}?studentId=${currentUser?.uid}`);
                 if (response.ok) {
                     const data = await response.json();
                     if (data.progress) {
@@ -88,7 +88,7 @@ export function LessonVideoPlayer({
         }
 
         fetchProgress();
-    }, [currentUser?.id, lessonId]);
+    }, [currentUser?.uid, lessonId]);
 
     return (
         <div className="space-y-4">
