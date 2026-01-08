@@ -9,7 +9,7 @@ import {
     Zap, Award, Star, ChevronLeft, Play, Clock, History, ArrowRight
 } from 'lucide-react';
 import Link from 'next/link';
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { useStore } from '@/store/app-store';
 import { type LessonProgress } from '@/services/progressService';
@@ -395,7 +395,7 @@ function ActivityItem({ activity }: { activity: any }) {
     );
 }
 
-export default function MyProgressPage() {
+function MyProgressContent() {
     const [courseSummaries, setCourseSummaries] = useState<CourseSummary[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [selectedCourse, setSelectedCourse] = useState<string | null>(null);
@@ -767,5 +767,20 @@ export default function MyProgressPage() {
                 )}
             </div>
         </MarketingLayout>
+    );
+}
+
+// Wrapper with Suspense for useSearchParams
+export default function MyProgressPage() {
+    return (
+        <Suspense fallback={
+            <MarketingLayout>
+                <div className="min-h-[60vh] flex items-center justify-center">
+                    <Loader2 className="w-8 h-8 animate-spin text-primary" />
+                </div>
+            </MarketingLayout>
+        }>
+            <MyProgressContent />
+        </Suspense>
     );
 }
