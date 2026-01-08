@@ -588,7 +588,7 @@ function MyProgressContent() {
         : 0;
 
     const totalCompleted = courseSummaries.reduce((sum, c) => sum + c.completedLessons, 0);
-    const streak = activityStats?.lessonsCompleted || 0;
+    const streak = activityStats?.consecutiveDays || 0;
     const totalHours = activityStats?.totalVideoTime ? Math.round(activityStats.totalVideoTime / 3600) : 0;
 
     return (

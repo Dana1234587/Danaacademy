@@ -210,6 +210,7 @@ export async function getStudentActivityStats(studentId: string): Promise<{
     averageScore: number;
     lessonsCompleted: number;
     lastActivity: Date | null;
+    consecutiveDays: number;
 }> {
     try {
         const snapshot = await adminDB
@@ -222,6 +223,7 @@ export async function getStudentActivityStats(studentId: string): Promise<{
         let totalScore = 0;
         let lessonsCompleted = 0;
         let lastActivity: Date | null = null;
+        const activityDays = new Set<string>();
 
         snapshot.forEach((doc) => {
             const data = doc.data();
@@ -241,10 +243,41 @@ export async function getStudentActivityStats(studentId: string): Promise<{
                 lessonsCompleted++;
             }
 
-            if (data.createdAt && (!lastActivity || data.createdAt.toDate() > lastActivity)) {
-                lastActivity = data.createdAt.toDate();
+            if (data.createdAt) {
+                const activityDate = data.createdAt.toDate();
+                // تحويل التاريخ لصيغة YYYY-MM-DD لحساب الأيام الفريدة
+                const dateStr = activityDate.toISOString().split('T')[0];
+                activityDays.add(dateStr);
+
+                if (!lastActivity || activityDate > lastActivity) {
+                    lastActivity = activityDate;
+                }
             }
         });
+
+        // حساب الأيام المتتالية (streak)
+        let consecutiveDays = 0;
+        if (activityDays.size > 0) {
+            const sortedDays = Array.from(activityDays).sort().reverse();
+            const today = new Date().toISOString().split('T')[0];
+            const yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0];
+
+            // إذا كان آخر نشاط اليوم أو أمس، نبدأ العد
+            if (sortedDays[0] === today || sortedDays[0] === yesterday) {
+                consecutiveDays = 1;
+                for (let i = 1; i < sortedDays.length; i++) {
+                    const prevDay = new Date(sortedDays[i - 1]);
+                    const currDay = new Date(sortedDays[i]);
+                    const diffDays = Math.round((prevDay.getTime() - currDay.getTime()) / 86400000);
+
+                    if (diffDays === 1) {
+                        consecutiveDays++;
+                    } else {
+                        break;
+                    }
+                }
+            }
+        }
 
         return {
             totalVideoTime,
@@ -252,6 +285,7 @@ export async function getStudentActivityStats(studentId: string): Promise<{
             averageScore: totalQuizzes > 0 ? Math.round(totalScore / totalQuizzes) : 0,
             lessonsCompleted,
             lastActivity,
+            consecutiveDays,
         };
     } catch (error) {
         console.error('Error getting student activity stats:', error);
@@ -261,6 +295,7 @@ export async function getStudentActivityStats(studentId: string): Promise<{
             averageScore: 0,
             lessonsCompleted: 0,
             lastActivity: null,
+            consecutiveDays: 0,
         };
     }
 }
