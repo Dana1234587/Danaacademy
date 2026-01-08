@@ -41,6 +41,28 @@ interface WatermarkedVideoPlayerProps {
   unitId?: string;
 }
 
+// تحويل رابط M3U8 لرابط Bunny embed للتوافق مع iOS
+// المدخل: https://vz-XXXXX.b-cdn.net/VIDEO-ID/playlist.m3u8
+// المخرج: https://iframe.mediadelivery.net/embed/480623/VIDEO-ID
+const convertToBunnyEmbed = (url: string): string => {
+  // إذا كان الرابط بالفعل embed link، أرجعه كما هو
+  if (url.includes('iframe.mediadelivery.net') || url.includes('embed')) {
+    return url;
+  }
+
+  // استخراج Video ID من رابط M3U8
+  // مثال: https://vz-2adfd2e0-f8c.b-cdn.net/51fd1dda-cd27-44ef-a992-29ffad8cbf1f/playlist.m3u8
+  const m3u8Match = url.match(/b-cdn\.net\/([a-f0-9-]+)\/playlist\.m3u8/i);
+  if (m3u8Match && m3u8Match[1]) {
+    const videoId = m3u8Match[1];
+    // استخدام Library ID الموحد
+    return `https://iframe.mediadelivery.net/embed/480623/${videoId}?autoplay=false&loop=false&muted=false&preload=true`;
+  }
+
+  // إذا لم يتطابق، أرجع الرابط الأصلي
+  return url;
+};
+
 function WatermarkedVideoPlayer({ src, lessonId: propLessonId, courseId: propCourseId, unitId: propUnitId }: WatermarkedVideoPlayerProps) {
   const currentUser = useStore((s) => s.currentUser);
   const pathname = usePathname();
@@ -598,7 +620,7 @@ function WatermarkedVideoPlayer({ src, lessonId: propLessonId, courseId: propCou
       {/* iframe الفيديو - مع شريط التحكم الأصلي من Bunny */}
       <iframe
         ref={iframeRef}
-        src={`${src}${src.includes('?') ? '&' : '?'}autoplay=false&showSpeed=true`}
+        src={`${convertToBunnyEmbed(src)}${convertToBunnyEmbed(src).includes('?') ? '&' : '?'}autoplay=false&showSpeed=true`}
         className="absolute top-0 left-0 w-full h-full border-0"
         loading="lazy"
         allow="accelerometer; gyroscope; autoplay; encrypted-media; fullscreen"
