@@ -16,31 +16,31 @@ import { type LessonProgress } from '@/services/progressService';
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from 'framer-motion';
 
-// قائمة الدورات المتاحة - يجب أن تتطابق مع courseId المحفوظ في Firestore
+// قائمة الدورات المتاحة - IDs يجب أن تتطابق مع folder names في /courses/
 const allCourses = [
     {
-        id: 'tawjihi-2008-first-semester',
+        id: 'physics-2008',
         name: 'فيزياء 2008 - الفصل الأول',
         gradient: 'from-blue-600 via-blue-500 to-cyan-400',
         icon: '⚡',
         totalLessons: 50
     },
     {
-        id: 'tawjihi-2007-supplementary',
+        id: 'physics-supplementary-2007',
         name: 'فيزياء تكميلي 2007',
         gradient: 'from-emerald-600 via-emerald-500 to-teal-400',
         icon: '🧪',
         totalLessons: 40
     },
     {
-        id: 'tawjihi-2008-foundation',
+        id: 'physics-2008-foundation',
         name: 'أساسيات فيزياء 2008',
         gradient: 'from-purple-600 via-purple-500 to-pink-400',
         icon: '📐',
         totalLessons: 20
     },
     {
-        id: 'tawjihi-2008-palestine',
+        id: 'physics-2008-palestine',
         name: 'فيزياء التوجيهي - فلسطين 2008',
         gradient: 'from-red-600 via-red-500 to-orange-400',
         icon: '🔥',
