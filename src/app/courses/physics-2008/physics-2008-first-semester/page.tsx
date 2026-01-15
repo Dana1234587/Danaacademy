@@ -144,6 +144,24 @@ const courseStructure = {
               topics: [
                 { label: 'حصة رقم (1): المواسع الكهربائي', path: '/courses/physics-2008/physics-2008-first-semester/3-static-electricity/3-capacitance/1-electric-capacitor' },
                 { label: 'حصة رقم (2): المواسع ذو صفيحتين متوازيتين', path: '/courses/physics-2008/physics-2008-first-semester/3-static-electricity/3-capacitance/2-parallel-plate-capacitor' },
+                { label: 'حصة رقم (3): توصيل المواسعات', path: '/courses/physics-2008/physics-2008-first-semester/3-static-electricity/3-capacitance/3-capacitor-connections' },
+                { label: 'حصة رقم (4): توصيل المواسعات (أمثلة إضافية)', path: '/courses/physics-2008/physics-2008-first-semester/3-static-electricity/3-capacitance/4-capacitor-connections-examples' },
+              ]
+            }
+          ]
+        },
+        {
+          label: 'الوحدة الرابعة: التيار الكهربائي',
+          icon: Folder,
+          path: '/courses/physics-2008/physics-2008-first-semester/4-electric-current',
+          lessons: [
+            {
+              title: 'الدرس الأول: المقاومة والقوة الدافعة الكهربائية',
+              topics: [
+                { label: 'حصة رقم (1): مفهوم التيار الكهربائي', path: '/courses/physics-2008/physics-2008-first-semester/4-electric-current/1-resistance-and-emf/1-electric-current-concept' },
+                { label: 'حصة رقم (2): المقاومة الكهربائية', path: '/courses/physics-2008/physics-2008-first-semester/4-electric-current/1-resistance-and-emf/2-electrical-resistance' },
+                { label: 'حصة رقم (3): المقاومية', path: '/courses/physics-2008/physics-2008-first-semester/4-electric-current/1-resistance-and-emf/3-resistivity' },
+                { label: 'حصة رقم (4): المقاومة والمقاومية (حل أسئلة تميز)', path: '/courses/physics-2008/physics-2008-first-semester/4-electric-current/1-resistance-and-emf/4-resistance-resistivity-problems' },
               ]
             }
           ]
