@@ -34,7 +34,7 @@ export default function ResistivityPage() {
                     <div className="lg:col-span-2 space-y-6">
 
                         {/* Video Player */}
-                        <WatermarkedVideoPlayer src="https://vz-2adfd2e0-f8c.b-cdn.net/placeholder/playlist.m3u8" />
+                        <WatermarkedVideoPlayer src="https://vz-2adfd2e0-f8c.b-cdn.net/a584b83a-cb42-4de4-8f51-a7c46541e235/playlist.m3u8" />
 
                         <Card>
                             <CardHeader>

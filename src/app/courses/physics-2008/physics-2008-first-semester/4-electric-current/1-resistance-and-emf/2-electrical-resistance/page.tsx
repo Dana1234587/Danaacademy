@@ -34,7 +34,7 @@ export default function ElectricalResistancePage() {
                     <div className="lg:col-span-2 space-y-6">
 
                         {/* Video Player */}
-                        <WatermarkedVideoPlayer src="https://vz-2adfd2e0-f8c.b-cdn.net/placeholder/playlist.m3u8" />
+                        <WatermarkedVideoPlayer src="https://vz-2adfd2e0-f8c.b-cdn.net/7a860ae9-3916-4885-85b6-e10208a2be18/playlist.m3u8" />
 
                         <Card>
                             <CardHeader>

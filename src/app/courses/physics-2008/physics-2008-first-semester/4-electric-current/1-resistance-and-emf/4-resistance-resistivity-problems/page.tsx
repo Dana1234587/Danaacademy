@@ -34,7 +34,7 @@ export default function ResistanceResistivityProblemsPage() {
                     <div className="lg:col-span-2 space-y-6">
 
                         {/* Video Player */}
-                        <WatermarkedVideoPlayer src="https://vz-2adfd2e0-f8c.b-cdn.net/placeholder/playlist.m3u8" />
+                        <WatermarkedVideoPlayer src="https://vz-2adfd2e0-f8c.b-cdn.net/f62fb162-6024-4d4b-a02b-37bb9f3f904b/playlist.m3u8" />
 
                         <Card>
                             <CardHeader>
