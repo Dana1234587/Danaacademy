@@ -146,6 +146,7 @@ const courseStructure = {
                 { label: 'حصة رقم (2): المواسع ذو صفيحتين متوازيتين', path: '/courses/physics-2008/physics-2008-first-semester/3-static-electricity/3-capacitance/2-parallel-plate-capacitor' },
                 { label: 'حصة رقم (3): توصيل المواسعات', path: '/courses/physics-2008/physics-2008-first-semester/3-static-electricity/3-capacitance/3-capacitor-connections' },
                 { label: 'حصة رقم (4): توصيل المواسعات (أمثلة إضافية)', path: '/courses/physics-2008/physics-2008-first-semester/3-static-electricity/3-capacitance/4-capacitor-connections-examples' },
+                { label: 'حصة رقم (5): توصيل المواسعات (حل أسئلة اختبر نفسك)', path: '/courses/physics-2008/physics-2008-first-semester/3-static-electricity/3-capacitance/5-capacitor-connections-questions' },
               ]
             }
           ]
