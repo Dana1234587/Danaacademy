@@ -34,7 +34,7 @@ export default function CapacitorConnectionsQuestionsPage() {
                     <div className="lg:col-span-2 space-y-6">
 
                         {/* Video Player */}
-                        <WatermarkedVideoPlayer src="https://vz-2adfd2e0-f8c.b-cdn.net/placeholder/playlist.m3u8" />
+                        <WatermarkedVideoPlayer src="https://vz-2adfd2e0-f8c.b-cdn.net/906499f3-0d80-480c-a831-a469dc2881ca/playlist.m3u8" />
 
                         <Card>
                             <CardHeader>
