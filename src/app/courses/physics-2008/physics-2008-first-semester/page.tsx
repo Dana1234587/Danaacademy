@@ -165,6 +165,14 @@ const courseStructure = {
                 { label: 'حصة رقم (4): المقاومة والمقاومية (حل أسئلة تميز)', path: '/courses/physics-2008/physics-2008-first-semester/4-electric-current/1-resistance-and-emf/4-resistance-resistivity-problems' },
                 { label: 'حصة رقم (5): قانون أوم', path: '/courses/physics-2008/physics-2008-first-semester/4-electric-current/1-resistance-and-emf/5-ohms-law' },
                 { label: 'حصة رقم (6): القوة الدافعة الكهربائية', path: '/courses/physics-2008/physics-2008-first-semester/4-electric-current/1-resistance-and-emf/6-electromotive-force' },
+              ]\r
+            },
+            {
+              title: 'الدرس الثاني: الدارة البسيطة والقدرة الكهربائية',
+              topics: [
+                { label: 'حصة رقم (1): التمثيل البياني لتغيرات الجهد الكهربائي', path: '/courses/physics-2008/physics-2008-first-semester/4-electric-current/2-simple-circuit-and-power/1-voltage-graph' },
+                { label: 'حصة رقم (2): القدرة والطاقة الكهربائية (شرح وحل أسئلة)', path: '/courses/physics-2008/physics-2008-first-semester/4-electric-current/2-simple-circuit-and-power/2-power-energy-explanation' },
+                { label: 'حصة رقم (3): القدرة والطاقة الكهربائية (حل أمثلة إضافية)', path: '/courses/physics-2008/physics-2008-first-semester/4-electric-current/2-simple-circuit-and-power/3-power-energy-examples' },
               ]
             }
           ]
