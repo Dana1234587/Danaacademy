@@ -155,6 +155,7 @@ const courseStructure = {
           label: 'الوحدة الرابعة: التيار الكهربائي',
           icon: Folder,
           path: '/courses/physics-2008/physics-2008-first-semester/4-electric-current',
+          dossierUrl: 'https://drive.google.com/file/d/1o_sKKf5gEub6unS07GMQANaIWwSqYgOC/view?usp=sharing',
           lessons: [
             {
               title: 'الدرس الأول: المقاومة والقوة الدافعة الكهربائية',
