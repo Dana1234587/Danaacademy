@@ -165,7 +165,7 @@ const courseStructure = {
                 { label: 'حصة رقم (4): المقاومة والمقاومية (حل أسئلة تميز)', path: '/courses/physics-2008/physics-2008-first-semester/4-electric-current/1-resistance-and-emf/4-resistance-resistivity-problems' },
                 { label: 'حصة رقم (5): قانون أوم', path: '/courses/physics-2008/physics-2008-first-semester/4-electric-current/1-resistance-and-emf/5-ohms-law' },
                 { label: 'حصة رقم (6): القوة الدافعة الكهربائية', path: '/courses/physics-2008/physics-2008-first-semester/4-electric-current/1-resistance-and-emf/6-electromotive-force' },
-              ]\r
+              ]
             },
             {
               title: 'الدرس الثاني: الدارة البسيطة والقدرة الكهربائية',
