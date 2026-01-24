@@ -175,6 +175,18 @@ const courseStructure = {
                 { label: 'حصة رقم (2): القدرة والطاقة الكهربائية (شرح وحل أسئلة)', path: '/courses/physics-2008/physics-2008-first-semester/4-electric-current/2-simple-circuit-and-power/2-power-energy-explanation' },
                 { label: 'حصة رقم (3): القدرة والطاقة الكهربائية (حل أمثلة إضافية)', path: '/courses/physics-2008/physics-2008-first-semester/4-electric-current/2-simple-circuit-and-power/3-power-energy-examples' },
               ]
+            },
+            {
+              title: 'الدرس الثالث: توصيل المقاومات وقاعدتا كيرتشوف',
+              topics: [
+                { label: 'حصة رقم (1): توصيل المقاومات', path: '/courses/physics-2008/physics-2008-first-semester/4-electric-current/3-resistor-connections-kirchhoff/1-resistor-connections' },
+                { label: 'حصة رقم (2): الدارات الكهربائية البسيطة', path: '/courses/physics-2008/physics-2008-first-semester/4-electric-current/3-resistor-connections-kirchhoff/2-simple-circuits' },
+                { label: 'حصة رقم (3): الدارات الكهربائية البسيطة (حل أمثلة إضافية)', path: '/courses/physics-2008/physics-2008-first-semester/4-electric-current/3-resistor-connections-kirchhoff/3-simple-circuits-examples' },
+                { label: 'حصة رقم (4): قاعدة كيرتشوف الأولى', path: '/courses/physics-2008/physics-2008-first-semester/4-electric-current/3-resistor-connections-kirchhoff/4-kirchhoff-first-rule' },
+                { label: 'حصة رقم (5): قاعدة كيرتشوف الثانية', path: '/courses/physics-2008/physics-2008-first-semester/4-electric-current/3-resistor-connections-kirchhoff/5-kirchhoff-second-rule' },
+                { label: 'حصة رقم (6): قاعدتا كيرتشوف (حل أمثلة إضافية 1)', path: '/courses/physics-2008/physics-2008-first-semester/4-electric-current/3-resistor-connections-kirchhoff/6-kirchhoff-examples-1' },
+                { label: 'حصة رقم (7): قاعدتا كيرتشوف (حل أمثلة إضافية 2)', path: '/courses/physics-2008/physics-2008-first-semester/4-electric-current/3-resistor-connections-kirchhoff/7-kirchhoff-examples-2' },
+              ]
             }
           ]
         }
