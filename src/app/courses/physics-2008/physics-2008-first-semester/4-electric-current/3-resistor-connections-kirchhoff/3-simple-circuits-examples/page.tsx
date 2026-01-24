@@ -31,7 +31,7 @@ export default function SimpleCircuitsExamplesPage() {
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                     <div className="lg:col-span-2 space-y-6">
-                        <WatermarkedVideoPlayer src="https://vz-2adfd2e0-f8c.b-cdn.net/placeholder/playlist.m3u8" />
+                        <WatermarkedVideoPlayer src="https://vz-2adfd2e0-f8c.b-cdn.net/5f2a5a66-089a-4215-a8a0-400189b815af/playlist.m3u8" />
 
                         <Card>
                             <CardHeader>

@@ -31,7 +31,7 @@ export default function KirchhoffExamples1Page() {
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                     <div className="lg:col-span-2 space-y-6">
-                        <WatermarkedVideoPlayer src="https://vz-2adfd2e0-f8c.b-cdn.net/placeholder/playlist.m3u8" />
+                        <WatermarkedVideoPlayer src="https://vz-2adfd2e0-f8c.b-cdn.net/9e428b2b-438d-4f86-9fbe-d9549e88f0e7/playlist.m3u8" />
 
                         <Card>
                             <CardHeader>

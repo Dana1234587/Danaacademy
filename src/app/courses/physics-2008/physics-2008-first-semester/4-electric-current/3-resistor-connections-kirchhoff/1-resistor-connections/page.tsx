@@ -31,7 +31,7 @@ export default function ResistorConnectionsPage() {
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                     <div className="lg:col-span-2 space-y-6">
-                        <WatermarkedVideoPlayer src="https://vz-2adfd2e0-f8c.b-cdn.net/placeholder/playlist.m3u8" />
+                        <WatermarkedVideoPlayer src="https://vz-2adfd2e0-f8c.b-cdn.net/fa7afbde-008f-4bd1-b814-186fb88a0588/playlist.m3u8" />
 
                         <Card>
                             <CardHeader>

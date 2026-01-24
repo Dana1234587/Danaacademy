@@ -31,7 +31,7 @@ export default function KirchhoffSecondRulePage() {
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                     <div className="lg:col-span-2 space-y-6">
-                        <WatermarkedVideoPlayer src="https://vz-2adfd2e0-f8c.b-cdn.net/placeholder/playlist.m3u8" />
+                        <WatermarkedVideoPlayer src="https://vz-2adfd2e0-f8c.b-cdn.net/002f830a-3b1b-43f0-9387-d7a33edbb8f8/playlist.m3u8" />
 
                         <Card>
                             <CardHeader>
