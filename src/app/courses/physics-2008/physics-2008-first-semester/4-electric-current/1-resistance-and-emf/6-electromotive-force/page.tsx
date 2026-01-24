@@ -34,7 +34,7 @@ export default function ElectromotiveForcePage() {
                     <div className="lg:col-span-2 space-y-6">
 
                         {/* Video Player */}
-                        <WatermarkedVideoPlayer src="https://vz-2adfd2e0-f8c.b-cdn.net/placeholder/playlist.m3u8" />
+                        <WatermarkedVideoPlayer src="https://vz-2adfd2e0-f8c.b-cdn.net/90b3caa5-df87-4a4e-a838-5c528e8430bb/playlist.m3u8" />
 
                         <Card>
                             <CardHeader>
