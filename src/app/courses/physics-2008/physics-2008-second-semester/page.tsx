@@ -117,8 +117,8 @@ function LessonContent({ lesson }: { lesson: any }) {
                             {lesson.topics?.map((topic: any, topicIndex: number) => (
                                 <TopicProgressItem
                                     key={topicIndex}
-                                    path={topic.path}
-                                    label={topic.label}
+                                    topic={topic}
+                                    index={topicIndex}
                                 />
                             ))}
                         </div>
