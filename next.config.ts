@@ -24,6 +24,15 @@ const nextConfig: NextConfig = {
       }
     ],
   },
+  webpack: (config, { isServer }) => {
+    // Ignore optional modules that cause build errors
+    config.resolve.fallback = {
+      ...config.resolve.fallback,
+      '@opentelemetry/exporter-jaeger': false,
+      '@genkit-ai/firebase': false,
+    };
+    return config;
+  },
 };
 
 export default nextConfig;
