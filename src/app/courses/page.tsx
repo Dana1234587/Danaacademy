@@ -33,6 +33,17 @@ const allCourses = [
     detailsLink: '/courses/physics-2008-first-semester-details',
   },
   {
+    id: 'tawjihi-2008-second-semester',
+    title: 'فيزياء توجيهي 2008 - فصل ثاني',
+    description: 'دورة شاملة تغطي مادة الفصل الدراسي الثاني لجيل 2008: المغناطيسية، التيار المتردد، الفيزياء الحديثة، والفيزياء النووية.',
+    price: '50.00 د.أ',
+    imageUrl: 'https://i.ibb.co/Tx4wY4wS/2.png',
+    imageHint: 'physics textbook 2008 second semester',
+    curriculum: 'الأردن',
+    link: '/courses/physics-2008/physics-2008-second-semester',
+    detailsLink: '/courses/physics-2008-second-semester-details',
+  },
+  {
     id: 'tawjihi-2008-foundation',
     title: 'دورة التأسيس توجيهي 2008',
     description: 'دورة تأسيسية شاملة لجيل 2008 لمساعدتهم على الاستعداد الأمثل لمادة الفيزياء في التوجيهي.',
