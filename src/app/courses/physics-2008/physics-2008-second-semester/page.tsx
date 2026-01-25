@@ -29,7 +29,16 @@ const courseStructure = {
                     icon: Folder,
                     path: '/courses/physics-2008/physics-2008-second-semester/5-magnetism',
                     lessons: [
-                        // سيتم إضافة الدروس لاحقاً
+                        {
+                            title: 'الدرس الأول: المجال المغناطيسي الناتج عن تيار',
+                            topics: [
+                                { label: 'حصة رقم (1): مفهوم المجال المغناطيسي', path: '/courses/physics-2008/physics-2008-second-semester/5-magnetism/1-magnetic-field-from-current/1-magnetic-field-concept' },
+                                { label: 'حصة رقم (2): قانون بيو-سافار', path: '/courses/physics-2008/physics-2008-second-semester/5-magnetism/1-magnetic-field-from-current/2-biot-savart-law' },
+                                { label: 'حصة رقم (3): المجال المغناطيسي الناشئ عن مرور تيار في سلك طويل', path: '/courses/physics-2008/physics-2008-second-semester/5-magnetism/1-magnetic-field-from-current/3-field-from-long-wire' },
+                                { label: 'حصة رقم (4): المجال المغناطيسي الناشئ عن حلقة دائرية', path: '/courses/physics-2008/physics-2008-second-semester/5-magnetism/1-magnetic-field-from-current/4-field-from-circular-loop' },
+                                { label: 'حصة رقم (5): المجال المغناطيسي الناشئ عن مرور تيار في ملف لولبي', path: '/courses/physics-2008/physics-2008-second-semester/5-magnetism/1-magnetic-field-from-current/5-field-from-solenoid' },
+                            ]
+                        }
                     ]
                 },
                 {
