@@ -37,6 +37,15 @@ const courseStructure = {
                                 { label: 'حصة رقم (3): المجال المغناطيسي الناشئ عن مرور تيار في سلك طويل', path: '/courses/physics-2008/physics-2008-second-semester/5-magnetism/1-magnetic-field-from-current/3-field-from-long-wire' },
                                 { label: 'حصة رقم (4): المجال المغناطيسي الناشئ عن حلقة دائرية', path: '/courses/physics-2008/physics-2008-second-semester/5-magnetism/1-magnetic-field-from-current/4-field-from-circular-loop' },
                                 { label: 'حصة رقم (5): المجال المغناطيسي الناشئ عن مرور تيار في ملف لولبي', path: '/courses/physics-2008/physics-2008-second-semester/5-magnetism/1-magnetic-field-from-current/5-field-from-solenoid' },
+                                { label: 'حصة رقم (6): نقطة انعدام المجال المغناطيسي', path: '/courses/physics-2008/physics-2008-second-semester/5-magnetism/1-magnetic-field-from-current/6-zero-field-point' },
+                            ]
+                        },
+                        {
+                            title: 'الدرس الثاني: القوة المغناطيسية',
+                            topics: [
+                                { label: 'حصة رقم (1): القوة المغناطيسية المؤثرة في شحنة متحركة', path: '/courses/physics-2008/physics-2008-second-semester/5-magnetism/2-magnetic-force/1-force-on-moving-charge' },
+                                { label: 'حصة رقم (2): حركة جسيم مشحون في مجال مغناطيسي منتظم', path: '/courses/physics-2008/physics-2008-second-semester/5-magnetism/2-magnetic-force/2-charged-particle-motion' },
+                                { label: 'حصة رقم (3): القوة المغناطيسية المؤثرة في موصل', path: '/courses/physics-2008/physics-2008-second-semester/5-magnetism/2-magnetic-force/3-force-on-conductor' },
                             ]
                         }
                     ]
