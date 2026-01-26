@@ -63,16 +63,7 @@ export default function SummaryPage() {
                     </AlertDescription>
                 </Alert>
 
-                <Alert>
-                    <Info className="h-4 w-4" />
-                    <AlertTitle className="font-bold">العلاقة مع قانون لورنتز</AlertTitle>
-                    <AlertDescription>
-                        هذا القانون مشتق من قانون لورنتز. التيار هو تدفق شحنات، والموصل يحتوي على عدد كبير من الإلكترونات الحرة المتحركة. القوة الكلية هي مجموع القوى على جميع هذه الشحنات:
-                        <div dir="ltr" className="mt-2 text-center">
-                            <InlineMath math="F = nqv_d AL \cdot B = IL \cdot B" />
-                        </div>
-                    </AlertDescription>
-                </Alert>
+
             </div>
         </div>
     );

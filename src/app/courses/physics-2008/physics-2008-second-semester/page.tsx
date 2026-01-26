@@ -46,6 +46,8 @@ const courseStructure = {
                                 { label: 'حصة رقم (1): القوة المغناطيسية المؤثرة في شحنة متحركة', path: '/courses/physics-2008/physics-2008-second-semester/5-magnetism/2-magnetic-force/1-force-on-moving-charge' },
                                 { label: 'حصة رقم (2): حركة جسيم مشحون في مجال مغناطيسي منتظم', path: '/courses/physics-2008/physics-2008-second-semester/5-magnetism/2-magnetic-force/2-charged-particle-motion' },
                                 { label: 'حصة رقم (3): القوة المغناطيسية المؤثرة في موصل', path: '/courses/physics-2008/physics-2008-second-semester/5-magnetism/2-magnetic-force/3-force-on-conductor' },
+                                { label: 'حصة رقم (4): عزم الازدواج وتطبيقات تكنولوجية', path: '/courses/physics-2008/physics-2008-second-semester/5-magnetism/2-magnetic-force/4-torque-and-applications' },
+                                { label: 'حصة رقم (5): القوة المغناطيسية المتبادلة بين موصلين متوازيين', path: '/courses/physics-2008/physics-2008-second-semester/5-magnetism/2-magnetic-force/5-mutual-force' },
                             ]
                         }
                     ]
