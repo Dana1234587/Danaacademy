@@ -32,7 +32,7 @@ export default function ZeroFieldPointPage() {
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                     <div className="lg:col-span-2 space-y-6">
 
-                        <WatermarkedVideoPlayer src="" />
+                        <WatermarkedVideoPlayer src="https://vz-2adfd2e0-f8c.b-cdn.net/4d5a40d2-d5ed-4cef-8f5b-cc6856b1b73b/playlist.m3u8" />
 
                         <Card>
                             <CardHeader>

@@ -32,7 +32,7 @@ export default function ForceOnMovingChargePage() {
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                     <div className="lg:col-span-2 space-y-6">
 
-                        <WatermarkedVideoPlayer src="" />
+                        <WatermarkedVideoPlayer src="https://vz-2adfd2e0-f8c.b-cdn.net/68cdd8e0-fdf0-4591-9a2e-9be774a81cbf/playlist.m3u8" />
 
                         <Card>
                             <CardHeader>
