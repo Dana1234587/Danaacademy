@@ -52,44 +52,44 @@ const courseStructure = {
                         }
                     ]
                 },
-            ]
-        },
-        {
-            label: 'أسئلة الكتاب وكتاب الأنشطة',
-            icon: FileText,
-            path: '/courses/physics-2008/physics-2008-second-semester/5-magnetism/3-book-questions-and-activities',
-            lessons: [
                 {
-                    title: 'حل أسئلة الكتاب والأنشطة',
-                    topics: [
-                        { label: 'حل أسئلة الكتاب (الدرس الأول)', path: '/courses/physics-2008/physics-2008-second-semester/5-magnetism/3-book-questions-and-activities/1-textbook-questions-lesson-1' },
-                        { label: 'حل أسئلة الكتاب (الدرس الثاني)', path: '/courses/physics-2008/physics-2008-second-semester/5-magnetism/3-book-questions-and-activities/2-textbook-questions-lesson-2' },
-                        { label: 'حل أسئلة كتاب الأنشطة', path: '/courses/physics-2008/physics-2008-second-semester/5-magnetism/3-book-questions-and-activities/3-activity-book-questions' }
+                    label: 'أسئلة الكتاب وكتاب الأنشطة',
+                    icon: FileText,
+                    path: '/courses/physics-2008/physics-2008-second-semester/5-magnetism/3-book-questions-and-activities',
+                    lessons: [
+                        {
+                            title: 'حل أسئلة الكتاب والأنشطة',
+                            topics: [
+                                { label: 'حل أسئلة الكتاب (الدرس الأول)', path: '/courses/physics-2008/physics-2008-second-semester/5-magnetism/3-book-questions-and-activities/1-textbook-questions-lesson-1' },
+                                { label: 'حل أسئلة الكتاب (الدرس الثاني)', path: '/courses/physics-2008/physics-2008-second-semester/5-magnetism/3-book-questions-and-activities/2-textbook-questions-lesson-2' },
+                                { label: 'حل أسئلة كتاب الأنشطة', path: '/courses/physics-2008/physics-2008-second-semester/5-magnetism/3-book-questions-and-activities/3-activity-book-questions' }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    label: 'الوحدة السادسة: التيار المتردد والدارات الإلكترونية',
+                    icon: Folder,
+                    path: '/courses/physics-2008/physics-2008-second-semester/6-ac-and-electronics',
+                    lessons: [
+                        // سيتم إضافة الدروس لاحقاً
+                    ]
+                },
+                {
+                    label: 'الوحدة السابعة: الفيزياء الحديثة',
+                    icon: Folder,
+                    path: '/courses/physics-2008/physics-2008-second-semester/7-modern-physics',
+                    lessons: [
+                        // سيتم إضافة الدروس لاحقاً
+                    ]
+                },
+                {
+                    label: 'الوحدة الثامنة: الفيزياء النووية',
+                    icon: Folder,
+                    path: '/courses/physics-2008/physics-2008-second-semester/8-nuclear-physics',
+                    lessons: [
                     ]
                 }
-            ]
-        },
-        {
-            label: 'الوحدة السادسة: التيار المتردد والدارات الإلكترونية',
-            icon: Folder,
-            path: '/courses/physics-2008/physics-2008-second-semester/6-ac-and-electronics',
-            lessons: [
-                // سيتم إضافة الدروس لاحقاً
-            ]
-        },
-        {
-            label: 'الوحدة السابعة: الفيزياء الحديثة',
-            icon: Folder,
-            path: '/courses/physics-2008/physics-2008-second-semester/7-modern-physics',
-            lessons: [
-                // سيتم إضافة الدروس لاحقاً
-            ]
-        },
-        {
-            label: 'الوحدة الثامنة: الفيزياء النووية',
-            icon: Folder,
-            path: '/courses/physics-2008/physics-2008-second-semester/8-nuclear-physics',
-            lessons: [
             ]
         }
     ]
