@@ -11,7 +11,7 @@ import 'katex/dist/katex.min.css';
 import { InlineMath } from 'react-katex';
 
 // A robust, universal renderer for bidirectional text
-const SmartTextRenderer = ({ text, as: Wrapper = 'p' }: { text: string; as?: React.ElementType }) => {
+const SmartTextRenderer = ({ text, as: Wrapper = 'p' }: { text: string; as?: any }) => {
     const lines = text.split('\n');
     const renderPart = (part: string, index: number) => {
         if (index % 2 === 0) return <span key={index} dir="rtl">{part}</span>;
