@@ -32,7 +32,7 @@ export default function ChargedParticleMotionPage() {
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                     <div className="lg:col-span-2 space-y-6">
 
-                        <WatermarkedVideoPlayer src="" />
+                        <WatermarkedVideoPlayer src="https://vz-2adfd2e0-f8c.b-cdn.net/59c32937-5d6e-4537-90ba-ba949f47b66b/playlist.m3u8" />
 
                         <Card>
                             <CardHeader>

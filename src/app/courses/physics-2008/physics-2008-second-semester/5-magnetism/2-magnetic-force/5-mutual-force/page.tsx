@@ -32,7 +32,7 @@ export default function MutualForcePage() {
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                     <div className="lg:col-span-2 space-y-6">
 
-                        <WatermarkedVideoPlayer src="" />
+                        <WatermarkedVideoPlayer src="https://vz-2adfd2e0-f8c.b-cdn.net/a046a73a-77f9-4e81-9925-36b6deaea833/playlist.m3u8" />
 
                         <Card>
                             <CardHeader>

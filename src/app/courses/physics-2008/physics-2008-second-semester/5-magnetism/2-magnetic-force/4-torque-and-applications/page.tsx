@@ -32,7 +32,7 @@ export default function TorqueAndApplicationsPage() {
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                     <div className="lg:col-span-2 space-y-6">
 
-                        <WatermarkedVideoPlayer src="" />
+                        <WatermarkedVideoPlayer src="https://vz-2adfd2e0-f8c.b-cdn.net/139bf316-d077-435c-b178-5dceec3b5907/playlist.m3u8" />
 
                         <Card>
                             <CardHeader>
