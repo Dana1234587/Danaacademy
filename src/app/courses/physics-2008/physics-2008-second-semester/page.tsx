@@ -49,6 +49,18 @@ const courseStructure = {
                                 { label: 'حصة رقم (4): عزم الازدواج وتطبيقات تكنولوجية', path: '/courses/physics-2008/physics-2008-second-semester/5-magnetism/2-magnetic-force/4-torque-and-applications' },
                                 { label: 'حصة رقم (5): القوة المغناطيسية المتبادلة بين موصلين متوازيين', path: '/courses/physics-2008/physics-2008-second-semester/5-magnetism/2-magnetic-force/5-mutual-force' },
                             ]
+                        },
+                        {
+                            title: 'الدرس الثالث: الحث الكهرومغناطيسي',
+                            topics: [
+                                { label: 'حصة رقم (1): مفهوم التدفق المغناطيسي (شرح)', path: '/courses/physics-2008/physics-2008-second-semester/5-magnetism/3-electromagnetic-induction/1-magnetic-flux-concept' },
+                                { label: 'حصة رقم (2): مفهوم التدفق المغناطيسي (حل أسئلة)', path: '/courses/physics-2008/physics-2008-second-semester/5-magnetism/3-electromagnetic-induction/2-magnetic-flux-questions' },
+                                { label: 'حصة رقم (3): مفهوم الحث الكهرومغناطيسي', path: '/courses/physics-2008/physics-2008-second-semester/5-magnetism/3-electromagnetic-induction/3-electromagnetic-induction-concept' },
+                                { label: 'حصة رقم (4): قانون فاراداي في الحث الكهرومغناطيسي', path: '/courses/physics-2008/physics-2008-second-semester/5-magnetism/3-electromagnetic-induction/4-faradays-law' },
+                                { label: 'حصة رقم (5): حل أسئلة الرسم البياني', path: '/courses/physics-2008/physics-2008-second-semester/5-magnetism/3-electromagnetic-induction/5-graph-questions' },
+                                { label: 'حصة رقم (6): القوة الدافعة الكهربائية الحثية المتولدة في موصل متحرك', path: '/courses/physics-2008/physics-2008-second-semester/5-magnetism/3-electromagnetic-induction/6-emf-in-moving-conductor' },
+                                { label: 'حصة رقم (7): حل ورقة العمل', path: '/courses/physics-2008/physics-2008-second-semester/5-magnetism/3-electromagnetic-induction/7-worksheet-solutions' },
+                            ]
                         }
                     ]
                 },
