@@ -87,9 +87,32 @@ const courseStructure = {
                 {
                     label: 'الوحدة السادسة: التيار المتردد والدارات الإلكترونية',
                     icon: Folder,
-                    path: '/courses/physics-2008/physics-2008-second-semester/6-ac-and-electronics',
+                    path: '/courses/physics-2008/physics-2008-second-semester/6-ac-circuits',
                     lessons: [
-                        // سيتم إضافة الدروس لاحقاً
+                      {
+                        title: 'الدرس الأول: فرق الجهد المتردد',
+                        topics: [
+                          { label: 'حصة رقم (1): فرق الجهد المتردد', path: '/courses/physics-2008/physics-2008-second-semester/6-ac-circuits/1-ac-voltage/1-ac-voltage' }
+                        ]
+                      },
+                      {
+                        title: 'الدرس الثاني: دارات التيار المتردد',
+                        topics: [
+                          { label: 'حصة رقم (2): دارات التيار المتردد', path: '/courses/physics-2008/physics-2008-second-semester/6-ac-circuits/2-ac-circuits/2-ac-circuits' }
+                        ]
+                      },
+                      {
+                        title: 'الدرس الثالث: ملخص قوانين الدارات التيار المتردد',
+                        topics: [
+                          { label: 'حصة رقم (3): ملخص قوانين الدارات التيار المتردد', path: '/courses/physics-2008/physics-2008-second-semester/6-ac-circuits/3-summary-laws/3-summary-laws' }
+                        ]
+                      },
+                      {
+                        title: 'الدرس الرابع: حل أسئلة على دارات التيار المتردد',
+                        topics: [
+                          { label: 'حصة رقم (4): حل أسئلة على دارات التيار المتردد', path: '/courses/physics-2008/physics-2008-second-semester/6-ac-circuits/4-questions/4-questions' }
+                        ]
+                      }
                     ]
                 },
                 {

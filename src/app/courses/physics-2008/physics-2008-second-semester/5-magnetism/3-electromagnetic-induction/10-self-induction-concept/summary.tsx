@@ -55,6 +55,17 @@ export default function SummaryPage() {
                     <div className="bg-accent/50 p-4 rounded-lg flex flex-col items-center">
                         <p className="text-sm text-muted-foreground mb-2">القانون العام للقوة الدافعة الحثية الذاتية:</p>
                         <BlockMath math="\varepsilon_L = -L \frac{\Delta I}{\Delta t}" />
+                        {/* English law statements */}
+                        <Card className="mt-4 border-2 border-gray-300/20">
+                          <CardHeader className="bg-gray-100/30 pb-4">
+                            <CardTitle className="text-lg flex items-center gap-2" dir="ltr">Self-Induction Laws (LTR)</CardTitle>
+                          </CardHeader>
+                          <CardContent className="pt-4 space-y-2" dir="ltr">
+                            <p>ε_L = -L \frac{ΔI}{Δt}</p>
+                            <p>L = \frac{μ N^2 A}{ℓ}</p>
+                            <p>L·I = N·Φ_B</p>
+                          </CardContent>
+                        </Card>
                     </div>
                 </CardContent>
             </Card>
