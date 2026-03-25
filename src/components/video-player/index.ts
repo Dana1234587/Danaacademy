@@ -1,6 +1,7 @@
 // Components
 export { VideoControls } from './VideoControls';
 export { Watermark } from './Watermark';
+export { default as WatermarkedVideoPlayer } from './WatermarkedVideoPlayer';
 export { ProtectionWarning } from './ProtectionWarning';
 
 // Hooks
