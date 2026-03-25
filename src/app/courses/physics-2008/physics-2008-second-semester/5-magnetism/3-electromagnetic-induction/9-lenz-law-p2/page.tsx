@@ -16,7 +16,7 @@ export default function LenzLawP2Page() {
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
                     <div>
                         <p className="text-sm text-primary font-medium">الدرس الثالث: الحث الكهرومغناطيسي</p>
-                        <h1 className="text-3xl font-bold mt-1">حصة رقم (9): قانون لنز (الجزء الثاني)</h1>
+                        <h1 className="text-3xl font-bold mt-1">حصة رقم (9): قانون لنز (حل أسئلة)</h1>
                         <p className="text-muted-foreground mt-2 max-w-2xl">
                             تطبيقات قانون لنز المتقدمة على الدارات الكهربائية والملفات المتجاورة.
                         </p>
@@ -30,8 +30,7 @@ export default function LenzLawP2Page() {
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                     <div className="lg:col-span-2 space-y-6">
-                        {/* يتم استبدال هذا الرابط لاحقاً برابط الحصة الفعلي */}
-                        <WatermarkedVideoPlayer src="https://vz-2adfd2e0-f8c.b-cdn.net/placeholder/playlist.m3u8" />
+                        <WatermarkedVideoPlayer src="https://vz-2adfd2e0-f8c.b-cdn.net/98a50284-b688-4ae6-90d1-9a7993bb28de/playlist.m3u8" />
 
                         <Card>
                             <CardHeader>

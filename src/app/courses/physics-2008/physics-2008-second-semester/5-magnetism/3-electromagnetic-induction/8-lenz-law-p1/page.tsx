@@ -16,7 +16,7 @@ export default function LenzLawP1Page() {
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
                     <div>
                         <p className="text-sm text-primary font-medium">الدرس الثالث: الحث الكهرومغناطيسي</p>
-                        <h1 className="text-3xl font-bold mt-1">حصة رقم (8): قانون لنز (الجزء الأول)</h1>
+                        <h1 className="text-3xl font-bold mt-1">حصة رقم (8): قانون لنز (شرح)</h1>
                         <p className="text-muted-foreground mt-2 max-w-2xl">
                             مفهوم قانون لنز وتحديد اتجاه التيار الحثي عند تقريب أو إبعاد مغناطيس عن ملف.
                         </p>
@@ -30,8 +30,7 @@ export default function LenzLawP1Page() {
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                     <div className="lg:col-span-2 space-y-6">
-                        {/* يتم استبدال هذا الرابط لاحقاً برابط الحصة الفعلي */}
-                        <WatermarkedVideoPlayer src="https://vz-2adfd2e0-f8c.b-cdn.net/placeholder/playlist.m3u8" />
+                        <WatermarkedVideoPlayer src="https://vz-2adfd2e0-f8c.b-cdn.net/b0f8ea8e-1be8-411c-b798-e5e47c4c6891/playlist.m3u8" />
 
                         <Card>
                             <CardHeader>

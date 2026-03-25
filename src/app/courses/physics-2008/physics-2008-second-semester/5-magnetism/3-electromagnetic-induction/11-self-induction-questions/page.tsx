@@ -30,8 +30,7 @@ export default function SelfInductionQuestionsPage() {
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                     <div className="lg:col-span-2 space-y-6">
-                        {/* يتم استبدال هذا الرابط لاحقاً برابط الحصة الفعلي */}
-                        <WatermarkedVideoPlayer src="https://vz-2adfd2e0-f8c.b-cdn.net/placeholder/playlist.m3u8" />
+                        <WatermarkedVideoPlayer src="https://vz-2adfd2e0-f8c.b-cdn.net/be3241d4-37e8-45be-9e0a-920d181e8e82/playlist.m3u8" />
 
                         <Card>
                             <CardHeader>

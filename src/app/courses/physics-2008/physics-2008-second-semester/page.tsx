@@ -60,8 +60,8 @@ const courseStructure = {
                                 { label: 'حصة رقم (5): حل أسئلة الرسم البياني', path: '/courses/physics-2008/physics-2008-second-semester/5-magnetism/3-electromagnetic-induction/5-graph-questions' },
                                 { label: 'حصة رقم (6): القوة الدافعة الكهربائية الحثية المتولدة في موصل متحرك', path: '/courses/physics-2008/physics-2008-second-semester/5-magnetism/3-electromagnetic-induction/6-emf-in-moving-conductor' },
                                 { label: 'حصة رقم (7): حل ورقة العمل', path: '/courses/physics-2008/physics-2008-second-semester/5-magnetism/3-electromagnetic-induction/7-worksheet-solutions' },
-                                { label: 'حصة رقم (8): قانون لنز (الجزء الأول)', path: '/courses/physics-2008/physics-2008-second-semester/5-magnetism/3-electromagnetic-induction/8-lenz-law-p1' },
-                                { label: 'حصة رقم (9): قانون لنز (الجزء الثاني)', path: '/courses/physics-2008/physics-2008-second-semester/5-magnetism/3-electromagnetic-induction/9-lenz-law-p2' },
+                                { label: 'حصة رقم (8): قانون لنز (شرح)', path: '/courses/physics-2008/physics-2008-second-semester/5-magnetism/3-electromagnetic-induction/8-lenz-law-p1' },
+                                { label: 'حصة رقم (9): قانون لنز (حل أسئلة)', path: '/courses/physics-2008/physics-2008-second-semester/5-magnetism/3-electromagnetic-induction/9-lenz-law-p2' },
                                 { label: 'حصة رقم (10): الحث الذاتي (شرح)', path: '/courses/physics-2008/physics-2008-second-semester/5-magnetism/3-electromagnetic-induction/10-self-induction-concept' },
                                 { label: 'حصة رقم (11): الحث الذاتي (حل أسئلة)', path: '/courses/physics-2008/physics-2008-second-semester/5-magnetism/3-electromagnetic-induction/11-self-induction-questions' },
                             ]
