@@ -24,6 +24,7 @@ const nextConfig: NextConfig = {
       }
     ],
   },
+  serverExternalPackages: ['handlebars', 'genkit', '@genkit-ai/core'],
 };
 
 export default nextConfig;

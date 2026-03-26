@@ -1,6 +1,6 @@
 
 
-import { z } from 'genkit';
+import { z } from 'zod';
 
 /**
  * @fileOverview This file defines the data structures (types and schemas)
