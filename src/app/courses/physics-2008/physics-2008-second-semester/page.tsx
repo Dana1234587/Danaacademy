@@ -90,27 +90,15 @@ const courseStructure = {
                     path: '/courses/physics-2008/physics-2008-second-semester/6-ac-circuits',
                     lessons: [
                       {
-                        title: 'الدرس الأول: فرق الجهد المتردد',
+                        title: 'الدرس الأول: التيار المتردد',
                         topics: [
-                          { label: 'حصة رقم (1): فرق الجهد المتردد', path: '/courses/physics-2008/physics-2008-second-semester/6-ac-circuits/1-ac-voltage/1-ac-voltage' }
-                        ]
-                      },
-                      {
-                        title: 'الدرس الثاني: دارات التيار المتردد',
-                        topics: [
-                          { label: 'حصة رقم (2): دارات التيار المتردد', path: '/courses/physics-2008/physics-2008-second-semester/6-ac-circuits/2-ac-circuits/2-ac-circuits' }
-                        ]
-                      },
-                      {
-                        title: 'الدرس الثالث: ملخص قوانين الدارات التيار المتردد',
-                        topics: [
-                          { label: 'حصة رقم (3): ملخص قوانين الدارات التيار المتردد', path: '/courses/physics-2008/physics-2008-second-semester/6-ac-circuits/3-summary-laws/3-summary-laws' }
-                        ]
-                      },
-                      {
-                        title: 'الدرس الرابع: حل أسئلة على دارات التيار المتردد',
-                        topics: [
-                          { label: 'حصة رقم (4): حل أسئلة على دارات التيار المتردد', path: '/courses/physics-2008/physics-2008-second-semester/6-ac-circuits/4-questions/4-questions' }
+                          { label: 'حصة رقم (1): فرق الجهد المتردد', path: '/courses/physics-2008/physics-2008-second-semester/6-ac-circuits/1-ac-voltage' },
+                          { label: 'حصة رقم (2): دارات التيار المتردد', path: '/courses/physics-2008/physics-2008-second-semester/6-ac-circuits/2-ac-circuits' },
+                          { label: 'حصة رقم (3): ملخص قوانين الدارات التيار المتردد', path: '/courses/physics-2008/physics-2008-second-semester/6-ac-circuits/3-summary-laws' },
+                          { label: 'حصة رقم (4): حل أسئلة على دارات التيار المتردد', path: '/courses/physics-2008/physics-2008-second-semester/6-ac-circuits/4-questions' },
+                          { label: 'حصة رقم (5): المعاوقة', path: '/courses/physics-2008/physics-2008-second-semester/6-ac-circuits/5-impedance' },
+                          { label: 'حصة رقم (6): دارة RLC', path: '/courses/physics-2008/physics-2008-second-semester/6-ac-circuits/6-rlc-circuit' },
+                          { label: 'حصة رقم (7): حل أسئلة الدرس', path: '/courses/physics-2008/physics-2008-second-semester/6-ac-circuits/7-lesson-questions' }
                         ]
                       }
                     ]
