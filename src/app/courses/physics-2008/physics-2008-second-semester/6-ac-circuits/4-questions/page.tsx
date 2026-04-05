@@ -7,7 +7,7 @@ import Link from 'next/link';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import QuizPage from './quiz';
 import SummaryPage from './summary';
-import WatermarkedVideoPlayer from '@/components/video-player/WatermarkedVideoPlayer';
+import WatermarkedVideoPlayer from '@/components/watermarked-video-player';
 
 export default function Session4Page() {
     return (

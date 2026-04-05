@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { ChevronLeft, FileText, BarChart, BrainCircuit } from 'lucide-react';
 import Link from 'next/link';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import WatermarkedVideoPlayer from '@/components/video-player/WatermarkedVideoPlayer';
+import WatermarkedVideoPlayer from '@/components/watermarked-video-player';
 
 export default function Session8Page() {
     return (
