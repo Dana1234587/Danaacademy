@@ -7,16 +7,16 @@ import Link from 'next/link';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import WatermarkedVideoPlayer from '@/components/video-player/WatermarkedVideoPlayer';
 
-export default function Session6Page() {
+export default function Session7Page() {
     return (
         <div className="min-h-screen bg-muted/40">
             <div className="p-4 sm:p-6 lg:p-8">
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
                     <div>
                         <p className="text-sm text-primary font-medium">الدرس الأول: التيار المتردد</p>
-                        <h1 className="text-3xl font-bold mt-1">حصة رقم (6): دارة RLC</h1>
+                        <h1 className="text-3xl font-bold mt-1">حصة رقم (7): المحول الكهربائي (شرح وحل أسئلة)</h1>
                         <p className="text-muted-foreground mt-2 max-w-2xl">
-                            دراسة دارة RLC (المقاومة والمحث والمواسع) في التيار المتردد.
+                            شرح مبدأ عمل المحول الكهربائي وأنواعه وتطبيقاته، بالإضافة إلى القوانين وحل المسائل الخاصة به.
                         </p>
                     </div>
                     <Button asChild variant="outline">
@@ -29,7 +29,7 @@ export default function Session6Page() {
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                     <div className="lg:col-span-2 space-y-6">
 
-                        <WatermarkedVideoPlayer src="https://vz-2adfd2e0-f8c.b-cdn.net/4f2b055f-3b9a-463c-b60c-f09c3682c041/playlist.m3u8" />
+                        <WatermarkedVideoPlayer src="https://vz-2adfd2e0-f8c.b-cdn.net/5d94aff7-71b6-4916-bb2a-7bdb984ae4fb/playlist.m3u8" />
 
                         <Card>
                             <CardHeader>

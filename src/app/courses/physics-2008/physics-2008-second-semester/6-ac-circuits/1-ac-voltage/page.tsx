@@ -32,7 +32,7 @@ export default function Session1Page() {
                     <div className="lg:col-span-2 space-y-6">
 
                         {/* Replace with actual video URL when available */}
-                        <WatermarkedVideoPlayer src="" />
+                        <WatermarkedVideoPlayer src="https://vz-2adfd2e0-f8c.b-cdn.net/5f1be8fe-4cbf-4204-97a7-ebef669e6041/playlist.m3u8" />
 
                         <Card>
                             <CardHeader>
