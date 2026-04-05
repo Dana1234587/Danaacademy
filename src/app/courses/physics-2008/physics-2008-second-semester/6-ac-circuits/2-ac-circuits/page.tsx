@@ -55,7 +55,12 @@ export default function Session2Page() {
                                 <CardTitle>موارد إضافية</CardTitle>
                             </CardHeader>
                             <CardContent className="space-y-3">
-                                <Button variant="ghost" className="w-full justify-start">
+                                                                <Button variant="ghost" className="w-full justify-start text-primary" asChild>
+                                    <a href="https://drive.google.com/file/d/18R-jbSbF2H7gRRi_6YYFSYblhtYHv53Y/view?usp=sharing" target="_blank" rel="noopener noreferrer">
+                                        <FileText className="me-3" /> تحميل دوسية الدرس الأول
+                                    </a>
+                                </Button>
+<Button variant="ghost" className="w-full justify-start">
                                     <FileText className="me-3" /> ورقة عمل الدرس (قريباً)
                                 </Button>
                                 <Dialog>

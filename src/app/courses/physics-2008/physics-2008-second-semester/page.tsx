@@ -101,6 +101,12 @@ const courseStructure = {
                           { label: 'حصة رقم (7): المحول الكهربائي (شرح وحل أسئلة)', path: '/courses/physics-2008/physics-2008-second-semester/6-ac-circuits/7-transformer' },
                           { label: 'حصة رقم (8): المحول الكهربائي (حل ورقة العمل)', path: '/courses/physics-2008/physics-2008-second-semester/6-ac-circuits/8-transformer-worksheet' }
                         ]
+                      },
+                      {
+                        title: 'الدرس الثاني: الدارات الإلكترونية',
+                        topics: [
+                          { label: 'حصة رقم (1): الإشابة', path: '/courses/physics-2008/physics-2008-second-semester/6-ac-circuits/9-doping' }
+                        ]
                       }
                     ]
                 },
