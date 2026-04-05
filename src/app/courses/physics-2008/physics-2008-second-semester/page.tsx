@@ -130,15 +130,9 @@ const courseStructure = {
                       {
                         title: 'الدرس الثاني: التركيب الذري',
                         topics: [
-                          { label: 'حصة رقم (7): فرضيات بور', path: '/courses/physics-2008/physics-2008-second-semester/7-modern-physics/2-atomic-structure/1-bohr-hypotheses' },
+                          { label: 'حصة رقم (7): فرضيات دي بروي', path: '/courses/physics-2008/physics-2008-second-semester/7-modern-physics/2-atomic-structure/1-bohr-hypotheses' },
                           { label: 'حصة رقم (8): الاطياف الذرية', path: '/courses/physics-2008/physics-2008-second-semester/7-modern-physics/2-atomic-structure/2-atomic-spectra' },
                           { label: 'حصة رقم (9): دي بروي', path: '/courses/physics-2008/physics-2008-second-semester/7-modern-physics/2-atomic-structure/3-de-broglie' }
-                        ]
-                      },
-                      {
-                        title: 'حل أسئلة الفصل',
-                        topics: [
-                          { label: 'حصة رقم (10): حل أسئلة الفصل', path: '/courses/physics-2008/physics-2008-second-semester/7-modern-physics/3-chapter-questions' }
                         ]
                       }
                     ]

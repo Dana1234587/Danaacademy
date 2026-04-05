@@ -28,7 +28,7 @@ export default function SessionPage() {
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                     <div className="lg:col-span-2 space-y-6">
 
-                        <WatermarkedVideoPlayer src="https://iframe.mediadelivery.net/embed/480623/cf9d5a6a-bb79-4dd8-b647-beabf66b532b?autoplay=false&loop=false&muted=false&preload=true" />
+                        <WatermarkedVideoPlayer src="https://vz-2adfd2e0-f8c.b-cdn.net/cf9d5a6a-bb79-4dd8-b647-beabf66b532b/playlist.m3u8" />
 
                         <Card>
                             <CardHeader>

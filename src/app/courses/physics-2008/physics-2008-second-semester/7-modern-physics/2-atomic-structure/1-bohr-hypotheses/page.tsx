@@ -13,7 +13,7 @@ export default function SessionPage() {
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
                     <div>
                         <p className="text-sm text-primary font-medium">الدرس الثاني: التركيب الذري</p>
-                        <h1 className="text-3xl font-bold mt-1">حصة رقم (7): فرضيات بور</h1>
+                        <h1 className="text-3xl font-bold mt-1">حصة رقم (7): فرضيات دي بروي</h1>
                         <p className="text-muted-foreground mt-2 max-w-2xl">
                             تفاصيل الحصة سيتم إضافتها لاحقاً.
                         </p>
@@ -28,7 +28,7 @@ export default function SessionPage() {
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                     <div className="lg:col-span-2 space-y-6">
 
-                        <WatermarkedVideoPlayer src="https://iframe.mediadelivery.net/embed/480623/9c316819-e45d-45c1-a085-5e41f687b94f?autoplay=false&loop=false&muted=false&preload=true" />
+                        <WatermarkedVideoPlayer src="https://vz-2adfd2e0-f8c.b-cdn.net/9c316819-e45d-45c1-a085-5e41f687b94f/playlist.m3u8" />
 
                         <Card>
                             <CardHeader>
