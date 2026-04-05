@@ -115,7 +115,31 @@ const courseStructure = {
                     icon: Folder,
                     path: '/courses/physics-2008/physics-2008-second-semester/7-modern-physics',
                     lessons: [
-                        // سيتم إضافة الدروس لاحقاً
+                      {
+                        title: 'الدرس الأول: الطبيعة الجسيمية للضوء',
+                        topics: [
+                          { label: 'حصة رقم (1): مبدأ تكمية الطاقة', path: '/courses/physics-2008/physics-2008-second-semester/7-modern-physics/1-particle-nature-of-light/1-energy-quantization' },
+                          { label: 'حصة رقم (2): اشعاع الجسم الاسود', path: '/courses/physics-2008/physics-2008-second-semester/7-modern-physics/1-particle-nature-of-light/2-black-body-radiation' },
+                          { label: 'حصة رقم (3): الظاهرة الكهروضوئية 1', path: '/courses/physics-2008/physics-2008-second-semester/7-modern-physics/1-particle-nature-of-light/3-photoelectric-effect-1' },
+                          { label: 'حصة رقم (4): الظاهرة الكهروضوئية 2', path: '/courses/physics-2008/physics-2008-second-semester/7-modern-physics/1-particle-nature-of-light/4-photoelectric-effect-2' },
+                          { label: 'حصة رقم (5): الظاهرة الكهروضوئية 3', path: '/courses/physics-2008/physics-2008-second-semester/7-modern-physics/1-particle-nature-of-light/5-photoelectric-effect-3' },
+                          { label: 'حصة رقم (6): ظاهرة كومبتون', path: '/courses/physics-2008/physics-2008-second-semester/7-modern-physics/1-particle-nature-of-light/6-compton-effect' }
+                        ]
+                      },
+                      {
+                        title: 'الدرس الثاني: التركيب الذري',
+                        topics: [
+                          { label: 'حصة رقم (7): فرضيات بور', path: '/courses/physics-2008/physics-2008-second-semester/7-modern-physics/2-atomic-structure/1-bohr-hypotheses' },
+                          { label: 'حصة رقم (8): الاطياف الذرية', path: '/courses/physics-2008/physics-2008-second-semester/7-modern-physics/2-atomic-structure/2-atomic-spectra' },
+                          { label: 'حصة رقم (9): دي بروي', path: '/courses/physics-2008/physics-2008-second-semester/7-modern-physics/2-atomic-structure/3-de-broglie' }
+                        ]
+                      },
+                      {
+                        title: 'حل أسئلة الفصل',
+                        topics: [
+                          { label: 'حصة رقم (10): حل أسئلة الفصل', path: '/courses/physics-2008/physics-2008-second-semester/7-modern-physics/3-chapter-questions' }
+                        ]
+                      }
                     ]
                 },
                 {
