@@ -100,7 +100,8 @@ const courseStructure = {
                           { label: 'حصة رقم (5): المعاوقة', path: '/courses/physics-2008/physics-2008-second-semester/6-ac-circuits/5-impedance' },
                           { label: 'حصة رقم (6): دارة RLC', path: '/courses/physics-2008/physics-2008-second-semester/6-ac-circuits/6-rlc-circuit' },
                           { label: 'حصة رقم (7): المحول الكهربائي (شرح وحل أسئلة)', path: '/courses/physics-2008/physics-2008-second-semester/6-ac-circuits/7-transformer' },
-                          { label: 'حصة رقم (8): المحول الكهربائي (حل ورقة العمل)', path: '/courses/physics-2008/physics-2008-second-semester/6-ac-circuits/8-transformer-worksheet' }
+                          { label: 'حصة رقم (8): المحول الكهربائي (حل ورقة العمل)', path: '/courses/physics-2008/physics-2008-second-semester/6-ac-circuits/8-transformer-worksheet' },
+                          { label: 'حصة رقم (9): حل أسئلة اختبر نفسك', path: '/courses/physics-2008/physics-2008-second-semester/6-ac-circuits/9-self-check-questions' }
                         ]
                       },
                       {
