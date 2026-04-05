@@ -91,6 +91,7 @@ const courseStructure = {
                     lessons: [
                       {
                         title: 'الدرس الأول: التيار المتردد',
+                        dossierUrl: 'https://drive.google.com/file/d/18R-jbSbF2H7gRRi_6YYFSYblhtYHv53Y/view?usp=sharing',
                         topics: [
                           { label: 'حصة رقم (1): فرق الجهد المتردد', path: '/courses/physics-2008/physics-2008-second-semester/6-ac-circuits/1-ac-voltage' },
                           { label: 'حصة رقم (2): دارات التيار المتردد', path: '/courses/physics-2008/physics-2008-second-semester/6-ac-circuits/2-ac-circuits' },
