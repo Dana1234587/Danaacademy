@@ -119,6 +119,7 @@ const courseStructure = {
                     lessons: [
                       {
                         title: 'الدرس الأول: الطبيعة الجسيمية للضوء',
+                        dossierUrl: 'https://drive.google.com/file/d/1icY3iA4oN5uC0_nyFVRZzv91RVvmSSBA/view?usp=sharing',
                         topics: [
                           { label: 'حصة رقم (1): مبدأ تكمية الطاقة', path: '/courses/physics-2008/physics-2008-second-semester/7-modern-physics/1-particle-nature-of-light/1-energy-quantization' },
                           { label: 'حصة رقم (2): اشعاع الجسم الاسود', path: '/courses/physics-2008/physics-2008-second-semester/7-modern-physics/1-particle-nature-of-light/2-black-body-radiation' },
@@ -130,6 +131,7 @@ const courseStructure = {
                       },
                       {
                         title: 'الدرس الثاني: التركيب الذري',
+                        dossierUrl: 'https://drive.google.com/file/d/1icY3iA4oN5uC0_nyFVRZzv91RVvmSSBA/view?usp=sharing',
                         topics: [
                           { label: 'حصة رقم (7): فرضيات دي بروي', path: '/courses/physics-2008/physics-2008-second-semester/7-modern-physics/2-atomic-structure/1-bohr-hypotheses' },
                           { label: 'حصة رقم (8): الاطياف الذرية', path: '/courses/physics-2008/physics-2008-second-semester/7-modern-physics/2-atomic-structure/2-atomic-spectra' },
