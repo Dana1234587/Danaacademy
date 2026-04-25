@@ -12,10 +12,10 @@ export default function SessionPage() {
             <div className="p-4 sm:p-6 lg:p-8">
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
                     <div>
-                        <p className="text-sm text-primary font-medium">الدرس الأول: الطبيعة الجسيمية للضوء</p>
-                        <h1 className="text-3xl font-bold mt-1">حصة رقم (1): مبدأ تكمية الطاقة</h1>
+                        <p className="text-sm text-primary font-medium">الدرس الأول: تركيب النواة وخصائصها</p>
+                        <h1 className="text-3xl font-bold mt-1">حصة رقم (3): نطاق الاستقرار</h1>
                         <p className="text-muted-foreground mt-2 max-w-2xl">
-                            تفاصيل الحصة سيتم إضافتها لاحقاً.
+                            فهم مفهوم نطاق الاستقرار النووي وعلاقته بعدد البروتونات والنيوترونات.
                         </p>
                     </div>
                     <Button asChild variant="outline">
@@ -28,16 +28,18 @@ export default function SessionPage() {
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                     <div className="lg:col-span-2 space-y-6">
 
-                        <WatermarkedVideoPlayer src="https://vz-2adfd2e0-f8c.b-cdn.net/ea6c0cac-59f2-46e1-b516-1ea5a7aad08e/playlist.m3u8" />
+                        <WatermarkedVideoPlayer src="https://iframe.mediadelivery.net/embed/480623/469e5c40-1b99-4744-944d-944dbb783bd9?autoplay=false&loop=false&muted=false&preload=true" />
 
                         <Card>
                             <CardHeader>
                                 <CardTitle>نقاط رئيسية من الحصة</CardTitle>
-                                <CardDescription>أهم أفكار الأسئلة في هذا الدرس.</CardDescription>
+                                <CardDescription>أهم الأفكار والقوانين التي تم تغطيتها في هذا الفيديو.</CardDescription>
                             </CardHeader>
                             <CardContent>
                                 <ul className="space-y-3 list-disc list-inside text-muted-foreground">
-                                    <li>سيتم إضافة الملخص لاحقاً.</li>
+                                    <li>نطاق الاستقرار النووي.</li>
+                                    <li>النوى المستقرة وغير المستقرة.</li>
+                                    <li>العلاقة بين N و Z.</li>
                                 </ul>
                             </CardContent>
                         </Card>

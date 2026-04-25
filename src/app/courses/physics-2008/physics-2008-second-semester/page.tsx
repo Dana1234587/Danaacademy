@@ -147,6 +147,15 @@ const courseStructure = {
                     icon: Folder,
                     path: '/courses/physics-2008/physics-2008-second-semester/8-nuclear-physics',
                     lessons: [
+                      {
+                        title: 'الدرس الأول: تركيب النواة وخصائصها',
+                        topics: [
+                          { label: 'حصة رقم (1): بنية النواة', path: '/courses/physics-2008/physics-2008-second-semester/8-nuclear-physics/1-nucleus-structure-and-properties/1-nucleus-structure' },
+                          { label: 'حصة رقم (2): قوانين متعلقة بشكل النواة', path: '/courses/physics-2008/physics-2008-second-semester/8-nuclear-physics/1-nucleus-structure-and-properties/2-nucleus-shape-laws' },
+                          { label: 'حصة رقم (3): نطاق الاستقرار', path: '/courses/physics-2008/physics-2008-second-semester/8-nuclear-physics/1-nucleus-structure-and-properties/3-stability-band' },
+                          { label: 'حصة رقم (4): طاقة الربط النووية', path: '/courses/physics-2008/physics-2008-second-semester/8-nuclear-physics/1-nucleus-structure-and-properties/4-nuclear-binding-energy' }
+                        ]
+                      }
                     ]
                 }
             ]
