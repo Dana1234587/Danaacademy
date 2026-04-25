@@ -4,19 +4,18 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { ChevronLeft, FileText, BarChart, BrainCircuit } from 'lucide-react';
 import Link from 'next/link';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import WatermarkedVideoPlayer from '@/components/watermarked-video-player';
 
-export default function DopingSessionPage() {
+export default function DiodeSessionPage() {
     return (
         <div className="min-h-screen bg-muted/40">
             <div className="p-4 sm:p-6 lg:p-8">
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
                     <div>
                         <p className="text-sm text-primary font-medium">الدرس الثاني: الدارات الإلكترونية</p>
-                        <h1 className="text-3xl font-bold mt-1">حصة رقم (1): الإشابة</h1>
+                        <h1 className="text-3xl font-bold mt-1">حصة رقم (2): الثنائي البلوري (DIODE)</h1>
                         <p className="text-muted-foreground mt-2 max-w-2xl">
-                            مقدمة في الدارات الإلكترونية ومفهوم الإشابة في أشباه الموصلات.
+                            شرح مفهوم الثنائي البلوري وأنواعه وتطبيقاته في الدارات الإلكترونية.
                         </p>
                     </div>
                     <Button asChild variant="outline">
@@ -29,7 +28,7 @@ export default function DopingSessionPage() {
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                     <div className="lg:col-span-2 space-y-6">
 
-                        <WatermarkedVideoPlayer src="https://vz-2adfd2e0-f8c.b-cdn.net/6b680ee5-95f7-4c88-b0df-d6bc6ff0de5d/playlist.m3u8" />
+                        <WatermarkedVideoPlayer src="https://vz-2adfd2e0-f8c.b-cdn.net/64a8759c-4e8b-4060-8491-f8151f9aac3e/playlist.m3u8" />
 
                         <Card>
                             <CardHeader>
@@ -50,11 +49,6 @@ export default function DopingSessionPage() {
                                 <CardTitle>موارد إضافية</CardTitle>
                             </CardHeader>
                             <CardContent className="space-y-3">
-                                {/* <Button variant="ghost" className="w-full justify-start text-primary" asChild>
-                                    <a href="URL" target="_blank" rel="noopener noreferrer">
-                                        <FileText className="me-3" /> تحميل دوسية الدرس الثاني
-                                    </a>
-                                </Button> */}
                                 <Button variant="ghost" className="w-full justify-start" disabled>
                                     <FileText className="me-3" /> ورقة عمل الدرس (قريباً)
                                 </Button>

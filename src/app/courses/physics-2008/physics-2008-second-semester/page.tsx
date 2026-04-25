@@ -107,7 +107,9 @@ const courseStructure = {
                       {
                         title: 'الدرس الثاني: الدارات الإلكترونية',
                         topics: [
-                          { label: 'حصة رقم (1): الإشابة', path: '/courses/physics-2008/physics-2008-second-semester/6-ac-circuits/9-doping' }
+                          { label: 'حصة رقم (1): الإشابة', path: '/courses/physics-2008/physics-2008-second-semester/6-ac-circuits/9-doping' },
+                          { label: 'حصة رقم (2): الثنائي البلوري (DIODE)', path: '/courses/physics-2008/physics-2008-second-semester/6-ac-circuits/10-diode' },
+                          { label: 'حصة رقم (3): حل أسئلة', path: '/courses/physics-2008/physics-2008-second-semester/6-ac-circuits/11-electronics-questions' }
                         ]
                       }
                     ]
