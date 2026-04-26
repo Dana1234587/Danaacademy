@@ -153,7 +153,28 @@ const courseStructure = {
                           { label: 'حصة رقم (1): بنية النواة', path: '/courses/physics-2008/physics-2008-second-semester/8-nuclear-physics/1-nucleus-structure-and-properties/1-nucleus-structure' },
                           { label: 'حصة رقم (2): قوانين متعلقة بشكل النواة', path: '/courses/physics-2008/physics-2008-second-semester/8-nuclear-physics/1-nucleus-structure-and-properties/2-nucleus-shape-laws' },
                           { label: 'حصة رقم (3): نطاق الاستقرار', path: '/courses/physics-2008/physics-2008-second-semester/8-nuclear-physics/1-nucleus-structure-and-properties/3-stability-band' },
-                          { label: 'حصة رقم (4): طاقة الربط النووية', path: '/courses/physics-2008/physics-2008-second-semester/8-nuclear-physics/1-nucleus-structure-and-properties/4-nuclear-binding-energy' }
+                          { label: 'حصة رقم (4): طاقة الربط النووية', path: '/courses/physics-2008/physics-2008-second-semester/8-nuclear-physics/1-nucleus-structure-and-properties/4-nuclear-binding-energy' },
+                          { label: 'حصة رقم (5): حل أسئلة الدرس الأول', path: '/courses/physics-2008/physics-2008-second-semester/8-nuclear-physics/1-nucleus-structure-and-properties/5-lesson1-questions' }
+                        ]
+                      },
+                      {
+                        title: 'الدرس الثاني: الاشعاع النووي',
+                        topics: [
+                          { label: 'حصة رقم (6): الاضمحلال الاشعاعي', path: '/courses/physics-2008/physics-2008-second-semester/8-nuclear-physics/2-nuclear-radiation/1-radioactive-decay' },
+                          { label: 'حصة رقم (7): اضمحلال غاما', path: '/courses/physics-2008/physics-2008-second-semester/8-nuclear-physics/2-nuclear-radiation/2-gamma-decay' },
+                          { label: 'حصة رقم (8): النشاطية الاشعاعية', path: '/courses/physics-2008/physics-2008-second-semester/8-nuclear-physics/2-nuclear-radiation/3-radioactivity' }
+                        ]
+                      },
+                      {
+                        title: 'الدرس الثالث: التفاعلات النووية',
+                        topics: [
+                          { label: 'حصة رقم (9): الاشعاع النووي الصناعي', path: '/courses/physics-2008/physics-2008-second-semester/8-nuclear-physics/3-nuclear-reactions/1-artificial-nuclear-radiation' }
+                        ]
+                      },
+                      {
+                        title: 'حل أسئلة الفصل',
+                        topics: [
+                          { label: 'حصة رقم (10): حل أسئلة الفصل', path: '/courses/physics-2008/physics-2008-second-semester/8-nuclear-physics/4-chapter-questions' }
                         ]
                       }
                     ]
